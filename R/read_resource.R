@@ -9,6 +9,21 @@
 #'
 #' @return tibble with the resource data.
 #'
+#' @details
+#' ## CSV dialect
+#'
+#' Resource files are required to follow the
+#' [CSV file requirements](https://specs.frictionlessdata.io/tabular-data-resource/#csv-file-requirements)
+#' unless a `dialect` is provided.
+#' [CSV dialect properties](https://specs.frictionlessdata.io/csv-dialect/#specification)
+#' are interpreted when provided, otherwise default values are used. Following
+#' properties are ignored:
+#' - `escapeChar` if different than `\`.
+#' - `lineTerminator`: TODO
+#' - `nullSequence`
+#' - `caseSensitiveHeader`: Table Schema field names are used instead
+#' - `csvddfVersion`
+#'
 #' @export
 #'
 #' @importFrom assertthat assert_that
@@ -40,6 +55,13 @@ read_resource <- function(descriptor, resource_name) {
     path <- paste(descriptor$directory, resource$path, sep = "/")
   }
   # TODO: deal with multiple paths
+
+  # CSV `dialect`, see https://specs.frictionlessdata.io/csv-dialect/
+  dialect <- resource$dialect # Can be NULL
+  # Helper function to assign value when property is NULL
+  if_null <- function(variable, value) {
+    if_else(!is.null(variable), variable, value)
+  }
 
   # Field names
   field_names <- map_chr(resource$schema$fields, "name") # TODO: fail when name not provided
