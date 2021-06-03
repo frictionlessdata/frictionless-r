@@ -1,0 +1,181 @@
+{
+  "name": "example-data-package",
+  "id": "115f49c1-8603-463e-a908-68de98327266",
+  "created": "2021-03-02T17:22:33Z",
+  "profile": "tabular-data-package",
+  "sources": [
+    {
+      "title": "Agouti",
+      "path": "https://www.agouti.eu",
+      "email": "agouti@wur.nl"
+    }
+  ],
+  "taxonomic": [
+    {
+      "taxon_id": "QSF3",
+      "scientific_name": "Capreolus capreolus",
+      "vernacular_name": "roe deer"
+    },
+    {
+      "taxon_id": "6PPYF",
+      "scientific_name": "Lepus europaeus",
+      "vernacular_name": "European hare"
+    },
+    {
+      "taxon_id": "53HGR",
+      "scientific_name": "Sus scrofa",
+      "vernacular_name": "wild boar"
+    }
+  ],
+  "_platform_title": "Agouti",
+  "_platform_path": "https://agouti.eu",
+  "resources": [
+    {
+      "name": "deployments",
+      "path": "deployments.csv",
+      "profile": "tabular-data-resource",
+      "title": "Camera trap deployments",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "schema": {
+        "fields": [
+          {
+            "name": "deployment_id",
+            "type": "string",
+            "constraints": {
+              "required": true,
+              "unique": true
+            }
+          },
+          {
+            "name": "longitude",
+            "type": "number",
+            "constraints": {
+              "required": true,
+              "minimum": -180,
+              "maximum": 180
+            }
+          },
+          {
+            "name": "latitude",
+            "type": "number",
+            "constraints": {
+              "required": true,
+              "minimum": -90,
+              "maximum": 90
+            }
+          },
+          {
+            "name": "start",
+            "type": "datetime",
+            "format": "%Y-%m-%dT%H:%M:%S%z",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "comments",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          }
+        ],
+        "missingValues": [
+          "",
+          "NaN",
+          "nan"
+        ],
+        "primaryKey": "deployment_id"
+      }
+    },
+    {
+      "name": "observations",
+      "path": ["observations_1.csv", "observations_2.csv"],
+      "profile": "tabular-data-resource",
+      "title": "Camera trap observations",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "schema": {
+        "fields": [
+          {
+            "name": "observation_id",
+            "type": "string",
+            "constraints": {
+              "required": true,
+              "unique": true
+            }
+          },
+          {
+            "name": "deployment_id",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "timestamp",
+            "type": "datetime",
+            "format": "%Y-%m-%dT%H:%M:%S%z",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "scientific_name",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "count",
+            "type": "integer",
+            "constraints": {
+              "required": false,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "age",
+            "type": "string",
+            "constraints": {
+              "required": false,
+              "enum": [
+                "adult",
+                "subadult",
+                "juvenile",
+                "offspring",
+                "undefined"
+              ]
+            }
+          },
+          {
+            "name": "comments",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          }
+        ],
+        "missingValues": [
+          "",
+          "NaN",
+          "nan"
+        ],
+        "primaryKey": "observation_id",
+        "foreignKeys": [
+          {
+            "fields": "deployment_id",
+            "reference": {
+              "resource": "deployments",
+              "fields": "deployment_id"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

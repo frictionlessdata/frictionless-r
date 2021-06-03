@@ -1,0 +1,4 @@
+observation_id,deployment_id,timestamp,scientific_name,count,age,comments
+089113c5-e279-4c2b-a5d8-c2849fe65650,1,2020-01-06T16:59:17+01:00,Capreolus capreolus,1,juvenile,Comment 1
+060ab157-3a8e-463b-b5f6-d831c7da3db1,1,2020-01-06T16:59:17+01:00,Capreolus capreolus,1,adult,Comment 2
+aba72fdc-2fd8-472c-a398-a9afacd2469c,1,2020-01-06T17:35:23+01:00,Lepus europaeus,1,adult,Comment 3
