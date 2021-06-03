@@ -12,6 +12,7 @@
 #' @export
 #'
 #' @importFrom assertthat assert_that
+#' @importFrom dplyr recode if_else
 #' @importFrom jsonlite fromJSON
 #'
 #' @examples
@@ -39,5 +40,27 @@ read_resource <- function(descriptor, resource_name) {
     path <- paste(descriptor$directory, resource$path, sep = "/")
   }
   # TODO: deal with multiple paths
+
+  # Field names
+  field_names <- map_chr(resource$schema$fields, "name") # TODO: fail when name not provided
+  field_types <- map_chr(resource$schema$fields, "type") # TODO: type not required
+  field_types <- recode(field_types,
+     "string" = "c", # Format (email, url) ignored
+     "number" = "n", # TODO: extra properties
+     "integer" = "i", # TODO: extra properties
+     "boolean" = "l", # TODO: extra properties
+     "object" = "c", # Different
+     "array" = "c", # Different
+     "date" = "D", # TODO: formats
+     "time" = "t", # TODO: formats
+     "datetime" = "T", # TODO: formats
+     "year" = "f", # Different
+     "yearmonth" = "f", # Different
+     "duration" = "c", # Different
+     "geopoint" = "c", # Different
+     "geojson" = "c", # Different
+     "any" = "c",
+     .default = "c" # Unrecognized type
+  )
 
 }
