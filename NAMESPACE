@@ -2,4 +2,5 @@
 
 export(read_descriptor)
 export(read_resource)
+importFrom(assertthat,assert_that)
 importFrom(jsonlite,fromJSON)
