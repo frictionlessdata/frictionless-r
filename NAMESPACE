@@ -3,4 +3,7 @@
 export(read_descriptor)
 export(read_resource)
 importFrom(assertthat,assert_that)
+importFrom(dplyr,if_else)
+importFrom(dplyr,recode)
 importFrom(jsonlite,fromJSON)
+importFrom(readr,read_delim)

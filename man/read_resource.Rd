@@ -16,7 +16,26 @@ tibble with the resource data.
 }
 \description{
 Loads data from a Data Package \strong{resource} into a tibble (a Tidyverse
-data.frame).
+data.frame). The resource has to be a
+\href{https://specs.frictionlessdata.io/tabular-data-resource/}{Tabular Data Resource}.
+}
+\details{
+\subsection{CSV dialect}{
+
+Resource files are required to follow the
+\href{https://specs.frictionlessdata.io/tabular-data-resource/#csv-file-requirements}{CSV file requirements}
+unless a \code{dialect} is provided.
+\href{https://specs.frictionlessdata.io/csv-dialect/#specification}{CSV dialect properties}
+are interpreted when provided, otherwise default values are used. Following
+properties are ignored:
+\itemize{
+\item \code{escapeChar} if different than \verb{\\}.
+\item \code{lineTerminator}: TODO
+\item \code{nullSequence}
+\item \code{caseSensitiveHeader}: Table Schema field names are used instead
+\item \code{csvddfVersion}
+}
+}
 }
 \examples{
 \dontrun{
