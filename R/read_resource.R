@@ -31,4 +31,13 @@ read_resource <- function(descriptor, resource_name) {
   assert_that(resource$profile == "tabular-data-resource",
     msg = paste0("Resource \"", resource_name, "\" is not defined as a tabular-data-resource.")
   )
+
+  # Path(s) to file
+  if (startsWith(resource$path, "http")) {
+    path <- resource$path
+  } else {
+    path <- paste(descriptor$directory, resource$path, sep = "/")
+  }
+  # TODO: deal with multiple paths
+
 }
