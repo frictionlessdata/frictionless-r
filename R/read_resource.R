@@ -29,6 +29,7 @@
 #' @importFrom assertthat assert_that
 #' @importFrom dplyr recode if_else
 #' @importFrom jsonlite fromJSON
+#' @importFrom readr read_delim
 #'
 #' @examples
 #' \dontrun{
@@ -85,4 +86,27 @@ read_resource <- function(descriptor, resource_name) {
      .default = "c" # Unrecognized type
   )
 
+  data <- read_delim(
+    file = path,
+    delim = if_null(dialect$delimiter, ","),
+    quote = if_null(dialect$quoteChar, "\""),
+    escape_backslash = if_else(if_null(dialect$escapeChar, "not set") == "\\", TRUE, FALSE),
+    escape_double = if_null(dialect$doubleQuote, TRUE),
+    col_names = field_names,
+    col_types = paste(field_types, collapse = ""),
+    # TODO: locale, including encoding
+    # TODO: na <- read from table schema
+    quoted_na = TRUE,
+    comment = if_null(dialect$commentChar, ""),
+    trim_ws = if_null(dialect$skipInitialSpace, FALSE),
+    skip = if_else(if_null(dialect$header, TRUE), 1, 0), # Skip header row
+    skip_empty_rows = TRUE
+  )
+
+  # TODO: Must have table schema
+  # TODO: CSV file encoding
+  # TODO: JSON row arrays
+  # TODO: JSON row objects
+
+  data
 }
