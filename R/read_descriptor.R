@@ -22,5 +22,8 @@ read_descriptor <- function(descriptor_file) {
   # Add property resource_names
   descriptor$resource_names = map_chr(descriptor$resources, "name")
 
+  # Add property
+  descriptor$directory <- dirname(descriptor_file)
+
   descriptor
 }
