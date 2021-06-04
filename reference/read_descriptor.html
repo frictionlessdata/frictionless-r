@@ -40,9 +40,9 @@
 
 
 <meta property="og:title" content="Read a datapackage.json file — read_descriptor" />
-<meta property="og:description" content="Loads information from a datapackage.json file, i.e. the
-Data Package descriptor)
-file that describes the Data Package metadata and its resources." />
+<meta property="og:description" content="Reads information from a datapackage.json file, i.e. the
+descriptor
+that describes the Data Package metadata and its resources." />
 
 
 
@@ -111,12 +111,12 @@ file that describes the Data Package metadata and its resources." />
     </div>
 
     <div class="ref-description">
-    <p>Loads information from a <code>datapackage.json</code> file, i.e. the
-<a href='https://specs.frictionlessdata.io/data-package/#descriptor'>Data Package descriptor</a>)
-file that describes the Data Package metadata and its resources.</p>
+    <p>Reads information from a <code>datapackage.json</code> file, i.e. the
+<a href='https://specs.frictionlessdata.io/data-package/#descriptor'>descriptor</a>
+that describes the Data Package metadata and its resources.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>read_descriptor</span><span class='op'>(</span><span class='va'>descriptor_file</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>read_descriptor</span><span class='op'>(</span>descriptor_file <span class='op'>=</span> <span class='st'>"datapackage.json"</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -129,11 +129,10 @@ file that describes the Data Package metadata and its resources.</p>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>List object containing all descriptor information and two new
-properties:</p><ul>
+    <p>List object containing descriptor information and two new properties:</p><ul>
 <li><p><code>resource_names</code>: vector with resource names.</p></li>
-<li><p><code>directory</code>: path of directory containing descriptor file, used as
-base path to read resources (<code>read_resources()</code>).</p></li>
+<li><p><code>directory</code>: directory path of descriptor file, used as base path to read
+resources with <code><a href='read_resource.html'>read_resource()</a></code>.</p></li>
 </ul>
 
 

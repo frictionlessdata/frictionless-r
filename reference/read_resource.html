@@ -40,13 +40,12 @@
 
 
 <meta property="og:title" content="Read data from a Data Package resource — read_resource" />
-<meta property="og:description" content="Loads data from a resource of a Data Package into a tibble (a Tidyverse
+<meta property="og:description" content="Reads data from a Data Package resource into a tibble (a Tidyverse
 data frame). The resource has to meet the requirements of a
 Tabular Data Resource.
 The function is a wrapper around readr::read_delim(), passing the resource
-properties (path, CSV dialect, field names, data types, etc.) as good as
-possible. Column names are taken from the provided schema, not from the
-header in the CSV file(s)." />
+properties: path, CSV dialect, column names, data types, etc. Column names
+are taken from the provided schema, not from the header in the CSV file(s)." />
 
 
 
@@ -115,13 +114,12 @@ header in the CSV file(s)." />
     </div>
 
     <div class="ref-description">
-    <p>Loads data from a resource of a Data Package into a <strong>tibble</strong> (a Tidyverse
+    <p>Reads data from a Data Package <strong>resource</strong> into a <strong>tibble</strong> (a Tidyverse
 data frame). The resource has to meet the requirements of a
 <a href='https://specs.frictionlessdata.io/tabular-data-resource/'>Tabular Data Resource</a>.
 The function is a wrapper around <code><a href='https://readr.tidyverse.org/reference/read_delim.html'>readr::read_delim()</a></code>, passing the resource
-properties (<code>path</code>, CSV dialect, field names, data types, etc.) as good as
-possible. Column names are taken from the provided <code>schema</code>, not from the
-header in the CSV file(s).</p>
+properties: <code>path</code>, CSV dialect, column names, data types, etc. Column names
+are taken from the provided <code>schema</code>, not from the header in the CSV file(s).</p>
     </div>
 
     <pre class="usage"><span class='fu'>read_resource</span><span class='op'>(</span><span class='va'>descriptor</span>, <span class='va'>resource_name</span><span class='op'>)</span></pre>
@@ -131,7 +129,7 @@ header in the CSV file(s).</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>descriptor</th>
-      <td><p>Descriptor object (see <code><a href='read_descriptor.html'>read_descriptor()</a></code>).</p></td>
+      <td><p>Descriptor object, see <code><a href='read_descriptor.html'>read_descriptor()</a></code>.</p></td>
     </tr>
     <tr>
       <th>resource_name</th>
@@ -141,7 +139,7 @@ header in the CSV file(s).</p>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>tibble with the resource data.</p>
+    <p>Tibble with the resource data.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The <code>resource</code> properties are handled as follows:</p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Path</h3>
