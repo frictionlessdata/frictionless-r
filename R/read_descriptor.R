@@ -19,7 +19,7 @@
 #' @examples
 #' descriptor <- read_descriptor(system.file("extdata", "datapackage.json", package = "datapackage"))
 #' descriptor$resource_names
-read_descriptor <- function(descriptor_file) {
+read_descriptor <- function(descriptor_file = "datapackage.json") {
   descriptor <- fromJSON(descriptor_file, simplifyDataFrame = FALSE)
 
   # Add resource_names
