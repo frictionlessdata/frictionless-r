@@ -1,0 +1,11 @@
+url: https://inbo.github.io/datapackage
+
+template:
+  params:
+    bootswatch: yeti
+
+authors:
+  Peter Desmet:
+    href: https://twitter.com/peterdesmet
+  Damiano Oldoni:
+    href: https://twitter.com/damianozingaro
