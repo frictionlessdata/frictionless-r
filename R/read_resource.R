@@ -107,13 +107,23 @@ read_resource <- function(descriptor, resource_name) {
     msg = paste0("Resource \"", resource_name, "\" is not defined as a `tabular-data-resource`.")
   )
 
-  # Path(s) to file
-  if (startsWith(resource$path, "http")) {
-    path <- resource$path
-  } else {
-    path <- paste(descriptor$directory, resource$path, sep = "/")
+  # Select and verify path(s) to file(s)
+  assert_that(
+    !is.null(resource$path),
+    msg = paste0("Resource \"", resource_name, "\" does not have a `path` property.")
+  )
+  paths <-
+    resource$path %>%
+    # If not URL, append directory to create a full path
+    map_chr(function(path) if_else(
+      startsWith(path, "http"), path, paste(descriptor$directory, path, sep = "/")
+    ))
+  for (path in paths) {
+    assert_that(
+      url.exists(path) | file.exists(path),
+      msg = paste0("No file at ", path)
+    )
   }
-  # TODO: deal with multiple paths
 
   # CSV `dialect`, see https://specs.frictionlessdata.io/csv-dialect/
   dialect <- resource$dialect # Can be NULL
