@@ -13,27 +13,78 @@
 #'
 #' @return tibble with the resource data.
 #'
-#' @details
-#' ## CSV dialect
-#'
-#' Resource files are required to follow the
-#' [CSV file requirements](https://specs.frictionlessdata.io/tabular-data-resource/#csv-file-requirements)
-#' unless a `dialect` is provided.
-#' [CSV dialect properties](https://specs.frictionlessdata.io/csv-dialect/#specification)
-#' are interpreted when provided, otherwise default values are used. Following
-#' properties are ignored:
-#' - `escapeChar` if different than `\`.
-#' - `lineTerminator`: TODO
-#' - `nullSequence`
-#' - `caseSensitiveHeader`: Table Schema field names are used instead
-#' - `csvddfVersion`
-#'
 #' @export
 #'
 #' @importFrom assertthat assert_that
-#' @importFrom dplyr recode if_else
+#' @importFrom dplyr if_else recode %>%
 #' @importFrom jsonlite fromJSON
-#' @importFrom readr read_delim
+#' @importFrom purrr keep map_chr
+#' @importFrom RCurl url.exists
+#' @importFrom readr locale read_delim
+#'
+#' @details
+#' The `resource` properties are handled as follows:
+#'
+#' ## Path
+#'
+#' `path` is required. It can be a local path or URL, which must resolve.
+#' When multiple paths are provided (`"path": [ "myfile1.csv", "myfile2.csv"]`)
+#' then data are merged into a single data frame, in the order in which the
+#' paths are listed.
+#'
+#' ## Data
+#'
+#' Inline `data` is not supported.
+#'
+#' ## Name
+#'
+#' `name` is required. It is used to find the resource with `name` =
+#' `resource_name`.
+#'
+#' ## Profile
+#'
+#' `profile` is required to have the value `tabular-data-resource`.
+#'
+#' #' ## File encoding
+#'
+#' `encoding` is required if resource files are not encoded as UTF-8. For proper
+#' values, see [encoding](https://specs.frictionlessdata.io/data-resource/#optional-properties).
+#' The returned data frame will always be UTF-8.
+#'
+#' ## CSV Dialect
+#'
+#' If no `dialect` is provided, then resource CSV files are required to follow
+#' the [CSV file requirements](https://specs.frictionlessdata.io/tabular-data-resource/#csv-file-requirements).
+#'
+#' If a `dialect` is provided, then the properties are interpreted as described
+#' in the [CSV Dialect properties](https://specs.frictionlessdata.io/csv-dialect/#specification),
+#' with the same defaults. Exceptions are:
+#' - `escapeChar`: ignored if different than `\`.
+#' - `lineTerminator`: ignored
+#' - `nullSequence`: ignored
+#' - `caseSensitiveHeader`: ignored,
+#' - `csvddfVersion`: ignored
+#'
+#' ## Schema
+#'
+#' `schema` is required and must follow the
+#' [Table Schema](http://specs.frictionlessdata.io/table-schema/) specification.
+#'
+#' - Field `name`s are used as column headers.
+#' - Field `type`s are used as column types if provided. Unknown R types are cast
+#' to `character`.
+#'
+#' ## Ignored resource properties
+#'
+#' The following properties are ignored:
+#' - `title`
+#' - `description`
+#' - `format`
+#' - `mediatype`
+#' - `bytes`
+#' - `hash`
+#' - `sources`
+#' - `licenses`
 #'
 #' @examples
 #' \dontrun{
