@@ -92,16 +92,19 @@
 #' df <- read_resource(descriptor, "deployments")
 #' }
 read_resource <- function(descriptor, resource_name) {
-  # Resource is listed in `resources`
-  assert_that(resource_name %in% descriptor$resource_names,
+  # Select resource
+  assert_that(
+    resource_name %in% descriptor$resource_names, # TODO: rely on this property?
     msg = paste0("Can't find resource \"", resource_name, "\"")
   )
+  resource <- keep(descriptor$resources, function(x) {
+    (x[["name"]] == resource_name)
+  })[[1]]
 
-  resource <- descriptor$resources[[1]] # TODO: select resource
-
-  # Resource is `tabular-data-resource`
-  assert_that(resource$profile == "tabular-data-resource",
-    msg = paste0("Resource \"", resource_name, "\" is not defined as a tabular-data-resource.")
+  # Check if resource is `tabular-data-resource`
+  assert_that(
+    resource$profile == "tabular-data-resource",
+    msg = paste0("Resource \"", resource_name, "\" is not defined as a `tabular-data-resource`.")
   )
 
   # Path(s) to file
