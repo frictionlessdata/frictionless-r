@@ -73,7 +73,10 @@
 #'
 #' - Field `name`s are used as column headers.
 #' - Field `type`s are used as column types when provided. Types are guessed
-#' when no type is provided or it has no equivalent in R.
+#'   when no type is provided or it has no equivalent in R.
+#' - Field `format`s (especiall for `date`, `time`, `datetime`) are ignored.
+#' - [`missingValues`](https://specs.frictionlessdata.io/table-schema/#missing-values)
+#'   are used to interpret as `NA`, with `""` as default.
 #'
 #' ## Ignored resource properties
 #'
@@ -169,8 +172,8 @@ read_resource <- function(descriptor, resource_name) {
      "date" = "D", # TODO: formats
      "time" = "t", # TODO: formats
      "datetime" = "T", # TODO: formats
-     "year" = "f", # Different
-     "yearmonth" = "f", # Different
+     "year" = "f",
+     "yearmonth" = "f",
      "duration" = "?",
      "geopoint" = "?",
      "geojson" = "?",
@@ -193,11 +196,11 @@ read_resource <- function(descriptor, resource_name) {
       col_names = field_names,
       col_types = paste(field_types, collapse = ""),
       locale = locale(encoding = if_null(resource$encoding, "UTF-8")),
-      # TODO: na <- read from table schema
+      na = if_null(resource$schema$missingValues, ""),
       quoted_na = TRUE,
       comment = if_null(dialect$commentChar, ""),
       trim_ws = if_null(dialect$skipInitialSpace, FALSE),
-      skip = ifelse(if_null(dialect$header, TRUE), 1, 0), # Skip header row
+      skip = ifelse(if_null(dialect$header, TRUE), 1, 0), # Skip header row when present
       skip_empty_rows = TRUE
     )
     dataframes[[i]] <- data
