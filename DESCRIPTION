@@ -7,6 +7,13 @@ Authors@R: c(
     )
 Description: Read and write Frictionless Data Packages in a Tidyverse way.
 License: MIT + file LICENSE
+Imports:
+    assertthat,
+    dplyr,
+    jsonlite,
+    purrr,
+    RCurl,
+    readr
 Suggests:
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
