@@ -72,8 +72,8 @@
 #' [Table Schema](http://specs.frictionlessdata.io/table-schema/) specification.
 #'
 #' - Field `name`s are used as column headers.
-#' - Field `type`s are used as column types if provided. Unknown R types are cast
-#' to `character`.
+#' - Field `type`s are used as column types when provided. Types are guessed
+#' when no type is provided or it has no equivalent in R.
 #'
 #' ## Ignored resource properties
 #'
@@ -155,29 +155,31 @@ read_resource <- function(descriptor, resource_name) {
     msg = glue("Field {which(is.na(fields$name))} of resource ",
       "'{resource_name}' is missing the required property 'name'.")
   )
-
   field_names <- fields$name
   field_types <- fields$type
 
-  # Select field types
+  # Recode field types
   field_types <- recode(field_types,
      "string" = "c", # Format (email, url) ignored
      "number" = "n", # TODO: extra properties
      "integer" = "i", # TODO: extra properties
      "boolean" = "l", # TODO: extra properties
-     "object" = "c", # Different
-     "array" = "c", # Different
+     "object" = "?",
+     "array" = "?",
      "date" = "D", # TODO: formats
      "time" = "t", # TODO: formats
      "datetime" = "T", # TODO: formats
      "year" = "f", # Different
      "yearmonth" = "f", # Different
-     "duration" = "c", # Different
-     "geopoint" = "c", # Different
-     "geojson" = "c", # Different
-     "any" = "c",
-     .default = "c" # Unrecognized type
+     "duration" = "?",
+     "geopoint" = "?",
+     "geojson" = "?",
+     "any" = "?",
+     .default = "?", # Unrecognized type
+     .missing = "?" # No type provided
   )
+
+  # TODO: test header matching
 
   # Read data
   dataframes <- list()
