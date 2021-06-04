@@ -90,7 +90,7 @@
 #'
 #' @examples
 #' descriptor <- read_descriptor(system.file("extdata", "datapackage.json", package = "datapackage"))
-#' df <- read_resource(descriptor, "observations")
+#' read_resource(descriptor, "observations")
 read_resource <- function(descriptor, resource_name) {
   # Select resource
   assert_that(
