@@ -27,6 +27,8 @@ devtools::install_github("inbo/datapackage")
 
 ## Usage
 
+There are two functions: `read_descriptor()` and `read_resource()`.
+
 ``` r
 library(datapackage)
 
