@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_descriptor.R
 \name{read_descriptor}
 \alias{read_descriptor}
-\title{Read datapackage.json file}
+\title{Read a datapackage.json file}
 \usage{
 read_descriptor(descriptor_file)
 }

@@ -1,4 +1,4 @@
-#' Read datapackage.json file
+#' Read a datapackage.json file
 #'
 #' Loads information from a `datapackage.json` file, i.e. the
 #' [Data Package descriptor](https://specs.frictionlessdata.io/data-package/#descriptor))

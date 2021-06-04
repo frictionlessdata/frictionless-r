@@ -79,8 +79,8 @@ with the same defaults. Exceptions are:
 \href{http://specs.frictionlessdata.io/table-schema/}{Table Schema} specification.
 \itemize{
 \item Field \code{name}s are used as column headers.
-\item Field \code{type}s are used as column types if provided. Unknown R types are cast
-to \code{character}.
+\item Field \code{type}s are used as column types when provided. Types are guessed
+when no type is provided or it has no equivalent in R.
 }
 }
 
