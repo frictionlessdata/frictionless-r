@@ -184,10 +184,10 @@ the <a href='https://specs.frictionlessdata.io/tabular-data-resource/#csv-file-r
 in the <a href='https://specs.frictionlessdata.io/csv-dialect/#specification'>CSV Dialect properties</a>,
 with the same defaults. Exceptions are:</p><ul>
 <li><p><code>escapeChar</code>: ignored if different than <code>\</code>.</p></li>
-<li><p><code>lineTerminator</code>: ignored</p></li>
-<li><p><code>nullSequence</code>: ignored</p></li>
-<li><p><code>caseSensitiveHeader</code>: ignored,</p></li>
-<li><p><code>csvddfVersion</code>: ignored</p></li>
+<li><p><code>lineTerminator</code>: ignored.</p></li>
+<li><p><code>nullSequence</code>: ignored.</p></li>
+<li><p><code>caseSensitiveHeader</code>: ignored.</p></li>
+<li><p><code>csvddfVersion</code>: ignored.</p></li>
 </ul>
 
 
@@ -199,6 +199,9 @@ with the same defaults. Exceptions are:</p><ul>
 <li><p>Field <code>name</code>s are used as column headers.</p></li>
 <li><p>Field <code>type</code>s are used as column types when provided. Types are guessed
 when no type is provided or it has no equivalent in R.</p></li>
+<li><p>Field <code>format</code>s (especiall for <code>date</code>, <code>time</code>, <code>datetime</code>) are ignored.</p></li>
+<li><p><a href='https://specs.frictionlessdata.io/table-schema/#missing-values'><code>missingValues</code></a>
+are used to interpret as <code>NA</code>, with <code>""</code> as default.</p></li>
 </ul>
 
 
@@ -220,7 +223,7 @@ when no type is provided or it has no equivalent in R.</p></li>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>descriptor</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_descriptor.html'>read_descriptor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, <span class='st'>"datapackage.json"</span>, package <span class='op'>=</span> <span class='st'>"datapackage"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'>read_resource</span><span class='op'>(</span><span class='va'>descriptor</span>, <span class='st'>"observations"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in tibble(name = name_value, type = type_value): could not find function "tibble"</span></div></pre>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
