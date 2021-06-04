@@ -1,8 +1,12 @@
 #' Read data from a Data Package resource
 #'
-#' Loads data from a Data Package **resource** into a tibble (a Tidyverse
-#' data.frame). The resource has to be a
+#' Loads data from a resource of a Data Package into a **tibble** (a Tidyverse
+#' data frame). The resource has to meet the requirements of a
 #' [Tabular Data Resource](https://specs.frictionlessdata.io/tabular-data-resource/).
+#' The function is a wrapper around `readr::read_delim()`, passing the resource
+#' properties (`path`, CSV dialect, field names, data types, etc.) as good as
+#' possible. Column names are taken from the provided `schema`, not from the
+#' header in the CSV file(s).
 #'
 #' @param descriptor Descriptor object (see `read_descriptor()`).
 #' @param resource_name Name of the resource to load data from.
