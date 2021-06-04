@@ -16,7 +16,7 @@
 #' @export
 #'
 #' @importFrom assertthat assert_that
-#' @importFrom dplyr if_else recode %>%
+#' @importFrom dplyr bind_rows if_else recode %>%
 #' @importFrom jsonlite fromJSON
 #' @importFrom purrr keep map_chr
 #' @importFrom RCurl url.exists
@@ -160,27 +160,32 @@ read_resource <- function(descriptor, resource_name) {
      .default = "c" # Unrecognized type
   )
 
-  data <- read_delim(
-    file = path,
-    delim = if_null(dialect$delimiter, ","),
-    quote = if_null(dialect$quoteChar, "\""),
-    escape_backslash = ifelse(if_null(dialect$escapeChar, "not set") == "\\", TRUE, FALSE),
-    escape_double = if_null(dialect$doubleQuote, TRUE),
-    col_names = field_names,
-    col_types = paste(field_types, collapse = ""),
-    locale = locale(encoding = if_null(resource$encoding, "UTF-8")),
-    # TODO: na <- read from table schema
-    quoted_na = TRUE,
-    comment = if_null(dialect$commentChar, ""),
-    trim_ws = if_null(dialect$skipInitialSpace, FALSE),
-    skip = ifelse(if_null(dialect$header, TRUE), 1, 0), # Skip header row
-    skip_empty_rows = TRUE
-  )
+  # Read data
+  dataframes <- list()
+  for (i in 1:length(paths)) {
+    data <- read_delim(
+      file = paths[i],
+      delim = if_null(dialect$delimiter, ","),
+      quote = if_null(dialect$quoteChar, "\""),
+      escape_backslash = ifelse(if_null(dialect$escapeChar, "not set") == "\\", TRUE, FALSE),
+      escape_double = if_null(dialect$doubleQuote, TRUE),
+      col_names = field_names,
+      col_types = paste(field_types, collapse = ""),
+      locale = locale(encoding = if_null(resource$encoding, "UTF-8")),
+      # TODO: na <- read from table schema
+      quoted_na = TRUE,
+      comment = if_null(dialect$commentChar, ""),
+      trim_ws = if_null(dialect$skipInitialSpace, FALSE),
+      skip = ifelse(if_null(dialect$header, TRUE), 1, 0), # Skip header row
+      skip_empty_rows = TRUE
+    )
+    dataframes[[i]] <- data
+  }
 
-  # TODO: Must have table schema
+  # TODO: lineTerminator
   # TODO: JSON row arrays
   # TODO: JSON row objects
   # TODO: use ifelse if_else consistently
 
-  data
+  bind_rows(dataframes)
 }
