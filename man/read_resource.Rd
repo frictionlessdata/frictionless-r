@@ -19,7 +19,7 @@ Reads data from a Data Package resource into a \strong{tibble} (a Tidyverse
 data frame). The resource has to meet the requirements of a
 \href{https://specs.frictionlessdata.io/tabular-data-resource/}{Tabular Data Resource}.
 The function is a wrapper around \code{readr::read_delim()}, passing the resource
-properties: \code{path}, CSV dialect, column names, data types, etc. Column names
+properties \code{path}, CSV dialect, column names, data types, etc. Column names
 are taken from the provided \code{schema}, not from the header in the CSV file(s).
 }
 \details{

@@ -4,7 +4,7 @@
 #' data frame). The resource has to meet the requirements of a
 #' [Tabular Data Resource](https://specs.frictionlessdata.io/tabular-data-resource/).
 #' The function is a wrapper around `readr::read_delim()`, passing the resource
-#' properties: `path`, CSV dialect, column names, data types, etc. Column names
+#' properties `path`, CSV dialect, column names, data types, etc. Column names
 #' are taken from the provided `schema`, not from the header in the CSV file(s).
 #'
 #' @param descriptor Descriptor object, see `read_descriptor()`.
