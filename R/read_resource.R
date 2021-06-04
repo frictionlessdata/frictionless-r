@@ -16,7 +16,7 @@
 #' @export
 #'
 #' @importFrom assertthat assert_that
-#' @importFrom dplyr bind_rows if_else recode %>%
+#' @importFrom dplyr bind_rows if_else recode tibble %>%
 #' @importFrom glue glue
 #' @importFrom jsonlite fromJSON
 #' @importFrom purrr keep map_chr map_dfr
