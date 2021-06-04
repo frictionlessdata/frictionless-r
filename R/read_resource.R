@@ -125,15 +125,23 @@ read_resource <- function(descriptor, resource_name) {
     )
   }
 
-  # CSV `dialect`, see https://specs.frictionlessdata.io/csv-dialect/
+  # Select CSV dialect, see https://specs.frictionlessdata.io/csv-dialect/
   dialect <- resource$dialect # Can be NULL
   # Helper function to assign value when property is NULL
   if_null <- function(variable, value) {
-    if_else(!is.null(variable), variable, value)
+    ifelse(!is.null(variable), variable, value)
   }
 
-  # Field names
+  # Select schema
+  assert_that(
+    !is.null(resource$schema),
+    msg = paste0("Resource \"", resource_name, "\" does not have a `schema` property.")
+  )
+
+  # Select field names
   field_names <- map_chr(resource$schema$fields, "name") # TODO: fail when name not provided
+
+  # Select field types
   field_types <- map_chr(resource$schema$fields, "type") # TODO: type not required
   field_types <- recode(field_types,
      "string" = "c", # Format (email, url) ignored
