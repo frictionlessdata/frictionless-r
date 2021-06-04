@@ -13,9 +13,8 @@
 #' @importFrom jsonlite fromJSON
 #'
 #' @examples
-#' \dontrun{
 #' descriptor <- read_descriptor(system.file("extdata", "datapackage.json", package = "datapackage"))
-#' }
+#' descriptor$resource_names
 read_descriptor <- function(descriptor_file) {
   descriptor <- fromJSON(descriptor_file, simplifyDataFrame = FALSE)
 

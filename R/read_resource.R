@@ -87,10 +87,8 @@
 #' - `licenses`
 #'
 #' @examples
-#' \dontrun{
 #' descriptor <- read_descriptor(system.file("extdata", "datapackage.json", package = "datapackage"))
-#' df <- read_resource(descriptor, "deployments")
-#' }
+#' df <- read_resource(descriptor, "observation")
 read_resource <- function(descriptor, resource_name) {
   # Select resource
   assert_that(
