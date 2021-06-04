@@ -7,10 +7,16 @@
 read_descriptor(descriptor_file)
 }
 \arguments{
-\item{descriptor_file}{Path to \code{datapackage.json} file.}
+\item{descriptor_file}{Path to a \code{datapackage.json} file.}
 }
 \value{
-Descriptor object.
+List object containing all descriptor information and two new
+properties:
+\itemize{
+\item \code{resource_names}: vector with resource names.
+\item \code{directory}: path of directory containing descriptor file, used as
+base path to read resources (\code{read_resources()}).
+}
 }
 \description{
 Loads information from a \code{datapackage.json} file, i.e. the

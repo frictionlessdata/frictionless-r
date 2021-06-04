@@ -66,10 +66,10 @@ in the \href{https://specs.frictionlessdata.io/csv-dialect/#specification}{CSV D
 with the same defaults. Exceptions are:
 \itemize{
 \item \code{escapeChar}: ignored if different than \verb{\\}.
-\item \code{lineTerminator}: ignored
-\item \code{nullSequence}: ignored
-\item \code{caseSensitiveHeader}: ignored,
-\item \code{csvddfVersion}: ignored
+\item \code{lineTerminator}: ignored.
+\item \code{nullSequence}: ignored.
+\item \code{caseSensitiveHeader}: ignored.
+\item \code{csvddfVersion}: ignored.
 }
 }
 

@@ -61,10 +61,10 @@
 #' in the [CSV Dialect properties](https://specs.frictionlessdata.io/csv-dialect/#specification),
 #' with the same defaults. Exceptions are:
 #' - `escapeChar`: ignored if different than `\`.
-#' - `lineTerminator`: ignored
-#' - `nullSequence`: ignored
-#' - `caseSensitiveHeader`: ignored,
-#' - `csvddfVersion`: ignored
+#' - `lineTerminator`: ignored.
+#' - `nullSequence`: ignored.
+#' - `caseSensitiveHeader`: ignored.
+#' - `csvddfVersion`: ignored.
 #'
 #' ## Schema
 #'
