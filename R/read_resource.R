@@ -17,6 +17,7 @@
 #'
 #' @importFrom assertthat assert_that
 #' @importFrom dplyr bind_rows if_else recode %>%
+#' @importFrom glue glue
 #' @importFrom jsonlite fromJSON
 #' @importFrom purrr keep map_chr
 #' @importFrom RCurl url.exists
@@ -91,8 +92,8 @@
 read_resource <- function(descriptor, resource_name) {
   # Select resource
   assert_that(
-    resource_name %in% descriptor$resource_names, # TODO: rely on this property?
-    msg = paste0("Can't find resource \"", resource_name, "\"")
+    resource_name %in% map_chr(descriptor$resources, "name"),
+    msg = glue("Can't find '{resource_name}' in resources.")
   )
   resource <- keep(descriptor$resources, function(x) {
     (x[["name"]] == resource_name)
@@ -101,13 +102,15 @@ read_resource <- function(descriptor, resource_name) {
   # Check if resource is `tabular-data-resource`
   assert_that(
     resource$profile == "tabular-data-resource",
-    msg = paste0("Resource \"", resource_name, "\" is not defined as a `tabular-data-resource`.")
+    msg = glue("Resource '{resource_name}' is missing the required property ",
+      "'profile' = 'tabular-data-resource'.")
   )
 
   # Select and verify path(s) to file(s)
   assert_that(
     !is.null(resource$path),
-    msg = paste0("Resource \"", resource_name, "\" does not have a `path` property.")
+    msg = glue("Resource '{resource_name}' is missing the required property ",
+      "'path'.")
   )
   paths <-
     resource$path %>%
@@ -118,7 +121,7 @@ read_resource <- function(descriptor, resource_name) {
   for (path in paths) {
     assert_that(
       url.exists(path) | file.exists(path),
-      msg = paste0("No file at ", path)
+      msg = glue("No file found at '{path}'.")
     )
   }
 
@@ -132,7 +135,8 @@ read_resource <- function(descriptor, resource_name) {
   # Select schema
   assert_that(
     !is.null(resource$schema),
-    msg = paste0("Resource \"", resource_name, "\" does not have a `schema` property.")
+    msg = glue("Resource '{resource_name}' is missing the required property ",
+      "'schema'.")
   )
 
   # Select field names
