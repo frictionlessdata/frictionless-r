@@ -45,7 +45,7 @@
 #'
 #' `profile` is required to have the value `tabular-data-resource`.
 #'
-#' #' ## File encoding
+#' ## File encoding
 #'
 #' `encoding` is required if resource files are not encoded as UTF-8. For proper
 #' values, see [encoding](https://specs.frictionlessdata.io/data-resource/#optional-properties).
@@ -76,7 +76,6 @@
 #'
 #' ## Ignored resource properties
 #'
-#' The following properties are ignored:
 #' - `title`
 #' - `description`
 #' - `format`
@@ -88,7 +87,7 @@
 #'
 #' @examples
 #' descriptor <- read_descriptor(system.file("extdata", "datapackage.json", package = "datapackage"))
-#' df <- read_resource(descriptor, "observation")
+#' df <- read_resource(descriptor, "observations")
 read_resource <- function(descriptor, resource_name) {
   # Select resource
   assert_that(

@@ -47,8 +47,9 @@ Inline \code{data} is not supported.
 \subsection{Profile}{
 
 \code{profile} is required to have the value \code{tabular-data-resource}.
+}
 
-#' ## File encoding
+\subsection{File encoding}{
 
 \code{encoding} is required if resource files are not encoded as UTF-8. For proper
 values, see \href{https://specs.frictionlessdata.io/data-resource/#optional-properties}{encoding}.
@@ -84,8 +85,6 @@ to \code{character}.
 }
 
 \subsection{Ignored resource properties}{
-
-The following properties are ignored:
 \itemize{
 \item \code{title}
 \item \code{description}
@@ -100,5 +99,5 @@ The following properties are ignored:
 }
 \examples{
 descriptor <- read_descriptor(system.file("extdata", "datapackage.json", package = "datapackage"))
-df <- read_resource(descriptor, "observation")
+df <- read_resource(descriptor, "observations")
 }
