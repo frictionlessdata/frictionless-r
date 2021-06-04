@@ -220,8 +220,19 @@ are used to interpret as <code>NA</code>, with <code>""</code> as default.</p></
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>descriptor</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_descriptor.html'>read_descriptor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, <span class='st'>"datapackage.json"</span>, package <span class='op'>=</span> <span class='st'>"datapackage"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'>read_resource</span><span class='op'>(</span><span class='va'>descriptor</span>, <span class='st'>"observations"</span><span class='op'>)</span>
-</div></pre>
+<span class='fu'>read_resource</span><span class='op'>(</span><span class='va'>descriptor</span>, <span class='st'>"observations"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 8 x 7</span>
+#&gt;   observation_id   deployment_id timestamp           scientific_name count age  
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>            <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>         <span style='color: #949494; font-style: italic;'>&lt;dttm&gt;</span>              <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>           <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span> 089113c5-e279-4… 1             2020-01-06 <span style='color: #949494;'>15:59:17</span> Capreolus capr…     1 juve…
+#&gt; <span style='color: #BCBCBC;'>2</span> 060ab157-3a8e-4… 1             2020-01-06 <span style='color: #949494;'>15:59:17</span> Capreolus capr…     1 adult
+#&gt; <span style='color: #BCBCBC;'>3</span> aba72fdc-2fd8-4… 1             2020-01-06 <span style='color: #949494;'>16:35:23</span> Lepus europaeus     1 adult
+#&gt; <span style='color: #BCBCBC;'>4</span> 1c044f0c-b12b-4… 1             2020-01-06 <span style='color: #949494;'>17:04:04</span> Lepus europaeus     1 adult
+#&gt; <span style='color: #BCBCBC;'>5</span> a2fb27ab-bb8b-4… 1             2020-01-06 <span style='color: #949494;'>19:19:54</span> Sus scrofa          2 unde…
+#&gt; <span style='color: #BCBCBC;'>6</span> cdbb4a57-2204-4… 2             2021-01-01 <span style='color: #949494;'>01:25:06</span> Sus scrofa          1 unde…
+#&gt; <span style='color: #BCBCBC;'>7</span> 3806c18c-29c5-4… 2             2021-01-01 <span style='color: #949494;'>01:25:06</span> Sus scrofa          1 unde…
+#&gt; <span style='color: #BCBCBC;'>8</span> aa01aa7c-10dc-4… 2             2021-01-01 <span style='color: #949494;'>04:47:30</span> Sus scrofa          1 unde…
+#&gt; <span style='color: #949494;'># … with 1 more variable: comments &lt;chr&gt;</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
