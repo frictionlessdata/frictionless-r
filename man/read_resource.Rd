@@ -15,31 +15,90 @@ read_resource(descriptor, resource_name)
 tibble with the resource data.
 }
 \description{
-Loads data from a Data Package \strong{resource} into a tibble (a Tidyverse
-data.frame). The resource has to be a
+Loads data from a resource of a Data Package into a \strong{tibble} (a Tidyverse
+data frame). The resource has to meet the requirements of a
 \href{https://specs.frictionlessdata.io/tabular-data-resource/}{Tabular Data Resource}.
+The function is a wrapper around \code{readr::read_delim()}, passing the resource
+properties (\code{path}, CSV dialect, field names, data types, etc.) as good as
+possible. Column names are taken from the provided \code{schema}, not from the
+header in the CSV file(s).
 }
 \details{
-\subsection{CSV dialect}{
+The \code{resource} properties are handled as follows:
+\subsection{Path}{
 
-Resource files are required to follow the
-\href{https://specs.frictionlessdata.io/tabular-data-resource/#csv-file-requirements}{CSV file requirements}
-unless a \code{dialect} is provided.
-\href{https://specs.frictionlessdata.io/csv-dialect/#specification}{CSV dialect properties}
-are interpreted when provided, otherwise default values are used. Following
-properties are ignored:
+\code{path} is required. It can be a local path or URL, which must resolve.
+When multiple paths are provided (\verb{"path": [ "myfile1.csv", "myfile2.csv"]})
+then data are merged into a single data frame, in the order in which the
+paths are listed.
+}
+
+\subsection{Data}{
+
+Inline \code{data} is not supported.
+}
+
+\subsection{Name}{
+
+\code{name} is required. It is used to find the resource with \code{name} =
+\code{resource_name}.
+}
+
+\subsection{Profile}{
+
+\code{profile} is required to have the value \code{tabular-data-resource}.
+
+#' ## File encoding
+
+\code{encoding} is required if resource files are not encoded as UTF-8. For proper
+values, see \href{https://specs.frictionlessdata.io/data-resource/#optional-properties}{encoding}.
+The returned data frame will always be UTF-8.
+}
+
+\subsection{CSV Dialect}{
+
+If no \code{dialect} is provided, then resource CSV files are required to follow
+the \href{https://specs.frictionlessdata.io/tabular-data-resource/#csv-file-requirements}{CSV file requirements}.
+
+If a \code{dialect} is provided, then the properties are interpreted as described
+in the \href{https://specs.frictionlessdata.io/csv-dialect/#specification}{CSV Dialect properties},
+with the same defaults. Exceptions are:
 \itemize{
-\item \code{escapeChar} if different than \verb{\\}.
-\item \code{lineTerminator}: TODO
-\item \code{nullSequence}
-\item \code{caseSensitiveHeader}: Table Schema field names are used instead
-\item \code{csvddfVersion}
+\item \code{escapeChar}: ignored if different than \verb{\\}.
+\item \code{lineTerminator}: ignored
+\item \code{nullSequence}: ignored
+\item \code{caseSensitiveHeader}: ignored,
+\item \code{csvddfVersion}: ignored
+}
+}
+
+\subsection{Schema}{
+
+\code{schema} is required and must follow the
+\href{http://specs.frictionlessdata.io/table-schema/}{Table Schema} specification.
+\itemize{
+\item Field \code{name}s are used as column headers.
+\item Field \code{type}s are used as column types if provided. Unknown R types are cast
+to \code{character}.
+}
+}
+
+\subsection{Ignored resource properties}{
+
+The following properties are ignored:
+\itemize{
+\item \code{title}
+\item \code{description}
+\item \code{format}
+\item \code{mediatype}
+\item \code{bytes}
+\item \code{hash}
+\item \code{sources}
+\item \code{licenses}
 }
 }
 }
 \examples{
-\dontrun{
 descriptor <- read_descriptor(system.file("extdata", "datapackage.json", package = "datapackage"))
-df <- read_resource(descriptor, "deployments")
-}
+df <- read_resource(descriptor, "observation")
 }

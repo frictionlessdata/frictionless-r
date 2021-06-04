@@ -18,7 +18,6 @@ Loads information from a \code{datapackage.json} file, i.e. the
 file that describes the Data Package metadata and its resources.
 }
 \examples{
-\dontrun{
 descriptor <- read_descriptor(system.file("extdata", "datapackage.json", package = "datapackage"))
-}
+descriptor$resource_names
 }
