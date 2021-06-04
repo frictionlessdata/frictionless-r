@@ -1,17 +1,16 @@
 #' Read data from a Data Package resource
 #'
-#' Loads data from a resource of a Data Package into a **tibble** (a Tidyverse
+#' Reads data from a Data Package **resource** into a **tibble** (a Tidyverse
 #' data frame). The resource has to meet the requirements of a
 #' [Tabular Data Resource](https://specs.frictionlessdata.io/tabular-data-resource/).
 #' The function is a wrapper around `readr::read_delim()`, passing the resource
-#' properties (`path`, CSV dialect, field names, data types, etc.) as good as
-#' possible. Column names are taken from the provided `schema`, not from the
-#' header in the CSV file(s).
+#' properties: `path`, CSV dialect, column names, data types, etc. Column names
+#' are taken from the provided `schema`, not from the header in the CSV file(s).
 #'
-#' @param descriptor Descriptor object (see `read_descriptor()`).
+#' @param descriptor Descriptor object, see `read_descriptor()`.
 #' @param resource_name Name of the resource to load data from.
 #'
-#' @return tibble with the resource data.
+#' @return Tibble with the resource data.
 #'
 #' @export
 #'
@@ -96,7 +95,7 @@ read_resource <- function(descriptor, resource_name) {
   # Select resource
   assert_that(
     resource_name %in% map_chr(descriptor$resources, "name"),
-    msg = glue("Can't find '{resource_name}' in resources.")
+    msg = glue("Could not find resource '{resource_name}'.")
   )
   resource <- keep(descriptor$resources, function(x) {
     (x[["name"]] == resource_name)
@@ -105,14 +104,14 @@ read_resource <- function(descriptor, resource_name) {
   # Check if resource is `tabular-data-resource`
   assert_that(
     resource$profile == "tabular-data-resource",
-    msg = glue("Resource '{resource_name}' is missing the required property ",
+    msg = glue("Resource '{resource_name}' does not have required property ",
       "'profile' = 'tabular-data-resource'.")
   )
 
   # Select and verify path(s) to file(s)
   assert_that(
     !is.null(resource$path),
-    msg = glue("Resource '{resource_name}' is missing the required property ",
+    msg = glue("Resource '{resource_name}' does not have required property ",
       "'path'.")
   )
   paths <-
@@ -124,7 +123,7 @@ read_resource <- function(descriptor, resource_name) {
   for (path in paths) {
     assert_that(
       url.exists(path) | file.exists(path),
-      msg = glue("No file found at '{path}'.")
+      msg = glue("Could not find file at '{path}'.")
     )
   }
 
@@ -138,7 +137,7 @@ read_resource <- function(descriptor, resource_name) {
   # Select schema fields
   assert_that(
     !is.null(resource$schema$fields),
-    msg = glue("Resource '{resource_name}' is missing the required property ",
+    msg = glue("Resource '{resource_name}' does not have required property ",
       "'schema > fields'.")
   )
   fields <- map_dfr(resource$schema$fields, function(x){
@@ -156,7 +155,7 @@ read_resource <- function(descriptor, resource_name) {
   })
   assert_that(all(!is.na(fields$name)),
     msg = glue("Field {which(is.na(fields$name))} of resource ",
-      "'{resource_name}' is missing the required property 'name'.")
+      "'{resource_name}' does not have required property 'name'.")
   )
   field_names <- fields$name
   field_types <- fields$type

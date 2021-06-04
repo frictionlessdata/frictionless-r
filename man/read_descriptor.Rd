@@ -4,24 +4,23 @@
 \alias{read_descriptor}
 \title{Read a datapackage.json file}
 \usage{
-read_descriptor(descriptor_file)
+read_descriptor(descriptor_file = "datapackage.json")
 }
 \arguments{
 \item{descriptor_file}{Path to a \code{datapackage.json} file.}
 }
 \value{
-List object containing all descriptor information and two new
-properties:
+List object containing descriptor information and two new properties:
 \itemize{
 \item \code{resource_names}: vector with resource names.
-\item \code{directory}: path of directory containing descriptor file, used as
-base path to read resources (\code{read_resources()}).
+\item \code{directory}: directory path of descriptor file, used as base path to read
+resources with \code{read_resource()}.
 }
 }
 \description{
-Loads information from a \code{datapackage.json} file, i.e. the
-\href{https://specs.frictionlessdata.io/data-package/#descriptor}{Data Package descriptor})
-file that describes the Data Package metadata and its resources.
+Reads information from a \code{datapackage.json} file, i.e. the
+\href{https://specs.frictionlessdata.io/data-package/#descriptor}{descriptor}
+that describes the Data Package metadata and its resources.
 }
 \examples{
 descriptor <- read_descriptor(system.file("extdata", "datapackage.json", package = "datapackage"))
