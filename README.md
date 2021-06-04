@@ -12,7 +12,8 @@ status](https://www.r-pkg.org/badges/version/datapackage)](https://CRAN.R-projec
 <!-- badges: end -->
 
 datapackage is an R package to read and write [Frictionless Data
-Packages](https://frictionlessdata.io/data-package/).
+Packages](https://frictionlessdata.io/data-package/) in a
+[Tidyverse](https://www.tidyverse.org/) way.
 
 ## Installation
 
@@ -24,15 +25,30 @@ You can install the development version from
 devtools::install_github("inbo/datapackage")
 ```
 
-<!--
-## Example
+## Usage
 
-This is a basic example which shows you how to solve a common problem:
-
-
-```r
+``` r
 library(datapackage)
-## basic example code
-```
 
--->
+# Read datapackage.json file
+descriptor <- read_descriptor(system.file("extdata", "datapackage.json", package = "datapackage"))
+
+# List resource names
+descriptor$resource_names
+#> [1] "deployments"  "observations"
+
+# Read data from resource
+read_resource(descriptor, "observations")
+#> # A tibble: 8 x 7
+#>   observation_id   deployment_id timestamp           scientific_name count age  
+#>   <chr>            <chr>         <dttm>              <chr>           <int> <chr>
+#> 1 089113c5-e279-4… 1             2020-01-06 15:59:17 Capreolus capr…     1 juve…
+#> 2 060ab157-3a8e-4… 1             2020-01-06 15:59:17 Capreolus capr…     1 adult
+#> 3 aba72fdc-2fd8-4… 1             2020-01-06 16:35:23 Lepus europaeus     1 adult
+#> 4 1c044f0c-b12b-4… 1             2020-01-06 17:04:04 Lepus europaeus     1 adult
+#> 5 a2fb27ab-bb8b-4… 1             2020-01-06 19:19:54 Sus scrofa          2 unde…
+#> 6 cdbb4a57-2204-4… 2             2021-01-01 01:25:06 Sus scrofa          1 unde…
+#> 7 3806c18c-29c5-4… 2             2021-01-01 01:25:06 Sus scrofa          1 unde…
+#> 8 aa01aa7c-10dc-4… 2             2021-01-01 04:47:30 Sus scrofa          1 unde…
+#> # … with 1 more variable: comments <chr>
+```
