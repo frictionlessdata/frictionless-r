@@ -15,7 +15,7 @@ read_resource(descriptor, resource_name)
 Tibble with the resource data.
 }
 \description{
-Reads data from a Data Package \strong{resource} into a \strong{tibble} (a Tidyverse
+Reads data from a Data Package resource into a \strong{tibble} (a Tidyverse
 data frame). The resource has to meet the requirements of a
 \href{https://specs.frictionlessdata.io/tabular-data-resource/}{Tabular Data Resource}.
 The function is a wrapper around \code{readr::read_delim()}, passing the resource

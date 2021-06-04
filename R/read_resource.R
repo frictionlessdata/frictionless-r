@@ -1,6 +1,6 @@
 #' Read data from a Data Package resource
 #'
-#' Reads data from a Data Package **resource** into a **tibble** (a Tidyverse
+#' Reads data from a Data Package resource into a **tibble** (a Tidyverse
 #' data frame). The resource has to meet the requirements of a
 #' [Tabular Data Resource](https://specs.frictionlessdata.io/tabular-data-resource/).
 #' The function is a wrapper around `readr::read_delim()`, passing the resource
