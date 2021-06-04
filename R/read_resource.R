@@ -19,7 +19,7 @@
 #' @importFrom dplyr bind_rows if_else recode %>%
 #' @importFrom glue glue
 #' @importFrom jsonlite fromJSON
-#' @importFrom purrr keep map_chr
+#' @importFrom purrr keep map_chr map_dfr
 #' @importFrom RCurl url.exists
 #' @importFrom readr locale read_delim
 #'
@@ -132,18 +132,34 @@ read_resource <- function(descriptor, resource_name) {
     ifelse(!is.null(variable), variable, value)
   }
 
-  # Select schema
+  # Select schema fields
   assert_that(
-    !is.null(resource$schema),
+    !is.null(resource$schema$fields),
     msg = glue("Resource '{resource_name}' is missing the required property ",
-      "'schema'.")
+      "'schema > fields'.")
+  )
+  fields <- map_dfr(resource$schema$fields, function(x){
+    if ("name" %in% names(x)) {
+      (name_value = x[["name"]])
+    } else {
+      name_value <- NA_character_
+    }
+    if ("type" %in% names(x)) {
+      (type_value = x[["type"]])
+    } else {
+      type_value <- NA_character_
+    }
+    tibble(name = name_value, type = type_value)
+  })
+  assert_that(all(!is.na(fields$name)),
+    msg = glue("Field {which(is.na(fields$name))} of resource ",
+      "'{resource_name}' is missing the required property 'name'.")
   )
 
-  # Select field names
-  field_names <- map_chr(resource$schema$fields, "name") # TODO: fail when name not provided
+  field_names <- fields$name
+  field_types <- fields$type
 
   # Select field types
-  field_types <- map_chr(resource$schema$fields, "type") # TODO: type not required
   field_types <- recode(field_types,
      "string" = "c", # Format (email, url) ignored
      "number" = "n", # TODO: extra properties
