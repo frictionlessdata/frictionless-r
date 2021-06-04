@@ -170,7 +170,7 @@ read_resource <- function(descriptor, resource_name) {
     escape_double = if_null(dialect$doubleQuote, TRUE),
     col_names = field_names,
     col_types = paste(field_types, collapse = ""),
-    # TODO: locale, including encoding
+    locale = locale(encoding = if_null(resource$encoding, "UTF-8")),
     # TODO: na <- read from table schema
     quoted_na = TRUE,
     comment = if_null(dialect$commentChar, ""),
@@ -180,7 +180,6 @@ read_resource <- function(descriptor, resource_name) {
   )
 
   # TODO: Must have table schema
-  # TODO: CSV file encoding
   # TODO: JSON row arrays
   # TODO: JSON row objects
 
