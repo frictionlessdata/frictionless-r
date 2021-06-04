@@ -5,7 +5,7 @@ Authors@R: c(
     person("Peter", "Desmet", role = c("aut", "cre"), email = "peter.desmet@inbo.be", comment = c(ORCID = "0000-0002-8442-8025")),
     person("Damiano", "Oldoni", role = "aut", email = "damiano.oldoni@inbo.be", comment = c(ORCID = "0000-0003-3445-7562"))
     )
-Description: Read and Write Frictionless Data Packages.
+Description: Read and write Frictionless Data Packages in a Tidyverse way.
 License: MIT + file LICENSE
 Suggests:
     testthat (>= 3.0.0)
