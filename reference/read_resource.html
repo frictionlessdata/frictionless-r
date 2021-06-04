@@ -197,8 +197,8 @@ with the same defaults. Exceptions are:</p><ul>
 <p><code>schema</code> is required and must follow the
 <a href='http://specs.frictionlessdata.io/table-schema/'>Table Schema</a> specification.</p><ul>
 <li><p>Field <code>name</code>s are used as column headers.</p></li>
-<li><p>Field <code>type</code>s are used as column types if provided. Unknown R types are cast
-to <code>character</code>.</p></li>
+<li><p>Field <code>type</code>s are used as column types when provided. Types are guessed
+when no type is provided or it has no equivalent in R.</p></li>
 </ul>
 
 
