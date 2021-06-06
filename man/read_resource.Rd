@@ -80,7 +80,7 @@ with the same defaults. Exceptions are:
 \item Field \code{name}s are used as column headers.
 \item Field \code{type}s are used as column types when provided. Types are guessed
 when no type is provided or it has no equivalent in R.
-\item Field \code{format}s (especiall for \code{date}, \code{time}, \code{datetime}) are ignored.
+\item Field \code{format}s (especially for \code{date}, \code{time}, \code{datetime}) are ignored.
 \item \href{https://specs.frictionlessdata.io/table-schema/#missing-values}{\code{missingValues}}
 are used to interpret as \code{NA}, with \code{""} as default.
 }

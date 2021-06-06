@@ -73,7 +73,7 @@
 #' - Field `name`s are used as column headers.
 #' - Field `type`s are used as column types when provided. Types are guessed
 #'   when no type is provided or it has no equivalent in R.
-#' - Field `format`s (especiall for `date`, `time`, `datetime`) are ignored.
+#' - Field `format`s (especially for `date`, `time`, `datetime`) are ignored.
 #' - [`missingValues`](https://specs.frictionlessdata.io/table-schema/#missing-values)
 #'   are used to interpret as `NA`, with `""` as default.
 #'
