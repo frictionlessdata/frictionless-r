@@ -7,7 +7,7 @@
 #' properties `path`, CSV dialect, column names, data types, etc. Column names
 #' are taken from the provided `schema`, not from the header in the CSV file(s).
 #'
-#' @param descriptor Descriptor object, see `read_descriptor()`.
+#' @param package Package object, see `read_package()`.
 #' @param resource_name Name of the resource to load data from.
 #'
 #' @return Tibble with the resource data.
@@ -89,15 +89,15 @@
 #' - `licenses`
 #'
 #' @examples
-#' descriptor <- read_descriptor(system.file("extdata", "datapackage.json", package = "datapackage"))
-#' read_resource(descriptor, "observations")
-read_resource <- function(descriptor, resource_name) {
+#' package <- read_package(system.file("extdata", "datapackage.json", package = "datapackage"))
+#' read_resource(package, "observations")
+read_resource <- function(package, resource_name) {
   # Select resource
   assert_that(
-    resource_name %in% map_chr(descriptor$resources, "name"),
+    resource_name %in% map_chr(package$resources, "name"),
     msg = glue("Could not find resource '{resource_name}'.")
   )
-  resource <- keep(descriptor$resources, function(x) {
+  resource <- keep(package$resources, function(x) {
     (x[["name"]] == resource_name)
   })[[1]]
 
@@ -118,7 +118,7 @@ read_resource <- function(descriptor, resource_name) {
     resource$path %>%
     # If not URL, append directory to create a full path
     map_chr(function(path) if_else(
-      startsWith(path, "http"), path, paste(descriptor$directory, path, sep = "/")
+      startsWith(path, "http"), path, paste(package$directory, path, sep = "/")
     ))
   for (path in paths) {
     assert_that(

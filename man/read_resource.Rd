@@ -4,10 +4,10 @@
 \alias{read_resource}
 \title{Read data from a Data Package resource}
 \usage{
-read_resource(descriptor, resource_name)
+read_resource(package, resource_name)
 }
 \arguments{
-\item{descriptor}{Descriptor object, see \code{read_descriptor()}.}
+\item{package}{Package object, see \code{read_package()}.}
 
 \item{resource_name}{Name of the resource to load data from.}
 }
@@ -100,6 +100,6 @@ are used to interpret as \code{NA}, with \code{""} as default.
 }
 }
 \examples{
-descriptor <- read_descriptor(system.file("extdata", "datapackage.json", package = "datapackage"))
-read_resource(descriptor, "observations")
+package <- read_package(system.file("extdata", "datapackage.json", package = "datapackage"))
+read_resource(package, "observations")
 }

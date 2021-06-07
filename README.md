@@ -27,20 +27,20 @@ devtools::install_github("inbo/datapackage")
 
 ## Usage
 
-There are two functions: `read_descriptor()` and `read_resource()`.
+There are two functions: `read_package()` and `read_resource()`.
 
 ``` r
 library(datapackage)
 
 # Read datapackage.json file
-descriptor <- read_descriptor(system.file("extdata", "datapackage.json", package = "datapackage"))
+package <- read_package(system.file("extdata", "datapackage.json", package = "datapackage"))
 
 # List resource names
-descriptor$resource_names
+package$resource_names
 #> [1] "deployments"  "observations"
 
 # Read data from resource
-read_resource(descriptor, "observations")
+read_resource(package, "observations")
 #> # A tibble: 8 x 7
 #>   observation_id   deployment_id timestamp           scientific_name count age  
 #>   <chr>            <chr>         <dttm>              <chr>           <int> <chr>
