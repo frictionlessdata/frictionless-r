@@ -93,6 +93,7 @@
 #' @examples
 #' path <- system.file("extdata", "datapackage.json", package = "datapackage")
 #' package <- read_package(path)
+#' package$resource_names
 #' read_resource(package, "observations")
 read_resource <- function(package, resource_name) {
   # Select resource
@@ -229,10 +230,6 @@ read_resource <- function(package, resource_name) {
     )
     dataframes[[i]] <- data
   }
-
-  # TODO: lineTerminator
-  # TODO: JSON row arrays
-  # TODO: JSON row objects
 
   bind_rows(dataframes)
 }

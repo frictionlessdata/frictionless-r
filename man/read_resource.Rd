@@ -101,5 +101,6 @@ are used to interpret as \code{NA}, with \code{""} as default.
 \examples{
 path <- system.file("extdata", "datapackage.json", package = "datapackage")
 package <- read_package(path)
+package$resource_names
 read_resource(package, "observations")
 }
