@@ -4,12 +4,12 @@
 #' [descriptor](https://specs.frictionlessdata.io/data-package/#descriptor) that
 #' describes the Data Package metadata and its resources.
 #'
-#' @param descriptor_file Path to a `datapackage.json` file.
+#' @param file Path or URL to a `datapackage.json` file.
 #'
 #' @return List object containing the descriptor information and two new
 #'   properties:
 #'   - `resource_names`: vector with resource names.
-#'   - `directory`: directory path of descriptor file, used as base path to read
+#'   - `directory`: path to Data Package directory, used as root path to read
 #'     resources with `read_resource()`.
 #'
 #' @export
@@ -17,13 +17,19 @@
 #' @importFrom assertthat assert_that
 #' @importFrom glue glue
 #' @importFrom jsonlite fromJSON
+#' @importFrom RCurl url.exists
 #'
 #' @examples
 #' path <- system.file("extdata", "datapackage.json", package = "datapackage")
 #' package <- read_package(path)
 #' package$resource_names
-read_package <- function(descriptor_file = "datapackage.json") {
-  descriptor <- fromJSON(descriptor_file, simplifyDataFrame = FALSE)
+read_package <- function(file = "datapackage.json") {
+  # Read file
+  assert_that(
+    file.exists(file) | url.exists(file),
+    msg = glue("Could not find file at '{file}'.")
+  )
+  descriptor <- fromJSON(file, simplifyDataFrame = FALSE)
 
   # Check for resources
   # https://specs.frictionlessdata.io/data-package/#metadata
@@ -38,7 +44,7 @@ read_package <- function(descriptor_file = "datapackage.json") {
   descriptor$resource_names <- map_chr(descriptor$resources, "name")
 
   # Add directory
-  descriptor$directory <- dirname(descriptor_file)
+  descriptor$directory <- dirname(file)
 
   descriptor
 }

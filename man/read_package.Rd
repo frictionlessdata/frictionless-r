@@ -4,17 +4,17 @@
 \alias{read_package}
 \title{Read a datapackage.json file}
 \usage{
-read_package(descriptor_file = "datapackage.json")
+read_package(file = "datapackage.json")
 }
 \arguments{
-\item{descriptor_file}{Path to a \code{datapackage.json} file.}
+\item{file}{Path or URL to a \code{datapackage.json} file.}
 }
 \value{
 List object containing the descriptor information and two new
 properties:
 \itemize{
 \item \code{resource_names}: vector with resource names.
-\item \code{directory}: directory path of descriptor file, used as base path to read
+\item \code{directory}: path to Data Package directory, used as root path to read
 resources with \code{read_resource()}.
 }
 }
