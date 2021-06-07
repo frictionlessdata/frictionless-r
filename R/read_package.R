@@ -16,8 +16,8 @@
 #'
 #' @importFrom assertthat assert_that
 #' @importFrom glue glue
+#' @importFrom httr http_error
 #' @importFrom jsonlite fromJSON
-#' @importFrom RCurl url.exists
 #'
 #' @examples
 #' path <- system.file("extdata", "datapackage.json", package = "datapackage")
@@ -25,10 +25,17 @@
 #' package$resource_names
 read_package <- function(file = "datapackage.json") {
   # Read file
-  assert_that(
-    file.exists(file) | url.exists(file),
-    msg = glue("Could not find file at '{file}'.")
-  )
+  if (startsWith(file, "http")) {
+    assert_that(
+      !http_error(file),
+      msg = glue("Could not find file at '{file}'.")
+    )
+  } else {
+    assert_that(
+      file.exists(file),
+      msg = glue("Could not find file at '{file}'.")
+    )
+  }
   descriptor <- fromJSON(file, simplifyDataFrame = FALSE)
 
   # Check for resources

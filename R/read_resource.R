@@ -15,11 +15,11 @@
 #' @export
 #'
 #' @importFrom assertthat assert_that
-#' @importFrom dplyr bind_rows if_else recode tibble %>%
+#' @importFrom dplyr bind_rows recode tibble %>%
 #' @importFrom glue glue
+#' @importFrom httr http_error
 #' @importFrom jsonlite fromJSON
 #' @importFrom purrr keep map_chr map_dfr
-#' @importFrom RCurl url.exists
 #' @importFrom readr locale read_delim
 #'
 #' @details
@@ -125,15 +125,24 @@ read_resource <- function(package, resource_name) {
     resource$path %>%
     # If not URL, append directory to create a full path
     map_chr(function(path) {
-      if_else(
-        startsWith(path, "http"), path, paste(package$directory, path, sep = "/")
-      )
+      if (startsWith(path, "http")) {
+        path
+      } else {
+        paste(package$directory, path, sep = "/")
+      }
     })
   for (path in paths) {
-    assert_that(
-      file.exists(path) | url.exists(path),
-      msg = glue("Could not find file at '{path}'.")
-    )
+    if (startsWith(path, "http")) {
+      assert_that(
+        !http_error(path),
+        msg = glue("Could not find file at '{path}'.")
+      )
+    } else {
+      assert_that(
+        file.exists(path),
+        msg = glue("Could not find file at '{path}'.")
+      )
+    }
   }
 
   # Select CSV dialect, see https://specs.frictionlessdata.io/csv-dialect/
@@ -224,7 +233,6 @@ read_resource <- function(package, resource_name) {
   # TODO: lineTerminator
   # TODO: JSON row arrays
   # TODO: JSON row objects
-  # TODO: use ifelse if_else consistently
 
   bind_rows(dataframes)
 }
