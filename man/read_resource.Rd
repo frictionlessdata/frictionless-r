@@ -99,6 +99,7 @@ are used to interpret as \code{NA}, with \code{""} as default.
 }
 }
 \examples{
-package <- read_package(system.file("extdata", "datapackage.json", package = "datapackage"))
+path <- system.file("extdata", "datapackage.json", package = "datapackage")
+package <- read_package(path)
 read_resource(package, "observations")
 }

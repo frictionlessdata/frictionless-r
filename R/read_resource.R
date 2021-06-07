@@ -74,10 +74,10 @@
 #'
 #' - Field `name`s are used as column headers.
 #' - Field `type`s are used as column types when provided. Types are guessed
-#' when no type is provided or it has no equivalent in R.
+#'   when no type is provided or it has no equivalent in R.
 #' - Field `format`s (especially for `date`, `time`, `datetime`) are ignored.
 #' - [`missingValues`](https://specs.frictionlessdata.io/table-schema/#missing-values)
-#' are used to interpret as `NA`, with `""` as default.
+#'   are used to interpret as `NA`, with `""` as default.
 #'
 #' ## Ignored resource properties
 #'
@@ -91,7 +91,8 @@
 #' - `licenses`
 #'
 #' @examples
-#' package <- read_package(system.file("extdata", "datapackage.json", package = "datapackage"))
+#' path <- system.file("extdata", "datapackage.json", package = "datapackage")
+#' package <- read_package(path)
 #' read_resource(package, "observations")
 read_resource <- function(package, resource_name) {
   # Select resource
@@ -114,8 +115,8 @@ read_resource <- function(package, resource_name) {
   # https://specs.frictionlessdata.io/data-resource/#data-location
   assert_that(
     !is.null(resource$path),
-    msg = glue("Resource '{resource_name}' does not have the required property ",
-      "'path'.")
+    msg = glue("Resource '{resource_name}' does not have the required property",
+      " 'path'.")
   )
   paths <-
     resource$path %>%
@@ -143,14 +144,14 @@ read_resource <- function(package, resource_name) {
     msg = glue("Resource '{resource_name}' does not have the required property",
       " 'schema > fields'.")
   )
-  fields <- map_dfr(resource$schema$fields, function(x){
+  fields <- map_dfr(resource$schema$fields, function(x) {
     if ("name" %in% names(x)) {
-      (name_value = x[["name"]])
+      (name_value <- x[["name"]])
     } else {
       name_value <- NA_character_
     }
     if ("type" %in% names(x)) {
-      (type_value = x[["type"]])
+      (type_value <- x[["type"]])
     } else {
       type_value <- NA_character_
     }
@@ -193,7 +194,9 @@ read_resource <- function(package, resource_name) {
       file = paths[i],
       delim = if_null(dialect$delimiter, ","),
       quote = if_null(dialect$quoteChar, "\""),
-      escape_backslash = ifelse(if_null(dialect$escapeChar, "not set") == "\\", TRUE, FALSE),
+      escape_backslash = ifelse(
+        if_null(dialect$escapeChar, "not set") == "\\", TRUE, FALSE
+      ),
       escape_double = if_null(dialect$doubleQuote, TRUE),
       col_names = field_names,
       col_types = paste(field_types, collapse = ""),
@@ -202,7 +205,8 @@ read_resource <- function(package, resource_name) {
       quoted_na = TRUE,
       comment = if_null(dialect$commentChar, ""),
       trim_ws = if_null(dialect$skipInitialSpace, FALSE),
-      skip = ifelse(if_null(dialect$header, TRUE), 1, 0), # Skip header row when present
+      # Skip header row when present
+      skip = ifelse(if_null(dialect$header, TRUE), 1, 0),
       skip_empty_rows = TRUE
     )
     dataframes[[i]] <- data

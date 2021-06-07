@@ -20,10 +20,11 @@ resources with \code{read_resource()}.
 }
 \description{
 Reads information from a \code{datapackage.json} file, i.e. the
-\href{https://specs.frictionlessdata.io/data-package/#descriptor}{descriptor}
-that describes the Data Package metadata and its resources.
+\href{https://specs.frictionlessdata.io/data-package/#descriptor}{descriptor} that
+describes the Data Package metadata and its resources.
 }
 \examples{
-package <- read_package(system.file("extdata", "datapackage.json", package = "datapackage"))
+path <- system.file("extdata", "datapackage.json", package = "datapackage")
+package <- read_package(path)
 package$resource_names
 }
