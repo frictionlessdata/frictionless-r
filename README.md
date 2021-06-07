@@ -10,6 +10,7 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 [![CRAN
 status](https://www.r-pkg.org/badges/version/datapackage)](https://CRAN.R-project.org/package=datapackage)
 [![R-CMD-check](https://github.com/inbo/datapackage/workflows/R-CMD-check/badge.svg)](https://github.com/inbo/datapackage/actions)
+[![codecov](https://codecov.io/gh/inbo/datapackage/branch/main/graph/badge.svg?token=bKtiHW21K0)](https://codecov.io/gh/inbo/datapackage)
 <!-- badges: end -->
 
 datapackage is an R package to read and write [Frictionless Data
