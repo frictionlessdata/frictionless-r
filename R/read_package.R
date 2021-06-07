@@ -14,6 +14,8 @@
 #'
 #' @export
 #'
+#' @importFrom assertthat assert_that
+#' @importFrom glue glue
 #' @importFrom jsonlite fromJSON
 #'
 #' @examples
@@ -21,6 +23,14 @@
 #' package$resource_names
 read_package <- function(descriptor_file = "datapackage.json") {
   descriptor <- fromJSON(descriptor_file, simplifyDataFrame = FALSE)
+
+  # Check for resources
+  # https://specs.frictionlessdata.io/data-package/#metadata
+  assert_that(
+    !is.null(descriptor$resources),
+    msg = glue("'{descriptor_file}' does not have the required property ",
+               "'resources'.")
+  )
 
   # Add resource_names
   descriptor$resource_names = map_chr(descriptor$resources, "name")
