@@ -34,9 +34,10 @@ read_package <- function(file = "datapackage.json") {
   # Check for resources
   # https://specs.frictionlessdata.io/data-package/#metadata
   assert_that(
-    !is.null(descriptor$resources),
+    !is.null(descriptor$resources[[1]]$name),
     msg = glue(
-      "'{descriptor_file}' does not have the required property 'resources'."
+      "'{file}' does not have the required property 'resources', containing ",
+      "at least one resource with the required property 'name'."
     )
   )
 
