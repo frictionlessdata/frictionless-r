@@ -131,7 +131,7 @@ read_resource <- function(package, resource_name) {
     })
   for (path in paths) {
     assert_that(
-      url.exists(path) | file.exists(path),
+      file.exists(path) | url.exists(path),
       msg = glue("Could not find file at '{path}'.")
     )
   }
