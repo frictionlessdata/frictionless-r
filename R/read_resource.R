@@ -1,9 +1,9 @@
 #' Read data from a Data Package resource
 #'
-#' Reads data from a Data Package resource into a **tibble** (a Tidyverse
-#' data frame). The resource has to meet the requirements of a
-#' [Tabular Data Resource](https://specs.frictionlessdata.io/tabular-data-resource/).
-#' The function is a wrapper around `readr::read_delim()`, passing the resource
+#' Reads data from a Data Package resource into a **tibble** (a Tidyverse data
+#' frame). The resource has to meet the requirements of a [Tabular Data
+#' Resource](https://specs.frictionlessdata.io/tabular-data-resource/). The
+#' function is a wrapper around `readr::read_delim()`, passing the resource
 #' properties `path`, CSV dialect, column names, data types, etc. Column names
 #' are taken from the provided `schema`, not from the header in the CSV file(s).
 #'
@@ -27,10 +27,10 @@
 #'
 #' ## Path
 #'
-#' `path` is required. It can be a local path or URL, which must resolve.
-#' When multiple paths are provided (`"path": [ "myfile1.csv", "myfile2.csv"]`)
-#' then data are merged into a single data frame, in the order in which the
-#' paths are listed.
+#' [`path`](https://specs.frictionlessdata.io/data-resource/#data-location) is
+#' required. It can be a local path or URL, which must resolve. When multiple
+#' paths are provided (`"path": [ "myfile1.csv", "myfile2.csv"]`) then data are
+#' merged into a single data frame, in the order in which the paths are listed.
 #'
 #' ## Data
 #'
@@ -38,44 +38,46 @@
 #'
 #' ## Name
 #'
-#' `name` is required. It is used to find the resource with `name` =
-#' `resource_name`.
+#' [`name`](https://specs.frictionlessdata.io/data-resource/#name) is required.
+#' It is used to find the resource with `name` = `resource_name`.
 #'
 #' ## Profile
 #'
-#' `profile` is required to have the value `tabular-data-resource`.
+#' [`profile`](https://specs.frictionlessdata.io/tabular-data-resource/#specification)
+#' is required to have the value `tabular-data-resource`.
 #'
 #' ## File encoding
 #'
-#' `encoding` is required if resource files are not encoded as UTF-8. For proper
-#' values, see [encoding](https://specs.frictionlessdata.io/data-resource/#optional-properties).
+#' [`encoding`](https://specs.frictionlessdata.io/tabular-data-resource/#csv-file-requirements)
+#' is required if resource files are not encoded as UTF-8. For proper values,
+#' see
+#' [encoding](https://specs.frictionlessdata.io/data-resource/#optional-properties).
 #' The returned data frame will always be UTF-8.
 #'
 #' ## CSV Dialect
 #'
-#' If no `dialect` is provided, then resource CSV files are required to follow
-#' the [CSV file requirements](https://specs.frictionlessdata.io/tabular-data-resource/#csv-file-requirements).
-#'
-#' If a `dialect` is provided, then the properties are interpreted as described
-#' in the [CSV Dialect properties](https://specs.frictionlessdata.io/csv-dialect/#specification),
-#' with the same defaults. Exceptions are:
-#' - `escapeChar`: ignored if different than `\`.
-#' - `lineTerminator`: ignored.
-#' - `nullSequence`: ignored.
-#' - `caseSensitiveHeader`: ignored.
-#' - `csvddfVersion`: ignored.
+#' `dialect` is required if the resource CSV file properties differ from the
+#' defaults described in the [CSV Dialect
+#' specification](https://specs.frictionlessdata.io/csv-dialect/#specification)
+#' (i.e. comma separated, `"` to quote, etc.). The following CSV dialect
+#' properties are not interpreted:
+#' - `escapeChar`: if different than `\`.
+#' - `lineTerminator`
+#' - `nullSequence`
+#' - `caseSensitiveHeader`
+#' - `csvddfVersion`
 #'
 #' ## Schema
 #'
-#' `schema` is required and must follow the
-#' [Table Schema](http://specs.frictionlessdata.io/table-schema/) specification.
+#' `schema` is required and must follow the [Table
+#' Schema](http://specs.frictionlessdata.io/table-schema/) specification.
 #'
 #' - Field `name`s are used as column headers.
 #' - Field `type`s are used as column types when provided. Types are guessed
-#'   when no type is provided or it has no equivalent in R.
+#' when no type is provided or it has no equivalent in R.
 #' - Field `format`s (especially for `date`, `time`, `datetime`) are ignored.
 #' - [`missingValues`](https://specs.frictionlessdata.io/table-schema/#missing-values)
-#'   are used to interpret as `NA`, with `""` as default.
+#' are used to interpret as `NA`, with `""` as default.
 #'
 #' ## Ignored resource properties
 #'
@@ -104,14 +106,15 @@ read_resource <- function(package, resource_name) {
   # Check if resource is `tabular-data-resource`
   assert_that(
     resource$profile == "tabular-data-resource",
-    msg = glue("Resource '{resource_name}' does not have required property ",
-      "'profile' = 'tabular-data-resource'.")
+    msg = glue("Resource '{resource_name}' does not have the required property",
+      " 'profile' = 'tabular-data-resource'.")
   )
 
   # Select and verify path(s) to file(s)
+  # https://specs.frictionlessdata.io/data-resource/#data-location
   assert_that(
     !is.null(resource$path),
-    msg = glue("Resource '{resource_name}' does not have required property ",
+    msg = glue("Resource '{resource_name}' does not have the required property ",
       "'path'.")
   )
   paths <-
@@ -137,8 +140,8 @@ read_resource <- function(package, resource_name) {
   # Select schema fields
   assert_that(
     !is.null(resource$schema$fields),
-    msg = glue("Resource '{resource_name}' does not have required property ",
-      "'schema > fields'.")
+    msg = glue("Resource '{resource_name}' does not have the required property",
+      " 'schema > fields'.")
   )
   fields <- map_dfr(resource$schema$fields, function(x){
     if ("name" %in% names(x)) {
@@ -155,7 +158,7 @@ read_resource <- function(package, resource_name) {
   })
   assert_that(all(!is.na(fields$name)),
     msg = glue("Field {which(is.na(fields$name))} of resource ",
-      "'{resource_name}' does not have required property 'name'.")
+      "'{resource_name}' does not have the required property 'name'.")
   )
   field_names <- fields$name
   field_types <- fields$type

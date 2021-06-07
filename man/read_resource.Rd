@@ -15,10 +15,9 @@ read_resource(package, resource_name)
 Tibble with the resource data.
 }
 \description{
-Reads data from a Data Package resource into a \strong{tibble} (a Tidyverse
-data frame). The resource has to meet the requirements of a
-\href{https://specs.frictionlessdata.io/tabular-data-resource/}{Tabular Data Resource}.
-The function is a wrapper around \code{readr::read_delim()}, passing the resource
+Reads data from a Data Package resource into a \strong{tibble} (a Tidyverse data
+frame). The resource has to meet the requirements of a \href{https://specs.frictionlessdata.io/tabular-data-resource/}{Tabular Data Resource}. The
+function is a wrapper around \code{readr::read_delim()}, passing the resource
 properties \code{path}, CSV dialect, column names, data types, etc. Column names
 are taken from the provided \code{schema}, not from the header in the CSV file(s).
 }
@@ -26,10 +25,10 @@ are taken from the provided \code{schema}, not from the header in the CSV file(s
 The \code{resource} properties are handled as follows:
 \subsection{Path}{
 
-\code{path} is required. It can be a local path or URL, which must resolve.
-When multiple paths are provided (\verb{"path": [ "myfile1.csv", "myfile2.csv"]})
-then data are merged into a single data frame, in the order in which the
-paths are listed.
+\href{https://specs.frictionlessdata.io/data-resource/#data-location}{\code{path}} is
+required. It can be a local path or URL, which must resolve. When multiple
+paths are provided (\verb{"path": [ "myfile1.csv", "myfile2.csv"]}) then data are
+merged into a single data frame, in the order in which the paths are listed.
 }
 
 \subsection{Data}{
@@ -39,43 +38,43 @@ Inline \code{data} is not supported.
 
 \subsection{Name}{
 
-\code{name} is required. It is used to find the resource with \code{name} =
-\code{resource_name}.
+\href{https://specs.frictionlessdata.io/data-resource/#name}{\code{name}} is required.
+It is used to find the resource with \code{name} = \code{resource_name}.
 }
 
 \subsection{Profile}{
 
-\code{profile} is required to have the value \code{tabular-data-resource}.
+\href{https://specs.frictionlessdata.io/tabular-data-resource/#specification}{\code{profile}}
+is required to have the value \code{tabular-data-resource}.
 }
 
 \subsection{File encoding}{
 
-\code{encoding} is required if resource files are not encoded as UTF-8. For proper
-values, see \href{https://specs.frictionlessdata.io/data-resource/#optional-properties}{encoding}.
+\href{https://specs.frictionlessdata.io/tabular-data-resource/#csv-file-requirements}{\code{encoding}}
+is required if resource files are not encoded as UTF-8. For proper values,
+see
+\href{https://specs.frictionlessdata.io/data-resource/#optional-properties}{encoding}.
 The returned data frame will always be UTF-8.
 }
 
 \subsection{CSV Dialect}{
 
-If no \code{dialect} is provided, then resource CSV files are required to follow
-the \href{https://specs.frictionlessdata.io/tabular-data-resource/#csv-file-requirements}{CSV file requirements}.
-
-If a \code{dialect} is provided, then the properties are interpreted as described
-in the \href{https://specs.frictionlessdata.io/csv-dialect/#specification}{CSV Dialect properties},
-with the same defaults. Exceptions are:
+\code{dialect} is required if the resource CSV file properties differ from the
+defaults described in the \href{https://specs.frictionlessdata.io/csv-dialect/#specification}{CSV Dialect specification}
+(i.e. comma separated, \verb{"} to quote, etc.). The following CSV dialect
+properties are not interpreted:
 \itemize{
-\item \code{escapeChar}: ignored if different than \verb{\\}.
-\item \code{lineTerminator}: ignored.
-\item \code{nullSequence}: ignored.
-\item \code{caseSensitiveHeader}: ignored.
-\item \code{csvddfVersion}: ignored.
+\item \code{escapeChar}: if different than \verb{\\}.
+\item \code{lineTerminator}
+\item \code{nullSequence}
+\item \code{caseSensitiveHeader}
+\item \code{csvddfVersion}
 }
 }
 
 \subsection{Schema}{
 
-\code{schema} is required and must follow the
-\href{http://specs.frictionlessdata.io/table-schema/}{Table Schema} specification.
+\code{schema} is required and must follow the \href{http://specs.frictionlessdata.io/table-schema/}{Table Schema} specification.
 \itemize{
 \item Field \code{name}s are used as column headers.
 \item Field \code{type}s are used as column types when provided. Types are guessed
