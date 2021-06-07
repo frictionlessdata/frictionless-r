@@ -97,9 +97,12 @@
 #' read_resource(package, "observations")
 read_resource <- function(package, resource_name) {
   # Select resource
+  resource_names_collapse <- paste(package$resource_names, collapse = ", ")
   assert_that(
     resource_name %in% map_chr(package$resources, "name"),
-    msg = glue("Could not find resource '{resource_name}'.")
+    msg = glue(
+      "Can't find resource `{resource_name}` in `{resource_names_collapse}`."
+    )
   )
   resource <- keep(package$resources, function(x) {
     (x[["name"]] == resource_name)
@@ -109,8 +112,8 @@ read_resource <- function(package, resource_name) {
   assert_that(
     resource$profile == "tabular-data-resource",
     msg = glue(
-      "Resource '{resource_name}' does not have the required property ",
-      "'profile' = 'tabular-data-resource'."
+      "Resource `{resource_name}` must have property `profile` with value ",
+      "`tabular-data-resource`."
     )
   )
 
@@ -119,7 +122,7 @@ read_resource <- function(package, resource_name) {
   assert_that(
     !is.null(resource$path),
     msg = glue(
-      "Resource '{resource_name}' does not have the required property 'path'."
+      "Resource `{resource_name}` must have property `path`."
     )
   )
   paths <-
@@ -136,12 +139,12 @@ read_resource <- function(package, resource_name) {
     if (startsWith(path, "http")) {
       assert_that(
         !http_error(path),
-        msg = glue("Could not find file at '{path}'.")
+        msg = glue("Can't find file at `{path}`.")
       )
     } else {
       assert_that(
         file.exists(path),
-        msg = glue("Could not find file at '{path}'.")
+        msg = glue("Can't find file at `{path}`.")
       )
     }
   }
@@ -157,8 +160,8 @@ read_resource <- function(package, resource_name) {
   assert_that(
     !is.null(resource$schema$fields),
     msg = glue(
-      "Resource '{resource_name}' does not have the required property ",
-      "'schema > fields'."
+      "Resource `{resource_name}` must have property `schema` containing ",
+      "`fields`."
     )
   )
   fields <- map_dfr(resource$schema$fields, function(x) {
@@ -176,8 +179,8 @@ read_resource <- function(package, resource_name) {
   })
   assert_that(all(!is.na(fields$name)),
     msg = glue(
-      "Field {which(is.na(fields$name))} of resource '{resource_name}' does ",
-      "not have the required property 'name'."
+      "Field `{which(is.na(fields$name))}` of resource `{resource_name}` must ",
+      "have the property `name`."
     )
   )
   field_names <- fields$name

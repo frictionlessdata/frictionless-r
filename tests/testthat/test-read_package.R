@@ -21,16 +21,16 @@ test_that("read_package() reads path/url and returns a list with $resource_names
 
 test_that("read_package() returns error on missing file and properties", {
   # No file
-  expect_error(read_package("nofile.json"), "Could not find file at")
+  expect_error(read_package("nofile.json"), "Can't find file at")
   expect_error(
     read_package("https://raw.githubusercontent.com/inbo/datapackage/main/nofile.json"),
-    "Could not find file at"
+    "Can't find file at"
   )
   # Not a json file: parsing error
   expect_error(read_package(system.file("extdata", "deployments.csv", package = "datapackage")))
   # No resource name (same would happen on no resources)
   expect_error(
     read_package("no_resource_name.json"),
-    "does not have the required property 'resources', containing at least one resource"
+    "must have property `resources` containing at least one resource with a `name`"
   )
 })

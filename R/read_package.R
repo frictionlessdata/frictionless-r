@@ -28,12 +28,12 @@ read_package <- function(file = "datapackage.json") {
   if (startsWith(file, "http")) {
     assert_that(
       !http_error(file),
-      msg = glue("Could not find file at '{file}'.")
+      msg = glue("Can't find file at `{file}`.")
     )
   } else {
     assert_that(
       file.exists(file),
-      msg = glue("Could not find file at '{file}'.")
+      msg = glue("Can't find file at `{file}`.")
     )
   }
   descriptor <- fromJSON(file, simplifyDataFrame = FALSE)
@@ -43,8 +43,8 @@ read_package <- function(file = "datapackage.json") {
   assert_that(
     !is.null(descriptor$resources[[1]]$name),
     msg = glue(
-      "'{file}' does not have the required property 'resources', containing ",
-      "at least one resource with the required property 'name'."
+      "Descriptor `{file}` must have property `resources` containing at least ",
+      "one resource with a `name`."
     )
   )
 
