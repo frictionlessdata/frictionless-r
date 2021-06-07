@@ -29,8 +29,9 @@ read_package <- function(descriptor_file = "datapackage.json") {
   # https://specs.frictionlessdata.io/data-package/#metadata
   assert_that(
     !is.null(descriptor$resources),
-    msg = glue("'{descriptor_file}' does not have the required property",
-               " 'resources'.")
+    msg = glue(
+      "'{descriptor_file}' does not have the required property 'resources'."
+    )
   )
 
   # Add resource_names

@@ -107,23 +107,28 @@ read_resource <- function(package, resource_name) {
   # Check if resource is `tabular-data-resource`
   assert_that(
     resource$profile == "tabular-data-resource",
-    msg = glue("Resource '{resource_name}' does not have the required property",
-      " 'profile' = 'tabular-data-resource'.")
+    msg = glue(
+      "Resource '{resource_name}' does not have the required property ",
+      "'profile' = 'tabular-data-resource'."
+    )
   )
 
   # Select and verify path(s) to file(s)
   # https://specs.frictionlessdata.io/data-resource/#data-location
   assert_that(
     !is.null(resource$path),
-    msg = glue("Resource '{resource_name}' does not have the required property",
-      " 'path'.")
+    msg = glue(
+      "Resource '{resource_name}' does not have the required property 'path'."
+    )
   )
   paths <-
     resource$path %>%
     # If not URL, append directory to create a full path
-    map_chr(function(path) if_else(
-      startsWith(path, "http"), path, paste(package$directory, path, sep = "/")
-    ))
+    map_chr(function(path) {
+      if_else(
+        startsWith(path, "http"), path, paste(package$directory, path, sep = "/")
+      )
+    })
   for (path in paths) {
     assert_that(
       url.exists(path) | file.exists(path),
@@ -141,8 +146,10 @@ read_resource <- function(package, resource_name) {
   # Select schema fields
   assert_that(
     !is.null(resource$schema$fields),
-    msg = glue("Resource '{resource_name}' does not have the required property",
-      " 'schema > fields'.")
+    msg = glue(
+      "Resource '{resource_name}' does not have the required property ",
+      "'schema > fields'."
+    )
   )
   fields <- map_dfr(resource$schema$fields, function(x) {
     if ("name" %in% names(x)) {
@@ -158,31 +165,33 @@ read_resource <- function(package, resource_name) {
     tibble(name = name_value, type = type_value)
   })
   assert_that(all(!is.na(fields$name)),
-    msg = glue("Field {which(is.na(fields$name))} of resource ",
-      "'{resource_name}' does not have the required property 'name'.")
+    msg = glue(
+      "Field {which(is.na(fields$name))} of resource '{resource_name}' does ",
+      "not have the required property 'name'."
+    )
   )
   field_names <- fields$name
   field_types <- fields$type
 
   # Recode field types
   field_types <- recode(field_types,
-     "string" = "c", # Format (email, url) ignored
-     "number" = "n", # TODO: extra properties
-     "integer" = "i", # TODO: extra properties
-     "boolean" = "l", # TODO: extra properties
-     "object" = "?",
-     "array" = "?",
-     "date" = "D", # TODO: formats
-     "time" = "t", # TODO: formats
-     "datetime" = "T", # TODO: formats
-     "year" = "f",
-     "yearmonth" = "f",
-     "duration" = "?",
-     "geopoint" = "?",
-     "geojson" = "?",
-     "any" = "?",
-     .default = "?", # Unrecognized type
-     .missing = "?" # No type provided
+    "string" = "c", # Format (email, url) ignored
+    "number" = "n", # TODO: extra properties
+    "integer" = "i", # TODO: extra properties
+    "boolean" = "l", # TODO: extra properties
+    "object" = "?",
+    "array" = "?",
+    "date" = "D", # TODO: formats
+    "time" = "t", # TODO: formats
+    "datetime" = "T", # TODO: formats
+    "year" = "f",
+    "yearmonth" = "f",
+    "duration" = "?",
+    "geopoint" = "?",
+    "geojson" = "?",
+    "any" = "?",
+    .default = "?", # Unrecognized type
+    .missing = "?" # No type provided
   )
 
   # TODO: test header matching
