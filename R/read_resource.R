@@ -99,7 +99,7 @@ read_resource <- function(package, resource_name) {
   # Select resource
   resource_names_collapse <- paste(package$resource_names, collapse = ", ")
   assert_that(
-    resource_name %in% map_chr(package$resources, "name"),
+    resource_name %in% package$resource_names,
     msg = glue(
       "Can't find resource `{resource_name}` in `{resource_names_collapse}`."
     )
