@@ -48,3 +48,33 @@ test_that("read_resource() returns error on incorrect resource", {
   invalid$resources[[1]]$path <- c("deployments.csv", "no_file.csv")
   expect_error(read_resource(invalid, "deployments"), "Can't find file at")
 })
+
+test_that("read_resource() understands CSV dialect properties", {
+  example <- read_package(system.file("extdata", "datapackage.json", package = "datapackage"))
+  example_df <- read_resource(example, "deployments")
+
+  # Create package with non-default dialect properties
+  example_dialect <- example
+  example_dialect$directory <- "." # Use "./tests/testthat" for local debugging
+  example_dialect$resources[[1]]$path <- "deployments_dialect.csv"
+  example_dialect$resources[[1]]$dialect <- list(
+    delimiter = ":",
+    # lineTerminator
+    quoteChar = "'",         # Used to wrap dates which contain delimiter ":"
+    doubleQuote = TRUE,      # Will get set to FALSE because of escapeChar
+    escapeChar = "\\",       # Used to escape ":" in comments
+    # nullSequence: not interpreted
+    skipInitialSpace = TRUE, # Used to skip spaces in comment
+    header = FALSE,          # There is no header
+    commentChar = "#"        # Used to skip comments in first rows
+    # caseSensitiveHeader: not interpreted
+    # csvddfVersion: not interpreted
+  )
+  example_dialect_df <- read_resource(example_dialect, "deployments")
+  # One attribute of this df will be different: skip = 0 (since no header)
+  # The default read_resource() sets this to: skip = 1
+  # Since that is not a difference we want to test, we overwrite it
+  attr(example_dialect_df, 'spec')$skip <- 1
+
+  expect_identical(example_df, example_dialect_df)
+})
