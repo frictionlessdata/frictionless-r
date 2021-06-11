@@ -14,8 +14,8 @@ test_that("read_package() reads path/url and returns a list with $resource_names
   expect_equal(example_local$resource_names, resource_names)
   expect_equal(example_remote$resource_names, resource_names)
   expect_equal(minimal$resource_names, resource_names)
-  expect_equal(example_local$directory, gsub("/datapackage.json", "", local_path))
-  expect_equal(example_remote$directory, gsub("/datapackage.json", "", remote_url))
+  expect_equal(example_local$directory, gsub("/datapackage.json", "", example_path))
+  expect_equal(example_remote$directory, gsub("/datapackage.json", "", example_url))
   expect_equal(minimal$directory, ".")
 })
 
