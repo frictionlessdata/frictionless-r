@@ -61,7 +61,7 @@
 #' specification](https://specs.frictionlessdata.io/csv-dialect/#specification)
 #' (i.e. comma separated, `"` to quote, etc.).
 #'
-#' For `escapeChar`, only `"escapeChar": "\"` is supported and it will ignore
+#' For `escapeChar`, only `"escapeChar": "\\"` is supported and it will ignore
 #' `"doubleChar": "true"` as these fields are mutually exclusive.
 #'
 #' The following CSV dialect properties are not interpreted: `lineTerminator`,

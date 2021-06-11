@@ -63,7 +63,7 @@ The returned data frame will always be UTF-8.
 defaults described in the \href{https://specs.frictionlessdata.io/csv-dialect/#specification}{CSV Dialect specification}
 (i.e. comma separated, \verb{"} to quote, etc.).
 
-For \code{escapeChar}, only \code{"escapeChar": "\\"} is supported and it will ignore
+For \code{escapeChar}, only \code{"escapeChar": "\\\\"} is supported and it will ignore
 \code{"doubleChar": "true"} as these fields are mutually exclusive.
 
 The following CSV dialect properties are not interpreted: \code{lineTerminator},
