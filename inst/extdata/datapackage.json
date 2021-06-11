@@ -84,8 +84,8 @@
         ],
         "missingValues": [
           "",
-          "NaN",
-          "nan"
+          "NA",
+          "NaN"
         ],
         "primaryKey": "deployment_id"
       }
@@ -162,8 +162,8 @@
         ],
         "missingValues": [
           "",
-          "NaN",
-          "nan"
+          "NA",
+          "NaN"
         ],
         "primaryKey": "observation_id",
         "foreignKeys": [
