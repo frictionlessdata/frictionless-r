@@ -61,15 +61,13 @@ The returned data frame will always be UTF-8.
 
 \code{dialect} is required if the resource CSV file properties differ from the
 defaults described in the \href{https://specs.frictionlessdata.io/csv-dialect/#specification}{CSV Dialect specification}
-(i.e. comma separated, \verb{"} to quote, etc.). The following CSV dialect
-properties are not interpreted:
-\itemize{
-\item \code{escapeChar}: if different than \verb{\\}.
-\item \code{lineTerminator}
-\item \code{nullSequence}
-\item \code{caseSensitiveHeader}
-\item \code{csvddfVersion}
-}
+(i.e. comma separated, \verb{"} to quote, etc.).
+
+For \code{escapeChar}, only \code{"escapeChar": "\\"} is supported and it will ignore
+\code{"doubleChar": "true"} as these fields are mutually exclusive.
+
+The following CSV dialect properties are not interpreted: \code{lineTerminator},
+\code{nullSequence}, \code{caseSensitiveHeader}, and \code{csvddfVersion}.
 }
 
 \subsection{Schema}{

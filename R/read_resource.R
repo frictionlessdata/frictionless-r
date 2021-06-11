@@ -59,13 +59,13 @@
 #' `dialect` is required if the resource CSV file properties differ from the
 #' defaults described in the [CSV Dialect
 #' specification](https://specs.frictionlessdata.io/csv-dialect/#specification)
-#' (i.e. comma separated, `"` to quote, etc.). The following CSV dialect
-#' properties are not interpreted:
-#' - `escapeChar`: if different than `\`.
-#' - `lineTerminator`
-#' - `nullSequence`
-#' - `caseSensitiveHeader`
-#' - `csvddfVersion`
+#' (i.e. comma separated, `"` to quote, etc.).
+#'
+#' For `escapeChar`, only `"escapeChar": "\"` is supported and it will ignore
+#' `"doubleChar": "true"` as these fields are mutually exclusive.
+#'
+#' The following CSV dialect properties are not interpreted: `lineTerminator`,
+#' `nullSequence`, `caseSensitiveHeader`, and `csvddfVersion`.
 #'
 #' ## Schema
 #'
@@ -167,9 +167,6 @@ read_resource <- function(package, resource_name) {
     }
   }
 
-  # Select CSV dialect, see https://specs.frictionlessdata.io/csv-dialect/
-  dialect <- resource$dialect # Can be NULL
-
   # Select schema fields
   assert_that(
     !is.null(resource$schema$fields),
@@ -223,6 +220,9 @@ read_resource <- function(package, resource_name) {
 
   # TODO: test header matching
 
+  # Select CSV dialect, see https://specs.frictionlessdata.io/csv-dialect/
+  dialect <- resource$dialect # Can be NULL
+
   # Read data
   dataframes <- list()
   for (i in 1:length(paths)) {
@@ -231,9 +231,14 @@ read_resource <- function(package, resource_name) {
       delim = replace_null(dialect$delimiter, ","),
       quote = replace_null(dialect$quoteChar, "\""),
       escape_backslash = ifelse(
-        if_null(dialect$escapeChar, "not set") == "\\", TRUE, FALSE
+        replace_null(dialect$escapeChar, "not set") == "\\", TRUE, FALSE
       ),
-      escape_double = if_null(dialect$doubleQuote, TRUE),
+      escape_double = ifelse(
+        # if escapeChar is set, set doubleQuote to FALSE (mutally exclusive)
+        replace_null(dialect$escapeChar, "not set") == "\\",
+        FALSE,
+        replace_null(dialect$doubleQuote, TRUE)
+      ),
       col_names = field_names,
       col_types = paste(field_types, collapse = ""),
       locale = locale(encoding = replace_null(resource$encoding, "UTF-8")),
