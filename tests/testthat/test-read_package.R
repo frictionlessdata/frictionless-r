@@ -23,7 +23,7 @@ test_that("read_package() returns error on missing file and properties", {
   # No file
   expect_error(read_package("nofile.json"), "Can't find file at")
   expect_error(
-    read_package("https://raw.githubusercontent.com/inbo/datapackage/main/nofile.json"),
+    read_package("http://example.com/nofile.json"),
     "Can't find file at"
   )
   # Not a json file: parsing error
