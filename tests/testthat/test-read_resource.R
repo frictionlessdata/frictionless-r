@@ -93,3 +93,17 @@ test_that("read_resource() understands missing values", {
 
   expect_identical(example_df, example_missing_df)
 })
+
+test_that("read_resource() understands encoding", {
+  example <- read_package(system.file("extdata", "datapackage.json", package = "datapackage"))
+  example_df <- read_resource(example, "deployments")
+
+  # Create package with non-default missing values
+  example_encoding <- example
+  example_encoding$directory <- "." # Use "./tests/testthat" outside test
+  example_encoding$resources[[1]]$path <- "deployments_encoding.csv"
+  example_encoding$resources[[1]]$encoding <- "windows-1252"
+  example_encoding_df <- read_resource(example_encoding, "deployments")
+
+  expect_identical(example_df, example_encoding_df)
+})
