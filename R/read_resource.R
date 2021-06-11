@@ -97,8 +97,8 @@
 #' read_resource(package, "observations")
 read_resource <- function(package, resource_name) {
   # Helper function to assign value when property is NULL
-  replace_null <- function(variable, value) {
-    ifelse(!is.null(variable), variable, value)
+  replace_null <- function(value, replace) {
+    if(!is.null(value)) { value } else { replace }
   }
 
   # Check package
