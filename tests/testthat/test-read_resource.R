@@ -55,7 +55,7 @@ test_that("read_resource() understands CSV dialect properties", {
 
   # Create package with non-default dialect properties
   example_dialect <- example
-  example_dialect$directory <- "." # Use "./tests/testthat" for local debugging
+  example_dialect$directory <- "." # Use "./tests/testthat" outside test
   example_dialect$resources[[1]]$path <- "deployments_dialect.csv"
   example_dialect$resources[[1]]$dialect <- list(
     delimiter = ":",
@@ -77,4 +77,19 @@ test_that("read_resource() understands CSV dialect properties", {
   attr(example_dialect_df, 'spec')$skip <- 1
 
   expect_identical(example_df, example_dialect_df)
+})
+
+test_that("read_resource() understands missing values", {
+  example <- read_package(system.file("extdata", "datapackage.json", package = "datapackage"))
+  example_df <- read_resource(example, "deployments")
+
+  # Create package with non-default missing values
+  example_missing <- example
+  example_missing$directory <- "." # Use "./tests/testthat" outside test
+  example_missing$resources[[1]]$path <- "deployments_missingvalues.csv"
+  example_missing$resources[[1]]$schema$missingValues <-
+    append(example_missing$resources[[1]]$schema$missingValues, "ignore")
+  example_missing_df <- read_resource(example_missing, "deployments")
+
+  expect_identical(example_df, example_missing_df)
 })
