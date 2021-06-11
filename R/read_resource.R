@@ -96,6 +96,21 @@
 #' package$resource_names
 #' read_resource(package, "observations")
 read_resource <- function(package, resource_name) {
+  # Check package
+  assert_that(
+    class(package) == "list",
+    msg = glue(
+      "`package` must be a list object containing descriptor information, ",
+      "see read_package()."
+    )
+  )
+  assert_that(
+    !is.null(package$resource_names),
+    msg = glue(
+      "`package` must have property `resource_names`, load with read_package()."
+    )
+  )
+
   # Select resource
   resource_names_collapse <- paste(package$resource_names, collapse = ", ")
   assert_that(
@@ -121,9 +136,7 @@ read_resource <- function(package, resource_name) {
   # https://specs.frictionlessdata.io/data-resource/#data-location
   assert_that(
     !is.null(resource$path),
-    msg = glue(
-      "Resource `{resource_name}` must have property `path`."
-    )
+    msg = glue("Resource `{resource_name}` must have property `path`.")
   )
   paths <-
     resource$path %>%
