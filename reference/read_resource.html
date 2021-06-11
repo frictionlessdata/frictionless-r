@@ -174,8 +174,8 @@ is required to have the value <code>tabular-data-resource</code>.</p>
 
 
 <p><a href='https://specs.frictionlessdata.io/tabular-data-resource/#csv-file-requirements'><code>encoding</code></a>
-is required if resource files are not encoded as UTF-8. For proper values,
-see
+is required if resource files are not encoded as UTF-8. For proper values
+(e.g. <code>windows-1252</code>), see "Preferred MIME Names" in
 <a href='https://specs.frictionlessdata.io/data-resource/#optional-properties'>encoding</a>.
 The returned data frame will always be UTF-8.</p>
 
@@ -184,15 +184,11 @@ The returned data frame will always be UTF-8.</p>
 
 <p><code>dialect</code> is required if the resource CSV file properties differ from the
 defaults described in the <a href='https://specs.frictionlessdata.io/csv-dialect/#specification'>CSV Dialect specification</a>
-(i.e. comma separated, <code>"</code> to quote, etc.). The following CSV dialect
-properties are not interpreted:</p><ul>
-<li><p><code>escapeChar</code>: if different than <code>\</code>.</p></li>
-<li><p><code>lineTerminator</code></p></li>
-<li><p><code>nullSequence</code></p></li>
-<li><p><code>caseSensitiveHeader</code></p></li>
-<li><p><code>csvddfVersion</code></p></li>
-</ul>
-
+(i.e. comma separated, <code>"</code> to quote, etc.).</p>
+<p>For <code>escapeChar</code>, only <code>"escapeChar": "\\"</code> is supported and it will ignore
+<code>"doubleChar": "true"</code> as these fields are mutually exclusive.</p>
+<p>The following CSV dialect properties are not interpreted: <code>lineTerminator</code>,
+<code>nullSequence</code>, <code>caseSensitiveHeader</code>, and <code>csvddfVersion</code>.</p>
 
 <h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Schema</h3>
 
