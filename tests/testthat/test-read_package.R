@@ -1,21 +1,21 @@
 test_that("read_package() reads path/url and returns a list with $resource_names, $directory", {
   # Load example package (locally and remotely) and a valid minimal one
-  local_path <- system.file("extdata", "datapackage.json", package = "datapackage")
-  remote_url <- "https://raw.githubusercontent.com/inbo/datapackage/main/inst/extdata/datapackage.json"
+  example_path <- system.file("extdata", "datapackage.json", package = "datapackage")
+  example_url <- "https://raw.githubusercontent.com/inbo/datapackage/main/inst/extdata/datapackage.json"
   minimal_path <- "minimal_valid.json"
-  local <- read_package(local_path)
-  remote <- read_package(remote_url)
+  example_local <- read_package(example_path)
+  example_remote <- read_package(example_url)
   minimal <- read_package(minimal_path)
 
-  expect_type(local, "list")
-  expect_type(remote, "list")
+  expect_type(example_local, "list")
+  expect_type(example_remote, "list")
   expect_type(minimal, "list")
   resource_names <- c("deployments", "observations")
-  expect_equal(local$resource_names, resource_names)
-  expect_equal(remote$resource_names, resource_names)
+  expect_equal(example_local$resource_names, resource_names)
+  expect_equal(example_remote$resource_names, resource_names)
   expect_equal(minimal$resource_names, resource_names)
-  expect_equal(local$directory, gsub("/datapackage.json", "", local_path))
-  expect_equal(remote$directory, gsub("/datapackage.json", "", remote_url))
+  expect_equal(example_local$directory, gsub("/datapackage.json", "", local_path))
+  expect_equal(example_remote$directory, gsub("/datapackage.json", "", remote_url))
   expect_equal(minimal$directory, ".")
 })
 
