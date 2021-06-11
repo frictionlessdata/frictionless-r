@@ -49,8 +49,8 @@
 #' ## File encoding
 #'
 #' [`encoding`](https://specs.frictionlessdata.io/tabular-data-resource/#csv-file-requirements)
-#' is required if resource files are not encoded as UTF-8. For proper values,
-#' see
+#' is required if resource files are not encoded as UTF-8. For proper values
+#' (e.g. `windows-1252`), see "Preferred MIME Names" in
 #' [encoding](https://specs.frictionlessdata.io/data-resource/#optional-properties).
 #' The returned data frame will always be UTF-8.
 #'

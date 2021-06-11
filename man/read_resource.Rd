@@ -51,8 +51,8 @@ is required to have the value \code{tabular-data-resource}.
 \subsection{File encoding}{
 
 \href{https://specs.frictionlessdata.io/tabular-data-resource/#csv-file-requirements}{\code{encoding}}
-is required if resource files are not encoded as UTF-8. For proper values,
-see
+is required if resource files are not encoded as UTF-8. For proper values
+(e.g. \code{windows-1252}), see "Preferred MIME Names" in
 \href{https://specs.frictionlessdata.io/data-resource/#optional-properties}{encoding}.
 The returned data frame will always be UTF-8.
 }
