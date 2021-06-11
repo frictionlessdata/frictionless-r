@@ -234,7 +234,7 @@ read_resource <- function(package, resource_name) {
         replace_null(dialect$escapeChar, "not set") == "\\", TRUE, FALSE
       ),
       escape_double = ifelse(
-        # if escapeChar is set, set doubleQuote to FALSE (mutally exclusive)
+        # if escapeChar is set, set doubleQuote to FALSE (mutually exclusive)
         replace_null(dialect$escapeChar, "not set") == "\\",
         FALSE,
         replace_null(dialect$doubleQuote, TRUE)
