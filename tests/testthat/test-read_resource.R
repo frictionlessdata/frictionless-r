@@ -74,7 +74,6 @@ test_that("read_resource() understands CSV dialect properties", {
   # One attribute of this df will be different: skip = 0 (since no header)
   # The default read_resource() sets this to: skip = 1
   # Since that is not a difference we want to test, we overwrite it
-  attr(example_dialect_df, 'spec')$skip <- 1
 
   expect_identical(example_df, example_dialect_df)
 })

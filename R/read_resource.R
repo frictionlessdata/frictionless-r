@@ -239,17 +239,35 @@ read_resource <- function(package, resource_name) {
         FALSE,
         replace_null(dialect$doubleQuote, TRUE)
       ),
-      col_names = field_names,
+      col_names = replace_null(dialect$header, TRUE), # Fields names applied later
       col_types = paste(field_types, collapse = ""),
       locale = locale(encoding = replace_null(resource$encoding, "UTF-8")),
       na = replace_null(resource$schema$missingValues, ""),
       quoted_na = TRUE,
       comment = replace_null(dialect$commentChar, ""),
       trim_ws = replace_null(dialect$skipInitialSpace, FALSE),
-      # Skip header row when present
-      skip = ifelse(replace_null(dialect$header, TRUE), 1, 0),
+      skip = 0,
       skip_empty_rows = TRUE
     )
+
+    # Warn for header <> schema mismatch when header is present (default)
+    if (replace_null(dialect$header, TRUE) &
+        !identical(colnames(data), field_names)) {
+      field_names_collapse <- paste(field_names, collapse = ", ")
+      colnames_collapse <- paste(colnames(data), collapse = ", ")
+      warning(
+        glue(
+          "Mismatch between `schema$fields` and headers in file `{paths[i]}`:\n",
+          "schema (used):\n",
+          "  {field_names_collapse}\n",
+          "headers (ignored):\n",
+          "  {colnames_collapse}"
+        )
+      )
+    }
+
+    # Use schema field names in output
+    colnames(data) <- field_names
     dataframes[[i]] <- data
   }
 
