@@ -96,6 +96,11 @@
 #' package$resource_names
 #' read_resource(package, "observations")
 read_resource <- function(package, resource_name) {
+  # Helper function to assign value when property is NULL
+  if_null <- function(variable, value) {
+    ifelse(!is.null(variable), variable, value)
+  }
+
   # Check package
   assert_that(
     class(package) == "list",
@@ -125,7 +130,7 @@ read_resource <- function(package, resource_name) {
 
   # Check if resource is `tabular-data-resource`
   assert_that(
-    resource$profile == "tabular-data-resource",
+    if_null(resource$profile, "") == "tabular-data-resource",
     msg = glue(
       "Resource `{resource_name}` must have property `profile` with value ",
       "`tabular-data-resource`."
@@ -164,10 +169,6 @@ read_resource <- function(package, resource_name) {
 
   # Select CSV dialect, see https://specs.frictionlessdata.io/csv-dialect/
   dialect <- resource$dialect # Can be NULL
-  # Helper function to assign value when property is NULL
-  if_null <- function(variable, value) {
-    ifelse(!is.null(variable), variable, value)
-  }
 
   # Select schema fields
   assert_that(
