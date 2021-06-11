@@ -193,7 +193,7 @@ read_resource <- function(package, resource_name) {
   })
   assert_that(all(!is.na(fields$name)),
     msg = glue(
-      "Field `{which(is.na(fields$name))}` of resource `{resource_name}` must ",
+      "Field {which(is.na(fields$name))} of resource `{resource_name}` must ",
       "have the property `name`."
     )
   )
