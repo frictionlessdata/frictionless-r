@@ -97,7 +97,7 @@
 #' read_resource(package, "observations")
 read_resource <- function(package, resource_name) {
   # Helper function to assign value when property is NULL
-  if_null <- function(variable, value) {
+  replace_null <- function(variable, value) {
     ifelse(!is.null(variable), variable, value)
   }
 
@@ -130,7 +130,7 @@ read_resource <- function(package, resource_name) {
 
   # Check if resource is `tabular-data-resource`
   assert_that(
-    if_null(resource$profile, "") == "tabular-data-resource",
+    replace_null(resource$profile, "") == "tabular-data-resource",
     msg = glue(
       "Resource `{resource_name}` must have property `profile` with value ",
       "`tabular-data-resource`."
@@ -228,21 +228,21 @@ read_resource <- function(package, resource_name) {
   for (i in 1:length(paths)) {
     data <- read_delim(
       file = paths[i],
-      delim = if_null(dialect$delimiter, ","),
-      quote = if_null(dialect$quoteChar, "\""),
+      delim = replace_null(dialect$delimiter, ","),
+      quote = replace_null(dialect$quoteChar, "\""),
       escape_backslash = ifelse(
         if_null(dialect$escapeChar, "not set") == "\\", TRUE, FALSE
       ),
       escape_double = if_null(dialect$doubleQuote, TRUE),
       col_names = field_names,
       col_types = paste(field_types, collapse = ""),
-      locale = locale(encoding = if_null(resource$encoding, "UTF-8")),
-      na = if_null(resource$schema$missingValues, ""),
+      locale = locale(encoding = replace_null(resource$encoding, "UTF-8")),
+      na = replace_null(resource$schema$missingValues, ""),
       quoted_na = TRUE,
-      comment = if_null(dialect$commentChar, ""),
-      trim_ws = if_null(dialect$skipInitialSpace, FALSE),
+      comment = replace_null(dialect$commentChar, ""),
+      trim_ws = replace_null(dialect$skipInitialSpace, FALSE),
       # Skip header row when present
-      skip = ifelse(if_null(dialect$header, TRUE), 1, 0),
+      skip = ifelse(replace_null(dialect$header, TRUE), 1, 0),
       skip_empty_rows = TRUE
     )
     dataframes[[i]] <- data
