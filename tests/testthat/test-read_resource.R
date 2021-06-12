@@ -63,7 +63,15 @@ test_that("read_resource() returns error on incorrect resource", {
   )
 })
 
-test_that("read_resource() understands CSV dialect properties", {
+test_that("read_resource() returns a tibble", {
+  example <- read_package(system.file("extdata", "datapackage.json", package = "datapackage"))
+  example_df <- read_resource(example, "deployments")
+
+  expect_s3_class(example_df, "data.frame")
+  expect_s3_class(example_df, "tbl")
+})
+
+test_that("read_resource() understands CSV dialect", {
   example <- read_package(system.file("extdata", "datapackage.json", package = "datapackage"))
   example_df <- read_resource(example, "deployments")
 
