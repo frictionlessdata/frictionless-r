@@ -52,7 +52,7 @@ read_package <- function(file = "datapackage.json") {
   descriptor$resource_names <- map_chr(descriptor$resources, "name")
 
   # Add directory
-  descriptor$directory <- dirname(file)
+  descriptor$directory <- dirname(file) # Also works for URLs
 
   descriptor
 }
