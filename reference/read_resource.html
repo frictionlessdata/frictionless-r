@@ -186,17 +186,17 @@ The returned data frame will always be UTF-8.</p>
 <p><code>dialect</code> is required if the resource CSV file properties differ from the
 defaults (see below) described in the <a href='https://specs.frictionlessdata.io/csv-dialect/#specification'>CSV Dialect specification</a>.
 Some properties are ignored.</p><ul>
-<li><p><code>delimiter</code>: default <code>,</code>.</p></li>
+<li><p><code>delimiter</code>: default <code>,</code></p></li>
 <li><p><code>lineTerminator</code>: ignored, line endings <code>LF</code>, <code>CRLF</code> and <code>CR</code> are
 interpreted automatically by <code>read_delim()</code>.</p></li>
-<li><p><code>quoteChar</code>: default <code>"</code>.</p></li>
-<li><p><code>doubleChar</code>: default <code>true</code>.</p></li>
-<li><p><code>escapeChar</code>: only <code>\</code> is supported and it will ignore <code>doubleChar: true</code>
-as these fields are mutually exclusive. You can thus not escape with <code>\</code> and
-<code>""</code>.</p></li>
+<li><p><code>quoteChar</code>: default <code>"</code></p></li>
+<li><p><code>doubleQuote</code>: default <code>true</code></p></li>
+<li><p><code>escapeChar</code>: anything but <code>\</code> is ignored and it will set <code>doubleQuote</code> to
+<code>false</code> as these fields are mutually exclusive. You can thus not escape with
+<code>\"</code> and <code>""</code> in the same file.</p></li>
 <li><p><code>nullSequence</code>: ignored, use <code>missingValues</code>.</p></li>
-<li><p><code>skipInitialSpace</code>: default <code>false</code>.</p></li>
-<li><p><code>header</code>: default <code>true</code>.</p></li>
+<li><p><code>skipInitialSpace</code>: default <code>false</code></p></li>
+<li><p><code>header</code>: default <code>true</code></p></li>
 <li><p><code>commentChar</code>: not set by default.</p></li>
 <li><p><code>caseSensitiveHeader</code>: ignored, headers is not used for column names, see
 Schema.</p></li>
