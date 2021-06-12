@@ -61,14 +61,25 @@ The returned data frame will always be UTF-8.
 \subsection{CSV Dialect}{
 
 \code{dialect} is required if the resource CSV file properties differ from the
-defaults described in the \href{https://specs.frictionlessdata.io/csv-dialect/#specification}{CSV Dialect specification}
-(i.e. comma separated, \verb{"} to quote, etc.).
-
-For \code{escapeChar}, only \code{"escapeChar": "\\\\"} is supported and it will ignore
-\code{"doubleChar": "true"} as these fields are mutually exclusive.
-
-The following CSV dialect properties are not interpreted: \code{lineTerminator},
-\code{nullSequence}, \code{caseSensitiveHeader}, and \code{csvddfVersion}.
+defaults (see below) described in the \href{https://specs.frictionlessdata.io/csv-dialect/#specification}{CSV Dialect specification}.
+Some properties are ignored.
+\itemize{
+\item \code{delimiter}: default \verb{,}.
+\item \code{lineTerminator}: ignored, line endings \code{LF}, \code{CRLF} and \code{CR} are
+interpreted automatically by \code{read_delim()}.
+\item \code{quoteChar}: default \verb{"}.
+\item \code{doubleChar}: default \code{true}.
+\item \code{escapeChar}: only \verb{\\} is supported and it will ignore \code{doubleChar: true}
+as these fields are mutually exclusive. You can thus not escape with \verb{\\} and
+\code{""}.
+\item \code{nullSequence}: ignored, use \code{missingValues}.
+\item \code{skipInitialSpace}: default \code{false}.
+\item \code{header}: default \code{true}.
+\item \code{commentChar}: not set by default.
+\item \code{caseSensitiveHeader}: ignored, headers is not used for column names, see
+Schema.
+\item \code{csvddfVersion}: ignored.
+}
 }
 
 \subsection{Schema}{

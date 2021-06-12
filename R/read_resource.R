@@ -59,15 +59,24 @@
 #' ## CSV Dialect
 #'
 #' `dialect` is required if the resource CSV file properties differ from the
-#' defaults described in the [CSV Dialect
-#' specification](https://specs.frictionlessdata.io/csv-dialect/#specification)
-#' (i.e. comma separated, `"` to quote, etc.).
-#'
-#' For `escapeChar`, only `"escapeChar": "\\"` is supported and it will ignore
-#' `"doubleChar": "true"` as these fields are mutually exclusive.
-#'
-#' The following CSV dialect properties are not interpreted: `lineTerminator`,
-#' `nullSequence`, `caseSensitiveHeader`, and `csvddfVersion`.
+#' defaults (see below) described in the [CSV Dialect
+#' specification](https://specs.frictionlessdata.io/csv-dialect/#specification).
+#' Some properties are ignored.
+#' - `delimiter`: default `,`.
+#' - `lineTerminator`: ignored, line endings `LF`, `CRLF` and `CR` are
+#' interpreted automatically by `read_delim()`.
+#' - `quoteChar`: default `"`.
+#' - `doubleChar`: default `true`.
+#' - `escapeChar`: only `\` is supported and it will ignore `doubleChar: true`
+#' as these fields are mutually exclusive. You can thus not escape with `\` and
+#' `""`.
+#' - `nullSequence`: ignored, use `missingValues`.
+#' - `skipInitialSpace`: default `false`.
+#' - `header`: default `true`.
+#' - `commentChar`: not set by default.
+#' - `caseSensitiveHeader`: ignored, headers is not used for column names, see
+#' Schema.
+#' - `csvddfVersion`: ignored.
 #'
 #' ## Schema
 #'
