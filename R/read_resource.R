@@ -62,19 +62,19 @@
 #' defaults (see below) described in the [CSV Dialect
 #' specification](https://specs.frictionlessdata.io/csv-dialect/#specification).
 #' Some properties are ignored.
-#' - `delimiter`: default `,`.
+#' - `delimiter`: default `,`
 #' - `lineTerminator`: ignored, line endings `LF`, `CRLF` and `CR` are
 #' interpreted automatically by `read_delim()`.
-#' - `quoteChar`: default `"`.
-#' - `doubleChar`: default `true`.
-#' - `escapeChar`: only `\` is supported and it will ignore `doubleChar: true`
-#' as these fields are mutually exclusive. You can thus not escape with `\` and
-#' `""`.
+#' - `quoteChar`: default `"`
+#' - `doubleQuote`: default `true`
+#' - `escapeChar`: anything but `\` is ignored and it will set `doubleQuote` to
+#' `false` as these fields are mutually exclusive. You can thus not escape with
+#' `\"` and `""` in the same file.
 #' - `nullSequence`: ignored, use `missingValues`.
-#' - `skipInitialSpace`: default `false`.
-#' - `header`: default `true`.
+#' - `skipInitialSpace`: default `false`
+#' - `header`: default `true`
 #' - `commentChar`: not set by default.
-#' - `caseSensitiveHeader`: ignored, headers is not used for column names, see
+#' - `caseSensitiveHeader`: ignored, header is not used for column names, see
 #' Schema.
 #' - `csvddfVersion`: ignored.
 #'

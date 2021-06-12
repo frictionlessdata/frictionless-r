@@ -64,17 +64,17 @@ The returned data frame will always be UTF-8.
 defaults (see below) described in the \href{https://specs.frictionlessdata.io/csv-dialect/#specification}{CSV Dialect specification}.
 Some properties are ignored.
 \itemize{
-\item \code{delimiter}: default \verb{,}.
+\item \code{delimiter}: default \verb{,}
 \item \code{lineTerminator}: ignored, line endings \code{LF}, \code{CRLF} and \code{CR} are
 interpreted automatically by \code{read_delim()}.
-\item \code{quoteChar}: default \verb{"}.
-\item \code{doubleChar}: default \code{true}.
-\item \code{escapeChar}: only \verb{\\} is supported and it will ignore \code{doubleChar: true}
-as these fields are mutually exclusive. You can thus not escape with \verb{\\} and
-\code{""}.
+\item \code{quoteChar}: default \verb{"}
+\item \code{doubleQuote}: default \code{true}
+\item \code{escapeChar}: anything but \verb{\\} is ignored and it will set \code{doubleQuote} to
+\code{false} as these fields are mutually exclusive. You can thus not escape with
+\verb{\\"} and \code{""} in the same file.
 \item \code{nullSequence}: ignored, use \code{missingValues}.
-\item \code{skipInitialSpace}: default \code{false}.
-\item \code{header}: default \code{true}.
+\item \code{skipInitialSpace}: default \code{false}
+\item \code{header}: default \code{true}
 \item \code{commentChar}: not set by default.
 \item \code{caseSensitiveHeader}: ignored, headers is not used for column names, see
 Schema.
