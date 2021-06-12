@@ -121,3 +121,35 @@ test_that("read_resource() understands encoding", {
 
   expect_identical(example_df, example_encoding_df)
 })
+
+test_that("read_resource() handles LF, CR and CRLF line endings", {
+  # There are 3 line endings:
+  # LF    \n    Unix/Mac OS X
+  # CR    \r    Max OS before X
+  # CRLF  \r\n  Windows
+  # According to spec, only LF and CRLF are allowed by default, otherwise the
+  # dialect$lineTerminator should be used (with default CRLF)
+  # https://specs.frictionlessdata.io/tabular-data-resource/#csv-file-requirements
+  #
+  # Line endings can be checked in terminal with:
+  #$ file deployments_cr.csv
+  #deployments_cr.csv: UTF-8 Unicode text, with CR line terminators
+  #
+  # read_delim() however handles all 3 line endings with explicitly indicating,
+  # so dialect$lineTerminator is ignored
+  example <- read_package(system.file("extdata", "datapackage.json", package = "datapackage"))
+  example_df <- read_resource(example, "deployments") # This file has LF
+
+  example_cr <- example
+  example_cr$directory <- "." # Use "./tests/testthat" outside test
+  example_cr$resources[[1]]$path <- "deployments_cr.csv" # This file has CR
+  example_cr_df <- read_resource(example_cr, "deployments")
+
+  example_crlf <- example
+  example_crlf$directory <- "." # Use "./tests/testthat" outside test
+  example_crlf$resources[[1]]$path <- "deployments_cr.csv" # This file has CRLF
+  example_crlf_df <- read_resource(example_crlf, "deployments")
+
+  expect_identical(example_df, example_cr_df)
+  expect_identical(example_df, example_crlf_df)
+})
