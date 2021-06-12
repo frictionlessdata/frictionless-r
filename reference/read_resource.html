@@ -149,9 +149,10 @@ are taken from the provided <code>schema</code>, not from the header in the CSV 
 
 
 <p><a href='https://specs.frictionlessdata.io/data-resource/#data-location'><code>path</code></a> is
-required. It can be a local path or URL, which must resolve. When multiple
-paths are provided (<code>"path": [ "myfile1.csv", "myfile2.csv"]</code>) then data are
-merged into a single data frame, in the order in which the paths are listed.</p>
+required. It can be a local path or URL, which must resolve. Absolute path
+(<code><a href='https://rdrr.io/r/base/Arithmetic.html'>/</a></code>) and relative parent path (<code>../</code>) are forbidden to avoid security
+vulnerabilities. When multiple paths are provided (<code>"path": [ "myfile1.csv", "myfile2.csv"]</code>) then data are merged into a single data frame, in the order
+in which the paths are listed.</p>
 
 <h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Data</h3>
 
