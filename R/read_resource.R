@@ -243,8 +243,6 @@ read_resource <- function(package, resource_name) {
     .missing = "?" # No type provided
   )
 
-  # TODO: test header matching
-
   # Select CSV dialect, see https://specs.frictionlessdata.io/csv-dialect/
   dialect <- resource$dialect # Can be NULL
 
