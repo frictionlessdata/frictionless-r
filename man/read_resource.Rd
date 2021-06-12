@@ -76,7 +76,7 @@ interpreted automatically by \code{read_delim()}.
 \item \code{skipInitialSpace}: default \code{false}
 \item \code{header}: default \code{true}
 \item \code{commentChar}: not set by default.
-\item \code{caseSensitiveHeader}: ignored, headers is not used for column names, see
+\item \code{caseSensitiveHeader}: ignored, header is not used for column names, see
 Schema.
 \item \code{csvddfVersion}: ignored.
 }
