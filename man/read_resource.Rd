@@ -26,9 +26,10 @@ The \code{resource} properties are handled as follows:
 \subsection{Path}{
 
 \href{https://specs.frictionlessdata.io/data-resource/#data-location}{\code{path}} is
-required. It can be a local path or URL, which must resolve. When multiple
-paths are provided (\verb{"path": [ "myfile1.csv", "myfile2.csv"]}) then data are
-merged into a single data frame, in the order in which the paths are listed.
+required. It can be a local path or URL, which must resolve. Absolute path
+(\code{/}) and relative parent path (\verb{../}) are forbidden to avoid security
+vulnerabilities. When multiple paths are provided (\verb{"path": [ "myfile1.csv", "myfile2.csv"]}) then data are merged into a single data frame, in the order
+in which the paths are listed.
 }
 
 \subsection{Data}{

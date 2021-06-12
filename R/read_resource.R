@@ -28,9 +28,11 @@
 #' ## Path
 #'
 #' [`path`](https://specs.frictionlessdata.io/data-resource/#data-location) is
-#' required. It can be a local path or URL, which must resolve. When multiple
-#' paths are provided (`"path": [ "myfile1.csv", "myfile2.csv"]`) then data are
-#' merged into a single data frame, in the order in which the paths are listed.
+#' required. It can be a local path or URL, which must resolve. Absolute path
+#' (`/`) and relative parent path (`../`) are forbidden to avoid security
+#' vulnerabilities. When multiple paths are provided (`"path": [ "myfile1.csv",
+#' "myfile2.csv"]`) then data are merged into a single data frame, in the order
+#' in which the paths are listed.
 #'
 #' ## Data
 #'
@@ -150,6 +152,20 @@ read_resource <- function(package, resource_name) {
       if (startsWith(path, "http")) {
         path
       } else {
+        assert_that(
+          !startsWith(path, "/"),
+          msg = glue(
+            "{path} is an absolute path (`/`) which is forbidden to avoid ",
+            "security vulnerabilities."
+          )
+        )
+        assert_that(
+          !startsWith(path, "../"),
+          msg = glue(
+            "{path} is a relative parent path (`../`) which is forbidden to ",
+            "avoid security vulnerabilities."
+          )
+        )
         paste(package$directory, path, sep = "/")
       }
     })
