@@ -67,7 +67,7 @@
 #' deviating properties need to be specified, e.g. a tab delimited file without
 #' a header row needs:
 #' ```json
-#' "dialect": {"delimiter: "\t", "header": "false"}
+#' "dialect": {"delimiter": "\t", "header": "false"}
 #' ```
 #'
 #' These are the CSV dialect properties. Some are ignored by the function:
