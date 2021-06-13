@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Read data from a Data Package resource — read_resource • datapackage</title>
+<title>Read data from a Tabular Data Resource into a tibble — read_resource • datapackage</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Read data from a Data Package resource — read_resource" />
+<meta property="og:title" content="Read data from a Tabular Data Resource into a tibble — read_resource" />
 <meta property="og:description" content="Reads data from a Data Package resource into a tibble (a Tidyverse data
 frame). The resource has to meet the requirements of a Tabular Data Resource. The
 function is a wrapper around readr::read_delim(), passing the resource
@@ -112,13 +112,13 @@ are taken from the provided schema, not from the header in the CSV file(s)." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Read data from a Data Package resource</h1>
+    <h1>Read data from a Tabular Data Resource into a tibble</h1>
     <small class="dont-index">Source: <a href='https://github.com/inbo/datapackage/blob/master/R/read_resource.R'><code>R/read_resource.R</code></a></small>
     <div class="hidden name"><code>read_resource.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Reads data from a Data Package resource into a <strong>tibble</strong> (a Tidyverse data
+    <p>Reads data from a Data Package <strong>resource</strong> into a tibble (a Tidyverse data
 frame). The resource has to meet the requirements of a <a href='https://specs.frictionlessdata.io/tabular-data-resource/'>Tabular Data Resource</a>. The
 function is a wrapper around <code><a href='https://readr.tidyverse.org/reference/read_delim.html'>readr::read_delim()</a></code>, passing the resource
 properties <code>path</code>, CSV dialect, column names, data types, etc. Column names
@@ -142,7 +142,7 @@ are taken from the provided <code>schema</code>, not from the header in the CSV 
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Tibble with the resource data.</p>
+    <p>A <code>tibble()</code> with the resource data.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The <a href='https://specs.frictionlessdata.io/data-resource/'><code>resource</code></a> properties
@@ -250,10 +250,14 @@ the <code>compression</code> property is
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, <span class='st'>"datapackage.json"</span>, package <span class='op'>=</span> <span class='st'>"datapackage"</span><span class='op'>)</span>
-<span class='va'>package</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_package.html'>read_package</a></span><span class='op'>(</span><span class='va'>path</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='co'># Read datapackage.json file</span>
+<span class='va'>package</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_package.html'>read_package</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, <span class='st'>"datapackage.json"</span>, package <span class='op'>=</span> <span class='st'>"datapackage"</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='co'># List resource names</span>
 <span class='va'>package</span><span class='op'>$</span><span class='va'>resource_names</span>
-</div><div class='output co'>#&gt; [1] "deployments"  "observations"</div><div class='input'><span class='fu'>read_resource</span><span class='op'>(</span><span class='va'>package</span>, <span class='st'>"observations"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "deployments"  "observations"</div><div class='input'>
+<span class='co'># Read data from resource "observations"</span>
+<span class='fu'>read_resource</span><span class='op'>(</span><span class='va'>package</span>, <span class='st'>"observations"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 8 x 7</span>
 #&gt;   observation_id   deployment_id timestamp           scientific_name count age  
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>            <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>         <span style='color: #949494; font-style: italic;'>&lt;dttm&gt;</span>              <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>           <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>
@@ -265,7 +269,13 @@ the <code>compression</code> property is
 #&gt; <span style='color: #BCBCBC;'>6</span> cdbb4a57-2204-4… 2             2021-01-01 <span style='color: #949494;'>01:25:06</span> Sus scrofa          1 unde…
 #&gt; <span style='color: #BCBCBC;'>7</span> 3806c18c-29c5-4… 2             2021-01-01 <span style='color: #949494;'>01:25:06</span> Sus scrofa          1 unde…
 #&gt; <span style='color: #BCBCBC;'>8</span> aa01aa7c-10dc-4… 2             2021-01-01 <span style='color: #949494;'>04:47:30</span> Sus scrofa          1 unde…
-#&gt; <span style='color: #949494;'># … with 1 more variable: comments &lt;chr&gt;</span></div></pre>
+#&gt; <span style='color: #949494;'># … with 1 more variable: comments &lt;chr&gt;</span></div><div class='input'>
+<span class='co'># The above tibble is merged from 2 files listed in `path`</span>
+<span class='va'>package</span><span class='op'>$</span><span class='va'>resources</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span><span class='op'>$</span><span class='va'>path</span>
+</div><div class='output co'>#&gt; [1] "observations_1.csv" "observations_2.csv"</div><div class='input'><span class='co'># With col_names and col_types derived from the resource schema</span>
+<span class='fu'>map_chr</span><span class='op'>(</span><span class='va'>package</span><span class='op'>$</span><span class='va'>resources</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span><span class='op'>$</span><span class='va'>schema</span><span class='op'>$</span><span class='va'>fields</span>, <span class='st'>"name"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in map_chr(package$resources[[2]]$schema$fields, "name"): could not find function "map_chr"</span></div><div class='input'><span class='fu'>map_chr</span><span class='op'>(</span><span class='va'>package</span><span class='op'>$</span><span class='va'>resources</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span><span class='op'>$</span><span class='va'>schema</span><span class='op'>$</span><span class='va'>fields</span>, <span class='st'>"type"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in map_chr(package$resources[[2]]$schema$fields, "type"): could not find function "map_chr"</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
