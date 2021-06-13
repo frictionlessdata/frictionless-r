@@ -46,6 +46,6 @@ package <- read_package(system.file("extdata", "datapackage.json", package = "da
 # List resource names
 package$resource_names
 
-# Read data from resource
+# Read data from resource "observations"
 read_resource(package, "observations")
 ```

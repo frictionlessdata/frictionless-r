@@ -41,7 +41,7 @@ package <- read_package(system.file("extdata", "datapackage.json", package = "da
 package$resource_names
 #> [1] "deployments"  "observations"
 
-# Read data from resource
+# Read data from resource "observations"
 read_resource(package, "observations")
 #> # A tibble: 8 x 7
 #>   observation_id   deployment_id timestamp           scientific_name count age  

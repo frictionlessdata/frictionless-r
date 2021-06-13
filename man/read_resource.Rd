@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_resource.R
 \name{read_resource}
 \alias{read_resource}
-\title{Read data from a Data Package resource}
+\title{Read data from a Tabular Data Resource into a tibble}
 \usage{
 read_resource(package, resource_name)
 }
@@ -12,10 +12,10 @@ read_resource(package, resource_name)
 \item{resource_name}{Name of the resource to load data from.}
 }
 \value{
-Tibble with the resource data.
+A \code{\link[=tibble]{tibble()}} with the resource data.
 }
 \description{
-Reads data from a Data Package resource into a \strong{tibble} (a Tidyverse data
+Reads data from a Data Package \strong{resource} into a tibble (a Tidyverse data
 frame). The resource has to meet the requirements of a \href{https://specs.frictionlessdata.io/tabular-data-resource/}{Tabular Data Resource}. The
 function is a wrapper around \code{\link[readr:read_delim]{readr::read_delim()}}, passing the resource
 properties \code{path}, CSV dialect, column names, data types, etc. Column names
@@ -128,8 +128,18 @@ the \code{compression} property is
 }
 }
 \examples{
-path <- system.file("extdata", "datapackage.json", package = "datapackage")
-package <- read_package(path)
+# Read datapackage.json file
+package <- read_package(system.file("extdata", "datapackage.json", package = "datapackage"))
+
+# List resource names
 package$resource_names
+
+# Read data from resource "observations"
 read_resource(package, "observations")
+
+# The above tibble is merged from 2 files listed in `path`
+package$resources[[2]]$path
+# With col_names and col_types derived from the resource schema
+map_chr(package$resources[[2]]$schema$fields, "name")
+map_chr(package$resources[[2]]$schema$fields, "type")
 }

@@ -1,4 +1,4 @@
-#' Read a datapackage.json file
+#' Read a Data Package descriptor (`datapackage.json`) file
 #'
 #' Reads information from a `datapackage.json` file, i.e. the
 #' [descriptor](https://specs.frictionlessdata.io/data-package/#descriptor) that
@@ -20,8 +20,11 @@
 #' @importFrom jsonlite fromJSON
 #'
 #' @examples
-#' path <- system.file("extdata", "datapackage.json", package = "datapackage")
-#' package <- read_package(path)
+#' # Read datapackage.json file
+#' package <- read_package(system.file("extdata", "datapackage.json", package = "datapackage"))
+#'
+#' # Access package properties
+#' package$name
 #' package$resource_names
 read_package <- function(file = "datapackage.json") {
   # Read file

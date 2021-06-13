@@ -1,6 +1,6 @@
-#' Read data from a Data Package resource
+#' Read data from a Tabular Data Resource into a tibble
 #'
-#' Reads data from a Data Package resource into a **tibble** (a Tidyverse data
+#' Reads data from a Data Package **resource** into a tibble (a Tidyverse data
 #' frame). The resource has to meet the requirements of a [Tabular Data
 #' Resource](https://specs.frictionlessdata.io/tabular-data-resource/). The
 #' function is a wrapper around [readr::read_delim()], passing the resource
@@ -10,7 +10,7 @@
 #' @param package Package object, see `read_package()`.
 #' @param resource_name Name of the resource to load data from.
 #'
-#' @return Tibble with the resource data.
+#' @return A [tibble()] with the resource data.
 #'
 #' @export
 #'
@@ -120,10 +120,20 @@
 #' - `licenses`
 #'
 #' @examples
-#' path <- system.file("extdata", "datapackage.json", package = "datapackage")
-#' package <- read_package(path)
+#' # Read datapackage.json file
+#' package <- read_package(system.file("extdata", "datapackage.json", package = "datapackage"))
+#'
+#' # List resource names
 #' package$resource_names
+#'
+#' # Read data from resource "observations"
 #' read_resource(package, "observations")
+#'
+#' # The above tibble is merged from 2 files listed in `path`
+#' package$resources[[2]]$path
+#' # With col_names and col_types derived from the resource schema
+#' map_chr(package$resources[[2]]$schema$fields, "name")
+#' map_chr(package$resources[[2]]$schema$fields, "type")
 read_resource <- function(package, resource_name) {
   # Helper function to assign value when property is NULL
   replace_null <- function(value, replace) {

@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_package.R
 \name{read_package}
 \alias{read_package}
-\title{Read a datapackage.json file}
+\title{Read a Data Package descriptor (\code{datapackage.json}) file}
 \usage{
 read_package(file = "datapackage.json")
 }
@@ -24,7 +24,10 @@ Reads information from a \code{datapackage.json} file, i.e. the
 describes the Data Package metadata and its resources.
 }
 \examples{
-path <- system.file("extdata", "datapackage.json", package = "datapackage")
-package <- read_package(path)
+# Read datapackage.json file
+package <- read_package(system.file("extdata", "datapackage.json", package = "datapackage"))
+
+# Access package properties
+package$name
 package$resource_names
 }
