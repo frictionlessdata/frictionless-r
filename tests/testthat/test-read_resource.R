@@ -166,12 +166,28 @@ test_that("read_resource() can read compressed files", {
   example <- read_package(system.file("extdata", "datapackage.json", package = "datapackage"))
   example_df <- read_resource(example, "deployments")
 
-  example_zip <- example
-  example_zip$directory <- "." # Use "./tests/testthat" outside test
   # File created in terminal with:
   # zip deployments.csv.zip deployments.csv
-  example_zip$resources[[1]]$path <- "deployments.csv.zip"
-  example_zip_df <- read_resource(example_zip, "deployments")
+  example_local_zip <- example
+  example_local_zip$directory <- "." # Use "./tests/testthat" outside test
+  example_local_zip$resources[[1]]$path <- "deployments.csv.zip"
+  example_remote_zip <- example
+  example_remote_zip$resources[[1]]$path <-
+    "https://github.com/inbo/datapackage/raw/main/tests/testthat/deployments.csv.zip"
 
-  expect_identical(example_df, example_zip_df)
+  # File created in terminal with:
+  # gzip deployments.csv
+  example_local_gz <- example
+  example_local_gz$directory <- "." # Use "./tests/testthat" outside test
+  example_local_gz$resources[[1]]$path <- "deployments.csv.gz"
+  example_remote_gz <- example
+  example_remote_gz$resources[[1]]$path <-
+    "https://github.com/inbo/datapackage/raw/main/tests/testthat/deployments.csv.gz"
+
+  expect_identical(example_df, read_resource(example_local_zip, "deployments"))
+  # Remote zip not supported, see
+  # https://github.com/tidyverse/readr/issues/1042#issuecomment-545103047
+  expect_error(read_resource(example_remote_zip, "deployments"))
+  expect_identical(example_df, read_resource(example_local_gz, "deployments"))
+  expect_identical(example_df, read_resource(example_remote_gz, "deployments"))
 })

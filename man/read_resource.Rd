@@ -107,10 +107,11 @@ are used to interpret as \code{NA}, with \code{""} as default.
 \subsection{File compression}{
 
 Resource file(s) with \code{path} ending in \code{.gz}, \code{.bz2}, \code{.xz}, or \code{.zip} are
-automatically decompressed using default \code{\link[readr:read_delim]{readr::read_delim()}} functionality.
-Note that these are more compression types than required in the
-\href{https://specs.frictionlessdata.io/patterns/#specification-3}{specification}.
-A compression type defined in \code{compression} will be ignored.
+automatically decompressed using default \code{\link[readr:read_delim]{readr::read_delim()}}
+functionality. Only \code{.gz} files can be read directly from URL \code{path}s.
+Only the extension in \code{path} can be used to indicate compression type,
+the \code{compression} property is
+\href{https://specs.frictionlessdata.io/patterns/#specification-3}{ignored}.
 }
 
 \subsection{Ignored resource properties}{

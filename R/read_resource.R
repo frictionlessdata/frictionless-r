@@ -102,10 +102,11 @@
 #' ## File compression
 #'
 #' Resource file(s) with `path` ending in `.gz`, `.bz2`, `.xz`, or `.zip` are
-#' automatically decompressed using default [readr::read_delim()] functionality.
-#' Note that these are more compression types than required in the
-#' [specification](https://specs.frictionlessdata.io/patterns/#specification-3).
-#' A compression type defined in `compression` will be ignored.
+#' automatically decompressed using default [readr::read_delim()]
+#' functionality. Only `.gz` files can be read directly from URL `path`s.
+#' Only the extension in `path` can be used to indicate compression type,
+#' the `compression` property is
+#' [ignored](https://specs.frictionlessdata.io/patterns/#specification-3).
 #'
 #' ## Ignored resource properties
 #'
