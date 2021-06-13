@@ -139,7 +139,8 @@ read_resource(package, "observations")
 
 # The above tibble is merged from 2 files listed in `path`
 package$resources[[2]]$path
+
 # With col_names and col_types derived from the resource schema
-map_chr(package$resources[[2]]$schema$fields, "name")
-map_chr(package$resources[[2]]$schema$fields, "type")
+purrr::map_chr(package$resources[[2]]$schema$fields, "name")
+purrr::map_chr(package$resources[[2]]$schema$fields, "type")
 }
