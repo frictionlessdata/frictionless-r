@@ -190,7 +190,7 @@ The returned data frame will always be UTF-8.</p>
 <a href='https://specs.frictionlessdata.io/csv-dialect/#specification'>required</a> if
 the resource file(s) deviate from the default CSV settings (see below). Only
 deviating properties need to be specified, e.g. a tab delimited file without
-a header row needs:<div class="json"></p><pre>"dialect": {"delimiter: "\t", "header": "false"}
+a header row needs:<div class="json"></p><pre>"dialect": {"delimiter": "\t", "header": "false"}
 </pre><p></div></p>
 <p>These are the CSV dialect properties. Some are ignored by the function:</p><ul>
 <li><p><code>delimiter</code>: default <code>,</code></p></li>
@@ -270,7 +270,7 @@ the <code>compression</code> property is
 #&gt; <span style='color: #BCBCBC;'>7</span> 3806c18c-29c5-4… 2             2021-01-01 <span style='color: #949494;'>01:25:06</span> Sus scrofa          1 unde…
 #&gt; <span style='color: #BCBCBC;'>8</span> aa01aa7c-10dc-4… 2             2021-01-01 <span style='color: #949494;'>04:47:30</span> Sus scrofa          1 unde…
 #&gt; <span style='color: #949494;'># … with 1 more variable: comments &lt;chr&gt;</span></div><div class='input'>
-<span class='co'># The above tibble is merged from 2 files listed in `path`</span>
+<span class='co'># The above tibble is merged from 2 files listed in the resource path</span>
 <span class='va'>package</span><span class='op'>$</span><span class='va'>resources</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span><span class='op'>$</span><span class='va'>path</span>
 </div><div class='output co'>#&gt; [1] "observations_1.csv" "observations_2.csv"</div><div class='input'>
 <span class='co'># With col_names and col_types derived from the resource schema</span>
