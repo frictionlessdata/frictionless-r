@@ -190,7 +190,7 @@ The returned data frame will always be UTF-8.</p>
 <a href='https://specs.frictionlessdata.io/csv-dialect/#specification'>required</a> if
 the resource file(s) deviate from the default CSV settings (see below). Only
 deviating properties need to be specified, e.g. a tab delimited file without
-a header row needs:<div class="json"></p><pre>"dialect": {"delimiter: "\t", "header": "false"}
+a header row needs:<div class="json"></p><pre>"dialect": {"delimiter": "\t", "header": "false"}
 </pre><p></div></p>
 <p>These are the CSV dialect properties. Some are ignored by the function:</p><ul>
 <li><p><code>delimiter</code>: default <code>,</code></p></li>
@@ -272,10 +272,12 @@ the <code>compression</code> property is
 #&gt; <span style='color: #949494;'># … with 1 more variable: comments &lt;chr&gt;</span></div><div class='input'>
 <span class='co'># The above tibble is merged from 2 files listed in `path`</span>
 <span class='va'>package</span><span class='op'>$</span><span class='va'>resources</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span><span class='op'>$</span><span class='va'>path</span>
-</div><div class='output co'>#&gt; [1] "observations_1.csv" "observations_2.csv"</div><div class='input'><span class='co'># With col_names and col_types derived from the resource schema</span>
-<span class='fu'>map_chr</span><span class='op'>(</span><span class='va'>package</span><span class='op'>$</span><span class='va'>resources</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span><span class='op'>$</span><span class='va'>schema</span><span class='op'>$</span><span class='va'>fields</span>, <span class='st'>"name"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in map_chr(package$resources[[2]]$schema$fields, "name"): could not find function "map_chr"</span></div><div class='input'><span class='fu'>map_chr</span><span class='op'>(</span><span class='va'>package</span><span class='op'>$</span><span class='va'>resources</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span><span class='op'>$</span><span class='va'>schema</span><span class='op'>$</span><span class='va'>fields</span>, <span class='st'>"type"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in map_chr(package$resources[[2]]$schema$fields, "type"): could not find function "map_chr"</span></div></pre>
+</div><div class='output co'>#&gt; [1] "observations_1.csv" "observations_2.csv"</div><div class='input'>
+<span class='co'># With col_names and col_types derived from the resource schema</span>
+<span class='fu'>purrr</span><span class='fu'>::</span><span class='fu'><a href='https://purrr.tidyverse.org/reference/map.html'>map_chr</a></span><span class='op'>(</span><span class='va'>package</span><span class='op'>$</span><span class='va'>resources</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span><span class='op'>$</span><span class='va'>schema</span><span class='op'>$</span><span class='va'>fields</span>, <span class='st'>"name"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "observation_id"  "deployment_id"   "timestamp"       "scientific_name"
+#&gt; [5] "count"           "age"             "comments"       </div><div class='input'><span class='fu'>purrr</span><span class='fu'>::</span><span class='fu'><a href='https://purrr.tidyverse.org/reference/map.html'>map_chr</a></span><span class='op'>(</span><span class='va'>package</span><span class='op'>$</span><span class='va'>resources</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span><span class='op'>$</span><span class='va'>schema</span><span class='op'>$</span><span class='va'>fields</span>, <span class='st'>"type"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "string"   "string"   "datetime" "string"   "integer"  "string"   "string"  </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
