@@ -228,10 +228,11 @@ are used to interpret as <code>NA</code>, with <code>""</code> as default.</p></
 
 
 <p>Resource file(s) with <code>path</code> ending in <code>.gz</code>, <code>.bz2</code>, <code>.xz</code>, or <code>.zip</code> are
-automatically decompressed using default <code><a href='https://readr.tidyverse.org/reference/read_delim.html'>readr::read_delim()</a></code> functionality.
-Note that these are more compression types than required in the
-<a href='https://specs.frictionlessdata.io/patterns/#specification-3'>specification</a>.
-A compression type defined in <code>compression</code> will be ignored.</p>
+automatically decompressed using default <code><a href='https://readr.tidyverse.org/reference/read_delim.html'>readr::read_delim()</a></code>
+functionality. Only <code>.gz</code> files can be read directly from URL <code>path</code>s.
+Only the extension in <code>path</code> can be used to indicate compression type,
+the <code>compression</code> property is
+<a href='https://specs.frictionlessdata.io/patterns/#specification-3'>ignored</a>.</p>
 
 <h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Ignored resource properties</h3>
 
