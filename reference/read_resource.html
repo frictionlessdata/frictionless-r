@@ -145,14 +145,17 @@ are taken from the provided <code>schema</code>, not from the header in the CSV 
     <p>Tibble with the resource data.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The <code>resource</code> properties are handled as follows:</p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Path</h3>
+    <p>The <a href='https://specs.frictionlessdata.io/data-resource/'><code>resource</code></a> properties
+are handled as follows:</p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Path</h3>
 
 
 <p><a href='https://specs.frictionlessdata.io/data-resource/#data-location'><code>path</code></a> is
 required. It can be a local path or URL, which must resolve. Absolute path
 (<code><a href='https://rdrr.io/r/base/Arithmetic.html'>/</a></code>) and relative parent path (<code>../</code>) are forbidden to avoid security
-vulnerabilities. When multiple paths are provided (<code>"path": [ "myfile1.csv", "myfile2.csv"]</code>) then data are merged into a single data frame, in the order
-in which the paths are listed.</p>
+vulnerabilities.</p>
+<p>When multiple paths are provided (<code>"path": [ "myfile1.csv", "myfile2.csv"]</code>)
+then data are merged into a single data frame, in the order in which the
+paths are listed.</p>
 
 <h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Data</h3>
 
@@ -162,33 +165,37 @@ in which the paths are listed.</p>
 <h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Name</h3>
 
 
-<p><a href='https://specs.frictionlessdata.io/data-resource/#name'><code>name</code></a> is required.
+<p><code>name</code> is <a href='https://specs.frictionlessdata.io/data-resource/#name'>required</a>.
 It is used to find the resource with <code>name</code> = <code>resource_name</code>.</p>
 
 <h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Profile</h3>
 
 
-<p><a href='https://specs.frictionlessdata.io/tabular-data-resource/#specification'><code>profile</code></a>
-is required to have the value <code>tabular-data-resource</code>.</p>
+<p><code>profile</code> is
+<a href='https://specs.frictionlessdata.io/tabular-data-resource/#specification'>required</a>
+to have the value <code>tabular-data-resource</code>.</p>
 
 <h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>File encoding</h3>
 
 
-<p><a href='https://specs.frictionlessdata.io/tabular-data-resource/#csv-file-requirements'><code>encoding</code></a>
-is required if resource files are not encoded as UTF-8. For proper values
-(e.g. <code>windows-1252</code>), see "Preferred MIME Names" in
+<p><code>encoding</code> is required if the resource file(s) are not encoded as UTF-8. For
+proper values (e.g. <code>windows-1252</code>), see "Preferred MIME Names" in
 <a href='https://specs.frictionlessdata.io/data-resource/#optional-properties'>encoding</a>.
 The returned data frame will always be UTF-8.</p>
 
 <h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>CSV Dialect</h3>
 
 
-<p><code>dialect</code> is required if the resource CSV file properties differ from the
-defaults (see below) described in the <a href='https://specs.frictionlessdata.io/csv-dialect/#specification'>CSV Dialect specification</a>.
-Some properties are ignored.</p><ul>
+<p><code>dialect</code> properties are
+<a href='https://specs.frictionlessdata.io/csv-dialect/#specification'>required</a> if
+the resource file(s) deviate from the default CSV settings (see below). Only
+deviating properties need to be specified, e.g. a tab delimited file without
+a header row needs:<div class="json"></p><pre>"dialect": {"delimiter: "\t", "header": "false"}
+</pre><p></div></p>
+<p>These are the CSV dialect properties. Some are ignored by the function:</p><ul>
 <li><p><code>delimiter</code>: default <code>,</code></p></li>
 <li><p><code>lineTerminator</code>: ignored, line endings <code>LF</code>, <code>CRLF</code> and <code>CR</code> are
-interpreted automatically by <code>read_delim()</code>.</p></li>
+interpreted automatically by <code><a href='https://readr.tidyverse.org/reference/read_delim.html'>readr::read_delim()</a></code>.</p></li>
 <li><p><code>quoteChar</code>: default <code>"</code></p></li>
 <li><p><code>doubleQuote</code>: default <code>true</code></p></li>
 <li><p><code>escapeChar</code>: anything but <code>\</code> is ignored and it will set <code>doubleQuote</code> to
@@ -216,6 +223,15 @@ when no type is provided or it has no equivalent in R.</p></li>
 are used to interpret as <code>NA</code>, with <code>""</code> as default.</p></li>
 </ul>
 
+
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>File compression</h3>
+
+
+<p>Resource file(s) with <code>path</code> ending in <code>.gz</code>, <code>.bz2</code>, <code>.xz</code>, or <code>.zip</code> are
+automatically decompressed using default <code><a href='https://readr.tidyverse.org/reference/read_delim.html'>readr::read_delim()</a></code> functionality.
+Note that these are more compression types than required in the
+<a href='https://specs.frictionlessdata.io/patterns/#specification-3'>specification</a>.
+A compression type defined in <code>compression</code> will be ignored.</p>
 
 <h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Ignored resource properties</h3>
 

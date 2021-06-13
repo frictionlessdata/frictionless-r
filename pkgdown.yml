@@ -2,7 +2,7 @@ pandoc: 2.7.3
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles: {}
-last_built: 2021-06-12T19:56Z
+last_built: 2021-06-13T12:27Z
 urls:
   reference: https://inbo.github.io/datapackage/reference
   article: https://inbo.github.io/datapackage/articles
