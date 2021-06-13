@@ -61,13 +61,19 @@
 #'
 #' ## CSV Dialect
 #'
-#' `dialect` is required if the resource CSV file properties differ from the
-#' defaults (see below) described in the [CSV Dialect
-#' specification](https://specs.frictionlessdata.io/csv-dialect/#specification).
-#' Some properties are ignored.
+#' `dialect` properties are
+#' [required](https://specs.frictionlessdata.io/csv-dialect/#specification) if
+#' the resource file(s) deviate from the default CSV settings (see below). Only
+#' deviating properties need to be specified, e.g. a tab delimited file without
+#' a header row needs:
+#' ```json
+#' "dialect": {"delimiter: "\t", "header": "false"}
+#' ```
+#'
+#' These are the CSV dialect properties. Some are ignored by the function:
 #' - `delimiter`: default `,`
 #' - `lineTerminator`: ignored, line endings `LF`, `CRLF` and `CR` are
-#' interpreted automatically by `read_delim()`.
+#' interpreted automatically by [readr::read_delim()].
 #' - `quoteChar`: default `"`
 #' - `doubleQuote`: default `true`
 #' - `escapeChar`: anything but `\` is ignored and it will set `doubleQuote` to

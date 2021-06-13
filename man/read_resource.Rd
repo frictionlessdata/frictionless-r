@@ -17,19 +17,23 @@ Tibble with the resource data.
 \description{
 Reads data from a Data Package resource into a \strong{tibble} (a Tidyverse data
 frame). The resource has to meet the requirements of a \href{https://specs.frictionlessdata.io/tabular-data-resource/}{Tabular Data Resource}. The
-function is a wrapper around \code{readr::read_delim()}, passing the resource
+function is a wrapper around \code{\link[readr:read_delim]{readr::read_delim()}}, passing the resource
 properties \code{path}, CSV dialect, column names, data types, etc. Column names
 are taken from the provided \code{schema}, not from the header in the CSV file(s).
 }
 \details{
-The \code{resource} properties are handled as follows:
+The \href{https://specs.frictionlessdata.io/data-resource/}{\code{resource}} properties
+are handled as follows:
 \subsection{Path}{
 
 \href{https://specs.frictionlessdata.io/data-resource/#data-location}{\code{path}} is
 required. It can be a local path or URL, which must resolve. Absolute path
 (\code{/}) and relative parent path (\verb{../}) are forbidden to avoid security
-vulnerabilities. When multiple paths are provided (\verb{"path": [ "myfile1.csv", "myfile2.csv"]}) then data are merged into a single data frame, in the order
-in which the paths are listed.
+vulnerabilities.
+
+When multiple paths are provided (\verb{"path": [ "myfile1.csv", "myfile2.csv"]})
+then data are merged into a single data frame, in the order in which the
+paths are listed.
 }
 
 \subsection{Data}{
@@ -39,34 +43,39 @@ Inline \code{data} is not supported.
 
 \subsection{Name}{
 
-\href{https://specs.frictionlessdata.io/data-resource/#name}{\code{name}} is required.
+\code{name} is \href{https://specs.frictionlessdata.io/data-resource/#name}{required}.
 It is used to find the resource with \code{name} = \code{resource_name}.
 }
 
 \subsection{Profile}{
 
-\href{https://specs.frictionlessdata.io/tabular-data-resource/#specification}{\code{profile}}
-is required to have the value \code{tabular-data-resource}.
+\code{profile} is
+\href{https://specs.frictionlessdata.io/tabular-data-resource/#specification}{required}
+to have the value \code{tabular-data-resource}.
 }
 
 \subsection{File encoding}{
 
-\href{https://specs.frictionlessdata.io/tabular-data-resource/#csv-file-requirements}{\code{encoding}}
-is required if resource files are not encoded as UTF-8. For proper values
-(e.g. \code{windows-1252}), see "Preferred MIME Names" in
+\code{encoding} is required if the resource file(s) are not encoded as UTF-8. For
+proper values (e.g. \code{windows-1252}), see "Preferred MIME Names" in
 \href{https://specs.frictionlessdata.io/data-resource/#optional-properties}{encoding}.
 The returned data frame will always be UTF-8.
 }
 
 \subsection{CSV Dialect}{
 
-\code{dialect} is required if the resource CSV file properties differ from the
-defaults (see below) described in the \href{https://specs.frictionlessdata.io/csv-dialect/#specification}{CSV Dialect specification}.
-Some properties are ignored.
+\code{dialect} properties are
+\href{https://specs.frictionlessdata.io/csv-dialect/#specification}{required} if
+the resource file(s) deviate from the default CSV settings (see below). Only
+deviating properties need to be specified, e.g. a tab delimited file without
+a header row needs:\if{html}{\out{<div class="json">}}\preformatted{"dialect": \{"delimiter: "\\t", "header": "false"\}
+}\if{html}{\out{</div>}}
+
+These are the CSV dialect properties. Some are ignored by the function:
 \itemize{
 \item \code{delimiter}: default \verb{,}
 \item \code{lineTerminator}: ignored, line endings \code{LF}, \code{CRLF} and \code{CR} are
-interpreted automatically by \code{read_delim()}.
+interpreted automatically by \code{\link[readr:read_delim]{readr::read_delim()}}.
 \item \code{quoteChar}: default \verb{"}
 \item \code{doubleQuote}: default \code{true}
 \item \code{escapeChar}: anything but \verb{\\} is ignored and it will set \code{doubleQuote} to
@@ -93,6 +102,15 @@ when no type is provided or it has no equivalent in R.
 \item \href{https://specs.frictionlessdata.io/table-schema/#missing-values}{\code{missingValues}}
 are used to interpret as \code{NA}, with \code{""} as default.
 }
+}
+
+\subsection{File compression}{
+
+Resource file(s) with \code{path} ending in \code{.gz}, \code{.bz2}, \code{.xz}, or \code{.zip} are
+automatically decompressed using default \code{\link[readr:read_delim]{readr::read_delim()}} functionality.
+Note that these are more compression types than required in the
+\href{https://specs.frictionlessdata.io/patterns/#specification-3}{specification}.
+A compression type defined in \code{compression} will be ignored.
 }
 
 \subsection{Ignored resource properties}{
