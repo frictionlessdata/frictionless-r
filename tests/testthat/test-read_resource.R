@@ -161,3 +161,17 @@ test_that("read_resource() handles LF, CR and CRLF line endings", {
   expect_identical(example_df, example_cr_df)
   expect_identical(example_df, example_crlf_df)
 })
+
+test_that("read_resource() can read compressed files", {
+  example <- read_package(system.file("extdata", "datapackage.json", package = "datapackage"))
+  example_df <- read_resource(example, "deployments")
+
+  example_zip <- example
+  example_zip$directory <- "." # Use "./tests/testthat" outside test
+  # File created in terminal with:
+  # zip deployments.csv.zip deployments.csv
+  example_zip$resources[[1]]$path <- "deployments.csv.zip"
+  example_zip_df <- read_resource(example_zip, "deployments")
+
+  expect_identical(example_df, example_zip_df)
+})

@@ -90,6 +90,14 @@
 #' - [`missingValues`](https://specs.frictionlessdata.io/table-schema/#missing-values)
 #'   are used to interpret as `NA`, with `""` as default.
 #'
+#' ## File compression
+#'
+#' Resource file(s) with `path` ending in `.gz`, `.bz2`, `.xz`, or `.zip` are
+#' automatically decompressed using default [readr::read_delim()] functionality.
+#' Note that these are more compression types than required in the
+#' [specification](https://specs.frictionlessdata.io/patterns/#specification-3).
+#' A compression type defined in `compression` will be ignored.
+#'
 #' ## Ignored resource properties
 #'
 #' - `title`
