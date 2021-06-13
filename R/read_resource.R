@@ -3,7 +3,7 @@
 #' Reads data from a Data Package resource into a **tibble** (a Tidyverse data
 #' frame). The resource has to meet the requirements of a [Tabular Data
 #' Resource](https://specs.frictionlessdata.io/tabular-data-resource/). The
-#' function is a wrapper around `readr::read_delim()`, passing the resource
+#' function is a wrapper around [readr::read_delim()], passing the resource
 #' properties `path`, CSV dialect, column names, data types, etc. Column names
 #' are taken from the provided `schema`, not from the header in the CSV file(s).
 #'
@@ -23,16 +23,19 @@
 #' @importFrom readr locale read_delim
 #'
 #' @details
-#' The `resource` properties are handled as follows:
+#' The [`resource`](https://specs.frictionlessdata.io/data-resource/) properties
+#' are handled as follows:
 #'
 #' ## Path
 #'
 #' [`path`](https://specs.frictionlessdata.io/data-resource/#data-location) is
 #' required. It can be a local path or URL, which must resolve. Absolute path
 #' (`/`) and relative parent path (`../`) are forbidden to avoid security
-#' vulnerabilities. When multiple paths are provided (`"path": [ "myfile1.csv",
-#' "myfile2.csv"]`) then data are merged into a single data frame, in the order
-#' in which the paths are listed.
+#' vulnerabilities.
+#'
+#' When multiple paths are provided (`"path": [ "myfile1.csv", "myfile2.csv"]`)
+#' then data are merged into a single data frame, in the order in which the
+#' paths are listed.
 #'
 #' ## Data
 #'
@@ -40,19 +43,19 @@
 #'
 #' ## Name
 #'
-#' [`name`](https://specs.frictionlessdata.io/data-resource/#name) is required.
+#' `name` is [required](https://specs.frictionlessdata.io/data-resource/#name).
 #' It is used to find the resource with `name` = `resource_name`.
 #'
 #' ## Profile
 #'
-#' [`profile`](https://specs.frictionlessdata.io/tabular-data-resource/#specification)
-#' is required to have the value `tabular-data-resource`.
+#' `profile` is
+#' [required](https://specs.frictionlessdata.io/tabular-data-resource/#specification)
+#' to have the value `tabular-data-resource`.
 #'
 #' ## File encoding
 #'
-#' [`encoding`](https://specs.frictionlessdata.io/tabular-data-resource/#csv-file-requirements)
-#' is required if resource files are not encoded as UTF-8. For proper values
-#' (e.g. `windows-1252`), see "Preferred MIME Names" in
+#' `encoding` is required if the resource file(s) are not encoded as UTF-8. For
+#' proper values (e.g. `windows-1252`), see "Preferred MIME Names" in
 #' [encoding](https://specs.frictionlessdata.io/data-resource/#optional-properties).
 #' The returned data frame will always be UTF-8.
 #'
