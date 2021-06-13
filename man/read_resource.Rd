@@ -137,7 +137,7 @@ package$resource_names
 # Read data from resource "observations"
 read_resource(package, "observations")
 
-# The above tibble is merged from 2 files listed in `path`
+# The above tibble is merged from 2 files listed in the resource path
 package$resources[[2]]$path
 
 # With col_names and col_types derived from the resource schema
