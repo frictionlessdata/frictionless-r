@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 [![codecov](https://codecov.io/gh/inbo/datapackage/branch/main/graph/badge.svg?token=bKtiHW21K0)](https://codecov.io/gh/inbo/datapackage)
 <!-- badges: end -->
 
-datapackage is an R package to read and write [Frictionless Data Packages](https://frictionlessdata.io/data-package/) in a [Tidyverse](https://www.tidyverse.org/) way.
+datapackage is an R package to read and write [Frictionless Data Packages](https://specs.frictionlessdata.io/data-package/) in a [Tidyverse](https://www.tidyverse.org/) way.
 
 ## Installation
 

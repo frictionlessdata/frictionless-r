@@ -14,7 +14,7 @@ status](https://www.r-pkg.org/badges/version/datapackage)](https://CRAN.R-projec
 <!-- badges: end -->
 
 datapackage is an R package to read and write [Frictionless Data
-Packages](https://frictionlessdata.io/data-package/) in a
+Packages](https://specs.frictionlessdata.io/data-package/) in a
 [Tidyverse](https://www.tidyverse.org/) way.
 
 ## Installation
