@@ -13,7 +13,7 @@
 #' @importFrom assertthat assert_that
 #' @importFrom dplyr recode %>%
 #' @importFrom glue glue
-#' @importFrom purrr map_chr
+#' @importFrom purrr map_chr transpose
 #'
 #' @examples
 #' # Create data frame
@@ -42,7 +42,6 @@ create_schema <- function(df) {
     map_chr(function(x) paste(class(x), collapse = ",")) %>%
     unname()
   type <- recode(type,
-    # See https://readr.tidyverse.org/reference/cols.html#details
     "logical" = "boolean",
     "integer" = "integer",
     "numeric" = "number",    # Includes double
