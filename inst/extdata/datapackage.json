@@ -14,21 +14,32 @@
     {
       "taxon_id": "QSF3",
       "scientific_name": "Capreolus capreolus",
-      "vernacular_name": "roe deer"
+      "vernacular_names": {
+        "en": "roe deer",
+        "nl": "ree"
+      }
     },
     {
       "taxon_id": "6PPYF",
       "scientific_name": "Lepus europaeus",
-      "vernacular_name": "European hare"
+      "vernacular_name": {
+        "en": "European hare",
+        "nl": "haas"
+      }
     },
     {
       "taxon_id": "53HGR",
       "scientific_name": "Sus scrofa",
-      "vernacular_name": "wild boar"
+      "vernacular_names": {
+        "en": "wild boar",
+        "nl": "everzwijn"
+      }
     }
   ],
-  "_platform_title": "Agouti",
-  "_platform_path": "https://agouti.eu",
+  "platform": {
+    "title": "Agouti",
+    "path": "https://agouti.eu"
+  },
   "resources": [
     {
       "name": "deployments",
