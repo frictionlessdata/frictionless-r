@@ -254,14 +254,14 @@ read_resource <- function(package, resource_name) {
   # Recode field types
   field_types <- recode(field_types,
     "string" = "c", # Format (email, url) ignored
-    "number" = "n", # TODO: extra properties
-    "integer" = "i", # TODO: extra properties
-    "boolean" = "l", # TODO: extra properties
+    "number" = "n",
+    "integer" = "i",
+    "boolean" = "l",
     "object" = "?",
     "array" = "?",
-    "date" = "D", # TODO: formats
-    "time" = "t", # TODO: formats
-    "datetime" = "T", # TODO: formats
+    "date" = "D",
+    "time" = "t",
+    "datetime" = "T",
     "year" = "f",
     "yearmonth" = "f",
     "duration" = "?",
