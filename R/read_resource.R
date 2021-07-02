@@ -255,7 +255,7 @@ read_resource <- function(package, resource_name) {
   field_types <- recode(field_types,
     "string" = "c", # Format (email, url) ignored
     "number" = "n",
-    "integer" = "i",
+    "integer" = "d", # Not integer to avoid .Machine$integer.max overflow issues
     "boolean" = "l",
     "object" = "?",
     "array" = "?",
