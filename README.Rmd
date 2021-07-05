@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 [![codecov](https://codecov.io/gh/inbo/datapackage/branch/main/graph/badge.svg?token=bKtiHW21K0)](https://codecov.io/gh/inbo/datapackage)
 <!-- badges: end -->
 
-datapackage is an R package to read and write [Frictionless Data Packages](https://specs.frictionlessdata.io/data-package/) in a [Tidyverse](https://www.tidyverse.org/) way.
+Datapackage is an R package to read and write [Frictionless Data Packages](https://specs.frictionlessdata.io/data-package/) in a [Tidyverse](https://www.tidyverse.org/) way.
 
 ## Installation
 
@@ -35,7 +35,9 @@ devtools::install_github("inbo/datapackage")
 
 ## Usage
 
-There are two functions: `read_package()` and `read_resource()`. Basic functionality:
+There are two functions: `read_package()` and `read_resource()`.
+
+### Basic functionality
 
 ```{r example_local}
 library(datapackage)
@@ -50,6 +52,8 @@ package$resource_names
 read_resource(package, "observations")
 ```
 
+### Read external data
+
 Datapackage allows you to access all data from an external Frictionless Data Package (e.g. one published on [Zenodo](https://zenodo.org/search?page=1&size=20&q=frictionlessdata&type=dataset)) via the `datapackage.json` URL:
 
 ```{r example_zenodo}
@@ -60,7 +64,7 @@ package <- read_package("https://zenodo.org/record/5070086/files/datapackage.jso
 # List resource names
 package$resource_names
 
-# Read gps data: will return a single Data Frame, even though data are 
+# Read gps data: will return a single data frame, even though data are 
 # split over multiple csv files
 read_resource(package, "gps")
 ```
