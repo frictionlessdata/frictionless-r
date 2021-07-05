@@ -64,7 +64,7 @@ Data Package (e.g. one published on
 via the `datapackage.json` URL:
 
 ``` r
-# Read datapackage.json file: this will give you access to all data resources,
+# Read datapackage.json file: this will give you access to all data resources
 # without reading them, which is convenient and fast
 package <- read_package("https://zenodo.org/record/5070086/files/datapackage.json")
 
