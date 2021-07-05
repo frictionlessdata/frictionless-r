@@ -83,7 +83,7 @@
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
-<p>There are two functions: <code><a href="reference/read_package.html">read_package()</a></code> and <code><a href="reference/read_resource.html">read_resource()</a></code>.</p>
+<p>There are two functions: <code><a href="reference/read_package.html">read_package()</a></code> and <code><a href="reference/read_resource.html">read_resource()</a></code>. Basic functionality:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/inbo/datapackage">datapackage</a></span><span class="op">)</span>
 
@@ -98,7 +98,7 @@
 <span class="fu"><a href="reference/read_resource.html">read_resource</a></span><span class="op">(</span><span class="va">package</span>, <span class="st">"observations"</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 8 x 7</span>
 <span class="co">#&gt;   observation_id   deployment_id timestamp           scientific_name count age  </span>
-<span class="co">#&gt;   &lt;chr&gt;            &lt;chr&gt;         &lt;dttm&gt;              &lt;chr&gt;           &lt;int&gt; &lt;chr&gt;</span>
+<span class="co">#&gt;   &lt;chr&gt;            &lt;chr&gt;         &lt;dttm&gt;              &lt;chr&gt;           &lt;dbl&gt; &lt;chr&gt;</span>
 <span class="co">#&gt; 1 089113c5-e279-4… 1             2020-01-06 15:59:17 Capreolus capr…     1 juve…</span>
 <span class="co">#&gt; 2 060ab157-3a8e-4… 1             2020-01-06 15:59:17 Capreolus capr…     1 adult</span>
 <span class="co">#&gt; 3 aba72fdc-2fd8-4… 1             2020-01-06 16:35:23 Lepus europaeus     1 adult</span>
@@ -108,6 +108,40 @@
 <span class="co">#&gt; 7 3806c18c-29c5-4… 2             2021-01-01 01:25:06 Sus scrofa          1 unde…</span>
 <span class="co">#&gt; 8 aa01aa7c-10dc-4… 2             2021-01-01 04:47:30 Sus scrofa          1 unde…</span>
 <span class="co">#&gt; # … with 1 more variable: comments &lt;chr&gt;</span></code></pre></div>
+<p>Datapackage allows you to access all data from an external Frictionless Data Package (e.g. one published on <a href="https://zenodo.org/search?page=1&amp;size=20&amp;q=frictionlessdata&amp;type=dataset">Zenodo</a>) via the <code>datapackage.json</code> URL:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Read datapackage.json file: this will give you access to all data resources</span>
+<span class="co"># without reading them, which is convenient and fast</span>
+<span class="va">package</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_package.html">read_package</a></span><span class="op">(</span><span class="st">"https://zenodo.org/record/5070086/files/datapackage.json"</span><span class="op">)</span>
+
+<span class="co"># List resource names</span>
+<span class="va">package</span><span class="op">$</span><span class="va">resource_names</span>
+<span class="co">#&gt; [1] "reference-data" "gps"            "acceleration"</span>
+
+<span class="co"># Read gps data: will return a single Data Frame, even though data are </span>
+<span class="co"># split over multiple csv files</span>
+<span class="fu"><a href="reference/read_resource.html">read_resource</a></span><span class="op">(</span><span class="va">package</span>, <span class="st">"gps"</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 73,047 x 21</span>
+<span class="co">#&gt;     `event-id` visible timestamp           `location-long` `location-lat`</span>
+<span class="co">#&gt;          &lt;dbl&gt; &lt;lgl&gt;   &lt;dttm&gt;                        &lt;dbl&gt;          &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 14256075762 TRUE    2018-05-25 16:11:37            4.25           51.3</span>
+<span class="co">#&gt;  2 14256075763 TRUE    2018-05-25 16:16:41            4.25           51.3</span>
+<span class="co">#&gt;  3 14256075764 TRUE    2018-05-25 16:21:29            4.25           51.3</span>
+<span class="co">#&gt;  4 14256075765 TRUE    2018-05-25 16:26:28            4.25           51.3</span>
+<span class="co">#&gt;  5 14256075766 TRUE    2018-05-25 16:31:21            4.25           51.3</span>
+<span class="co">#&gt;  6 14256075767 TRUE    2018-05-25 16:36:09            4.25           51.3</span>
+<span class="co">#&gt;  7 14256075768 TRUE    2018-05-25 16:40:57            4.25           51.3</span>
+<span class="co">#&gt;  8 14256075769 TRUE    2018-05-25 16:45:55            4.25           51.3</span>
+<span class="co">#&gt;  9 14256075770 TRUE    2018-05-25 16:50:49            4.25           51.3</span>
+<span class="co">#&gt; 10 14256075771 TRUE    2018-05-25 16:55:36            4.25           51.3</span>
+<span class="co">#&gt; # … with 73,037 more rows, and 16 more variables:</span>
+<span class="co">#&gt; #   bar:barometric-pressure &lt;dbl&gt;, external-temperature &lt;dbl&gt;, gps:dop &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   gps:satellite-count &lt;dbl&gt;, gps-time-to-fix &lt;dbl&gt;, ground-speed &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   heading &lt;dbl&gt;, height-above-msl &lt;dbl&gt;, location-error-numerical &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   manually-marked-outlier &lt;lgl&gt;, vertical-error-numerical &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   sensor-type &lt;chr&gt;, individual-taxon-canonical-name &lt;chr&gt;,</span>
+<span class="co">#&gt; #   tag-local-identifier &lt;chr&gt;, individual-local-identifier &lt;chr&gt;,</span>
+<span class="co">#&gt; #   study-name &lt;chr&gt;</span></code></pre></div>
 </div>
 </div>
   </div>
