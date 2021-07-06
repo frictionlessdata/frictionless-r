@@ -39,7 +39,7 @@ There are two functions: `read_package()` and `read_resource()`.
 
 ### Basic functionality
 
-```{r example_local}
+```{r example_local, message=FALSE}
 library(datapackage)
 
 # Read datapackage.json file
