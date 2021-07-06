@@ -60,7 +60,7 @@ read_package <- function(file = "datapackage.json") {
   # Inform user
   msg <- glue(
     "Please make sure you have the right to access data from this Data ",
-    "Package for your proposed use. Follow applicable norms or requirements ",
+    "Package for your proposed use.\nFollow applicable norms or requirements ",
     "to credit the dataset and its authors."
   )
   if (!is.null(descriptor$id)) {
