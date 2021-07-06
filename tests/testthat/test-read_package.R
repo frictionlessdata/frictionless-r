@@ -2,7 +2,7 @@ test_that("read_package() reads path/url and returns a list with $resource_names
   # Load example package (locally and remotely) and a valid minimal one
   example_path <- system.file("extdata", "datapackage.json", package = "datapackage")
   example_url <- "https://raw.githubusercontent.com/inbo/datapackage/main/inst/extdata/datapackage.json"
-  minimal_path <- "minimal_valid.json"
+  minimal_path <- "valid_minimal.json"
   example_local <- read_package(example_path)
   example_remote <- read_package(example_url)
   minimal <- read_package(minimal_path)
