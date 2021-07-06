@@ -19,6 +19,18 @@ test_that("read_package() reads path/url and returns a list with $resource_names
   expect_equal(minimal$directory, ".")
 })
 
+test_that("read_package() informs about usage norms", {
+  # Load example package and a minimal valid one with URL in id
+  example_path <- system.file("extdata", "datapackage.json", package = "datapackage")
+  minimal_extra_path <- "valid_minimal_extra.json"
+
+  expect_message(read_package(example_path), "make sure you have the right to")
+  expect_message(
+    read_package(minimal_extra_path),
+    "For more information, see https://example.com"
+  )
+})
+
 test_that("read_package() returns error on missing file and properties", {
   # No file
   expect_error(read_package("nofile.json"), "Can't find file at")

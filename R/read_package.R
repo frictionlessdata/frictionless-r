@@ -57,5 +57,18 @@ read_package <- function(file = "datapackage.json") {
   # Add directory
   descriptor$directory <- dirname(file) # Also works for URLs
 
+  # Inform user
+  msg <- glue(
+    "Please make sure you have the right to access data from this Data ",
+    "Package for your proposed use. Follow applicable norms or requirements ",
+    "to credit the dataset and its authors."
+  )
+  if (!is.null(descriptor$id)) {
+    if (startsWith(descriptor$id, "http")) {
+      msg <- glue("{msg}\nFor more information, see {descriptor$id}")
+    }
+  }
+  message(msg)
+
   descriptor
 }
