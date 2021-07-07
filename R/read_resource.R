@@ -222,37 +222,31 @@ read_resource <- function(package, resource_name) {
   }
 
   # Select schema fields
+  fields <- resource$schema$fields
   assert_that(
-    !is.null(resource$schema$fields),
+    !is.null(fields),
     msg = glue(
       "Resource `{resource_name}` must have property `schema` containing",
       "`fields`.", .sep = " "
     )
   )
-  fields <- map_dfr(resource$schema$fields, function(x) {
-    if ("name" %in% names(x)) {
-      (name_value <- x[["name"]])
-    } else {
-      name_value <- NA_character_
-    }
-    if ("type" %in% names(x)) {
-      (type_value <- x[["type"]])
-    } else {
-      type_value <- NA_character_
-    }
-    tibble(name = name_value, type = type_value)
+
+  # Get col_names and col_types
+  col_names <- map_chr(fields, function(x) {
+    replace_null(x[["name"]], NA_character_)
   })
-  assert_that(all(!is.na(fields$name)),
+  col_types <- map_chr(fields, function(x) {
+    replace_null(x[["type"]], NA_character_)
+  })
+  assert_that(all(!is.na(col_names)),
     msg = glue(
-      "Field {which(is.na(fields$name))} of resource `{resource_name}` must",
+      "Field {which(is.na(col_names))} of resource `{resource_name}` must",
       "have the property `name`.", .sep = " "
     )
   )
-  field_names <- fields$name
-  field_types <- fields$type
 
-  # Recode field types
-  field_types <- recode(field_types,
+  # Recode col_types
+  col_types <- recode(col_types,
     "string" = "c", # Format (email, url) ignored
     "number" = "n",
     "integer" = "d", # Not integer to avoid .Machine$integer.max overflow issues
@@ -291,8 +285,8 @@ read_resource <- function(package, resource_name) {
         FALSE,
         replace_null(dialect$doubleQuote, TRUE)
       ),
-      col_names = field_names,
-      col_types = paste(field_types, collapse = ""),
+      col_names = col_names,
+      col_types = paste(col_types, collapse = ""),
       locale = locale(encoding = replace_null(resource$encoding, "UTF-8")),
       na = replace_null(resource$schema$missingValues, ""),
       quoted_na = TRUE,
