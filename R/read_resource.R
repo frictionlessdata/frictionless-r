@@ -15,12 +15,12 @@
 #' @export
 #'
 #' @importFrom assertthat assert_that
-#' @importFrom dplyr bind_rows recode tibble %>%
+#' @importFrom dplyr bind_rows tibble %>%
 #' @importFrom glue glue
 #' @importFrom httr http_error
 #' @importFrom jsonlite fromJSON
-#' @importFrom purrr keep map_chr map_dfr
 #' @importFrom readr locale read_delim
+#' @importFrom purrr keep map map_chr
 #'
 #' @details
 #' The [`resource`](https://specs.frictionlessdata.io/data-resource/) properties
@@ -231,7 +231,7 @@ read_resource <- function(package, resource_name) {
     )
   )
 
-  # Get col_names and col_types
+  # Create col_names: c("name1", "name2", ...)
   col_names <- map_chr(fields, function(x) {
     replace_null(x[["name"]], NA_character_)
   })
@@ -246,25 +246,32 @@ read_resource <- function(package, resource_name) {
   )
 
   # Recode col_types
-  col_types <- recode(col_types,
-    "string" = "c", # Format (email, url) ignored
-    "number" = "n",
-    "integer" = "n", # Not integer to avoid .Machine$integer.max overflow issues
-    "boolean" = "l",
-    "object" = "?",
-    "array" = "?",
-    "date" = "D",
-    "time" = "t",
-    "datetime" = "T",
-    "year" = "f",
-    "yearmonth" = "f",
-    "duration" = "?",
-    "geopoint" = "?",
-    "geojson" = "?",
-    "any" = "?",
-    .default = "?", # Unrecognized type
-    .missing = "?" # No type provided
-  )
+  col_types <- map_chr(fields, function(x) {
+    type <- replace_null(x$type, NA_character_)
+    col_type <- switch(
+      type,
+      "string" = "c", # Format (email, url) ignored
+      "number" = "n",
+      "integer" = "n", # Not set to integer to avoid
+                                #.Machine$integer.max overflow issues
+      "boolean" = "l",
+      "object" = "?",
+      "array" = "?",
+      "date" = "D",
+      "time" = "t",
+      "datetime" = "T",
+      "year" = "f",
+      "yearmonth" = "f",
+      "duration" = "?",
+      "geopoint" = "?",
+      "geojson" = "?",
+      "any" = "?"
+    )
+    # col_type will be NULL when type is undefined (NA_character) or an
+    # unrecognized value (e.g. "datum"). Set those to "?"
+    col_type <- replace_null(col_type, "?")
+    col_type
+  })
 
   # Select CSV dialect, see https://specs.frictionlessdata.io/csv-dialect/
   dialect <- resource$dialect # Can be NULL
