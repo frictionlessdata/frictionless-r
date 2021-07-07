@@ -3,9 +3,9 @@ test_that("read_package() reads path/url and returns a list with $resource_names
   pkg_path <- system.file("extdata", "datapackage.json", package = "datapackage")
   pkg_url <- "https://raw.githubusercontent.com/inbo/datapackage/main/inst/extdata/datapackage.json"
   minimal_path <- "valid_minimal.json"
-  pkg_local <- read_package(pkg_path)
-  pkg_remote <- read_package(pkg_url)
-  pkg_minimal <- read_package(minimal_path)
+  pkg_local <- suppressMessages(read_package(pkg_path))
+  pkg_remote <- suppressMessages(read_package(pkg_url))
+  pkg_minimal <- suppressMessages(read_package(minimal_path))
 
   expect_type(pkg_local, "list")
   expect_type(pkg_remote, "list")

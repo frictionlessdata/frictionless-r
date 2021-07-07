@@ -8,8 +8,10 @@ test_that("read_resource() returns error on incorrect package", {
 })
 
 test_that("read_resource() returns error on incorrect resource", {
-  pkg_local <- read_package(system.file("extdata", "datapackage.json", package = "datapackage"))
-  expect_error(read_resource(pkg_local, "no_such_resource"), "Can't find resource")
+  pkg <- suppressMessages(read_package(
+    system.file("extdata", "datapackage.json", package = "datapackage"))
+  )
+  expect_error(read_resource(pkg, "no_such_resource"), "Can't find resource")
 
   # Create invalid package and add properties one by one to pass errors
   pkg_invalid <- list(resource_names = c("deployments"),
@@ -64,7 +66,9 @@ test_that("read_resource() returns error on incorrect resource", {
 })
 
 test_that("read_resource() returns a tibble", {
-  pkg <- read_package(system.file("extdata", "datapackage.json", package = "datapackage"))
+  pkg <- suppressMessages(read_package(
+    system.file("extdata", "datapackage.json", package = "datapackage"))
+  )
   resource <- read_resource(pkg, "deployments")
 
   expect_s3_class(resource, "data.frame")
@@ -72,7 +76,9 @@ test_that("read_resource() returns a tibble", {
 })
 
 test_that("read_resource() understands CSV dialect", {
-  pkg <- read_package(system.file("extdata", "datapackage.json", package = "datapackage"))
+  pkg <- suppressMessages(read_package(
+    system.file("extdata", "datapackage.json", package = "datapackage"))
+  )
   resource <- read_resource(pkg, "deployments")
 
   # Create package with non-default dialect properties
@@ -102,7 +108,9 @@ test_that("read_resource() understands CSV dialect", {
 })
 
 test_that("read_resource() understands missing values", {
-  pkg <- read_package(system.file("extdata", "datapackage.json", package = "datapackage"))
+  pkg <- suppressMessages(read_package(
+    system.file("extdata", "datapackage.json", package = "datapackage"))
+  )
   resource <- read_resource(pkg, "deployments")
 
   # Create package with non-default missing values
@@ -117,7 +125,9 @@ test_that("read_resource() understands missing values", {
 })
 
 test_that("read_resource() understands encoding", {
-  pkg <- read_package(system.file("extdata", "datapackage.json", package = "datapackage"))
+  pkg <- suppressMessages(read_package(
+    system.file("extdata", "datapackage.json", package = "datapackage"))
+  )
   resource <- read_resource(pkg, "deployments")
 
   # Create package with non-default missing values
@@ -145,7 +155,9 @@ test_that("read_resource() handles LF, CR and CRLF line endings", {
   #
   # read_delim() however handles all 3 line endings with explicitly indicating,
   # so dialect$lineTerminator is ignored
-  pkg <- read_package(system.file("extdata", "datapackage.json", package = "datapackage"))
+  pkg <- suppressMessages(read_package(
+    system.file("extdata", "datapackage.json", package = "datapackage"))
+  )
   resource <- read_resource(pkg, "deployments") # This file has LF
 
   pkg_cr <- pkg
@@ -163,7 +175,9 @@ test_that("read_resource() handles LF, CR and CRLF line endings", {
 })
 
 test_that("read_resource() can read compressed files", {
-  pkg <- read_package(system.file("extdata", "datapackage.json", package = "datapackage"))
+  pkg <- suppressMessages(read_package(
+    system.file("extdata", "datapackage.json", package = "datapackage"))
+  )
   resource <- read_resource(pkg, "deployments")
 
   # File created in terminal with:
