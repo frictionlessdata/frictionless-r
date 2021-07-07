@@ -249,7 +249,7 @@ read_resource <- function(package, resource_name) {
   col_types <- recode(col_types,
     "string" = "c", # Format (email, url) ignored
     "number" = "n",
-    "integer" = "d", # Not integer to avoid .Machine$integer.max overflow issues
+    "integer" = "n", # Not integer to avoid .Machine$integer.max overflow issues
     "boolean" = "l",
     "object" = "?",
     "array" = "?",
