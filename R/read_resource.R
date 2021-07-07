@@ -145,8 +145,8 @@ read_resource <- function(package, resource_name) {
   assert_that(
     class(package) == "list",
     msg = glue(
-      "`package` must be a list object containing descriptor information, ",
-      "see read_package()."
+      "`package` must be a list object containing descriptor information,",
+      "see read_package().", .sep = " "
     )
   )
   assert_that(
@@ -172,8 +172,8 @@ read_resource <- function(package, resource_name) {
   assert_that(
     replace_null(resource$profile, "") == "tabular-data-resource",
     msg = glue(
-      "Resource `{resource_name}` must have property `profile` with value ",
-      "`tabular-data-resource`."
+      "Resource `{resource_name}` must have property `profile` with value",
+      "`tabular-data-resource`.", .sep = " "
     )
   )
 
@@ -193,15 +193,15 @@ read_resource <- function(package, resource_name) {
         assert_that(
           !startsWith(path, "/"),
           msg = glue(
-            "{path} is an absolute path (`/`) which is forbidden to avoid ",
-            "security vulnerabilities."
+            "{path} is an absolute path (`/`) which is forbidden to avoid",
+            "security vulnerabilities.", .sep = " "
           )
         )
         assert_that(
           !startsWith(path, "../"),
           msg = glue(
-            "{path} is a relative parent path (`../`) which is forbidden to ",
-            "avoid security vulnerabilities."
+            "{path} is a relative parent path (`../`) which is forbidden to",
+            "avoid security vulnerabilities.", .sep = " "
           )
         )
         paste(package$directory, path, sep = "/")
@@ -225,8 +225,8 @@ read_resource <- function(package, resource_name) {
   assert_that(
     !is.null(resource$schema$fields),
     msg = glue(
-      "Resource `{resource_name}` must have property `schema` containing ",
-      "`fields`."
+      "Resource `{resource_name}` must have property `schema` containing",
+      "`fields`.", .sep = " "
     )
   )
   fields <- map_dfr(resource$schema$fields, function(x) {
@@ -244,8 +244,8 @@ read_resource <- function(package, resource_name) {
   })
   assert_that(all(!is.na(fields$name)),
     msg = glue(
-      "Field {which(is.na(fields$name))} of resource `{resource_name}` must ",
-      "have the property `name`."
+      "Field {which(is.na(fields$name))} of resource `{resource_name}` must",
+      "have the property `name`.", .sep = " "
     )
   )
   field_names <- fields$name
