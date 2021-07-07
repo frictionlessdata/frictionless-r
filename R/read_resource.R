@@ -20,8 +20,8 @@
 #' @importFrom httr http_error
 #' @importFrom jsonlite fromJSON
 #' @importFrom purrr keep map map_chr
-#' @importFrom readr col_character col_date col_datetime col_guess col_logical
-#'   col_number col_time locale read_delim
+#' @importFrom readr col_character col_date col_datetime col_factor col_guess
+#'   col_logical col_number col_time locale read_delim
 #'
 #' @details
 #' The [`resource`](https://specs.frictionlessdata.io/data-resource/) properties
