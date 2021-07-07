@@ -250,8 +250,8 @@ read_resource <- function(package, resource_name) {
       type,
       "string" = col_character(), # Format (email, url) ignored
       "number" = col_number(),
-      "integer" = col_number(), # Not set to integer to avoid
-                                #.Machine$integer.max overflow issues
+      "integer" = col_number(), # Not col_integer() to avoid .Machine$integer.max
+                                # overflow issues for big integers
       "boolean" = col_logical(),
       "object" = col_guess(),
       "array" = col_guess(),
@@ -306,5 +306,6 @@ read_resource <- function(package, resource_name) {
     dataframes[[i]] <- data
   }
 
+  # Merge data frames for all paths
   bind_rows(dataframes)
 }
