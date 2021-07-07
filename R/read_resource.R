@@ -19,8 +19,9 @@
 #' @importFrom glue glue
 #' @importFrom httr http_error
 #' @importFrom jsonlite fromJSON
-#' @importFrom readr locale read_delim
 #' @importFrom purrr keep map map_chr
+#' @importFrom readr col_character col_date col_datetime col_guess col_logical
+#'   col_number col_time locale read_delim
 #'
 #' @details
 #' The [`resource`](https://specs.frictionlessdata.io/data-resource/) properties
@@ -235,9 +236,6 @@ read_resource <- function(package, resource_name) {
   col_names <- map_chr(fields, function(x) {
     replace_null(x[["name"]], NA_character_)
   })
-  col_types <- map_chr(fields, function(x) {
-    replace_null(x[["type"]], NA_character_)
-  })
   assert_that(all(!is.na(col_names)),
     msg = glue(
       "Field {which(is.na(col_names))} of resource `{resource_name}` must",
@@ -245,33 +243,35 @@ read_resource <- function(package, resource_name) {
     )
   )
 
-  # Recode col_types
-  col_types <- map_chr(fields, function(x) {
+  # Create col_types: list(<collector_character>, <collector_logical>, ...)
+  col_types <- map(fields, function(x) {
     type <- replace_null(x$type, NA_character_)
     col_type <- switch(
       type,
-      "string" = "c", # Format (email, url) ignored
-      "number" = "n",
-      "integer" = "n", # Not set to integer to avoid
+      "string" = col_character(), # Format (email, url) ignored
+      "number" = col_number(),
+      "integer" = col_number(), # Not set to integer to avoid
                                 #.Machine$integer.max overflow issues
-      "boolean" = "l",
-      "object" = "?",
-      "array" = "?",
-      "date" = "D",
-      "time" = "t",
-      "datetime" = "T",
-      "year" = "f",
-      "yearmonth" = "f",
-      "duration" = "?",
-      "geopoint" = "?",
-      "geojson" = "?",
-      "any" = "?"
+      "boolean" = col_logical(),
+      "object" = col_guess(),
+      "array" = col_guess(),
+      "date" = col_date(),
+      "time" = col_time(),
+      "datetime" = col_datetime(),
+      "year" = col_factor(),
+      "yearmonth" = col_factor(),
+      "duration" = col_guess(),
+      "geopoint" = col_guess(),
+      "geojson" = col_guess(),
+      "any" = col_guess()
     )
     # col_type will be NULL when type is undefined (NA_character) or an
-    # unrecognized value (e.g. "datum"). Set those to "?"
-    col_type <- replace_null(col_type, "?")
+    # unrecognized value (e.g. "datum"). Set those to col_guess()
+    col_type <- replace_null(col_type, col_guess())
     col_type
   })
+  # Assign names: list("name1" = <collector_character>, "name2" = ...)
+  names(col_types) <- col_names
 
   # Select CSV dialect, see https://specs.frictionlessdata.io/csv-dialect/
   dialect <- resource$dialect # Can be NULL
@@ -293,7 +293,7 @@ read_resource <- function(package, resource_name) {
         replace_null(dialect$doubleQuote, TRUE)
       ),
       col_names = col_names,
-      col_types = paste(col_types, collapse = ""),
+      col_types = col_types,
       locale = locale(encoding = replace_null(resource$encoding, "UTF-8")),
       na = replace_null(resource$schema$missingValues, ""),
       quoted_na = TRUE,
