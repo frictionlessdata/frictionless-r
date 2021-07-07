@@ -1,30 +1,30 @@
 test_that("read_package() reads path/url and returns a list with $resource_names, $directory", {
   # Load example package (locally and remotely) and a valid minimal one
-  example_path <- system.file("extdata", "datapackage.json", package = "datapackage")
-  example_url <- "https://raw.githubusercontent.com/inbo/datapackage/main/inst/extdata/datapackage.json"
+  pkg_path <- system.file("extdata", "datapackage.json", package = "datapackage")
+  pkg_url <- "https://raw.githubusercontent.com/inbo/datapackage/main/inst/extdata/datapackage.json"
   minimal_path <- "valid_minimal.json"
-  example_local <- read_package(example_path)
-  example_remote <- read_package(example_url)
-  minimal <- read_package(minimal_path)
+  pkg_local <- read_package(pkg_path)
+  pkg_remote <- read_package(pkg_url)
+  pkg_minimal <- read_package(minimal_path)
 
-  expect_type(example_local, "list")
-  expect_type(example_remote, "list")
-  expect_type(minimal, "list")
+  expect_type(pkg_local, "list")
+  expect_type(pkg_remote, "list")
+  expect_type(pkg_minimal, "list")
   resource_names <- c("deployments", "observations")
-  expect_equal(example_local$resource_names, resource_names)
-  expect_equal(example_remote$resource_names, resource_names)
-  expect_equal(minimal$resource_names, resource_names)
-  expect_equal(example_local$directory, gsub("/datapackage.json", "", example_path))
-  expect_equal(example_remote$directory, gsub("/datapackage.json", "", example_url))
-  expect_equal(minimal$directory, ".")
+  expect_equal(pkg_local$resource_names, resource_names)
+  expect_equal(pkg_remote$resource_names, resource_names)
+  expect_equal(pkg_minimal$resource_names, resource_names)
+  expect_equal(pkg_local$directory, gsub("/datapackage.json", "", pkg_path))
+  expect_equal(pkg_remote$directory, gsub("/datapackage.json", "", pkg_url))
+  expect_equal(pkg_minimal$directory, ".")
 })
 
 test_that("read_package() informs about usage norms", {
   # Load example package and a minimal valid one with URL in id
-  example_path <- system.file("extdata", "datapackage.json", package = "datapackage")
+  pkg_path <- system.file("extdata", "datapackage.json", package = "datapackage")
   minimal_extra_path <- "valid_minimal_extra.json"
 
-  expect_message(read_package(example_path), "make sure you have the right to")
+  expect_message(read_package(pkg_path), "make sure you have the right to")
   expect_message(
     read_package(minimal_extra_path),
     "For more information, see https://example.com"
