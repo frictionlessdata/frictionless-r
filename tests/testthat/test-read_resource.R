@@ -1,9 +1,9 @@
 test_that("read_resource() returns error on incorrect package", {
   expect_error(
-    read_resource("not_a_list", "obs"), "`package` must be a list object"
+    read_resource("not_a_list", "dep"), "`package` must be a list object"
   )
   expect_error(
-    read_resource(list(), "obs"), "`package` must have property `resource_names`"
+    read_resource(list(), "dep"), "`package` must have property `resource_names`"
   )
 })
 
