@@ -246,18 +246,20 @@ read_resource <- function(package, resource_name) {
   # Create col_types: list(<collector_character>, <collector_logical>, ...)
   col_types <- map(fields, function(x) {
     type <- replace_null(x$type, NA_character_)
-    col_type <- switch(
-      type,
       "string" = col_character(), # Format (email, url) ignored
+    format <- replace_null(x$format, "")
+    format <- ifelse(format == "any", "", format) # Set "any" to ""
+
+    col_type <- switch(type,
       "number" = col_number(),
       "integer" = col_number(), # Not col_integer() to avoid .Machine$integer.max
                                 # overflow issues for big integers
       "boolean" = col_logical(),
       "object" = col_guess(),
       "array" = col_guess(),
-      "date" = col_date(),
-      "time" = col_time(),
-      "datetime" = col_datetime(),
+      "date" = col_date(format = format),
+      "time" = col_time(format = format),
+      "datetime" = col_datetime(format = format),
       "year" = col_factor(),
       "yearmonth" = col_factor(),
       "duration" = col_guess(),
