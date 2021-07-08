@@ -246,11 +246,16 @@ read_resource <- function(package, resource_name) {
   # Create col_types: list(<collector_character>, <collector_logical>, ...)
   col_types <- map(fields, function(x) {
     type <- replace_null(x$type, NA_character_)
-      "string" = col_character(), # Format (email, url) ignored
+    enum <- x$constraints$enum
     format <- replace_null(x$format, "")
     format <- ifelse(format == "any", "", format) # Set "any" to ""
 
     col_type <- switch(type,
+      "string" = if(length(enum) > 0) {
+        col_factor(levels = enum) # Use factor when enum has values
+      } else {
+        col_character() # Format (email, url) ignored
+      },
       "number" = col_number(),
       "integer" = col_number(), # Not col_integer() to avoid .Machine$integer.max
                                 # overflow issues for big integers
