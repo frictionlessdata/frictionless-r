@@ -96,11 +96,21 @@ Schema.
 \code{schema} is required and must follow the \href{http://specs.frictionlessdata.io/table-schema/}{Table Schema} specification.
 \itemize{
 \item Field \code{name}s are used as column headers.
-\item Field \code{type}s are used as column types when provided. Types are guessed
-when no type is provided or it has no equivalent in R.
-\item Field \code{format}s (especially for \code{date}, \code{time}, \code{datetime}) are ignored.
 \item \href{https://specs.frictionlessdata.io/table-schema/#missing-values}{\code{missingValues}}
 are used to interpret as \code{NA}, with \code{""} as default.
+}
+}
+
+\subsection{Field types}{
+
+Field \href{https://specs.frictionlessdata.io/table-schema/#types-and-formats}{\code{type}s}
+are used a column types. Types are guessed when no \code{type} is provided or it
+has no equivalent in R.
+\itemize{
+\item \code{string}: \code{character}, or \code{factor} when \code{enum} is present.
+\item \code{number/integer}: \code{double}, or \code{factor} when \code{enum} is present. Use
+\code{bareNumber: false} to ignore whitespace and non-numeric characters. Integers
+are cast to doubles to avoid issues with big integers.
 }
 }
 

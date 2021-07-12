@@ -94,11 +94,19 @@
 #' Schema](http://specs.frictionlessdata.io/table-schema/) specification.
 #'
 #' - Field `name`s are used as column headers.
-#' - Field `type`s are used as column types when provided. Types are guessed
-#'   when no type is provided or it has no equivalent in R.
-#' - Field `format`s (especially for `date`, `time`, `datetime`) are ignored.
 #' - [`missingValues`](https://specs.frictionlessdata.io/table-schema/#missing-values)
 #'   are used to interpret as `NA`, with `""` as default.
+#'
+#' ## Field types
+#'
+#' Field [`type`s](https://specs.frictionlessdata.io/table-schema/#types-and-formats)
+#' are used a column types. Types are guessed when no `type` is provided or it
+#' has no equivalent in R.
+#'
+#' - `string`: `character`, or `factor` when `enum` is present.
+#' - `number/integer`: `double`, or `factor` when `enum` is present. Use
+#' `bareNumber: false` to ignore whitespace and non-numeric characters. Integers
+#' are cast to doubles to avoid issues with big integers.
 #'
 #' ## File compression
 #'
@@ -253,21 +261,24 @@ read_resource <- function(package, resource_name) {
 
     col_type <- switch(type,
       "string" = if(length(enum) > 0) {
-        col_factor(levels = enum) # When enum, use factor
-      } else {
-        col_character() # Note that format (email, uri) is ignored
-      },
-      "number" = if(bare_number) {
-        col_double()
-      } else {
-        col_number()
-      },
-      "integer" = if(bare_number) {
-        col_double() # Not col_integer to avoid .Machine$integer.max overflow
-                     # issues for large integers
-      } else {
-        col_number()
-      },
+          col_factor(levels = enum)
+        } else {
+          col_character() # Note that format (email, uri) is ignored
+        },
+      "number" = if(length(enum) > 0) {
+          col_factor(levels = as.character(enum))
+        } else if (bare_number) {
+          col_double() # Allows NaN, INF, -INF
+        } else {
+          col_number() # Strips non-numeric
+        },
+      "integer" = if(length(enum) > 0) {
+          col_factor(levels = as.character(enum))
+        } else if (bare_number) {
+          col_double() # Not col_integer() to avoid issues with big integers
+        } else {
+          col_number() # Strips non-numeric
+        },
       "boolean" = col_logical(),
       "object" = col_guess(),
       "array" = col_guess(),
