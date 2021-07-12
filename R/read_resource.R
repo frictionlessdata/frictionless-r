@@ -100,18 +100,37 @@
 #' ## Field types
 #'
 #' Field [`type`s](https://specs.frictionlessdata.io/table-schema/#types-and-formats)
-#' are used a column types. Types are guessed when no `type` is provided or it
-#' has no equivalent in R.
+#' are used a column types, as follows:
 #'
-#' - [`string`](https://specs.frictionlessdata.io/table-schema/#string):
-#' `character`, or `factor` when `enum` is present. `format` is ignored.
-#' - [`number](https://specs.frictionlessdata.io/table-schema/#number)/
-#' [integer](https://specs.frictionlessdata.io/table-schema/#integer): `double`,
-#' or `factor` when `enum` is present. Use `bareNumber: false` to ignore
-#' whitespace and non-numeric characters. Integers are cast to doubles to avoid
-#' issues with big integers.
-#' - [`boolean`](https://specs.frictionlessdata.io/table-schema/#boolean):
+#' - [`string`](https://specs.frictionlessdata.io/table-schema/#string) →
+#' `character`; or `factor` when `enum` is present. `format` is ignored.
+#' - [`number`](https://specs.frictionlessdata.io/table-schema/#number) →
+#' `double`; or `factor` when `enum` is present. Use `bareNumber: false` to
+#' ignore whitespace and non-numeric characters.
+#' - [`integer`](https://specs.frictionlessdata.io/table-schema/#integer) →
+#' `double` (not integer, to avoid issues with big numbers); or `factor` when
+#' `enum` is present. Use `bareNumber: false` to ignore whitespace and
+#' non-numeric characters.
+#' - [`boolean`](https://specs.frictionlessdata.io/table-schema/#boolean) →
 #' `logical`. Non-default `trueValues/falseValues` are not supported.
+#' - [`object`](https://specs.frictionlessdata.io/table-schema/#object) →
+#' `character`.
+#' - [`array`](https://specs.frictionlessdata.io/table-schema/#array) →
+#' `character`.
+#' - [`date`]
+#' - [`time`]
+#' - [`datetime`]
+#' - [`year`](https://specs.frictionlessdata.io/table-schema/#year) → `factor`.
+#' - [`yearmonth`](https://specs.frictionlessdata.io/table-schema/#yearmonth) →
+#' `factor`.
+#' - [`duration`]
+#' - [`geopoint`](https://specs.frictionlessdata.io/table-schema/#geopoint) →
+#' `character`.
+#' - [`geojson`](https://specs.frictionlessdata.io/table-schema/#geojson) →
+#' `character`.
+#' - [`any`](https://specs.frictionlessdata.io/table-schema/#any) → `character`.
+#' - no type provided → type is guessed.
+#' - unknown type → type is guessed.
 #'
 #' ## File compression
 #'
@@ -285,17 +304,17 @@ read_resource <- function(package, resource_name) {
           col_number() # Strips non-numeric
         },
       "boolean" = col_logical(),
-      "object" = col_guess(),
-      "array" = col_guess(),
+      "object" = col_character(),
+      "array" = col_character(),
       "date" = col_date(format = format),
       "time" = col_time(format = format),
       "datetime" = col_datetime(format = format),
       "year" = col_factor(),
       "yearmonth" = col_factor(),
       "duration" = col_guess(),
-      "geopoint" = col_guess(),
-      "geojson" = col_guess(),
-      "any" = col_guess()
+      "geopoint" = col_character(),
+      "geojson" = col_character(),
+      "any" = col_character()
     )
     # col_type will be NULL when type is undefined (NA_character) or an
     # unrecognized value (e.g. "datum"). Set those to col_guess()

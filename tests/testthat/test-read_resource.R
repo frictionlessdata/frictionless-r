@@ -284,3 +284,27 @@ test_that("read_resource() handles booleans", {
   expect_true(all(resource$bool_true == TRUE))
   expect_true(all(resource$bool_false == FALSE))
 })
+
+test_that("read_resource() handles other types", {
+  pkg <- suppressMessages(read_package("types.json"))
+  resource <- read_resource(pkg, "other types")
+
+  # Interpret year, yearmonth as factor
+  expect_s3_class(resource$year, "factor")
+  expect_equal(levels(resource$year), c("2001", "2002"))
+  expect_s3_class(resource$yearmonth, "factor")
+  expect_equal(levels(resource$yearmonth), c("2001-03", "2001-04"))
+
+  # Interpret object, array, geopoint, geojson as character
+  expect_type(resource$object, "character")
+  expect_type(resource$array, "character")
+  expect_type(resource$geopoint, "character")
+  expect_type(resource$geojson, "character")
+
+  # Interpret any as character
+  expect_type(resource$any, "character")
+
+  # Guess undefined or unknown types
+  expect_type(resource$no_type, "logical")
+  expect_type(resource$unknown_type, "logical")
+})

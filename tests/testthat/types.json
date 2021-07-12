@@ -145,7 +145,48 @@
       "name": "duration"
     },
     {
-      "name": "other"
+      "name": "other types",
+      "path": "type_other.csv",
+      "profile": "tabular-data-resource",
+      "schema": {
+        "fields": [
+          {
+            "name": "year",
+            "type": "year"
+          },
+          {
+            "name": "yearmonth",
+            "type": "yearmonth"
+          },
+          {
+            "name": "object",
+            "type": "object"
+          },
+          {
+            "name": "array",
+            "type": "array"
+          },
+          {
+            "name": "geopoint",
+            "type": "geopoint"
+          },
+          {
+            "name": "geojson",
+            "type": "geojson"
+          },
+          {
+            "name": "any",
+            "type": "any"
+          },
+          {
+            "name": "no_type"
+          },
+          {
+            "name": "unknown_type",
+            "type": "not-a-type"
+          }
+        ]
+      }
     }
   ]
 }

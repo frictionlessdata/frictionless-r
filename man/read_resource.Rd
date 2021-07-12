@@ -104,16 +104,37 @@ are used to interpret as \code{NA}, with \code{""} as default.
 \subsection{Field types}{
 
 Field \href{https://specs.frictionlessdata.io/table-schema/#types-and-formats}{\code{type}s}
-are used a column types. Types are guessed when no \code{type} is provided or it
-has no equivalent in R.
+are used a column types, as follows:
 \itemize{
-\item \href{https://specs.frictionlessdata.io/table-schema/#string}{\code{string}}:
-\code{character}, or \code{factor} when \code{enum} is present. \code{format} is ignored.
-\item [\verb{number](https://specs.frictionlessdata.io/table-schema/#number)/ [integer](https://specs.frictionlessdata.io/table-schema/#integer): }double\verb{, or }factor\code{when}enum\verb{is present. Use}bareNumber: false` to ignore
-whitespace and non-numeric characters. Integers are cast to doubles to avoid
-issues with big integers.
-\item \href{https://specs.frictionlessdata.io/table-schema/#boolean}{\code{boolean}}:
+\item \href{https://specs.frictionlessdata.io/table-schema/#string}{\code{string}} →
+\code{character}; or \code{factor} when \code{enum} is present. \code{format} is ignored.
+\item \href{https://specs.frictionlessdata.io/table-schema/#number}{\code{number}} →
+\code{double}; or \code{factor} when \code{enum} is present. Use \code{bareNumber: false} to
+ignore whitespace and non-numeric characters.
+\item \href{https://specs.frictionlessdata.io/table-schema/#integer}{\code{integer}} →
+\code{double} (not integer, to avoid issues with big numbers); or \code{factor} when
+\code{enum} is present. Use \code{bareNumber: false} to ignore whitespace and
+non-numeric characters.
+\item \href{https://specs.frictionlessdata.io/table-schema/#boolean}{\code{boolean}} →
 \code{logical}. Non-default \code{trueValues/falseValues} are not supported.
+\item \href{https://specs.frictionlessdata.io/table-schema/#object}{\code{object}} →
+\code{character}.
+\item \href{https://specs.frictionlessdata.io/table-schema/#array}{\code{array}} →
+\code{character}.
+\item \code{\link{date}}
+\item \code{\link{time}}
+\item \code{\link{datetime}}
+\item \href{https://specs.frictionlessdata.io/table-schema/#year}{\code{year}} → \code{factor}.
+\item \href{https://specs.frictionlessdata.io/table-schema/#yearmonth}{\code{yearmonth}} →
+\code{factor}.
+\item \code{\link{duration}}
+\item \href{https://specs.frictionlessdata.io/table-schema/#geopoint}{\code{geopoint}} →
+\code{character}.
+\item \href{https://specs.frictionlessdata.io/table-schema/#geojson}{\code{geojson}} →
+\code{character}.
+\item \href{https://specs.frictionlessdata.io/table-schema/#any}{\code{any}} → \code{character}.
+\item no type provided → type is guessed.
+\item unknown type → type is guessed.
 }
 }
 
