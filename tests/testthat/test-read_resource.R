@@ -273,3 +273,14 @@ test_that("read_resource() handles integers (as doubles)", {
   expect_type(resource$int_notbare, "double")
   expect_true(all(resource$int_notbare == 3))
 })
+
+test_that("read_resource() handles booleans", {
+  pkg <- suppressMessages(read_package("types.json"))
+  resource <- read_resource(pkg, "booleans")
+
+  # Default trueValues/falseValues are cast to logical
+  expect_type(resource$bool_true, "logical")
+  expect_type(resource$bool_false, "logical")
+  expect_true(all(resource$bool_true == TRUE))
+  expect_true(all(resource$bool_false == FALSE))
+})

@@ -116,7 +116,21 @@
       }
     },
     {
-      "name": "boolean"
+      "name": "booleans",
+      "path": "type_boolean.csv",
+      "profile": "tabular-data-resource",
+      "schema": {
+        "fields": [
+          {
+            "name": "bool_true",
+            "type": "boolean"
+          },
+          {
+            "name": "bool_false",
+            "type": "boolean"
+          }
+        ]
+      }
     },
     {
       "name": "date"
