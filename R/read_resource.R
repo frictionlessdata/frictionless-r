@@ -95,7 +95,7 @@
 #'
 #' - Field `name`s are used as column headers.
 #' - [`missingValues`](https://specs.frictionlessdata.io/table-schema/#missing-values)
-#'   are used to interpret as `NA`, with `""` as default.
+#' are used to interpret as `NA`, with `""` as default.
 #'
 #' ## Field types
 #'
@@ -103,10 +103,15 @@
 #' are used a column types. Types are guessed when no `type` is provided or it
 #' has no equivalent in R.
 #'
-#' - `string`: `character`, or `factor` when `enum` is present.
-#' - `number/integer`: `double`, or `factor` when `enum` is present. Use
-#' `bareNumber: false` to ignore whitespace and non-numeric characters. Integers
-#' are cast to doubles to avoid issues with big integers.
+#' - [`string`](https://specs.frictionlessdata.io/table-schema/#string):
+#' `character`, or `factor` when `enum` is present. `format` is ignored.
+#' - [`number](https://specs.frictionlessdata.io/table-schema/#number)/
+#' [integer](https://specs.frictionlessdata.io/table-schema/#integer): `double`,
+#' or `factor` when `enum` is present. Use `bareNumber: false` to ignore
+#' whitespace and non-numeric characters. Integers are cast to doubles to avoid
+#' issues with big integers.
+#' - [`boolean`](https://specs.frictionlessdata.io/table-schema/#boolean):
+#' `logical`. Non-default `trueValues/falseValues` are not supported.
 #'
 #' ## File compression
 #'
@@ -263,7 +268,7 @@ read_resource <- function(package, resource_name) {
       "string" = if(length(enum) > 0) {
           col_factor(levels = enum)
         } else {
-          col_character() # Note that format (email, uri) is ignored
+          col_character()
         },
       "number" = if(length(enum) > 0) {
           col_factor(levels = as.character(enum))

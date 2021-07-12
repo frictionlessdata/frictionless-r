@@ -220,7 +220,6 @@ test_that("read_resource() handles strings", {
 })
 
 test_that("read_resource() handles numbers", {
-  # See https://specs.frictionlessdata.io/table-schema/#number
   pkg <- suppressMessages(read_package("types.json"))
   resource <- read_resource(pkg, "numbers")
 
@@ -254,7 +253,6 @@ test_that("read_resource() handles numbers", {
 })
 
 test_that("read_resource() handles integers (as doubles)", {
-  # See https://specs.frictionlessdata.io/table-schema/#integer
   pkg <- suppressMessages(read_package("types.json"))
   resource <- read_resource(pkg, "integers")
 

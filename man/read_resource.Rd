@@ -107,10 +107,13 @@ Field \href{https://specs.frictionlessdata.io/table-schema/#types-and-formats}{\
 are used a column types. Types are guessed when no \code{type} is provided or it
 has no equivalent in R.
 \itemize{
-\item \code{string}: \code{character}, or \code{factor} when \code{enum} is present.
-\item \code{number/integer}: \code{double}, or \code{factor} when \code{enum} is present. Use
-\code{bareNumber: false} to ignore whitespace and non-numeric characters. Integers
-are cast to doubles to avoid issues with big integers.
+\item \href{https://specs.frictionlessdata.io/table-schema/#string}{\code{string}}:
+\code{character}, or \code{factor} when \code{enum} is present. \code{format} is ignored.
+\item [\verb{number](https://specs.frictionlessdata.io/table-schema/#number)/ [integer](https://specs.frictionlessdata.io/table-schema/#integer): }double\verb{, or }factor\code{when}enum\verb{is present. Use}bareNumber: false` to ignore
+whitespace and non-numeric characters. Integers are cast to doubles to avoid
+issues with big integers.
+\item \href{https://specs.frictionlessdata.io/table-schema/#boolean}{\code{boolean}}:
+\code{logical}. Non-default \code{trueValues/falseValues} are not supported.
 }
 }
 
