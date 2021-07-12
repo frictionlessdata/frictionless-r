@@ -1,0 +1,3 @@
+int,int_neg,int_factor,int_ws,int_notbare
+3,-3,3, 3 ,$3
++03,-03,4,3 ,3 dollar

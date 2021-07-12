@@ -205,3 +205,73 @@ test_that("read_resource() can read compressed files", {
   expect_identical(resource, read_resource(pkg_local_gz, "deployments"))
   expect_identical(resource, read_resource(pkg_remote_gz, "deployments"))
 })
+
+test_that("read_resource() handles strings", {
+  # See https://specs.frictionlessdata.io/table-schema/#string
+  pkg <- suppressMessages(read_package("types.json"))
+  resource <- read_resource(pkg, "strings")
+
+  expect_type(resource$str, "character")
+
+  # Use factor when enum is present
+  enum <- pkg$resources[[1]]$schema$fields[[2]]$constraints$enum
+  expect_s3_class(resource$str_factor, "factor")
+  expect_equal(levels(resource$str_factor), enum)
+})
+
+test_that("read_resource() handles numbers", {
+  # See https://specs.frictionlessdata.io/table-schema/#number
+  pkg <- suppressMessages(read_package("types.json"))
+  resource <- read_resource(pkg, "numbers")
+
+  # Leading/trailing zeros are optional, + is assumed
+  expect_type(resource$num, "double")
+  expect_true(all(resource$num == 3))
+  expect_type(resource$num_neg, "double")
+  expect_true(all(resource$num_neg == -3))
+
+  # Use factor when enum is present
+  enum <- pkg$resources[[2]]$schema$fields[[3]]$constraints$enum
+  expect_s3_class(resource$num_factor, "factor")
+  expect_equal(levels(resource$num_factor), as.character(enum))
+
+  # NaN, INF, -INF are supported, case-insensitive
+  expect_type(resource$num_nan, "double")
+  expect_true(all(is.nan(resource$num_nan)))
+  expect_type(resource$num_inf, "double")
+  expect_true(all(resource$num_inf == Inf))
+  expect_type(resource$num_ninf, "double")
+  expect_true(all(resource$num_ninf == -Inf))
+
+  # Number can be expressed with E+-digits
+  expect_type(resource$num_sci, "double")
+
+  # bareNumber = false allows whitespace and non-numeric characters
+  expect_type(resource$num_ws, "double")
+  expect_true(all(resource$num_ws == 3.1))
+  expect_type(resource$num_notbare, "double")
+  expect_true(all(resource$num_notbare == 3.1))
+})
+
+test_that("read_resource() handles integers (as doubles)", {
+  # See https://specs.frictionlessdata.io/table-schema/#integer
+  pkg <- suppressMessages(read_package("types.json"))
+  resource <- read_resource(pkg, "integers")
+
+  # Leading/trailing zeros are optional, + is assumed
+  expect_type(resource$int, "double")
+  expect_true(all(resource$int == 3))
+  expect_type(resource$int_neg, "double")
+  expect_true(all(resource$int_neg == -3))
+
+  # Use factor when enum is present
+  enum <- pkg$resources[[3]]$schema$fields[[3]]$constraints$enum
+  expect_s3_class(resource$int_factor, "factor")
+  expect_equal(levels(resource$int_factor), as.character(enum))
+
+  # bareNumber = false allows whitespace and non-numeric characters
+  expect_type(resource$int_ws, "double")
+  expect_true(all(resource$int_ws == 3))
+  expect_type(resource$int_notbare, "double")
+  expect_true(all(resource$int_notbare == 3))
+})
