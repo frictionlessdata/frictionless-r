@@ -20,8 +20,8 @@
 #' @importFrom httr http_error
 #' @importFrom jsonlite fromJSON
 #' @importFrom purrr keep map map_chr
-#' @importFrom readr col_character col_date col_datetime col_factor col_guess
-#'   col_logical col_number col_time locale read_delim
+#' @importFrom readr col_character col_date col_datetime col_double col_factor
+#'   col_guess col_logical col_number col_time locale read_delim
 #'
 #' @details
 #' The [`resource`](https://specs.frictionlessdata.io/data-resource/) properties
@@ -247,18 +247,27 @@ read_resource <- function(package, resource_name) {
   col_types <- map(fields, function(x) {
     type <- replace_null(x$type, NA_character_)
     enum <- x$constraints$enum
+    bare_number <- ifelse(replace_null(x$bareNumber, TRUE), TRUE, FALSE)
     format <- replace_null(x$format, "")
     format <- ifelse(format == "any", "", format) # Set "any" to ""
 
     col_type <- switch(type,
       "string" = if(length(enum) > 0) {
-        col_factor(levels = enum) # Use factor when enum has values
+        col_factor(levels = enum) # When enum, use factor
       } else {
-        col_character() # Format (email, url) ignored
+        col_character() # Note that format (email, uri) is ignored
       },
-      "number" = col_number(),
-      "integer" = col_number(), # Not col_integer() to avoid .Machine$integer.max
-                                # overflow issues for big integers
+      "number" = if(bare_number) {
+        col_double()
+      } else {
+        col_number()
+      },
+      "integer" = if(bare_number) {
+        col_double() # Not col_integer to avoid .Machine$integer.max overflow
+                     # issues for large integers
+      } else {
+        col_number()
+      },
       "boolean" = col_logical(),
       "object" = col_guess(),
       "array" = col_guess(),
