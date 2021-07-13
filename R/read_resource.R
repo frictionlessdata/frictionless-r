@@ -198,7 +198,7 @@ read_resource <- function(package, resource_name) {
     )
   )
   resource <- keep(package$resources, function(x) {
-    (x[["name"]] == resource_name)
+    (x$name == resource_name)
   })[[1]]
 
   # Check if resource is `tabular-data-resource`
@@ -265,9 +265,7 @@ read_resource <- function(package, resource_name) {
   )
 
   # Create col_names: c("name1", "name2", ...)
-  col_names <- map_chr(fields, function(x) {
-    replace_null(x[["name"]], NA_character_)
-  })
+  col_names <- map_chr(fields, ~ replace_null(.x$name, NA_character_))
   assert_that(all(!is.na(col_names)),
     msg = glue(
       "Field {which(is.na(col_names))} of resource `{resource_name}` must",
