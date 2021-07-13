@@ -15,7 +15,7 @@
 #' @export
 #'
 #' @importFrom assertthat assert_that
-#' @importFrom dplyr bind_rows tibble %>%
+#' @importFrom dplyr arrange bind_rows desc pull tibble %>%
 #' @importFrom glue glue
 #' @importFrom httr http_error
 #' @importFrom jsonlite fromJSON
@@ -174,6 +174,13 @@ read_resource <- function(package, resource_name) {
     if(!is.null(value)) { value } else { replace }
   }
 
+  # Helper function to get unique values from vector sorted by occurrence
+  unique_sorted <- function(x) {
+    aggregate(x, by = list(x), FUN = length) %>%
+      arrange(desc(x)) %>%
+      pull(Group.1)
+  }
+
   # Check package
   assert_that(
     class(package) == "list",
@@ -264,6 +271,29 @@ read_resource <- function(package, resource_name) {
     )
   )
 
+  # Create locale with encoding, decimal_mark and grouping_mark
+  assign_mark <- function(char_name, default) {
+    chars <- map_chr(fields, ~ replace_null(.x[[char_name]], NA_character_))
+    chars <- unique_sorted(chars)
+    if (length(chars) == 0) {
+      mark <- default # No chars were defined in fields
+    } else {
+      mark <- chars[1] # One or more chars were defined, use most occurring
+      chars_collapse <- paste(chars, collapse = "` `")
+      warning(glue(
+        "`{char_name}` (`{chars_collapse}`) is defined for some fields. The",
+        "function only supports a global value per resource, so *all* number",
+        "fields will be parsed with `{char_name}`=`{chars[1]}`.", .sep = " "
+      ))
+    }
+    return(mark)
+  }
+  locale <- locale(
+    encoding = replace_null(resource$encoding, "UTF-8"),
+    decimal_mark = assign_mark("decimalChar", "."),
+    grouping_mark = assign_mark("groupChar", "")
+  )
+
   # Create col_names: c("name1", "name2", ...)
   col_names <- map_chr(fields, ~ replace_null(.x$name, NA_character_))
   assert_that(all(!is.na(col_names)),
@@ -343,7 +373,7 @@ read_resource <- function(package, resource_name) {
       ),
       col_names = col_names,
       col_types = col_types,
-      locale = locale(encoding = replace_null(resource$encoding, "UTF-8")),
+      locale = locale,
       na = replace_null(resource$schema$missingValues, ""),
       quoted_na = TRUE,
       comment = replace_null(dialect$commentChar, ""),
