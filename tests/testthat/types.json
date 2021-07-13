@@ -1,7 +1,7 @@
 {
   "resources": [
     {
-      "name": "strings",
+      "name": "string",
       "path": "type_string.csv",
       "profile": "tabular-data-resource",
       "schema": {
@@ -24,7 +24,7 @@
       }
     },
     {
-      "name": "numbers",
+      "name": "number",
       "path": "type_number.csv",
       "profile": "tabular-data-resource",
       "schema": {
@@ -78,7 +78,7 @@
       }
     },
     {
-      "name": "integers",
+      "name": "integer",
       "path": "type_integer.csv",
       "profile": "tabular-data-resource",
       "schema": {
@@ -116,7 +116,7 @@
       }
     },
     {
-      "name": "booleans",
+      "name": "boolean",
       "path": "type_boolean.csv",
       "profile": "tabular-data-resource",
       "schema": {
@@ -145,7 +145,7 @@
       "name": "duration"
     },
     {
-      "name": "other types",
+      "name": "other",
       "path": "type_other.csv",
       "profile": "tabular-data-resource",
       "schema": {

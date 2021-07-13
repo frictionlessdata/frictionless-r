@@ -209,7 +209,7 @@ test_that("read_resource() can read compressed files", {
 test_that("read_resource() handles strings", {
   # See https://specs.frictionlessdata.io/table-schema/#string
   pkg <- suppressMessages(read_package("types.json"))
-  resource <- read_resource(pkg, "strings")
+  resource <- read_resource(pkg, "string")
 
   expect_type(resource$str, "character")
 
@@ -221,7 +221,7 @@ test_that("read_resource() handles strings", {
 
 test_that("read_resource() handles numbers", {
   pkg <- suppressMessages(read_package("types.json"))
-  resource <- read_resource(pkg, "numbers")
+  resource <- read_resource(pkg, "number")
 
   # Leading/trailing zeros are optional, + is assumed
   expect_type(resource$num, "double")
@@ -254,7 +254,7 @@ test_that("read_resource() handles numbers", {
 
 test_that("read_resource() handles integers (as doubles)", {
   pkg <- suppressMessages(read_package("types.json"))
-  resource <- read_resource(pkg, "integers")
+  resource <- read_resource(pkg, "integer")
 
   # Leading/trailing zeros are optional, + is assumed
   expect_type(resource$int, "double")
@@ -276,7 +276,7 @@ test_that("read_resource() handles integers (as doubles)", {
 
 test_that("read_resource() handles booleans", {
   pkg <- suppressMessages(read_package("types.json"))
-  resource <- read_resource(pkg, "booleans")
+  resource <- read_resource(pkg, "boolean")
 
   # Default trueValues/falseValues are cast to logical
   expect_type(resource$bool_true, "logical")
@@ -287,7 +287,7 @@ test_that("read_resource() handles booleans", {
 
 test_that("read_resource() handles other types", {
   pkg <- suppressMessages(read_package("types.json"))
-  resource <- read_resource(pkg, "other types")
+  resource <- read_resource(pkg, "other")
 
   # Interpret year, yearmonth as factor
   expect_s3_class(resource$year, "factor")
