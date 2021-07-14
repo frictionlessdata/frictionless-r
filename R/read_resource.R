@@ -193,9 +193,9 @@ read_resource <- function(package, resource_name) {
 
   # Helper function to get unique values from vector sorted by occurrence
   unique_sorted <- function(x) {
-    aggregate(x, by = list(x), FUN = length) %>%
+    stats::aggregate(x, by = list(x), FUN = length) %>%
       arrange(desc(x)) %>%
-      pull(Group.1)
+      pull("Group.1")
   }
 
   # Check package
