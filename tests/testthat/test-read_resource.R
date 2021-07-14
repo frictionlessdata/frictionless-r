@@ -295,6 +295,7 @@ test_that("read_resource() handles dates", {
   # - day: %d (including 1 digit) %a not %A, see https://github.com/tidyverse/readr/issues/1230
   # - shortcut: %x (as %m/%d/%y, not the readr default %y/%m/%d)
 
+  expect_identical(resource$dt_undefined, resource$dt_default)
   expect_identical(resource$dt_undefined, expected_value)
   expect_identical(resource$dt_default, expected_value)
   expect_identical(resource$dt_any, expected_value)
@@ -316,6 +317,7 @@ test_that("read_resource() handles times", {
   # - timezone: %Z %z
   # - shortcut: %X (as %H:%M:%S)
 
+  expect_identical(resource$tm_undefined, resource$tm_default)
   expect_identical(resource$tm_undefined, expected_value)
   expect_identical(resource$tm_default, expected_value)
   expect_identical(resource$tm_any, expected_value)
@@ -330,6 +332,7 @@ test_that("read_resource() handles datetimes", {
   pkg <- suppressMessages(read_package("types.json"))
   resource <- read_resource(pkg, "datetime")
 
+  expect_identical(resource$dttm_undefined, resource$dttm_default)
   expect_identical(resource$dttm_undefined, expected_value)
   expect_identical(resource$dttm_default, expected_value)
   expect_identical(resource$dttm_any, expected_value)

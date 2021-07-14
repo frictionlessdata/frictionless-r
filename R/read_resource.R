@@ -333,19 +333,16 @@ read_resource <- function(package, resource_name) {
     group_char <- ifelse(replace_null(x$groupChar, "") != "", TRUE, FALSE)
     bare_number <- ifelse(replace_null(x$bareNumber, TRUE), TRUE, FALSE)
     convert_format <- function(type, format) {
-      format <- replace_null(x$format, "undefined")
+      format <- replace_null(x$format, "default") # Undefined = default
       if (type == "date") {
-        format <- gsub("^undefined$", "%Y-%m-%d", format) # ISO
         format <- gsub("^default$", "%Y-%m-%d", format)   # ISO
         format <- gsub("^any$", "", format)               # YMD
-        format <- gsub("^%x$", "%m/%d/%y", format) # Use Python strptime for %x
+        format <- gsub("^%x$", "%m/%d/%y", format) # Python strptime for %x
       } else if (type == "time") {
-        format <- gsub("^undefined$", "", format)         # H(MS)
         format <- gsub("^default$", "", format)           # H(MS)
         format <- gsub("^any$", "", format)               # H(MS)
         format <- gsub("^%X$", "%H:%M:%S", format)        # HMS
-        format <- gsub("%S.%f", "%OS", format) # Use fractional seconds when
-                                               # milli or microseconds
+        format <- gsub("%S.%f", "%OS", format) # Milli/microseconds
       } else if (type == "datetime") {
         format <- gsub("^default$", "", format)           # ISO (lenient)
         format <- gsub("^any$", "", format)               # ISO (lenient)
