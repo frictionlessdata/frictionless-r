@@ -99,6 +99,8 @@
 #'
 #' ## Field types
 #'
+#' [strptime]: https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior
+#'
 #' Field [`type`s](https://specs.frictionlessdata.io/table-schema/#types-and-formats)
 #' are used a column types, as follows:
 #'
@@ -121,16 +123,13 @@
 #' `character`.
 #' - [`date`](https://specs.frictionlessdata.io/table-schema/#date) → `date`.
 #' Supports `format`, with values `default` (ISO date), `any` (guess `ymd`) and
-#' [Python/C
-#' strptime](https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior)
-#' patterns, such as `%a, %d %B %Y` for `Sat, 23 November 2013`. `%x` is
-#' `%m/%d/%y`.
+#' [Python/C strptime][strptime] patterns, such as `%a, %d %B %Y` for `Sat, 23
+#' November 2013`. `%x` is `%m/%d/%y`. `%j`, `%U`, `%w` and `%W` are not
+#' supported.
 #' - [`time`](https://specs.frictionlessdata.io/table-schema/#time) →
-#' `hms::hms()`. Supports `format`, with values `default` (ISO date), `any`
-#' (guess `ymd`) and [Python/C
-#' strptime](https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior)
-#' patterns, such as `%I%p%M:%S.%f%z` for `8AM30:00.300+0200`. `%X` is
-#' `%H:%M:%S`.
+#' `hms::hms()`. Supports `format`, with values `default` (ISO time), `any`
+#' (guess `hms`) and [Python/C strptime][strptime] patterns, such as
+#' `%I%p%M:%S.%f%z` for `8AM30:00.300+0200`.
 #' - [`datetime`](https://specs.frictionlessdata.io/table-schema/#datetime) →
 #' `POSIXct`. Supports `format`, with values `default` (ISO datetime), `any`
 #' (ISO datetime) and the same patterns as for `date` and `time`. `%c` is not
