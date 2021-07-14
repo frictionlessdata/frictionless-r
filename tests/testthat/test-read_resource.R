@@ -285,6 +285,26 @@ test_that("read_resource() handles booleans", {
   expect_true(all(resource$bool_false == FALSE))
 })
 
+test_that("read_resource() handles dates", {
+  expected_value <- as.Date("2013-11-23")
+  pkg <- suppressMessages(read_package("types.json"))
+  resource <- read_resource(pkg, "date")
+  # See https://docs.python.org/2/library/datetime.html#strftime-and-strptime-behavior
+  # This test covers:
+  # - year: %Y %y
+  # - month: %m (including 1 digit) %b %B
+  # - day: %d (including 1 digit) %a not %A, see https://github.com/tidyverse/readr/issues/1230
+  # - shortcut: %x (as %m/%d/%y, not the readr default %y/%m/%d)
+
+  expect_identical(resource$dt_undefined, expected_value)
+  expect_identical(resource$dt_default, expected_value)
+  expect_identical(resource$dt_any, expected_value)
+  expect_identical(resource$dt_shortcut, expected_value)
+  expect_identical(resource$dt_1, expected_value)
+  expect_identical(resource$dt_2, expected_value)
+  expect_identical(resource$dt_3, expected_value)
+})
+
 test_that("read_resource() handles other types", {
   pkg <- suppressMessages(read_package("types.json"))
   resource <- read_resource(pkg, "other")

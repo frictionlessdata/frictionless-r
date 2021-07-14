@@ -123,7 +123,11 @@ non-numeric characters.
 \code{character}.
 \item \href{https://specs.frictionlessdata.io/table-schema/#array}{\code{array}} →
 \code{character}.
-\item \code{\link{date}}
+\item \href{https://specs.frictionlessdata.io/table-schema/#array}{\code{date}} → \code{date}.
+Supports \code{format}, with values \code{default} (ISO date), \code{any} (guess \code{ymd}) and
+\href{https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior}{Python/C strptime}
+patterns, such as \verb{\%a, \%d \%B \%Y} for \verb{Sat, 23 November 2013}. \verb{\%x} is
+\verb{\%m/\%d/\%y}.
 \item \code{\link{time}}
 \item \code{\link{datetime}}
 \item \href{https://specs.frictionlessdata.io/table-schema/#year}{\code{year}} → \code{factor}.

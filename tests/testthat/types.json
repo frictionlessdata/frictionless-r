@@ -133,7 +133,47 @@
       }
     },
     {
-      "name": "date"
+      "name": "date",
+      "path": "type_date.csv",
+      "profile": "tabular-data-resource",
+      "schema": {
+        "fields": [
+          {
+            "name": "dt_undefined",
+            "type": "date"
+          },
+          {
+            "name": "dt_default",
+            "type": "date",
+            "format": "default"
+          },
+          {
+            "name": "dt_any",
+            "type": "date",
+            "format": "any"
+          },
+          {
+            "name": "dt_shortcut",
+            "type": "date",
+            "format": "%x"
+          },
+          {
+            "name": "dt_1",
+            "type": "date",
+            "format": "%Y %d %m"
+          },
+          {
+            "name": "dt_2",
+            "type": "date",
+            "format": "%d %b %y"
+          },
+          {
+            "name": "dt_3",
+            "type": "date",
+            "format": "%B (%m), %a %d %Y"
+          }
+        ]
+      }
     },
     {
       "name": "time"

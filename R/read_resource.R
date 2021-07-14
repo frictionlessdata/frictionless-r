@@ -119,7 +119,12 @@
 #' `character`.
 #' - [`array`](https://specs.frictionlessdata.io/table-schema/#array) →
 #' `character`.
-#' - [`date`]
+#' - [`date`](https://specs.frictionlessdata.io/table-schema/#array) → `date`.
+#' Supports `format`, with values `default` (ISO date), `any` (guess `ymd`) and
+#' [Python/C
+#' strptime](https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior)
+#' patterns, such as `%a, %d %B %Y` for `Sat, 23 November 2013`. `%x` is
+#' `%m/%d/%y`.
 #' - [`time`]
 #' - [`datetime`]
 #' - [`year`](https://specs.frictionlessdata.io/table-schema/#year) → `factor`.
@@ -319,9 +324,15 @@ read_resource <- function(package, resource_name) {
     enum <- x$constraints$enum
     group_char <- ifelse(replace_null(x$groupChar, "") != "", TRUE, FALSE)
     bare_number <- ifelse(replace_null(x$bareNumber, TRUE), TRUE, FALSE)
-    format <- replace_null(x$format, "")
-    format <- ifelse(format == "any", "", format) # Set "any" to ""
-
+    convert_format <- function(type, format) {
+      format <- replace_null(x$format, "")
+      if (type == "date") {
+        format <- gsub("default", "%Y-%m-%d", format) # Require ISO
+        format <- gsub("^any$", "%AD", format) # Automatic parser
+        format <- gsub("^%x$", "%m/%d/%y", format) # Use Python strptime for %x
+      }
+      return(format)
+    }
     col_type <- switch(type,
       "string" = if(length(enum) > 0) {
           col_factor(levels = enum)
@@ -347,9 +358,9 @@ read_resource <- function(package, resource_name) {
       "boolean" = col_logical(),
       "object" = col_character(),
       "array" = col_character(),
-      "date" = col_date(format = format),
-      "time" = col_time(format = format),
-      "datetime" = col_datetime(format = format),
+      "date" = col_date(format = convert_format(type, format)),
+      "time" = col_time(format = convert_format(type, format)),
+      "datetime" = col_datetime(format = convert_format(type, format)),
       "year" = col_factor(),
       "yearmonth" = col_factor(),
       "duration" = col_guess(),
