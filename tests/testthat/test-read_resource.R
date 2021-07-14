@@ -308,3 +308,26 @@ test_that("read_resource() handles other types", {
   expect_type(resource$no_type, "logical")
   expect_type(resource$unknown_type, "logical")
 })
+
+test_that("read_resource() handles decimalChar/groupChar properties", {
+  expected_value <- 3000000.3
+  pkg <- suppressMessages(read_package("decimal_group.json"))
+
+  # Default decimalChar/groupChar
+  resource <- read_resource(pkg, "decimal_group_default")
+  expect_identical(resource$num, expected_value) # 3000000.30
+  expect_identical(resource$num_undefined, expected_value) # 3000000.30
+
+  # Non-default decimalChar/groupChar
+  warnings <- capture_warnings(read_resource(pkg, "decimal_group"))
+  expect_true(length(warnings) == 3) # 2 warnings + 1 parsing failure last field
+  expect_match(warnings[1], "Some fields define a non-default `decimalChar`.")
+  expect_match(warnings[2], "Some fields define a non-default `groupChar`.")
+
+  resource <- suppressWarnings(read_resource(pkg, "decimal_group"))
+  expect_identical(resource$num, expected_value) # 3.000.000,30
+  # Field without decimalChar is still parsed with non-default decimalChar
+  expect_identical(resource$num_undefined, expected_value) # 3000000,30
+  # Field without groupChar is not parsed with non-default groupChar
+  expect_identical(resource$num_undefined_group, NA_real_) # 3.000.000,30
+})
