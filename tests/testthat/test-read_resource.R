@@ -1,3 +1,5 @@
+library(hms)
+
 test_that("read_resource() returns error on incorrect package", {
   expect_error(
     read_resource("not_a_list", "dep"), "`package` must be a list object"
@@ -306,7 +308,7 @@ test_that("read_resource() handles dates", {
 })
 
 test_that("read_resource() handles times", {
-  expected_value <- hms::hms(0, 30, 8) # "08:30:00"
+  expected_value <- hms(0, 30, 8) # "08:30:00"
   pkg <- suppressMessages(read_package("types.json"))
   resource <- read_resource(pkg, "time")
   # This test covers:
@@ -324,7 +326,7 @@ test_that("read_resource() handles times", {
   expect_identical(resource$tm_shortcut, expected_value)
   expect_identical(resource$tm_1, expected_value)
   expect_identical(resource$tm_2, expected_value)
-  expect_identical(resource$tm_3, hms::hms(0.3, 30, 8)) # "08:30:00.3"
+  expect_identical(resource$tm_3, hms(0.3, 30, 8)) # "08:30:00.3"
 })
 
 test_that("read_resource() handles datetimes", {
@@ -353,7 +355,6 @@ test_that("read_resource() handles other types", {
   expect_s3_class(resource$yearmonth, "Date")
   expect_identical(resource$yearmonth[1], as.Date("2001-03-01"))
 
-  # Interpret object, array, geopoint, geojson as character
   # Interpret object, array, duration, geopoint, geojson as character
   expect_type(resource$object, "character")
   expect_type(resource$array, "character")
