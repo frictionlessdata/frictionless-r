@@ -252,9 +252,6 @@
       }
     },
     {
-      "name": "duration"
-    },
-    {
       "name": "other",
       "path": "type_other.csv",
       "profile": "tabular-data-resource",
@@ -275,6 +272,10 @@
           {
             "name": "array",
             "type": "array"
+          },
+          {
+            "name": "duration",
+            "type": "duration"
           },
           {
             "name": "geopoint",

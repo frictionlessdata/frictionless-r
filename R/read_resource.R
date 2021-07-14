@@ -380,7 +380,7 @@ read_resource <- function(package, resource_name) {
       "datetime" = col_datetime(format = convert_format(type, format)),
       "year" = col_date(format = "%Y"),
       "yearmonth" = col_date(format = "%Y-%m"),
-      "duration" = col_guess(),
+      "duration" = col_character(),
       "geopoint" = col_character(),
       "geojson" = col_character(),
       "any" = col_character()

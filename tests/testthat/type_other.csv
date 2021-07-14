@@ -1,3 +1,2 @@
-year,yearmonth,object,array,geopoint,geojson,any,no_type,unknown_type
-2001,2001-03,"{'id': 1, 'name': 'foo'}","[1,2,3]","90, 45","{'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [125.6, 10.1]}, 'properties': {'name': 'Dinagat Islands'}}",true,true,true
-2002,2001-04,,,,,,,
+year,yearmonth,object,array,duration,geopoint,geojson,any,no_type,unknown_type
+2001,2001-03,"{'id': 1, 'name': 'foo'}","[1,2,3]",P3Y6M4DT12H30M5S,"90, 45","{'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [125.6, 10.1]}, 'properties': {'name': 'Dinagat Islands'}}",true,true,true

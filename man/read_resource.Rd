@@ -133,13 +133,14 @@ supported.
 \verb{\%I\%p\%M:\%S.\%f\%z} for \verb{8AM30:00.300+0200}.
 \item \href{https://specs.frictionlessdata.io/table-schema/#datetime}{\code{datetime}} →
 \code{POSIXct}. Supports \code{format}, with values \code{default} (ISO datetime), \code{any}
-(guess) and the same patterns as for \code{date} and \code{time}. \verb{\%c} is not
+(ISO datetime) and the same patterns as for \code{date} and \code{time}. \verb{\%c} is not
 supported.
 \item \href{https://specs.frictionlessdata.io/table-schema/#year}{\code{year}} → \code{date},
 with \code{01} for month and day.
 \item \href{https://specs.frictionlessdata.io/table-schema/#yearmonth}{\code{yearmonth}} →
 \code{date}, with \code{01} for day.
-\item \code{\link{duration}}
+\item \code{\link{duration}} → \code{character}. Can be parsed afterward with
+\code{lubridate::duration()}.
 \item \href{https://specs.frictionlessdata.io/table-schema/#geopoint}{\code{geopoint}} →
 \code{character}.
 \item \href{https://specs.frictionlessdata.io/table-schema/#geojson}{\code{geojson}} →
