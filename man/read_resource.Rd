@@ -110,7 +110,9 @@ are used a column types, as follows:
 \code{character}; or \code{factor} when \code{enum} is present. \code{format} is ignored.
 \item \href{https://specs.frictionlessdata.io/table-schema/#number}{\code{number}} →
 \code{double}; or \code{factor} when \code{enum} is present. Use \code{bareNumber: false} to
-ignore whitespace and non-numeric characters.
+ignore whitespace and non-numeric characters. \code{decimalChar} (\code{.} by default)
+and \code{groupChar} (undefined by default) can be defined, but the most occurring
+value will be used as a global value for all number fields of that resource.
 \item \href{https://specs.frictionlessdata.io/table-schema/#integer}{\code{integer}} →
 \code{double} (not integer, to avoid issues with big numbers); or \code{factor} when
 \code{enum} is present. Use \code{bareNumber: false} to ignore whitespace and

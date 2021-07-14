@@ -106,7 +106,9 @@
 #' `character`; or `factor` when `enum` is present. `format` is ignored.
 #' - [`number`](https://specs.frictionlessdata.io/table-schema/#number) →
 #' `double`; or `factor` when `enum` is present. Use `bareNumber: false` to
-#' ignore whitespace and non-numeric characters.
+#' ignore whitespace and non-numeric characters. `decimalChar` (`.` by default)
+#' and `groupChar` (undefined by default) can be defined, but the most occurring
+#' value will be used as a global value for all number fields of that resource.
 #' - [`integer`](https://specs.frictionlessdata.io/table-schema/#integer) →
 #' `double` (not integer, to avoid issues with big numbers); or `factor` when
 #' `enum` is present. Use `bareNumber: false` to ignore whitespace and
