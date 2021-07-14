@@ -23,7 +23,8 @@ Imports:
     httr,
     jsonlite,
     purrr,
-    readr
+    readr,
+    stringr
 Suggests:
     hms,
     testthat (>= 3.0.0)

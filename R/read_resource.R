@@ -22,6 +22,7 @@
 #' @importFrom purrr keep map map_chr
 #' @importFrom readr col_character col_date col_datetime col_double col_factor
 #'   col_guess col_logical col_number col_time locale read_delim
+#' @importFrom stringr str_replace_all
 #'
 #' @details
 #' The [`resource`](https://specs.frictionlessdata.io/data-resource/) properties
@@ -138,7 +139,8 @@
 #' with `01` for month and day.
 #' - [`yearmonth`](https://specs.frictionlessdata.io/table-schema/#yearmonth) →
 #' `date`, with `01` for day.
-#' - [`duration`]
+#' - [`duration`] → `character`. Can be parsed afterward with
+#' `lubridate::duration()`.
 #' - [`geopoint`](https://specs.frictionlessdata.io/table-schema/#geopoint) →
 #' `character`.
 #' - [`geojson`](https://specs.frictionlessdata.io/table-schema/#geojson) →
@@ -332,24 +334,12 @@ read_resource <- function(package, resource_name) {
     enum <- x$constraints$enum
     group_char <- ifelse(replace_null(x$groupChar, "") != "", TRUE, FALSE)
     bare_number <- ifelse(replace_null(x$bareNumber, TRUE), TRUE, FALSE)
-    convert_format <- function(type, format) {
-      format <- replace_null(x$format, "default") # Undefined = default
-      if (type == "date") {
-        format <- gsub("^default$", "%Y-%m-%d", format)   # ISO
-        format <- gsub("^any$", "%AD", format)            # YMD
-        format <- gsub("^%x$", "%m/%d/%y", format) # Python strptime for %x
-      } else if (type == "time") {
-        format <- gsub("^default$", "%AT", format)        # H(MS)
-        format <- gsub("^any$", "%AT", format)            # H(MS)
-        format <- gsub("^%X$", "%H:%M:%S", format)        # HMS
-        format <- gsub("%S.%f", "%OS", format) # Milli/microseconds
-      } else if (type == "datetime") {
-        format <- gsub("^default$", "", format)           # ISO (lenient)
-        format <- gsub("^any$", "", format)               # ISO (lenient)
-        format <- gsub("%S.%f", "%OS", format) # Milli/microseconds
-      }
-      return(format)
+    format <- replace_null(x$format, "default") # Undefined = default
+    convert_format <- function(format, translations) {
+      format %>% str_replace_all(translations)
     }
+
+    # Assign types and formats
     col_type <- switch(type,
       "string" = if(length(enum) > 0) {
           col_factor(levels = enum)
@@ -375,9 +365,22 @@ read_resource <- function(package, resource_name) {
       "boolean" = col_logical(),
       "object" = col_character(),
       "array" = col_character(),
-      "date" = col_date(format = convert_format(type, format)),
-      "time" = col_time(format = convert_format(type, format)),
-      "datetime" = col_datetime(format = convert_format(type, format)),
+      "date" = col_date(format = convert_format(format, c(
+        "^default$" = "%Y-%m-%d", # ISO
+        "^any$" = "%AD",          # YMD
+        "^%x$" = "%m/%d/%y"       # Python strptime for %x
+      ))),
+      "time" = col_time(format = convert_format(format, c(
+        "^default$" = "%AT",      # H(MS)
+        "^any$"= "%AT",           # H(MS)
+        "^%X$" = "%H:%M:%S",      # HMS
+        "%S.%f" = "%OS"           # Milli/microseconds
+      ))),
+      "datetime" = col_datetime(format = convert_format(format, c(
+        "^default$" = "",         # ISO (lenient)
+        "^any$" = "",             # ISO (lenient)
+        "%S.%f" = "%OS"           # Milli/microseconds
+      ))),
       "year" = col_date(format = "%Y"),
       "yearmonth" = col_date(format = "%Y-%m"),
       "duration" = col_character(),
