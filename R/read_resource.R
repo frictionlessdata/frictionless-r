@@ -336,11 +336,11 @@ read_resource <- function(package, resource_name) {
       format <- replace_null(x$format, "default") # Undefined = default
       if (type == "date") {
         format <- gsub("^default$", "%Y-%m-%d", format)   # ISO
-        format <- gsub("^any$", "", format)               # YMD
+        format <- gsub("^any$", "%AD", format)            # YMD
         format <- gsub("^%x$", "%m/%d/%y", format) # Python strptime for %x
       } else if (type == "time") {
-        format <- gsub("^default$", "", format)           # H(MS)
-        format <- gsub("^any$", "", format)               # H(MS)
+        format <- gsub("^default$", "%AT", format)        # H(MS)
+        format <- gsub("^any$", "%AT", format)            # H(MS)
         format <- gsub("^%X$", "%H:%M:%S", format)        # HMS
         format <- gsub("%S.%f", "%OS", format) # Milli/microseconds
       } else if (type == "datetime") {
