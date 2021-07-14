@@ -130,9 +130,10 @@ patterns, such as \verb{\%a, \%d \%B \%Y} for \verb{Sat, 23 November 2013}. \ver
 \verb{\%m/\%d/\%y}.
 \item \code{\link{time}}
 \item \code{\link{datetime}}
-\item \href{https://specs.frictionlessdata.io/table-schema/#year}{\code{year}} → \code{factor}.
+\item \href{https://specs.frictionlessdata.io/table-schema/#year}{\code{year}} → \code{date},
+with \code{01} for month and day.
 \item \href{https://specs.frictionlessdata.io/table-schema/#yearmonth}{\code{yearmonth}} →
-\code{factor}.
+\code{date}, with \code{01} for day.
 \item \code{\link{duration}}
 \item \href{https://specs.frictionlessdata.io/table-schema/#geopoint}{\code{geopoint}} →
 \code{character}.

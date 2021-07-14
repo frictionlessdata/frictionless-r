@@ -127,9 +127,10 @@
 #' `%m/%d/%y`.
 #' - [`time`]
 #' - [`datetime`]
-#' - [`year`](https://specs.frictionlessdata.io/table-schema/#year) → `factor`.
+#' - [`year`](https://specs.frictionlessdata.io/table-schema/#year) → `date`,
+#' with `01` for month and day.
 #' - [`yearmonth`](https://specs.frictionlessdata.io/table-schema/#yearmonth) →
-#' `factor`.
+#' `date`, with `01` for day.
 #' - [`duration`]
 #' - [`geopoint`](https://specs.frictionlessdata.io/table-schema/#geopoint) →
 #' `character`.
@@ -361,8 +362,8 @@ read_resource <- function(package, resource_name) {
       "date" = col_date(format = convert_format(type, format)),
       "time" = col_time(format = convert_format(type, format)),
       "datetime" = col_datetime(format = convert_format(type, format)),
-      "year" = col_factor(),
-      "yearmonth" = col_factor(),
+      "year" = col_date(format = "%Y"),
+      "yearmonth" = col_date(format = "%Y-%m"),
       "duration" = col_guess(),
       "geopoint" = col_character(),
       "geojson" = col_character(),

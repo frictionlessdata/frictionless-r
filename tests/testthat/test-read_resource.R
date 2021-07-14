@@ -309,11 +309,11 @@ test_that("read_resource() handles other types", {
   pkg <- suppressMessages(read_package("types.json"))
   resource <- read_resource(pkg, "other")
 
-  # Interpret year, yearmonth as factor
-  expect_s3_class(resource$year, "factor")
-  expect_equal(levels(resource$year), c("2001", "2002"))
-  expect_s3_class(resource$yearmonth, "factor")
-  expect_equal(levels(resource$yearmonth), c("2001-03", "2001-04"))
+  # Interpret year, yearmonth as dates
+  expect_s3_class(resource$year, "Date")
+  expect_identical(resource$year[1], as.Date("2001-01-01"))
+  expect_s3_class(resource$yearmonth, "Date")
+  expect_identical(resource$yearmonth[1], as.Date("2001-03-01"))
 
   # Interpret object, array, geopoint, geojson as character
   expect_type(resource$object, "character")
