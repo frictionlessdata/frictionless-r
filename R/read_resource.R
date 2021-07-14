@@ -315,6 +315,7 @@ read_resource <- function(package, resource_name) {
   col_types <- map(fields, function(x) {
     type <- replace_null(x$type, NA_character_)
     enum <- x$constraints$enum
+    group_char <- ifelse(replace_null(x$groupChar, "") != "", TRUE, FALSE)
     bare_number <- ifelse(replace_null(x$bareNumber, TRUE), TRUE, FALSE)
     format <- replace_null(x$format, "")
     format <- ifelse(format == "any", "", format) # Set "any" to ""
@@ -327,6 +328,8 @@ read_resource <- function(package, resource_name) {
         },
       "number" = if(length(enum) > 0) {
           col_factor(levels = as.character(enum))
+        } else if (group_char) {
+          col_number() # Supports grouping_mark
         } else if (bare_number) {
           col_double() # Allows NaN, INF, -INF
         } else {
