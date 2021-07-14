@@ -325,6 +325,21 @@ test_that("read_resource() handles times", {
   expect_identical(resource$tm_3, hms::hms(0.3, 30, 8)) # "08:30:00.3"
 })
 
+test_that("read_resource() handles datetimes", {
+  expected_value <- as.POSIXct("2013-11-23 08:30:00", tz = "UTC")
+  pkg <- suppressMessages(read_package("types.json"))
+  resource <- read_resource(pkg, "datetime")
+
+  expect_identical(resource$dttm_undefined, expected_value)
+  expect_identical(resource$dttm_default, expected_value)
+  expect_identical(resource$dttm_any, expected_value)
+  expect_identical(resource$dttm_1, expected_value)
+  expect_identical(
+    resource$dttm_2,
+    as.POSIXct("2013-11-23 08:30:00.3", tz = "UTC")
+  )
+})
+
 test_that("read_resource() handles other types", {
   pkg <- suppressMessages(read_package("types.json"))
   resource <- read_resource(pkg, "other")

@@ -219,7 +219,37 @@
       }
     },
     {
-      "name": "datetime"
+      "name": "datetime",
+      "path": "type_datetime.csv",
+      "profile": "tabular-data-resource",
+      "schema": {
+        "fields": [
+          {
+            "name": "dttm_undefined",
+            "type": "datetime"
+          },
+          {
+            "name": "dttm_default",
+            "type": "datetime",
+            "format": "default"
+          },
+          {
+            "name": "dttm_any",
+            "type": "datetime",
+            "format": "any"
+          },
+          {
+            "name": "dttm_1",
+            "type": "datetime",
+            "format": "%Y-%m-%dT%H:%M:%SZ"
+          },
+          {
+            "name": "dttm_2",
+            "type": "datetime",
+            "format": "%Y-%m-%dT%H:%M:%S.%f%z"
+          }
+        ]
+      }
     },
     {
       "name": "duration"

@@ -131,7 +131,10 @@
 #' strptime](https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior)
 #' patterns, such as `%I%p%M:%S.%f%z` for `8AM30:00.300+0200`. `%X` is
 #' `%H:%M:%S`.
-#' - [`datetime`]
+#' - [`datetime`](https://specs.frictionlessdata.io/table-schema/#datetime) →
+#' `POSIXct`. Supports `format`, with values `default` (ISO datetime), `any`
+#' (ISO datetime) and the same patterns as for `date` and `time`. `%c` is not
+#' supported.
 #' - [`year`](https://specs.frictionlessdata.io/table-schema/#year) → `date`,
 #' with `01` for month and day.
 #' - [`yearmonth`](https://specs.frictionlessdata.io/table-schema/#yearmonth) →
@@ -344,6 +347,10 @@ read_resource <- function(package, resource_name) {
         format <- gsub("^%X$", "%H:%M:%S", format)        # HMS
         format <- gsub("%S.%f", "%OS", format) # Use fractional seconds when
                                                # milli or microseconds
+      } else if (type == "datetime") {
+        format <- gsub("^default$", "", format)           # ISO (lenient)
+        format <- gsub("^any$", "", format)               # ISO (lenient)
+        format <- gsub("%S.%f", "%OS", format) # Milli/microseconds
       }
       return(format)
     }
