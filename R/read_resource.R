@@ -272,26 +272,34 @@ read_resource <- function(package, resource_name) {
   )
 
   # Create locale with encoding, decimal_mark and grouping_mark
-  assign_mark <- function(char_name, default) {
-    chars <- map_chr(fields, ~ replace_null(.x[[char_name]], NA_character_))
-    chars <- unique_sorted(chars)
-    if (length(chars) == 0) {
-      mark <- default # No chars were defined in fields
-    } else {
-      mark <- chars[1] # One or more chars were defined, use most occurring
-      chars_collapse <- paste(chars, collapse = "` `")
-      warning(glue(
-        "`{char_name}` (`{chars_collapse}`) is defined for some fields. The",
-        "function only supports a global value per resource, so *all* number",
-        "fields will be parsed with `{char_name}`=`{chars[1]}`.", .sep = " "
-      ))
-    }
-    return(mark)
+  d_chars <- map_chr(fields, ~ replace_null(.x$decimalChar, NA_character_))
+  d_chars <- unique_sorted(d_chars)
+  if (length(d_chars) == 0 | (length(d_chars) == 1 & d_chars[1] == ".")) {
+    decimal_mark <- "." # Undefined or all set to default
+  } else {
+    decimal_mark <- d_chars[1]
+    warning(glue(
+      "Some fields define a non-default `decimalChar`. Only a global value is",
+      "supported, so all number fields will be parsed with `{d_chars[1]}` as",
+      "decimal mark.", .sep = " "
+    ))
+  }
+  g_chars <- map_chr(fields, ~ replace_null(.x$groupChar, NA_character_))
+  g_chars <- unique_sorted(g_chars)
+  if (length(g_chars) == 0 | (length(g_chars) == 1 & g_chars[1] == "")) {
+    grouping_mark <- "" # Undefined or all set to default
+  } else {
+    grouping_mark <- g_chars[1]
+    warning(glue(
+      "Some fields define a non-default `groupChar`. Only a global value is",
+      "supported, so all number fields with this property will be parsed with",
+      "`{g_chars[1]}` as grouping mark.", .sep = " "
+    ))
   }
   locale <- locale(
     encoding = replace_null(resource$encoding, "UTF-8"),
-    decimal_mark = assign_mark("decimalChar", "."),
-    grouping_mark = assign_mark("groupChar", "")
+    decimal_mark = decimal_mark,
+    grouping_mark = grouping_mark
   )
 
   # Create col_names: c("name1", "name2", ...)
