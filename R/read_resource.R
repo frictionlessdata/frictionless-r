@@ -139,8 +139,8 @@
 #' with `01` for month and day.
 #' - [`yearmonth`](https://specs.frictionlessdata.io/table-schema/#yearmonth) →
 #' `date`, with `01` for day.
-#' - [`duration`] → `character`. Can be parsed afterward with
-#' `lubridate::duration()`.
+#' - [`duration`](https://specs.frictionlessdata.io/table-schema/#duration) →
+#' `character`. Can be parsed afterwards with [lubridate::duration()].
 #' - [`geopoint`](https://specs.frictionlessdata.io/table-schema/#geopoint) →
 #' `character`.
 #' - [`geojson`](https://specs.frictionlessdata.io/table-schema/#geojson) →

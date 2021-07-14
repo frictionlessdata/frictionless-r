@@ -139,8 +139,8 @@ supported.
 with \code{01} for month and day.
 \item \href{https://specs.frictionlessdata.io/table-schema/#yearmonth}{\code{yearmonth}} →
 \code{date}, with \code{01} for day.
-\item \code{\link{duration}} → \code{character}. Can be parsed afterward with
-\code{lubridate::duration()}.
+\item \href{https://specs.frictionlessdata.io/table-schema/#duration}{\code{duration}} →
+\code{character}. Can be parsed afterwards with \code{\link[lubridate:duration]{lubridate::duration()}}.
 \item \href{https://specs.frictionlessdata.io/table-schema/#geopoint}{\code{geopoint}} →
 \code{character}.
 \item \href{https://specs.frictionlessdata.io/table-schema/#geojson}{\code{geojson}} →
