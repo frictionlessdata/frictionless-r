@@ -24,8 +24,9 @@
 #'   col_guess col_logical col_number col_time locale read_delim
 #' @importFrom stringr str_replace_all
 #'
-#' @details
-#' The [`resource`](https://specs.frictionlessdata.io/data-resource/) properties
+#' @section Resource properties:
+#'
+#' The [resource properties](https://specs.frictionlessdata.io/data-resource/)
 #' are handled as follows:
 #'
 #' ## Path
@@ -89,66 +90,6 @@
 #' Schema.
 #' - `csvddfVersion`: ignored.
 #'
-#' ## Schema
-#'
-#' `schema` is required and must follow the [Table
-#' Schema](http://specs.frictionlessdata.io/table-schema/) specification.
-#'
-#' - Field `name`s are used as column headers.
-#' - [`missingValues`](https://specs.frictionlessdata.io/table-schema/#missing-values)
-#' are used to interpret as `NA`, with `""` as default.
-#'
-#' ## Field types
-#'
-#' [strptime]: https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior
-#'
-#' Field [`type`s](https://specs.frictionlessdata.io/table-schema/#types-and-formats)
-#' are used a column types, as follows:
-#'
-#' - [`string`](https://specs.frictionlessdata.io/table-schema/#string) →
-#' `character`; or `factor` when `enum` is present. `format` is ignored.
-#' - [`number`](https://specs.frictionlessdata.io/table-schema/#number) →
-#' `double`; or `factor` when `enum` is present. Use `bareNumber: false` to
-#' ignore whitespace and non-numeric characters. `decimalChar` (`.` by default)
-#' and `groupChar` (undefined by default) can be defined, but the most occurring
-#' value will be used as a global value for all number fields of that resource.
-#' - [`integer`](https://specs.frictionlessdata.io/table-schema/#integer) →
-#' `double` (not integer, to avoid issues with big numbers); or `factor` when
-#' `enum` is present. Use `bareNumber: false` to ignore whitespace and
-#' non-numeric characters.
-#' - [`boolean`](https://specs.frictionlessdata.io/table-schema/#boolean) →
-#' `logical`. Non-default `trueValues/falseValues` are not supported.
-#' - [`object`](https://specs.frictionlessdata.io/table-schema/#object) →
-#' `character`.
-#' - [`array`](https://specs.frictionlessdata.io/table-schema/#array) →
-#' `character`.
-#' - [`date`](https://specs.frictionlessdata.io/table-schema/#date) → `date`.
-#' Supports `format`, with values `default` (ISO date), `any` (guess `ymd`) and
-#' [Python/C strptime][strptime] patterns, such as `%a, %d %B %Y` for `Sat, 23
-#' November 2013`. `%x` is `%m/%d/%y`. `%j`, `%U`, `%w` and `%W` are not
-#' supported.
-#' - [`time`](https://specs.frictionlessdata.io/table-schema/#time) →
-#' `hms::hms()`. Supports `format`, with values `default` (ISO time), `any`
-#' (guess `hms`) and [Python/C strptime][strptime] patterns, such as
-#' `%I%p%M:%S.%f%z` for `8AM30:00.300+0200`.
-#' - [`datetime`](https://specs.frictionlessdata.io/table-schema/#datetime) →
-#' `POSIXct`. Supports `format`, with values `default` (ISO datetime), `any`
-#' (ISO datetime) and the same patterns as for `date` and `time`. `%c` is not
-#' supported.
-#' - [`year`](https://specs.frictionlessdata.io/table-schema/#year) → `date`,
-#' with `01` for month and day.
-#' - [`yearmonth`](https://specs.frictionlessdata.io/table-schema/#yearmonth) →
-#' `date`, with `01` for day.
-#' - [`duration`](https://specs.frictionlessdata.io/table-schema/#duration) →
-#' `character`. Can be parsed afterwards with [lubridate::duration()].
-#' - [`geopoint`](https://specs.frictionlessdata.io/table-schema/#geopoint) →
-#' `character`.
-#' - [`geojson`](https://specs.frictionlessdata.io/table-schema/#geojson) →
-#' `character`.
-#' - [`any`](https://specs.frictionlessdata.io/table-schema/#any) → `character`.
-#' - no type provided → type is guessed.
-#' - unknown type → type is guessed.
-#'
 #' ## File compression
 #'
 #' Resource file(s) with `path` ending in `.gz`, `.bz2`, `.xz`, or `.zip` are
@@ -168,6 +109,66 @@
 #' - `hash`
 #' - `sources`
 #' - `licenses`
+#'
+#' @section Table schema properties:
+#'
+#' `schema` is required and must follow the [Table
+#' Schema](http://specs.frictionlessdata.io/table-schema/) specification.
+#'
+#' - Field `name`s are used as column headers.
+#' - Field `type`s are use as column types (see further).
+#' - [`missingValues`](https://specs.frictionlessdata.io/table-schema/#missing-values)
+#' are used to interpret as `NA`, with `""` as default.
+#'
+#' ## Field types
+#'
+#' [strptime]: https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior
+#'
+#' Field `type` is used to set the column type, as follows:
+#'
+#' - [string](https://specs.frictionlessdata.io/table-schema/#string) →
+#' `character`; or `factor` when `enum` is present. `format` is ignored.
+#' - [number](https://specs.frictionlessdata.io/table-schema/#number) →
+#' `double`; or `factor` when `enum` is present. Use `bareNumber: false` to
+#' ignore whitespace and non-numeric characters. `decimalChar` (`.` by default)
+#' and `groupChar` (undefined by default) can be defined, but the most occurring
+#' value will be used as a global value for all number fields of that resource.
+#' - [integer](https://specs.frictionlessdata.io/table-schema/#integer) →
+#' `double` (not integer, to avoid issues with big numbers); or `factor` when
+#' `enum` is present. Use `bareNumber: false` to ignore whitespace and
+#' non-numeric characters.
+#' - [boolean](https://specs.frictionlessdata.io/table-schema/#boolean) →
+#' `logical`. Non-default `trueValues/falseValues` are not supported.
+#' - [object](https://specs.frictionlessdata.io/table-schema/#object) →
+#' `character`.
+#' - [array](https://specs.frictionlessdata.io/table-schema/#array) →
+#' `character`.
+#' - [date](https://specs.frictionlessdata.io/table-schema/#date) → `date`.
+#' Supports `format`, with values `default` (ISO date), `any` (guess `ymd`) and
+#' [Python/C strptime][strptime] patterns, such as `%a, %d %B %Y` for `Sat, 23
+#' November 2013`. `%x` is `%m/%d/%y`. `%j`, `%U`, `%w` and `%W` are not
+#' supported.
+#' - [time](https://specs.frictionlessdata.io/table-schema/#time) →
+#' `hms::hms()`. Supports `format`, with values `default` (ISO time), `any`
+#' (guess `hms`) and [Python/C strptime][strptime] patterns, such as
+#' `%I%p%M:%S.%f%z` for `8AM30:00.300+0200`.
+#' - [datetime](https://specs.frictionlessdata.io/table-schema/#datetime) →
+#' `POSIXct`. Supports `format`, with values `default` (ISO datetime), `any`
+#' (ISO datetime) and the same patterns as for `date` and `time`. `%c` is not
+#' supported.
+#' - [year](https://specs.frictionlessdata.io/table-schema/#year) → `date`,
+#' with `01` for month and day.
+#' - [yearmonth](https://specs.frictionlessdata.io/table-schema/#yearmonth) →
+#' `date`, with `01` for day.
+#' - [duration](https://specs.frictionlessdata.io/table-schema/#duration) →
+#' `character`. Can be parsed afterwards with `lubridate::duration()`.
+#' - [geopoint](https://specs.frictionlessdata.io/table-schema/#geopoint) →
+#' `character`.
+#' - [geojson](https://specs.frictionlessdata.io/table-schema/#geojson) →
+#' `character`.
+#' - [any](https://specs.frictionlessdata.io/table-schema/#any) → `character`.
+#' - no type provided → type is guessed.
+#' - unknown type → type is guessed.
 #'
 #' @examples
 #' # Read datapackage.json file

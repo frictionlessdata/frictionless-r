@@ -21,8 +21,10 @@ function is a wrapper around \code{\link[readr:read_delim]{readr::read_delim()}}
 properties \code{path}, CSV dialect, column names, data types, etc. Column names
 are taken from the provided \code{schema}, not from the header in the CSV file(s).
 }
-\details{
-The \href{https://specs.frictionlessdata.io/data-resource/}{\code{resource}} properties
+\section{Resource properties}{
+
+
+The \href{https://specs.frictionlessdata.io/data-resource/}{resource properties}
 are handled as follows:
 \subsection{Path}{
 
@@ -91,66 +93,6 @@ Schema.
 }
 }
 
-\subsection{Schema}{
-
-\code{schema} is required and must follow the \href{http://specs.frictionlessdata.io/table-schema/}{Table Schema} specification.
-\itemize{
-\item Field \code{name}s are used as column headers.
-\item \href{https://specs.frictionlessdata.io/table-schema/#missing-values}{\code{missingValues}}
-are used to interpret as \code{NA}, with \code{""} as default.
-}
-}
-
-\subsection{Field types}{
-
-Field \href{https://specs.frictionlessdata.io/table-schema/#types-and-formats}{\code{type}s}
-are used a column types, as follows:
-\itemize{
-\item \href{https://specs.frictionlessdata.io/table-schema/#string}{\code{string}} →
-\code{character}; or \code{factor} when \code{enum} is present. \code{format} is ignored.
-\item \href{https://specs.frictionlessdata.io/table-schema/#number}{\code{number}} →
-\code{double}; or \code{factor} when \code{enum} is present. Use \code{bareNumber: false} to
-ignore whitespace and non-numeric characters. \code{decimalChar} (\code{.} by default)
-and \code{groupChar} (undefined by default) can be defined, but the most occurring
-value will be used as a global value for all number fields of that resource.
-\item \href{https://specs.frictionlessdata.io/table-schema/#integer}{\code{integer}} →
-\code{double} (not integer, to avoid issues with big numbers); or \code{factor} when
-\code{enum} is present. Use \code{bareNumber: false} to ignore whitespace and
-non-numeric characters.
-\item \href{https://specs.frictionlessdata.io/table-schema/#boolean}{\code{boolean}} →
-\code{logical}. Non-default \code{trueValues/falseValues} are not supported.
-\item \href{https://specs.frictionlessdata.io/table-schema/#object}{\code{object}} →
-\code{character}.
-\item \href{https://specs.frictionlessdata.io/table-schema/#array}{\code{array}} →
-\code{character}.
-\item \href{https://specs.frictionlessdata.io/table-schema/#date}{\code{date}} → \code{date}.
-Supports \code{format}, with values \code{default} (ISO date), \code{any} (guess \code{ymd}) and
-\href{https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior}{Python/C strptime} patterns, such as \verb{\%a, \%d \%B \%Y} for \verb{Sat, 23 November 2013}. \verb{\%x} is \verb{\%m/\%d/\%y}. \verb{\%j}, \verb{\%U}, \verb{\%w} and \verb{\%W} are not
-supported.
-\item \href{https://specs.frictionlessdata.io/table-schema/#time}{\code{time}} →
-\code{hms::hms()}. Supports \code{format}, with values \code{default} (ISO time), \code{any}
-(guess \code{hms}) and \href{https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior}{Python/C strptime} patterns, such as
-\verb{\%I\%p\%M:\%S.\%f\%z} for \verb{8AM30:00.300+0200}.
-\item \href{https://specs.frictionlessdata.io/table-schema/#datetime}{\code{datetime}} →
-\code{POSIXct}. Supports \code{format}, with values \code{default} (ISO datetime), \code{any}
-(ISO datetime) and the same patterns as for \code{date} and \code{time}. \verb{\%c} is not
-supported.
-\item \href{https://specs.frictionlessdata.io/table-schema/#year}{\code{year}} → \code{date},
-with \code{01} for month and day.
-\item \href{https://specs.frictionlessdata.io/table-schema/#yearmonth}{\code{yearmonth}} →
-\code{date}, with \code{01} for day.
-\item \href{https://specs.frictionlessdata.io/table-schema/#duration}{\code{duration}} →
-\code{character}. Can be parsed afterwards with \code{\link[lubridate:duration]{lubridate::duration()}}.
-\item \href{https://specs.frictionlessdata.io/table-schema/#geopoint}{\code{geopoint}} →
-\code{character}.
-\item \href{https://specs.frictionlessdata.io/table-schema/#geojson}{\code{geojson}} →
-\code{character}.
-\item \href{https://specs.frictionlessdata.io/table-schema/#any}{\code{any}} → \code{character}.
-\item no type provided → type is guessed.
-\item unknown type → type is guessed.
-}
-}
-
 \subsection{File compression}{
 
 Resource file(s) with \code{path} ending in \code{.gz}, \code{.bz2}, \code{.xz}, or \code{.zip} are
@@ -174,6 +116,67 @@ the \code{compression} property is
 }
 }
 }
+
+\section{Table schema properties}{
+
+
+\code{schema} is required and must follow the \href{http://specs.frictionlessdata.io/table-schema/}{Table Schema} specification.
+\itemize{
+\item Field \code{name}s are used as column headers.
+\item Field \code{type}s are use as column types (see further).
+\item \href{https://specs.frictionlessdata.io/table-schema/#missing-values}{\code{missingValues}}
+are used to interpret as \code{NA}, with \code{""} as default.
+}
+\subsection{Field types}{
+
+Field \code{type} is used to set the column type, as follows:
+\itemize{
+\item \href{https://specs.frictionlessdata.io/table-schema/#string}{string} →
+\code{character}; or \code{factor} when \code{enum} is present. \code{format} is ignored.
+\item \href{https://specs.frictionlessdata.io/table-schema/#number}{number} →
+\code{double}; or \code{factor} when \code{enum} is present. Use \code{bareNumber: false} to
+ignore whitespace and non-numeric characters. \code{decimalChar} (\code{.} by default)
+and \code{groupChar} (undefined by default) can be defined, but the most occurring
+value will be used as a global value for all number fields of that resource.
+\item \href{https://specs.frictionlessdata.io/table-schema/#integer}{integer} →
+\code{double} (not integer, to avoid issues with big numbers); or \code{factor} when
+\code{enum} is present. Use \code{bareNumber: false} to ignore whitespace and
+non-numeric characters.
+\item \href{https://specs.frictionlessdata.io/table-schema/#boolean}{boolean} →
+\code{logical}. Non-default \code{trueValues/falseValues} are not supported.
+\item \href{https://specs.frictionlessdata.io/table-schema/#object}{object} →
+\code{character}.
+\item \href{https://specs.frictionlessdata.io/table-schema/#array}{array} →
+\code{character}.
+\item \href{https://specs.frictionlessdata.io/table-schema/#date}{date} → \code{date}.
+Supports \code{format}, with values \code{default} (ISO date), \code{any} (guess \code{ymd}) and
+\href{https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior}{Python/C strptime} patterns, such as \verb{\%a, \%d \%B \%Y} for \verb{Sat, 23 November 2013}. \verb{\%x} is \verb{\%m/\%d/\%y}. \verb{\%j}, \verb{\%U}, \verb{\%w} and \verb{\%W} are not
+supported.
+\item \href{https://specs.frictionlessdata.io/table-schema/#time}{time} →
+\code{hms::hms()}. Supports \code{format}, with values \code{default} (ISO time), \code{any}
+(guess \code{hms}) and \href{https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior}{Python/C strptime} patterns, such as
+\verb{\%I\%p\%M:\%S.\%f\%z} for \verb{8AM30:00.300+0200}.
+\item \href{https://specs.frictionlessdata.io/table-schema/#datetime}{datetime} →
+\code{POSIXct}. Supports \code{format}, with values \code{default} (ISO datetime), \code{any}
+(ISO datetime) and the same patterns as for \code{date} and \code{time}. \verb{\%c} is not
+supported.
+\item \href{https://specs.frictionlessdata.io/table-schema/#year}{year} → \code{date},
+with \code{01} for month and day.
+\item \href{https://specs.frictionlessdata.io/table-schema/#yearmonth}{yearmonth} →
+\code{date}, with \code{01} for day.
+\item \href{https://specs.frictionlessdata.io/table-schema/#duration}{duration} →
+\code{character}. Can be parsed afterwards with \code{lubridate::duration()}.
+\item \href{https://specs.frictionlessdata.io/table-schema/#geopoint}{geopoint} →
+\code{character}.
+\item \href{https://specs.frictionlessdata.io/table-schema/#geojson}{geojson} →
+\code{character}.
+\item \href{https://specs.frictionlessdata.io/table-schema/#any}{any} → \code{character}.
+\item no type provided → type is guessed.
+\item unknown type → type is guessed.
+}
+}
+}
+
 \examples{
 # Read datapackage.json file
 package <- read_package(system.file("extdata", "datapackage.json", package = "datapackage"))
