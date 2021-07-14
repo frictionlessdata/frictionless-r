@@ -216,11 +216,58 @@ Schema.</p></li>
 
 <p><code>schema</code> is required and must follow the <a href='http://specs.frictionlessdata.io/table-schema/'>Table Schema</a> specification.</p><ul>
 <li><p>Field <code>name</code>s are used as column headers.</p></li>
-<li><p>Field <code>type</code>s are used as column types when provided. Types are guessed
-when no type is provided or it has no equivalent in R.</p></li>
-<li><p>Field <code>format</code>s (especially for <code>date</code>, <code>time</code>, <code>datetime</code>) are ignored.</p></li>
 <li><p><a href='https://specs.frictionlessdata.io/table-schema/#missing-values'><code>missingValues</code></a>
 are used to interpret as <code>NA</code>, with <code>""</code> as default.</p></li>
+</ul>
+
+
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Field types</h3>
+
+
+<p>Field <a href='https://specs.frictionlessdata.io/table-schema/#types-and-formats'><code>type</code>s</a>
+are used a column types, as follows:</p><ul>
+<li><p><a href='https://specs.frictionlessdata.io/table-schema/#string'><code>string</code></a> →
+<code>character</code>; or <code>factor</code> when <code>enum</code> is present. <code>format</code> is ignored.</p></li>
+<li><p><a href='https://specs.frictionlessdata.io/table-schema/#number'><code>number</code></a> →
+<code>double</code>; or <code>factor</code> when <code>enum</code> is present. Use <code>bareNumber: false</code> to
+ignore whitespace and non-numeric characters. <code>decimalChar</code> (<code>.</code> by default)
+and <code>groupChar</code> (undefined by default) can be defined, but the most occurring
+value will be used as a global value for all number fields of that resource.</p></li>
+<li><p><a href='https://specs.frictionlessdata.io/table-schema/#integer'><code>integer</code></a> →
+<code>double</code> (not integer, to avoid issues with big numbers); or <code>factor</code> when
+<code>enum</code> is present. Use <code>bareNumber: false</code> to ignore whitespace and
+non-numeric characters.</p></li>
+<li><p><a href='https://specs.frictionlessdata.io/table-schema/#boolean'><code>boolean</code></a> →
+<code>logical</code>. Non-default <code>trueValues/falseValues</code> are not supported.</p></li>
+<li><p><a href='https://specs.frictionlessdata.io/table-schema/#object'><code>object</code></a> →
+<code>character</code>.</p></li>
+<li><p><a href='https://specs.frictionlessdata.io/table-schema/#array'><code>array</code></a> →
+<code>character</code>.</p></li>
+<li><p><a href='https://specs.frictionlessdata.io/table-schema/#date'><code>date</code></a> → <code>date</code>.
+Supports <code>format</code>, with values <code>default</code> (ISO date), <code>any</code> (guess <code>ymd</code>) and
+<a href='https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior'>Python/C strptime</a> patterns, such as <code>%a, %d %B %Y</code> for <code>Sat, 23 November 2013</code>. <code>%x</code> is <code>%m/%d/%y</code>. <code>%j</code>, <code>%U</code>, <code>%w</code> and <code>%W</code> are not
+supported.</p></li>
+<li><p><a href='https://specs.frictionlessdata.io/table-schema/#time'><code>time</code></a> →
+<code><a href='https://hms.tidyverse.org/reference/hms.html'>hms::hms()</a></code>. Supports <code>format</code>, with values <code>default</code> (ISO time), <code>any</code>
+(guess <code>hms</code>) and <a href='https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior'>Python/C strptime</a> patterns, such as
+<code>%I%p%M:%S.%f%z</code> for <code>8AM30:00.300+0200</code>.</p></li>
+<li><p><a href='https://specs.frictionlessdata.io/table-schema/#datetime'><code>datetime</code></a> →
+<code>POSIXct</code>. Supports <code>format</code>, with values <code>default</code> (ISO datetime), <code>any</code>
+(ISO datetime) and the same patterns as for <code>date</code> and <code>time</code>. <code>%c</code> is not
+supported.</p></li>
+<li><p><a href='https://specs.frictionlessdata.io/table-schema/#year'><code>year</code></a> → <code>date</code>,
+with <code>01</code> for month and day.</p></li>
+<li><p><a href='https://specs.frictionlessdata.io/table-schema/#yearmonth'><code>yearmonth</code></a> →
+<code>date</code>, with <code>01</code> for day.</p></li>
+<li><p><a href='https://specs.frictionlessdata.io/table-schema/#duration'><code>duration</code></a> →
+<code>character</code>. Can be parsed afterwards with <code>lubridate::duration()</code>.</p></li>
+<li><p><a href='https://specs.frictionlessdata.io/table-schema/#geopoint'><code>geopoint</code></a> →
+<code>character</code>.</p></li>
+<li><p><a href='https://specs.frictionlessdata.io/table-schema/#geojson'><code>geojson</code></a> →
+<code>character</code>.</p></li>
+<li><p><a href='https://specs.frictionlessdata.io/table-schema/#any'><code>any</code></a> → <code>character</code>.</p></li>
+<li><p>no type provided → type is guessed.</p></li>
+<li><p>unknown type → type is guessed.</p></li>
 </ul>
 
 
@@ -261,7 +308,7 @@ the <code>compression</code> property is
 <span class='fu'>read_resource</span><span class='op'>(</span><span class='va'>package</span>, <span class='st'>"observations"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 8 x 7</span>
 #&gt;   observation_id   deployment_id timestamp           scientific_name count age  
-#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>            <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>         <span style='color: #949494; font-style: italic;'>&lt;dttm&gt;</span>              <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>           <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>            <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>         <span style='color: #949494; font-style: italic;'>&lt;dttm&gt;</span>              <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>           <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span>
 #&gt; <span style='color: #BCBCBC;'>1</span> 089113c5-e279-4… 1             2020-01-06 <span style='color: #949494;'>15:59:17</span> Capreolus capr…     1 juve…
 #&gt; <span style='color: #BCBCBC;'>2</span> 060ab157-3a8e-4… 1             2020-01-06 <span style='color: #949494;'>15:59:17</span> Capreolus capr…     1 adult
 #&gt; <span style='color: #BCBCBC;'>3</span> aba72fdc-2fd8-4… 1             2020-01-06 <span style='color: #949494;'>16:35:23</span> Lepus europaeus     1 adult
