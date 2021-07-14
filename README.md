@@ -47,7 +47,7 @@ package$resource_names
 read_resource(package, "observations")
 #> # A tibble: 8 x 7
 #>   observation_id   deployment_id timestamp           scientific_name count age  
-#>   <chr>            <chr>         <dttm>              <chr>           <dbl> <chr>
+#>   <chr>            <chr>         <dttm>              <chr>           <dbl> <fct>
 #> 1 089113c5-e279-4… 1             2020-01-06 15:59:17 Capreolus capr…     1 juve…
 #> 2 060ab157-3a8e-4… 1             2020-01-06 15:59:17 Capreolus capr…     1 adult
 #> 3 aba72fdc-2fd8-4… 1             2020-01-06 16:35:23 Lepus europaeus     1 adult
