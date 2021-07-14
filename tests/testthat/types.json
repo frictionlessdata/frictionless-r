@@ -1,0 +1,303 @@
+{
+  "resources": [
+    {
+      "name": "string",
+      "path": "type_string.csv",
+      "profile": "tabular-data-resource",
+      "schema": {
+        "fields": [
+          {
+            "name": "str",
+            "type": "string"
+          },
+          {
+            "name": "str_factor",
+            "type": "string",
+            "constraints": {
+              "enum": [
+                "foo",
+                "bar"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "number",
+      "path": "type_number.csv",
+      "profile": "tabular-data-resource",
+      "schema": {
+        "fields": [
+          {
+            "name": "num",
+            "type": "number"
+          },
+          {
+            "name": "num_neg",
+            "type": "number"
+          },
+          {
+            "name": "num_factor",
+            "type": "number",
+            "constraints": {
+              "enum": [
+                3.1,
+                3.2,
+                3.3
+              ]
+            }
+          },
+          {
+            "name": "num_nan",
+            "type": "number"
+          },
+          {
+            "name": "num_inf",
+            "type": "number"
+          },
+          {
+            "name": "num_ninf",
+            "type": "number"
+          },
+          {
+            "name": "num_sci",
+            "type": "number"
+          },
+          {
+            "name": "num_ws",
+            "type": "number",
+            "bareNumber": false
+          },
+          {
+            "name": "num_notbare",
+            "type": "number",
+            "bareNumber": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "integer",
+      "path": "type_integer.csv",
+      "profile": "tabular-data-resource",
+      "schema": {
+        "fields": [
+          {
+            "name": "int",
+            "type": "integer"
+          },
+          {
+            "name": "int_neg",
+            "type": "integer"
+          },
+          {
+            "name": "int_factor",
+            "type": "integer",
+            "constraints": {
+              "enum": [
+                3,
+                4,
+                -1
+              ]
+            }
+          },
+          {
+            "name": "int_ws",
+            "type": "integer",
+            "bareNumber": false
+          },
+          {
+            "name": "int_notbare",
+            "type": "integer",
+            "bareNumber": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "boolean",
+      "path": "type_boolean.csv",
+      "profile": "tabular-data-resource",
+      "schema": {
+        "fields": [
+          {
+            "name": "bool_true",
+            "type": "boolean"
+          },
+          {
+            "name": "bool_false",
+            "type": "boolean"
+          }
+        ]
+      }
+    },
+    {
+      "name": "date",
+      "path": "type_date.csv",
+      "profile": "tabular-data-resource",
+      "schema": {
+        "fields": [
+          {
+            "name": "dt_undefined",
+            "type": "date"
+          },
+          {
+            "name": "dt_default",
+            "type": "date",
+            "format": "default"
+          },
+          {
+            "name": "dt_any",
+            "type": "date",
+            "format": "any"
+          },
+          {
+            "name": "dt_shortcut",
+            "type": "date",
+            "format": "%x"
+          },
+          {
+            "name": "dt_1",
+            "type": "date",
+            "format": "%Y %d %m"
+          },
+          {
+            "name": "dt_2",
+            "type": "date",
+            "format": "%d %b %y"
+          },
+          {
+            "name": "dt_3",
+            "type": "date",
+            "format": "%B (%m), %a %d %Y"
+          }
+        ]
+      }
+    },
+    {
+      "name": "time",
+      "path": "type_time.csv",
+      "profile": "tabular-data-resource",
+      "schema": {
+        "fields": [
+          {
+            "name": "tm_undefined",
+            "type": "time"
+          },
+          {
+            "name": "tm_default",
+            "type": "time",
+            "format": "default"
+          },
+          {
+            "name": "tm_any",
+            "type": "time",
+            "format": "any"
+          },
+          {
+            "name": "tm_shortcut",
+            "type": "time",
+            "format": "%X"
+          },
+          {
+            "name": "tm_1",
+            "type": "time",
+            "format": "%I%p%M"
+          },
+          {
+            "name": "tm_2",
+            "type": "time",
+            "format": "%H:%M:%S%Z"
+          },
+          {
+            "name": "tm_3",
+            "type": "time",
+            "format": "%H:%M:%S.%f%z"
+          }
+        ]
+      }
+    },
+    {
+      "name": "datetime",
+      "path": "type_datetime.csv",
+      "profile": "tabular-data-resource",
+      "schema": {
+        "fields": [
+          {
+            "name": "dttm_undefined",
+            "type": "datetime"
+          },
+          {
+            "name": "dttm_default",
+            "type": "datetime",
+            "format": "default"
+          },
+          {
+            "name": "dttm_any",
+            "type": "datetime",
+            "format": "any"
+          },
+          {
+            "name": "dttm_1",
+            "type": "datetime",
+            "format": "%Y-%m-%dT%H:%M:%SZ"
+          },
+          {
+            "name": "dttm_2",
+            "type": "datetime",
+            "format": "%Y-%m-%dT%H:%M:%S.%f%z"
+          }
+        ]
+      }
+    },
+    {
+      "name": "other",
+      "path": "type_other.csv",
+      "profile": "tabular-data-resource",
+      "schema": {
+        "fields": [
+          {
+            "name": "year",
+            "type": "year"
+          },
+          {
+            "name": "yearmonth",
+            "type": "yearmonth"
+          },
+          {
+            "name": "object",
+            "type": "object"
+          },
+          {
+            "name": "array",
+            "type": "array"
+          },
+          {
+            "name": "duration",
+            "type": "duration"
+          },
+          {
+            "name": "geopoint",
+            "type": "geopoint"
+          },
+          {
+            "name": "geojson",
+            "type": "geojson"
+          },
+          {
+            "name": "any",
+            "type": "any"
+          },
+          {
+            "name": "no_type"
+          },
+          {
+            "name": "unknown_type",
+            "type": "not-a-type"
+          }
+        ]
+      }
+    }
+  ]
+}

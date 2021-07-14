@@ -70,7 +70,6 @@
           },
           {
             "name": "latitude",
-            "type": "number",
             "constraints": {
               "required": true,
               "minimum": -90,

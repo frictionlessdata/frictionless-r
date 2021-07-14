@@ -15,12 +15,14 @@
 #' @export
 #'
 #' @importFrom assertthat assert_that
-#' @importFrom dplyr bind_rows recode tibble %>%
+#' @importFrom dplyr arrange bind_rows desc pull tibble %>%
 #' @importFrom glue glue
 #' @importFrom httr http_error
 #' @importFrom jsonlite fromJSON
-#' @importFrom purrr keep map_chr map_dfr
-#' @importFrom readr locale read_delim
+#' @importFrom purrr keep map map_chr
+#' @importFrom readr col_character col_date col_datetime col_double col_factor
+#'   col_guess col_logical col_number col_time locale read_delim
+#' @importFrom stringr str_replace_all
 #'
 #' @details
 #' The [`resource`](https://specs.frictionlessdata.io/data-resource/) properties
@@ -93,11 +95,59 @@
 #' Schema](http://specs.frictionlessdata.io/table-schema/) specification.
 #'
 #' - Field `name`s are used as column headers.
-#' - Field `type`s are used as column types when provided. Types are guessed
-#'   when no type is provided or it has no equivalent in R.
-#' - Field `format`s (especially for `date`, `time`, `datetime`) are ignored.
 #' - [`missingValues`](https://specs.frictionlessdata.io/table-schema/#missing-values)
-#'   are used to interpret as `NA`, with `""` as default.
+#' are used to interpret as `NA`, with `""` as default.
+#'
+#' ## Field types
+#'
+#' [strptime]: https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior
+#'
+#' Field [`type`s](https://specs.frictionlessdata.io/table-schema/#types-and-formats)
+#' are used a column types, as follows:
+#'
+#' - [`string`](https://specs.frictionlessdata.io/table-schema/#string) →
+#' `character`; or `factor` when `enum` is present. `format` is ignored.
+#' - [`number`](https://specs.frictionlessdata.io/table-schema/#number) →
+#' `double`; or `factor` when `enum` is present. Use `bareNumber: false` to
+#' ignore whitespace and non-numeric characters. `decimalChar` (`.` by default)
+#' and `groupChar` (undefined by default) can be defined, but the most occurring
+#' value will be used as a global value for all number fields of that resource.
+#' - [`integer`](https://specs.frictionlessdata.io/table-schema/#integer) →
+#' `double` (not integer, to avoid issues with big numbers); or `factor` when
+#' `enum` is present. Use `bareNumber: false` to ignore whitespace and
+#' non-numeric characters.
+#' - [`boolean`](https://specs.frictionlessdata.io/table-schema/#boolean) →
+#' `logical`. Non-default `trueValues/falseValues` are not supported.
+#' - [`object`](https://specs.frictionlessdata.io/table-schema/#object) →
+#' `character`.
+#' - [`array`](https://specs.frictionlessdata.io/table-schema/#array) →
+#' `character`.
+#' - [`date`](https://specs.frictionlessdata.io/table-schema/#date) → `date`.
+#' Supports `format`, with values `default` (ISO date), `any` (guess `ymd`) and
+#' [Python/C strptime][strptime] patterns, such as `%a, %d %B %Y` for `Sat, 23
+#' November 2013`. `%x` is `%m/%d/%y`. `%j`, `%U`, `%w` and `%W` are not
+#' supported.
+#' - [`time`](https://specs.frictionlessdata.io/table-schema/#time) →
+#' `hms::hms()`. Supports `format`, with values `default` (ISO time), `any`
+#' (guess `hms`) and [Python/C strptime][strptime] patterns, such as
+#' `%I%p%M:%S.%f%z` for `8AM30:00.300+0200`.
+#' - [`datetime`](https://specs.frictionlessdata.io/table-schema/#datetime) →
+#' `POSIXct`. Supports `format`, with values `default` (ISO datetime), `any`
+#' (ISO datetime) and the same patterns as for `date` and `time`. `%c` is not
+#' supported.
+#' - [`year`](https://specs.frictionlessdata.io/table-schema/#year) → `date`,
+#' with `01` for month and day.
+#' - [`yearmonth`](https://specs.frictionlessdata.io/table-schema/#yearmonth) →
+#' `date`, with `01` for day.
+#' - [`duration`](https://specs.frictionlessdata.io/table-schema/#duration) →
+#' `character`. Can be parsed afterwards with [lubridate::duration()].
+#' - [`geopoint`](https://specs.frictionlessdata.io/table-schema/#geopoint) →
+#' `character`.
+#' - [`geojson`](https://specs.frictionlessdata.io/table-schema/#geojson) →
+#' `character`.
+#' - [`any`](https://specs.frictionlessdata.io/table-schema/#any) → `character`.
+#' - no type provided → type is guessed.
+#' - unknown type → type is guessed.
 #'
 #' ## File compression
 #'
@@ -141,6 +191,13 @@ read_resource <- function(package, resource_name) {
     if(!is.null(value)) { value } else { replace }
   }
 
+  # Helper function to get unique values from vector sorted by occurrence
+  unique_sorted <- function(x) {
+    stats::aggregate(x, by = list(x), FUN = length) %>%
+      arrange(desc(x)) %>%
+      pull("Group.1")
+  }
+
   # Check package
   assert_that(
     class(package) == "list",
@@ -165,7 +222,7 @@ read_resource <- function(package, resource_name) {
     )
   )
   resource <- keep(package$resources, function(x) {
-    (x[["name"]] == resource_name)
+    (x$name == resource_name)
   })[[1]]
 
   # Check if resource is `tabular-data-resource`
@@ -222,55 +279,122 @@ read_resource <- function(package, resource_name) {
   }
 
   # Select schema fields
+  fields <- resource$schema$fields
   assert_that(
-    !is.null(resource$schema$fields),
+    !is.null(fields),
     msg = glue(
       "Resource `{resource_name}` must have property `schema` containing",
       "`fields`.", .sep = " "
     )
   )
-  fields <- map_dfr(resource$schema$fields, function(x) {
-    if ("name" %in% names(x)) {
-      (name_value <- x[["name"]])
-    } else {
-      name_value <- NA_character_
-    }
-    if ("type" %in% names(x)) {
-      (type_value <- x[["type"]])
-    } else {
-      type_value <- NA_character_
-    }
-    tibble(name = name_value, type = type_value)
-  })
-  assert_that(all(!is.na(fields$name)),
+
+  # Create locale with encoding, decimal_mark and grouping_mark
+  d_chars <- map_chr(fields, ~ replace_null(.x$decimalChar, NA_character_))
+  d_chars <- unique_sorted(d_chars)
+  if (length(d_chars) == 0 | (length(d_chars) == 1 & d_chars[1] == ".")) {
+    decimal_mark <- "." # Undefined or all set to default
+  } else {
+    decimal_mark <- d_chars[1]
+    warning(glue(
+      "Some fields define a non-default `decimalChar`. Only a global value is",
+      "supported, so all number fields will be parsed with `{d_chars[1]}` as",
+      "decimal mark.", .sep = " "
+    ))
+  }
+  g_chars <- map_chr(fields, ~ replace_null(.x$groupChar, NA_character_))
+  g_chars <- unique_sorted(g_chars)
+  if (length(g_chars) == 0 | (length(g_chars) == 1 & g_chars[1] == "")) {
+    grouping_mark <- "" # Undefined or all set to default
+  } else {
+    grouping_mark <- g_chars[1]
+    warning(glue(
+      "Some fields define a non-default `groupChar`. Only a global value is",
+      "supported, so all number fields with this property will be parsed with",
+      "`{g_chars[1]}` as grouping mark.", .sep = " "
+    ))
+  }
+  locale <- locale(
+    encoding = replace_null(resource$encoding, "UTF-8"),
+    decimal_mark = decimal_mark,
+    grouping_mark = grouping_mark
+  )
+
+  # Create col_names: c("name1", "name2", ...)
+  col_names <- map_chr(fields, ~ replace_null(.x$name, NA_character_))
+  assert_that(all(!is.na(col_names)),
     msg = glue(
-      "Field {which(is.na(fields$name))} of resource `{resource_name}` must",
+      "Field {which(is.na(col_names))} of resource `{resource_name}` must",
       "have the property `name`.", .sep = " "
     )
   )
-  field_names <- fields$name
-  field_types <- fields$type
 
-  # Recode field types
-  field_types <- recode(field_types,
-    "string" = "c", # Format (email, url) ignored
-    "number" = "n",
-    "integer" = "d", # Not integer to avoid .Machine$integer.max overflow issues
-    "boolean" = "l",
-    "object" = "?",
-    "array" = "?",
-    "date" = "D",
-    "time" = "t",
-    "datetime" = "T",
-    "year" = "f",
-    "yearmonth" = "f",
-    "duration" = "?",
-    "geopoint" = "?",
-    "geojson" = "?",
-    "any" = "?",
-    .default = "?", # Unrecognized type
-    .missing = "?" # No type provided
-  )
+  # Create col_types: list(<collector_character>, <collector_logical>, ...)
+  col_types <- map(fields, function(x) {
+    type <- replace_null(x$type, NA_character_)
+    enum <- x$constraints$enum
+    group_char <- ifelse(replace_null(x$groupChar, "") != "", TRUE, FALSE)
+    bare_number <- ifelse(replace_null(x$bareNumber, TRUE), TRUE, FALSE)
+    format <- replace_null(x$format, "default") # Undefined = default
+    convert_format <- function(format, translations) {
+      format %>% str_replace_all(translations)
+    }
+
+    # Assign types and formats
+    col_type <- switch(type,
+      "string" = if(length(enum) > 0) {
+          col_factor(levels = enum)
+        } else {
+          col_character()
+        },
+      "number" = if(length(enum) > 0) {
+          col_factor(levels = as.character(enum))
+        } else if (group_char) {
+          col_number() # Supports grouping_mark
+        } else if (bare_number) {
+          col_double() # Allows NaN, INF, -INF
+        } else {
+          col_number() # Strips non-numeric
+        },
+      "integer" = if(length(enum) > 0) {
+          col_factor(levels = as.character(enum))
+        } else if (bare_number) {
+          col_double() # Not col_integer() to avoid issues with big integers
+        } else {
+          col_number() # Strips non-numeric
+        },
+      "boolean" = col_logical(),
+      "object" = col_character(),
+      "array" = col_character(),
+      "date" = col_date(format = convert_format(format, c(
+        "^default$" = "%Y-%m-%d", # ISO
+        "^any$" = "%AD",          # YMD
+        "^%x$" = "%m/%d/%y"       # Python strptime for %x
+      ))),
+      "time" = col_time(format = convert_format(format, c(
+        "^default$" = "%AT",      # H(MS)
+        "^any$"= "%AT",           # H(MS)
+        "^%X$" = "%H:%M:%S",      # HMS
+        "%S.%f" = "%OS"           # Milli/microseconds
+      ))),
+      "datetime" = col_datetime(format = convert_format(format, c(
+        "^default$" = "",         # ISO (lenient)
+        "^any$" = "",             # ISO (lenient)
+        "%S.%f" = "%OS"           # Milli/microseconds
+      ))),
+      "year" = col_date(format = "%Y"),
+      "yearmonth" = col_date(format = "%Y-%m"),
+      "duration" = col_character(),
+      "geopoint" = col_character(),
+      "geojson" = col_character(),
+      "any" = col_character()
+    )
+    # col_type will be NULL when type is undefined (NA_character) or an
+    # unrecognized value (e.g. "datum"). Set those to col_guess()
+    col_type <- replace_null(col_type, col_guess())
+    col_type
+  })
+  # Assign names: list("name1" = <collector_character>, "name2" = ...)
+  names(col_types) <- col_names
 
   # Select CSV dialect, see https://specs.frictionlessdata.io/csv-dialect/
   dialect <- resource$dialect # Can be NULL
@@ -291,9 +415,9 @@ read_resource <- function(package, resource_name) {
         FALSE,
         replace_null(dialect$doubleQuote, TRUE)
       ),
-      col_names = field_names,
-      col_types = paste(field_types, collapse = ""),
-      locale = locale(encoding = replace_null(resource$encoding, "UTF-8")),
+      col_names = col_names,
+      col_types = col_types,
+      locale = locale,
       na = replace_null(resource$schema$missingValues, ""),
       quoted_na = TRUE,
       comment = replace_null(dialect$commentChar, ""),
@@ -305,5 +429,6 @@ read_resource <- function(package, resource_name) {
     dataframes[[i]] <- data
   }
 
+  # Merge data frames for all paths
   bind_rows(dataframes)
 }
