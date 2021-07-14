@@ -289,7 +289,6 @@ test_that("read_resource() handles dates", {
   expected_value <- as.Date("2013-11-23")
   pkg <- suppressMessages(read_package("types.json"))
   resource <- read_resource(pkg, "date")
-  # See https://docs.python.org/2/library/datetime.html#strftime-and-strptime-behavior
   # This test covers:
   # - year: %Y %y
   # - month: %m (including 1 digit) %b %B
@@ -303,6 +302,27 @@ test_that("read_resource() handles dates", {
   expect_identical(resource$dt_1, expected_value)
   expect_identical(resource$dt_2, expected_value)
   expect_identical(resource$dt_3, expected_value)
+})
+
+test_that("read_resource() handles times", {
+  expected_value <- hms::hms(0, 30, 8) # "08:30:00"
+  pkg <- suppressMessages(read_package("types.json"))
+  resource <- read_resource(pkg, "time")
+  # This test covers:
+  # - hour: %H (including 1 digit) %I + %p
+  # - minute: %M
+  # - seconds: %S
+  # - milli/microseconds: %f
+  # - timezone: %Z %z
+  # - shortcut: %X (as %H:%M:%S)
+
+  expect_identical(resource$tm_undefined, expected_value)
+  expect_identical(resource$tm_default, expected_value)
+  expect_identical(resource$tm_any, expected_value)
+  expect_identical(resource$tm_shortcut, expected_value)
+  expect_identical(resource$tm_1, expected_value)
+  expect_identical(resource$tm_2, expected_value)
+  expect_identical(resource$tm_3, hms::hms(0.3, 30, 8)) # "08:30:00.3"
 })
 
 test_that("read_resource() handles other types", {

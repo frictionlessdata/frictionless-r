@@ -176,7 +176,47 @@
       }
     },
     {
-      "name": "time"
+      "name": "time",
+      "path": "type_time.csv",
+      "profile": "tabular-data-resource",
+      "schema": {
+        "fields": [
+          {
+            "name": "tm_undefined",
+            "type": "time"
+          },
+          {
+            "name": "tm_default",
+            "type": "time",
+            "format": "default"
+          },
+          {
+            "name": "tm_any",
+            "type": "time",
+            "format": "any"
+          },
+          {
+            "name": "tm_shortcut",
+            "type": "time",
+            "format": "%X"
+          },
+          {
+            "name": "tm_1",
+            "type": "time",
+            "format": "%I%p%M"
+          },
+          {
+            "name": "tm_2",
+            "type": "time",
+            "format": "%H:%M:%S%Z"
+          },
+          {
+            "name": "tm_3",
+            "type": "time",
+            "format": "%H:%M:%S.%f%z"
+          }
+        ]
+      }
     },
     {
       "name": "datetime"

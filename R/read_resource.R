@@ -119,13 +119,18 @@
 #' `character`.
 #' - [`array`](https://specs.frictionlessdata.io/table-schema/#array) →
 #' `character`.
-#' - [`date`](https://specs.frictionlessdata.io/table-schema/#array) → `date`.
+#' - [`date`](https://specs.frictionlessdata.io/table-schema/#date) → `date`.
 #' Supports `format`, with values `default` (ISO date), `any` (guess `ymd`) and
 #' [Python/C
 #' strptime](https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior)
 #' patterns, such as `%a, %d %B %Y` for `Sat, 23 November 2013`. `%x` is
 #' `%m/%d/%y`.
-#' - [`time`]
+#' - [`time`](https://specs.frictionlessdata.io/table-schema/#time) →
+#' `hms::hms()`. Supports `format`, with values `default` (ISO date), `any`
+#' (guess `ymd`) and [Python/C
+#' strptime](https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior)
+#' patterns, such as `%I%p%M:%S.%f%z` for `8AM30:00.300+0200`. `%X` is
+#' `%H:%M:%S`.
 #' - [`datetime`]
 #' - [`year`](https://specs.frictionlessdata.io/table-schema/#year) → `date`,
 #' with `01` for month and day.
@@ -326,11 +331,19 @@ read_resource <- function(package, resource_name) {
     group_char <- ifelse(replace_null(x$groupChar, "") != "", TRUE, FALSE)
     bare_number <- ifelse(replace_null(x$bareNumber, TRUE), TRUE, FALSE)
     convert_format <- function(type, format) {
-      format <- replace_null(x$format, "")
+      format <- replace_null(x$format, "undefined")
       if (type == "date") {
-        format <- gsub("default", "%Y-%m-%d", format) # Require ISO
-        format <- gsub("^any$", "%AD", format) # Automatic parser
+        format <- gsub("^undefined$", "%Y-%m-%d", format) # ISO
+        format <- gsub("^default$", "%Y-%m-%d", format)   # ISO
+        format <- gsub("^any$", "", format)               # YMD
         format <- gsub("^%x$", "%m/%d/%y", format) # Use Python strptime for %x
+      } else if (type == "time") {
+        format <- gsub("^undefined$", "", format)         # H(MS)
+        format <- gsub("^default$", "", format)           # H(MS)
+        format <- gsub("^any$", "", format)               # H(MS)
+        format <- gsub("^%X$", "%H:%M:%S", format)        # HMS
+        format <- gsub("%S.%f", "%OS", format) # Use fractional seconds when
+                                               # milli or microseconds
       }
       return(format)
     }
