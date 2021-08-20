@@ -420,7 +420,6 @@ read_resource <- function(package, resource_name) {
       col_types = col_types,
       locale = locale,
       na = replace_null(resource$schema$missingValues, ""),
-      quoted_na = TRUE,
       comment = replace_null(dialect$commentChar, ""),
       trim_ws = replace_null(dialect$skipInitialSpace, FALSE),
       # Skip header row when present
