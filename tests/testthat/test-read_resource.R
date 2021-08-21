@@ -169,7 +169,7 @@ test_that("read_resource() handles LF, CR and CRLF line endings", {
 
   pkg_crlf <- pkg
   pkg_crlf$directory <- "." # Use "./tests/testthat" outside test
-  pkg_crlf$resources[[1]]$path <- "deployments_cr.csv" # This file has CRLF
+  pkg_crlf$resources[[1]]$path <- "deployments_crlf.csv" # This file has CRLF
   resource_crlf <- read_resource(pkg_crlf, "deployments")
 
   expect_identical(resource, resource_cr)
