@@ -80,6 +80,7 @@ These are the CSV dialect properties. Some are ignored by the function:
 interpreted automatically by \code{\link[readr:read_delim]{readr::read_delim()}}.
 \item \code{quoteChar}: default \verb{"}
 \item \code{doubleQuote}: default \code{true}
+\item \code{quoteChar}: default \verb{"}
 \item \code{escapeChar}: anything but \verb{\\} is ignored and it will set \code{doubleQuote} to
 \code{false} as these fields are mutually exclusive. You can thus not escape with
 \verb{\\"} and \code{""} in the same file.

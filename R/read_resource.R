@@ -77,8 +77,8 @@
 #' - `delimiter`: default `,`
 #' - `lineTerminator`: ignored, line endings `LF`, `CRLF` and `CR` are
 #' interpreted automatically by [readr::read_delim()].
-#' - `quoteChar`: default `"`
 #' - `doubleQuote`: default `true`
+#' - `quoteChar`: default `"`
 #' - `escapeChar`: anything but `\` is ignored and it will set `doubleQuote` to
 #' `false` as these fields are mutually exclusive. You can thus not escape with
 #' `\"` and `""` in the same file.
