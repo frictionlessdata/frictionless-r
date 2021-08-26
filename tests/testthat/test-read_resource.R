@@ -142,8 +142,8 @@ test_that("read_resource() understands encoding", {
   expect_identical(resource, resource_encoding)
 })
 
-test_that("read_resource() handles LF, CR and CRLF line endings", {
-  # There are 3 line endings:
+test_that("read_resource() handles LF and CRLF line terminator characters", {
+  # There are 3 line terminator characters:
   # LF    \n    Unix/Mac OS X
   # CR    \r    Max OS before X
   # CRLF  \r\n  Windows
@@ -151,28 +151,22 @@ test_that("read_resource() handles LF, CR and CRLF line endings", {
   # dialect$lineTerminator should be used (with default CRLF)
   # https://specs.frictionlessdata.io/tabular-data-resource/#csv-file-requirements
   #
-  # Line endings can be checked in terminal with:
-  #$ file deployments_cr.csv
-  #deployments_cr.csv: UTF-8 Unicode text, with CR line terminators
+  # Line terminator characters can be checked in terminal with:
+  #$ file deployments_crlf.csv
+  #deployments_crlf.csv: UTF-8 Unicode text, with CRLF line terminators
   #
-  # read_delim() however handles all 3 line endings with explicitly indicating,
-  # so dialect$lineTerminator is ignored
+  # read_delim() however only handles 2 line terminator characters (LF and CRLF)
+  # without explicitly indicating them, so dialect$lineTerminator is ignored
   pkg <- suppressMessages(read_package(
     system.file("extdata", "datapackage.json", package = "datapackage"))
   )
   resource <- read_resource(pkg, "deployments") # This file has LF
-
-  pkg_cr <- pkg
-  pkg_cr$directory <- "." # Use "./tests/testthat" outside test
-  pkg_cr$resources[[1]]$path <- "deployments_cr.csv" # This file has CR
-  resource_cr <- read_resource(pkg_cr, "deployments")
 
   pkg_crlf <- pkg
   pkg_crlf$directory <- "." # Use "./tests/testthat" outside test
   pkg_crlf$resources[[1]]$path <- "deployments_crlf.csv" # This file has CRLF
   resource_crlf <- read_resource(pkg_crlf, "deployments")
 
-  expect_identical(resource, resource_cr)
   expect_identical(resource, resource_crlf)
 })
 

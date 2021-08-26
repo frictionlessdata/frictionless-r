@@ -75,8 +75,9 @@
 #'
 #' These are the CSV dialect properties. Some are ignored by the function:
 #' - `delimiter`: default `,`
-#' - `lineTerminator`: ignored, line endings `LF`, `CRLF` and `CR` are
-#' interpreted automatically by [readr::read_delim()].
+#' - `lineTerminator`: ignored, line terminator characters `LF` and `CRLF` are
+#' interpreted automatically by [readr::read_delim()], while `CR` (used by
+#' Classic Mac OS, final release 2001) is not supported.
 #' - `doubleQuote`: default `true`
 #' - `quoteChar`: default `"`
 #' - `escapeChar`: anything but `\` is ignored and it will set `doubleQuote` to

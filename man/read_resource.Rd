@@ -76,9 +76,9 @@ a header row needs:\if{html}{\out{<div class="json">}}\preformatted{"dialect": \
 These are the CSV dialect properties. Some are ignored by the function:
 \itemize{
 \item \code{delimiter}: default \verb{,}
-\item \code{lineTerminator}: ignored, line endings \code{LF}, \code{CRLF} and \code{CR} are
-interpreted automatically by \code{\link[readr:read_delim]{readr::read_delim()}}.
-\item \code{quoteChar}: default \verb{"}
+\item \code{lineTerminator}: ignored, line terminator characters \code{LF} and \code{CRLF} are
+interpreted automatically by \code{\link[readr:read_delim]{readr::read_delim()}}, while \code{CR} (used by
+Classic Mac OS, final release 2001) is not supported.
 \item \code{doubleQuote}: default \code{true}
 \item \code{quoteChar}: default \verb{"}
 \item \code{escapeChar}: anything but \verb{\\} is ignored and it will set \code{doubleQuote} to
