@@ -366,20 +366,28 @@ test_that("read_resource() handles other types", {
 
 test_that("read_resource() handles decimalChar/groupChar properties", {
   expected_value <- 3000000.3
-  pkg <- suppressMessages(read_package("decimal_group.json"))
+  pkg <- suppressMessages(read_package("mark.json"))
 
   # Default decimalChar/groupChar
-  resource <- read_resource(pkg, "decimal_group_default")
+  resource <- read_resource(pkg, "mark_default")
+  expect_identical(resource$num, expected_value) # 3000000.30
+  expect_identical(resource$num_undefined, expected_value) # 3000000.30
+
+  # Non-default decimalChar, default groupChar (which should not conflict)
+  warnings <- capture_warnings(read_resource(pkg, "mark_decimal"))
+  expect_match(warnings[1], "Some fields define a non-default `decimalChar`.")
+
+  resource <- suppressWarnings(read_resource(pkg, "mark_decimal"))
   expect_identical(resource$num, expected_value) # 3000000.30
   expect_identical(resource$num_undefined, expected_value) # 3000000.30
 
   # Non-default decimalChar/groupChar
-  warnings <- capture_warnings(read_resource(pkg, "decimal_group"))
+  warnings <- capture_warnings(read_resource(pkg, "mark_decimal_group"))
   expect_true(length(warnings) == 3) # 2 warnings + 1 parsing failure last field
   expect_match(warnings[1], "Some fields define a non-default `decimalChar`.")
   expect_match(warnings[2], "Some fields define a non-default `groupChar`.")
 
-  resource <- suppressWarnings(read_resource(pkg, "decimal_group"))
+  resource <- suppressWarnings(read_resource(pkg, "mark_decimal_group"))
   expect_identical(resource$num, expected_value) # 3.000.000,30
   # Field without decimalChar is still parsed with non-default decimalChar
   expect_identical(resource$num_undefined, expected_value) # 3000000,30
