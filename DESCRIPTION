@@ -1,6 +1,6 @@
 Package: datapackage
 Title: Read and Write Frictionless Data Packages
-Version: 0.1.0.9000
+Version: 0.2.0.9000
 Authors@R: c(
     person(given = "Peter",
            family = "Desmet",

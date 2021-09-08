@@ -75,10 +75,11 @@
 #'
 #' These are the CSV dialect properties. Some are ignored by the function:
 #' - `delimiter`: default `,`
-#' - `lineTerminator`: ignored, line endings `LF`, `CRLF` and `CR` are
-#' interpreted automatically by [readr::read_delim()].
-#' - `quoteChar`: default `"`
+#' - `lineTerminator`: ignored, line terminator characters `LF` and `CRLF` are
+#' interpreted automatically by [readr::read_delim()], while `CR` (used by
+#' Classic Mac OS, final release 2001) is not supported.
 #' - `doubleQuote`: default `true`
+#' - `quoteChar`: default `"`
 #' - `escapeChar`: anything but `\` is ignored and it will set `doubleQuote` to
 #' `false` as these fields are mutually exclusive. You can thus not escape with
 #' `\"` and `""` in the same file.
@@ -293,7 +294,7 @@ read_resource <- function(package, resource_name) {
   d_chars <- map_chr(fields, ~ replace_null(.x$decimalChar, NA_character_))
   d_chars <- unique_sorted(d_chars)
   if (length(d_chars) == 0 | (length(d_chars) == 1 & d_chars[1] == ".")) {
-    decimal_mark <- "." # Undefined or all set to default
+    decimal_mark <- "." # Set default to "." if undefined or all set to "."
   } else {
     decimal_mark <- d_chars[1]
     warning(glue(
@@ -305,7 +306,11 @@ read_resource <- function(package, resource_name) {
   g_chars <- map_chr(fields, ~ replace_null(.x$groupChar, NA_character_))
   g_chars <- unique_sorted(g_chars)
   if (length(g_chars) == 0 | (length(g_chars) == 1 & g_chars[1] == "")) {
-    grouping_mark <- "" # Undefined or all set to default
+    grouping_mark <- "`" # Set default to "`" if undefined or all set to ""
+    # This value is set to "`" because it is unlikely to occur and will only
+    # be used for bareNumber=false with undefined grouping_mark. It is not set
+    # to "" because https://github.com/tidyverse/readr/issues/1241
+    # nor "," because that can conflict with non-default decimal_mark.
   } else {
     grouping_mark <- g_chars[1]
     warning(glue(
@@ -334,7 +339,7 @@ read_resource <- function(package, resource_name) {
     type <- replace_null(x$type, NA_character_)
     enum <- x$constraints$enum
     group_char <- ifelse(replace_null(x$groupChar, "") != "", TRUE, FALSE)
-    bare_number <- ifelse(replace_null(x$bareNumber, TRUE), TRUE, FALSE)
+    bare_number <- ifelse(replace_null(x$bareNumber, "") != FALSE, TRUE, FALSE)
     format <- replace_null(x$format, "default") # Undefined = default
     convert_format <- function(format, translations) {
       format %>% str_replace_all(translations)
@@ -354,14 +359,14 @@ read_resource <- function(package, resource_name) {
         } else if (bare_number) {
           col_double() # Allows NaN, INF, -INF
         } else {
-          col_number() # Strips non-numeric
+          col_number() # Strips non-numeric chars + uses default grouping_mark
         },
       "integer" = if(length(enum) > 0) {
           col_factor(levels = as.character(enum))
         } else if (bare_number) {
           col_double() # Not col_integer() to avoid issues with big integers
         } else {
-          col_number() # Strips non-numeric
+          col_number() # Strips non-numeric chars
         },
       "boolean" = col_logical(),
       "object" = col_character(),
@@ -420,7 +425,6 @@ read_resource <- function(package, resource_name) {
       col_types = col_types,
       locale = locale,
       na = replace_null(resource$schema$missingValues, ""),
-      quoted_na = TRUE,
       comment = replace_null(dialect$commentChar, ""),
       trim_ws = replace_null(dialect$skipInitialSpace, FALSE),
       # Skip header row when present
