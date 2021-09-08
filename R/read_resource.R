@@ -335,7 +335,7 @@ read_resource <- function(package, resource_name) {
     type <- replace_null(x$type, NA_character_)
     enum <- x$constraints$enum
     group_char <- ifelse(replace_null(x$groupChar, "") != "", TRUE, FALSE)
-    bare_number <- ifelse(replace_null(x$bareNumber, TRUE), TRUE, FALSE)
+    bare_number <- ifelse(replace_null(x$bareNumber, "") != FALSE, TRUE, FALSE)
     format <- replace_null(x$format, "default") # Undefined = default
     convert_format <- function(format, translations) {
       format %>% str_replace_all(translations)
