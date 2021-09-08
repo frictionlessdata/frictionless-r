@@ -306,8 +306,8 @@ read_resource <- function(package, resource_name) {
   g_chars <- map_chr(fields, ~ replace_null(.x$groupChar, NA_character_))
   g_chars <- unique_sorted(g_chars)
   if (length(g_chars) == 0 | (length(g_chars) == 1 & g_chars[1] == "")) {
-    grouping_mark <- "¡" # Set default to "¡" if undefined or all set to ""
-    # This value is set to "¡" because it is unlikely to occur and will only
+    grouping_mark <- "`" # Set default to "`" if undefined or all set to ""
+    # This value is set to "`" because it is unlikely to occur and will only
     # be used for bareNumber=false with undefined grouping_mark. It is not set
     # to "" because https://github.com/tidyverse/readr/issues/1241
     # nor "," because that can conflict with non-default decimal_mark.
