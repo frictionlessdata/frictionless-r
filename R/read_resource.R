@@ -294,7 +294,7 @@ read_resource <- function(package, resource_name) {
   d_chars <- map_chr(fields, ~ replace_null(.x$decimalChar, NA_character_))
   d_chars <- unique_sorted(d_chars)
   if (length(d_chars) == 0 | (length(d_chars) == 1 & d_chars[1] == ".")) {
-    decimal_mark <- "." # Undefined or all set to default
+    decimal_mark <- "." # Set default to "." if undefined or all set to "."
   } else {
     decimal_mark <- d_chars[1]
     warning(glue(
@@ -306,7 +306,11 @@ read_resource <- function(package, resource_name) {
   g_chars <- map_chr(fields, ~ replace_null(.x$groupChar, NA_character_))
   g_chars <- unique_sorted(g_chars)
   if (length(g_chars) == 0 | (length(g_chars) == 1 & g_chars[1] == "")) {
-    grouping_mark <- "" # Undefined or all set to default
+    grouping_mark <- "♥" # Set default to "♥" if undefined or all set to ""
+    # This value is set to "♥" because it is unlikely to occur and will only
+    # be used for bareNumber=false with undefined grouping_mark. It is not set
+    # to "" because https://github.com/tidyverse/readr/issues/1241
+    # nor "," because that can conflict with non-default decimal_mark.
   } else {
     grouping_mark <- g_chars[1]
     warning(glue(
@@ -355,14 +359,14 @@ read_resource <- function(package, resource_name) {
         } else if (bare_number) {
           col_double() # Allows NaN, INF, -INF
         } else {
-          col_number() # Strips non-numeric
+          col_number() # Strips non-numeric chars + uses default grouping_mark
         },
       "integer" = if(length(enum) > 0) {
           col_factor(levels = as.character(enum))
         } else if (bare_number) {
           col_double() # Not col_integer() to avoid issues with big integers
         } else {
-          col_number() # Strips non-numeric
+          col_number() # Strips non-numeric chars
         },
       "boolean" = col_logical(),
       "object" = col_character(),
