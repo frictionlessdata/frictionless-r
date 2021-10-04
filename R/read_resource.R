@@ -17,7 +17,6 @@
 #' @importFrom assertthat assert_that
 #' @importFrom dplyr arrange bind_rows desc pull tibble %>%
 #' @importFrom glue glue
-#' @importFrom httr http_error
 #' @importFrom jsonlite fromJSON
 #' @importFrom purrr keep map map_chr
 #' @importFrom readr col_character col_date col_datetime col_double col_factor
@@ -242,43 +241,7 @@ read_resource <- function(package, resource_name) {
     !is.null(resource$path),
     msg = glue("Resource `{resource_name}` must have property `path`.")
   )
-  paths <-
-    resource$path %>%
-    # If not URL, append directory to create a full path
-    map_chr(function(path) {
-      if (startsWith(path, "http")) {
-        path
-      } else {
-        assert_that(
-          !startsWith(path, "/"),
-          msg = glue(
-            "{path} is an absolute path (`/`) which is forbidden to avoid",
-            "security vulnerabilities.", .sep = " "
-          )
-        )
-        assert_that(
-          !startsWith(path, "../"),
-          msg = glue(
-            "{path} is a relative parent path (`../`) which is forbidden to",
-            "avoid security vulnerabilities.", .sep = " "
-          )
-        )
-        paste(package$directory, path, sep = "/")
-      }
-    })
-  for (path in paths) {
-    if (startsWith(path, "http")) {
-      assert_that(
-        !http_error(path),
-        msg = glue("Can't find file at `{path}`.")
-      )
-    } else {
-      assert_that(
-        file.exists(path),
-        msg = glue("Can't find file at `{path}`.")
-      )
-    }
-  }
+  paths <- map_chr(resource$path, ~ check_path(.x, package$directory))
 
   # Select schema fields
   fields <- resource$schema$fields
