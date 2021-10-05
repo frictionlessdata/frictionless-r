@@ -188,18 +188,6 @@
 #' purrr::map_chr(package$resources[[2]]$schema$fields, "name")
 #' purrr::map_chr(package$resources[[2]]$schema$fields, "type")
 read_resource <- function(package, resource_name) {
-  # Helper function to assign value when property is NULL
-  replace_null <- function(value, replace) {
-    if(!is.null(value)) { value } else { replace }
-  }
-
-  # Helper function to get unique values from vector sorted by occurrence
-  unique_sorted <- function(x) {
-    stats::aggregate(x, by = list(x), FUN = length) %>%
-      arrange(desc(x)) %>%
-      pull("Group.1")
-  }
-
   # Check package
   assert_that(
     class(package) == "list",
