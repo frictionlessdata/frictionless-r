@@ -99,7 +99,7 @@
 
 <span class="co"># Read data from resource "observations"</span>
 <span class="fu"><a href="reference/read_resource.html">read_resource</a></span><span class="op">(</span><span class="va">package</span>, <span class="st">"observations"</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 8 x 7</span>
+<span class="co">#&gt; # A tibble: 8 × 7</span>
 <span class="co">#&gt;   observation_id   deployment_id timestamp           scientific_name count age  </span>
 <span class="co">#&gt;   &lt;chr&gt;            &lt;chr&gt;         &lt;dttm&gt;              &lt;chr&gt;           &lt;dbl&gt; &lt;fct&gt;</span>
 <span class="co">#&gt; 1 089113c5-e279-4… 1             2020-01-06 15:59:17 Capreolus capr…     1 juve…</span>
@@ -131,7 +131,7 @@
 <span class="co"># Read gps data: will return a single data frame, even though data are </span>
 <span class="co"># split over multiple csv files</span>
 <span class="fu"><a href="reference/read_resource.html">read_resource</a></span><span class="op">(</span><span class="va">package</span>, <span class="st">"gps"</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 73,047 x 21</span>
+<span class="co">#&gt; # A tibble: 73,047 × 21</span>
 <span class="co">#&gt;     `event-id` visible timestamp           `location-long` `location-lat`</span>
 <span class="co">#&gt;          &lt;dbl&gt; &lt;lgl&gt;   &lt;dttm&gt;                        &lt;dbl&gt;          &lt;dbl&gt;</span>
 <span class="co">#&gt;  1 14256075762 TRUE    2018-05-25 16:11:37            4.25           51.3</span>
@@ -150,8 +150,7 @@
 <span class="co">#&gt; #   heading &lt;dbl&gt;, height-above-msl &lt;dbl&gt;, location-error-numerical &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   manually-marked-outlier &lt;lgl&gt;, vertical-error-numerical &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   sensor-type &lt;chr&gt;, individual-taxon-canonical-name &lt;chr&gt;,</span>
-<span class="co">#&gt; #   tag-local-identifier &lt;chr&gt;, individual-local-identifier &lt;chr&gt;,</span>
-<span class="co">#&gt; #   study-name &lt;chr&gt;</span></code></pre></div>
+<span class="co">#&gt; #   tag-local-identifier &lt;chr&gt;, individual-local-identifier &lt;chr&gt;, …</span></code></pre></div>
 </div>
 </div>
 </div>

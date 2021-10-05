@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Check URL or path — check_path • datapackage</title>
+<title>Check path or URL — check_path • datapackage</title>
 
 
 <!-- jquery -->
@@ -39,12 +39,11 @@
 
 
 
-<meta property="og:title" content="Check URL or path — check_path" />
+<meta property="og:title" content="Check path or URL — check_path" />
 <meta property="og:description" content="Check if a
-URL or path
-is valid and prepend with directory to create a full path. Returns error when
-no file can be found and optionally for unsafe absolute and relative parent
-paths." />
+path or URL
+is valid (and optionally safe) and prepend with directory to create an
+absolute path or URL. Returns error when no file can be found." />
 
 
 
@@ -112,27 +111,26 @@ paths." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Check URL or path</h1>
+    <h1>Check path or URL</h1>
     <small class="dont-index">Source: <a href='https://github.com/inbo/datapackage/blob/master/R/zzz.R'><code>R/zzz.R</code></a></small>
     <div class="hidden name"><code>check_path.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>Check if a
-<a href='https://specs.frictionlessdata.io/data-resource/#url-or-path'>URL or path</a>
-is valid and prepend with directory to create a full path. Returns error when
-no file can be found and optionally for unsafe absolute and relative parent
-paths.</p>
+<a href='https://specs.frictionlessdata.io/data-resource/#url-or-path'>path or URL</a>
+is valid (and optionally safe) and prepend with directory to create an
+absolute path or URL. Returns error when no file can be found.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>check_path</span><span class='op'>(</span><span class='va'>url_or_path</span>, directory <span class='op'>=</span> <span class='cn'>NULL</span>, unsafe <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>check_path</span><span class='op'>(</span><span class='va'>path</span>, directory <span class='op'>=</span> <span class='cn'>NULL</span>, unsafe <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>url_or_path</th>
-      <td><p>URL or path to a file.</p></td>
+      <th>path</th>
+      <td><p>Path or URL to a file.</p></td>
     </tr>
     <tr>
       <th>directory</th>
@@ -140,13 +138,13 @@ paths.</p>
     </tr>
     <tr>
       <th>unsafe</th>
-      <td><p>Allow unsafe absolute and relative parent paths.</p></td>
+      <td><p>Allow <code>path</code> to be an unsafe absolute or relative parent path.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Full path or error.</p>
+    <p>Absolute parh or URL.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
