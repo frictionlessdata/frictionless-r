@@ -113,7 +113,8 @@
 #' @section Table schema properties:
 #'
 #' `schema` is required and must follow the [Table
-#' Schema](http://specs.frictionlessdata.io/table-schema/) specification.
+#' Schema](http://specs.frictionlessdata.io/table-schema/) specification. It
+#' can either be a JSON object or a URL or path referencing a JSON object.
 #'
 #' - Field `name`s are used as column headers.
 #' - Field `type`s are use as column types (see further).
@@ -235,16 +236,25 @@ read_resource <- function(package, resource_name) {
     )
   )
 
-  # Select and verify path(s) to file(s)
+  # Check path(s) to file(s)
   # https://specs.frictionlessdata.io/data-resource/#data-location
   assert_that(
     !is.null(resource$path),
     msg = glue("Resource `{resource_name}` must have property `path`.")
   )
-  paths <- map_chr(resource$path, ~ check_path(.x, package$directory))
+  paths <- map_chr(
+    resource$path, ~ check_path(.x, package$directory, unsafe = FALSE)
+  )
+
+  # Check schema, load when URL or path
+  schema <- resource$schema
+  if (is.character(schema)) {
+    schema <- check_path(schema, directory = package$directory, unsafe = FALSE)
+    schema <- fromJSON(schema, simplifyDataFrame = FALSE)
+  }
 
   # Select schema fields
-  fields <- resource$schema$fields
+  fields <- schema$fields
   assert_that(
     !is.null(fields),
     msg = glue(
@@ -387,7 +397,7 @@ read_resource <- function(package, resource_name) {
       col_names = col_names,
       col_types = col_types,
       locale = locale,
-      na = replace_null(resource$schema$missingValues, ""),
+      na = replace_null(schema$missingValues, ""),
       comment = replace_null(dialect$commentChar, ""),
       trim_ws = replace_null(dialect$skipInitialSpace, FALSE),
       # Skip header row when present

@@ -121,7 +121,8 @@ the \code{compression} property is
 \section{Table schema properties}{
 
 
-\code{schema} is required and must follow the \href{http://specs.frictionlessdata.io/table-schema/}{Table Schema} specification.
+\code{schema} is required and must follow the \href{http://specs.frictionlessdata.io/table-schema/}{Table Schema} specification. It
+can either be a JSON object or a URL or path referencing a JSON object.
 \itemize{
 \item Field \code{name}s are used as column headers.
 \item Field \code{type}s are use as column types (see further).
