@@ -10,12 +10,15 @@ test_that("read_resource() returns error on incorrect package", {
 })
 
 test_that("read_resource() returns error on incorrect resource", {
+  # No resource
   pkg <- suppressMessages(read_package(
     system.file("extdata", "datapackage.json", package = "datapackage"))
   )
   expect_error(read_resource(pkg, "no_such_resource"), "Can't find resource")
 
   # Create invalid package and add properties one by one to pass errors
+
+  # Not a tabular-data-resource
   pkg_invalid <- list(resource_names = c("deployments"),
                   resources = list(list(name = "deployments")))
   expect_error(
@@ -23,40 +26,65 @@ test_that("read_resource() returns error on incorrect resource", {
     "must have property `profile` with value `tabular-data-resource`"
   )
 
+  # No path
   pkg_invalid$resources[[1]]$profile <- "tabular-data-resource"
   expect_error(
     read_resource(pkg_invalid, "deployments"), "must have property `path`"
   )
 
+  # No file at path url
   pkg_invalid$resources[[1]]$path <- "http://example.com/no_file.csv"
   expect_error(
     read_resource(pkg_invalid, "deployments"), "Can't find file at `http:"
   )
 
+  # No file at path
   pkg_invalid$resources[[1]]$path <- "no_file.csv"
   expect_error(
-    read_resource(pkg_invalid, "deployments"), "Can't find file at `/no_file.csv"
+    read_resource(pkg_invalid, "deployments"), "Can't find file at `no_file.csv"
   )
 
+  # No file at paths
   pkg_invalid$resources[[1]]$path <- c("deployments.csv", "no_file.csv")
   expect_error(read_resource(pkg_invalid, "deployments"), "Can't find file at")
 
+  # Path is absolute path
   pkg_invalid$resources[[1]]$path <- "/inst/extdata/deployments.csv"
   expect_error(
     read_resource(pkg_invalid, "deployments"), "is an absolute path"
   )
 
+  # Path is relative parent path
   pkg_invalid$resources[[1]]$path <- "../../inst/extdata/deployments.csv"
   expect_error(
     read_resource(pkg_invalid, "deployments"), "is a relative parent path"
   )
 
+  # No schema
   pkg_invalid$resources[[1]]$path <- "deployments.csv"
   pkg_invalid$directory <- dirname(system.file("extdata", "datapackage.json", package = "datapackage"))
   expect_error(
     read_resource(pkg_invalid, "deployments"), "must have property `schema`"
   )
 
+  # No file at schema url
+  pkg_invalid$resources[[1]]$schema <- "http://example.com/no_schema.json"
+  expect_error(read_resource(pkg_invalid, "deployments"), "Can't find file at")
+
+  # No file at schema
+  pkg_invalid$resources[[1]]$schema <- "no_schema.json"
+  expect_error(read_resource(pkg_invalid, "deployments"), "Can't find file at")
+
+  # Schema is absolute path
+  pkg_invalid$resources[[1]]$schema <- "/tests/testthat/deployments_schema.json"
+  expect_error(read_resource(pkg_invalid, "deployments"), "is an absolute path")
+
+  # Schema is relative parent path
+  pkg_invalid$resources[[1]]$schema <- "../testthat/deployments_schema.json"
+  expect_error(read_resource(pkg_invalid, "deployments"), "is a relative parent path")
+
+  # No field name
+  pkg_invalid$resources[[1]]$schema <- NULL
   pkg_invalid$resources[[1]]$schema$fields = list(
     list(name = "deployment_id"), # Field 1
     list(type = "number") # Field 2
@@ -75,6 +103,35 @@ test_that("read_resource() returns a tibble", {
 
   expect_s3_class(resource, "data.frame")
   expect_s3_class(resource, "tbl")
+})
+
+test_that("read_resource() can read remote files", {
+  pkg <- suppressMessages(read_package(
+    system.file("extdata", "datapackage.json", package = "datapackage"))
+  )
+  resource <- read_resource(pkg, "deployments")
+
+  pkg_remote <- pkg
+  pkg_remote$resources[[1]]$path <- "https://github.com/inbo/datapackage/raw/main/inst/extdata/deployments.csv"
+  expect_identical(resource, read_resource(pkg_remote, "deployments"))
+})
+
+test_that("read_resource() can read local and remote schemas", {
+  pkg <- suppressMessages(read_package(
+    system.file("extdata", "datapackage.json", package = "datapackage"))
+  )
+  resource <- read_resource(pkg, "deployments")
+
+  pkg_local_schema <- pkg
+  pkg_local_schema$directory <- "." # Use "./tests/testthat" outside test
+  pkg_local_schema$resources[[1]]$schema <- "deployments_schema.json"
+  # Using a remote path, otherwise schema and path need to share same directory
+  pkg_local_schema$resources[[1]]$path <- "https://github.com/inbo/datapackage/raw/main/inst/extdata/deployments.csv"
+  expect_identical(resource, read_resource(pkg_local_schema, "deployments"))
+
+  pkg_remote_schema <- pkg
+  pkg_remote_schema$resources[[1]]$schema <- "https://github.com/inbo/datapackage/raw/main/tests/testthat/deployments_schema.json"
+  expect_identical(resource, read_resource(pkg_remote_schema, "deployments"))
 })
 
 test_that("read_resource() understands CSV dialect", {
@@ -105,7 +162,6 @@ test_that("read_resource() understands CSV dialect", {
   # The default read_resource() sets this to: skip = 1
   # Since that is not a difference we want to test, we overwrite it
   attr(resource_dialect, 'spec')$skip <- 1
-
   expect_identical(resource, resource_dialect)
 })
 
@@ -121,9 +177,7 @@ test_that("read_resource() understands missing values", {
   pkg_missing$resources[[1]]$path <- "deployments_missingvalues.csv"
   pkg_missing$resources[[1]]$schema$missingValues <-
     append(pkg_missing$resources[[1]]$schema$missingValues, "ignore")
-  resource_missing <- read_resource(pkg_missing, "deployments")
-
-  expect_identical(resource, resource_missing)
+  expect_identical(resource, read_resource(pkg_missing, "deployments"))
 })
 
 test_that("read_resource() understands encoding", {
@@ -137,9 +191,7 @@ test_that("read_resource() understands encoding", {
   pkg_encoding$directory <- "." # Use "./tests/testthat" outside test
   pkg_encoding$resources[[1]]$path <- "deployments_encoding.csv"
   pkg_encoding$resources[[1]]$encoding <- "windows-1252"
-  resource_encoding <- read_resource(pkg_encoding, "deployments")
-
-  expect_identical(resource, resource_encoding)
+  expect_identical(resource, read_resource(pkg_encoding, "deployments"))
 })
 
 test_that("read_resource() handles LF and CRLF line terminator characters", {
@@ -165,9 +217,7 @@ test_that("read_resource() handles LF and CRLF line terminator characters", {
   pkg_crlf <- pkg
   pkg_crlf$directory <- "." # Use "./tests/testthat" outside test
   pkg_crlf$resources[[1]]$path <- "deployments_crlf.csv" # This file has CRLF
-  resource_crlf <- read_resource(pkg_crlf, "deployments")
-
-  expect_identical(resource, resource_crlf)
+  expect_identical(resource, read_resource(pkg_crlf, "deployments"))
 })
 
 test_that("read_resource() can read compressed files", {
@@ -212,7 +262,7 @@ test_that("read_resource() handles strings", {
   # Use factor when enum is present
   enum <- pkg$resources[[1]]$schema$fields[[2]]$constraints$enum
   expect_s3_class(resource$str_factor, "factor")
-  expect_equal(levels(resource$str_factor), enum)
+  expect_identical(levels(resource$str_factor), enum)
 })
 
 test_that("read_resource() handles numbers", {
@@ -228,7 +278,7 @@ test_that("read_resource() handles numbers", {
   # Use factor when enum is present
   enum <- pkg$resources[[2]]$schema$fields[[3]]$constraints$enum
   expect_s3_class(resource$num_factor, "factor")
-  expect_equal(levels(resource$num_factor), as.character(enum))
+  expect_identical(levels(resource$num_factor), as.character(enum))
 
   # NaN, INF, -INF are supported, case-insensitive
   # expect_type(resource$num_nan, "double")
@@ -261,7 +311,7 @@ test_that("read_resource() handles integers (as doubles)", {
   # Use factor when enum is present
   enum <- pkg$resources[[3]]$schema$fields[[3]]$constraints$enum
   expect_s3_class(resource$int_factor, "factor")
-  expect_equal(levels(resource$int_factor), as.character(enum))
+  expect_identical(levels(resource$int_factor), as.character(enum))
 
   # bareNumber = false allows whitespace and non-numeric characters
   expect_type(resource$int_ws, "double")

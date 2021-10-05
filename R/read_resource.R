@@ -17,7 +17,6 @@
 #' @importFrom assertthat assert_that
 #' @importFrom dplyr arrange bind_rows desc pull tibble %>%
 #' @importFrom glue glue
-#' @importFrom httr http_error
 #' @importFrom jsonlite fromJSON
 #' @importFrom purrr keep map map_chr
 #' @importFrom readr col_character col_date col_datetime col_double col_factor
@@ -114,7 +113,8 @@
 #' @section Table schema properties:
 #'
 #' `schema` is required and must follow the [Table
-#' Schema](http://specs.frictionlessdata.io/table-schema/) specification.
+#' Schema](http://specs.frictionlessdata.io/table-schema/) specification. It
+#' can either be a JSON object or a URL or path referencing a JSON object.
 #'
 #' - Field `name`s are used as column headers.
 #' - Field `type`s are use as column types (see further).
@@ -188,18 +188,6 @@
 #' purrr::map_chr(package$resources[[2]]$schema$fields, "name")
 #' purrr::map_chr(package$resources[[2]]$schema$fields, "type")
 read_resource <- function(package, resource_name) {
-  # Helper function to assign value when property is NULL
-  replace_null <- function(value, replace) {
-    if(!is.null(value)) { value } else { replace }
-  }
-
-  # Helper function to get unique values from vector sorted by occurrence
-  unique_sorted <- function(x) {
-    stats::aggregate(x, by = list(x), FUN = length) %>%
-      arrange(desc(x)) %>%
-      pull("Group.1")
-  }
-
   # Check package
   assert_that(
     class(package) == "list",
@@ -236,52 +224,25 @@ read_resource <- function(package, resource_name) {
     )
   )
 
-  # Select and verify path(s) to file(s)
+  # Check path(s) to file(s)
   # https://specs.frictionlessdata.io/data-resource/#data-location
   assert_that(
     !is.null(resource$path),
     msg = glue("Resource `{resource_name}` must have property `path`.")
   )
-  paths <-
-    resource$path %>%
-    # If not URL, append directory to create a full path
-    map_chr(function(path) {
-      if (startsWith(path, "http")) {
-        path
-      } else {
-        assert_that(
-          !startsWith(path, "/"),
-          msg = glue(
-            "{path} is an absolute path (`/`) which is forbidden to avoid",
-            "security vulnerabilities.", .sep = " "
-          )
-        )
-        assert_that(
-          !startsWith(path, "../"),
-          msg = glue(
-            "{path} is a relative parent path (`../`) which is forbidden to",
-            "avoid security vulnerabilities.", .sep = " "
-          )
-        )
-        paste(package$directory, path, sep = "/")
-      }
-    })
-  for (path in paths) {
-    if (startsWith(path, "http")) {
-      assert_that(
-        !http_error(path),
-        msg = glue("Can't find file at `{path}`.")
-      )
-    } else {
-      assert_that(
-        file.exists(path),
-        msg = glue("Can't find file at `{path}`.")
-      )
-    }
+  paths <- map_chr(
+    resource$path, ~ check_path(.x, package$directory, unsafe = FALSE)
+  )
+
+  # Check schema, load when URL or path
+  schema <- resource$schema
+  if (is.character(schema)) {
+    schema <- check_path(schema, directory = package$directory, unsafe = FALSE)
+    schema <- fromJSON(schema, simplifyDataFrame = FALSE)
   }
 
   # Select schema fields
-  fields <- resource$schema$fields
+  fields <- schema$fields
   assert_that(
     !is.null(fields),
     msg = glue(
@@ -424,7 +385,7 @@ read_resource <- function(package, resource_name) {
       col_names = col_names,
       col_types = col_types,
       locale = locale,
-      na = replace_null(resource$schema$missingValues, ""),
+      na = replace_null(schema$missingValues, ""),
       comment = replace_null(dialect$commentChar, ""),
       trim_ws = replace_null(dialect$skipInitialSpace, FALSE),
       # Skip header row when present
