@@ -77,6 +77,24 @@ test_that("read_resource() returns a tibble", {
   expect_s3_class(resource, "tbl")
 })
 
+test_that("read_resource() can read local and remote schemas", {
+  pkg <- suppressMessages(read_package(
+    system.file("extdata", "datapackage.json", package = "datapackage"))
+  )
+  resource <- read_resource(pkg, "deployments")
+
+  pkg_local_schema <- pkg
+  pkg_local_schema$directory <- "." # Use "./tests/testthat" outside test
+  pkg_local_schema$resources[[1]]$schema <- "deployments_schema.json"
+  # Using a remote path, otherwise schema and path need to share same directory
+  pkg_local_schema$resources[[1]]$path <- "https://github.com/inbo/datapackage/raw/main/inst/extdata/deployments.csv"
+  expect_identical(resource, read_resource(pkg_local_schema, "deployments"))
+
+  pkg_remote_schema <- pkg
+  pkg_remote_schema$resources[[1]]$schema <- "https://github.com/inbo/datapackage/raw/main/tests/testthat/deployments_schema.json"
+  expect_identical(resource, read_resource(pkg_remote_schema, "deployments"))
+})
+
 test_that("read_resource() understands CSV dialect", {
   pkg <- suppressMessages(read_package(
     system.file("extdata", "datapackage.json", package = "datapackage"))
