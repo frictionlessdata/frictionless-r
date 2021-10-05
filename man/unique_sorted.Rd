@@ -15,4 +15,4 @@ Vector with unique values sorted by occurrence, e.g. \code{c("b", "a")}.
 \description{
 Get unique vector values sorted by how often they occur
 }
-\keyword{interal}
+\keyword{internal}

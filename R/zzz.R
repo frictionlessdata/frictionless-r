@@ -18,7 +18,7 @@ replace_null <- function(value, replacement) {
 #'
 #' @return Vector with unique values sorted by occurrence, e.g. `c("b", "a")`.
 #'
-#' @keywords interal
+#' @keywords internal
 unique_sorted <- function(x) {
   stats::aggregate(x, by = list(x), FUN = length) %>%
     arrange(desc(x)) %>%
