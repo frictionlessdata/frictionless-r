@@ -177,9 +177,7 @@ test_that("read_resource() understands missing values", {
   pkg_missing$resources[[1]]$path <- "deployments_missingvalues.csv"
   pkg_missing$resources[[1]]$schema$missingValues <-
     append(pkg_missing$resources[[1]]$schema$missingValues, "ignore")
-  resource_missing <- read_resource(pkg_missing, "deployments")
-
-  expect_identical(resource, resource_missing)
+  expect_identical(resource, read_resource(pkg_missing, "deployments"))
 })
 
 test_that("read_resource() understands encoding", {
@@ -193,9 +191,7 @@ test_that("read_resource() understands encoding", {
   pkg_encoding$directory <- "." # Use "./tests/testthat" outside test
   pkg_encoding$resources[[1]]$path <- "deployments_encoding.csv"
   pkg_encoding$resources[[1]]$encoding <- "windows-1252"
-  resource_encoding <- read_resource(pkg_encoding, "deployments")
-
-  expect_identical(resource, resource_encoding)
+  expect_identical(resource, read_resource(pkg_encoding, "deployments"))
 })
 
 test_that("read_resource() handles LF and CRLF line terminator characters", {
@@ -221,9 +217,7 @@ test_that("read_resource() handles LF and CRLF line terminator characters", {
   pkg_crlf <- pkg
   pkg_crlf$directory <- "." # Use "./tests/testthat" outside test
   pkg_crlf$resources[[1]]$path <- "deployments_crlf.csv" # This file has CRLF
-  resource_crlf <- read_resource(pkg_crlf, "deployments")
-
-  expect_identical(resource, resource_crlf)
+  expect_identical(resource, read_resource(pkg_crlf, "deployments"))
 })
 
 test_that("read_resource() can read compressed files", {
