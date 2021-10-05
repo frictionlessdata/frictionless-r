@@ -1,0 +1,50 @@
+{
+  "fields": [
+    {
+      "name": "deployment_id",
+      "type": "string",
+      "constraints": {
+        "required": true,
+        "unique": true
+      }
+    },
+    {
+      "name": "longitude",
+      "type": "number",
+      "constraints": {
+        "required": true,
+        "minimum": -180,
+        "maximum": 180
+      }
+    },
+    {
+      "name": "latitude",
+      "constraints": {
+        "required": true,
+        "minimum": -90,
+        "maximum": 90
+      }
+    },
+    {
+      "name": "start",
+      "type": "datetime",
+      "format": "%Y-%m-%dT%H:%M:%S%z",
+      "constraints": {
+        "required": true
+      }
+    },
+    {
+      "name": "comments",
+      "type": "string",
+      "constraints": {
+        "required": false
+      }
+    }
+  ],
+  "missingValues": [
+    "",
+    "NA",
+    "NaN"
+  ],
+  "primaryKey": "deployment_id"
+}
