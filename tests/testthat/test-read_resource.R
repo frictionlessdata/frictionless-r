@@ -241,7 +241,7 @@ test_that("read_resource() handles strings", {
   # Use factor when enum is present
   enum <- pkg$resources[[1]]$schema$fields[[2]]$constraints$enum
   expect_s3_class(resource$str_factor, "factor")
-  expect_equal(levels(resource$str_factor), enum)
+  expect_identical(levels(resource$str_factor), enum)
 })
 
 test_that("read_resource() handles numbers", {
@@ -257,7 +257,7 @@ test_that("read_resource() handles numbers", {
   # Use factor when enum is present
   enum <- pkg$resources[[2]]$schema$fields[[3]]$constraints$enum
   expect_s3_class(resource$num_factor, "factor")
-  expect_equal(levels(resource$num_factor), as.character(enum))
+  expect_identical(levels(resource$num_factor), as.character(enum))
 
   # NaN, INF, -INF are supported, case-insensitive
   # expect_type(resource$num_nan, "double")
@@ -290,7 +290,7 @@ test_that("read_resource() handles integers (as doubles)", {
   # Use factor when enum is present
   enum <- pkg$resources[[3]]$schema$fields[[3]]$constraints$enum
   expect_s3_class(resource$int_factor, "factor")
-  expect_equal(levels(resource$int_factor), as.character(enum))
+  expect_identical(levels(resource$int_factor), as.character(enum))
 
   # bareNumber = false allows whitespace and non-numeric characters
   expect_type(resource$int_ws, "double")
