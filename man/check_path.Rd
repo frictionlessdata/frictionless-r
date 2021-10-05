@@ -2,25 +2,24 @@
 % Please edit documentation in R/zzz.R
 \name{check_path}
 \alias{check_path}
-\title{Check URL or path}
+\title{Check path or URL}
 \usage{
-check_path(url_or_path, directory = NULL, unsafe = TRUE)
+check_path(path, directory = NULL, unsafe = TRUE)
 }
 \arguments{
-\item{url_or_path}{URL or path to a file.}
+\item{path}{Path or URL to a file.}
 
 \item{directory}{Directory to prepend to path.}
 
-\item{unsafe}{Allow unsafe absolute and relative parent paths.}
+\item{unsafe}{Allow \code{path} to be an unsafe absolute or relative parent path.}
 }
 \value{
-Full path or error.
+Absolute parh or URL.
 }
 \description{
 Check if a
-\href{https://specs.frictionlessdata.io/data-resource/#url-or-path}{URL or path}
-is valid and prepend with directory to create a full path. Returns error when
-no file can be found and optionally for unsafe absolute and relative parent
-paths.
+\href{https://specs.frictionlessdata.io/data-resource/#url-or-path}{path or URL}
+is valid (and optionally safe) and prepend with directory to create an
+absolute path or URL. Returns error when no file can be found.
 }
 \keyword{internal}
