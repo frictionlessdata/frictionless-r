@@ -4,9 +4,18 @@
     <loc>https://inbo.github.io/datapackage/index.html</loc>
   </url>
   <url>
+    <loc>https://inbo.github.io/datapackage/reference/check_path.html</loc>
+  </url>
+  <url>
     <loc>https://inbo.github.io/datapackage/reference/read_package.html</loc>
   </url>
   <url>
     <loc>https://inbo.github.io/datapackage/reference/read_resource.html</loc>
+  </url>
+  <url>
+    <loc>https://inbo.github.io/datapackage/reference/replace_null.html</loc>
+  </url>
+  <url>
+    <loc>https://inbo.github.io/datapackage/reference/unique_sorted.html</loc>
   </url>
 </urlset>
