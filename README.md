@@ -45,7 +45,7 @@ package$resource_names
 
 # Read data from resource "observations"
 read_resource(package, "observations")
-#> # A tibble: 8 x 7
+#> # A tibble: 8 × 7
 #>   observation_id   deployment_id timestamp           scientific_name count age  
 #>   <chr>            <chr>         <dttm>              <chr>           <dbl> <fct>
 #> 1 089113c5-e279-4… 1             2020-01-06 15:59:17 Capreolus capr…     1 juve…
@@ -81,7 +81,7 @@ package$resource_names
 # Read gps data: will return a single data frame, even though data are 
 # split over multiple csv files
 read_resource(package, "gps")
-#> # A tibble: 73,047 x 21
+#> # A tibble: 73,047 × 21
 #>     `event-id` visible timestamp           `location-long` `location-lat`
 #>          <dbl> <lgl>   <dttm>                        <dbl>          <dbl>
 #>  1 14256075762 TRUE    2018-05-25 16:11:37            4.25           51.3
@@ -100,6 +100,5 @@ read_resource(package, "gps")
 #> #   heading <dbl>, height-above-msl <dbl>, location-error-numerical <dbl>,
 #> #   manually-marked-outlier <lgl>, vertical-error-numerical <dbl>,
 #> #   sensor-type <chr>, individual-taxon-canonical-name <chr>,
-#> #   tag-local-identifier <chr>, individual-local-identifier <chr>,
-#> #   study-name <chr>
+#> #   tag-local-identifier <chr>, individual-local-identifier <chr>, …
 ```
