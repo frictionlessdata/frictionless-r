@@ -10,12 +10,15 @@ test_that("read_resource() returns error on incorrect package", {
 })
 
 test_that("read_resource() returns error on incorrect resource", {
+  # No resource
   pkg <- suppressMessages(read_package(
     system.file("extdata", "datapackage.json", package = "datapackage"))
   )
   expect_error(read_resource(pkg, "no_such_resource"), "Can't find resource")
 
   # Create invalid package and add properties one by one to pass errors
+
+  # Not a tabular-data-resource
   pkg_invalid <- list(resource_names = c("deployments"),
                   resources = list(list(name = "deployments")))
   expect_error(
@@ -23,40 +26,65 @@ test_that("read_resource() returns error on incorrect resource", {
     "must have property `profile` with value `tabular-data-resource`"
   )
 
+  # No path
   pkg_invalid$resources[[1]]$profile <- "tabular-data-resource"
   expect_error(
     read_resource(pkg_invalid, "deployments"), "must have property `path`"
   )
 
+  # No file at path url
   pkg_invalid$resources[[1]]$path <- "http://example.com/no_file.csv"
   expect_error(
     read_resource(pkg_invalid, "deployments"), "Can't find file at `http:"
   )
 
+  # No file at path
   pkg_invalid$resources[[1]]$path <- "no_file.csv"
   expect_error(
-    read_resource(pkg_invalid, "deployments"), "Can't find file at `/no_file.csv"
+    read_resource(pkg_invalid, "deployments"), "Can't find file at `no_file.csv"
   )
 
+  # No file at paths
   pkg_invalid$resources[[1]]$path <- c("deployments.csv", "no_file.csv")
   expect_error(read_resource(pkg_invalid, "deployments"), "Can't find file at")
 
+  # Path is absolute path
   pkg_invalid$resources[[1]]$path <- "/inst/extdata/deployments.csv"
   expect_error(
     read_resource(pkg_invalid, "deployments"), "is an absolute path"
   )
 
+  # Path is relative parent path
   pkg_invalid$resources[[1]]$path <- "../../inst/extdata/deployments.csv"
   expect_error(
     read_resource(pkg_invalid, "deployments"), "is a relative parent path"
   )
 
+  # No schema
   pkg_invalid$resources[[1]]$path <- "deployments.csv"
   pkg_invalid$directory <- dirname(system.file("extdata", "datapackage.json", package = "datapackage"))
   expect_error(
     read_resource(pkg_invalid, "deployments"), "must have property `schema`"
   )
 
+  # No file at schema url
+  pkg_invalid$resources[[1]]$schema <- "http://example.com/no_schema.json"
+  expect_error(read_resource(pkg_invalid, "deployments"), "Can't find file at")
+
+  # No file at schema
+  pkg_invalid$resources[[1]]$schema <- "no_schema.json"
+  expect_error(read_resource(pkg_invalid, "deployments"), "Can't find file at")
+
+  # Schema is absolute path
+  pkg_invalid$resources[[1]]$schema <- "/tests/testthat/deployments_schema.json"
+  expect_error(read_resource(pkg_invalid, "deployments"), "is an absolute path")
+
+  # Schema is relative parent path
+  pkg_invalid$resources[[1]]$schema <- "../testthat/deployments_schema.json"
+  expect_error(read_resource(pkg_invalid, "deployments"), "is a relative parent path")
+
+  # No field name
+  pkg_invalid$resources[[1]]$schema <- NULL
   pkg_invalid$resources[[1]]$schema$fields = list(
     list(name = "deployment_id"), # Field 1
     list(type = "number") # Field 2
@@ -134,7 +162,6 @@ test_that("read_resource() understands CSV dialect", {
   # The default read_resource() sets this to: skip = 1
   # Since that is not a difference we want to test, we overwrite it
   attr(resource_dialect, 'spec')$skip <- 1
-
   expect_identical(resource, resource_dialect)
 })
 
