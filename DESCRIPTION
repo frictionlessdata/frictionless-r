@@ -23,7 +23,7 @@ Imports:
     httr,
     jsonlite,
     purrr,
-    readr,
+    readr (>= 2.1.0),
     stringr
 Suggests:
     hms,
