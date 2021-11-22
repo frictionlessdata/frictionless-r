@@ -1,0 +1,63 @@
+{
+  "resources": [
+    {
+      "name": "mark_default",
+      "path": "mark_default.csv",
+      "profile": "tabular-data-resource",
+      "schema": {
+        "fields": [
+          {
+            "name": "num",
+            "type": "number",
+            "decimalChar": "."
+          },
+          {
+            "name": "num_undefined",
+            "type": "number"
+          }
+        ]
+      }
+    },
+    {
+      "name": "mark_decimal",
+      "path": "mark_decimal.csv",
+      "profile": "tabular-data-resource",
+      "schema": {
+        "fields": [
+          {
+            "name": "num",
+            "type": "number",
+            "decimalChar": ","
+          },
+          {
+            "name": "num_undefined",
+            "type": "number"
+          }
+        ]
+      }
+    },
+    {
+      "name": "mark_decimal_group",
+      "path": "mark_decimal_group.csv",
+      "profile": "tabular-data-resource",
+      "schema": {
+        "fields": [
+          {
+            "name": "num",
+            "type": "number",
+            "decimalChar": ",",
+            "groupChar": "."
+          },
+          {
+            "name": "num_undefined",
+            "type": "number"
+          },
+          {
+            "name": "num_undefined_group",
+            "type": "number"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -16,13 +16,14 @@ knitr::opts_chunk$set(
 # datapackage
 
 <!-- badges: start -->
+[![Funding](https://img.shields.io/static/v1?label=powered+by&message=lifewatch.be&labelColor=1a4e8a&color=f15922)](http://lifewatch.be)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![CRAN status](https://www.r-pkg.org/badges/version/datapackage)](https://CRAN.R-project.org/package=datapackage)
 [![R-CMD-check](https://github.com/inbo/datapackage/workflows/R-CMD-check/badge.svg)](https://github.com/inbo/datapackage/actions)
 [![codecov](https://codecov.io/gh/inbo/datapackage/branch/main/graph/badge.svg?token=bKtiHW21K0)](https://codecov.io/gh/inbo/datapackage)
 <!-- badges: end -->
 
-datapackage is an R package to read and write [Frictionless Data Packages](https://frictionlessdata.io/data-package/) in a [Tidyverse](https://www.tidyverse.org/) way.
+Datapackage is an R package to read and write [Frictionless Data Packages](https://specs.frictionlessdata.io/data-package/) in a [Tidyverse](https://www.tidyverse.org/) way.
 
 ## Installation
 
@@ -37,7 +38,9 @@ devtools::install_github("inbo/datapackage")
 
 There are two functions: `read_package()` and `read_resource()`.
 
-```{r example}
+### Basic functionality
+
+```{r example_local, message=FALSE}
 library(datapackage)
 
 # Read datapackage.json file
@@ -48,4 +51,21 @@ package$resource_names
 
 # Read data from resource "observations"
 read_resource(package, "observations")
+```
+
+### Read external data
+
+Datapackage allows you to access all data from an external Frictionless Data Package (e.g. one published on [Zenodo](https://zenodo.org/search?page=1&size=20&q=frictionlessdata&type=dataset)) via the `datapackage.json` URL:
+
+```{r example_zenodo}
+# Read datapackage.json file: this will give you access to all data resources
+# without reading them, which is convenient and fast
+package <- read_package("https://zenodo.org/record/5070086/files/datapackage.json")
+
+# List resource names
+package$resource_names
+
+# Read gps data: will return a single data frame, even though data are 
+# split over multiple csv files
+read_resource(package, "gps")
 ```

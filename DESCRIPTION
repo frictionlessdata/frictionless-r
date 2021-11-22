@@ -1,6 +1,6 @@
 Package: datapackage
 Title: Read and Write Frictionless Data Packages
-Version: 0.1.0.9000
+Version: 0.2.0.9000
 Authors@R: c(
     person(given = "Peter",
            family = "Desmet",
@@ -23,11 +23,13 @@ Imports:
     httr,
     jsonlite,
     purrr,
-    readr
+    readr (>= 2.1.0),
+    stringr
 Suggests:
+    hms,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2

@@ -21,8 +21,10 @@ function is a wrapper around \code{\link[readr:read_delim]{readr::read_delim()}}
 properties \code{path}, CSV dialect, column names, data types, etc. Column names
 are taken from the provided \code{schema}, not from the header in the CSV file(s).
 }
-\details{
-The \href{https://specs.frictionlessdata.io/data-resource/}{\code{resource}} properties
+\section{Resource properties}{
+
+
+The \href{https://specs.frictionlessdata.io/data-resource/}{resource properties}
 are handled as follows:
 \subsection{Path}{
 
@@ -68,16 +70,17 @@ The returned data frame will always be UTF-8.
 \href{https://specs.frictionlessdata.io/csv-dialect/#specification}{required} if
 the resource file(s) deviate from the default CSV settings (see below). Only
 deviating properties need to be specified, e.g. a tab delimited file without
-a header row needs:\if{html}{\out{<div class="json">}}\preformatted{"dialect": \{"delimiter": "\\t", "header": "false"\}
+a header row needs:\if{html}{\out{<div class="sourceCode json">}}\preformatted{"dialect": \{"delimiter": "\\t", "header": "false"\}
 }\if{html}{\out{</div>}}
 
 These are the CSV dialect properties. Some are ignored by the function:
 \itemize{
 \item \code{delimiter}: default \verb{,}
-\item \code{lineTerminator}: ignored, line endings \code{LF}, \code{CRLF} and \code{CR} are
-interpreted automatically by \code{\link[readr:read_delim]{readr::read_delim()}}.
-\item \code{quoteChar}: default \verb{"}
+\item \code{lineTerminator}: ignored, line terminator characters \code{LF} and \code{CRLF} are
+interpreted automatically by \code{\link[readr:read_delim]{readr::read_delim()}}, while \code{CR} (used by
+Classic Mac OS, final release 2001) is not supported.
 \item \code{doubleQuote}: default \code{true}
+\item \code{quoteChar}: default \verb{"}
 \item \code{escapeChar}: anything but \verb{\\} is ignored and it will set \code{doubleQuote} to
 \code{false} as these fields are mutually exclusive. You can thus not escape with
 \verb{\\"} and \code{""} in the same file.
@@ -88,19 +91,6 @@ interpreted automatically by \code{\link[readr:read_delim]{readr::read_delim()}}
 \item \code{caseSensitiveHeader}: ignored, header is not used for column names, see
 Schema.
 \item \code{csvddfVersion}: ignored.
-}
-}
-
-\subsection{Schema}{
-
-\code{schema} is required and must follow the \href{http://specs.frictionlessdata.io/table-schema/}{Table Schema} specification.
-\itemize{
-\item Field \code{name}s are used as column headers.
-\item Field \code{type}s are used as column types when provided. Types are guessed
-when no type is provided or it has no equivalent in R.
-\item Field \code{format}s (especially for \code{date}, \code{time}, \code{datetime}) are ignored.
-\item \href{https://specs.frictionlessdata.io/table-schema/#missing-values}{\code{missingValues}}
-are used to interpret as \code{NA}, with \code{""} as default.
 }
 }
 
@@ -127,6 +117,68 @@ the \code{compression} property is
 }
 }
 }
+
+\section{Table schema properties}{
+
+
+\code{schema} is required and must follow the \href{http://specs.frictionlessdata.io/table-schema/}{Table Schema} specification. It
+can either be a JSON object or a URL or path referencing a JSON object.
+\itemize{
+\item Field \code{name}s are used as column headers.
+\item Field \code{type}s are use as column types (see further).
+\item \href{https://specs.frictionlessdata.io/table-schema/#missing-values}{\code{missingValues}}
+are used to interpret as \code{NA}, with \code{""} as default.
+}
+\subsection{Field types}{
+
+Field \code{type} is used to set the column type, as follows:
+\itemize{
+\item \href{https://specs.frictionlessdata.io/table-schema/#string}{string} →
+\code{character}; or \code{factor} when \code{enum} is present. \code{format} is ignored.
+\item \href{https://specs.frictionlessdata.io/table-schema/#number}{number} →
+\code{double}; or \code{factor} when \code{enum} is present. Use \code{bareNumber: false} to
+ignore whitespace and non-numeric characters. \code{decimalChar} (\code{.} by default)
+and \code{groupChar} (undefined by default) can be defined, but the most occurring
+value will be used as a global value for all number fields of that resource.
+\item \href{https://specs.frictionlessdata.io/table-schema/#integer}{integer} →
+\code{double} (not integer, to avoid issues with big numbers); or \code{factor} when
+\code{enum} is present. Use \code{bareNumber: false} to ignore whitespace and
+non-numeric characters.
+\item \href{https://specs.frictionlessdata.io/table-schema/#boolean}{boolean} →
+\code{logical}. Non-default \code{trueValues/falseValues} are not supported.
+\item \href{https://specs.frictionlessdata.io/table-schema/#object}{object} →
+\code{character}.
+\item \href{https://specs.frictionlessdata.io/table-schema/#array}{array} →
+\code{character}.
+\item \href{https://specs.frictionlessdata.io/table-schema/#date}{date} → \code{date}.
+Supports \code{format}, with values \code{default} (ISO date), \code{any} (guess \code{ymd}) and
+\href{https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior}{Python/C strptime} patterns, such as \verb{\%a, \%d \%B \%Y} for \verb{Sat, 23 November 2013}. \verb{\%x} is \verb{\%m/\%d/\%y}. \verb{\%j}, \verb{\%U}, \verb{\%w} and \verb{\%W} are not
+supported.
+\item \href{https://specs.frictionlessdata.io/table-schema/#time}{time} →
+\code{hms::hms()}. Supports \code{format}, with values \code{default} (ISO time), \code{any}
+(guess \code{hms}) and \href{https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior}{Python/C strptime} patterns, such as
+\verb{\%I\%p\%M:\%S.\%f\%z} for \verb{8AM30:00.300+0200}.
+\item \href{https://specs.frictionlessdata.io/table-schema/#datetime}{datetime} →
+\code{POSIXct}. Supports \code{format}, with values \code{default} (ISO datetime), \code{any}
+(ISO datetime) and the same patterns as for \code{date} and \code{time}. \verb{\%c} is not
+supported.
+\item \href{https://specs.frictionlessdata.io/table-schema/#year}{year} → \code{date},
+with \code{01} for month and day.
+\item \href{https://specs.frictionlessdata.io/table-schema/#yearmonth}{yearmonth} →
+\code{date}, with \code{01} for day.
+\item \href{https://specs.frictionlessdata.io/table-schema/#duration}{duration} →
+\code{character}. Can be parsed afterwards with \code{lubridate::duration()}.
+\item \href{https://specs.frictionlessdata.io/table-schema/#geopoint}{geopoint} →
+\code{character}.
+\item \href{https://specs.frictionlessdata.io/table-schema/#geojson}{geojson} →
+\code{character}.
+\item \href{https://specs.frictionlessdata.io/table-schema/#any}{any} → \code{character}.
+\item no type provided → type is guessed.
+\item unknown type → type is guessed.
+}
+}
+}
+
 \examples{
 # Read datapackage.json file
 package <- read_package(system.file("extdata", "datapackage.json", package = "datapackage"))

@@ -1,0 +1,3 @@
+num,num_neg,num_factor,num_nan,num_inf,num_ninf,num_sci,num_ws,num_notbare
+3.0,-3.0,3.1,NaN,INF,-INF,3.1E11, 3.1 ,$3.1
++03,-3,3.2,nan,inf,-inf,3.1E-7,3.1 ,3.1 dollar
