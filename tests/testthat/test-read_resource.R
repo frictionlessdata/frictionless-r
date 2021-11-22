@@ -281,12 +281,12 @@ test_that("read_resource() handles numbers", {
   expect_identical(levels(resource$num_factor), as.character(enum))
 
   # NaN, INF, -INF are supported, case-insensitive
-  # expect_type(resource$num_nan, "double")
-  # expect_true(all(is.nan(resource$num_nan)))
-  # expect_type(resource$num_inf, "double")
-  # expect_true(all(resource$num_inf == Inf))
-  # expect_type(resource$num_ninf, "double")
-  # expect_true(all(resource$num_ninf == -Inf))
+  expect_type(resource$num_nan, "double")
+  expect_true(all(is.nan(resource$num_nan)))
+  expect_type(resource$num_inf, "double")
+  expect_true(all(resource$num_inf == Inf))
+  expect_type(resource$num_ninf, "double")
+  expect_true(all(resource$num_ninf == -Inf))
 
   # Number can be expressed with E+-digits
   expect_type(resource$num_sci, "double")

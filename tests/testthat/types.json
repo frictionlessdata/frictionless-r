@@ -50,15 +50,15 @@
           },
           {
             "name": "num_nan",
-            "type": "string"
+            "type": "number"
           },
           {
             "name": "num_inf",
-            "type": "string"
+            "type": "number"
           },
           {
             "name": "num_ninf",
-            "type": "string"
+            "type": "number"
           },
           {
             "name": "num_sci",
