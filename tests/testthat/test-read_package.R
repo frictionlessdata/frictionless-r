@@ -2,7 +2,7 @@ test_that("read_package() reads path/url and returns a list of class datapackage
   # Load example package (locally and remotely) and a valid minimal one
   pkg_path <- system.file("extdata", "datapackage.json", package = "datapackage")
   pkg_url <- "https://raw.githubusercontent.com/inbo/datapackage/main/inst/extdata/datapackage.json"
-  minimal_path <- "valid_minimal.json"
+  minimal_path <- "data/valid_minimal.json"
   pkg_local <- suppressMessages(read_package(pkg_path))
   pkg_remote <- suppressMessages(read_package(pkg_url))
   pkg_minimal <- suppressMessages(read_package(minimal_path))
@@ -24,13 +24,13 @@ test_that("read_package() reads path/url and returns a list of class datapackage
   # List has property "directory", containing root dir of datapackage.json
   expect_equal(pkg_local$directory, gsub("/datapackage.json", "", pkg_path))
   expect_equal(pkg_remote$directory, gsub("/datapackage.json", "", pkg_url))
-  expect_equal(pkg_minimal$directory, ".")
+  expect_equal(pkg_minimal$directory, "data")
 })
 
 test_that("read_package() informs about usage norms", {
   # Load example package and a minimal valid one with URL in id
   pkg_path <- system.file("extdata", "datapackage.json", package = "datapackage")
-  minimal_extra_path <- "valid_minimal_extra.json"
+  minimal_extra_path <- "data/valid_minimal_extra.json"
 
   expect_message(read_package(pkg_path), "make sure you have the right to")
   expect_message(
@@ -50,7 +50,7 @@ test_that("read_package() returns error on missing file and properties", {
   expect_error(read_package(system.file("extdata", "deployments.csv", package = "datapackage")))
   # No resource name (same would happen on no resources)
   expect_error(
-    read_package("no_resource_name.json"),
+    read_package("data/no_resource_name.json"),
     "must have property `resources` containing at least one resource with a `name`"
   )
 })
