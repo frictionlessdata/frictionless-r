@@ -45,7 +45,7 @@ package$resource_names
 #> [1] "deployments"  "observations"
 
 # Read data from resource "observations"
-read_resource(package, "observations")
+read_resource("observations", package)
 #> # A tibble: 8 × 7
 #>   observation_id   deployment_id timestamp           scientific_name count age  
 #>   <chr>            <chr>         <dttm>              <chr>           <dbl> <fct>
@@ -64,8 +64,8 @@ read_resource(package, "observations")
 
 Datapackage allows you to access all data from an external Frictionless
 Data Package (e.g. one published on
-[Zenodo](https://zenodo.org/search?page=1&size=20&q=frictionlessdata&type=dataset))
-via the `datapackage.json` URL:
+[Zenodo](https://doi.org/10.5281/zenodo.5070086)) via the
+`datapackage.json` URL:
 
 ``` r
 # Read datapackage.json file: this will give you access to all data resources
@@ -81,7 +81,7 @@ package$resource_names
 
 # Read gps data: will return a single data frame, even though data are 
 # split over multiple csv files
-read_resource(package, "gps")
+read_resource("gps", package)
 #> # A tibble: 73,047 × 21
 #>     `event-id` visible timestamp           `location-long` `location-lat`
 #>          <dbl> <lgl>   <dttm>                        <dbl>          <dbl>

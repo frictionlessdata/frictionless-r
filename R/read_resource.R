@@ -7,8 +7,8 @@
 #' properties `path`, CSV dialect, column names, data types, etc. Column names
 #' are taken from the provided `schema`, not from the header in the CSV file(s).
 #'
-#' @param package Package object, see `read_package()`.
 #' @param resource_name Name of the resource to load data from.
+#' @param package Package object, see `read_package()`.
 #'
 #' @return A [tibble()] with the resource data.
 #'
@@ -179,7 +179,7 @@
 #' package$resource_names
 #'
 #' # Read data from resource "observations"
-#' read_resource(package, "observations")
+#' read_resource("observations", package)
 #'
 #' # The above tibble is merged from 2 files listed in the resource path
 #' package$resources[[2]]$path
@@ -187,7 +187,7 @@
 #' # With col_names and col_types derived from the resource schema
 #' purrr::map_chr(package$resources[[2]]$schema$fields, "name")
 #' purrr::map_chr(package$resources[[2]]$schema$fields, "type")
-read_resource <- function(package, resource_name) {
+read_resource <- function(resource_name, package) {
   # Check package
   assert_that(
     "datapackage" %in% class(package),
