@@ -4,12 +4,12 @@
 \alias{read_resource}
 \title{Read data from a Tabular Data Resource into a tibble}
 \usage{
-read_resource(package, resource_name)
+read_resource(resource_name, package)
 }
 \arguments{
-\item{package}{Package object, see \code{read_package()}.}
-
 \item{resource_name}{Name of the resource to load data from.}
+
+\item{package}{Package object, see \code{read_package()}.}
 }
 \value{
 A \code{\link[=tibble]{tibble()}} with the resource data.
@@ -187,7 +187,7 @@ package <- read_package(system.file("extdata", "datapackage.json", package = "da
 package$resource_names
 
 # Read data from resource "observations"
-read_resource(package, "observations")
+read_resource("observations", package)
 
 # The above tibble is merged from 2 files listed in the resource path
 package$resources[[2]]$path
