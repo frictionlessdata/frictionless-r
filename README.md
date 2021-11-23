@@ -64,8 +64,8 @@ read_resource("observations", package)
 
 Datapackage allows you to access all data from an external Frictionless
 Data Package (e.g. one published on
-[Zenodo](https://zenodo.org/search?page=1&size=20&q=frictionlessdata&type=dataset))
-via the `datapackage.json` URL:
+[Zenodo](https://doi.org/10.5281/zenodo.5070086)) via the
+`datapackage.json` URL:
 
 ``` r
 # Read datapackage.json file: this will give you access to all data resources
