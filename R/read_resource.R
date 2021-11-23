@@ -188,18 +188,7 @@
 #' purrr::map_chr(package$resources[[2]]$schema$fields, "name")
 #' purrr::map_chr(package$resources[[2]]$schema$fields, "type")
 read_resource <- function(resource_name, package) {
-  # Select resource
-  resource_names_collapse <- paste(package$resource_names, collapse = ", ")
-  assert_that(
-    resource_name %in% package$resource_names,
-    msg = glue(
-      "Can't find resource `{resource_name}` in `{resource_names_collapse}`."
-    )
-  )
-  resource <- keep(package$resources, function(x) {
-    (x$name == resource_name)
-  })[[1]]
-  check_package()
+  resource <- get_resource(resource_name, package) # Also does check_package()
 
   # Check if resource is `tabular-data-resource`
   assert_that(

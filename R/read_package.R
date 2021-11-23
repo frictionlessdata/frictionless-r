@@ -49,7 +49,7 @@ read_package <- function(file = "datapackage.json") {
   # Add directory
   descriptor$directory <- dirname(file) # Also works for URLs
 
-  # Inform user
+  # Inform user regarding rights/citations
   msg <- glue(
     "Please make sure you have the right to access data from this Data Package",
     "for your proposed use.\nFollow applicable norms or requirements to credit",
