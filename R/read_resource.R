@@ -1,4 +1,4 @@
-#' Read data from a Tabular Data Resource into a tibble
+#' Read data from a Data Package resource into a tibble
 #'
 #' Reads data from a Data Package **resource** into a tibble (a Tidyverse data
 #' frame). The resource has to meet the requirements of a [Tabular Data
@@ -7,10 +7,10 @@
 #' properties `path`, CSV dialect, column names, data types, etc. Column names
 #' are taken from the provided `schema`, not from the header in the CSV file(s).
 #'
-#' @param resource_name Name of the resource to load data from.
+#' @param resource_name Name of the resource.
 #' @param package Package object, see `read_package()`.
 #'
-#' @return A [tibble()] with the resource data.
+#' @return [tibble()] with the resource data.
 #'
 #' @export
 #'

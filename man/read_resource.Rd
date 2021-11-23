@@ -2,17 +2,17 @@
 % Please edit documentation in R/read_resource.R
 \name{read_resource}
 \alias{read_resource}
-\title{Read data from a Tabular Data Resource into a tibble}
+\title{Read data from a Data Package resource into a tibble}
 \usage{
 read_resource(resource_name, package)
 }
 \arguments{
-\item{resource_name}{Name of the resource to load data from.}
+\item{resource_name}{Name of the resource.}
 
 \item{package}{Package object, see \code{read_package()}.}
 }
 \value{
-A \code{\link[=tibble]{tibble()}} with the resource data.
+\code{\link[=tibble]{tibble()}} with the resource data.
 }
 \description{
 Reads data from a Data Package \strong{resource} into a tibble (a Tidyverse data

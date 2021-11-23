@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_package.R
 \name{read_package}
 \alias{read_package}
-\title{Read a Data Package descriptor (\code{datapackage.json}) file}
+\title{Read a Data Package descriptor file (\code{datapackage.json})}
 \usage{
 read_package(file = "datapackage.json")
 }
