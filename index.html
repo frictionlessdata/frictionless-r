@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">datapackage</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9000</span>
       </span>
     </div>
 
@@ -98,7 +98,7 @@
 <span class="co">#&gt; [1] "deployments"  "observations"</span>
 
 <span class="co"># Read data from resource "observations"</span>
-<span class="fu"><a href="reference/read_resource.html">read_resource</a></span><span class="op">(</span><span class="st">"observations"</span>, <span class="va">package</span><span class="op">)</span>
+<span class="fu"><a href="reference/read_resource.html">read_resource</a></span><span class="op">(</span><span class="va">package</span>, <span class="st">"observations"</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 8 × 7</span>
 <span class="co">#&gt;   observation_id   deployment_id timestamp           scientific_name count age  </span>
 <span class="co">#&gt;   &lt;chr&gt;            &lt;chr&gt;         &lt;dttm&gt;              &lt;chr&gt;           &lt;dbl&gt; &lt;fct&gt;</span>
@@ -115,7 +115,7 @@
 <div id="read-external-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#read-external-data" class="anchor"></a>Read external data</h3>
-<p>Datapackage allows you to access all data from an external Frictionless Data Package (e.g. one published on <a href="https://doi.org/10.5281/zenodo.5070086">Zenodo</a>) via the <code>datapackage.json</code> URL:</p>
+<p>Datapackage allows you to access all data from an external Frictionless Data Package (e.g. one published on <a href="https://zenodo.org/search?page=1&amp;size=20&amp;q=frictionlessdata&amp;type=dataset">Zenodo</a>) via the <code>datapackage.json</code> URL:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Read datapackage.json file: this will give you access to all data resources</span>
 <span class="co"># without reading them, which is convenient and fast</span>
@@ -130,7 +130,7 @@
 
 <span class="co"># Read gps data: will return a single data frame, even though data are </span>
 <span class="co"># split over multiple csv files</span>
-<span class="fu"><a href="reference/read_resource.html">read_resource</a></span><span class="op">(</span><span class="st">"gps"</span>, <span class="va">package</span><span class="op">)</span>
+<span class="fu"><a href="reference/read_resource.html">read_resource</a></span><span class="op">(</span><span class="va">package</span>, <span class="st">"gps"</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 73,047 × 21</span>
 <span class="co">#&gt;     `event-id` visible timestamp           `location-long` `location-lat`</span>
 <span class="co">#&gt;          &lt;dbl&gt; &lt;lgl&gt;   &lt;dttm&gt;                        &lt;dbl&gt;          &lt;dbl&gt;</span>
