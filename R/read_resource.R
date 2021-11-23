@@ -188,15 +188,6 @@
 #' purrr::map_chr(package$resources[[2]]$schema$fields, "name")
 #' purrr::map_chr(package$resources[[2]]$schema$fields, "type")
 read_resource <- function(resource_name, package) {
-  # Check package
-  assert_that(
-    "datapackage" %in% class(package),
-    msg = glue(
-      "`package` must be a list object of class datapackage created with",
-      "`read_package()` or `create_package()`.", .sep = " "
-    )
-  )
-
   # Select resource
   resource_names_collapse <- paste(package$resource_names, collapse = ", ")
   assert_that(
@@ -208,6 +199,7 @@ read_resource <- function(resource_name, package) {
   resource <- keep(package$resources, function(x) {
     (x$name == resource_name)
   })[[1]]
+  check_package()
 
   # Check if resource is `tabular-data-resource`
   assert_that(
