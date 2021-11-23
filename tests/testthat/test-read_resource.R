@@ -81,11 +81,11 @@ test_that("read_resource() returns error on incorrect resource", {
   expect_error(read_resource("deployments", pkg_invalid), "Can't find file at")
 
   # Schema is absolute path
-  pkg_invalid$resources[[1]]$schema <- "/tests/testthat/deployments_schema.json"
+  pkg_invalid$resources[[1]]$schema <- "/tests/testthat/data/deployments_schema.json"
   expect_error(read_resource("deployments", pkg_invalid), "is an absolute path")
 
   # Schema is relative parent path
-  pkg_invalid$resources[[1]]$schema <- "../testthat/deployments_schema.json"
+  pkg_invalid$resources[[1]]$schema <- "../testthat/data/deployments_schema.json"
   expect_error(read_resource("deployments", pkg_invalid), "is a relative parent path")
 
   # No field name
@@ -129,13 +129,13 @@ test_that("read_resource() can read local and remote schemas", {
 
   pkg_local_schema <- pkg
   pkg_local_schema$directory <- "." # Use "./tests/testthat" outside test
-  pkg_local_schema$resources[[1]]$schema <- "deployments_schema.json"
+  pkg_local_schema$resources[[1]]$schema <- "data/deployments_schema.json"
   # Using a remote path, otherwise schema and path need to share same directory
   pkg_local_schema$resources[[1]]$path <- "https://github.com/inbo/datapackage/raw/main/inst/extdata/deployments.csv"
   expect_identical(resource, read_resource("deployments", pkg_local_schema))
 
   pkg_remote_schema <- pkg
-  pkg_remote_schema$resources[[1]]$schema <- "https://github.com/inbo/datapackage/raw/main/tests/testthat/deployments_schema.json"
+  pkg_remote_schema$resources[[1]]$schema <- "https://github.com/inbo/datapackage/raw/main/tests/testthat/data/deployments_schema.json"
   expect_identical(resource, read_resource("deployments", pkg_remote_schema))
 })
 
@@ -148,7 +148,7 @@ test_that("read_resource() understands CSV dialect", {
   # Create package with non-default dialect properties
   pkg_dialect <- pkg
   pkg_dialect$directory <- "." # Use "./tests/testthat" outside test
-  pkg_dialect$resources[[1]]$path <- "deployments_dialect.csv"
+  pkg_dialect$resources[[1]]$path <- "data/deployments_dialect.csv"
   pkg_dialect$resources[[1]]$dialect <- list(
     delimiter = ":",
     # lineTerminator
@@ -179,7 +179,7 @@ test_that("read_resource() understands missing values", {
   # Create package with non-default missing values
   pkg_missing <- pkg
   pkg_missing$directory <- "." # Use "./tests/testthat" outside test
-  pkg_missing$resources[[1]]$path <- "deployments_missingvalues.csv"
+  pkg_missing$resources[[1]]$path <- "data/deployments_missingvalues.csv"
   pkg_missing$resources[[1]]$schema$missingValues <-
     append(pkg_missing$resources[[1]]$schema$missingValues, "ignore")
   expect_identical(resource, read_resource("deployments", pkg_missing))
@@ -194,7 +194,7 @@ test_that("read_resource() understands encoding", {
   # Create package with non-default missing values
   pkg_encoding <- pkg
   pkg_encoding$directory <- "." # Use "./tests/testthat" outside test
-  pkg_encoding$resources[[1]]$path <- "deployments_encoding.csv"
+  pkg_encoding$resources[[1]]$path <- "data/deployments_encoding.csv"
   pkg_encoding$resources[[1]]$encoding <- "windows-1252"
   expect_identical(resource, read_resource("deployments", pkg_encoding))
 })
@@ -221,7 +221,7 @@ test_that("read_resource() handles LF and CRLF line terminator characters", {
 
   pkg_crlf <- pkg
   pkg_crlf$directory <- "." # Use "./tests/testthat" outside test
-  pkg_crlf$resources[[1]]$path <- "deployments_crlf.csv" # This file has CRLF
+  pkg_crlf$resources[[1]]$path <- "data/deployments_crlf.csv" # This file has CRLF
   expect_identical(resource, read_resource("deployments", pkg_crlf))
 })
 
@@ -235,19 +235,19 @@ test_that("read_resource() can read compressed files", {
   # zip deployments.csv.zip deployments.csv
   pkg_local_zip <- pkg
   pkg_local_zip$directory <- "." # Use "./tests/testthat" outside test
-  pkg_local_zip$resources[[1]]$path <- "deployments.csv.zip"
+  pkg_local_zip$resources[[1]]$path <- "data/deployments.csv.zip"
   pkg_remote_zip <- pkg
   pkg_remote_zip$resources[[1]]$path <-
-    "https://github.com/inbo/datapackage/raw/main/tests/testthat/deployments.csv.zip"
+    "https://github.com/inbo/datapackage/raw/main/tests/testthat/data/deployments.csv.zip"
 
   # File created in terminal with:
   # gzip deployments.csv
   pkg_local_gz <- pkg
   pkg_local_gz$directory <- "." # Use "./tests/testthat" outside test
-  pkg_local_gz$resources[[1]]$path <- "deployments.csv.gz"
+  pkg_local_gz$resources[[1]]$path <- "data/deployments.csv.gz"
   pkg_remote_gz <- pkg
   pkg_remote_gz$resources[[1]]$path <-
-    "https://github.com/inbo/datapackage/raw/main/tests/testthat/deployments.csv.gz"
+    "https://github.com/inbo/datapackage/raw/main/tests/testthat/data/deployments.csv.gz"
 
   expect_identical(resource, read_resource("deployments", pkg_local_zip))
   # Remote zip not supported, see
@@ -259,9 +259,8 @@ test_that("read_resource() can read compressed files", {
 
 test_that("read_resource() handles strings", {
   # See https://specs.frictionlessdata.io/table-schema/#string
-  pkg <- suppressMessages(read_package("types.json"))
+  pkg <- suppressMessages(read_package("data/types.json"))
   resource <- read_resource("string", pkg)
-
   expect_type(resource$str, "character")
 
   # Use factor when enum is present
@@ -271,7 +270,7 @@ test_that("read_resource() handles strings", {
 })
 
 test_that("read_resource() handles numbers", {
-  pkg <- suppressMessages(read_package("types.json"))
+  pkg <- suppressMessages(read_package("data/types.json"))
   resource <- read_resource("number", pkg)
 
   # Leading/trailing zeros are optional, + is assumed
@@ -304,7 +303,7 @@ test_that("read_resource() handles numbers", {
 })
 
 test_that("read_resource() handles integers (as doubles)", {
-  pkg <- suppressMessages(read_package("types.json"))
+  pkg <- suppressMessages(read_package("data/types.json"))
   resource <- read_resource("integer", pkg)
 
   # Leading/trailing zeros are optional, + is assumed
@@ -326,7 +325,7 @@ test_that("read_resource() handles integers (as doubles)", {
 })
 
 test_that("read_resource() handles booleans", {
-  pkg <- suppressMessages(read_package("types.json"))
+  pkg <- suppressMessages(read_package("data/types.json"))
   resource <- read_resource("boolean", pkg)
 
   # Default trueValues/falseValues are cast to logical
@@ -338,7 +337,7 @@ test_that("read_resource() handles booleans", {
 
 test_that("read_resource() handles dates", {
   expected_value <- as.Date("2013-11-23")
-  pkg <- suppressMessages(read_package("types.json"))
+  pkg <- suppressMessages(read_package("data/types.json"))
   resource <- read_resource("date", pkg)
   # This test covers:
   # - year: %Y %y
@@ -358,7 +357,7 @@ test_that("read_resource() handles dates", {
 
 test_that("read_resource() handles times", {
   expected_value <- hms(0, 30, 8) # "08:30:00"
-  pkg <- suppressMessages(read_package("types.json"))
+  pkg <- suppressMessages(read_package("data/types.json"))
   resource <- read_resource("time", pkg)
   # This test covers:
   # - hour: %H (including 1 digit) %I + %p
@@ -380,7 +379,7 @@ test_that("read_resource() handles times", {
 
 test_that("read_resource() handles datetimes", {
   expected_value <- as.POSIXct("2013-11-23 08:30:00", tz = "UTC")
-  pkg <- suppressMessages(read_package("types.json"))
+  pkg <- suppressMessages(read_package("data/types.json"))
   resource <- read_resource("datetime", pkg)
 
   expect_identical(resource$dttm_undefined, resource$dttm_default)
@@ -395,7 +394,7 @@ test_that("read_resource() handles datetimes", {
 })
 
 test_that("read_resource() handles other types", {
-  pkg <- suppressMessages(read_package("types.json"))
+  pkg <- suppressMessages(read_package("data/types.json"))
   resource <- read_resource("other", pkg)
 
   # Interpret year, yearmonth as dates
@@ -421,7 +420,7 @@ test_that("read_resource() handles other types", {
 
 test_that("read_resource() handles decimalChar/groupChar properties", {
   expected_value <- 3000000.3
-  pkg <- suppressMessages(read_package("mark.json"))
+  pkg <- suppressMessages(read_package("data/mark.json"))
 
   # Default decimalChar/groupChar
   resource <- read_resource("mark_default", pkg)
