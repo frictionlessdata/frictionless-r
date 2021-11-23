@@ -76,7 +76,7 @@ are taken from the provided schema, not from the header in the CSV file(s)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">datapackage</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9001</span>
       </span>
     </div>
 
@@ -125,18 +125,18 @@ properties <code>path</code>, CSV dialect, column names, data types, etc. Column
 are taken from the provided <code>schema</code>, not from the header in the CSV file(s).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>read_resource</span><span class='op'>(</span><span class='va'>package</span>, <span class='va'>resource_name</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>read_resource</span><span class='op'>(</span><span class='va'>resource_name</span>, <span class='va'>package</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>package</th>
-      <td><p>Package object, see <code><a href='read_package.html'>read_package()</a></code>.</p></td>
-    </tr>
-    <tr>
       <th>resource_name</th>
       <td><p>Name of the resource to load data from.</p></td>
+    </tr>
+    <tr>
+      <th>package</th>
+      <td><p>Package object, see <code><a href='read_package.html'>read_package()</a></code>.</p></td>
     </tr>
     </table>
 
@@ -312,7 +312,7 @@ with <code>01</code> for month and day.</p></li>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "deployments"  "observations"</span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># Read data from resource "observations"</span></span>
-<span class='r-in'><span class='fu'>read_resource</span><span class='op'>(</span><span class='va'>package</span>, <span class='st'>"observations"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>read_resource</span><span class='op'>(</span><span class='st'>"observations"</span>, <span class='va'>package</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 8 × 7</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   observation_id   deployment_id timestamp           scientific_name count age  </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>            <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>         <span style='color: #949494; font-style: italic;'>&lt;dttm&gt;</span>              <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>           <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span></span>
