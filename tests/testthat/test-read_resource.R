@@ -2,10 +2,14 @@ library(hms)
 
 test_that("read_resource() returns error on incorrect package", {
   expect_error(
-    read_resource("not_a_list", "dep"), "`package` must be a list object"
+    read_resource("not_a_list", "dep"),
+    "`package` must be a list object of class datapackage"
   )
+
+  # List missing datapackage class
   expect_error(
-    read_resource(list(), "dep"), "`package` must have property `resource_names`"
+    read_resource(list(), "dep"),
+    "`package` must be a list object of class datapackage"
   )
 })
 
@@ -17,10 +21,11 @@ test_that("read_resource() returns error on incorrect resource", {
   expect_error(read_resource(pkg, "no_such_resource"), "Can't find resource")
 
   # Create invalid package and add properties one by one to pass errors
+  pkg_invalid <- list(resource_names = c("deployments"),
+                      resources = list(list(name = "deployments")))
+  class(pkg_invalid) <- c("datapackage", class(pkg_invalid))
 
   # Not a tabular-data-resource
-  pkg_invalid <- list(resource_names = c("deployments"),
-                  resources = list(list(name = "deployments")))
   expect_error(
     read_resource(pkg_invalid, "deployments"),
     "must have property `profile` with value `tabular-data-resource`"

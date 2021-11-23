@@ -1,4 +1,4 @@
-test_that("read_package() reads path/url and returns a list with $resource_names, $directory", {
+test_that("read_package() reads path/url and returns a list of class datapackage", {
   # Load example package (locally and remotely) and a valid minimal one
   pkg_path <- system.file("extdata", "datapackage.json", package = "datapackage")
   pkg_url <- "https://raw.githubusercontent.com/inbo/datapackage/main/inst/extdata/datapackage.json"
@@ -7,13 +7,21 @@ test_that("read_package() reads path/url and returns a list with $resource_names
   pkg_remote <- suppressMessages(read_package(pkg_url))
   pkg_minimal <- suppressMessages(read_package(minimal_path))
 
+  # Returns a list of class "datapackage"
   expect_type(pkg_local, "list")
   expect_type(pkg_remote, "list")
   expect_type(pkg_minimal, "list")
+  expect_s3_class(pkg_local, "datapackage")
+  expect_s3_class(pkg_remote, "datapackage")
+  expect_s3_class(pkg_minimal, "datapackage")
+
+  # List has property "resource_names"
   resource_names <- c("deployments", "observations")
   expect_equal(pkg_local$resource_names, resource_names)
   expect_equal(pkg_remote$resource_names, resource_names)
   expect_equal(pkg_minimal$resource_names, resource_names)
+
+  # List has property "directory", containing root dir of datapackage.json
   expect_equal(pkg_local$directory, gsub("/datapackage.json", "", pkg_path))
   expect_equal(pkg_remote$directory, gsub("/datapackage.json", "", pkg_url))
   expect_equal(pkg_minimal$directory, ".")

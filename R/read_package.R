@@ -40,6 +40,9 @@ read_package <- function(file = "datapackage.json") {
     )
   )
 
+  # Add class
+  class(descriptor) <- c("datapackage", class(descriptor))
+
   # Add resource_names
   descriptor$resource_names <- map_chr(descriptor$resources, "name")
 

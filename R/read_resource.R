@@ -190,16 +190,10 @@
 read_resource <- function(package, resource_name) {
   # Check package
   assert_that(
-    class(package) == "list",
+    "datapackage" %in% class(package),
     msg = glue(
-      "`package` must be a list object containing descriptor information,",
-      "see read_package().", .sep = " "
-    )
-  )
-  assert_that(
-    !is.null(package$resource_names),
-    msg = glue(
-      "`package` must have property `resource_names`, load with read_package()."
+      "`package` must be a list object of class datapackage created with",
+      "`read_package()` or `create_package()`.", .sep = " "
     )
   )
 
