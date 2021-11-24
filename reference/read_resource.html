@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Read data from a Data Package resource into a tibble — read_resource • datapackage</title>
+<title>Read data from a Data Resource into a tibble data.frame — read_resource • datapackage</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,11 @@
 
 
 
-<meta property="og:title" content="Read data from a Data Package resource into a tibble — read_resource" />
-<meta property="og:description" content="Reads data from a Data Package resource into a tibble (a Tidyverse data
-frame). The resource has to meet the requirements of a Tabular Data Resource. The
-function is a wrapper around readr::read_delim(), passing the resource
+<meta property="og:title" content="Read data from a Data Resource into a tibble data.frame — read_resource" />
+<meta property="og:description" content="Reads data from a Data Resource (in a Data Package) into a tibble (a
+Tidyverse data frame). The resource must be a
+Tabular Data Resource.
+The function is a wrapper around readr::read_delim(), passing the resource
 properties path, CSV dialect, column names, data types, etc. Column names
 are taken from the provided schema, not from the header in the CSV file(s)." />
 
@@ -112,15 +113,16 @@ are taken from the provided schema, not from the header in the CSV file(s)." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Read data from a Data Package resource into a tibble</h1>
+    <h1>Read data from a Data Resource into a tibble data.frame</h1>
     <small class="dont-index">Source: <a href='https://github.com/inbo/datapackage/blob/master/R/read_resource.R'><code>R/read_resource.R</code></a></small>
     <div class="hidden name"><code>read_resource.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Reads data from a Data Package <strong>resource</strong> into a tibble (a Tidyverse data
-frame). The resource has to meet the requirements of a <a href='https://specs.frictionlessdata.io/tabular-data-resource/'>Tabular Data Resource</a>. The
-function is a wrapper around <code><a href='https://readr.tidyverse.org/reference/read_delim.html'>readr::read_delim()</a></code>, passing the resource
+    <p>Reads data from a Data Resource (in a Data Package) into a tibble (a
+Tidyverse data frame). The resource must be a
+<a href='https://specs.frictionlessdata.io/tabular-data-resource/'>Tabular Data Resource</a>.
+The function is a wrapper around <code><a href='https://readr.tidyverse.org/reference/read_delim.html'>readr::read_delim()</a></code>, passing the resource
 properties <code>path</code>, CSV dialect, column names, data types, etc. Column names
 are taken from the provided <code>schema</code>, not from the header in the CSV file(s).</p>
     </div>
