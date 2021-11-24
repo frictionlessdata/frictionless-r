@@ -12,7 +12,7 @@
 #'
 #' @importFrom assertthat assert_that
 #' @importFrom glue glue
-#' @importFrom purrr keep
+#' @importFrom purrr discard
 #'
 #' @examples
 #' # Read datapackage.json file
@@ -31,9 +31,9 @@ remove_resource <- function(resource_name, package) {
   resource <- get_resource(resource_name, package)
 
   # Remove resource
-  package$resources <- keep(package$resources, function(x) {
+  package$resources <- discard(package$resources, function(x) {
     (x$name == resource_name)
-  })[[1]]
+  })
 
   # Remove resource_name
   resource_names <- package$resource_names
