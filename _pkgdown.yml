@@ -9,3 +9,22 @@ authors:
     href: https://twitter.com/peterdesmet
   Damiano Oldoni:
     href: https://twitter.com/damianozingaro
+
+reference:
+- title: "Read Data Packages"
+  desc: "Read a `datapackage.json` file and its associated Data Resources from path or URL."
+  contents:
+  - starts_with("read_")
+- title: "Manipulate Data Packages"
+  desc: "Manipulate a Data Package, its associated Data Resources and Table Schemas."
+  contents:
+  # - create_package
+  - get_resource
+  # - add_resource
+  - remove_resource
+  - get_schema
+  # - create_schema
+- title: "Write Data Packages"
+  desc: "Write a Data Package and its associated Data Resources to disk."
+  contents:
+  # - write_package

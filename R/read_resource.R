@@ -1,24 +1,23 @@
-#' Read data from a Tabular Data Resource into a tibble
+#' Read data from a Data Resource into a tibble data.frame
 #'
-#' Reads data from a Data Package **resource** into a tibble (a Tidyverse data
-#' frame). The resource has to meet the requirements of a [Tabular Data
-#' Resource](https://specs.frictionlessdata.io/tabular-data-resource/). The
-#' function is a wrapper around [readr::read_delim()], passing the resource
+#' Reads data from a Data Resource (in a Data Package) into a tibble (a
+#' Tidyverse data frame). The resource must be a
+#' [Tabular Data Resource](https://specs.frictionlessdata.io/tabular-data-resource/).
+#' The function is a wrapper around [readr::read_delim()], passing the resource
 #' properties `path`, CSV dialect, column names, data types, etc. Column names
 #' are taken from the provided `schema`, not from the header in the CSV file(s).
 #'
-#' @param package Package object, see `read_package()`.
-#' @param resource_name Name of the resource to load data from.
+#' @param resource_name Name of the resource.
+#' @param package Data Package object, see `read_package()`.
 #'
-#' @return A [tibble()] with the resource data.
+#' @return [tibble()] with the resource data.
 #'
 #' @export
 #'
 #' @importFrom assertthat assert_that
-#' @importFrom dplyr arrange bind_rows desc pull tibble %>%
+#' @importFrom dplyr bind_rows tibble %>%
 #' @importFrom glue glue
-#' @importFrom jsonlite fromJSON
-#' @importFrom purrr keep map map_chr
+#' @importFrom purrr map map_chr
 #' @importFrom readr col_character col_date col_datetime col_double col_factor
 #'   col_guess col_logical col_number col_time locale read_delim
 #' @importFrom stringr str_replace_all
@@ -175,11 +174,11 @@
 #' # Read datapackage.json file
 #' package <- read_package(system.file("extdata", "datapackage.json", package = "datapackage"))
 #'
-#' # List resource names
+#' # List resources
 #' package$resource_names
 #'
 #' # Read data from resource "observations"
-#' read_resource(package, "observations")
+#' read_resource("observations", package)
 #'
 #' # The above tibble is merged from 2 files listed in the resource path
 #' package$resources[[2]]$path
@@ -187,42 +186,9 @@
 #' # With col_names and col_types derived from the resource schema
 #' purrr::map_chr(package$resources[[2]]$schema$fields, "name")
 #' purrr::map_chr(package$resources[[2]]$schema$fields, "type")
-read_resource <- function(package, resource_name) {
-  # Check package
-  assert_that(
-    class(package) == "list",
-    msg = glue(
-      "`package` must be a list object containing descriptor information,",
-      "see read_package().", .sep = " "
-    )
-  )
-  assert_that(
-    !is.null(package$resource_names),
-    msg = glue(
-      "`package` must have property `resource_names`, load with read_package()."
-    )
-  )
-
-  # Select resource
-  resource_names_collapse <- paste(package$resource_names, collapse = ", ")
-  assert_that(
-    resource_name %in% package$resource_names,
-    msg = glue(
-      "Can't find resource `{resource_name}` in `{resource_names_collapse}`."
-    )
-  )
-  resource <- keep(package$resources, function(x) {
-    (x$name == resource_name)
-  })[[1]]
-
-  # Check if resource is `tabular-data-resource`
-  assert_that(
-    replace_null(resource$profile, "") == "tabular-data-resource",
-    msg = glue(
-      "Resource `{resource_name}` must have property `profile` with value",
-      "`tabular-data-resource`.", .sep = " "
-    )
-  )
+read_resource <- function(resource_name, package) {
+  # Get resource, includes check_package()
+  resource <- get_resource(resource_name, package)
 
   # Check path(s) to file(s)
   # https://specs.frictionlessdata.io/data-resource/#data-location
@@ -234,22 +200,9 @@ read_resource <- function(package, resource_name) {
     resource$path, ~ check_path(.x, package$directory, unsafe = FALSE)
   )
 
-  # Check schema, load when URL or path
-  schema <- resource$schema
-  if (is.character(schema)) {
-    schema <- check_path(schema, directory = package$directory, unsafe = FALSE)
-    schema <- fromJSON(schema, simplifyDataFrame = FALSE)
-  }
-
-  # Select schema fields
+  # Get schema and fields
+  schema <- get_schema(resource_name, package)
   fields <- schema$fields
-  assert_that(
-    !is.null(fields),
-    msg = glue(
-      "Resource `{resource_name}` must have property `schema` containing",
-      "`fields`.", .sep = " "
-    )
-  )
 
   # Create locale with encoding, decimal_mark and grouping_mark
   d_chars <- map_chr(fields, ~ replace_null(.x$decimalChar, NA_character_))
@@ -356,6 +309,7 @@ read_resource <- function(package, resource_name) {
     col_type <- replace_null(col_type, col_guess())
     col_type
   })
+
   # Assign names: list("name1" = <collector_character>, "name2" = ...)
   names(col_types) <- col_names
 

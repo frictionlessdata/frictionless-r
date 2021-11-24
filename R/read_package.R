@@ -1,4 +1,4 @@
-#' Read a Data Package descriptor (`datapackage.json`) file
+#' Read a Data Package descriptor file (`datapackage.json`)
 #'
 #' Reads information from a `datapackage.json` file, i.e. the
 #' [descriptor](https://specs.frictionlessdata.io/data-package/#descriptor) that
@@ -6,8 +6,8 @@
 #'
 #' @param file Path or URL to a `datapackage.json` file.
 #'
-#' @return List object containing the descriptor information and two new
-#'   properties:
+#' @return List object of class `datapackage`, containing the descriptor
+#' information and two new properties:
 #'   - `resource_names`: vector with resource names.
 #'   - `directory`: path to Data Package directory, used as root path to read
 #'     resources with `read_resource()`.
@@ -40,13 +40,16 @@ read_package <- function(file = "datapackage.json") {
     )
   )
 
+  # Add class
+  class(descriptor) <- c("datapackage", class(descriptor))
+
   # Add resource_names
   descriptor$resource_names <- map_chr(descriptor$resources, "name")
 
   # Add directory
   descriptor$directory <- dirname(file) # Also works for URLs
 
-  # Inform user
+  # Inform user regarding rights/citations
   msg <- glue(
     "Please make sure you have the right to access data from this Data Package",
     "for your proposed use.\nFollow applicable norms or requirements to credit",

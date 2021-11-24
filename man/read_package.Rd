@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_package.R
 \name{read_package}
 \alias{read_package}
-\title{Read a Data Package descriptor (\code{datapackage.json}) file}
+\title{Read a Data Package descriptor file (\code{datapackage.json})}
 \usage{
 read_package(file = "datapackage.json")
 }
@@ -10,8 +10,8 @@ read_package(file = "datapackage.json")
 \item{file}{Path or URL to a \code{datapackage.json} file.}
 }
 \value{
-List object containing the descriptor information and two new
-properties:
+List object of class \code{datapackage}, containing the descriptor
+information and two new properties:
 \itemize{
 \item \code{resource_names}: vector with resource names.
 \item \code{directory}: path to Data Package directory, used as root path to read
