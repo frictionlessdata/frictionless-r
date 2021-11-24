@@ -150,134 +150,58 @@ values. The resource must be a
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Please make sure you have the right to access data from this Data Package for your proposed use.</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Follow applicable norms or requirements to credit the dataset and its authors.</span>
 <span class='r-in'></span>
-<span class='r-in'><span class='co'># Get table schema of resource "observations"</span></span>
-<span class='r-in'><span class='fu'>get_schema</span><span class='op'>(</span><span class='st'>"observations"</span>, <span class='va'>package</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $fields</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $fields[[1]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $fields[[1]]$name</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "observation_id"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $fields[[1]]$type</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "string"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $fields[[1]]$constraints</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $fields[[1]]$constraints$required</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] TRUE</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $fields[[1]]$constraints$unique</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] TRUE</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $fields[[2]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $fields[[2]]$name</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "deployment_id"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $fields[[2]]$type</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "string"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $fields[[2]]$constraints</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $fields[[2]]$constraints$required</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] TRUE</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $fields[[3]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $fields[[3]]$name</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "timestamp"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $fields[[3]]$type</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "datetime"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $fields[[3]]$format</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "%Y-%m-%dT%H:%M:%S%z"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $fields[[3]]$constraints</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $fields[[3]]$constraints$required</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] TRUE</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $fields[[4]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $fields[[4]]$name</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "scientific_name"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $fields[[4]]$type</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "string"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $fields[[4]]$constraints</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $fields[[4]]$constraints$required</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] FALSE</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $fields[[5]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $fields[[5]]$name</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "count"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $fields[[5]]$type</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "integer"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $fields[[5]]$constraints</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $fields[[5]]$constraints$required</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] FALSE</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $fields[[5]]$constraints$minimum</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $fields[[6]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $fields[[6]]$name</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "age"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $fields[[6]]$type</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "string"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $fields[[6]]$constraints</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $fields[[6]]$constraints$required</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] FALSE</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $fields[[6]]$constraints$enum</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "adult"     "subadult"  "juvenile"  "offspring" "undefined"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $fields[[7]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $fields[[7]]$name</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "comments"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $fields[[7]]$type</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "string"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $fields[[7]]$constraints</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $fields[[7]]$constraints$required</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] FALSE</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $missingValues</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] ""    "NA"  "NaN"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $primaryKey</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "observation_id"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $foreignKeys</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $foreignKeys[[1]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $foreignKeys[[1]]$fields</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "deployment_id"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $foreignKeys[[1]]$reference</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $foreignKeys[[1]]$reference$resource</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "deployments"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $foreignKeys[[1]]$reference$fields</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "deployment_id"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'><span class='co'># Get table schema for resource "observations"</span></span>
+<span class='r-in'><span class='va'>schema</span> <span class='op'>&lt;-</span> <span class='fu'>get_schema</span><span class='op'>(</span><span class='st'>"observations"</span>, <span class='va'>package</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='va'>schema</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> List of 4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ fields       :List of 7</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ :List of 3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ name       : chr "observation_id"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ type       : chr "string"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ constraints:List of 2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. .. ..$ required: logi TRUE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. .. ..$ unique  : logi TRUE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ :List of 3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ name       : chr "deployment_id"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ type       : chr "string"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ constraints:List of 1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. .. ..$ required: logi TRUE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ :List of 4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ name       : chr "timestamp"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ type       : chr "datetime"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ format     : chr "%Y-%m-%dT%H:%M:%S%z"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ constraints:List of 1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. .. ..$ required: logi TRUE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ :List of 3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ name       : chr "scientific_name"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ type       : chr "string"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ constraints:List of 1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. .. ..$ required: logi FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ :List of 3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ name       : chr "count"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ type       : chr "integer"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ constraints:List of 2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. .. ..$ required: logi FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. .. ..$ minimum : int 1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ :List of 3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ name       : chr "age"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ type       : chr "string"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ constraints:List of 2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. .. ..$ required: logi FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. .. ..$ enum    : chr [1:5] "adult" "subadult" "juvenile" "offspring" ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ :List of 3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ name       : chr "comments"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ type       : chr "string"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ constraints:List of 1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. .. ..$ required: logi FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ missingValues: chr [1:3] "" "NA" "NaN"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ primaryKey   : chr "observation_id"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ foreignKeys  :List of 1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ :List of 2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ fields   : chr "deployment_id"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ reference:List of 2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. .. ..$ resource: chr "deployments"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. .. ..$ fields  : chr "deployment_id"</span>
 </pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
