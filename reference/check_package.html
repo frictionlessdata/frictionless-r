@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Replace value when NULL — replace_null • datapackage</title>
+<title>Check package object — check_package • datapackage</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Replace value when NULL — replace_null" />
-<meta property="og:description" content="Replace value when NULL" />
+<meta property="og:title" content="Check package object — check_package" />
+<meta property="og:description" content="Check if a package object is a list object of class &quot;datapackage&quot;." />
 
 
 
@@ -108,33 +108,29 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Replace value when NULL</h1>
-    <small class="dont-index">Source: <a href='https://github.com/inbo/datapackage/blob/master/R/zzz.R'><code>R/zzz.R</code></a></small>
-    <div class="hidden name"><code>replace_null.Rd</code></div>
+    <h1>Check package object</h1>
+    <small class="dont-index">Source: <a href='https://github.com/inbo/datapackage/blob/master/R/check_package.R'><code>R/check_package.R</code></a></small>
+    <div class="hidden name"><code>check_package.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Replace value when NULL</p>
+    <p>Check if a package object is a list object of class "datapackage".</p>
     </div>
 
-    <pre class="usage"><span class='fu'>replace_null</span><span class='op'>(</span><span class='va'>value</span>, <span class='va'>replacement</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>check_package</span><span class='op'>(</span><span class='va'>package</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>value</th>
-      <td><p>Value to test.</p></td>
-    </tr>
-    <tr>
-      <th>replacement</th>
-      <td><p>Replacement value when <code>value</code> is <code>NULL</code>.</p></td>
+      <th>package</th>
+      <td><p>Package object</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>value</code> when not <code>NULL</code>, otherwise <code>replacement</code>.</p>
+    <p><code>TRUE</code> or error.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
