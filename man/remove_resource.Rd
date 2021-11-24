@@ -2,7 +2,7 @@
 % Please edit documentation in R/remove_resource.R
 \name{remove_resource}
 \alias{remove_resource}
-\title{Remove a Data Package resource}
+\title{Remove a Data Resource}
 \usage{
 remove_resource(resource_name, package)
 }

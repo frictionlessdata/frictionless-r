@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_schema.R
 \name{get_schema}
 \alias{get_schema}
-\title{Get the Table Schema of a Data Package resource}
+\title{Get the Table Schema of a Data Resource}
 \usage{
 get_schema(resource_name, package)
 }
@@ -16,9 +16,9 @@ List object describing the Table Schema.
 }
 \description{
 Returns the \href{https://specs.frictionlessdata.io/table-schema/}{Table Schema}
-of a Data Package resource, i.e. the content of its \code{schema} property,
-describing the resource's fields, data types, relationships, and missing
-values. The resource must be a
+of a Data Resource (in a Data Package), i.e. the content of its \code{schema}
+property, describing the resource's fields, data types, relationships, and
+missing values. The resource must be a
 \href{https://specs.frictionlessdata.io/tabular-data-resource/}{Tabular Data Resource}.
 }
 \examples{

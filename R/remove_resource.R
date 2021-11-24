@@ -1,4 +1,4 @@
-#' Remove a Data Package resource
+#' Remove a Data Resource
 #'
 #' Removes a [Data Resource](https://specs.frictionlessdata.io/data-resource/)
 #' from a Data Package, i.e. one of the described `resources` is removed.

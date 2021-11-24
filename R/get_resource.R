@@ -1,4 +1,4 @@
-#' Get a Data Package resource
+#' Get a Data Resource
 #'
 #' Returns a [Data Resource](https://specs.frictionlessdata.io/data-resource/)
 #' from a Data Package, i.e. the content of one of the described `resources`.

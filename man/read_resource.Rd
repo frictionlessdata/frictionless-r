@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_resource.R
 \name{read_resource}
 \alias{read_resource}
-\title{Read data from a Data Package resource into a tibble}
+\title{Read data from a Data Resource into a tibble data.frame}
 \usage{
 read_resource(resource_name, package)
 }
@@ -15,9 +15,10 @@ read_resource(resource_name, package)
 \code{\link[=tibble]{tibble()}} with the resource data.
 }
 \description{
-Reads data from a Data Package \strong{resource} into a tibble (a Tidyverse data
-frame). The resource has to meet the requirements of a \href{https://specs.frictionlessdata.io/tabular-data-resource/}{Tabular Data Resource}. The
-function is a wrapper around \code{\link[readr:read_delim]{readr::read_delim()}}, passing the resource
+Reads data from a Data Resource (in a Data Package) into a tibble (a
+Tidyverse data frame). The resource must be a
+\href{https://specs.frictionlessdata.io/tabular-data-resource/}{Tabular Data Resource}.
+The function is a wrapper around \code{\link[readr:read_delim]{readr::read_delim()}}, passing the resource
 properties \code{path}, CSV dialect, column names, data types, etc. Column names
 are taken from the provided \code{schema}, not from the header in the CSV file(s).
 }

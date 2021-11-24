@@ -1,9 +1,9 @@
-#' Get the Table Schema of a Data Package resource
+#' Get the Table Schema of a Data Resource
 #'
 #' Returns the [Table Schema](https://specs.frictionlessdata.io/table-schema/)
-#' of a Data Package resource, i.e. the content of its `schema` property,
-#' describing the resource's fields, data types, relationships, and missing
-#' values. The resource must be a
+#' of a Data Resource (in a Data Package), i.e. the content of its `schema`
+#' property, describing the resource's fields, data types, relationships, and
+#' missing values. The resource must be a
 #' [Tabular Data Resource](https://specs.frictionlessdata.io/tabular-data-resource/).
 #'
 #' @param resource_name Name of the resource.

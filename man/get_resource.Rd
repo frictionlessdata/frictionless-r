@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_resource.R
 \name{get_resource}
 \alias{get_resource}
-\title{Get a Data Package resource}
+\title{Get a Data Resource}
 \usage{
 get_resource(resource_name, package)
 }
