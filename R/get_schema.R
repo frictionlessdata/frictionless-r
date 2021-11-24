@@ -20,8 +20,9 @@
 #' # Read datapackage.json file
 #' package <- read_package(system.file("extdata", "datapackage.json", package = "datapackage"))
 #'
-#' # Get table schema of resource "observations"
-#' get_schema("observations", package)
+#' # Get table schema for resource "observations"
+#' schema <- get_schema("observations", package)
+#' str(schema)
 get_schema <- function(resource_name, package) {
   # Get resource
   resource <- get_resource(resource_name, package)

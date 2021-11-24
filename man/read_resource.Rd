@@ -183,7 +183,7 @@ with \code{01} for month and day.
 # Read datapackage.json file
 package <- read_package(system.file("extdata", "datapackage.json", package = "datapackage"))
 
-# List resource names
+# List resources
 package$resource_names
 
 # Read data from resource "observations"

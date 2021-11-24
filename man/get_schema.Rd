@@ -25,6 +25,7 @@ values. The resource must be a
 # Read datapackage.json file
 package <- read_package(system.file("extdata", "datapackage.json", package = "datapackage"))
 
-# Get table schema of resource "observations"
-get_schema("observations", package)
+# Get table schema for resource "observations"
+schema <- get_schema("observations", package)
+str(schema)
 }

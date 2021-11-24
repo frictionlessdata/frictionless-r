@@ -1,7 +1,7 @@
 #' Get a Data Package resource
 #'
 #' Returns a [Data Resource](https://specs.frictionlessdata.io/data-resource/)
-#' from a Data Package, i.e. the content of one the described `resources`.
+#' from a Data Package, i.e. the content of one of the described `resources`.
 #'
 #' @param resource_name Name of the resource.
 #' @param package Package object, see `read_package()`.
@@ -18,7 +18,8 @@
 #' package <- read_package(system.file("extdata", "datapackage.json", package = "datapackage"))
 #'
 #' # Get resource "observations"
-#' get_resource("observations", package)
+#' resource <- get_resource("observations", package)
+#' str(resource)
 get_resource <- function(resource_name, package) {
   # Check package
   check_package(package)
