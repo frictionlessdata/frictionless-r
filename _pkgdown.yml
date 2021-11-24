@@ -21,7 +21,7 @@ reference:
   # - create_package
   - get_resource
   # - add_resource
-  # - remove_resource
+  - remove_resource
   - get_schema
   # - create_schema
 - title: "Write Data Packages"
