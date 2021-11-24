@@ -9,7 +9,7 @@ read_resource(resource_name, package)
 \arguments{
 \item{resource_name}{Name of the resource.}
 
-\item{package}{Package object, see \code{read_package()}.}
+\item{package}{Data Package object, see \code{read_package()}.}
 }
 \value{
 \code{\link[=tibble]{tibble()}} with the resource data.

@@ -4,7 +4,7 @@
 #' from a Data Package, i.e. the content of one of the described `resources`.
 #'
 #' @param resource_name Name of the resource.
-#' @param package Package object, see `read_package()`.
+#' @param package Data Package object, see `read_package()`.
 #'
 #' @return List object describing a Data Resource.
 #'
@@ -12,6 +12,7 @@
 #'
 #' @importFrom assertthat assert_that
 #' @importFrom glue glue
+#' @importFrom purrr keep
 #'
 #' @examples
 #' # Read datapackage.json file

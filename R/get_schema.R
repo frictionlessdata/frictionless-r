@@ -7,7 +7,7 @@
 #' [Tabular Data Resource](https://specs.frictionlessdata.io/tabular-data-resource/).
 #'
 #' @param resource_name Name of the resource.
-#' @param package Package object, see `read_package()`.
+#' @param package Data Package object, see `read_package()`.
 #'
 #' @return List object describing the Table Schema.
 #'
@@ -15,6 +15,7 @@
 #'
 #' @importFrom assertthat assert_that
 #' @importFrom glue glue
+#' @importFrom jsonlite fromJSON
 #'
 #' @examples
 #' # Read datapackage.json file

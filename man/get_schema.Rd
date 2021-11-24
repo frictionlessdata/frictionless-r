@@ -9,7 +9,7 @@ get_schema(resource_name, package)
 \arguments{
 \item{resource_name}{Name of the resource.}
 
-\item{package}{Package object, see \code{read_package()}.}
+\item{package}{Data Package object, see \code{read_package()}.}
 }
 \value{
 List object describing the Table Schema.

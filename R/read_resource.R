@@ -8,17 +8,16 @@
 #' are taken from the provided `schema`, not from the header in the CSV file(s).
 #'
 #' @param resource_name Name of the resource.
-#' @param package Package object, see `read_package()`.
+#' @param package Data Package object, see `read_package()`.
 #'
 #' @return [tibble()] with the resource data.
 #'
 #' @export
 #'
 #' @importFrom assertthat assert_that
-#' @importFrom dplyr arrange bind_rows desc pull tibble %>%
+#' @importFrom dplyr bind_rows tibble %>%
 #' @importFrom glue glue
-#' @importFrom jsonlite fromJSON
-#' @importFrom purrr keep map map_chr
+#' @importFrom purrr map map_chr
 #' @importFrom readr col_character col_date col_datetime col_double col_factor
 #'   col_guess col_logical col_number col_time locale read_delim
 #' @importFrom stringr str_replace_all
