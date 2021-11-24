@@ -10,22 +10,23 @@ create_schema(df)
 \item{df}{A data frame.}
 }
 \value{
-List object with Table Schema properties.
+List object describing the Table Schema.
 }
 \description{
 Creates a \href{https://specs.frictionlessdata.io/table-schema/}{Table Schema} for
-a data frame. \code{fields} will have properties \code{name} = column name and \code{type} =
-translated column class. \code{missingValues} are set to \verb{c("", "NA"}).
+a data frame. The schema will contain all data frame fields, their \code{name} and
+\code{type}.
 }
 \examples{
 # Create data frame
 df <- data.frame(
   id = c(as.integer(1), as.integer(2)),
   timestamp = c(as.POSIXct("2020-03-01T12:00:00"), as.POSIXct("2020-03-01T18:45:00")),
-  species = c("Capreolus capreolus", "Sus scrofa")
+  species = c("Capreolus capreolus", "Sus scrofa"),
+  lifeStage = factor(c("adult", "adult"), levels = c("adult", "juvenile", "unknown"))
 )
 
-# Create and print its schema
+# Create Table Schema
 schema <- create_schema(df)
-jsonlite::toJSON(schema, pretty = TRUE, auto_unbox = TRUE)
+str(schema)
 }
