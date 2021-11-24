@@ -1,4 +1,4 @@
-#' Read a Data Package descriptor (`datapackage.json`) file
+#' Read a Data Package descriptor file (`datapackage.json`)
 #'
 #' Reads information from a `datapackage.json` file, i.e. the
 #' [descriptor](https://specs.frictionlessdata.io/data-package/#descriptor) that
@@ -49,7 +49,7 @@ read_package <- function(file = "datapackage.json") {
   # Add directory
   descriptor$directory <- dirname(file) # Also works for URLs
 
-  # Inform user
+  # Inform user regarding rights/citations
   msg <- glue(
     "Please make sure you have the right to access data from this Data Package",
     "for your proposed use.\nFollow applicable norms or requirements to credit",

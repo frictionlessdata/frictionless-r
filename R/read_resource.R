@@ -1,4 +1,4 @@
-#' Read data from a Tabular Data Resource into a tibble
+#' Read data from a Data Package resource into a tibble
 #'
 #' Reads data from a Data Package **resource** into a tibble (a Tidyverse data
 #' frame). The resource has to meet the requirements of a [Tabular Data
@@ -7,10 +7,10 @@
 #' properties `path`, CSV dialect, column names, data types, etc. Column names
 #' are taken from the provided `schema`, not from the header in the CSV file(s).
 #'
-#' @param resource_name Name of the resource to load data from.
+#' @param resource_name Name of the resource.
 #' @param package Package object, see `read_package()`.
 #'
-#' @return A [tibble()] with the resource data.
+#' @return [tibble()] with the resource data.
 #'
 #' @export
 #'
@@ -188,35 +188,8 @@
 #' purrr::map_chr(package$resources[[2]]$schema$fields, "name")
 #' purrr::map_chr(package$resources[[2]]$schema$fields, "type")
 read_resource <- function(resource_name, package) {
-  # Check package
-  assert_that(
-    "datapackage" %in% class(package),
-    msg = glue(
-      "`package` must be a list object of class datapackage created with",
-      "`read_package()` or `create_package()`.", .sep = " "
-    )
-  )
-
-  # Select resource
-  resource_names_collapse <- paste(package$resource_names, collapse = ", ")
-  assert_that(
-    resource_name %in% package$resource_names,
-    msg = glue(
-      "Can't find resource `{resource_name}` in `{resource_names_collapse}`."
-    )
-  )
-  resource <- keep(package$resources, function(x) {
-    (x$name == resource_name)
-  })[[1]]
-
-  # Check if resource is `tabular-data-resource`
-  assert_that(
-    replace_null(resource$profile, "") == "tabular-data-resource",
-    msg = glue(
-      "Resource `{resource_name}` must have property `profile` with value",
-      "`tabular-data-resource`.", .sep = " "
-    )
-  )
+  # Get resource, includes check_package()
+  resource <- get_resource(resource_name, package)
 
   # Check path(s) to file(s)
   # https://specs.frictionlessdata.io/data-resource/#data-location
@@ -228,22 +201,9 @@ read_resource <- function(resource_name, package) {
     resource$path, ~ check_path(.x, package$directory, unsafe = FALSE)
   )
 
-  # Check schema, load when URL or path
-  schema <- resource$schema
-  if (is.character(schema)) {
-    schema <- check_path(schema, directory = package$directory, unsafe = FALSE)
-    schema <- fromJSON(schema, simplifyDataFrame = FALSE)
-  }
-
-  # Select schema fields
+  # Get schema and fields
+  schema <- get_schema(resource_name, package)
   fields <- schema$fields
-  assert_that(
-    !is.null(fields),
-    msg = glue(
-      "Resource `{resource_name}` must have property `schema` containing",
-      "`fields`.", .sep = " "
-    )
-  )
 
   # Create locale with encoding, decimal_mark and grouping_mark
   d_chars <- map_chr(fields, ~ replace_null(.x$decimalChar, NA_character_))
@@ -350,6 +310,7 @@ read_resource <- function(resource_name, package) {
     col_type <- replace_null(col_type, col_guess())
     col_type
   })
+
   # Assign names: list("name1" = <collector_character>, "name2" = ...)
   names(col_types) <- col_names
 

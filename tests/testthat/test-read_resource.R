@@ -25,14 +25,7 @@ test_that("read_resource() returns error on incorrect resource", {
                       resources = list(list(name = "deployments")))
   class(pkg_invalid) <- c("datapackage", class(pkg_invalid))
 
-  # Not a tabular-data-resource
-  expect_error(
-    read_resource("deployments", pkg_invalid),
-    "must have property `profile` with value `tabular-data-resource`"
-  )
-
   # No path
-  pkg_invalid$resources[[1]]$profile <- "tabular-data-resource"
   expect_error(
     read_resource("deployments", pkg_invalid), "must have property `path`"
   )
@@ -65,9 +58,18 @@ test_that("read_resource() returns error on incorrect resource", {
     read_resource("deployments", pkg_invalid), "is a relative parent path"
   )
 
-  # No schema
+  # Add valid path
   pkg_invalid$resources[[1]]$path <- "deployments.csv"
   pkg_invalid$directory <- dirname(system.file("extdata", "datapackage.json", package = "datapackage"))
+
+  # Not a tabular-data-resource
+  expect_error(
+    read_resource("deployments", pkg_invalid),
+    "must have property `profile` with value `tabular-data-resource`"
+  )
+
+  # No schema
+  pkg_invalid$resources[[1]]$profile <- "tabular-data-resource"
   expect_error(
     read_resource("deployments", pkg_invalid), "must have property `schema`"
   )
