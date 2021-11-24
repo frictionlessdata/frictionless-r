@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_resource.R
 \name{read_resource}
 \alias{read_resource}
-\title{Read data from a Data Resource into a tibble data.frame}
+\title{Read data from a Data Resource into a tibble data frame}
 \usage{
 read_resource(resource_name, package)
 }
@@ -184,7 +184,7 @@ with \code{01} for month and day.
 # Read datapackage.json file
 package <- read_package(system.file("extdata", "datapackage.json", package = "datapackage"))
 
-# List resources
+# List resource names
 package$resource_names
 
 # Read data from resource "observations"

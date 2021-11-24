@@ -1,4 +1,4 @@
-#' Read data from a Data Resource into a tibble data.frame
+#' Read data from a Data Resource into a tibble data frame
 #'
 #' Reads data from a Data Resource (in a Data Package) into a tibble (a
 #' Tidyverse data frame). The resource must be a
@@ -174,7 +174,7 @@
 #' # Read datapackage.json file
 #' package <- read_package(system.file("extdata", "datapackage.json", package = "datapackage"))
 #'
-#' # List resources
+#' # List resource names
 #' package$resource_names
 #'
 #' # Read data from resource "observations"
