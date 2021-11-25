@@ -14,14 +14,59 @@ List object describing the Table Schema.
 }
 \description{
 Creates a \href{https://specs.frictionlessdata.io/table-schema/}{Table Schema} for
-a data frame. The schema will contain all data frame fields, their \code{name} and
-\code{type}.
+a data frame, listing all column names and types as field names and
+(converted) types.
 }
+\section{Table schema properties}{
+
+
+The Table Schema will be created from the data frame columns:
+\itemize{
+\item \code{name}: contains the column name.
+\item \code{type}: contains the converted column type (see further).
+\item \code{format}: not set and can thus be considered \code{default}. This is also the
+case for dates, times and datetimes, since \code{\link[readr:write_delim]{readr::write_csv()}} used by
+\code{\link[=write_package]{write_package()}} will format those to ISO8601 which is considered the
+default. Datetimes in local or non-UTC timezones will be converted to UTC
+before writing.
+\item \code{description}: not set.
+\item \code{constraints}: not set, except for factors (see further).
+\item \code{missingValues}: not set. \code{\link[=write_package]{write_package()}} will use the default \code{""} for
+missing values.
+\item \code{primaryKey}: not set.
+\item \code{foreignKeys}: not set.
+}
+\subsection{Field types}{
+
+The column type will determine the field \code{type}, as follows:
+\itemize{
+\item \code{character} →
+\href{https://specs.frictionlessdata.io/table-schema/#string}{string}.
+\item \code{factor} →
+\href{https://specs.frictionlessdata.io/table-schema/#string}{string} with factor
+levels as \code{enum}.
+\item \code{integer} →
+\href{https://specs.frictionlessdata.io/table-schema/#integer}{integer}.
+\item \code{numeric} →
+\href{https://specs.frictionlessdata.io/table-schema/#number}{number}.
+\item \code{logical} →.
+\href{https://specs.frictionlessdata.io/table-schema/#boolean}{boolean}.
+\item \code{Date} → \href{https://specs.frictionlessdata.io/table-schema/#date}{date}.
+\item \code{POSIXct}/\code{POSIXlt} →
+\href{https://specs.frictionlessdata.io/table-schema/#datetime}{datetime}.
+\item \code{\link[hms:hms]{hms::hms()}} →
+\href{https://specs.frictionlessdata.io/table-schema/#time}{time}.
+\item Any other type →
+\href{https://specs.frictionlessdata.io/table-schema/#any}{any}.
+}
+}
+}
+
 \examples{
 # Create data frame
 df <- data.frame(
   id = c(as.integer(1), as.integer(2)),
-  timestamp = c(as.POSIXct("2020-03-01T12:00:00"), as.POSIXct("2020-03-01T18:45:00")),
+  timestamp = c(as.POSIXct("2020-03-01 12:00:00", tz = "EET"), as.POSIXct("2020-03-01 18:45:00", tz = "EET")),
   species = c("Capreolus capreolus", "Sus scrofa"),
   lifeStage = factor(c("adult", "adult"), levels = c("adult", "juvenile", "unknown"))
 )
