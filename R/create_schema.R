@@ -81,7 +81,7 @@ create_schema <- function(df) {
     df %>%
     imap(function(x, name) {
       # Name
-      name <- name
+      name <- ifelse(is.na(name), "", name)
 
       # Type
       type <- paste(class(x), collapse = ",") # When data type is a vector
