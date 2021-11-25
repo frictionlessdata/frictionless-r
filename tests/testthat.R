@@ -1,4 +1,4 @@
 library(testthat)
-library(datapackage)
+library(frictionless)
 
-test_check("datapackage")
+test_check("frictionless")

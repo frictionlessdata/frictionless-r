@@ -23,7 +23,7 @@ missing values. The resource must be a
 }
 \examples{
 # Read datapackage.json file
-package <- read_package(system.file("extdata", "datapackage.json", package = "datapackage"))
+package <- read_package(system.file("extdata", "datapackage.json", package = "frictionless"))
 
 # Get table schema for resource "observations"
 schema <- get_schema("observations", package)

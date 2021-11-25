@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# datapackage
+# frictionless
 
 <!-- badges: start -->
 
@@ -9,12 +9,12 @@
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![CRAN
-status](https://www.r-pkg.org/badges/version/datapackage)](https://CRAN.R-project.org/package=datapackage)
-[![R-CMD-check](https://github.com/inbo/datapackage/workflows/R-CMD-check/badge.svg)](https://github.com/inbo/datapackage/actions)
-[![codecov](https://codecov.io/gh/inbo/datapackage/branch/main/graph/badge.svg?token=bKtiHW21K0)](https://codecov.io/gh/inbo/datapackage)
+status](https://www.r-pkg.org/badges/version/frictionless)](https://CRAN.R-project.org/package=frictionless)
+[![R-CMD-check](https://github.com/frictionlessdata/frictionless-r/workflows/R-CMD-check/badge.svg)](https://github.com/frictionlessdata/frictionless-r/actions)
+[![codecov](https://codecov.io/gh/frictionlessdata/frictionless-r/branch/main/graph/badge.svg?token=bKtiHW21K0)](https://codecov.io/gh/frictionlessdata/frictionless-r)
 <!-- badges: end -->
 
-Datapackage is an R package to read and write [Frictionless Data
+Frictionless is an R package to read and write [Frictionless Data
 Packages](https://specs.frictionlessdata.io/data-package/) in a
 [Tidyverse](https://www.tidyverse.org/) way.
 
@@ -25,7 +25,7 @@ You can install the development version from
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("inbo/datapackage")
+devtools::install_github("frictionlessdata/frictionless-r")
 ```
 
 ## Usage
@@ -35,10 +35,10 @@ There are two functions: `read_package()` and `read_resource()`.
 ### Basic functionality
 
 ``` r
-library(datapackage)
+library(frictionless)
 
 # Read datapackage.json file
-package <- read_package(system.file("extdata", "datapackage.json", package = "datapackage"))
+package <- read_package(system.file("extdata", "datapackage.json", package = "frictionless"))
 
 # List resource names
 package$resource_names
@@ -62,7 +62,7 @@ read_resource("observations", package)
 
 ### Read external data
 
-Datapackage allows you to access all data from an external Frictionless
+Frictionless allows you to access all data from an external Frictionless
 Data Package (e.g. one published on
 [Zenodo](https://doi.org/10.5281/zenodo.5070086)) via the
 `datapackage.json` URL:

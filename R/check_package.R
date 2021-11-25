@@ -1,6 +1,6 @@
 #' Check package object
 #'
-#' Check if a package object is a list object of class "datapackage".
+#' Check if a package object is a list object of class `datapackage`.
 #'
 #' @param package Package object
 #'
