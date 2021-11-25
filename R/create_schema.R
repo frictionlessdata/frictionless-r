@@ -112,7 +112,7 @@ create_schema <- function(df) {
 
   # Create schema
   schema <- list(
-    fields = fields
+    fields = unname(fields) # Creates [] rather than {}
   )
 
   # TODO: Remove elements that are NULL
