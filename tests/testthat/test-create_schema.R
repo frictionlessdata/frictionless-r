@@ -9,12 +9,28 @@ test_that("create_schema() accepts data frames and tibbles", {
   expect_type(create_schema(tibble), "list")
 })
 
-test_that("create_schema() returns a Table Schema list with the correct structure", {
-
-})
-
-test_that("create_schema() does not return empty properties", {
-
+test_that("create_schema() returns a Table Schema as a list without empty properties", {
+  df <- data.frame(
+    "col_1" = c(1, 2),
+    "col_2" = factor(c("a", "b"), levels = c("a", "b", "c"))
+  )
+  expected_schema <- list(
+    fields = list(
+      list(
+        name = "col_1",
+        type = "number"
+        # No constraints
+      ),
+      list(
+        name = "col_2",
+        type = "string",
+        constraints = list(
+          enum = c("a", "b", "c")
+        )
+      )
+    )
+  )
+  expect_equal(create_schema(df), expected_schema)
 })
 
 test_that("create_schema() uses colnames as field names", {
