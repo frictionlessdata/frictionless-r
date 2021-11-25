@@ -18,6 +18,13 @@ test_that("create_schema() does not return empty properties", {
 })
 
 test_that("create_schema() uses colnames as field names", {
+  df <- data.frame(NA, NA, NA, NA)
+  colnames <- c("col_1", "Column 2", "col_3!") # Only 3 of 4 defined
+  colnames(df) <- colnames
+  expect_equal(
+    map_chr(create_schema(df)$fields, ~ .x$name), # Vector with field$name
+    c(colnames, "") # Last unnamed column (NA) should have name ""
+  )
 })
 
 test_that("create_schema() translates coltypes into field types", {
