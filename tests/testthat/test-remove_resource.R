@@ -11,14 +11,14 @@ test_that("remove_resource() returns error on incorrect package", {
 
 test_that("remove_resource() returns error when resource not found", {
   pkg <- suppressMessages(read_package(
-    system.file("extdata", "datapackage.json", package = "datapackage"))
+    system.file("extdata", "datapackage.json", package = "frictionless"))
   )
   expect_error(remove_resource("no_such_resource", pkg), "Can't find resource")
 })
 
 test_that("remove_resource() removes resource, resource_name and returns package", {
   pkg <- suppressMessages(read_package(
-    system.file("extdata", "datapackage.json", package = "datapackage"))
+    system.file("extdata", "datapackage.json", package = "frictionless"))
   )
   # Remove "deployments", keep "observations"
   pkg_removed <- remove_resource("deployments", pkg)
