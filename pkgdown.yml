@@ -2,8 +2,8 @@ pandoc: 2.7.3
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles: {}
-last_built: 2021-11-24T17:24Z
+last_built: 2021-11-25T11:15Z
 urls:
-  reference: https://inbo.github.io/datapackage/reference
-  article: https://inbo.github.io/datapackage/articles
+  reference: https://frictionlessdata.github.io/frictionless-r/reference
+  article: https://frictionlessdata.github.io/frictionless-r/articles
 
