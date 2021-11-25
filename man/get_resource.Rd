@@ -20,7 +20,7 @@ from a Data Package, i.e. the content of one of the described \code{resources}.
 }
 \examples{
 # Read datapackage.json file
-package <- read_package(system.file("extdata", "datapackage.json", package = "datapackage"))
+package <- read_package(system.file("extdata", "datapackage.json", package = "frictionless"))
 
 # Get resource "observations"
 resource <- get_resource("observations", package)

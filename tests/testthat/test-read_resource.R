@@ -14,7 +14,7 @@ test_that("read_resource() returns error on incorrect package", {
 test_that("read_resource() returns error on incorrect resource", {
   # No resource
   pkg <- suppressMessages(read_package(
-    system.file("extdata", "datapackage.json", package = "datapackage"))
+    system.file("extdata", "datapackage.json", package = "frictionless"))
   )
   expect_error(read_resource("no_such_resource", pkg), "Can't find resource")
 
@@ -58,7 +58,7 @@ test_that("read_resource() returns error on incorrect resource", {
 
   # Add valid path
   pkg_invalid$resources[[1]]$path <- "deployments.csv"
-  pkg_invalid$directory <- dirname(system.file("extdata", "datapackage.json", package = "datapackage"))
+  pkg_invalid$directory <- dirname(system.file("extdata", "datapackage.json", package = "frictionless"))
 
   # Not a tabular-data-resource
   expect_error(
@@ -102,7 +102,7 @@ test_that("read_resource() returns error on incorrect resource", {
 
 test_that("read_resource() returns a tibble", {
   pkg <- suppressMessages(read_package(
-    system.file("extdata", "datapackage.json", package = "datapackage"))
+    system.file("extdata", "datapackage.json", package = "frictionless"))
   )
   resource <- read_resource("deployments", pkg)
 
@@ -112,18 +112,18 @@ test_that("read_resource() returns a tibble", {
 
 test_that("read_resource() can read remote files", {
   pkg <- suppressMessages(read_package(
-    system.file("extdata", "datapackage.json", package = "datapackage"))
+    system.file("extdata", "datapackage.json", package = "frictionless"))
   )
   resource <- read_resource("deployments", pkg)
 
   pkg_remote <- pkg
-  pkg_remote$resources[[1]]$path <- "https://github.com/inbo/datapackage/raw/main/inst/extdata/deployments.csv"
+  pkg_remote$resources[[1]]$path <- "https://github.com/frictionlessdata/frictionless-r/raw/main/inst/extdata/deployments.csv"
   expect_identical(resource, read_resource("deployments", pkg_remote))
 })
 
 test_that("read_resource() can read local and remote schemas", {
   pkg <- suppressMessages(read_package(
-    system.file("extdata", "datapackage.json", package = "datapackage"))
+    system.file("extdata", "datapackage.json", package = "frictionless"))
   )
   resource <- read_resource("deployments", pkg)
 
@@ -131,17 +131,17 @@ test_that("read_resource() can read local and remote schemas", {
   pkg_local_schema$directory <- "." # Use "./tests/testthat" outside test
   pkg_local_schema$resources[[1]]$schema <- "data/deployments_schema.json"
   # Using a remote path, otherwise schema and path need to share same directory
-  pkg_local_schema$resources[[1]]$path <- "https://github.com/inbo/datapackage/raw/main/inst/extdata/deployments.csv"
+  pkg_local_schema$resources[[1]]$path <- "https://github.com/frictionlessdata/frictionless-r/raw/main/inst/extdata/deployments.csv"
   expect_identical(resource, read_resource("deployments", pkg_local_schema))
 
   pkg_remote_schema <- pkg
-  pkg_remote_schema$resources[[1]]$schema <- "https://github.com/inbo/datapackage/raw/main/tests/testthat/data/deployments_schema.json"
+  pkg_remote_schema$resources[[1]]$schema <- "https://github.com/frictionlessdata/frictionless-r/raw/main/tests/testthat/data/deployments_schema.json"
   expect_identical(resource, read_resource("deployments", pkg_remote_schema))
 })
 
 test_that("read_resource() understands CSV dialect", {
   pkg <- suppressMessages(read_package(
-    system.file("extdata", "datapackage.json", package = "datapackage"))
+    system.file("extdata", "datapackage.json", package = "frictionless"))
   )
   resource <- read_resource("deployments", pkg)
 
@@ -172,7 +172,7 @@ test_that("read_resource() understands CSV dialect", {
 
 test_that("read_resource() understands missing values", {
   pkg <- suppressMessages(read_package(
-    system.file("extdata", "datapackage.json", package = "datapackage"))
+    system.file("extdata", "datapackage.json", package = "frictionless"))
   )
   resource <- read_resource("deployments", pkg)
 
@@ -187,7 +187,7 @@ test_that("read_resource() understands missing values", {
 
 test_that("read_resource() understands encoding", {
   pkg <- suppressMessages(read_package(
-    system.file("extdata", "datapackage.json", package = "datapackage"))
+    system.file("extdata", "datapackage.json", package = "frictionless"))
   )
   resource <- read_resource("deployments", pkg)
 
@@ -215,7 +215,7 @@ test_that("read_resource() handles LF and CRLF line terminator characters", {
   # read_delim() however only handles 2 line terminator characters (LF and CRLF)
   # without explicitly indicating them, so dialect$lineTerminator is ignored
   pkg <- suppressMessages(read_package(
-    system.file("extdata", "datapackage.json", package = "datapackage"))
+    system.file("extdata", "datapackage.json", package = "frictionless"))
   )
   resource <- read_resource("deployments", pkg) # This file has LF
 
@@ -227,7 +227,7 @@ test_that("read_resource() handles LF and CRLF line terminator characters", {
 
 test_that("read_resource() can read compressed files", {
   pkg <- suppressMessages(read_package(
-    system.file("extdata", "datapackage.json", package = "datapackage"))
+    system.file("extdata", "datapackage.json", package = "frictionless"))
   )
   resource <- read_resource("deployments", pkg)
 
@@ -238,7 +238,7 @@ test_that("read_resource() can read compressed files", {
   pkg_local_zip$resources[[1]]$path <- "data/deployments.csv.zip"
   pkg_remote_zip <- pkg
   pkg_remote_zip$resources[[1]]$path <-
-    "https://github.com/inbo/datapackage/raw/main/tests/testthat/data/deployments.csv.zip"
+    "https://github.com/frictionlessdata/frictionless-r/raw/main/tests/testthat/data/deployments.csv.zip"
 
   # File created in terminal with:
   # gzip deployments.csv
@@ -247,7 +247,7 @@ test_that("read_resource() can read compressed files", {
   pkg_local_gz$resources[[1]]$path <- "data/deployments.csv.gz"
   pkg_remote_gz <- pkg
   pkg_remote_gz$resources[[1]]$path <-
-    "https://github.com/inbo/datapackage/raw/main/tests/testthat/data/deployments.csv.gz"
+    "https://github.com/frictionlessdata/frictionless-r/raw/main/tests/testthat/data/deployments.csv.gz"
 
   expect_identical(resource, read_resource("deployments", pkg_local_zip))
   # Remote zip not supported, see

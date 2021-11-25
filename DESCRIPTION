@@ -1,6 +1,6 @@
-Package: datapackage
+Package: frictionless
 Title: Read and Write Frictionless Data Packages
-Version: 0.2.0.9002
+Version: 0.3.0
 Authors@R: c(
     person(given = "Peter",
            family = "Desmet",
@@ -14,8 +14,8 @@ Authors@R: c(
            comment = c(ORCID = "0000-0003-3445-7562")))
 Description: Read and write Frictionless Data Packages in a Tidyverse way.
 License: MIT + file LICENSE
-URL: https://github.com/inbo/datapackage, https://inbo.github.io/datapackage/
-BugReports: https://github.com/inbo/datapackage/issues
+URL: https://github.com/frictionlessdata/frictionless-r, https://frictionlessdata.github.io/frictionless-r
+BugReports: https://github.com/frictionless/frictionless-r/issues
 Imports:
     assertthat,
     dplyr,
