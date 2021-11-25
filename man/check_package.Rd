@@ -13,6 +13,6 @@ check_package(package)
 \code{TRUE} or error.
 }
 \description{
-Check if a package object is a list object of class "datapackage".
+Check if a package object is a list object of class \code{datapackage}.
 }
 \keyword{internal}
