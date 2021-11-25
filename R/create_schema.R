@@ -11,9 +11,8 @@
 #' @export
 #'
 #' @importFrom assertthat assert_that
-#' @importFrom dplyr case_when recode %>%
+#' @importFrom dplyr recode %>%
 #' @importFrom glue glue
-#' @importFrom lubridate tz
 #' @importFrom purrr imap
 #'
 #' @section Table schema properties:
