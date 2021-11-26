@@ -10,10 +10,6 @@
 #'
 #' @export
 #'
-#' @importFrom assertthat assert_that
-#' @importFrom glue glue
-#' @importFrom purrr keep
-#'
 #' @examples
 #' # Read datapackage.json file
 #' package <- read_package(system.file("extdata", "datapackage.json", package = "frictionless"))
@@ -27,13 +23,13 @@ get_resource <- function(resource_name, package) {
 
   # Get resource
   resource_names_collapse <- paste(package$resource_names, collapse = ", ")
-  assert_that(
+  assertthat::assert_that(
     resource_name %in% package$resource_names,
-    msg = glue(
+    msg = glue::glue(
       "Can't find resource `{resource_name}` in `{resource_names_collapse}`."
     )
   )
-  resource <- keep(package$resources, function(x) {
+  resource <- purrr::keep(package$resources, function(x) {
     (x$name == resource_name)
   })[[1]]
 

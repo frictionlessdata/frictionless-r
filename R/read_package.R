@@ -14,10 +14,6 @@
 #'
 #' @export
 #'
-#' @importFrom assertthat assert_that
-#' @importFrom glue glue
-#' @importFrom jsonlite fromJSON
-#'
 #' @examples
 #' # Read datapackage.json file
 #' package <- read_package(system.file("extdata", "datapackage.json", package = "frictionless"))
@@ -28,13 +24,13 @@
 read_package <- function(file = "datapackage.json") {
   # Read file
   file <- check_path(file)
-  descriptor <- fromJSON(file, simplifyDataFrame = FALSE)
+  descriptor <- jsonlite::fromJSON(file, simplifyDataFrame = FALSE)
 
   # Check for resources
   # https://specs.frictionlessdata.io/data-package/#metadata
-  assert_that(
+  assertthat::assert_that(
     !is.null(descriptor$resources[[1]]$name),
-    msg = glue(
+    msg = glue::glue(
       "Descriptor `{file}` must have property `resources` containing at least",
       "one resource with a `name`.", .sep = " "
     )
@@ -44,20 +40,20 @@ read_package <- function(file = "datapackage.json") {
   class(descriptor) <- c("datapackage", class(descriptor))
 
   # Add resource_names
-  descriptor$resource_names <- map_chr(descriptor$resources, "name")
+  descriptor$resource_names <- purrr::map_chr(descriptor$resources, "name")
 
   # Add directory
   descriptor$directory <- dirname(file) # Also works for URLs
 
   # Inform user regarding rights/citations
-  msg <- glue(
+  msg <- glue::glue(
     "Please make sure you have the right to access data from this Data Package",
     "for your proposed use.\nFollow applicable norms or requirements to credit",
     "the dataset and its authors.", .sep = " "
   )
   if (!is.null(descriptor$id)) {
     if (startsWith(descriptor$id, "http")) {
-      msg <- glue(
+      msg <- glue::glue(
         "{msg}", "For more information, see {descriptor$id}", .sep = "\n"
       )
     }

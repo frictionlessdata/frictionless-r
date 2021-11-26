@@ -4,7 +4,7 @@ test_that("create_schema() returns error on incorrect df", {
 
 test_that("create_schema() accepts data frames and tibbles", {
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
-  tibble <- tibble("col_1" = c(1, 2), "col_2" = c("a", "b"))
+  tibble <- dplyr::tibble("col_1" = c(1, 2), "col_2" = c("a", "b"))
   expect_type(create_schema(df), "list")
   expect_type(create_schema(tibble), "list")
 })
@@ -38,13 +38,15 @@ test_that("create_schema() uses colnames as field names", {
   colnames <- c("col_1", "Column 2", "col_3!") # Only 3 of 4 defined
   colnames(df) <- colnames
   expect_equal(
-    map_chr(create_schema(df)$fields, ~ .x$name),
+    purrr::map_chr(create_schema(df)$fields, ~ .x$name),
     c(colnames, "") # Last unnamed column (NA) should have empty name ""
   )
 })
 
 test_that("create_schema() translates coltypes into field types", {
-  interval <- interval(ymd("2020-03-01"), ymd("2020-03-02"))
+  interval <- lubridate::interval(
+    lubridate::ymd("2020-03-01"), lubridate::ymd("2020-03-02")
+  )
   dttm <- "2020-03-01T08:00:00"
 
   # Create data.frame with base classes + some returned by read_delim()
@@ -82,8 +84,8 @@ test_that("create_schema() translates coltypes into field types", {
     vector = as.vector(1)               # numeric
   )
   schema <- create_schema(df)
-  types <- map(schema$fields, ~ .x$type)
-  types <- setNames(types, map_chr(schema$fields, ~ .x$name))
+  types <- purrr::map(schema$fields, ~ .x$type)
+  types <- setNames(types, purrr::map_chr(schema$fields, ~ .x$name))
 
   expect_equal(
     types,

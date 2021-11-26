@@ -13,10 +13,6 @@
 #'
 #' @export
 #'
-#' @importFrom assertthat assert_that
-#' @importFrom glue glue
-#' @importFrom jsonlite fromJSON
-#'
 #' @examples
 #' # Read datapackage.json file
 #' package <- read_package(system.file("extdata", "datapackage.json", package = "frictionless"))
@@ -29,9 +25,9 @@ get_schema <- function(resource_name, package) {
   resource <- get_resource(resource_name, package)
 
   # Check resource is tabular-data-resource (expected for resources with schema)
-  assert_that(
+  assertthat::assert_that(
     replace_null(resource$profile, "") == "tabular-data-resource",
-    msg = glue(
+    msg = glue::glue(
       "Resource `{resource_name}` must have property `profile` with value",
       "`tabular-data-resource`.", .sep = " "
     )
@@ -41,14 +37,14 @@ get_schema <- function(resource_name, package) {
   schema <- resource$schema
   if (is.character(schema)) {
     schema <- check_path(schema, directory = package$directory, unsafe = FALSE)
-    schema <- fromJSON(schema, simplifyDataFrame = FALSE)
+    schema <- jsonlite::fromJSON(schema, simplifyDataFrame = FALSE)
   }
 
   # Check schema has fields
   fields <- schema$fields
-  assert_that(
+  assertthat::assert_that(
     !is.null(fields),
-    msg = glue(
+    msg = glue::glue(
       "Resource `{resource_name}` must have property `schema` containing",
       "`fields`.", .sep = " "
     )

@@ -19,12 +19,10 @@ replace_null <- function(value, replacement) {
 #' @return Vector with unique values sorted by occurrence, e.g. `c("b", "a")`.
 #'
 #' @noRd
-#'
-#' @importFrom dplyr arrange desc pull %>%
 unique_sorted <- function(x) {
   stats::aggregate(x, by = list(x), FUN = length) %>%
-    arrange(desc(x)) %>%
-    pull("Group.1")
+    dplyr::arrange(dplyr::desc(x)) %>%
+    dplyr::pull("Group.1")
 }
 
 #' Check package object
@@ -36,13 +34,10 @@ unique_sorted <- function(x) {
 #' @return `TRUE` or error.
 #'
 #' @noRd
-#'
-#' @importFrom assertthat assert_that
-#' @importFrom glue glue
 check_package <- function(package) {
-  assert_that(
+  assertthat::assert_that(
     "datapackage" %in% class(package),
-    msg = glue(
+    msg = glue::glue(
       "`package` must be a list object of class datapackage created with",
       "`read_package()` or `create_package()`.", .sep = " "
     )
@@ -63,22 +58,18 @@ check_package <- function(package) {
 #' @return Absolute path or URL.
 #'
 #' @noRd
-#'
-#' @importFrom assertthat assert_that
-#' @importFrom glue glue
-#' @importFrom httr http_error
 check_path <- function(path, directory = NULL, unsafe = TRUE) {
 
   # Check that (non-URL) path is safe and prepend with directory to make
   # absolute path (both optional)
   if (!startsWith(path, "http")) {
-    assert_that(
+    assertthat::assert_that(
       unsafe | !startsWith(path, "/"),
-      msg = glue("{path} is an absolute path (`/`) which is unsafe.")
+      msg = glue::glue("{path} is an absolute path (`/`) which is unsafe.")
     )
-    assert_that(
+    assertthat::assert_that(
       unsafe | !startsWith(path, "../"),
-      msg = glue(
+      msg = glue::glue(
         "{path} is a relative parent path (`../`) which is unsafe."
       )
     )
@@ -89,14 +80,14 @@ check_path <- function(path, directory = NULL, unsafe = TRUE) {
 
   # Check existence of file at path
   if (startsWith(path, "http")) {
-    assert_that(
-      !http_error(path),
-      msg = glue("Can't find file at `{path}`.")
+    assertthat::assert_that(
+      !httr::http_error(path),
+      msg = glue::glue("Can't find file at `{path}`.")
     )
   } else {
-    assert_that(
+    assertthat::assert_that(
       file.exists(path),
-      msg = glue("Can't find file at `{path}`.")
+      msg = glue::glue("Can't find file at `{path}`.")
     )
   }
   return(path)

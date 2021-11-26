@@ -14,14 +14,6 @@
 #'
 #' @export
 #'
-#' @importFrom assertthat assert_that
-#' @importFrom dplyr bind_rows tibble %>%
-#' @importFrom glue glue
-#' @importFrom purrr map map_chr
-#' @importFrom readr col_character col_date col_datetime col_double col_factor
-#'   col_guess col_logical col_number col_time locale read_delim
-#' @importFrom stringr str_replace_all
-#'
 #' @section Resource properties:
 #'
 #' The [resource properties](https://specs.frictionlessdata.io/data-resource/)
@@ -192,11 +184,11 @@ read_resource <- function(resource_name, package) {
 
   # Check path(s) to file(s)
   # https://specs.frictionlessdata.io/data-resource/#data-location
-  assert_that(
+  assertthat::assert_that(
     !is.null(resource$path),
-    msg = glue("Resource `{resource_name}` must have property `path`.")
+    msg = glue::glue("Resource `{resource_name}` must have property `path`.")
   )
-  paths <- map_chr(
+  paths <- purrr::map_chr(
     resource$path, ~ check_path(.x, package$directory, unsafe = FALSE)
   )
 
@@ -205,108 +197,108 @@ read_resource <- function(resource_name, package) {
   fields <- schema$fields
 
   # Create locale with encoding, decimal_mark and grouping_mark
-  d_chars <- map_chr(fields, ~ replace_null(.x$decimalChar, NA_character_))
+  d_chars <- purrr::map_chr(fields, ~ replace_null(.x$decimalChar, NA_character_))
   d_chars <- unique_sorted(d_chars)
   if (length(d_chars) == 0 | (length(d_chars) == 1 & d_chars[1] == ".")) {
     decimal_mark <- "." # Set default to "." if undefined or all set to "."
   } else {
     decimal_mark <- d_chars[1]
-    warning(glue(
+    warning(glue::glue(
       "Some fields define a non-default `decimalChar`. Only a global value is",
       "supported, so all number fields will be parsed with `{d_chars[1]}` as",
       "decimal mark.", .sep = " "
     ))
   }
-  g_chars <- map_chr(fields, ~ replace_null(.x$groupChar, NA_character_))
+  g_chars <- purrr::map_chr(fields, ~ replace_null(.x$groupChar, NA_character_))
   g_chars <- unique_sorted(g_chars)
   if (length(g_chars) == 0 | (length(g_chars) == 1 & g_chars[1] == "")) {
     grouping_mark <- "" # Set default to "" if undefined or all set to ""
   } else {
     grouping_mark <- g_chars[1]
-    warning(glue(
+    warning(glue::glue(
       "Some fields define a non-default `groupChar`. Only a global value is",
       "supported, so all number fields with this property will be parsed with",
       "`{g_chars[1]}` as grouping mark.", .sep = " "
     ))
   }
-  locale <- locale(
+  locale <- readr::locale(
     encoding = replace_null(resource$encoding, "UTF-8"),
     decimal_mark = decimal_mark,
     grouping_mark = grouping_mark
   )
 
   # Create col_names: c("name1", "name2", ...)
-  col_names <- map_chr(fields, ~ replace_null(.x$name, NA_character_))
-  assert_that(all(!is.na(col_names)),
-    msg = glue(
+  col_names <- purrr::map_chr(fields, ~ replace_null(.x$name, NA_character_))
+  assertthat::assert_that(all(!is.na(col_names)),
+    msg = glue::glue(
       "Field {which(is.na(col_names))} of resource `{resource_name}` must",
       "have the property `name`.", .sep = " "
     )
   )
 
   # Create col_types: list(<collector_character>, <collector_logical>, ...)
-  col_types <- map(fields, function(x) {
+  col_types <- purrr::map(fields, function(x) {
     type <- replace_null(x$type, NA_character_)
     enum <- x$constraints$enum
     group_char <- ifelse(replace_null(x$groupChar, "") != "", TRUE, FALSE)
     bare_number <- ifelse(replace_null(x$bareNumber, "") != FALSE, TRUE, FALSE)
     format <- replace_null(x$format, "default") # Undefined = default
     convert_format <- function(format, translations) {
-      format %>% str_replace_all(translations)
+      format %>% stringr::str_replace_all(translations)
     }
 
     # Assign types and formats
     col_type <- switch(type,
       "string" = if(length(enum) > 0) {
-          col_factor(levels = enum)
+          readr::col_factor(levels = enum)
         } else {
-          col_character()
+          readr::col_character()
         },
       "number" = if(length(enum) > 0) {
-          col_factor(levels = as.character(enum))
+          readr::col_factor(levels = as.character(enum))
         } else if (group_char) {
-          col_number() # Supports grouping_mark
+          readr::col_number() # Supports grouping_mark
         } else if (bare_number) {
-          col_double() # Allows NaN, INF, -INF
+          readr::col_double() # Allows NaN, INF, -INF
         } else {
-          col_number() # Strips non-numeric chars + uses default grouping_mark
+          readr::col_number() # Strips non-numeric chars + uses default grouping_mark
         },
       "integer" = if(length(enum) > 0) {
-          col_factor(levels = as.character(enum))
+          readr::col_factor(levels = as.character(enum))
         } else if (bare_number) {
-          col_double() # Not col_integer() to avoid issues with big integers
+          readr::col_double() # Not col_integer() to avoid issues with big integers
         } else {
-          col_number() # Strips non-numeric chars
+          readr::col_number() # Strips non-numeric chars
         },
-      "boolean" = col_logical(),
-      "object" = col_character(),
-      "array" = col_character(),
-      "date" = col_date(format = convert_format(format, c(
+      "boolean" = readr::col_logical(),
+      "object" = readr::col_character(),
+      "array" = readr::col_character(),
+      "date" = readr::col_date(format = convert_format(format, c(
         "^default$" = "%Y-%m-%d", # ISO
         "^any$" = "%AD",          # YMD
         "^%x$" = "%m/%d/%y"       # Python strptime for %x
       ))),
-      "time" = col_time(format = convert_format(format, c(
+      "time" = readr::col_time(format = convert_format(format, c(
         "^default$" = "%AT",      # H(MS)
         "^any$"= "%AT",           # H(MS)
         "^%X$" = "%H:%M:%S",      # HMS
         "%S.%f" = "%OS"           # Milli/microseconds
       ))),
-      "datetime" = col_datetime(format = convert_format(format, c(
+      "datetime" = readr::col_datetime(format = convert_format(format, c(
         "^default$" = "",         # ISO (lenient)
         "^any$" = "",             # ISO (lenient)
         "%S.%f" = "%OS"           # Milli/microseconds
       ))),
-      "year" = col_date(format = "%Y"),
-      "yearmonth" = col_date(format = "%Y-%m"),
-      "duration" = col_character(),
-      "geopoint" = col_character(),
-      "geojson" = col_character(),
-      "any" = col_character()
+      "year" = readr::col_date(format = "%Y"),
+      "yearmonth" = readr::col_date(format = "%Y-%m"),
+      "duration" = readr::col_character(),
+      "geopoint" = readr::col_character(),
+      "geojson" = readr::col_character(),
+      "any" = readr::col_character()
     )
     # col_type will be NULL when type is undefined (NA_character) or an
     # unrecognized value (e.g. "datum"). Set those to col_guess()
-    col_type <- replace_null(col_type, col_guess())
+    col_type <- replace_null(col_type, readr::col_guess())
     col_type
   })
 
@@ -319,7 +311,7 @@ read_resource <- function(resource_name, package) {
   # Read data
   dataframes <- list()
   for (i in 1:length(paths)) {
-    data <- read_delim(
+    data <- readr::read_delim(
       file = paths[i],
       delim = replace_null(dialect$delimiter, ","),
       quote = replace_null(dialect$quoteChar, "\""),
@@ -346,5 +338,5 @@ read_resource <- function(resource_name, package) {
   }
 
   # Merge data frames for all paths
-  bind_rows(dataframes)
+  dplyr::bind_rows(dataframes)
 }

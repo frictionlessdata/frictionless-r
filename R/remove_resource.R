@@ -10,10 +10,6 @@
 #'
 #' @export
 #'
-#' @importFrom assertthat assert_that
-#' @importFrom glue glue
-#' @importFrom purrr discard
-#'
 #' @examples
 #' # Read datapackage.json file
 #' package <- read_package(system.file("extdata", "datapackage.json", package = "frictionless"))
@@ -31,7 +27,7 @@ remove_resource <- function(resource_name, package) {
   resource <- get_resource(resource_name, package)
 
   # Remove resource
-  package$resources <- discard(package$resources, function(x) {
+  package$resources <- purrr::discard(package$resources, function(x) {
     (x$name == resource_name)
   })
 

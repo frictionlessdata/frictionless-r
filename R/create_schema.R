@@ -10,12 +10,6 @@
 #'
 #' @export
 #'
-#' @importFrom assertthat assert_that
-#' @importFrom dplyr recode %>%
-#' @importFrom glue glue
-#' @importFrom purrr imap
-#' @importFrom rlist list.clean
-#'
 #' @section Table schema properties:
 #'
 #' The Table Schema will be created from the data frame columns:
@@ -76,20 +70,20 @@
 #' str(schema)
 create_schema <- function(df) {
   # Check df
-  assert_that(
+  assertthat::assert_that(
     is.data.frame(df),
-    msg = glue("`df` must be a data frame.")
+    msg = glue::glue("`df` must be a data frame.")
   )
 
   # Create fields (a list of lists)
   fields <-
-    imap(df, function(x, name) {
+    purrr::imap(df, function(x, name) {
       # Name
       name <- ifelse(is.na(name), "", name)
 
       # Type
       type <- paste(class(x), collapse = ",") # When data type is a vector
-      type <- recode(type,
+      type <- dplyr::recode(type,
         "character" = "string",
         "Date" = "date",
         "difftime" = "number",
@@ -121,7 +115,7 @@ create_schema <- function(df) {
   )
 
   # Remove elements that are NULL or empty list
-  schema <- list.clean(
+  schema <- rlist::list.clean(
     schema,
     function(x) is.null(x) | length(x) == 0L,
     recursive = TRUE
