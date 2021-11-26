@@ -42,6 +42,8 @@
 #' - `character` →
 #' [string](https://specs.frictionlessdata.io/table-schema/#string).
 #' - `Date` → [date](https://specs.frictionlessdata.io/table-schema/#date).
+#' - `difftime` →
+#' [number](https://specs.frictionlessdata.io/table-schema/#number).
 #' - `factor` →
 #' [string](https://specs.frictionlessdata.io/table-schema/#string) with factor
 #' levels as `enum`.
@@ -87,6 +89,7 @@ create_schema <- function(df) {
       type <- recode(type,
         "character" = "string",
         "Date" = "date",
+        "difftime" = "number",
         "factor" = "string",
         "hms,difftime" = "time", # Data read using col_time()
         "integer" = "integer",

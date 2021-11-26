@@ -43,20 +43,22 @@ The column type will determine the field \code{type}, as follows:
 \itemize{
 \item \code{character} →
 \href{https://specs.frictionlessdata.io/table-schema/#string}{string}.
+\item \code{Date} → \href{https://specs.frictionlessdata.io/table-schema/#date}{date}.
+\item \code{difftime} →
+\href{https://specs.frictionlessdata.io/table-schema/#number}{number}.
 \item \code{factor} →
 \href{https://specs.frictionlessdata.io/table-schema/#string}{string} with factor
 levels as \code{enum}.
-\item \code{integer} →
-\href{https://specs.frictionlessdata.io/table-schema/#integer}{integer}.
-\item \code{numeric} →
-\href{https://specs.frictionlessdata.io/table-schema/#number}{number}.
-\item \code{logical} →.
-\href{https://specs.frictionlessdata.io/table-schema/#boolean}{boolean}.
-\item \code{Date} → \href{https://specs.frictionlessdata.io/table-schema/#date}{date}.
-\item \code{POSIXct}/\code{POSIXlt} →
-\href{https://specs.frictionlessdata.io/table-schema/#datetime}{datetime}.
 \item \code{\link[hms:hms]{hms::hms()}} →
 \href{https://specs.frictionlessdata.io/table-schema/#time}{time}.
+\item \code{integer} →
+\href{https://specs.frictionlessdata.io/table-schema/#integer}{integer}.
+\item \code{logical} →.
+\href{https://specs.frictionlessdata.io/table-schema/#boolean}{boolean}.
+\item \code{numeric} →
+\href{https://specs.frictionlessdata.io/table-schema/#number}{number}.
+\item \code{POSIXct}/\code{POSIXlt} →
+\href{https://specs.frictionlessdata.io/table-schema/#datetime}{datetime}.
 \item Any other type →
 \href{https://specs.frictionlessdata.io/table-schema/#any}{any}.
 }
