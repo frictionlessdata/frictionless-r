@@ -47,25 +47,26 @@ test_that("create_schema() translates coltypes into field types", {
   interval <- interval(ymd("2020-03-01"), ymd("2020-03-02"))
   dttm <- "2020-03-01T08:00:00"
 
+  # Create data.frame with base classes + some returned by read_delim()
   df <- data.frame(
     array = as.array(1),                # numeric
     character = as.character(1),        # character
+    complex = as.complex(1),            # complex
     # data.frame = as.data.frame(1),    # results in X1 (numeric)
     Date = as.Date("2020-03-01"),       # Date
     difftime = as.difftime(interval, units = "weeks"), # difftime
+    # dist = as.dist(1),                # cannot coerce to df
     double = as.double(1),              # numeric
-    duration = as.duration(interval),   # Duration
     factor = as.factor(1),              # factor
     hms = hms::as_hms("08:00:00"),      # hms,difftime
-    hms2 = lubridate::hms("O8:00:00"),  # Period
     integer = as.integer(1),            # integer
-    interval = as.interval(interval),   # Interval
+    # list = as.list(1),                # results in X1 (numeric)
     logical = as.logical(1),            # logical
     matrix = as.matrix(1),              # numeric
     # null = as.null(),                 # args imply differing number of rows
     numeric = as.numeric(1),            # numeric
     # octmode = as.octmode(1),          # cannot coerce to df
-    period = as.period(interval),       # Period
+    period = lubridate::as.period(interval), # Period
     # person = as.person(1),            # cannot coerce to df
     POSIXct = as.POSIXct(dttm),         # POSIXct,POSIXt
     POSIXct_tz = as.POSIXct(dttm, tz = "EET"), # POSIXct,POSIXt
@@ -76,8 +77,7 @@ test_that("create_schema() translates coltypes into field types", {
     # roman = as.roman(1),              # cannot coerce to df
     single = as.single(1),              # numeric
     # symbol = as.symbol(1),            # cannot coerce to df
-    # table = as.table(1),              # results in table.Var1 (factor) and
-                                        # table.Freq (numeric)
+    # table = as.table(1),              # results in table.Var1 (fct), table.Freq (num)
     ts = as.ts(1),                      # ts
     vector = as.vector(1)               # numeric
   )
@@ -90,15 +90,13 @@ test_that("create_schema() translates coltypes into field types", {
     list(
       array = "number",
       character = "string",
+      complex = "any",
       Date = "date",
       difftime = "number", # Expressed as number when written to csv
       double = "number",
-      duration = "any", # 86400s (~1 days)
       factor = "string",
       hms = "time",
-      hms2 = "any", # 8H 0M 0S
       integer = "integer",
-      interval = "any", # 2020-03-01 UTC--2020-03-02 UTC
       logical = "boolean",
       matrix = "number",
       numeric = "number",
