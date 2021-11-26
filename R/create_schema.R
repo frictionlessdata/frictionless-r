@@ -14,6 +14,7 @@
 #' @importFrom dplyr recode %>%
 #' @importFrom glue glue
 #' @importFrom purrr imap
+#' @importFrom rlist list.clean
 #'
 #' @section Table schema properties:
 #'
@@ -77,8 +78,7 @@ create_schema <- function(df) {
 
   # Create fields (a list of lists)
   fields <-
-    df %>%
-    imap(function(x, name) {
+    imap(df, function(x, name) {
       # Name
       name <- ifelse(is.na(name), "", name)
 
@@ -114,7 +114,12 @@ create_schema <- function(df) {
     fields = unname(fields) # Creates [] rather than {}
   )
 
-  # TODO: Remove elements that are NULL
+  # Remove elements that are NULL or empty list
+  schema <- list.clean(
+    schema,
+    function(x) is.null(x) | length(x) == 0L,
+    recursive = TRUE
+  )
 
   schema
 }

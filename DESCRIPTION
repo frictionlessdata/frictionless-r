@@ -24,6 +24,7 @@ Imports:
     jsonlite,
     purrr,
     readr (>= 2.1.0),
+    rlist,
     stringr
 Suggests:
     hms,
