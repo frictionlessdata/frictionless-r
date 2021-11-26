@@ -1,4 +1,4 @@
-#' Read data from a Data Resource into a tibble data.frame
+#' Read data from a Data Resource into a tibble data frame
 #'
 #' Reads data from a Data Resource (in a Data Package) into a tibble (a
 #' Tidyverse data frame). The resource must be a
@@ -10,7 +10,7 @@
 #' @param resource_name Name of the resource.
 #' @param package Data Package object, see `read_package()`.
 #'
-#' @return [tibble()] with the resource data.
+#' @return [dplyr::tibble()] data frame with the resource data.
 #'
 #' @export
 #'
@@ -149,7 +149,7 @@
 #' November 2013`. `%x` is `%m/%d/%y`. `%j`, `%U`, `%w` and `%W` are not
 #' supported.
 #' - [time](https://specs.frictionlessdata.io/table-schema/#time) →
-#' `hms::hms()`. Supports `format`, with values `default` (ISO time), `any`
+#' [hms::hms()]. Supports `format`, with values `default` (ISO time), `any`
 #' (guess `hms`) and [Python/C strptime][strptime] patterns, such as
 #' `%I%p%M:%S.%f%z` for `8AM30:00.300+0200`.
 #' - [datetime](https://specs.frictionlessdata.io/table-schema/#datetime) →
@@ -174,7 +174,7 @@
 #' # Read datapackage.json file
 #' package <- read_package(system.file("extdata", "datapackage.json", package = "frictionless"))
 #'
-#' # List resources
+#' # List resource names
 #' package$resource_names
 #'
 #' # Read data from resource "observations"

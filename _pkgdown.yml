@@ -23,7 +23,7 @@ reference:
   # - add_resource
   - remove_resource
   - get_schema
-  # - create_schema
+  - create_schema
 - title: "Write Data Packages"
   desc: "Write a Data Package and its associated Data Resources to disk."
   contents:

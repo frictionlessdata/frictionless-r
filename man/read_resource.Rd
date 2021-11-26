@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_resource.R
 \name{read_resource}
 \alias{read_resource}
-\title{Read data from a Data Resource into a tibble data.frame}
+\title{Read data from a Data Resource into a tibble data frame}
 \usage{
 read_resource(resource_name, package)
 }
@@ -12,7 +12,7 @@ read_resource(resource_name, package)
 \item{package}{Data Package object, see \code{read_package()}.}
 }
 \value{
-\code{\link[=tibble]{tibble()}} with the resource data.
+\code{\link[dplyr:reexports]{dplyr::tibble()}} data frame with the resource data.
 }
 \description{
 Reads data from a Data Resource (in a Data Package) into a tibble (a
@@ -156,7 +156,7 @@ Supports \code{format}, with values \code{default} (ISO date), \code{any} (guess
 \href{https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior}{Python/C strptime} patterns, such as \verb{\%a, \%d \%B \%Y} for \verb{Sat, 23 November 2013}. \verb{\%x} is \verb{\%m/\%d/\%y}. \verb{\%j}, \verb{\%U}, \verb{\%w} and \verb{\%W} are not
 supported.
 \item \href{https://specs.frictionlessdata.io/table-schema/#time}{time} →
-\code{hms::hms()}. Supports \code{format}, with values \code{default} (ISO time), \code{any}
+\code{\link[hms:hms]{hms::hms()}}. Supports \code{format}, with values \code{default} (ISO time), \code{any}
 (guess \code{hms}) and \href{https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior}{Python/C strptime} patterns, such as
 \verb{\%I\%p\%M:\%S.\%f\%z} for \verb{8AM30:00.300+0200}.
 \item \href{https://specs.frictionlessdata.io/table-schema/#datetime}{datetime} →
@@ -184,7 +184,7 @@ with \code{01} for month and day.
 # Read datapackage.json file
 package <- read_package(system.file("extdata", "datapackage.json", package = "frictionless"))
 
-# List resources
+# List resource names
 package$resource_names
 
 # Read data from resource "observations"

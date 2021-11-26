@@ -1,0 +1,131 @@
+#' Create a Table Schema for a data frame
+#'
+#' Creates a [Table Schema](https://specs.frictionlessdata.io/table-schema/) for
+#' a data frame, listing all column names and types as field names and
+#' (converted) types.
+#'
+#' @param df A data frame.
+#'
+#' @return List object describing the Table Schema.
+#'
+#' @export
+#'
+#' @importFrom assertthat assert_that
+#' @importFrom dplyr recode %>%
+#' @importFrom glue glue
+#' @importFrom purrr imap
+#' @importFrom rlist list.clean
+#'
+#' @section Table schema properties:
+#'
+#' The Table Schema will be created from the data frame columns:
+#'
+#' - `name`: contains the column name.
+#' - `title`: not set.
+#' - `description`: not set.
+#' - `type`: contains the converted column type (see further).
+#' - `format`: not set and can thus be considered `default`. This is also the
+#' case for dates, times and datetimes, since [readr::write_csv()] used by
+#' _write_package()_ will format those to ISO8601 which is considered the
+#' default. Datetimes in local or non-UTC timezones will be converted to UTC
+#' before writing.
+#' - `constraints`: not set, except for factors (see further).
+#' - `missingValues`: not set. _write_package()_ will use the default `""` for
+#' missing values.
+#' - `primaryKey`: not set.
+#' - `foreignKeys`: not set.
+#'
+#' ## Field types
+#'
+#' The column type will determine the field `type`, as follows:
+#'
+#' - `character` →
+#' [string](https://specs.frictionlessdata.io/table-schema/#string).
+#' - `Date` → [date](https://specs.frictionlessdata.io/table-schema/#date).
+#' - `difftime` →
+#' [number](https://specs.frictionlessdata.io/table-schema/#number).
+#' - `factor` →
+#' [string](https://specs.frictionlessdata.io/table-schema/#string) with factor
+#' levels as `enum`.
+#' - [hms::hms()] →
+#' [time](https://specs.frictionlessdata.io/table-schema/#time).
+#' - `integer` →
+#' [integer](https://specs.frictionlessdata.io/table-schema/#integer).
+#' - `logical` →.
+#' [boolean](https://specs.frictionlessdata.io/table-schema/#boolean).
+#' - `numeric` →
+#' [number](https://specs.frictionlessdata.io/table-schema/#number).
+#' - `POSIXct`/`POSIXlt` →
+#' [datetime](https://specs.frictionlessdata.io/table-schema/#datetime).
+#' - Any other type →
+#' [any](https://specs.frictionlessdata.io/table-schema/#any).
+#'
+#' @examples
+#' # Create data frame
+#' df <- data.frame(
+#'   id = c(as.integer(1), as.integer(2)),
+#'   timestamp = c(
+#'     as.POSIXct("2020-03-01 12:00:00", tz = "EET"),
+#'     as.POSIXct("2020-03-01 18:45:00", tz = "EET")
+#'   ),
+#'   age = factor(c("adult", "adult"), levels = c("adult", "juvenile", "unknown"))
+#' )
+#'
+#' # Create Table Schema
+#' schema <- create_schema(df)
+#' str(schema)
+create_schema <- function(df) {
+  # Check df
+  assert_that(
+    is.data.frame(df),
+    msg = glue("`df` must be a data frame.")
+  )
+
+  # Create fields (a list of lists)
+  fields <-
+    imap(df, function(x, name) {
+      # Name
+      name <- ifelse(is.na(name), "", name)
+
+      # Type
+      type <- paste(class(x), collapse = ",") # When data type is a vector
+      type <- recode(type,
+        "character" = "string",
+        "Date" = "date",
+        "difftime" = "number",
+        "factor" = "string",
+        "hms,difftime" = "time", # Data read using col_time()
+        "integer" = "integer",
+        "logical" = "boolean",
+        "numeric" = "number", # Includes double
+        "POSIXct,POSIXt" = "datetime", # Includes POSIXlt,POSIXt
+        .default = "any"
+      )
+
+      # Enumeration
+      enum <- levels(x)
+
+      # Create field list object
+      list(
+        name = name,
+        type = type,
+        constraints = list(
+          enum = enum
+        )
+      )
+    })
+
+  # Create schema
+  schema <- list(
+    fields = unname(fields) # Creates [] rather than {}
+  )
+
+  # Remove elements that are NULL or empty list
+  schema <- list.clean(
+    schema,
+    function(x) is.null(x) | length(x) == 0L,
+    recursive = TRUE
+  )
+
+  schema
+}

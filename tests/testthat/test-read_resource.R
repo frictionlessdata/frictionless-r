@@ -1,5 +1,3 @@
-library(hms)
-
 test_that("read_resource() returns error on incorrect package", {
   expect_error(
     read_resource("deployments", "not_a_list"),
@@ -356,7 +354,7 @@ test_that("read_resource() handles dates", {
 })
 
 test_that("read_resource() handles times", {
-  expected_value <- hms(0, 30, 8) # "08:30:00"
+  expected_value <- hms::hms(0, 30, 8) # "08:30:00"
   pkg <- suppressMessages(read_package("data/types.json"))
   resource <- read_resource("time", pkg)
   # This test covers:
@@ -374,7 +372,9 @@ test_that("read_resource() handles times", {
   expect_identical(resource$tm_shortcut, expected_value)
   expect_identical(resource$tm_1, expected_value)
   expect_identical(resource$tm_2, expected_value)
-  expect_identical(resource$tm_3, hms(0.3, 30, 8)) # "08:30:00.3"
+  expect_identical(resource$tm_3, hms::hms(0.3, 30, 8)) # "08:30:00.3"
+  # col_time will correctly parse timezone offset (+0000) in tm_3, but not
+  # convert to UTC, so 06:30:00.300-0200 = 06:30:00.3, not 08:30:00.3
 })
 
 test_that("read_resource() handles datetimes", {

@@ -18,13 +18,13 @@
 #' # Read datapackage.json file
 #' package <- read_package(system.file("extdata", "datapackage.json", package = "frictionless"))
 #'
-#' # List resources
+#' # List resource names
 #' package$resource_names
 #'
 #' # Remove resource "observations"
 #' package <- remove_resource("observations", package)
 #'
-#' # List resources
+#' # List resource names
 #' package$resource_names
 remove_resource <- function(resource_name, package) {
   # Check resource is present
