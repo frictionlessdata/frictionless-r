@@ -1,5 +1,3 @@
-library(hms)
-
 test_that("read_resource() returns error on incorrect package", {
   expect_error(
     read_resource("deployments", "not_a_list"),
