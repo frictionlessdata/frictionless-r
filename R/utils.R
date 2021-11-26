@@ -7,7 +7,7 @@
 #'
 #' @return `value` when not `NULL`, otherwise `replacement`.
 #'
-#' @keywords internal
+#' @noRd
 replace_null <- function(value, replacement) {
   if(!is.null(value)) { value } else { replacement }
 }
@@ -18,7 +18,7 @@ replace_null <- function(value, replacement) {
 #'
 #' @return Vector with unique values sorted by occurrence, e.g. `c("b", "a")`.
 #'
-#' @keywords internal
+#' @noRd
 #'
 #' @importFrom dplyr arrange desc pull %>%
 unique_sorted <- function(x) {
@@ -35,7 +35,7 @@ unique_sorted <- function(x) {
 #'
 #' @return `TRUE` or error.
 #'
-#' @keywords internal
+#' @noRd
 #'
 #' @importFrom assertthat assert_that
 #' @importFrom glue glue
@@ -62,7 +62,7 @@ check_package <- function(package) {
 #'
 #' @return Absolute path or URL.
 #'
-#' @keywords internal
+#' @noRd
 #'
 #' @importFrom assertthat assert_that
 #' @importFrom glue glue
