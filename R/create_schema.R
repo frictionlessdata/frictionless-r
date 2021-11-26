@@ -64,7 +64,10 @@
 #' # Create data frame
 #' df <- data.frame(
 #'   id = c(as.integer(1), as.integer(2)),
-#'   timestamp = c(as.POSIXct("2020-03-01 12:00:00", tz = "EET"), as.POSIXct("2020-03-01 18:45:00", tz = "EET")),
+#'   timestamp = c(
+#'     as.POSIXct("2020-03-01 12:00:00", tz = "EET"),
+#'     as.POSIXct("2020-03-01 18:45:00", tz = "EET")
+#'   ),
 #'   age = factor(c("adult", "adult"), levels = c("adult", "juvenile", "unknown"))
 #' )
 #'
