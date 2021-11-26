@@ -28,11 +28,11 @@ The Table Schema will be created from the data frame columns:
 \item \code{type}: contains the converted column type (see further).
 \item \code{format}: not set and can thus be considered \code{default}. This is also the
 case for dates, times and datetimes, since \code{\link[readr:write_delim]{readr::write_csv()}} used by
-\code{\link[=write_package]{write_package()}} will format those to ISO8601 which is considered the
+\emph{write_package()} will format those to ISO8601 which is considered the
 default. Datetimes in local or non-UTC timezones will be converted to UTC
 before writing.
 \item \code{constraints}: not set, except for factors (see further).
-\item \code{missingValues}: not set. \code{\link[=write_package]{write_package()}} will use the default \code{""} for
+\item \code{missingValues}: not set. \emph{write_package()} will use the default \code{""} for
 missing values.
 \item \code{primaryKey}: not set.
 \item \code{foreignKeys}: not set.
