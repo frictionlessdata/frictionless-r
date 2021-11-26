@@ -41,20 +41,20 @@
 #'
 #' - `character` →
 #' [string](https://specs.frictionlessdata.io/table-schema/#string).
+#' - `Date` → [date](https://specs.frictionlessdata.io/table-schema/#date).
 #' - `factor` →
 #' [string](https://specs.frictionlessdata.io/table-schema/#string) with factor
 #' levels as `enum`.
-#' - `integer` →
-#' [integer](https://specs.frictionlessdata.io/table-schema/#integer).
-#' - `numeric` →
-#' [number](https://specs.frictionlessdata.io/table-schema/#number).
-#' - `logical` →.
-#' [boolean](https://specs.frictionlessdata.io/table-schema/#boolean).
-#' - `Date` → [date](https://specs.frictionlessdata.io/table-schema/#date).
-#' - `POSIXct`/`POSIXlt` →
-#' [datetime](https://specs.frictionlessdata.io/table-schema/#datetime).
 #' - [hms::hms()] →
 #' [time](https://specs.frictionlessdata.io/table-schema/#time).
+#' - `integer` →
+#' [integer](https://specs.frictionlessdata.io/table-schema/#integer).
+#' - `logical` →.
+#' [boolean](https://specs.frictionlessdata.io/table-schema/#boolean).
+#' - `numeric` →
+#' [number](https://specs.frictionlessdata.io/table-schema/#number).
+#' - `POSIXct`/`POSIXlt` →
+#' [datetime](https://specs.frictionlessdata.io/table-schema/#datetime).
 #' - Any other type →
 #' [any](https://specs.frictionlessdata.io/table-schema/#any).
 #'
@@ -86,13 +86,13 @@ create_schema <- function(df) {
       type <- paste(class(x), collapse = ",") # When data type is a vector
       type <- recode(type,
         "character" = "string",
-        "factor" = "string",
-        "integer" = "integer",
-        "numeric" = "number", # Includes double
-        "logical" = "boolean",
         "Date" = "date",
-        "POSIXct,POSIXt" = "datetime", # Includes POSIXlt,POSIXt
+        "factor" = "string",
         "hms,difftime" = "time", # Data read using col_time()
+        "integer" = "integer",
+        "logical" = "boolean",
+        "numeric" = "number", # Includes double
+        "POSIXct,POSIXt" = "datetime", # Includes POSIXlt,POSIXt
         .default = "any"
       )
 
