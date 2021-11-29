@@ -9,7 +9,7 @@
 #'
 #' @noRd
 replace_null <- function(value, replacement) {
-  if(!is.null(value)) { value } else { replacement }
+  if (!is.null(value)) { value } else { replacement }
 }
 
 #' Get unique vector values sorted by how often they occur

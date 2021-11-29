@@ -88,7 +88,7 @@ test_that("read_resource() returns error on incorrect resource", {
 
   # No field name
   pkg_invalid$resources[[1]]$schema <- NULL
-  pkg_invalid$resources[[1]]$schema$fields = list(
+  pkg_invalid$resources[[1]]$schema$fields <- list(
     list(name = "deployment_id"), # Field 1
     list(type = "number") # Field 2
   )
@@ -164,7 +164,7 @@ test_that("read_resource() understands CSV dialect", {
   # One attribute of this df will be different: skip = 0 (since no header)
   # The default read_resource() sets this to: skip = 1
   # Since that is not a difference we want to test, we overwrite it
-  attr(resource_dialect, 'spec')$skip <- 1
+  attr(resource_dialect, "spec")$skip <- 1
   expect_identical(resource, resource_dialect)
 })
 

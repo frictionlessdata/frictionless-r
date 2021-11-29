@@ -249,12 +249,12 @@ read_resource <- function(resource_name, package) {
 
     # Assign types and formats
     col_type <- switch(type,
-      "string" = if(length(enum) > 0) {
+      "string" = if (length(enum) > 0) {
           readr::col_factor(levels = enum)
         } else {
           readr::col_character()
         },
-      "number" = if(length(enum) > 0) {
+      "number" = if (length(enum) > 0) {
           readr::col_factor(levels = as.character(enum))
         } else if (group_char) {
           readr::col_number() # Supports grouping_mark
@@ -263,7 +263,7 @@ read_resource <- function(resource_name, package) {
         } else {
           readr::col_number() # Strips non-numeric chars + uses default grouping_mark
         },
-      "integer" = if(length(enum) > 0) {
+      "integer" = if (length(enum) > 0) {
           readr::col_factor(levels = as.character(enum))
         } else if (bare_number) {
           readr::col_double() # Not col_integer() to avoid issues with big integers
@@ -280,7 +280,7 @@ read_resource <- function(resource_name, package) {
       ))),
       "time" = readr::col_time(format = convert_format(format, c(
         "^default$" = "%AT",      # H(MS)
-        "^any$"= "%AT",           # H(MS)
+        "^any$" = "%AT",          # H(MS)
         "^%X$" = "%H:%M:%S",      # HMS
         "%S.%f" = "%OS"           # Milli/microseconds
       ))),
