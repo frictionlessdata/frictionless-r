@@ -4,13 +4,10 @@
     <loc>https://frictionlessdata.github.io/frictionless-r/index.html</loc>
   </url>
   <url>
-    <loc>https://frictionlessdata.github.io/frictionless-r/reference/check_package.html</loc>
-  </url>
-  <url>
-    <loc>https://frictionlessdata.github.io/frictionless-r/reference/check_path.html</loc>
-  </url>
-  <url>
     <loc>https://frictionlessdata.github.io/frictionless-r/reference/create_schema.html</loc>
+  </url>
+  <url>
+    <loc>https://frictionlessdata.github.io/frictionless-r/reference/frictionless-package.html</loc>
   </url>
   <url>
     <loc>https://frictionlessdata.github.io/frictionless-r/reference/get_resource.html</loc>
@@ -26,11 +23,5 @@
   </url>
   <url>
     <loc>https://frictionlessdata.github.io/frictionless-r/reference/remove_resource.html</loc>
-  </url>
-  <url>
-    <loc>https://frictionlessdata.github.io/frictionless-r/reference/replace_null.html</loc>
-  </url>
-  <url>
-    <loc>https://frictionlessdata.github.io/frictionless-r/reference/unique_sorted.html</loc>
   </url>
 </urlset>
