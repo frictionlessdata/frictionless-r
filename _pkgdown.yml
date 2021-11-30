@@ -18,7 +18,7 @@ reference:
 - title: "Manipulate Data Packages"
   desc: "Manipulate a Data Package, its associated Data Resources and Table Schemas."
   contents:
-  # - create_package
+  - create_package
   - get_resource
   # - add_resource
   - remove_resource

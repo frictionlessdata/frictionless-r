@@ -10,12 +10,12 @@
 #' @export
 #'
 #' @examples
-#' # Read datapackage.json file
+#' # Read a datapackage.json file
 #' package <- read_package(
 #'   system.file("extdata", "datapackage.json", package = "frictionless")
 #' )
 #'
-#' # Get resource "observations"
+#' # Get the Data Resource "observations"
 #' resource <- get_resource("observations", package)
 #' str(resource)
 get_resource <- function(resource_name, package) {

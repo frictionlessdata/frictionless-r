@@ -27,7 +27,8 @@ unique_sorted <- function(x) {
 
 #' Check package object
 #'
-#' Check if a package object is a list object of class `datapackage`.
+#' Check if a package object is a list object of class `datapackage`, with the
+#' required properties.
 #'
 #' @param package Package object
 #'
@@ -36,8 +37,11 @@ unique_sorted <- function(x) {
 #' @noRd
 check_package <- function(package) {
   assertthat::assert_that(
-    "datapackage" %in% class(package) &
-    all(c("resources", "resource_names", "directory") %in% names(package)),
+    all(c("datapackage", "list") %in% class(package)) &
+    all(c("resources", "resource_names", "directory") %in% names(package)) &
+    is.list(package$resources) &
+    is.character(package$resource_names) &
+    is.character(package$directory),
     msg = glue::glue(
       "`package` must be a list object of class `datapackage` created with",
       "`read_package()` or `create_package()`.", .sep = " "

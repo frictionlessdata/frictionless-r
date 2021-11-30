@@ -30,21 +30,21 @@ devtools::install_github("frictionlessdata/frictionless-r")
 
 ## Usage
 
-There are two functions: `read_package()` and `read_resource()`.
+### Read data from a local Data Package
 
-### Basic functionality
+There are two read functions: `read_package()` and `read_resource()`.
 
 ``` r
 library(frictionless)
 
-# Read datapackage.json file
+# Read a datapackage.json file
 package <- read_package(system.file("extdata", "datapackage.json", package = "frictionless"))
 
-# List resource names
+# List the resource names
 package$resource_names
 #> [1] "deployments"  "observations"
 
-# Read data from resource "observations"
+# Read data from the resource "observations"
 read_resource("observations", package)
 #> # A tibble: 8 × 7
 #>   observation_id   deployment_id timestamp           scientific_name count age  
@@ -60,26 +60,26 @@ read_resource("observations", package)
 #> # … with 1 more variable: comments <chr>
 ```
 
-### Read external data
+### Read data from an online Data Package
 
-Frictionless allows you to access all data from an external Frictionless
-Data Package (e.g. one published on
+The read functions can also be used to access all data from an online
+Frictionless Data Package (e.g. one published on
 [Zenodo](https://doi.org/10.5281/zenodo.5070086)) via the
 `datapackage.json` URL:
 
 ``` r
-# Read datapackage.json file: this will give you access to all data resources
-# without reading them, which is convenient and fast
+# Read the datapackage.json file: this will give you access to all Data 
+# Resources without reading them, which is convenient and fast
 package <- read_package("https://zenodo.org/record/5070086/files/datapackage.json")
 #> Please make sure you have the right to access data from this Data Package for your proposed use.
 #> Follow applicable norms or requirements to credit the dataset and its authors.
 #> For more information, see https://doi.org/10.5281/zenodo.5070086
 
-# List resource names
+# List the resource names
 package$resource_names
 #> [1] "reference-data" "gps"            "acceleration"
 
-# Read gps data: will return a single data frame, even though data are 
+# Read the gps data: will return a single data frame, even though the data are 
 # split over multiple csv files
 read_resource("gps", package)
 #> # A tibble: 73,047 × 21
@@ -103,3 +103,6 @@ read_resource("gps", package)
 #> #   sensor-type <chr>, individual-taxon-canonical-name <chr>,
 #> #   tag-local-identifier <chr>, individual-local-identifier <chr>, …
 ```
+
+For more functionality, see the [function
+reference](https://frictionlessdata.github.io/frictionless-r/reference/index.html).

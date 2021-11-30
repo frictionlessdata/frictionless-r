@@ -1,9 +1,5 @@
 test_that("read_resource() returns error on incorrect package", {
   expect_error(
-    read_resource("deployments", "not_a_list"),
-    "`package` must be a list object of class `datapackage`"
-  )
-  expect_error(
     read_resource("deployments", list()),
     "`package` must be a list object of class `datapackage`"
   )
@@ -17,8 +13,11 @@ test_that("read_resource() returns error on incorrect resource", {
   expect_error(read_resource("no_such_resource", pkg), "Can't find resource")
 
   # Create invalid package and add properties one by one to pass errors
-  pkg_invalid <- list(resource_names = c("deployments"),
-                      resources = list(list(name = "deployments")))
+  pkg_invalid <- list(
+    resources = list(list(name = "deployments")),
+    resource_names = c("deployments"),
+    directory = "."
+  )
   class(pkg_invalid) <- c("datapackage", class(pkg_invalid))
 
   # No path
@@ -35,7 +34,7 @@ test_that("read_resource() returns error on incorrect resource", {
   # No file at path
   pkg_invalid$resources[[1]]$path <- "no_file.csv"
   expect_error(
-    read_resource("deployments", pkg_invalid), "Can't find file at `no_file.csv"
+    read_resource("deployments", pkg_invalid), "Can't find file at `./no_file.csv"
   )
 
   # No file at paths

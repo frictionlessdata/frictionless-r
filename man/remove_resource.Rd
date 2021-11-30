@@ -19,15 +19,15 @@ Removes a \href{https://specs.frictionlessdata.io/data-resource/}{Data Resource}
 from a Data Package, i.e. one of the described \code{resources} is removed.
 }
 \examples{
-# Read datapackage.json file
+# Read a datapackage.json file
 package <- read_package(system.file("extdata", "datapackage.json", package = "frictionless"))
 
-# List resource names
+# List the resource names
 package$resource_names
 
-# Remove resource "observations"
+# Remove the resource "observations"
 package <- remove_resource("observations", package)
 
-# List resource names
+# List the resource names ("observations" removed)
 package$resource_names
 }

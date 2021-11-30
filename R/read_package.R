@@ -15,12 +15,12 @@
 #' @export
 #'
 #' @examples
-#' # Read datapackage.json file
+#' # Read a datapackage.json file
 #' package <- read_package(
 #'   system.file("extdata", "datapackage.json", package = "frictionless")
 #' )
 #'
-#' # Access package properties
+#' # Access the package properties
 #' package$name
 #' package$resource_names
 read_package <- function(file = "datapackage.json") {
@@ -38,7 +38,7 @@ read_package <- function(file = "datapackage.json") {
     )
   )
 
-  # Add class
+  # Add datapackage class
   class(descriptor) <- c("datapackage", class(descriptor))
 
   # Add resource_names

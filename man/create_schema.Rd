@@ -66,7 +66,7 @@ levels as \code{enum}.
 }
 
 \examples{
-# Create data frame
+# Create a data frame
 df <- data.frame(
   id = c(as.integer(1), as.integer(2)),
   timestamp = c(
@@ -76,7 +76,7 @@ df <- data.frame(
   age = factor(c("adult", "adult"), levels = c("adult", "juvenile"))
 )
 
-# Create Table Schema
+# Create a Table Schema
 schema <- create_schema(df)
 str(schema)
 }
