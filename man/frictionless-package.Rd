@@ -25,5 +25,10 @@ Authors:
   \item Damiano Oldoni \email{damiano.oldoni@inbo.be} (\href{https://orcid.org/0000-0003-3445-7562}{ORCID})
 }
 
+Other contributors:
+\itemize{
+  \item Research Institute for Nature and Forest (INBO) \email{info@inbo.be} [copyright holder]
+}
+
 }
 \keyword{internal}
