@@ -38,7 +38,8 @@ devtools::install_github("frictionlessdata/frictionless-r")
 
 ### Read data from a local Data Package
 
-There are two read functions: `read_package()` and `read_resource()`.
+You can read data from a Data Package using the two read functions 
+(`read_package()`, then `read_resource()`):
 
 ```{r example_local, message=FALSE}
 library(frictionless)
