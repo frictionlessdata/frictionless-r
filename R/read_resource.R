@@ -181,7 +181,7 @@
 #' purrr::map_chr(package$resources[[2]]$schema$fields, "name")
 #' purrr::map_chr(package$resources[[2]]$schema$fields, "type")
 read_resource <- function(resource_name, package) {
-  # Get resource, includes try_package()
+  # Get resource, includes check_package()
   resource <- get_resource(resource_name, package)
 
   # Check path(s) to file(s)
@@ -191,7 +191,7 @@ read_resource <- function(resource_name, package) {
     msg = glue::glue("Resource `{resource_name}` must have property `path`.")
   )
   paths <- purrr::map_chr(
-    resource$path, ~ try_path(.x, package$directory, unsafe = FALSE)
+    resource$path, ~ check_path(.x, package$directory, unsafe = FALSE)
   )
 
   # Get schema and fields

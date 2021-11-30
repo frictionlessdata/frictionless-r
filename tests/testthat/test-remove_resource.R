@@ -24,7 +24,7 @@ test_that("remove_resource() removes resource, resource_name and returns package
   pkg_removed <- remove_resource("deployments", pkg)
 
   # Returns a valid package
-  expect_true(try_package(pkg_removed))
+  expect_true(check_package(pkg_removed))
 
   # Resource removed
   expect_length(pkg_removed$resources, 1) # Remains a list, now of length 1

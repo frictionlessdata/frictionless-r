@@ -25,7 +25,7 @@
 #' package$resource_names
 read_package <- function(file = "datapackage.json") {
   # Read file
-  file <- try_path(file)
+  file <- check_path(file)
   descriptor <- jsonlite::fromJSON(file, simplifyDataFrame = FALSE)
 
   # Check for resources

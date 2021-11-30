@@ -20,7 +20,7 @@
 #' str(resource)
 get_resource <- function(resource_name, package) {
   # Check package
-  try_package(package)
+  check_package(package)
 
   # Get resource
   resource_names_collapse <- paste(package$resource_names, collapse = ", ")
