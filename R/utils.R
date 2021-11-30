@@ -25,7 +25,7 @@ unique_sorted <- function(x) {
     dplyr::pull("Group.1")
 }
 
-#' Check package object
+#' Try package object
 #'
 #' Check if a package object is a list object of class `datapackage`.
 #'
@@ -34,7 +34,7 @@ unique_sorted <- function(x) {
 #' @return `TRUE` or error.
 #'
 #' @noRd
-check_package <- function(package) {
+try_package <- function(package) {
   assertthat::assert_that(
     "datapackage" %in% class(package),
     msg = glue::glue(
@@ -44,7 +44,7 @@ check_package <- function(package) {
   )
 }
 
-#' Check path or URL
+#' Try path or URL
 #'
 #' Check if a
 #' [path or URL](https://specs.frictionlessdata.io/data-resource/#url-or-path)
@@ -58,7 +58,7 @@ check_package <- function(package) {
 #' @return Absolute path or URL.
 #'
 #' @noRd
-check_path <- function(path, directory = NULL, unsafe = TRUE) {
+try_path <- function(path, directory = NULL, unsafe = TRUE) {
 
   # Check that (non-URL) path is safe and prepend with directory to make
   # absolute path (both optional)
