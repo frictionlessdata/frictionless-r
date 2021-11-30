@@ -181,15 +181,15 @@ with \code{01} for month and day.
 }
 
 \examples{
-# Read datapackage.json file
+# Read a datapackage.json file
 package <- read_package(
   system.file("extdata", "datapackage.json", package = "frictionless")
 )
 
-# List resource names
+# List the resource names
 package$resource_names
 
-# Read data from resource "observations"
+# Read data from the resource "observations"
 read_resource("observations", package)
 
 # The above tibble is merged from 2 files listed in the resource path

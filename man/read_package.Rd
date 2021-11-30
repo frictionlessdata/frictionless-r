@@ -24,12 +24,12 @@ Reads information from a \code{datapackage.json} file, i.e. the
 describes the Data Package metadata and its resources.
 }
 \examples{
-# Read datapackage.json file
+# Read a datapackage.json file
 package <- read_package(
   system.file("extdata", "datapackage.json", package = "frictionless")
 )
 
-# Access package properties
+# Access the package properties
 package$name
 package$resource_names
 }
