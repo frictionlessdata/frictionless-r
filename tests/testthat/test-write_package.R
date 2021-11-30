@@ -6,7 +6,15 @@ test_that("write_package() returns error on incorrect package", {
 })
 
 test_that("write_package() returns error if no resources are associated", {
+  pkg <- create_package()
 
+  # Empty resources
+  expected_error_msg <- "`package` must have resources \\(with a `name`\\)."
+  expect_error(write_package(pkg), expected_error_msg)
+
+  # No resource names
+  pkg$resources[[1]] <- list(not_a_name = "deployments")
+  expect_error(write_package(pkg), expected_error_msg)
 })
 
 test_that("write_package() writes to the specified directory", {
