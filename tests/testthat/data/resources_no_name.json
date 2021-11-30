@@ -1,7 +1,7 @@
 {
   "resources": [
     {
-      "no_name": "deployments"
+      "not_a_name": "deployments"
     },
     {
       "name": "observations"

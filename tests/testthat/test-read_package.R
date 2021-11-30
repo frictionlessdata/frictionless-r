@@ -44,11 +44,17 @@ test_that("read_package() returns error on missing file and properties", {
     read_package("http://example.com/nofile.json"),
     "Can't find file at"
   )
+
   # Not a json file: parsing error
   expect_error(read_package(system.file("extdata", "deployments.csv", package = "frictionless")))
-  # No resource name (same would happen on no resources)
-  expect_error(
-    read_package("data/no_resource_name.json"),
-    "must have property `resources` containing at least one resource with a `name`"
-  )
+
+  # No resources
+  expected_error_msg <- "must have property `resources` containing at least one resource. All resources must have a `name`."
+  expect_error(read_package("data/resources_missing.json"), expected_error_msg)
+
+  # Empty resources
+  expect_error(read_package("data/resources_empty.json"), expected_error_msg)
+
+  # No resource name
+  expect_error(read_package("data/resources_no_name.json"), expected_error_msg)
 })
