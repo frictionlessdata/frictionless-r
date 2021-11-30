@@ -12,7 +12,9 @@
 #'
 #' @examples
 #' # Read datapackage.json file
-#' package <- read_package(system.file("extdata", "datapackage.json", package = "frictionless"))
+#' package <- read_package(
+#'   system.file("extdata", "datapackage.json", package = "frictionless")
+#' )
 #'
 #' # Get resource "observations"
 #' resource <- get_resource("observations", package)

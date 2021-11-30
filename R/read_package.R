@@ -16,7 +16,9 @@
 #'
 #' @examples
 #' # Read datapackage.json file
-#' package <- read_package(system.file("extdata", "datapackage.json", package = "frictionless"))
+#' package <- read_package(
+#'   system.file("extdata", "datapackage.json", package = "frictionless")
+#' )
 #'
 #' # Access package properties
 #' package$name
