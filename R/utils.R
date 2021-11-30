@@ -36,9 +36,10 @@ unique_sorted <- function(x) {
 #' @noRd
 check_package <- function(package) {
   assertthat::assert_that(
-    "datapackage" %in% class(package),
+    "datapackage" %in% class(package) &&
+    c("resources", "resource_names", "directory") %in% names(package),
     msg = glue::glue(
-      "`package` must be a list object of class datapackage created with",
+      "`package` must be a list object of class `datapackage` created with",
       "`read_package()` or `create_package()`.", .sep = " "
     )
   )

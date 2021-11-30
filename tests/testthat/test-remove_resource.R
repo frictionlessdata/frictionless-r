@@ -1,11 +1,11 @@
 test_that("remove_resource() returns error on incorrect package", {
   expect_error(
     remove_resource("deployments", "not_a_list"),
-    "`package` must be a list object of class datapackage"
+    "`package` must be a list object of class `datapackage`"
   )
   expect_error(
     remove_resource("deployments", list()),
-    "`package` must be a list object of class datapackage"
+    "`package` must be a list object of class `datapackage`"
   )
 })
 
