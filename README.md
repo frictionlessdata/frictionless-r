@@ -30,9 +30,9 @@ devtools::install_github("frictionlessdata/frictionless-r")
 
 ## Usage
 
-There are two functions: `read_package()` and `read_resource()`.
+### Read data from a local Data Package
 
-### Basic functionality
+There are two read functions: `read_package()` and `read_resource()`.
 
 ``` r
 library(frictionless)
@@ -60,10 +60,10 @@ read_resource("observations", package)
 #> # … with 1 more variable: comments <chr>
 ```
 
-### Read external data
+### Read data from an online Data Package
 
-Frictionless allows you to access all data from an external Frictionless
-Data Package (e.g. one published on
+The read functions can also be used to access all data from an online
+Frictionless Data Package (e.g. one published on
 [Zenodo](https://doi.org/10.5281/zenodo.5070086)) via the
 `datapackage.json` URL:
 
@@ -103,3 +103,6 @@ read_resource("gps", package)
 #> #   sensor-type <chr>, individual-taxon-canonical-name <chr>,
 #> #   tag-local-identifier <chr>, individual-local-identifier <chr>, …
 ```
+
+For more functionality, see the [function
+reference](https://frictionlessdata.github.io/frictionless-r/reference/index.html).
