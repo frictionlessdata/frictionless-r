@@ -10,7 +10,7 @@ create_schema(df)
 \item{df}{A data frame.}
 }
 \value{
-List object describing the Table Schema.
+List object describing a Table Schema.
 }
 \description{
 Creates a \href{https://specs.frictionlessdata.io/table-schema/}{Table Schema} for
@@ -18,7 +18,6 @@ a data frame, listing all column names and types as field names and
 (converted) types.
 }
 \section{Table schema properties}{
-
 
 The Table Schema will be created from the data frame columns:
 \itemize{

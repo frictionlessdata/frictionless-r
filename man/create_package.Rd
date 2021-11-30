@@ -7,7 +7,7 @@
 create_package()
 }
 \value{
-List object of class \code{datapackage}.
+List object describing a Data Package.
 }
 \description{
 Initiates a \href{https://specs.frictionlessdata.io/data-package/}{Data Package}

@@ -9,10 +9,11 @@ remove_resource(resource_name, package)
 \arguments{
 \item{resource_name}{Name of the resource.}
 
-\item{package}{Data Package object, see \code{read_package()}.}
+\item{package}{List object describing a Data Package, created with
+\code{\link[=read_package]{read_package()}} or \code{\link[=create_package]{create_package()}}.}
 }
 \value{
-Data Package object.
+List object describing a Data Package.
 }
 \description{
 Removes a \href{https://specs.frictionlessdata.io/data-resource/}{Data Resource}

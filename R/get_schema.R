@@ -7,11 +7,8 @@
 #' [Tabular Data Resource](https://specs.frictionlessdata.io/tabular-data-resource/).
 #'
 #' @inheritParams read_resource
-#'
-#' @return List object describing the Table Schema.
-#'
+#' @return List object describing a Table Schema.
 #' @export
-#'
 #' @examples
 #' # Read a datapackage.json file
 #' package <- read_package(

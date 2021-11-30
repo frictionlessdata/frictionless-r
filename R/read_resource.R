@@ -8,14 +8,11 @@
 #' are taken from the provided `schema`, not from the header in the CSV file(s).
 #'
 #' @param resource_name Name of the resource.
-#' @param package Data Package object, see `read_package()`.
-#'
+#' @param package List object describing a Data Package, created with
+#'   [read_package()] or [create_package()].
 #' @return [dplyr::tibble()] data frame with the resource data.
-#'
 #' @export
-#'
 #' @section Resource properties:
-#'
 #' The [resource properties](https://specs.frictionlessdata.io/data-resource/)
 #' are handled as follows:
 #'
@@ -100,9 +97,7 @@
 #' - `hash`
 #' - `sources`
 #' - `licenses`
-#'
 #' @section Table schema properties:
-#'
 #' `schema` is required and must follow the [Table
 #' Schema](http://specs.frictionlessdata.io/table-schema/) specification. It
 #' can either be a JSON object or a URL or path referencing a JSON object.
@@ -161,7 +156,6 @@
 #' - [any](https://specs.frictionlessdata.io/table-schema/#any) → `character`.
 #' - no type provided → type is guessed.
 #' - unknown type → type is guessed.
-#'
 #' @examples
 #' # Read a datapackage.json file
 #' package <- read_package(

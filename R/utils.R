@@ -4,9 +4,7 @@
 #'
 #' @param value Value to test.
 #' @param replacement Replacement value when `value` is `NULL`.
-#'
 #' @return `value` when not `NULL`, otherwise `replacement`.
-#'
 #' @noRd
 replace_null <- function(value, replacement) {
   if (!is.null(value)) { value } else { replacement }
@@ -15,9 +13,7 @@ replace_null <- function(value, replacement) {
 #' Get unique vector values sorted by how often they occur
 #'
 #' @param x Vector, e.g. `c("a", "b", "b", "b", "a")`.
-#'
 #' @return Vector with unique values sorted by occurrence, e.g. `c("b", "a")`.
-#'
 #' @noRd
 unique_sorted <- function(x) {
   stats::aggregate(x, by = list(x), FUN = length) %>%
@@ -30,10 +26,8 @@ unique_sorted <- function(x) {
 #' Check if a package object is a list object of class `datapackage`, with the
 #' required properties.
 #'
-#' @param package Package object
-#'
+#' @param package List object describing a Data Package.
 #' @return `TRUE` or error.
-#'
 #' @noRd
 check_package <- function(package) {
   assertthat::assert_that(
@@ -59,9 +53,7 @@ check_package <- function(package) {
 #' @param path Path or URL to a file.
 #' @param directory Directory to prepend to path.
 #' @param unsafe Allow `path` to be an unsafe absolute or relative parent path.
-#'
 #' @return Absolute path or URL.
-#'
 #' @noRd
 check_path <- function(path, directory = NULL, unsafe = TRUE) {
 

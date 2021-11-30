@@ -4,11 +4,8 @@
 #' from a Data Package, i.e. the content of one of the described `resources`.
 #'
 #' @inheritParams read_resource
-#'
 #' @return List object describing a Data Resource.
-#'
 #' @export
-#'
 #' @examples
 #' # Read a datapackage.json file
 #' package <- read_package(
@@ -33,6 +30,4 @@ get_resource <- function(resource_name, package) {
   resource <- purrr::keep(package$resources, function(x) {
     (x$name == resource_name)
   })[[1]]
-
-  resource
 }

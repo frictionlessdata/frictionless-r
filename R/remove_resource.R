@@ -4,11 +4,8 @@
 #' from a Data Package, i.e. one of the described `resources` is removed.
 #'
 #' @inheritParams read_resource
-#'
-#' @return Data Package object.
-#'
+#' @return List object describing a Data Package.
 #' @export
-#'
 #' @examples
 #' # Read a datapackage.json file
 #' package <- read_package(system.file("extdata", "datapackage.json", package = "frictionless"))

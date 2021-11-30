@@ -4,10 +4,8 @@
 #' descriptor as a list object of class `datapackage` (cf. [read_package()]).
 #' Can be extended with metadata and resources (see _add_resource()_).
 #'
-#' @return List object of class `datapackage`.
-#'
+#' @return List object describing a Data Package.
 #' @export
-#'
 #' @examples
 #' # Create a Data Package
 #' package <- create_package()

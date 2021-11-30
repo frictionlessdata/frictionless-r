@@ -9,7 +9,8 @@ read_resource(resource_name, package)
 \arguments{
 \item{resource_name}{Name of the resource.}
 
-\item{package}{Data Package object, see \code{read_package()}.}
+\item{package}{List object describing a Data Package, created with
+\code{\link[=read_package]{read_package()}} or \code{\link[=create_package]{create_package()}}.}
 }
 \value{
 \code{\link[dplyr:reexports]{dplyr::tibble()}} data frame with the resource data.
@@ -23,7 +24,6 @@ properties \code{path}, CSV dialect, column names, data types, etc. Column names
 are taken from the provided \code{schema}, not from the header in the CSV file(s).
 }
 \section{Resource properties}{
-
 
 The \href{https://specs.frictionlessdata.io/data-resource/}{resource properties}
 are handled as follows:
@@ -120,7 +120,6 @@ the \code{compression} property is
 }
 
 \section{Table schema properties}{
-
 
 \code{schema} is required and must follow the \href{http://specs.frictionlessdata.io/table-schema/}{Table Schema} specification. It
 can either be a JSON object or a URL or path referencing a JSON object.

@@ -5,13 +5,9 @@
 #' (converted) types.
 #'
 #' @param df A data frame.
-#'
-#' @return List object describing the Table Schema.
-#'
+#' @return List object describing a Table Schema.
 #' @export
-#'
 #' @section Table schema properties:
-#'
 #' The Table Schema will be created from the data frame columns:
 #'
 #' - `name`: contains the column name.
@@ -53,7 +49,6 @@
 #' [datetime](https://specs.frictionlessdata.io/table-schema/#datetime).
 #' - Any other type →
 #' [any](https://specs.frictionlessdata.io/table-schema/#any).
-#'
 #' @examples
 #' # Create a data frame
 #' df <- data.frame(
