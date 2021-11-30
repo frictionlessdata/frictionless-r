@@ -83,21 +83,21 @@
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
-<p>There are two functions: <code><a href="reference/read_package.html">read_package()</a></code> and <code><a href="reference/read_resource.html">read_resource()</a></code>.</p>
-<div id="basic-functionality" class="section level3">
+<div id="read-data-from-a-local-data-package" class="section level3">
 <h3 class="hasAnchor">
-<a href="#basic-functionality" class="anchor"></a>Basic functionality</h3>
+<a href="#read-data-from-a-local-data-package" class="anchor"></a>Read data from a local Data Package</h3>
+<p>There are two read functions: <code><a href="reference/read_package.html">read_package()</a></code> and <code><a href="reference/read_resource.html">read_resource()</a></code>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/frictionlessdata/frictionless-r">frictionless</a></span><span class="op">)</span>
 
-<span class="co"># Read datapackage.json file</span>
+<span class="co"># Read a datapackage.json file</span>
 <span class="va">package</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_package.html">read_package</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"datapackage.json"</span>, package <span class="op">=</span> <span class="st">"frictionless"</span><span class="op">)</span><span class="op">)</span>
 
-<span class="co"># List resource names</span>
+<span class="co"># List the resource names</span>
 <span class="va">package</span><span class="op">$</span><span class="va">resource_names</span>
 <span class="co">#&gt; [1] "deployments"  "observations"</span>
 
-<span class="co"># Read data from resource "observations"</span>
+<span class="co"># Read data from the resource "observations"</span>
 <span class="fu"><a href="reference/read_resource.html">read_resource</a></span><span class="op">(</span><span class="st">"observations"</span>, <span class="va">package</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 8 × 7</span>
 <span class="co">#&gt;   observation_id   deployment_id timestamp           scientific_name count age  </span>
@@ -112,23 +112,23 @@
 <span class="co">#&gt; 8 aa01aa7c-10dc-4… 2             2021-01-01 04:47:30 Sus scrofa          1 unde…</span>
 <span class="co">#&gt; # … with 1 more variable: comments &lt;chr&gt;</span></code></pre></div>
 </div>
-<div id="read-external-data" class="section level3">
+<div id="read-data-from-an-online-data-package" class="section level3">
 <h3 class="hasAnchor">
-<a href="#read-external-data" class="anchor"></a>Read external data</h3>
-<p>Frictionless allows you to access all data from an external Frictionless Data Package (e.g. one published on <a href="https://doi.org/10.5281/zenodo.5070086">Zenodo</a>) via the <code>datapackage.json</code> URL:</p>
+<a href="#read-data-from-an-online-data-package" class="anchor"></a>Read data from an online Data Package</h3>
+<p>The read functions can also be used to access all data from an online Frictionless Data Package (e.g. one published on <a href="https://doi.org/10.5281/zenodo.5070086">Zenodo</a>) via the <code>datapackage.json</code> URL:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Read datapackage.json file: this will give you access to all data resources</span>
-<span class="co"># without reading them, which is convenient and fast</span>
+<code class="sourceCode R"><span class="co"># Read the datapackage.json file: this will give you access to all Data </span>
+<span class="co"># Resources without reading them, which is convenient and fast</span>
 <span class="va">package</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_package.html">read_package</a></span><span class="op">(</span><span class="st">"https://zenodo.org/record/5070086/files/datapackage.json"</span><span class="op">)</span>
 <span class="co">#&gt; Please make sure you have the right to access data from this Data Package for your proposed use.</span>
 <span class="co">#&gt; Follow applicable norms or requirements to credit the dataset and its authors.</span>
 <span class="co">#&gt; For more information, see https://doi.org/10.5281/zenodo.5070086</span>
 
-<span class="co"># List resource names</span>
+<span class="co"># List the resource names</span>
 <span class="va">package</span><span class="op">$</span><span class="va">resource_names</span>
 <span class="co">#&gt; [1] "reference-data" "gps"            "acceleration"</span>
 
-<span class="co"># Read gps data: will return a single data frame, even though data are </span>
+<span class="co"># Read the gps data: will return a single data frame, even though the data are </span>
 <span class="co"># split over multiple csv files</span>
 <span class="fu"><a href="reference/read_resource.html">read_resource</a></span><span class="op">(</span><span class="st">"gps"</span>, <span class="va">package</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 73,047 × 21</span>
@@ -151,6 +151,7 @@
 <span class="co">#&gt; #   manually-marked-outlier &lt;lgl&gt;, vertical-error-numerical &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   sensor-type &lt;chr&gt;, individual-taxon-canonical-name &lt;chr&gt;,</span>
 <span class="co">#&gt; #   tag-local-identifier &lt;chr&gt;, individual-local-identifier &lt;chr&gt;, …</span></code></pre></div>
+<p>For more functionality, see the <a href="https://frictionlessdata.github.io/frictionless-r/reference/index.html">function reference</a>.</p>
 </div>
 </div>
 </div>
