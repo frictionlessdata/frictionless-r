@@ -6,8 +6,7 @@
 #' missing values. The resource must be a
 #' [Tabular Data Resource](https://specs.frictionlessdata.io/tabular-data-resource/).
 #'
-#' @param resource_name Name of the resource.
-#' @param package Data Package object, see `read_package()`.
+#' @inheritParams read_resource
 #'
 #' @return List object describing the Table Schema.
 #'

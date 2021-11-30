@@ -3,8 +3,7 @@
 #' Removes a [Data Resource](https://specs.frictionlessdata.io/data-resource/)
 #' from a Data Package, i.e. one of the described `resources` is removed.
 #'
-#' @param resource_name Name of the resource.
-#' @param package Data Package object, see `read_package()`.
+#' @inheritParams read_resource
 #'
 #' @return Data Package object.
 #'

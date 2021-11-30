@@ -3,8 +3,7 @@
 #' Returns a [Data Resource](https://specs.frictionlessdata.io/data-resource/)
 #' from a Data Package, i.e. the content of one of the described `resources`.
 #'
-#' @param resource_name Name of the resource.
-#' @param package Data Package object, see `read_package()`.
+#' @inheritParams read_resource
 #'
 #' @return List object describing a Data Resource.
 #'
