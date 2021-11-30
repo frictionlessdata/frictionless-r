@@ -2,19 +2,15 @@ Package: frictionless
 Title: Read and Write Frictionless Data Packages
 Version: 0.3.0.9000
 Authors@R: c(
-    person(given = "Peter",
-           family = "Desmet",
-           role = c("aut", "cre"),
-           email = "peter.desmet@inbo.be",
+    person("Peter", "Desmet", , "peter.desmet@inbo.be", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-8442-8025")),
-    person(given = "Damiano",
-           family = "Oldoni",
-           role = "aut",
-           email = "damiano.oldoni@inbo.be",
-           comment = c(ORCID = "0000-0003-3445-7562")))
+    person("Damiano", "Oldoni", , "damiano.oldoni@inbo.be", role = "aut",
+           comment = c(ORCID = "0000-0003-3445-7562"))
+  )
 Description: Read and write Frictionless Data Packages in a Tidyverse way.
 License: MIT + file LICENSE
-URL: https://github.com/frictionlessdata/frictionless-r, https://frictionlessdata.github.io/frictionless-r
+URL: https://github.com/frictionlessdata/frictionless-r,
+    https://frictionlessdata.github.io/frictionless-r
 BugReports: https://github.com/frictionlessdata/frictionless-r/issues
 Imports:
     assertthat,
