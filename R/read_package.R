@@ -10,7 +10,7 @@
 #' information and two new properties:
 #'   - `resource_names`: vector with resource names.
 #'   - `directory`: path to Data Package directory, used as root path to read
-#'     resources with `read_resource()`.
+#'     resources with [read_resource()].
 #'
 #' @export
 #'

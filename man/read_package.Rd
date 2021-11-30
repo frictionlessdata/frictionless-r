@@ -15,7 +15,7 @@ information and two new properties:
 \itemize{
 \item \code{resource_names}: vector with resource names.
 \item \code{directory}: path to Data Package directory, used as root path to read
-resources with \code{read_resource()}.
+resources with \code{\link[=read_resource]{read_resource()}}.
 }
 }
 \description{

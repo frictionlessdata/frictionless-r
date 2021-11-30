@@ -153,7 +153,7 @@
 #' - [yearmonth](https://specs.frictionlessdata.io/table-schema/#yearmonth) →
 #' `date`, with `01` for day.
 #' - [duration](https://specs.frictionlessdata.io/table-schema/#duration) →
-#' `character`. Can be parsed afterwards with `lubridate::duration()`.
+#' `character`. Can be parsed afterwards with [lubridate::duration()].
 #' - [geopoint](https://specs.frictionlessdata.io/table-schema/#geopoint) →
 #' `character`.
 #' - [geojson](https://specs.frictionlessdata.io/table-schema/#geojson) →
@@ -244,7 +244,7 @@ read_resource <- function(resource_name, package) {
     enum <- x$constraints$enum
     group_char <- ifelse(replace_null(x$groupChar, "") != "", TRUE, FALSE)
     bare_number <- ifelse(replace_null(x$bareNumber, "") != FALSE, TRUE, FALSE)
-    format <- replace_null(x$format, "default") # Undefined = default
+    format <- replace_null(x$format, "default") # Undefined => default
     convert_format <- function(format, translations) {
       format %>% stringr::str_replace_all(translations)
     }
