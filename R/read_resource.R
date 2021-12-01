@@ -295,35 +295,42 @@ read_resource <- function(resource_name, package) {
   # Select CSV dialect, see https://specs.frictionlessdata.io/csv-dialect/
   dialect <- resource$dialect # Can be NULL
 
-  # Read data
-  dataframes <- list()
-    data <- readr::read_delim(
-      delim = replace_null(dialect$delimiter, ","),
-      quote = replace_null(dialect$quoteChar, "\""),
-      escape_backslash = ifelse(
-        replace_null(dialect$escapeChar, "not set") == "\\", TRUE, FALSE
-      ),
-      escape_double = ifelse(
-        # if escapeChar is set, set doubleQuote to FALSE (mutually exclusive)
-        replace_null(dialect$escapeChar, "not set") == "\\",
-        FALSE,
-        replace_null(dialect$doubleQuote, TRUE)
-      ),
-      col_names = col_names,
-      col_types = col_types,
-      locale = locale,
-      na = replace_null(schema$missingValues, ""),
-      comment = replace_null(dialect$commentChar, ""),
-      trim_ws = replace_null(dialect$skipInitialSpace, FALSE),
-      # Skip header row when present
-      skip = ifelse(replace_null(dialect$header, TRUE), 1, 0),
-      skip_empty_rows = TRUE
-    )
-    dataframes[[i]] <- data
+  # Read data directly
+  if (resource$read_from == "df") {
+    df <- dplyr::tibble(resource$data)
+
+  # Read data from path(s)
+  } else if (resource$read_from == "path") {
+    dataframes <- list()
     for (i in seq_along(paths)) {
+      data <- readr::read_delim(
         file = paths[i],
+        delim = replace_null(dialect$delimiter, ","),
+        quote = replace_null(dialect$quoteChar, "\""),
+        escape_backslash = ifelse(
+          replace_null(dialect$escapeChar, "not set") == "\\", TRUE, FALSE
+        ),
+        escape_double = ifelse(
+          # if escapeChar is set, set doubleQuote to FALSE (mutually exclusive)
+          replace_null(dialect$escapeChar, "not set") == "\\",
+          FALSE,
+          replace_null(dialect$doubleQuote, TRUE)
+        ),
+        col_names = col_names,
+        col_types = col_types,
+        locale = locale,
+        na = replace_null(schema$missingValues, ""),
+        comment = replace_null(dialect$commentChar, ""),
+        trim_ws = replace_null(dialect$skipInitialSpace, FALSE),
+        # Skip header row when present
+        skip = ifelse(replace_null(dialect$header, TRUE), 1, 0),
+        skip_empty_rows = TRUE
+      )
+      dataframes[[i]] <- data
+    }
+    # Merge data frames for all paths
+    df <- dplyr::bind_rows(dataframes)
   }
 
-  # Merge data frames for all paths
-  dplyr::bind_rows(dataframes)
+  return(df)
 }
