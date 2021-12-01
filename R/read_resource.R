@@ -175,20 +175,11 @@
 #' purrr::map_chr(package$resources[[2]]$schema$fields, "name")
 #' purrr::map_chr(package$resources[[2]]$schema$fields, "type")
 read_resource <- function(resource_name, package) {
-  # Get resource, includes check_package()
+  # Get resource, includes check_package() and a number of other checks
   resource <- get_resource(resource_name, package)
 
-  # Check path(s) to file(s)
-  # https://specs.frictionlessdata.io/data-resource/#data-location
-  assertthat::assert_that(
-    !is.null(resource$path),
-    msg = glue::glue("Resource `{resource_name}` must have property `path`.")
-  )
-  paths <- purrr::map_chr(
-    resource$path, ~ check_path(.x, package$directory, unsafe = FALSE)
-  )
-
-  # Get schema and fields
+  # Get paths, schema and fields
+  paths <- resource$full_path
   schema <- get_schema(resource_name, package)
   fields <- schema$fields
 

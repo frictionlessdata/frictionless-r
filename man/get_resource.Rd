@@ -13,7 +13,8 @@ get_resource(resource_name, package)
 \code{\link[=read_package]{read_package()}} or \code{\link[=create_package]{create_package()}}.}
 }
 \value{
-List object describing a Data Resource.
+List object describing a Data Resource, with new property \code{full_path}
+containing absolute \code{path}s used for reading data.
 }
 \description{
 Returns a \href{https://specs.frictionlessdata.io/data-resource/}{Data Resource}

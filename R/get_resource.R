@@ -4,7 +4,8 @@
 #' from a Data Package, i.e. the content of one of the described `resources`.
 #'
 #' @inheritParams read_resource
-#' @return List object describing a Data Resource.
+#' @return List object describing a Data Resource, with new property `full_path`
+#'   containing absolute `path`s used for reading data.
 #' @export
 #' @examples
 #' # Read a datapackage.json file
@@ -19,7 +20,7 @@ get_resource <- function(resource_name, package) {
   # Check package
   check_package(package)
 
-  # Get resource
+  # Check resource
   resource_names_collapse <- paste(package$resource_names, collapse = ", ")
   assertthat::assert_that(
     resource_name %in% package$resource_names,
@@ -27,7 +28,23 @@ get_resource <- function(resource_name, package) {
       "Can't find resource `{resource_name}` in `{resource_names_collapse}`."
     )
   )
+
+  # Get resource
   resource <- purrr::keep(package$resources, function(x) {
     (x$name == resource_name)
   })[[1]]
+
+  # Check path(s) to file(s)
+  # https://specs.frictionlessdata.io/data-resource/#data-location
+  assertthat::assert_that(
+    !is.null(resource$path),
+    msg = glue::glue("Resource `{resource_name}` must have property `path`.")
+  )
+
+  # Build full paths and attach as new property
+  resource$full_path <- purrr::map_chr(
+    resource$path, ~ check_path(.x, package$directory, unsafe = FALSE)
+  )
+
+  resource
 }
