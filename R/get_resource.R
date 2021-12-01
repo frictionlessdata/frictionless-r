@@ -44,7 +44,7 @@ get_resource <- function(resource_name, package) {
     )
   )
 
-  # Assign read_from property
+  # Assign read_from property (based on path, then df, then data)
   if (length(resource$path) != 0) {
     resource$read_from <- "path"
     # Update paths to full paths

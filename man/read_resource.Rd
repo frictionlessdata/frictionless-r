@@ -41,7 +41,8 @@ paths are listed.
 
 \subsection{Data}{
 
-Inline \code{data} is not supported.
+If \code{path} is not present, the function will attempt to read data from the
+\code{data} property. \strong{\code{schema} will be ignored}.
 }
 
 \subsection{Name}{

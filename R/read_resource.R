@@ -29,7 +29,8 @@
 #'
 #' ## Data
 #'
-#' Inline `data` is not supported.
+#' If `path` is not present, the function will attempt to read data from the
+#' `data` property. **`schema` will be ignored**.
 #'
 #' ## Name
 #'
@@ -298,6 +299,11 @@ read_resource <- function(resource_name, package) {
   # Read data directly
   if (resource$read_from == "df") {
     df <- dplyr::tibble(resource$data)
+
+  # Read data from data
+  } else if (resource$read_from == "data") {
+    message("Reading data from `data` property.")
+    df <- dplyr::tibble(do.call(rbind.data.frame, resource$data))
 
   # Read data from path(s)
   } else if (resource$read_from == "path") {
