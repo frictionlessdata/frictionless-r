@@ -7,9 +7,9 @@
 #' properties `path`, CSV dialect, column names, data types, etc. Column names
 #' are taken from the provided `schema`, not from the header in the CSV file(s).
 #'
-#' @param resource_name Name of the resource.
 #' @param package List object describing a Data Package, created with
 #'   [read_package()] or [create_package()].
+#' @param resource_name Name of the resource.
 #' @return [dplyr::tibble()] data frame with the resource data.
 #' @export
 #' @section Resource properties:
@@ -54,7 +54,8 @@
 #'
 #' `dialect` properties are
 #' [required](https://specs.frictionlessdata.io/csv-dialect/#specification) if
-#' the resource file(s) deviate from the default CSV settings (see below). Only
+#' the resource file(s) deviate from the default CSV settings (see below). It
+#' can either be a JSON object or a URL or path referencing a JSON object. Only
 #' deviating properties need to be specified, e.g. a tab delimited file without
 #' a header row needs:
 #' ```json
@@ -167,7 +168,7 @@
 #' package$resource_names
 #'
 #' # Read data from the resource "observations"
-#' read_resource("observations", package)
+#' read_resource(package, "observations")
 #'
 #' # The above tibble is merged from 2 files listed in the resource path
 #' package$resources[[2]]$path
@@ -175,9 +176,9 @@
 #' # With col_names and col_types derived from the resource schema
 #' purrr::map_chr(package$resources[[2]]$schema$fields, "name")
 #' purrr::map_chr(package$resources[[2]]$schema$fields, "type")
-read_resource <- function(resource_name, package) {
+read_resource <- function(package, resource_name) {
   # Get resource, includes check_package() and a number of other checks
-  resource <- get_resource(resource_name, package)
+  resource <- get_resource(package, resource_name)
 
   # Get paths, schema and fields
   paths <- resource$path
@@ -294,7 +295,7 @@ read_resource <- function(resource_name, package) {
   names(col_types) <- col_names
 
   # Select CSV dialect, see https://specs.frictionlessdata.io/csv-dialect/
-  dialect <- resource$dialect # Can be NULL
+  dialect <- read_json(resource$dialect, package$directory) # Can be NULL
 
   # Read data directly
   if (resource$read_from == "df") {

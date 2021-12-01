@@ -51,7 +51,7 @@ package <- read_package(system.file("extdata", "datapackage.json", package = "fr
 package$resource_names
 
 # Read data from the resource "observations"
-read_resource("observations", package)
+read_resource(package, "observations")
 ```
 
 ### Read data from an online Data Package
@@ -68,7 +68,7 @@ package$resource_names
 
 # Read the gps data: will return a single data frame, even though the data are 
 # split over multiple csv files
-read_resource("gps", package)
+read_resource(package, "gps")
 ```
 
 For more functionality, see the [function reference](https://frictionlessdata.github.io/frictionless-r/reference/index.html).

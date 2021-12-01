@@ -16,11 +16,11 @@
 #' )
 #'
 #' # Get the Table Schema for resource "observations"
-#' schema <- get_schema("observations", package)
+#' schema <- get_schema(package, "observations")
 #' str(schema)
-get_schema <- function(resource_name, package) {
+get_schema <- function(package, resource_name) {
   # Get resource
-  resource <- get_resource(resource_name, package)
+  resource <- get_resource(package, resource_name)
 
   # Check resource is tabular-data-resource (expected for resources with schema)
   assertthat::assert_that(
@@ -32,11 +32,7 @@ get_schema <- function(resource_name, package) {
   )
 
   # Get schema
-  schema <- resource$schema
-  if (is.character(schema)) {
-    schema <- check_path(schema, directory = package$directory, unsafe = FALSE)
-    schema <- jsonlite::fromJSON(schema, simplifyDataFrame = FALSE)
-  }
+  schema <- read_json(resource$schema, package$directory)
 
   # Check schema has fields
   fields <- schema$fields

@@ -4,13 +4,13 @@
 \alias{get_resource}
 \title{Get a Data Resource}
 \usage{
-get_resource(resource_name, package)
+get_resource(package, resource_name)
 }
 \arguments{
-\item{resource_name}{Name of the resource.}
-
 \item{package}{List object describing a Data Package, created with
 \code{\link[=read_package]{read_package()}} or \code{\link[=create_package]{create_package()}}.}
+
+\item{resource_name}{Name of the resource.}
 }
 \value{
 List object describing a Data Resource, with new property \code{read_from}
@@ -28,6 +28,6 @@ package <- read_package(
 )
 
 # Get the Data Resource "observations"
-resource <- get_resource("observations", package)
+resource <- get_resource(package, "observations")
 str(resource)
 }

@@ -4,13 +4,13 @@
 \alias{read_resource}
 \title{Read data from a Data Resource into a tibble data frame}
 \usage{
-read_resource(resource_name, package)
+read_resource(package, resource_name)
 }
 \arguments{
-\item{resource_name}{Name of the resource.}
-
 \item{package}{List object describing a Data Package, created with
 \code{\link[=read_package]{read_package()}} or \code{\link[=create_package]{create_package()}}.}
+
+\item{resource_name}{Name of the resource.}
 }
 \value{
 \code{\link[dplyr:reexports]{dplyr::tibble()}} data frame with the resource data.
@@ -70,7 +70,8 @@ The returned data frame will always be UTF-8.
 
 \code{dialect} properties are
 \href{https://specs.frictionlessdata.io/csv-dialect/#specification}{required} if
-the resource file(s) deviate from the default CSV settings (see below). Only
+the resource file(s) deviate from the default CSV settings (see below). It
+can either be a JSON object or a URL or path referencing a JSON object. Only
 deviating properties need to be specified, e.g. a tab delimited file without
 a header row needs:\if{html}{\out{<div class="sourceCode json">}}\preformatted{"dialect": \{"delimiter": "\\t", "header": "false"\}
 }\if{html}{\out{</div>}}
@@ -190,7 +191,7 @@ package <- read_package(
 package$resource_names
 
 # Read data from the resource "observations"
-read_resource("observations", package)
+read_resource(package, "observations")
 
 # The above tibble is merged from 2 files listed in the resource path
 package$resources[[2]]$path

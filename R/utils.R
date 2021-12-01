@@ -2,12 +2,12 @@
 
 #' Replace value when NULL
 #'
-#' @param value Value to test.
+#' @param x Value to test.
 #' @param replacement Replacement value when `value` is `NULL`.
 #' @return `value` when not `NULL`, otherwise `replacement`.
 #' @noRd
-replace_null <- function(value, replacement) {
-  if (!is.null(value)) { value } else { replacement }
+replace_null <- function(x, replacement) {
+  if (!is.null(x)) { x } else { replacement }
 }
 
 #' Get unique vector values sorted by how often they occur
@@ -87,4 +87,20 @@ check_path <- function(path, directory = NULL, unsafe = TRUE) {
     )
   }
   return(path)
+}
+
+#' Read JSON at path or URL
+#'
+#' Reads JSON when provided property is a character (path or URL), otherwise
+#' returns property.
+#' @param x Any object or a path or URL to a file.
+#' @param directory Directory to prepend to path.
+#' @return `x` (unchanged) or loaded JSON at path or URL.
+#' @noRd
+read_json <- function(x, directory) {
+  if (is.character(x)) {
+    x <- check_path(x, directory = directory, unsafe = FALSE)
+    x <- jsonlite::fromJSON(x, simplifyDataFrame = FALSE)
+  }
+  return(x)
 }

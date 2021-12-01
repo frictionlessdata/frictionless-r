@@ -15,9 +15,9 @@
 #' )
 #'
 #' # Get the Data Resource "observations"
-#' resource <- get_resource("observations", package)
+#' resource <- get_resource(package, "observations")
 #' str(resource)
-get_resource <- function(resource_name, package) {
+get_resource <- function(package, resource_name) {
   # Check package
   check_package(package)
 
