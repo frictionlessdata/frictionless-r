@@ -32,11 +32,7 @@ get_schema <- function(resource_name, package) {
   )
 
   # Get schema
-  schema <- resource$schema
-  if (is.character(schema)) {
-    schema <- check_path(schema, directory = package$directory, unsafe = FALSE)
-    schema <- jsonlite::fromJSON(schema, simplifyDataFrame = FALSE)
-  }
+  schema <- read_json(resource$schema, package$directory)
 
   # Check schema has fields
   fields <- schema$fields
