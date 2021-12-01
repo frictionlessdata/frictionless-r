@@ -179,7 +179,7 @@ read_resource <- function(resource_name, package) {
   resource <- get_resource(resource_name, package)
 
   # Get paths, schema and fields
-  paths <- resource$full_path
+  full_paths <- resource$full_path
   schema <- get_schema(resource_name, package)
   fields <- schema$fields
 
@@ -297,9 +297,9 @@ read_resource <- function(resource_name, package) {
 
   # Read data
   dataframes <- list()
-  for (i in 1:length(paths)) {
+  for (i in seq_along(full_paths)) {
     data <- readr::read_delim(
-      file = paths[i],
+      file = full_paths[i],
       delim = replace_null(dialect$delimiter, ","),
       quote = replace_null(dialect$quoteChar, "\""),
       escape_backslash = ifelse(

@@ -56,7 +56,6 @@ check_package <- function(package) {
 #' @return Absolute path or URL.
 #' @noRd
 check_path <- function(path, directory = NULL, unsafe = TRUE) {
-
   # Check that (non-URL) path is safe and prepend with directory to make
   # absolute path (both optional)
   if (!startsWith(path, "http")) {
