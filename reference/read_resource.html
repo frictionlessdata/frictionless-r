@@ -77,7 +77,7 @@ are taken from the provided schema, not from the header in the CSV file(s)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">frictionless</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0.9000</span>
       </span>
     </div>
 
@@ -193,7 +193,8 @@ The returned data frame will always be UTF-8.</p>
 
 <p><code>dialect</code> properties are
 <a href='https://specs.frictionlessdata.io/csv-dialect/#specification'>required</a> if
-the resource file(s) deviate from the default CSV settings (see below). Only
+the resource file(s) deviate from the default CSV settings (see below). It
+can either be a JSON object or a URL or path referencing a JSON object. Only
 deviating properties need to be specified, e.g. a tab delimited file without
 a header row needs:<div class="sourceCode json"></p><pre>"dialect": {"delimiter": "\t", "header": "false"}
 </pre><p></div></p>
