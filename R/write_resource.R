@@ -7,8 +7,8 @@
 #' @return Updated list object describing a Data Resource, ready for including
 #'   in a `datapackage.json`.
 #' @noRd
-write_resource <- function(resource_name, package, directory = ".") {
-  resource <- get_resource(resource_name, package)
+write_resource <- function(package, resource_name, directory = ".") {
+  resource <- get_resource(package, resource_name)
 
   # Resource contains new data
   if (resource$read_from == "df") {

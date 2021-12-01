@@ -182,7 +182,7 @@ read_resource <- function(package, resource_name) {
 
   # Get paths, schema and fields
   paths <- resource$path
-  schema <- get_schema(resource_name, package)
+  schema <- get_schema(package, resource_name)
   fields <- schema$fields
 
   # Create locale with encoding, decimal_mark and grouping_mark
