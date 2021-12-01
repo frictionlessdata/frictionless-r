@@ -4,13 +4,13 @@
 \alias{remove_resource}
 \title{Remove a Data Resource}
 \usage{
-remove_resource(resource_name, package)
+remove_resource(package, resource_name)
 }
 \arguments{
-\item{resource_name}{Name of the resource.}
-
 \item{package}{List object describing a Data Package, created with
 \code{\link[=read_package]{read_package()}} or \code{\link[=create_package]{create_package()}}.}
+
+\item{resource_name}{Name of the resource.}
 }
 \value{
 List object describing a Data Package.
@@ -27,7 +27,7 @@ package <- read_package(system.file("extdata", "datapackage.json", package = "fr
 package$resource_names
 
 # Remove the resource "observations"
-package <- remove_resource("observations", package)
+package <- remove_resource(package, "observations")
 
 # List the resource names ("observations" removed)
 package$resource_names
