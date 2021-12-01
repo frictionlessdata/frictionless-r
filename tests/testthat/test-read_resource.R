@@ -136,6 +136,24 @@ test_that("read_resource() can read local and remote schemas", {
   expect_identical(resource, read_resource("deployments", pkg_remote_schema))
 })
 
+test_that("read_resource() can read local and remote CSV dialect", {
+  pkg <- suppressMessages(read_package(
+    system.file("extdata", "datapackage.json", package = "frictionless"))
+  )
+  resource <- read_resource("deployments", pkg)
+
+  pkg_local_dialect <- pkg
+  pkg_local_dialect$directory <- "." # Use "./tests/testthat/data" outside test
+  pkg_local_dialect$resources[[1]]$dialect <- "data/dialect.json"
+  # Using a remote path, otherwise schema and path need to share same directory
+  pkg_local_dialect$resources[[1]]$path <- "https://github.com/frictionlessdata/frictionless-r/raw/main/inst/extdata/deployments.csv"
+  expect_identical(resource, read_resource("deployments", pkg_local_dialect))
+
+  pkg_remote_dialect <- pkg
+  pkg_remote_dialect$resources[[1]]$dialect <- "https://github.com/frictionlessdata/frictionless-r/raw/main/tests/testthat/data/dialect.json"
+  expect_identical(resource, read_resource("deployments", pkg_remote_dialect))
+})
+
 test_that("read_resource() understands CSV dialect", {
   pkg <- suppressMessages(read_package(
     system.file("extdata", "datapackage.json", package = "frictionless"))
