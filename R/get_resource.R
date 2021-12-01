@@ -4,8 +4,9 @@
 #' from a Data Package, i.e. the content of one of the described `resources`.
 #'
 #' @inheritParams read_resource
-#' @return List object describing a Data Resource, with new property `full_path`
-#'   containing absolute `path`s used for reading data.
+#' @return List object describing a Data Resource, with new property `read_from`
+#'   to indicate how data should be read. If present, `path` will be updated to
+#'   contain the full path(s).
 #' @export
 #' @examples
 #' # Read a datapackage.json file
@@ -43,10 +44,18 @@ get_resource <- function(resource_name, package) {
     )
   )
 
-  # Build full paths and attach as new property
-  resource$full_path <- purrr::map_chr(
-    resource$path, ~ check_path(.x, package$directory, unsafe = FALSE)
-  )
+  # Assign read_from property
+  if (length(resource$path) != 0) {
+    resource$read_from <- "path"
+    # Update paths to full paths
+    resource$path <- purrr::map_chr(
+      resource$path, ~ check_path(.x, package$directory, unsafe = FALSE)
+    )
+  } else if (is.data.frame(resource$data)) {
+    resource$read_from <- "df"
+  } else if (!is.null(resource$data)) {
+    resource$read_from <- "data"
+  }
 
   resource
 }
