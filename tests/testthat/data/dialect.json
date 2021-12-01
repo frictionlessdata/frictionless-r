@@ -1,7 +1,7 @@
 {
   "delimiter": ",",
   "lineTerminator": ",",
-  "quoteChar": "",
+  "quoteChar": "\"",
   "doubleQuote": true,
   "skipInitialSpace": false,
   "header": true,
