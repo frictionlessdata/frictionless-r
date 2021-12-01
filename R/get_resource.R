@@ -37,8 +37,10 @@ get_resource <- function(resource_name, package) {
   # Check path(s) to file(s)
   # https://specs.frictionlessdata.io/data-resource/#data-location
   assertthat::assert_that(
-    !is.null(resource$path),
-    msg = glue::glue("Resource `{resource_name}` must have property `path`.")
+    !is.null(resource$path) | !is.null(resource$data),
+    msg = glue::glue(
+      "Resource `{resource_name}` must have property `path` or `data."
+    )
   )
 
   # Build full paths and attach as new property
