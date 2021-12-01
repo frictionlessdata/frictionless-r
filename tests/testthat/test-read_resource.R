@@ -1,6 +1,6 @@
 test_that("read_resource() returns error on incorrect package", {
   expect_error(
-    read_resource("deployments", list()),
+    read_resource(list(), "deployments"),
     "`package` must be a list object of class `datapackage`"
   )
 })
@@ -10,7 +10,7 @@ test_that("read_resource() returns error on incorrect resource", {
   pkg <- suppressMessages(read_package(
     system.file("extdata", "datapackage.json", package = "frictionless"))
   )
-  expect_error(read_resource("no_such_resource", pkg), "Can't find resource")
+  expect_error(read_resource(pkg, "no_such_resource"), "Can't find resource")
 
   # Create invalid package and add properties one by one to pass errors
   pkg_invalid <- list(
@@ -22,35 +22,35 @@ test_that("read_resource() returns error on incorrect resource", {
 
   # No path
   expect_error(
-    read_resource("deployments", pkg_invalid), "must have property `path`"
+    read_resource(pkg_invalid, "deployments"), "must have property `path`"
   )
 
   # No file at path url
   pkg_invalid$resources[[1]]$path <- "http://example.com/no_file.csv"
   expect_error(
-    read_resource("deployments", pkg_invalid), "Can't find file at `http:"
+    read_resource(pkg_invalid, "deployments"), "Can't find file at `http:"
   )
 
   # No file at path
   pkg_invalid$resources[[1]]$path <- "no_file.csv"
   expect_error(
-    read_resource("deployments", pkg_invalid), "Can't find file at `./no_file.csv"
+    read_resource(pkg_invalid, "deployments"), "Can't find file at `./no_file.csv"
   )
 
   # No file at paths
   pkg_invalid$resources[[1]]$path <- c("deployments.csv", "no_file.csv")
-  expect_error(read_resource("deployments", pkg_invalid), "Can't find file at")
+  expect_error(read_resource(pkg_invalid, "deployments"), "Can't find file at")
 
   # Path is absolute path
   pkg_invalid$resources[[1]]$path <- "/inst/extdata/deployments.csv"
   expect_error(
-    read_resource("deployments", pkg_invalid), "is an absolute path"
+    read_resource(pkg_invalid, "deployments"), "is an absolute path"
   )
 
   # Path is relative parent path
   pkg_invalid$resources[[1]]$path <- "../../inst/extdata/deployments.csv"
   expect_error(
-    read_resource("deployments", pkg_invalid), "is a relative parent path"
+    read_resource(pkg_invalid, "deployments"), "is a relative parent path"
   )
 
   # Add valid path
@@ -59,31 +59,31 @@ test_that("read_resource() returns error on incorrect resource", {
 
   # Not a tabular-data-resource
   expect_error(
-    read_resource("deployments", pkg_invalid),
+    read_resource(pkg_invalid, "deployments"),
     "must have property `profile` with value `tabular-data-resource`"
   )
 
   # No schema
   pkg_invalid$resources[[1]]$profile <- "tabular-data-resource"
   expect_error(
-    read_resource("deployments", pkg_invalid), "must have property `schema`"
+    read_resource(pkg_invalid, "deployments"), "must have property `schema`"
   )
 
   # No file at schema url
   pkg_invalid$resources[[1]]$schema <- "http://example.com/no_schema.json"
-  expect_error(read_resource("deployments", pkg_invalid), "Can't find file at")
+  expect_error(read_resource(pkg_invalid, "deployments"), "Can't find file at")
 
   # No file at schema
   pkg_invalid$resources[[1]]$schema <- "no_schema.json"
-  expect_error(read_resource("deployments", pkg_invalid), "Can't find file at")
+  expect_error(read_resource(pkg_invalid, "deployments"), "Can't find file at")
 
   # Schema is absolute path
   pkg_invalid$resources[[1]]$schema <- "/tests/testthat/data/deployments_schema.json"
-  expect_error(read_resource("deployments", pkg_invalid), "is an absolute path")
+  expect_error(read_resource(pkg_invalid, "deployments"), "is an absolute path")
 
   # Schema is relative parent path
   pkg_invalid$resources[[1]]$schema <- "../testthat/data/deployments_schema.json"
-  expect_error(read_resource("deployments", pkg_invalid), "is a relative parent path")
+  expect_error(read_resource(pkg_invalid, "deployments"), "is a relative parent path")
 
   # No field name
   pkg_invalid$resources[[1]]$schema <- NULL
@@ -92,7 +92,7 @@ test_that("read_resource() returns error on incorrect resource", {
     list(type = "number") # Field 2
   )
   expect_error(
-    read_resource("deployments", pkg_invalid),
+    read_resource(pkg_invalid, "deployments"),
     "Field 2 of resource `deployments` must have the property `name`."
   )
 })
@@ -101,7 +101,7 @@ test_that("read_resource() returns a tibble", {
   pkg <- suppressMessages(read_package(
     system.file("extdata", "datapackage.json", package = "frictionless"))
   )
-  resource <- read_resource("deployments", pkg)
+  resource <- read_resource(pkg, "deployments")
 
   expect_s3_class(resource, "data.frame")
   expect_s3_class(resource, "tbl")
@@ -111,54 +111,54 @@ test_that("read_resource() can read remote files", {
   pkg <- suppressMessages(read_package(
     system.file("extdata", "datapackage.json", package = "frictionless"))
   )
-  resource <- read_resource("deployments", pkg)
+  resource <- read_resource(pkg, "deployments")
 
   pkg_remote <- pkg
   pkg_remote$resources[[1]]$path <- "https://github.com/frictionlessdata/frictionless-r/raw/main/inst/extdata/deployments.csv"
-  expect_identical(resource, read_resource("deployments", pkg_remote))
+  expect_identical(resource, read_resource(pkg_remote, "deployments"))
 })
 
 test_that("read_resource() can read local and remote schemas", {
   pkg <- suppressMessages(read_package(
     system.file("extdata", "datapackage.json", package = "frictionless"))
   )
-  resource <- read_resource("deployments", pkg)
+  resource <- read_resource(pkg, "deployments")
 
   pkg_local_schema <- pkg
   pkg_local_schema$directory <- "." # Use "./tests/testthat" outside test
   pkg_local_schema$resources[[1]]$schema <- "data/deployments_schema.json"
   # Using a remote path, otherwise schema and path need to share same directory
   pkg_local_schema$resources[[1]]$path <- "https://github.com/frictionlessdata/frictionless-r/raw/main/inst/extdata/deployments.csv"
-  expect_identical(resource, read_resource("deployments", pkg_local_schema))
+  expect_identical(resource, read_resource(pkg_local_schema, "deployments"))
 
   pkg_remote_schema <- pkg
   pkg_remote_schema$resources[[1]]$schema <- "https://github.com/frictionlessdata/frictionless-r/raw/main/tests/testthat/data/deployments_schema.json"
-  expect_identical(resource, read_resource("deployments", pkg_remote_schema))
+  expect_identical(resource, read_resource(pkg_remote_schema, "deployments"))
 })
 
 test_that("read_resource() can read local and remote CSV dialect", {
   pkg <- suppressMessages(read_package(
     system.file("extdata", "datapackage.json", package = "frictionless"))
   )
-  resource <- read_resource("deployments", pkg)
+  resource <- read_resource(pkg, "deployments")
 
   pkg_local_dialect <- pkg
   pkg_local_dialect$directory <- "." # Use "./tests/testthat/data" outside test
   pkg_local_dialect$resources[[1]]$dialect <- "data/dialect.json"
   # Using a remote path, otherwise schema and path need to share same directory
   pkg_local_dialect$resources[[1]]$path <- "https://github.com/frictionlessdata/frictionless-r/raw/main/inst/extdata/deployments.csv"
-  expect_identical(resource, read_resource("deployments", pkg_local_dialect))
+  expect_identical(resource, read_resource(pkg_local_dialect, "deployments"))
 
   pkg_remote_dialect <- pkg
   pkg_remote_dialect$resources[[1]]$dialect <- "https://github.com/frictionlessdata/frictionless-r/raw/main/tests/testthat/data/dialect.json"
-  expect_identical(resource, read_resource("deployments", pkg_remote_dialect))
+  expect_identical(resource, read_resource(pkg_remote_dialect, "deployments"))
 })
 
 test_that("read_resource() understands CSV dialect", {
   pkg <- suppressMessages(read_package(
     system.file("extdata", "datapackage.json", package = "frictionless"))
   )
-  resource <- read_resource("deployments", pkg)
+  resource <- read_resource(pkg, "deployments")
 
   # Create package with non-default dialect properties
   pkg_dialect <- pkg
@@ -177,7 +177,7 @@ test_that("read_resource() understands CSV dialect", {
     # caseSensitiveHeader: not interpreted
     # csvddfVersion: not interpreted
   )
-  resource_dialect <- read_resource("deployments", pkg_dialect)
+  resource_dialect <- read_resource(pkg_dialect, "deployments")
   # One attribute of this df will be different: skip = 0 (since no header)
   # The default read_resource() sets this to: skip = 1
   # Since that is not a difference we want to test, we overwrite it
@@ -189,7 +189,7 @@ test_that("read_resource() understands missing values", {
   pkg <- suppressMessages(read_package(
     system.file("extdata", "datapackage.json", package = "frictionless"))
   )
-  resource <- read_resource("deployments", pkg)
+  resource <- read_resource(pkg, "deployments")
 
   # Create package with non-default missing values
   pkg_missing <- pkg
@@ -197,21 +197,21 @@ test_that("read_resource() understands missing values", {
   pkg_missing$resources[[1]]$path <- "data/deployments_missingvalues.csv"
   pkg_missing$resources[[1]]$schema$missingValues <-
     append(pkg_missing$resources[[1]]$schema$missingValues, "ignore")
-  expect_identical(resource, read_resource("deployments", pkg_missing))
+  expect_identical(resource, read_resource(pkg_missing, "deployments"))
 })
 
 test_that("read_resource() understands encoding", {
   pkg <- suppressMessages(read_package(
     system.file("extdata", "datapackage.json", package = "frictionless"))
   )
-  resource <- read_resource("deployments", pkg)
+  resource <- read_resource(pkg, "deployments")
 
   # Create package with non-default missing values
   pkg_encoding <- pkg
   pkg_encoding$directory <- "." # Use "./tests/testthat" outside test
   pkg_encoding$resources[[1]]$path <- "data/deployments_encoding.csv"
   pkg_encoding$resources[[1]]$encoding <- "windows-1252"
-  expect_identical(resource, read_resource("deployments", pkg_encoding))
+  expect_identical(resource, read_resource(pkg_encoding, "deployments"))
 })
 
 test_that("read_resource() handles LF and CRLF line terminator characters", {
@@ -232,19 +232,19 @@ test_that("read_resource() handles LF and CRLF line terminator characters", {
   pkg <- suppressMessages(read_package(
     system.file("extdata", "datapackage.json", package = "frictionless"))
   )
-  resource <- read_resource("deployments", pkg) # This file has LF
+  resource <- read_resource(pkg, "deployments") # This file has LF
 
   pkg_crlf <- pkg
   pkg_crlf$directory <- "." # Use "./tests/testthat" outside test
   pkg_crlf$resources[[1]]$path <- "data/deployments_crlf.csv" # This file has CRLF
-  expect_identical(resource, read_resource("deployments", pkg_crlf))
+  expect_identical(resource, read_resource(pkg_crlf, "deployments"))
 })
 
 test_that("read_resource() can read compressed files", {
   pkg <- suppressMessages(read_package(
     system.file("extdata", "datapackage.json", package = "frictionless"))
   )
-  resource <- read_resource("deployments", pkg)
+  resource <- read_resource(pkg, "deployments")
 
   # File created in terminal with:
   # zip deployments.csv.zip deployments.csv
@@ -264,18 +264,18 @@ test_that("read_resource() can read compressed files", {
   pkg_remote_gz$resources[[1]]$path <-
     "https://github.com/frictionlessdata/frictionless-r/raw/main/tests/testthat/data/deployments.csv.gz"
 
-  expect_identical(resource, read_resource("deployments", pkg_local_zip))
+  expect_identical(resource, read_resource(pkg_local_zip, "deployments"))
   # Remote zip not supported, see
   # https://github.com/tidyverse/readr/issues/1042#issuecomment-545103047
-  expect_error(read_resource("deployments", pkg_remote_zip))
-  expect_identical(resource, read_resource("deployments", pkg_local_gz))
-  expect_identical(resource, read_resource("deployments", pkg_remote_gz))
+  expect_error(read_resource(pkg_remote_zip, "deployments"))
+  expect_identical(resource, read_resource(pkg_local_gz, "deployments"))
+  expect_identical(resource, read_resource(pkg_remote_gz, "deployments"))
 })
 
 test_that("read_resource() handles strings", {
   # See https://specs.frictionlessdata.io/table-schema/#string
   pkg <- suppressMessages(read_package("data/types.json"))
-  resource <- read_resource("string", pkg)
+  resource <- read_resource(pkg, "string")
   expect_type(resource$str, "character")
 
   # Use factor when enum is present
@@ -286,7 +286,7 @@ test_that("read_resource() handles strings", {
 
 test_that("read_resource() handles numbers", {
   pkg <- suppressMessages(read_package("data/types.json"))
-  resource <- read_resource("number", pkg)
+  resource <- read_resource(pkg, "number")
 
   # Leading/trailing zeros are optional, + is assumed
   expect_type(resource$num, "double")
@@ -319,7 +319,7 @@ test_that("read_resource() handles numbers", {
 
 test_that("read_resource() handles integers (as doubles)", {
   pkg <- suppressMessages(read_package("data/types.json"))
-  resource <- read_resource("integer", pkg)
+  resource <- read_resource(pkg, "integer")
 
   # Leading/trailing zeros are optional, + is assumed
   expect_type(resource$int, "double")
@@ -341,7 +341,7 @@ test_that("read_resource() handles integers (as doubles)", {
 
 test_that("read_resource() handles booleans", {
   pkg <- suppressMessages(read_package("data/types.json"))
-  resource <- read_resource("boolean", pkg)
+  resource <- read_resource(pkg, "boolean")
 
   # Default trueValues/falseValues are cast to logical
   expect_type(resource$bool_true, "logical")
@@ -353,7 +353,7 @@ test_that("read_resource() handles booleans", {
 test_that("read_resource() handles dates", {
   expected_value <- as.Date("2013-11-23")
   pkg <- suppressMessages(read_package("data/types.json"))
-  resource <- read_resource("date", pkg)
+  resource <- read_resource(pkg, "date")
   # This test covers:
   # - year: %Y %y
   # - month: %m (including 1 digit) %b %B
@@ -373,7 +373,7 @@ test_that("read_resource() handles dates", {
 test_that("read_resource() handles times", {
   expected_value <- hms::hms(0, 30, 8) # "08:30:00"
   pkg <- suppressMessages(read_package("data/types.json"))
-  resource <- read_resource("time", pkg)
+  resource <- read_resource(pkg, "time")
   # This test covers:
   # - hour: %H (including 1 digit) %I + %p
   # - minute: %M
@@ -397,7 +397,7 @@ test_that("read_resource() handles times", {
 test_that("read_resource() handles datetimes", {
   expected_value <- as.POSIXct("2013-11-23 08:30:00", tz = "UTC")
   pkg <- suppressMessages(read_package("data/types.json"))
-  resource <- read_resource("datetime", pkg)
+  resource <- read_resource(pkg, "datetime")
 
   expect_identical(resource$dttm_undefined, resource$dttm_default)
   expect_identical(resource$dttm_undefined, expected_value)
@@ -412,7 +412,7 @@ test_that("read_resource() handles datetimes", {
 
 test_that("read_resource() handles other types", {
   pkg <- suppressMessages(read_package("data/types.json"))
-  resource <- read_resource("other", pkg)
+  resource <- read_resource(pkg, "other")
 
   # Interpret year, yearmonth as dates
   expect_s3_class(resource$year, "Date")
@@ -440,25 +440,25 @@ test_that("read_resource() handles decimalChar/groupChar properties", {
   pkg <- suppressMessages(read_package("data/mark.json"))
 
   # Default decimalChar/groupChar
-  resource <- read_resource("mark_default", pkg)
+  resource <- read_resource(pkg, "mark_default")
   expect_identical(resource$num, expected_value) # 3000000.30
   expect_identical(resource$num_undefined, expected_value) # 3000000.30
 
   # Non-default decimalChar, default groupChar (which should not conflict)
-  warnings <- capture_warnings(read_resource("mark_decimal", pkg))
+  warnings <- capture_warnings(read_resource(pkg, "mark_decimal"))
   expect_match(warnings[1], "Some fields define a non-default `decimalChar`.")
 
-  resource <- suppressWarnings(read_resource("mark_decimal", pkg))
+  resource <- suppressWarnings(read_resource(pkg, "mark_decimal"))
   expect_identical(resource$num, expected_value) # 3000000.30
   expect_identical(resource$num_undefined, expected_value) # 3000000.30
 
   # Non-default decimalChar/groupChar
-  warnings <- capture_warnings(read_resource("mark_decimal_group", pkg))
+  warnings <- capture_warnings(read_resource(pkg, "mark_decimal_group"))
   expect_true(length(warnings) == 3) # 2 warnings + 1 parsing failure last field
   expect_match(warnings[1], "Some fields define a non-default `decimalChar`.")
   expect_match(warnings[2], "Some fields define a non-default `groupChar`.")
 
-  resource <- suppressWarnings(read_resource("mark_decimal_group", pkg))
+  resource <- suppressWarnings(read_resource(pkg, "mark_decimal_group"))
   expect_identical(resource$num, expected_value) # 3.000.000,30
   # Field without decimalChar is still parsed with non-default decimalChar
   expect_identical(resource$num_undefined, expected_value) # 3000000,30

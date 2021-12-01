@@ -7,9 +7,9 @@
 #' properties `path`, CSV dialect, column names, data types, etc. Column names
 #' are taken from the provided `schema`, not from the header in the CSV file(s).
 #'
-#' @param resource_name Name of the resource.
 #' @param package List object describing a Data Package, created with
 #'   [read_package()] or [create_package()].
+#' @param resource_name Name of the resource.
 #' @return [dplyr::tibble()] data frame with the resource data.
 #' @export
 #' @section Resource properties:
@@ -167,7 +167,7 @@
 #' package$resource_names
 #'
 #' # Read data from the resource "observations"
-#' read_resource("observations", package)
+#' read_resource(package, "observations")
 #'
 #' # The above tibble is merged from 2 files listed in the resource path
 #' package$resources[[2]]$path
@@ -175,9 +175,9 @@
 #' # With col_names and col_types derived from the resource schema
 #' purrr::map_chr(package$resources[[2]]$schema$fields, "name")
 #' purrr::map_chr(package$resources[[2]]$schema$fields, "type")
-read_resource <- function(resource_name, package) {
+read_resource <- function(package, resource_name) {
   # Get resource, includes check_package()
-  resource <- get_resource(resource_name, package)
+  resource <- get_resource(package, resource_name)
 
   # Check path(s) to file(s)
   # https://specs.frictionlessdata.io/data-resource/#data-location
@@ -190,7 +190,7 @@ read_resource <- function(resource_name, package) {
   )
 
   # Get schema and fields
-  schema <- get_schema(resource_name, package)
+  schema <- get_schema(package, resource_name)
   fields <- schema$fields
 
   # Create locale with encoding, decimal_mark and grouping_mark

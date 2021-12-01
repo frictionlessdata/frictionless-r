@@ -2,12 +2,12 @@
 
 #' Replace value when NULL
 #'
-#' @param value Value to test.
+#' @param x Value to test.
 #' @param replacement Replacement value when `value` is `NULL`.
 #' @return `value` when not `NULL`, otherwise `replacement`.
 #' @noRd
-replace_null <- function(value, replacement) {
-  if (!is.null(value)) { value } else { replacement }
+replace_null <- function(x, replacement) {
+  if (!is.null(x)) { x } else { replacement }
 }
 
 #' Get unique vector values sorted by how often they occur

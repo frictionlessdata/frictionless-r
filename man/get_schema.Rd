@@ -4,13 +4,13 @@
 \alias{get_schema}
 \title{Get the Table Schema of a Data Resource}
 \usage{
-get_schema(resource_name, package)
+get_schema(package, resource_name)
 }
 \arguments{
-\item{resource_name}{Name of the resource.}
-
 \item{package}{List object describing a Data Package, created with
 \code{\link[=read_package]{read_package()}} or \code{\link[=create_package]{create_package()}}.}
+
+\item{resource_name}{Name of the resource.}
 }
 \value{
 List object describing a Table Schema.
@@ -29,6 +29,6 @@ package <- read_package(
 )
 
 # Get the Table Schema for resource "observations"
-schema <- get_schema("observations", package)
+schema <- get_schema(package, "observations")
 str(schema)
 }

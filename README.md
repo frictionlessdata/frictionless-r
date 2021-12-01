@@ -46,7 +46,7 @@ package$resource_names
 #> [1] "deployments"  "observations"
 
 # Read data from the resource "observations"
-read_resource("observations", package)
+read_resource(package, "observations")
 #> # A tibble: 8 × 7
 #>   observation_id   deployment_id timestamp           scientific_name count age  
 #>   <chr>            <chr>         <dttm>              <chr>           <dbl> <fct>
@@ -82,7 +82,7 @@ package$resource_names
 
 # Read the gps data: will return a single data frame, even though the data are 
 # split over multiple csv files
-read_resource("gps", package)
+read_resource(package, "gps")
 #> # A tibble: 73,047 × 21
 #>     `event-id` visible timestamp           `location-long` `location-lat`
 #>          <dbl> <lgl>   <dttm>                        <dbl>          <dbl>

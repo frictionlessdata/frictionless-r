@@ -1,6 +1,6 @@
 test_that("remove_resource() returns error on incorrect package", {
   expect_error(
-    remove_resource("deployments", list()),
+    remove_resource(list(), "deployments"),
     "`package` must be a list object of class `datapackage`"
   )
 })
@@ -9,7 +9,7 @@ test_that("remove_resource() returns error when resource not found", {
   pkg <- suppressMessages(read_package(
     system.file("extdata", "datapackage.json", package = "frictionless"))
   )
-  expect_error(remove_resource("no_such_resource", pkg), "Can't find resource")
+  expect_error(remove_resource(pkg, "no_such_resource"), "Can't find resource")
 })
 
 test_that("remove_resource() removes resource, resource_name and returns package", {
@@ -17,7 +17,7 @@ test_that("remove_resource() removes resource, resource_name and returns package
     system.file("extdata", "datapackage.json", package = "frictionless"))
   )
   # Remove "deployments", keep "observations"
-  pkg_removed <- remove_resource("deployments", pkg)
+  pkg_removed <- remove_resource(pkg, "deployments")
 
   # Returns a valid package
   expect_true(check_package(pkg_removed))
