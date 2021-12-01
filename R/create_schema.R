@@ -20,7 +20,7 @@
 #' default. Datetimes in local or non-UTC timezones will be converted to UTC
 #' before writing.
 #' - `constraints`: not set, except for factors (see further).
-#' - `missingValues`: not set. _write_package()_ will use the default `""` for
+#' - `missingValues`: not set. [write_package()] will use the default `""` for
 #' missing values.
 #' - `primaryKey`: not set.
 #' - `foreignKeys`: not set.
