@@ -13,11 +13,13 @@ write_package(package, directory = ".")
 \item{directory}{Path to local directory to write files to.}
 }
 \value{
-package` invisibly.
+\code{package} invisibly.
 }
 \description{
 Writes a Data Package and its related Data Resources to disk as a
-\code{datapackage.json} and csv files (using \code{\link[readr:write_delim]{readr::write_csv()}}).
+\code{datapackage.json} and csv files. Originally included Data Resources are left
+untouched, those added with \emph{add_resource()} are written to file using
+\code{\link[readr:write_delim]{readr::write_csv()}}.
 }
 \examples{
 # TODO

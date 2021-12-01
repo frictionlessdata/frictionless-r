@@ -25,7 +25,7 @@ read_package <- function(file = "datapackage.json") {
   file <- check_path(file)
   descriptor <- jsonlite::fromJSON(file, simplifyDataFrame = FALSE)
 
-  # Check for resources
+  # Check resources
   # https://specs.frictionlessdata.io/data-package/#metadata
   assertthat::assert_that(
     length(descriptor$resources) != 0 & # Null or empty list
