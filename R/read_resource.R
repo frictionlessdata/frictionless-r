@@ -53,7 +53,8 @@
 #'
 #' `dialect` properties are
 #' [required](https://specs.frictionlessdata.io/csv-dialect/#specification) if
-#' the resource file(s) deviate from the default CSV settings (see below). Only
+#' the resource file(s) deviate from the default CSV settings (see below). It
+#' can either be a JSON object or a URL or path referencing a JSON object. Only
 #' deviating properties need to be specified, e.g. a tab delimited file without
 #' a header row needs:
 #' ```json
@@ -302,7 +303,7 @@ read_resource <- function(resource_name, package) {
   names(col_types) <- col_names
 
   # Select CSV dialect, see https://specs.frictionlessdata.io/csv-dialect/
-  dialect <- resource$dialect # Can be NULL
+  dialect <- read_json(resource$dialect, package$directory) # Can be NULL
 
   # Read data
   dataframes <- list()

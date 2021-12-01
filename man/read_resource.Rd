@@ -69,7 +69,8 @@ The returned data frame will always be UTF-8.
 
 \code{dialect} properties are
 \href{https://specs.frictionlessdata.io/csv-dialect/#specification}{required} if
-the resource file(s) deviate from the default CSV settings (see below). Only
+the resource file(s) deviate from the default CSV settings (see below). It
+can either be a JSON object or a URL or path referencing a JSON object. Only
 deviating properties need to be specified, e.g. a tab delimited file without
 a header row needs:\if{html}{\out{<div class="sourceCode json">}}\preformatted{"dialect": \{"delimiter": "\\t", "header": "false"\}
 }\if{html}{\out{</div>}}
