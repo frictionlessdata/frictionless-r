@@ -92,11 +92,7 @@
             }
           }
         ],
-        "missingValues": [
-          "",
-          "NA",
-          "NaN"
-        ],
+        "missingValues": ["", "NA", "NaN"],
         "primaryKey": "deployment_id"
       }
     },
@@ -153,13 +149,7 @@
             "type": "string",
             "constraints": {
               "required": false,
-              "enum": [
-                "adult",
-                "subadult",
-                "juvenile",
-                "offspring",
-                "undefined"
-              ]
+              "enum": ["adult", "subadult", "juvenile", "offspring", "undefined"]
             }
           },
           {
@@ -170,11 +160,7 @@
             }
           }
         ],
-        "missingValues": [
-          "",
-          "NA",
-          "NaN"
-        ],
+        "missingValues": ["", "NA", "NaN"],
         "primaryKey": "observation_id",
         "foreignKeys": [
           {
