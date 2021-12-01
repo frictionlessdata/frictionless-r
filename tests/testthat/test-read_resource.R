@@ -20,9 +20,9 @@ test_that("read_resource() returns error on incorrect resource", {
   )
   class(pkg_invalid) <- c("datapackage", class(pkg_invalid))
 
-  # No path
+  # No path (or data)
   expect_error(
-    read_resource(pkg_invalid, "deployments"), "must have property `path`"
+    read_resource(pkg_invalid, "deployments"), "must have property `path` or `data`."
   )
 
   # No file at path url

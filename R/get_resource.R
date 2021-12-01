@@ -40,7 +40,7 @@ get_resource <- function(package, resource_name) {
   assertthat::assert_that(
     !is.null(resource$path) | !is.null(resource$data),
     msg = glue::glue(
-      "Resource `{resource_name}` must have property `path` or `data."
+      "Resource `{resource_name}` must have property `path` or `data`."
     )
   )
 
