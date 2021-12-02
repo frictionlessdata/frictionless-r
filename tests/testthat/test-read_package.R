@@ -14,7 +14,7 @@ test_that("read_package() reads path/url and returns a valid Data Package", {
   expect_true(check_package(pkg_minimal))
 
   # Package has correct "resource_names"
-  resource_names <- c("deployments", "observations")
+  resource_names <- c("deployments", "observations", "media")
   expect_equal(pkg_local$resource_names, resource_names)
   expect_equal(pkg_remote$resource_names, resource_names)
   expect_equal(pkg_minimal$resource_names, resource_names)

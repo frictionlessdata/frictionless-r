@@ -3,42 +3,9 @@
   "id": "115f49c1-8603-463e-a908-68de98327266",
   "created": "2021-03-02T17:22:33Z",
   "profile": "tabular-data-package",
-  "sources": [
-    {
-      "title": "Agouti",
-      "path": "https://www.agouti.eu",
-      "email": "agouti@wur.nl"
-    }
-  ],
-  "taxonomic": [
-    {
-      "taxon_id": "QSF3",
-      "scientific_name": "Capreolus capreolus",
-      "vernacular_names": {
-        "en": "roe deer",
-        "nl": "ree"
-      }
-    },
-    {
-      "taxon_id": "6PPYF",
-      "scientific_name": "Lepus europaeus",
-      "vernacular_name": {
-        "en": "European hare",
-        "nl": "haas"
-      }
-    },
-    {
-      "taxon_id": "53HGR",
-      "scientific_name": "Sus scrofa",
-      "vernacular_names": {
-        "en": "wild boar",
-        "nl": "everzwijn"
-      }
-    }
-  ],
-  "platform": {
-    "title": "Agouti",
-    "path": "https://agouti.eu"
+  "temporal": {
+    "start": "2020-01-01",
+    "end": "2021-01-10"
   },
   "resources": [
     {
@@ -71,15 +38,13 @@
           {
             "name": "latitude",
             "constraints": {
-              "required": true,
-              "minimum": -90,
-              "maximum": 90
+              "required": true
             }
           },
           {
             "name": "start",
-            "type": "datetime",
-            "format": "%Y-%m-%dT%H:%M:%S%z",
+            "type": "date",
+            "format": "%x",
             "constraints": {
               "required": true
             }
@@ -145,11 +110,11 @@
             }
           },
           {
-            "name": "age",
+            "name": "life_stage",
             "type": "string",
             "constraints": {
               "required": false,
-              "enum": ["adult", "subadult", "juvenile", "offspring", "undefined"]
+              "enum": ["adult", "subadult", "juvenile", "offspring", "unknown"]
             }
           },
           {
@@ -168,6 +133,76 @@
             "reference": {
               "resource": "deployments",
               "fields": "deployment_id"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "media",
+      "data": [
+        {
+          "media_id": "aed5fa71-3ed4-4284-a6ba-3550d1a4de8d",
+          "deployment_id": "1",
+          "observation_id": "1-1",
+          "timestamp": "2020-09-28 00:14:59+02:00",
+          "file_path": "https://multimedia.agouti.eu/assets/aed5fa71-3ed4-4284-a6ba-3550d1a4de8d/file"
+        },
+        {
+          "media_id": "da81a501-8236-4cbd-aa95-4bc4b10a05df",
+          "deployment_id": "1",
+          "observation_id": "1-1",
+          "timestamp": "2020-09-28 00:15:00+02:00",
+          "file_path": "https://multimedia.agouti.eu/assets/da81a501-8236-4cbd-aa95-4bc4b10a05df/file"
+        },
+        {
+          "media_id": "0ba57608-3cf1-49d6-a5a2-fe680851024d",
+          "deployment_id": "1",
+          "observation_id": "1-1",
+          "timestamp": "2020-09-28 00:15:01+02:00",
+          "file_path": "https://multimedia.agouti.eu/assets/0ba57608-3cf1-49d6-a5a2-fe680851024d/file"
+        }
+      ],
+      "profile": "tabular-data-resource",
+      "title": "Camera trap media files",
+      "schema": {
+        "fields": [
+          {
+            "name": "media_id",
+            "type": "string"
+          },
+          {
+            "name": "deployment_id",
+            "type": "string"
+          },
+          {
+            "name": "observation_id",
+            "type": "string"
+          },
+          {
+            "name": "timestamp",
+            "type": "datetime",
+            "format": "%Y-%m-%d %H:%M:%S%z"
+          },
+          {
+            "name": "file_path",
+            "type": "string"
+          }
+        ],
+        "primaryKey": "media_id",
+        "foreignKeys": [
+          {
+            "fields": "deployment_id",
+            "reference": {
+              "resource": "deployments",
+              "fields": "deployment_id"
+            }
+          },
+          {
+            "fields": "observation_id",
+            "reference": {
+              "resource": "observations",
+              "fields": "observation_id"
             }
           }
         ]
