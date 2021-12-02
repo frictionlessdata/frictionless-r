@@ -16,17 +16,17 @@ test_that("remove_resource() removes resource, resource_name and returns package
   pkg <- suppressMessages(read_package(
     system.file("extdata", "datapackage.json", package = "frictionless"))
   )
-  # Remove "deployments", keep "observations"
+  # Remove "deployments", keep "observations" and "media
   pkg_removed <- remove_resource(pkg, "deployments")
 
   # Returns a valid package
   expect_true(check_package(pkg_removed))
 
   # Resource removed
-  expect_length(pkg_removed$resources, 1) # Remains a list, now of length 1
+  expect_length(pkg_removed$resources, 2) # Remains a list, now of length 2
   expect_equal(pkg_removed$resources[[1]][["name"]], "observations")
 
   # Resource name removed
-  expect_length(pkg_removed$resource_names, 1)
-  expect_equal(pkg_removed$resource_names, "observations")
+  expect_length(pkg_removed$resource_names, 2)
+  expect_equal(pkg_removed$resource_names, c("observations", "media"))
 })
