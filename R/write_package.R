@@ -28,7 +28,7 @@ write_package <- function(package, directory = ".") {
 
   # Make directory if it doesn't exists yet
   if (!dir.exists(directory)) {
-    dir.create(directory)
+    dir.create(directory, recursive = TRUE)
   }
 
   # Write resources to disk + update paths
