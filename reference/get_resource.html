@@ -73,7 +73,7 @@ from a Data Package, i.e. the content of one of the described resources." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">frictionless</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0.9001</span>
       </span>
     </div>
 
@@ -119,19 +119,19 @@ from a Data Package, i.e. the content of one of the described resources." />
 from a Data Package, i.e. the content of one of the described <code>resources</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_resource</span><span class='op'>(</span><span class='va'>resource_name</span>, <span class='va'>package</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>get_resource</span><span class='op'>(</span><span class='va'>package</span>, <span class='va'>resource_name</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>resource_name</th>
-      <td><p>Name of the resource.</p></td>
-    </tr>
-    <tr>
       <th>package</th>
       <td><p>List object describing a Data Package, created with
 <code><a href='read_package.html'>read_package()</a></code> or <code><a href='create_package.html'>create_package()</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>resource_name</th>
+      <td><p>Name of the resource.</p></td>
     </tr>
     </table>
 
@@ -148,7 +148,7 @@ from a Data Package, i.e. the content of one of the described <code>resources</c
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Follow applicable norms or requirements to credit the dataset and its authors.</span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># Get the Data Resource "observations"</span></span>
-<span class='r-in'><span class='va'>resource</span> <span class='op'>&lt;-</span> <span class='fu'>get_resource</span><span class='op'>(</span><span class='st'>"observations"</span>, <span class='va'>package</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>resource</span> <span class='op'>&lt;-</span> <span class='fu'>get_resource</span><span class='op'>(</span><span class='va'>package</span>, <span class='st'>"observations"</span><span class='op'>)</span></span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='va'>resource</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> List of 8</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>  $ name     : chr "observations"</span>
@@ -189,7 +189,7 @@ from a Data Package, i.e. the content of one of the described <code>resources</c
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   .. .. .. ..$ required: logi FALSE</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   .. .. .. ..$ minimum : int 1</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ :List of 3</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. .. ..$ name       : chr "age"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. .. ..$ name       : chr "life_stage"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   .. .. ..$ type       : chr "string"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   .. .. ..$ constraints:List of 2</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   .. .. .. ..$ required: logi FALSE</span>

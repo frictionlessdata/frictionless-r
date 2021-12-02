@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">frictionless</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0.9001</span>
       </span>
     </div>
 
@@ -95,22 +95,22 @@
 
 <span class="co"># List the resource names</span>
 <span class="va">package</span><span class="op">$</span><span class="va">resource_names</span>
-<span class="co">#&gt; [1] "deployments"  "observations"</span>
+<span class="co">#&gt; [1] "deployments"  "observations" "media"</span>
 
 <span class="co"># Read data from the resource "observations"</span>
-<span class="fu"><a href="reference/read_resource.html">read_resource</a></span><span class="op">(</span><span class="st">"observations"</span>, <span class="va">package</span><span class="op">)</span>
+<span class="fu"><a href="reference/read_resource.html">read_resource</a></span><span class="op">(</span><span class="va">package</span>, <span class="st">"observations"</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 8 × 7</span>
-<span class="co">#&gt;   observation_id   deployment_id timestamp           scientific_name count age  </span>
-<span class="co">#&gt;   &lt;chr&gt;            &lt;chr&gt;         &lt;dttm&gt;              &lt;chr&gt;           &lt;dbl&gt; &lt;fct&gt;</span>
-<span class="co">#&gt; 1 089113c5-e279-4… 1             2020-01-06 15:59:17 Capreolus capr…     1 juve…</span>
-<span class="co">#&gt; 2 060ab157-3a8e-4… 1             2020-01-06 15:59:17 Capreolus capr…     1 adult</span>
-<span class="co">#&gt; 3 aba72fdc-2fd8-4… 1             2020-01-06 16:35:23 Lepus europaeus     1 adult</span>
-<span class="co">#&gt; 4 1c044f0c-b12b-4… 1             2020-01-06 17:04:04 Lepus europaeus     1 adult</span>
-<span class="co">#&gt; 5 a2fb27ab-bb8b-4… 1             2020-01-06 19:19:54 Sus scrofa          2 unde…</span>
-<span class="co">#&gt; 6 cdbb4a57-2204-4… 2             2021-01-01 01:25:06 Sus scrofa          1 unde…</span>
-<span class="co">#&gt; 7 3806c18c-29c5-4… 2             2021-01-01 01:25:06 Sus scrofa          1 unde…</span>
-<span class="co">#&gt; 8 aa01aa7c-10dc-4… 2             2021-01-01 04:47:30 Sus scrofa          1 unde…</span>
-<span class="co">#&gt; # … with 1 more variable: comments &lt;chr&gt;</span></code></pre></div>
+<span class="co">#&gt;   observation_id deployment_id timestamp           scientific_name     count</span>
+<span class="co">#&gt;   &lt;chr&gt;          &lt;chr&gt;         &lt;dttm&gt;              &lt;chr&gt;               &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 1-1            1             2020-09-28 00:13:07 Capreolus capreolus     1</span>
+<span class="co">#&gt; 2 1-2            1             2020-09-28 15:59:17 Capreolus capreolus     1</span>
+<span class="co">#&gt; 3 1-3            1             2020-09-28 16:35:23 Lepus europaeus         1</span>
+<span class="co">#&gt; 4 1-4            1             2020-09-28 17:04:04 Lepus europaeus         1</span>
+<span class="co">#&gt; 5 1-5            1             2020-09-28 19:19:54 Sus scrofa              2</span>
+<span class="co">#&gt; 6 2-1            2             2021-10-01 01:25:06 Sus scrofa              1</span>
+<span class="co">#&gt; 7 2-2            2             2021-10-01 01:25:06 Sus scrofa              1</span>
+<span class="co">#&gt; 8 2-3            2             2021-10-01 04:47:30 Sus scrofa              1</span>
+<span class="co">#&gt; # … with 2 more variables: life_stage &lt;fct&gt;, comments &lt;chr&gt;</span></code></pre></div>
 </div>
 <div id="read-data-from-an-online-data-package" class="section level3">
 <h3 class="hasAnchor">
@@ -130,7 +130,7 @@
 
 <span class="co"># Read the gps data: will return a single data frame, even though the data are </span>
 <span class="co"># split over multiple csv files</span>
-<span class="fu"><a href="reference/read_resource.html">read_resource</a></span><span class="op">(</span><span class="st">"gps"</span>, <span class="va">package</span><span class="op">)</span>
+<span class="fu"><a href="reference/read_resource.html">read_resource</a></span><span class="op">(</span><span class="va">package</span>, <span class="st">"gps"</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 73,047 × 21</span>
 <span class="co">#&gt;     `event-id` visible timestamp           `location-long` `location-lat`</span>
 <span class="co">#&gt;          &lt;dbl&gt; &lt;lgl&gt;   &lt;dttm&gt;                        &lt;dbl&gt;          &lt;dbl&gt;</span>
