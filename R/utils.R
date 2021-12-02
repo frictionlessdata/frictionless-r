@@ -60,7 +60,7 @@ check_package <- function(package) {
     length(unknown_names) == 0,
     msg = glue::glue(
       "Can't find resource with name `{unknown_names}`.",
-      "ℹ Is `package$resource_names` out of sync with names of resources?",
+      "* Is `package$resource_names` out of sync with names of resources?",
       .sep = "\n"
     )
   )
