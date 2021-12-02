@@ -6,21 +6,19 @@ test_that("read_resource() returns error on incorrect package", {
 })
 
 test_that("read_resource() returns error on incorrect resource", {
-  # No resource
   pkg <- suppressMessages(read_package(
     system.file("extdata", "datapackage.json", package = "frictionless"))
   )
+
+  # No such resource
   expect_error(read_resource(pkg, "no_such_resource"), "Can't find resource")
 
   # Create invalid package and add properties one by one to pass errors
-  pkg_invalid <- list(
-    resources = list(list(name = "deployments")),
-    resource_names = c("deployments"),
-    directory = "."
-  )
-  class(pkg_invalid) <- c("datapackage", class(pkg_invalid))
+  pkg_invalid <- create_package()
+  pkg_invalid$resources <- list(list(name = "deployments"))
+  pkg_invalid$resource_names <- c("deployments")
 
-  # No path (or data)
+  # No path or data
   expect_error(
     read_resource(pkg_invalid, "deployments"), "must have property `path` or `data`."
   )
@@ -273,7 +271,6 @@ test_that("read_resource() can read compressed files", {
 })
 
 test_that("read_resource() handles strings", {
-  # See https://specs.frictionlessdata.io/table-schema/#string
   pkg <- suppressMessages(read_package("data/types.json"))
   resource <- read_resource(pkg, "string")
   expect_type(resource$str, "character")

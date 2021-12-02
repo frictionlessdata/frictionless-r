@@ -16,6 +16,7 @@ test_that("remove_resource() removes resource, resource_name and returns package
   pkg <- suppressMessages(read_package(
     system.file("extdata", "datapackage.json", package = "frictionless"))
   )
+
   # Remove "deployments", keep "observations" and "media
   pkg_removed <- remove_resource(pkg, "deployments")
 

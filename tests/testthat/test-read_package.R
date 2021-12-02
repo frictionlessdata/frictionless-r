@@ -26,7 +26,7 @@ test_that("read_package() reads path/url and returns a valid Data Package", {
 })
 
 test_that("read_package() informs about usage norms", {
-  # Load example package and a minimal valid one with URL in id
+  # Load example package and a minimal valid one a URL in "id"
   pkg_path <- system.file("extdata", "datapackage.json", package = "frictionless")
   minimal_extra_path <- "data/valid_minimal_extra.json"
 
