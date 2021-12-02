@@ -31,7 +31,7 @@ case for dates, times and datetimes, since \code{\link[readr:write_delim]{readr:
 default. Datetimes in local or non-UTC timezones will be converted to UTC
 before writing.
 \item \code{constraints}: not set, except for factors (see further).
-\item \code{missingValues}: not set. \emph{write_package()} will use the default \code{""} for
+\item \code{missingValues}: not set. \code{\link[=write_package]{write_package()}} will use the default \code{""} for
 missing values.
 \item \code{primaryKey}: not set.
 \item \code{foreignKeys}: not set.
@@ -72,7 +72,7 @@ df <- data.frame(
     as.POSIXct("2020-03-01 12:00:00", tz = "EET"),
     as.POSIXct("2020-03-01 18:45:00", tz = "EET")
   ),
-  age = factor(c("adult", "adult"), levels = c("adult", "juvenile"))
+  life_stage = factor(c("adult", "adult"), levels = c("adult", "juvenile"))
 )
 
 # Create a Table Schema
