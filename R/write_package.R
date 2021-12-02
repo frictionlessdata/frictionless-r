@@ -23,11 +23,10 @@ write_package <- function(package, directory = ".") {
 
   # Check resources
   assertthat::assert_that(
-    length(package$resources) != 0 & # Null or empty list
-    purrr::every(package$resources, ~ !is.null(.x$name)),
+    length(package$resources) != 0, # Null or empty list
     msg = glue::glue(
-      "`package` must have resources (with a `name`). Use `add_resource()` to",
-      "add resources.", .sep = " "
+      "`package` must have resources. Use `add_resource()` to add resources.",
+      .sep = " "
     )
   )
 
