@@ -5,6 +5,7 @@ test_that("write_package() returns a valid Data Package (invisibly)", {
   temp_dir <- tempdir()
   expect_invisible(write_package(pkg, temp_dir))
   expect_true(check_package(write_package(pkg, temp_dir)))
+  unlink(temp_dir, recursive = TRUE)
 })
 
 test_that("write_package() returns error on incorrect Data Package", {
@@ -24,6 +25,7 @@ test_that("write_package() returns error if Data Package has no Data Resource(s)
 
   # Resources without name are tested in test-check_package.R
   # Resources without path or data are tested in test-read_resource.R
+  unlink(temp_dir, recursive = TRUE)
 })
 
 test_that("write_package() writes to the specified directory", {
@@ -38,6 +40,7 @@ test_that("write_package() writes to the specified directory", {
   # Valid package can be found in temp_dir
   pkg_out <- suppressMessages(read_package(file.path(temp_dir, "datapackage.json")))
   expect_true(check_packages(pkg_out))
+  unlink(temp_subdir, recursive = TRUE)
 })
 
 test_that("write_package() writes unchanged datapackage.json as is", {
@@ -54,6 +57,7 @@ test_that("write_package() writes unchanged datapackage.json as is", {
   # This also tests if added properties (resource_names, directories) are
   # removed and json is printed "pretty"
   expect_equal(json_in, json_out)
+  unlink(temp_dir, recursive = TRUE)
 })
 
 test_that("write_package() leaves Data Resources with URL as is (no copying)", {
