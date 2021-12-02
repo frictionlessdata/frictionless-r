@@ -196,7 +196,7 @@
           {
             "name": "timestamp",
             "type": "datetime",
-            "format": "%Y-%m-%dT%H:%M:%S%z"
+            "format": "%Y-%m-%d %H:%M:%S%z"
           },
           {
             "name": "file_path",
