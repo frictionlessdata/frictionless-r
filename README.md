@@ -43,22 +43,22 @@ package <- read_package(system.file("extdata", "datapackage.json", package = "fr
 
 # List the resource names
 package$resource_names
-#> [1] "deployments"  "observations"
+#> [1] "deployments"  "observations" "media"
 
 # Read data from the resource "observations"
 read_resource(package, "observations")
 #> # A tibble: 8 × 7
-#>   observation_id   deployment_id timestamp           scientific_name count age  
-#>   <chr>            <chr>         <dttm>              <chr>           <dbl> <fct>
-#> 1 089113c5-e279-4… 1             2020-01-06 15:59:17 Capreolus capr…     1 juve…
-#> 2 060ab157-3a8e-4… 1             2020-01-06 15:59:17 Capreolus capr…     1 adult
-#> 3 aba72fdc-2fd8-4… 1             2020-01-06 16:35:23 Lepus europaeus     1 adult
-#> 4 1c044f0c-b12b-4… 1             2020-01-06 17:04:04 Lepus europaeus     1 adult
-#> 5 a2fb27ab-bb8b-4… 1             2020-01-06 19:19:54 Sus scrofa          2 unde…
-#> 6 cdbb4a57-2204-4… 2             2021-01-01 01:25:06 Sus scrofa          1 unde…
-#> 7 3806c18c-29c5-4… 2             2021-01-01 01:25:06 Sus scrofa          1 unde…
-#> 8 aa01aa7c-10dc-4… 2             2021-01-01 04:47:30 Sus scrofa          1 unde…
-#> # … with 1 more variable: comments <chr>
+#>   observation_id deployment_id timestamp           scientific_name     count
+#>   <chr>          <chr>         <dttm>              <chr>               <dbl>
+#> 1 1-1            1             2020-09-28 00:13:07 Capreolus capreolus     1
+#> 2 1-2            1             2020-09-28 15:59:17 Capreolus capreolus     1
+#> 3 1-3            1             2020-09-28 16:35:23 Lepus europaeus         1
+#> 4 1-4            1             2020-09-28 17:04:04 Lepus europaeus         1
+#> 5 1-5            1             2020-09-28 19:19:54 Sus scrofa              2
+#> 6 2-1            2             2021-10-01 01:25:06 Sus scrofa              1
+#> 7 2-2            2             2021-10-01 01:25:06 Sus scrofa              1
+#> 8 2-3            2             2021-10-01 04:47:30 Sus scrofa              1
+#> # … with 2 more variables: life_stage <fct>, comments <chr>
 ```
 
 ### Read data from an online Data Package

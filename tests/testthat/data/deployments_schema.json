@@ -28,7 +28,7 @@
     {
       "name": "start",
       "type": "datetime",
-      "format": "%Y-%m-%dT%H:%M:%S%z",
+      "format": "%x",
       "constraints": {
         "required": true
       }
@@ -41,10 +41,6 @@
       }
     }
   ],
-  "missingValues": [
-    "",
-    "NA",
-    "NaN"
-  ],
+  "missingValues": ["", "NA", "NaN"],
   "primaryKey": "deployment_id"
 }
