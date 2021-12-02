@@ -57,7 +57,7 @@
 #'     as.POSIXct("2020-03-01 12:00:00", tz = "EET"),
 #'     as.POSIXct("2020-03-01 18:45:00", tz = "EET")
 #'   ),
-#'   age = factor(c("adult", "adult"), levels = c("adult", "juvenile"))
+#'   life_stage = factor(c("adult", "adult"), levels = c("adult", "juvenile"))
 #' )
 #'
 #' # Create a Table Schema
