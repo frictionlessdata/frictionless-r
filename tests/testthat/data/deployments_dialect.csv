@@ -1,7 +1,7 @@
-# This file is based on inst/extdata/deployments.csv, but altered to test 
-# csv dialect properties. With those dialect properties, the loaded data 
+# This file is based on inst/extdata/deployments.csv, but altered to test
+# csv dialect properties. With those dialect properties, the loaded data
 # frame should be exactly the same as reading the original deployments.csv
 # deployment_id;longitude;latitude;start;comments
 1/4.61612/50.76698/'09/25/20'/
 2/4.64286/50.82716/'10/01/20'/On "forêt" road.
-3/4.65100/50.81860/'10/05/20'/"  Malfunction\/no photos, data 
+3/4.65100/50.81860/'10/05/20'/  Malfunction\/no photos, data 

@@ -169,7 +169,7 @@ test_that("read_resource() understands CSV dialect", {
     # lineTerminator
     quoteChar = "'",         # Used to wrap dates which contain delimiter ":"
     doubleQuote = TRUE,      # Will get set to FALSE because of escapeChar
-    escapeChar = "\\",       # Used to escape ":" in comments
+    escapeChar = "\\",       # Used to escape "/" in comments
     # nullSequence: not interpreted
     skipInitialSpace = TRUE, # Used to skip spaces in comment
     header = FALSE,          # There is no header
