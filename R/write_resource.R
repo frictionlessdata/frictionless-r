@@ -13,7 +13,7 @@ write_resource <- function(package, resource_name, directory = ".") {
   # Resource contains new data
   if (resource$read_from == "df") {
     file_name <- paste(resource_name, "csv", sep = ".")
-    readr::write_csv(resource$data, paste(directory, file_name, sep = "/"))
+    readr::write_csv(resource$data, file.path(directory, file_name))
     resource$path <- file_name
     resource$data <- NULL
     resource$read_from <- NULL
@@ -35,7 +35,7 @@ write_resource <- function(package, resource_name, directory = ".") {
         # Local file
         # Copy file to directory, point path to file name (in that directory).
         file_name <- basename(path)
-        file.copy(path, paste(directory, file_name, sep = "/"))
+        file.copy(path, file.path(directory, file_name))
         out_paths <- append(out_paths, file_name)
       }
     }
