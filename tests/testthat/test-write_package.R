@@ -5,22 +5,15 @@ test_that("write_package() returns error on incorrect package", {
   )
 })
 
-test_that("write_package() returns error if no resources are associated", {
-  pkg <- create_package()
+test_that("write_package() returns error if package has no resource(s)", {
+  pkg_empty <- create_package()
+  expect_error(
+    write_package(pkg_empty, file.path(tempdir())),
+    "`package` must have resources."
+  )
 
-  # Empty resources
-  expected_error_msg <- "`package` must have resources \\(with a `name`\\)."
-  expect_error(write_package(pkg), expected_error_msg)
-
-})
-
-test_that("write_package() returns error for incorrect resources", {
-  pkg <- create_package()
-
-  # Not found
-
-  # No path
-
+  # Resources without name are tested in test-check_package.R
+  # Resources without path or data are tested in test-read_resource.R
 })
 
 test_that("write_package() writes to the specified directory", {
