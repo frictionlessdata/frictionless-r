@@ -40,8 +40,8 @@ test_that("check_package() returns error on incorrect package", {
 
 test_that("check_package() returns error if resource has no name", {
   pkg <- suppressMessages(read_package(
-    system.file("extdata", "datapackage.json", package = "frictionless"))
-  )
+    system.file("extdata", "datapackage.json", package = "frictionless")
+  ))
   pkg$resources[[2]]$name <- NULL
   expect_error(
     check_package(pkg),
@@ -51,8 +51,8 @@ test_that("check_package() returns error if resource has no name", {
 
 test_that("check_package() returns error if resource_names are out of sync", {
   pkg <- suppressMessages(read_package(
-    system.file("extdata", "datapackage.json", package = "frictionless"))
-  )
+    system.file("extdata", "datapackage.json", package = "frictionless")
+  ))
   pkg$resource_names <- c("no_such_resource", "observations", "media")
   expect_error(
     check_package(pkg),

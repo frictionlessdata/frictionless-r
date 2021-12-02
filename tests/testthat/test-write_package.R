@@ -18,8 +18,8 @@ test_that("write_package() returns error if package has no resource(s)", {
 
 test_that("write_package() writes to the specified directory", {
   pkg <- suppressMessages(read_package(
-    system.file("extdata", "datapackage.json", package = "frictionless"))
-  )
+    system.file("extdata", "datapackage.json", package = "frictionless")
+  ))
   temp_dir <- file.path(tempdir(), "subdir")
 
   # Write and read to non-existing subdir are successful

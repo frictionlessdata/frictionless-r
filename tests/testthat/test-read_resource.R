@@ -7,8 +7,8 @@ test_that("read_resource() returns error on incorrect package", {
 
 test_that("read_resource() returns error on incorrect resource", {
   pkg <- suppressMessages(read_package(
-    system.file("extdata", "datapackage.json", package = "frictionless"))
-  )
+    system.file("extdata", "datapackage.json", package = "frictionless")
+  ))
 
   # No such resource
   expect_error(read_resource(pkg, "no_such_resource"), "Can't find resource")
@@ -53,7 +53,9 @@ test_that("read_resource() returns error on incorrect resource", {
 
   # Add valid path
   pkg_invalid$resources[[1]]$path <- "deployments.csv"
-  pkg_invalid$directory <- dirname(system.file("extdata", "datapackage.json", package = "frictionless"))
+  pkg_invalid$directory <- dirname(
+    system.file("extdata", "datapackage.json", package = "frictionless")
+  )
 
   # Not a tabular-data-resource
   expect_error(
@@ -97,8 +99,8 @@ test_that("read_resource() returns error on incorrect resource", {
 
 test_that("read_resource() returns a tibble", {
   pkg <- suppressMessages(read_package(
-    system.file("extdata", "datapackage.json", package = "frictionless"))
-  )
+    system.file("extdata", "datapackage.json", package = "frictionless")
+  ))
   resource <- read_resource(pkg, "deployments")
 
   expect_s3_class(resource, "data.frame")
@@ -107,8 +109,8 @@ test_that("read_resource() returns a tibble", {
 
 test_that("read_resource() can read remote files", {
   pkg <- suppressMessages(read_package(
-    system.file("extdata", "datapackage.json", package = "frictionless"))
-  )
+    system.file("extdata", "datapackage.json", package = "frictionless")
+  ))
   resource <- read_resource(pkg, "deployments")
 
   pkg_remote <- pkg
@@ -118,8 +120,8 @@ test_that("read_resource() can read remote files", {
 
 test_that("read_resource() can read local and remote schemas", {
   pkg <- suppressMessages(read_package(
-    system.file("extdata", "datapackage.json", package = "frictionless"))
-  )
+    system.file("extdata", "datapackage.json", package = "frictionless")
+  ))
   resource <- read_resource(pkg, "deployments")
 
   pkg_local_schema <- pkg
@@ -136,8 +138,8 @@ test_that("read_resource() can read local and remote schemas", {
 
 test_that("read_resource() can read local and remote CSV dialect", {
   pkg <- suppressMessages(read_package(
-    system.file("extdata", "datapackage.json", package = "frictionless"))
-  )
+    system.file("extdata", "datapackage.json", package = "frictionless")
+  ))
   resource <- read_resource(pkg, "deployments")
 
   pkg_local_dialect <- pkg
@@ -154,8 +156,8 @@ test_that("read_resource() can read local and remote CSV dialect", {
 
 test_that("read_resource() understands CSV dialect", {
   pkg <- suppressMessages(read_package(
-    system.file("extdata", "datapackage.json", package = "frictionless"))
-  )
+    system.file("extdata", "datapackage.json", package = "frictionless")
+  ))
   resource <- read_resource(pkg, "deployments")
 
   # Create package with non-default dialect properties
@@ -185,8 +187,8 @@ test_that("read_resource() understands CSV dialect", {
 
 test_that("read_resource() understands missing values", {
   pkg <- suppressMessages(read_package(
-    system.file("extdata", "datapackage.json", package = "frictionless"))
-  )
+    system.file("extdata", "datapackage.json", package = "frictionless")
+  ))
   resource <- read_resource(pkg, "deployments")
 
   # Create package with non-default missing values
@@ -200,8 +202,8 @@ test_that("read_resource() understands missing values", {
 
 test_that("read_resource() understands encoding", {
   pkg <- suppressMessages(read_package(
-    system.file("extdata", "datapackage.json", package = "frictionless"))
-  )
+    system.file("extdata", "datapackage.json", package = "frictionless")
+  ))
   resource <- read_resource(pkg, "deployments")
 
   # Create package with non-default missing values
@@ -228,8 +230,8 @@ test_that("read_resource() handles LF and CRLF line terminator characters", {
   # read_delim() however only handles 2 line terminator characters (LF and CRLF)
   # without explicitly indicating them, so dialect$lineTerminator is ignored
   pkg <- suppressMessages(read_package(
-    system.file("extdata", "datapackage.json", package = "frictionless"))
-  )
+    system.file("extdata", "datapackage.json", package = "frictionless")
+  ))
   resource <- read_resource(pkg, "deployments") # This file has LF
 
   pkg_crlf <- pkg
@@ -240,8 +242,8 @@ test_that("read_resource() handles LF and CRLF line terminator characters", {
 
 test_that("read_resource() can read compressed files", {
   pkg <- suppressMessages(read_package(
-    system.file("extdata", "datapackage.json", package = "frictionless"))
-  )
+    system.file("extdata", "datapackage.json", package = "frictionless")
+  ))
   resource <- read_resource(pkg, "deployments")
 
   # File created in terminal with:
