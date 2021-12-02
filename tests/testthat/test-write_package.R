@@ -1,10 +1,11 @@
-test_that("write_package() returns a valid Data Package (invisibly)", {
+test_that("write_package() returns a input Data Package (invisibly)", {
   pkg <- suppressMessages(read_package(
     system.file("extdata", "datapackage.json", package = "frictionless")
   ))
   temp_dir <- tempdir()
   expect_invisible(write_package(pkg, temp_dir))
-  expect_true(check_package(write_package(pkg, temp_dir)))
+  pkg_out <- write_package(pkg, temp_dir)
+  expect_equal(pkg, pkg_out)
   unlink(temp_dir, recursive = TRUE)
 })
 
