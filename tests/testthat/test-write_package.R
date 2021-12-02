@@ -26,16 +26,24 @@ test_that("write_package() writes to the specified directory", {
   expect_invisible(write_package(pkg, temp_dir))
   expect_true(
     suppressMessages(read_package(file.path(temp_dir, "datapackage.json"))) %>%
-    check_package()
+    check_package() # Valid package found at location
   )
 })
 
-test_that("write_package() writes a valid, pretty datapackage.json", {
+test_that("write_package() writes valid, pretty datapackage.json", {
+  pkg <- suppressMessages(read_package(
+    system.file("extdata", "datapackage.json", package = "frictionless")
+  ))
+  json_input <- readr::read_file(
+    system.file("extdata", "datapackage.json", package = "frictionless")
+  )
+  temp_dir <- file.path(tempdir())
+  write_package(pkg, temp_dir)
+  json_output <- readr::read_file(file.path(temp_dir, "datapackage.json"))
 
-})
-
-test_that("write_package() removes properties resource_names, directory", {
-
+  # Expect input and output datapackage.json to be the same.
+  # This also tests if added properties resource_names, directories are removed.
+  expect_equal(json_input, json_output)
 })
 
 test_that("write_package() leaves resources with URL as is", {
