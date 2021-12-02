@@ -1,4 +1,4 @@
-test_that("read_package() reads path/url and returns a valid Data Package", {
+test_that("read_package() returns a valid Data Package, whether reading path or url", {
   # Load example package (locally and remotely) and a valid minimal one
   pkg_path <- system.file("extdata", "datapackage.json", package = "frictionless")
   pkg_url <- "https://raw.githubusercontent.com/frictionlessdata/frictionless-r/main/inst/extdata/datapackage.json"

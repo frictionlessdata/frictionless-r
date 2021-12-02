@@ -1,11 +1,21 @@
-test_that("read_resource() returns error on incorrect package", {
+test_that("read_resource() returns a tibble", {
+  pkg <- suppressMessages(read_package(
+    system.file("extdata", "datapackage.json", package = "frictionless")
+  ))
+  resource <- read_resource(pkg, "deployments")
+
+  expect_s3_class(resource, "data.frame")
+  expect_s3_class(resource, "tbl")
+})
+
+test_that("read_resource() returns error on incorrect Data Package", {
   expect_error(
     read_resource(list(), "deployments"),
     "`package` must be a list object of class `datapackage`"
   )
 })
 
-test_that("read_resource() returns error on incorrect resource", {
+test_that("read_resource() returns error on incorrect Data Resource", {
   pkg <- suppressMessages(read_package(
     system.file("extdata", "datapackage.json", package = "frictionless")
   ))
@@ -97,16 +107,6 @@ test_that("read_resource() returns error on incorrect resource", {
   )
 })
 
-test_that("read_resource() returns a tibble", {
-  pkg <- suppressMessages(read_package(
-    system.file("extdata", "datapackage.json", package = "frictionless")
-  ))
-  resource <- read_resource(pkg, "deployments")
-
-  expect_s3_class(resource, "data.frame")
-  expect_s3_class(resource, "tbl")
-})
-
 test_that("read_resource() can read remote files", {
   pkg <- suppressMessages(read_package(
     system.file("extdata", "datapackage.json", package = "frictionless")
@@ -118,7 +118,7 @@ test_that("read_resource() can read remote files", {
   expect_identical(resource, read_resource(pkg_remote, "deployments"))
 })
 
-test_that("read_resource() can read local and remote schemas", {
+test_that("read_resource() can read local and remote Table Schemas", {
   pkg <- suppressMessages(read_package(
     system.file("extdata", "datapackage.json", package = "frictionless")
   ))

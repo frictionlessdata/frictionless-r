@@ -1,4 +1,11 @@
-test_that("check_package() returns error on incorrect package", {
+test_that("check_package() returns TRUE on valid Data Package", {
+  pkg <- suppressMessages(read_package(
+    system.file("extdata", "datapackage.json", package = "frictionless")
+  ))
+  expect_true(check_package(pkg))
+})
+
+test_that("check_package() returns error on incorrect Data Package", {
   # Valid package
   pkg <- list(
     resources = list(),
@@ -38,7 +45,7 @@ test_that("check_package() returns error on incorrect package", {
   expect_error(check_package(pkg_invalid))
 })
 
-test_that("check_package() returns error if resource has no name", {
+test_that("check_package() returns error if Data Resource has no name", {
   pkg <- suppressMessages(read_package(
     system.file("extdata", "datapackage.json", package = "frictionless")
   ))
