@@ -34,7 +34,7 @@ write_package <- function(package, directory = ".") {
   out_resources <- list()
   for (i in seq_along(package$resources)) {
     resource_name <- package$resources[[i]]$name
-    out_resource <- write_resource(resource_name, package, directory)
+    out_resource <- write_resource(package, resource_name, directory)
     out_resources[[i]] <- out_resource
   }
 

@@ -30,7 +30,7 @@ get_resource <- function(package, resource_name) {
     )
   )
 
-  # Check resource
+  # Get resource
   resource <- purrr::keep(package$resources, ~ .x$name == resource_name)[[1]]
 
   # Check path(s) to file(s)
