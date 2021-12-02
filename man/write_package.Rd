@@ -22,5 +22,21 @@ untouched, those added with \emph{add_resource()} are written to file using
 \code{\link[readr:write_delim]{readr::write_csv()}}.
 }
 \examples{
-# TODO
+# Read a datapackage.json file
+package <- read_package(
+  system.file("extdata", "datapackage.json", package = "frictionless")
+)
+
+# List the resource names
+package$resource_names
+
+# Write the unaltered Data Package to disk
+temp_dir <- tempdir()
+write_package(package, directory = temp_dir)
+
+# Check files
+list.files(temp_dir)
+
+# Clean up
+unlink(temp_dir, recursive = TRUE)
 }
