@@ -20,14 +20,12 @@
     {
       "name": "latitude",
       "constraints": {
-        "required": true,
-        "minimum": -90,
-        "maximum": 90
+        "required": true
       }
     },
     {
       "name": "start",
-      "type": "datetime",
+      "type": "date",
       "format": "%x",
       "constraints": {
         "required": true
