@@ -16,11 +16,6 @@ write_package <- function(package, directory = ".") {
   # Check package
   check_package(package)
 
-  # Make directory if it doesn't exists yet
-  if (!dir.exists(directory)) {
-    dir.create(directory)
-  }
-
   # Check resources
   assertthat::assert_that(
     length(package$resources) != 0, # Null or empty list
@@ -29,6 +24,11 @@ write_package <- function(package, directory = ".") {
       .sep = " "
     )
   )
+
+  # Make directory if it doesn't exists yet
+  if (!dir.exists(directory)) {
+    dir.create(directory)
+  }
 
   # Write resources to disk + update paths
   out_resources <- list()
