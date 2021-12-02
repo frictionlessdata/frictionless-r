@@ -8,11 +8,12 @@
 #' @param package List object describing a Data Package, created with
 #'   [read_package()] or [create_package()].
 #' @param directory Path to local directory to write files to.
-#' @return `package` invisibly.
+#' @return Original `package` (invisibly).
 #' @export
 #' @examples
 #' # TODO
 write_package <- function(package, directory = ".") {
+  orig_package <- package
   # Check package
   check_package(package)
 
@@ -48,5 +49,5 @@ write_package <- function(package, directory = ".") {
   write(package_json, file.path(directory, "datapackage.json"))
 
   # Return (updated) package invisibly
-  invisible(package)
+  invisible(orig_package)
 }

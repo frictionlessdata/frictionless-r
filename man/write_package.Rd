@@ -13,7 +13,7 @@ write_package(package, directory = ".")
 \item{directory}{Path to local directory to write files to.}
 }
 \value{
-\code{package} invisibly.
+Original \code{package} (invisibly).
 }
 \description{
 Writes a Data Package and its related Data Resources to disk as a
