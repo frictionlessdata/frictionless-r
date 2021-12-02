@@ -45,7 +45,7 @@ test_that("write_package() writes to the specified directory", {
   unlink(temp_subdir, recursive = TRUE)
 })
 
-test_that("write_package() writes unchanged datapackage.json as is", {
+test_that("write_package() writes unaltered datapackage.json as is", {
   pkg <- suppressMessages(read_package(
     system.file("extdata", "datapackage.json", package = "frictionless")
   ))
@@ -56,9 +56,9 @@ test_that("write_package() writes unchanged datapackage.json as is", {
   write_package(pkg, temp_dir)
   json_out <- readr::read_file(file.path(temp_dir, "datapackage.json"))
 
-  # This also tests if added properties (resource_names, directories) are
-  # removed and json is printed "pretty"
-  expect_equal(json_in, json_out)
+  # Output json = input json. This also tests if new properties (resource_names,
+  # directories) are removed and json is printed "pretty"
+  expect_equal(json_out, json_in)
   unlink(temp_dir, recursive = TRUE)
 })
 
