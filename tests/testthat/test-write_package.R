@@ -106,7 +106,7 @@ test_that("write_package() copies Data Resources with path, but does not read th
     system.file("extdata", "datapackage.json", package = "frictionless")
   ))
   temp_dir <- tempdir()
-  write_package(pkg_remote, temp_dir)
+  write_package(pkg, temp_dir)
   pkg_out <- suppressMessages(read_package(
     file.path(temp_dir, "datapackage.json")
   ))
