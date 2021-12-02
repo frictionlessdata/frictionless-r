@@ -38,9 +38,7 @@
           {
             "name": "latitude",
             "constraints": {
-              "required": true,
-              "minimum": -90,
-              "maximum": 90
+              "required": true
             }
           },
           {
