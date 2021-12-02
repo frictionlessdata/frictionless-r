@@ -3,42 +3,9 @@
   "id": "115f49c1-8603-463e-a908-68de98327266",
   "created": "2021-03-02T17:22:33Z",
   "profile": "tabular-data-package",
-  "sources": [
-    {
-      "title": "Agouti",
-      "path": "https://www.agouti.eu",
-      "email": "agouti@wur.nl"
-    }
-  ],
-  "taxonomic": [
-    {
-      "taxon_id": "QSF3",
-      "scientific_name": "Capreolus capreolus",
-      "vernacular_names": {
-        "en": "roe deer",
-        "nl": "ree"
-      }
-    },
-    {
-      "taxon_id": "6PPYF",
-      "scientific_name": "Lepus europaeus",
-      "vernacular_name": {
-        "en": "European hare",
-        "nl": "haas"
-      }
-    },
-    {
-      "taxon_id": "53HGR",
-      "scientific_name": "Sus scrofa",
-      "vernacular_names": {
-        "en": "wild boar",
-        "nl": "everzwijn"
-      }
-    }
-  ],
-  "platform": {
-    "title": "Agouti",
-    "path": "https://agouti.eu"
+  "temporal": {
+    "start": "2020-01-01",
+    "end": "2021-01-10"
   },
   "resources": [
     {
