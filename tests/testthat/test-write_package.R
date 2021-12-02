@@ -63,7 +63,42 @@ test_that("write_package() writes unaltered datapackage.json as is", {
 })
 
 test_that("write_package() leaves Data Resources with URL as is (no copying)", {
+  pkg_remote <- suppressMessages(read_package(
+    "https://github.com/frictionlessdata/frictionless-r/raw/main/inst/extdata/datapackage.json"
+  ))
+  temp_dir <- tempdir()
+  write_package(pkg_remote, temp_dir)
+  pkg_out <- suppressMessages(read_package(
+    file.path(temp_dir, "datapackage.json")
+  ))
 
+  # Paths are now URLs
+  expect_equal(
+    pkg_out$resources[[1]]$path,
+    "https://github.com/frictionlessdata/frictionless-r/raw/main/inst/extdata/deployments.csv"
+  )
+  expect_equal(
+    pkg_out$resources[[2]]$path,
+    c(
+      "https://github.com/frictionlessdata/frictionless-r/raw/main/inst/extdata/observations_1.csv",
+      "https://github.com/frictionlessdata/frictionless-r/raw/main/inst/extdata/observations_2.csv"
+    )
+  )
+
+  # Do not expect files
+  expect_error(
+    readr::read_file(file.path(temp_dir, "deployments.csv")),
+    "does not exist."
+  )
+  expect_error(
+    readr::read_file(file.path(temp_dir, "observations_1.csv")),
+    "does not exist."
+  )
+  expect_error(
+    readr::read_file(file.path(temp_dir, "observations_2.csv")),
+    "does not exist."
+  )
+  unlink(temp_dir, recursive = TRUE)
 })
 
 test_that("write_package() copies files for Data Resources with path, but does not read them", {
