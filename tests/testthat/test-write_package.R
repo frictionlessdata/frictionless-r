@@ -101,8 +101,25 @@ test_that("write_package() leaves Data Resources with URL as is (no copying)", {
   unlink(temp_dir, recursive = TRUE)
 })
 
-test_that("write_package() copies files for Data Resources with path, but does not read them", {
+test_that("write_package() copies Data Resources with path, but does not read them", {
+  pkg <- suppressMessages(read_package(
+    system.file("extdata", "datapackage.json", package = "frictionless")
+  ))
+  temp_dir <- tempdir()
+  write_package(pkg_remote, temp_dir)
+  pkg_out <- suppressMessages(read_package(
+    file.path(temp_dir, "datapackage.json")
+  ))
 
+  # Path is unchanged (deployments and observations are local files)
+  expect_equal(pkg_out$resources[[1]]$path, pkg$resources[[1]]$path)
+  expect_equal(pkg_out$resources[[2]]$path, pkg$resources[[2]]$path)
+
+  # Files are written
+  expect_type(readr::read_file(file.path(temp_dir, "deployments.csv")), "character")
+  expect_type(readr::read_file(file.path(temp_dir, "observations_1.csv")), "character")
+  expect_type(readr::read_file(file.path(temp_dir, "observations_2.csv")), "character")
+  unlink(temp_dir, recursive = TRUE)
 })
 
 test_that("write_packages() creates files for new data.frame Data Resources", {
