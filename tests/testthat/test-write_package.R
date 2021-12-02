@@ -33,14 +33,15 @@ test_that("write_package() writes to the specified directory", {
   pkg <- suppressMessages(read_package(
     system.file("extdata", "datapackage.json", package = "frictionless")
   ))
-  temp_dir <- file.path(tempdir(), "subdir")
+  temp_subdir <- file.path(tempdir(), "x/y")
 
-  # Function should create subdir without error
-  expect_invisible(write_package(pkg, temp_dir))
+  # Function should create subdir(s) without error
+  expect_invisible(write_package(pkg, temp_subdir))
 
-  # Valid package can be found in temp_dir
-  pkg_out <- suppressMessages(read_package(file.path(temp_dir, "datapackage.json")))
-  expect_true(check_packages(pkg_out))
+  # Valid package can be found at temp_subdir
+  expect_true(check_package(
+    suppressMessages(read_package(file.path(temp_subdir, "datapackage.json")))
+  ))
   unlink(temp_subdir, recursive = TRUE)
 })
 
