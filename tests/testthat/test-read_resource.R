@@ -113,9 +113,9 @@ test_that("read_resource() can read remote files", {
   ))
   resource <- read_resource(pkg, "deployments")
 
-  pkg_remote <- pkg
-  pkg_remote$resources[[1]]$path <- "https://github.com/frictionlessdata/frictionless-r/raw/main/inst/extdata/deployments.csv"
-  expect_identical(resource, read_resource(pkg_remote, "deployments"))
+  pkg_remote_resource <- pkg
+  pkg_remote_resource$resources[[1]]$path <- "https://github.com/frictionlessdata/frictionless-r/raw/main/inst/extdata/deployments.csv"
+  expect_identical(resource, read_resource(pkg_remote_resource, "deployments"))
 })
 
 test_that("read_resource() can read local and remote Table Schemas", {
