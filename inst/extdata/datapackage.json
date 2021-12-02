@@ -149,7 +149,7 @@
             }
           },
           {
-            "name": "age",
+            "name": "life_stage",
             "type": "string",
             "constraints": {
               "required": false,
@@ -158,7 +158,7 @@
                 "subadult",
                 "juvenile",
                 "offspring",
-                "undefined"
+                "unknown"
               ]
             }
           },
