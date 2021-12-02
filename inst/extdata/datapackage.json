@@ -78,8 +78,8 @@
           },
           {
             "name": "start",
-            "type": "datetime",
-            "format": "%Y-%m-%dT%H:%M:%S%z",
+            "type": "date",
+            "format": "%x",
             "constraints": {
               "required": true
             }
