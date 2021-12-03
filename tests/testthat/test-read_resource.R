@@ -2,10 +2,17 @@ test_that("read_resource() returns a tibble", {
   pkg <- suppressMessages(read_package(
     system.file("extdata", "datapackage.json", package = "frictionless")
   ))
-  resource <- read_resource(pkg, "deployments")
+  resource_path <- read_resource(pkg, "deployments")
+  resource_data <- read_resource(pkg, "media")
+  pkg$resources[[3]]$data <- data.frame() # Media resource
+  resource_df <- read_resource(pkg, "media")
 
-  expect_s3_class(resource, "data.frame")
-  expect_s3_class(resource, "tbl")
+  expect_s3_class(resource_path, "data.frame")
+  expect_s3_class(resource_path, "tbl")
+  expect_s3_class(resource_data, "data.frame")
+  expect_s3_class(resource_data, "tbl")
+  expect_s3_class(resource_df, "data.frame")
+  expect_s3_class(resource_df, "tbl")
 })
 
 test_that("read_resource() returns error on incorrect Data Package", {
@@ -105,6 +112,29 @@ test_that("read_resource() returns error on incorrect Data Resource", {
     read_resource(pkg_invalid, "deployments"),
     "Field 2 of resource `deployments` must have the property `name`."
   )
+})
+
+test_that("read_resource() can read newly added data (ignoring schema)", {
+  pkg <- suppressMessages(read_package(
+    system.file("extdata", "datapackage.json", package = "frictionless")
+  ))
+  df <- data.frame(
+    "col_1" = c(1, 2),
+    "col_2" = factor(c("a", "b"), levels = c("a", "b", "c"))
+  )
+  pkg$resources[[3]]$data <- df # Media resource
+  expect_equal(read_resource(pkg, "media"), dplyr::as_tibble(df))
+})
+
+test_that("read_resource() can read inline data (ignoring schema)", {
+  pkg <- suppressMessages(read_package(
+    system.file("extdata", "datapackage.json", package = "frictionless")
+  ))
+  expected_resource <- readr::read_csv("data/media.csv", col_types = "ccccc")
+  expect_equal(read_resource(pkg, "media"), expected_resource)
+
+  pkg$resources[[3]]$data <- "not_a_list" # Media resource
+  expect_error(read_resource(pkg, "media"))
 })
 
 test_that("read_resource() can read remote files", {
