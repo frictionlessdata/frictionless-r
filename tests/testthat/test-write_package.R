@@ -42,7 +42,9 @@ test_that("write_package() writes to the specified directory", {
 })
 
 test_that("write_package() writes unaltered datapackage.json as is", {
-  pkg <- example_package
+  pkg <- suppressMessages(read_package(
+    system.file("extdata", "datapackage.json", package = "frictionless")
+  ))
   json_in <- readr::read_file(
     system.file("extdata", "datapackage.json", package = "frictionless")
   )
@@ -57,9 +59,7 @@ test_that("write_package() writes unaltered datapackage.json as is", {
 })
 
 test_that("write_package() leaves Data Resources with URL as is (no copying)", {
-  pkg_remote <- suppressMessages(read_package(
-    "https://github.com/frictionlessdata/frictionless-r/raw/main/inst/extdata/datapackage.json"
-  ))
+  pkg_remote <- example_package # Example Data Package is a remote one
   temp_dir <- tempdir()
   write_package(pkg_remote, temp_dir)
   pkg_out <- suppressMessages(read_package(
@@ -69,13 +69,13 @@ test_that("write_package() leaves Data Resources with URL as is (no copying)", {
   # Paths are now URLs
   expect_equal(
     pkg_out$resources[[1]]$path,
-    "https://github.com/frictionlessdata/frictionless-r/raw/main/inst/extdata/deployments.csv"
+    "https://raw.githubusercontent.com/frictionlessdata/frictionless-r/main/inst/extdata/deployments.csv"
   )
   expect_equal(
     pkg_out$resources[[2]]$path,
     c(
-      "https://github.com/frictionlessdata/frictionless-r/raw/main/inst/extdata/observations_1.csv",
-      "https://github.com/frictionlessdata/frictionless-r/raw/main/inst/extdata/observations_2.csv"
+      "https://raw.githubusercontent.com/frictionlessdata/frictionless-r/main/inst/extdata/observations_1.csv",
+      "https://raw.githubusercontent.com/frictionlessdata/frictionless-r/main/inst/extdata/observations_2.csv"
     )
   )
 
@@ -96,7 +96,9 @@ test_that("write_package() leaves Data Resources with URL as is (no copying)", {
 })
 
 test_that("write_package() copies Data Resources with path, but does not read them", {
-  pkg <- example_package
+  pkg <- suppressMessages(read_package(
+    system.file("extdata", "datapackage.json", package = "frictionless")
+  ))
   temp_dir <- tempdir()
   write_package(pkg, temp_dir)
   pkg_out <- suppressMessages(read_package(
