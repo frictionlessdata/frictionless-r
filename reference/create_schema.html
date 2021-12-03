@@ -74,7 +74,7 @@ a data frame, listing all column names and types as field names and
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">frictionless</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0.9002</span>
       </span>
     </div>
 
@@ -146,11 +146,11 @@ a data frame, listing all column names and types as field names and
 <li><p><code>type</code>: contains the converted column type (see further).</p></li>
 <li><p><code>format</code>: not set and can thus be considered <code>default</code>. This is also the
 case for dates, times and datetimes, since <code><a href='https://readr.tidyverse.org/reference/write_delim.html'>readr::write_csv()</a></code> used by
-<em>write_package()</em> will format those to ISO8601 which is considered the
+<code><a href='write_package.html'>write_package()</a></code> will format those to ISO8601 which is considered the
 default. Datetimes in local or non-UTC timezones will be converted to UTC
 before writing.</p></li>
 <li><p><code>constraints</code>: not set, except for factors (see further).</p></li>
-<li><p><code>missingValues</code>: not set. <em>write_package()</em> will use the default <code>""</code> for
+<li><p><code>missingValues</code>: not set. <code><a href='write_package.html'>write_package()</a></code> will use the default <code>""</code> for
 missing values.</p></li>
 <li><p><code>primaryKey</code>: not set.</p></li>
 <li><p><code>foreignKeys</code>: not set.</p></li>
@@ -191,7 +191,7 @@ levels as <code>enum</code>.</p></li>
 <span class='r-in'>    <span class='fu'><a href='https://rdrr.io/r/base/as.POSIXlt.html'>as.POSIXct</a></span><span class='op'>(</span><span class='st'>"2020-03-01 12:00:00"</span>, tz <span class='op'>=</span> <span class='st'>"EET"</span><span class='op'>)</span>,</span>
 <span class='r-in'>    <span class='fu'><a href='https://rdrr.io/r/base/as.POSIXlt.html'>as.POSIXct</a></span><span class='op'>(</span><span class='st'>"2020-03-01 18:45:00"</span>, tz <span class='op'>=</span> <span class='st'>"EET"</span><span class='op'>)</span></span>
 <span class='r-in'>  <span class='op'>)</span>,</span>
-<span class='r-in'>  age <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"adult"</span>, <span class='st'>"adult"</span><span class='op'>)</span>, levels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"adult"</span>, <span class='st'>"juvenile"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'>  life_stage <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"adult"</span>, <span class='st'>"adult"</span><span class='op'>)</span>, levels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"adult"</span>, <span class='st'>"juvenile"</span><span class='op'>)</span><span class='op'>)</span></span>
 <span class='r-in'><span class='op'>)</span></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># Create a Table Schema</span></span>
@@ -206,7 +206,7 @@ levels as <code>enum</code>.</p></li>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ name: chr "timestamp"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ type: chr "datetime"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ :List of 3</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ name       : chr "age"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ name       : chr "life_stage"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ type       : chr "string"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ constraints:List of 1</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   .. .. ..$ enum: chr [1:2] "adult" "juvenile"</span>
