@@ -3,6 +3,13 @@
   "id": "115f49c1-8603-463e-a908-68de98327266",
   "created": "2021-03-02T17:22:33Z",
   "profile": "tabular-data-package",
+  "licenses": [
+    {
+      "name": "CC0-1.0",
+      "path": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "title": "CC0 1.0"
+    }
+  ],
   "temporal": {
     "start": "2020-01-01",
     "end": "2021-01-10"
