@@ -15,6 +15,6 @@
 #' example_package <- read_package(
 #'   system.file("extdata", "datapackage.json", package = "frictionless")
 #' )
-#' save(example_package, file = "data/example_package")
+#' save(example_package, file = "data/example_package.rda")
 #' }
 "example_package"
