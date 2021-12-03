@@ -122,8 +122,40 @@ test_that("write_package() copies Data Resources with path, but does not read th
   unlink(temp_dir, recursive = TRUE)
 })
 
-test_that("write_packages() creates files for new data.frame Data Resources", {
+test_that("write_package() leaves existing Data Resources with `data` as is", {
+  pkg <- suppressMessages(read_package(
+    system.file("extdata", "datapackage.json", package = "frictionless")
+  ))
+  temp_dir <- tempdir()
+  write_package(pkg, temp_dir)
+  pkg_out <- suppressMessages(read_package(
+    file.path(temp_dir, "datapackage.json")
+  ))
 
+  expect_equal(pkg$resources[[3]], pkg_out$resources[[3]])
+  unlink(temp_dir, recursive = TRUE)
+})
+
+test_that("write_package() creates files for new data.frame Data Resources", {
+  pkg <- suppressMessages(read_package(
+    system.file("extdata", "datapackage.json", package = "frictionless")
+  ))
+  df <- data.frame(
+    "col_1" = c(1, 2),
+    "col_2" = factor(c("a", "b"), levels = c("a", "b", "c"))
+  )
+  pkg$resources[[3]]$data <- df
+  temp_dir <- tempdir()
+  write_package(pkg, temp_dir)
+  pkg_out <- suppressMessages(read_package(
+    file.path(temp_dir, "datapackage.json")
+  ))
+
+  # Added resource has path (not data) and was written to file
+  expect_equal(pkg_out$resources[[3]]$path, "media.csv")
+  expect_null(pkg_out$resources[[3]]$data)
+  expect_type(readr::read_file(file.path(temp_dir, "media.csv")), "character")
+  unlink(temp_dir, recursive = TRUE)
 })
 
 test_that("write_package() adds Data Resource properties based on write_csv() behaviour", {
