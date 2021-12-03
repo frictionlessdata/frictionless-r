@@ -20,6 +20,7 @@ Imports:
     glue,
     httr,
     jsonlite,
+    lifecycle,
     purrr,
     readr (>= 2.1.0),
     rlist,
