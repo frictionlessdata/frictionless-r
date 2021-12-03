@@ -31,12 +31,11 @@ package <- read_package(
 package$resource_names
 
 # Write the unaltered Data Package to disk
-temp_dir <- tempdir()
-write_package(package, directory = temp_dir)
+write_package(package, directory = "my_package")
 
 # Check files
-list.files(temp_dir)
+list.files("my_package")
 
 # Clean up
-unlink(temp_dir, recursive = TRUE)
+unlink("my_package", recursive = TRUE)
 }
