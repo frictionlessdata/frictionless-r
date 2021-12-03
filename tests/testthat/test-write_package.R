@@ -1,7 +1,5 @@
 test_that("write_package() returns a input Data Package (invisibly)", {
-  pkg <- suppressMessages(read_package(
-    system.file("extdata", "datapackage.json", package = "frictionless")
-  ))
+  pkg <- example_package
   temp_dir <- tempdir()
   expect_invisible(write_package(pkg, temp_dir))
   pkg_out <- write_package(pkg, temp_dir)
@@ -30,9 +28,7 @@ test_that("write_package() returns error if Data Package has no Data Resource(s)
 })
 
 test_that("write_package() writes to the specified directory", {
-  pkg <- suppressMessages(read_package(
-    system.file("extdata", "datapackage.json", package = "frictionless")
-  ))
+  pkg <- example_package
   temp_subdir <- file.path(tempdir(), "x/y")
 
   # Function should create subdir(s) without error
@@ -46,9 +42,7 @@ test_that("write_package() writes to the specified directory", {
 })
 
 test_that("write_package() writes unaltered datapackage.json as is", {
-  pkg <- suppressMessages(read_package(
-    system.file("extdata", "datapackage.json", package = "frictionless")
-  ))
+  pkg <- example_package
   json_in <- readr::read_file(
     system.file("extdata", "datapackage.json", package = "frictionless")
   )
@@ -102,9 +96,7 @@ test_that("write_package() leaves Data Resources with URL as is (no copying)", {
 })
 
 test_that("write_package() copies Data Resources with path, but does not read them", {
-  pkg <- suppressMessages(read_package(
-    system.file("extdata", "datapackage.json", package = "frictionless")
-  ))
+  pkg <- example_package
   temp_dir <- tempdir()
   write_package(pkg, temp_dir)
   pkg_out <- suppressMessages(read_package(
@@ -123,9 +115,7 @@ test_that("write_package() copies Data Resources with path, but does not read th
 })
 
 test_that("write_package() leaves existing Data Resources with `data` as is", {
-  pkg <- suppressMessages(read_package(
-    system.file("extdata", "datapackage.json", package = "frictionless")
-  ))
+  pkg <- example_package
   temp_dir <- tempdir()
   write_package(pkg, temp_dir)
   pkg_out <- suppressMessages(read_package(
@@ -137,9 +127,7 @@ test_that("write_package() leaves existing Data Resources with `data` as is", {
 })
 
 test_that("write_package() creates files for new data.frame Data Resources", {
-  pkg <- suppressMessages(read_package(
-    system.file("extdata", "datapackage.json", package = "frictionless")
-  ))
+  pkg <- example_package
   df <- data.frame(
     "col_1" = c(1, 2),
     "col_2" = factor(c("a", "b"), levels = c("a", "b", "c"))

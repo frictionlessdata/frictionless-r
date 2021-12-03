@@ -20,8 +20,8 @@ Removes a \href{https://specs.frictionlessdata.io/data-resource/}{Data Resource}
 from a Data Package, i.e. one of the described \code{resources} is removed.
 }
 \examples{
-# Read a datapackage.json file
-package <- read_package(system.file("extdata", "datapackage.json", package = "frictionless"))
+# Load the example Data Package
+package <- example_package
 
 # List the resource names
 package$resource_names

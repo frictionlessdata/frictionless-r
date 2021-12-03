@@ -11,21 +11,19 @@
 #' @return Original `package` (invisibly).
 #' @export
 #' @examples
-#' # Read a datapackage.json file
-#' package <- read_package(
-#'   system.file("extdata", "datapackage.json", package = "frictionless")
-#' )
+#' # Load the example Data Package
+#' package <- example_package
 #'
 #' # List the resource names
 #' package$resource_names
 #'
-#' # Write the unaltered Data Package to disk
+#' # Write the (unchanged) Data Package to disk
 #' write_package(package, directory = "my_package")
 #'
 #' # Check files
 #' list.files("my_package")
 #'
-#' # Clean up
+#' # Clean up (don't do this if you want to keep your files)
 #' unlink("my_package", recursive = TRUE)
 write_package <- function(package, directory = ".") {
   orig_package <- package
