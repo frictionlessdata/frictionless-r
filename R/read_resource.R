@@ -304,7 +304,6 @@ read_resource <- function(package, resource_name) {
 
   # Read data from data
   } else if (resource$read_from == "data") {
-    message("Reading data from `data` property.")
     df <- dplyr::as_tibble(do.call(rbind.data.frame, resource$data))
 
   # Read data from path(s)
