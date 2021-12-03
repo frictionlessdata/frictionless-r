@@ -1,7 +1,7 @@
-#' Check package object
+#' Check Data Package object
 #'
-#' Check if a package object is a list object of class `datapackage`, with the
-#' required properties.
+#' Check if an object is a list object describing a Data Package, i.e. a list
+#' object of class `datapackage`, with the required properties.
 #'
 #' @param package List object describing a Data Package.
 #' @return `TRUE` or error.
