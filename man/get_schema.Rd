@@ -23,10 +23,8 @@ missing values. The resource must be a
 \href{https://specs.frictionlessdata.io/tabular-data-resource/}{Tabular Data Resource}.
 }
 \examples{
-# Read a datapackage.json file
-package <- read_package(
-  system.file("extdata", "datapackage.json", package = "frictionless")
-)
+# Load the example Data Package
+package <- example_package
 
 # Get the Table Schema for resource "observations"
 schema <- get_schema(package, "observations")

@@ -9,10 +9,8 @@
 #'   contain the full path(s).
 #' @export
 #' @examples
-#' # Read a datapackage.json file
-#' package <- read_package(
-#'   system.file("extdata", "datapackage.json", package = "frictionless")
-#' )
+#' # Load the example Data Package
+#' package <- example_package
 #'
 #' # Get the Data Resource "observations"
 #' resource <- get_resource(package, "observations")

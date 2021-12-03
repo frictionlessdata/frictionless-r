@@ -7,8 +7,8 @@
 #' @return List object describing a Data Package.
 #' @export
 #' @examples
-#' # Read a datapackage.json file
-#' package <- read_package(system.file("extdata", "datapackage.json", package = "frictionless"))
+#' # Load the example Data Package
+#' package <- example_package
 #'
 #' # List the resource names
 #' package$resource_names

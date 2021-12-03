@@ -10,10 +10,8 @@
 #' @return List object describing a Table Schema.
 #' @export
 #' @examples
-#' # Read a datapackage.json file
-#' package <- read_package(
-#'   system.file("extdata", "datapackage.json", package = "frictionless")
-#' )
+#' # Load the example Data Package
+#' package <- example_package
 #'
 #' # Get the Table Schema for resource "observations"
 #' schema <- get_schema(package, "observations")

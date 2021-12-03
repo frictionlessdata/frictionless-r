@@ -28,3 +28,6 @@ reference:
   desc: "Write a Data Package and its associated Data Resources to disk."
   contents:
   - write_package
+- title: "Miscellaneous"
+  contents:
+  - example_package
