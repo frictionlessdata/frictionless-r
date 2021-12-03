@@ -72,7 +72,7 @@ Frictionless Data Package (e.g. one published on
 # Read the datapackage.json file: this will give you access to all Data 
 # Resources without reading them, which is convenient and fast
 package <- read_package("https://zenodo.org/record/5070086/files/datapackage.json")
-#> Please make sure you have the right to access data from this Data Package for your proposed use.
+#> Please make sure you have the right to access data from this Data Package for your intended use.
 #> Follow applicable norms or requirements to credit the dataset and its authors.
 #> For more information, see https://doi.org/10.5281/zenodo.5070086
 
