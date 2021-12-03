@@ -73,7 +73,7 @@ from a Data Package, i.e. the content of one of the described resources." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">frictionless</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0.9002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0.9003</span>
       </span>
     </div>
 
@@ -142,19 +142,15 @@ to indicate how data should be read. If present, <code>path</code> will be updat
 contain the full path(s).</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='co'># Read a datapackage.json file</span></span>
-<span class='r-in'><span class='va'>package</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_package.html'>read_package</a></span><span class='op'>(</span></span>
-<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, <span class='st'>"datapackage.json"</span>, package <span class='op'>=</span> <span class='st'>"frictionless"</span><span class='op'>)</span></span>
-<span class='r-in'><span class='op'>)</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Please make sure you have the right to access data from this Data Package for your intended use.</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Follow applicable norms or requirements to credit the dataset and its authors.</span>
+    <pre class="examples"><span class='r-in'><span class='co'># Load the example Data Package</span></span>
+<span class='r-in'><span class='va'>package</span> <span class='op'>&lt;-</span> <span class='va'>example_package</span></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># Get the Data Resource "observations"</span></span>
 <span class='r-in'><span class='va'>resource</span> <span class='op'>&lt;-</span> <span class='fu'>get_resource</span><span class='op'>(</span><span class='va'>package</span>, <span class='st'>"observations"</span><span class='op'>)</span></span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='va'>resource</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> List of 9</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>  $ name     : chr "observations"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ path     : chr [1:2] "/Users/runner/work/_temp/Library/frictionless/extdata/observations_1.csv" "/Users/runner/work/_temp/Library/frictionless/extdata/observations_2.csv"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ path     : chr [1:2] "https://raw.githubusercontent.com/frictionlessdata/frictionless-r/main/inst/extdata/observations_1.csv" "https://raw.githubusercontent.com/frictionlessdata/frictionless-r/main/inst/extdata/observations_2.csv"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>  $ profile  : chr "tabular-data-resource"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>  $ title    : chr "Camera trap observations"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>  $ format   : chr "csv"</span>
