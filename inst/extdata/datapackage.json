@@ -57,11 +57,7 @@
             }
           }
         ],
-        "missingValues": [
-          "",
-          "NA",
-          "NaN"
-        ],
+        "missingValues": ["", "NA", "NaN"],
         "primaryKey": "deployment_id"
       }
     },
@@ -118,13 +114,7 @@
             "type": "string",
             "constraints": {
               "required": false,
-              "enum": [
-                "adult",
-                "subadult",
-                "juvenile",
-                "offspring",
-                "unknown"
-              ]
+              "enum": ["adult", "subadult", "juvenile", "offspring", "unknown"]
             }
           },
           {
@@ -135,11 +125,7 @@
             }
           }
         ],
-        "missingValues": [
-          "",
-          "NA",
-          "NaN"
-        ],
+        "missingValues": ["", "NA", "NaN"],
         "primaryKey": "observation_id",
         "foreignKeys": [
           {
@@ -159,21 +145,21 @@
           "media_id": "aed5fa71-3ed4-4284-a6ba-3550d1a4de8d",
           "deployment_id": "1",
           "observation_id": "1-1",
-          "timestamp": "2020-09-28 00:14:59+02:00",
+          "timestamp": "2020-09-28 02:14:59+02:00",
           "file_path": "https://multimedia.agouti.eu/assets/aed5fa71-3ed4-4284-a6ba-3550d1a4de8d/file"
         },
         {
           "media_id": "da81a501-8236-4cbd-aa95-4bc4b10a05df",
           "deployment_id": "1",
           "observation_id": "1-1",
-          "timestamp": "2020-09-28 00:15:00+02:00",
+          "timestamp": "2020-09-28 02:15:00+02:00",
           "file_path": "https://multimedia.agouti.eu/assets/da81a501-8236-4cbd-aa95-4bc4b10a05df/file"
         },
         {
           "media_id": "0ba57608-3cf1-49d6-a5a2-fe680851024d",
           "deployment_id": "1",
           "observation_id": "1-1",
-          "timestamp": "2020-09-28 00:15:01+02:00",
+          "timestamp": "2020-09-28 02:15:01+02:00",
           "file_path": "https://multimedia.agouti.eu/assets/0ba57608-3cf1-49d6-a5a2-fe680851024d/file"
         }
       ],

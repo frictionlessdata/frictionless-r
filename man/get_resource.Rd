@@ -13,7 +13,9 @@ get_resource(package, resource_name)
 \item{resource_name}{Name of the resource.}
 }
 \value{
-List object describing a Data Resource.
+List object describing a Data Resource, with new property \code{read_from}
+to indicate how data should be read. If present, \code{path} will be updated to
+contain the full path(s).
 }
 \description{
 Returns a \href{https://specs.frictionlessdata.io/data-resource/}{Data Resource}

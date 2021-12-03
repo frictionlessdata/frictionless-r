@@ -1,6 +1,6 @@
 Package: frictionless
 Title: Read and Write Frictionless Data Packages
-Version: 0.5.0.9001
+Version: 0.5.0.9002
 Authors@R: c(
     person("Peter", "Desmet", , "peter.desmet@inbo.be", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-8442-8025")),
@@ -20,6 +20,7 @@ Imports:
     glue,
     httr,
     jsonlite,
+    lifecycle,
     purrr,
     readr (>= 2.1.0),
     rlist,

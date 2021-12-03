@@ -16,11 +16,11 @@
 #' - `type`: contains the converted column type (see further).
 #' - `format`: not set and can thus be considered `default`. This is also the
 #' case for dates, times and datetimes, since [readr::write_csv()] used by
-#' _write_package()_ will format those to ISO8601 which is considered the
+#' [write_package()] will format those to ISO8601 which is considered the
 #' default. Datetimes in local or non-UTC timezones will be converted to UTC
 #' before writing.
 #' - `constraints`: not set, except for factors (see further).
-#' - `missingValues`: not set. _write_package()_ will use the default `""` for
+#' - `missingValues`: not set. [write_package()] will use the default `""` for
 #' missing values.
 #' - `primaryKey`: not set.
 #' - `foreignKeys`: not set.
@@ -57,7 +57,7 @@
 #'     as.POSIXct("2020-03-01 12:00:00", tz = "EET"),
 #'     as.POSIXct("2020-03-01 18:45:00", tz = "EET")
 #'   ),
-#'   age = factor(c("adult", "adult"), levels = c("adult", "juvenile"))
+#'   life_stage = factor(c("adult", "adult"), levels = c("adult", "juvenile"))
 #' )
 #'
 #' # Create a Table Schema

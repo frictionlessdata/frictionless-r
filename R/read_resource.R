@@ -29,7 +29,9 @@
 #'
 #' ## Data
 #'
-#' Inline `data` is not supported.
+#' `r lifecycle::badge('experimental')`
+#' If `path` is not present, the function will attempt to read data from the
+#' `data` property. **`schema` will be ignored**.
 #'
 #' ## Name
 #'
@@ -176,20 +178,11 @@
 #' purrr::map_chr(package$resources[[2]]$schema$fields, "name")
 #' purrr::map_chr(package$resources[[2]]$schema$fields, "type")
 read_resource <- function(package, resource_name) {
-  # Get resource, includes check_package()
+  # Get resource, includes check_package() and a number of other checks
   resource <- get_resource(package, resource_name)
 
-  # Check path(s) to file(s)
-  # https://specs.frictionlessdata.io/data-resource/#data-location
-  assertthat::assert_that(
-    !is.null(resource$path),
-    msg = glue::glue("Resource `{resource_name}` must have property `path`.")
-  )
-  paths <- purrr::map_chr(
-    resource$path, ~ check_path(.x, package$directory, unsafe = FALSE)
-  )
-
-  # Get schema and fields
+  # Get paths, schema and fields
+  paths <- resource$path
   schema <- get_schema(package, resource_name)
   fields <- schema$fields
 
@@ -305,35 +298,46 @@ read_resource <- function(package, resource_name) {
   # Select CSV dialect, see https://specs.frictionlessdata.io/csv-dialect/
   dialect <- read_json(resource$dialect, package$directory) # Can be NULL
 
-  # Read data
-  dataframes <- list()
-  for (i in 1:length(paths)) {
-    data <- readr::read_delim(
-      file = paths[i],
-      delim = replace_null(dialect$delimiter, ","),
-      quote = replace_null(dialect$quoteChar, "\""),
-      escape_backslash = ifelse(
-        replace_null(dialect$escapeChar, "not set") == "\\", TRUE, FALSE
-      ),
-      escape_double = ifelse(
-        # if escapeChar is set, set doubleQuote to FALSE (mutually exclusive)
-        replace_null(dialect$escapeChar, "not set") == "\\",
-        FALSE,
-        replace_null(dialect$doubleQuote, TRUE)
-      ),
-      col_names = col_names,
-      col_types = col_types,
-      locale = locale,
-      na = replace_null(schema$missingValues, ""),
-      comment = replace_null(dialect$commentChar, ""),
-      trim_ws = replace_null(dialect$skipInitialSpace, FALSE),
-      # Skip header row when present
-      skip = ifelse(replace_null(dialect$header, TRUE), 1, 0),
-      skip_empty_rows = TRUE
-    )
-    dataframes[[i]] <- data
+  # Read data directly
+  if (resource$read_from == "df") {
+    df <- dplyr::as_tibble(resource$data)
+
+  # Read data from data
+  } else if (resource$read_from == "data") {
+    df <- dplyr::as_tibble(do.call(rbind.data.frame, resource$data))
+
+  # Read data from path(s)
+  } else if (resource$read_from == "path") {
+    dataframes <- list()
+    for (i in seq_along(paths)) {
+      data <- readr::read_delim(
+        file = paths[i],
+        delim = replace_null(dialect$delimiter, ","),
+        quote = replace_null(dialect$quoteChar, "\""),
+        escape_backslash = ifelse(
+          replace_null(dialect$escapeChar, "not set") == "\\", TRUE, FALSE
+        ),
+        escape_double = ifelse(
+          # if escapeChar is set, set doubleQuote to FALSE (mutually exclusive)
+          replace_null(dialect$escapeChar, "not set") == "\\",
+          FALSE,
+          replace_null(dialect$doubleQuote, TRUE)
+        ),
+        col_names = col_names,
+        col_types = col_types,
+        locale = locale,
+        na = replace_null(schema$missingValues, ""),
+        comment = replace_null(dialect$commentChar, ""),
+        trim_ws = replace_null(dialect$skipInitialSpace, FALSE),
+        # Skip header row when present
+        skip = ifelse(replace_null(dialect$header, TRUE), 1, 0),
+        skip_empty_rows = TRUE
+      )
+      dataframes[[i]] <- data
+    }
+    # Merge data frames for all paths
+    df <- dplyr::bind_rows(dataframes)
   }
 
-  # Merge data frames for all paths
-  dplyr::bind_rows(dataframes)
+  return(df)
 }

@@ -1,28 +1,43 @@
-test_that("read_resource() returns error on incorrect package", {
+test_that("read_resource() returns a tibble", {
+  pkg <- suppressMessages(read_package(
+    system.file("extdata", "datapackage.json", package = "frictionless")
+  ))
+  resource_path <- read_resource(pkg, "deployments")
+  resource_data <- read_resource(pkg, "media")
+  pkg$resources[[3]]$data <- data.frame() # Media resource
+  resource_df <- read_resource(pkg, "media")
+
+  expect_s3_class(resource_path, "data.frame")
+  expect_s3_class(resource_path, "tbl")
+  expect_s3_class(resource_data, "data.frame")
+  expect_s3_class(resource_data, "tbl")
+  expect_s3_class(resource_df, "data.frame")
+  expect_s3_class(resource_df, "tbl")
+})
+
+test_that("read_resource() returns error on incorrect Data Package", {
   expect_error(
     read_resource(list(), "deployments"),
     "`package` must be a list object of class `datapackage`"
   )
 })
 
-test_that("read_resource() returns error on incorrect resource", {
-  # No resource
+test_that("read_resource() returns error on incorrect Data Resource", {
   pkg <- suppressMessages(read_package(
-    system.file("extdata", "datapackage.json", package = "frictionless"))
-  )
+    system.file("extdata", "datapackage.json", package = "frictionless")
+  ))
+
+  # No such resource
   expect_error(read_resource(pkg, "no_such_resource"), "Can't find resource")
 
   # Create invalid package and add properties one by one to pass errors
-  pkg_invalid <- list(
-    resources = list(list(name = "deployments")),
-    resource_names = c("deployments"),
-    directory = "."
-  )
-  class(pkg_invalid) <- c("datapackage", class(pkg_invalid))
+  pkg_invalid <- create_package()
+  pkg_invalid$resources <- list(list(name = "deployments"))
+  pkg_invalid$resource_names <- c("deployments")
 
-  # No path
+  # No path or data
   expect_error(
-    read_resource(pkg_invalid, "deployments"), "must have property `path`"
+    read_resource(pkg_invalid, "deployments"), "must have property `path` or `data`."
   )
 
   # No file at path url
@@ -55,7 +70,9 @@ test_that("read_resource() returns error on incorrect resource", {
 
   # Add valid path
   pkg_invalid$resources[[1]]$path <- "deployments.csv"
-  pkg_invalid$directory <- dirname(system.file("extdata", "datapackage.json", package = "frictionless"))
+  pkg_invalid$directory <- dirname(
+    system.file("extdata", "datapackage.json", package = "frictionless")
+  )
 
   # Not a tabular-data-resource
   expect_error(
@@ -97,31 +114,44 @@ test_that("read_resource() returns error on incorrect resource", {
   )
 })
 
-test_that("read_resource() returns a tibble", {
+test_that("read_resource() can read newly added data (ignoring schema)", {
   pkg <- suppressMessages(read_package(
-    system.file("extdata", "datapackage.json", package = "frictionless"))
+    system.file("extdata", "datapackage.json", package = "frictionless")
+  ))
+  df <- data.frame(
+    "col_1" = c(1, 2),
+    "col_2" = factor(c("a", "b"), levels = c("a", "b", "c"))
   )
-  resource <- read_resource(pkg, "deployments")
+  pkg$resources[[3]]$data <- df # Media resource
+  expect_equal(read_resource(pkg, "media"), dplyr::as_tibble(df))
+})
 
-  expect_s3_class(resource, "data.frame")
-  expect_s3_class(resource, "tbl")
+test_that("read_resource() can read inline data (ignoring schema)", {
+  pkg <- suppressMessages(read_package(
+    system.file("extdata", "datapackage.json", package = "frictionless")
+  ))
+  expected_resource <- readr::read_csv("data/media.csv", col_types = "ccccc")
+  expect_equal(read_resource(pkg, "media"), expected_resource)
+
+  pkg$resources[[3]]$data <- "not_a_list" # Media resource
+  expect_error(read_resource(pkg, "media"))
 })
 
 test_that("read_resource() can read remote files", {
   pkg <- suppressMessages(read_package(
-    system.file("extdata", "datapackage.json", package = "frictionless"))
-  )
+    system.file("extdata", "datapackage.json", package = "frictionless")
+  ))
   resource <- read_resource(pkg, "deployments")
 
-  pkg_remote <- pkg
-  pkg_remote$resources[[1]]$path <- "https://github.com/frictionlessdata/frictionless-r/raw/main/inst/extdata/deployments.csv"
-  expect_identical(resource, read_resource(pkg_remote, "deployments"))
+  pkg_remote_resource <- pkg
+  pkg_remote_resource$resources[[1]]$path <- "https://github.com/frictionlessdata/frictionless-r/raw/main/inst/extdata/deployments.csv"
+  expect_identical(resource, read_resource(pkg_remote_resource, "deployments"))
 })
 
-test_that("read_resource() can read local and remote schemas", {
+test_that("read_resource() can read local and remote Table Schemas", {
   pkg <- suppressMessages(read_package(
-    system.file("extdata", "datapackage.json", package = "frictionless"))
-  )
+    system.file("extdata", "datapackage.json", package = "frictionless")
+  ))
   resource <- read_resource(pkg, "deployments")
 
   pkg_local_schema <- pkg
@@ -138,8 +168,8 @@ test_that("read_resource() can read local and remote schemas", {
 
 test_that("read_resource() can read local and remote CSV dialect", {
   pkg <- suppressMessages(read_package(
-    system.file("extdata", "datapackage.json", package = "frictionless"))
-  )
+    system.file("extdata", "datapackage.json", package = "frictionless")
+  ))
   resource <- read_resource(pkg, "deployments")
 
   pkg_local_dialect <- pkg
@@ -156,8 +186,8 @@ test_that("read_resource() can read local and remote CSV dialect", {
 
 test_that("read_resource() understands CSV dialect", {
   pkg <- suppressMessages(read_package(
-    system.file("extdata", "datapackage.json", package = "frictionless"))
-  )
+    system.file("extdata", "datapackage.json", package = "frictionless")
+  ))
   resource <- read_resource(pkg, "deployments")
 
   # Create package with non-default dialect properties
@@ -187,8 +217,8 @@ test_that("read_resource() understands CSV dialect", {
 
 test_that("read_resource() understands missing values", {
   pkg <- suppressMessages(read_package(
-    system.file("extdata", "datapackage.json", package = "frictionless"))
-  )
+    system.file("extdata", "datapackage.json", package = "frictionless")
+  ))
   resource <- read_resource(pkg, "deployments")
 
   # Create package with non-default missing values
@@ -202,8 +232,8 @@ test_that("read_resource() understands missing values", {
 
 test_that("read_resource() understands encoding", {
   pkg <- suppressMessages(read_package(
-    system.file("extdata", "datapackage.json", package = "frictionless"))
-  )
+    system.file("extdata", "datapackage.json", package = "frictionless")
+  ))
   resource <- read_resource(pkg, "deployments")
 
   # Create package with non-default missing values
@@ -230,8 +260,8 @@ test_that("read_resource() handles LF and CRLF line terminator characters", {
   # read_delim() however only handles 2 line terminator characters (LF and CRLF)
   # without explicitly indicating them, so dialect$lineTerminator is ignored
   pkg <- suppressMessages(read_package(
-    system.file("extdata", "datapackage.json", package = "frictionless"))
-  )
+    system.file("extdata", "datapackage.json", package = "frictionless")
+  ))
   resource <- read_resource(pkg, "deployments") # This file has LF
 
   pkg_crlf <- pkg
@@ -242,8 +272,8 @@ test_that("read_resource() handles LF and CRLF line terminator characters", {
 
 test_that("read_resource() can read compressed files", {
   pkg <- suppressMessages(read_package(
-    system.file("extdata", "datapackage.json", package = "frictionless"))
-  )
+    system.file("extdata", "datapackage.json", package = "frictionless")
+  ))
   resource <- read_resource(pkg, "deployments")
 
   # File created in terminal with:
@@ -273,7 +303,6 @@ test_that("read_resource() can read compressed files", {
 })
 
 test_that("read_resource() handles strings", {
-  # See https://specs.frictionlessdata.io/table-schema/#string
   pkg <- suppressMessages(read_package("data/types.json"))
   resource <- read_resource(pkg, "string")
   expect_type(resource$str, "character")

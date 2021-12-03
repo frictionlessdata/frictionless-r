@@ -27,4 +27,4 @@ reference:
 - title: "Write Data Packages"
   desc: "Write a Data Package and its associated Data Resources to disk."
   contents:
-  # - write_package
+  - write_package

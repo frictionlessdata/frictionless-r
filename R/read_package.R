@@ -25,13 +25,14 @@ read_package <- function(file = "datapackage.json") {
   file <- check_path(file)
   descriptor <- jsonlite::fromJSON(file, simplifyDataFrame = FALSE)
 
-  # Check for resources
+  # Check resources
   # https://specs.frictionlessdata.io/data-package/#metadata
   assertthat::assert_that(
-    !is.null(descriptor$resources[[1]]$name),
+    length(descriptor$resources) != 0 & # Null or empty list
+    purrr::every(descriptor$resources, ~ !is.null(.x$name)),
     msg = glue::glue(
       "Descriptor `{file}` must have property `resources` containing at least",
-      "one resource with a `name`.", .sep = " "
+      "one resource. All resources must have a `name`.", .sep = " "
     )
   )
 
@@ -47,7 +48,7 @@ read_package <- function(file = "datapackage.json") {
   # Inform user regarding rights/citations
   msg <- glue::glue(
     "Please make sure you have the right to access data from this Data Package",
-    "for your proposed use.\nFollow applicable norms or requirements to credit",
+    "for your intended use.\nFollow applicable norms or requirements to credit",
     "the dataset and its authors.", .sep = " "
   )
   if (!is.null(descriptor$id)) {

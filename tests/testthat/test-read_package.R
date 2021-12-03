@@ -1,4 +1,4 @@
-test_that("read_package() reads path/url and returns a valid Data Package", {
+test_that("read_package() returns a valid Data Package, whether reading path or url", {
   # Load example package (locally and remotely) and a valid minimal one
   pkg_path <- system.file("extdata", "datapackage.json", package = "frictionless")
   pkg_url <- "https://raw.githubusercontent.com/frictionlessdata/frictionless-r/main/inst/extdata/datapackage.json"
@@ -26,7 +26,7 @@ test_that("read_package() reads path/url and returns a valid Data Package", {
 })
 
 test_that("read_package() informs about usage norms", {
-  # Load example package and a minimal valid one with URL in id
+  # Load example package and a minimal valid one a URL in "id"
   pkg_path <- system.file("extdata", "datapackage.json", package = "frictionless")
   minimal_extra_path <- "data/valid_minimal_extra.json"
 
@@ -44,11 +44,17 @@ test_that("read_package() returns error on missing file and properties", {
     read_package("http://example.com/nofile.json"),
     "Can't find file at"
   )
+
   # Not a json file: parsing error
   expect_error(read_package(system.file("extdata", "deployments.csv", package = "frictionless")))
-  # No resource name (same would happen on no resources)
-  expect_error(
-    read_package("data/no_resource_name.json"),
-    "must have property `resources` containing at least one resource with a `name`"
-  )
+
+  # No resources
+  expected_error_msg <- "must have property `resources` containing at least one resource. All resources must have a `name`."
+  expect_error(read_package("data/resources_missing.json"), expected_error_msg)
+
+  # Empty resources
+  expect_error(read_package("data/resources_empty.json"), expected_error_msg)
+
+  # No resource name
+  expect_error(read_package("data/resources_no_name.json"), expected_error_msg)
 })

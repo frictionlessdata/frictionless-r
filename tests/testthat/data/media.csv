@@ -1,0 +1,4 @@
+media_id,deployment_id,observation_id,timestamp,file_path
+aed5fa71-3ed4-4284-a6ba-3550d1a4de8d,1,1-1,2020-09-28 02:14:59+02:00,https://multimedia.agouti.eu/assets/aed5fa71-3ed4-4284-a6ba-3550d1a4de8d/file
+da81a501-8236-4cbd-aa95-4bc4b10a05df,1,1-1,2020-09-28 02:15:00+02:00,https://multimedia.agouti.eu/assets/da81a501-8236-4cbd-aa95-4bc4b10a05df/file
+0ba57608-3cf1-49d6-a5a2-fe680851024d,1,1-1,2020-09-28 02:15:01+02:00,https://multimedia.agouti.eu/assets/0ba57608-3cf1-49d6-a5a2-fe680851024d/file

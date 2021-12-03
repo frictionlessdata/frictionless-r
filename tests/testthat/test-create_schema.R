@@ -1,15 +1,4 @@
-test_that("create_schema() returns error on incorrect df", {
-  expect_error(create_schema("not_a_df"), "`df` must be a data frame.")
-})
-
-test_that("create_schema() accepts data frames and tibbles", {
-  df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
-  tibble <- dplyr::tibble("col_1" = c(1, 2), "col_2" = c("a", "b"))
-  expect_type(create_schema(df), "list")
-  expect_type(create_schema(tibble), "list")
-})
-
-test_that("create_schema() returns a Table Schema as a list without empty properties", {
+test_that("create_schema() returns a Table Schema (as a list without empty properties)", {
   df <- data.frame(
     "col_1" = c(1, 2),
     "col_2" = factor(c("a", "b"), levels = c("a", "b", "c"))
@@ -31,6 +20,17 @@ test_that("create_schema() returns a Table Schema as a list without empty proper
     )
   )
   expect_equal(create_schema(df), expected_schema)
+})
+
+test_that("create_schema() returns error on incorrect df", {
+  expect_error(create_schema("not_a_df"), "`df` must be a data frame.")
+})
+
+test_that("create_schema() accepts data frames and tibbles", {
+  df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
+  tibble <- dplyr::tibble("col_1" = c(1, 2), "col_2" = c("a", "b"))
+  expect_type(create_schema(df), "list")
+  expect_type(create_schema(tibble), "list")
 })
 
 test_that("create_schema() uses colnames as field names", {
