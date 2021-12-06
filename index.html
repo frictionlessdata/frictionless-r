@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,25 +33,19 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">frictionless</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0.9003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.0.9000</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="reference/index.html">Reference</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/frictionlessdata/frictionless-r/">
+  <a href="https://github.com/frictionlessdata/frictionless-r/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -66,32 +62,32 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="frictionless" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#frictionless" class="anchor"></a>frictionless</h1></div>
+<div class="section level1">
+<div class="page-header"><h1 id="frictionless">frictionless<a class="anchor" aria-label="anchor" href="#frictionless"></a>
+</h1></div>
 <!-- badges: start -->
 
-<p>Frictionless is an R package to read and write <a href="https://specs.frictionlessdata.io/data-package/">Frictionless Data Packages</a> in a <a href="https://www.tidyverse.org/">Tidyverse</a> way.</p>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
-<p>You can install the development version from <a href="https://github.com/">GitHub</a> with:</p>
+<p>Frictionless is an R package to read and write <a href="https://specs.frictionlessdata.io/data-package/" class="external-link">Frictionless Data Packages</a> in a <a href="https://www.tidyverse.org/" class="external-link">Tidyverse</a> way.</p>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>You can install the development version from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
 <span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"frictionlessdata/frictionless-r"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="usage" class="section level2">
-<h2 class="hasAnchor">
-<a href="#usage" class="anchor"></a>Usage</h2>
-<div id="read-data-from-a-local-data-package" class="section level3">
-<h3 class="hasAnchor">
-<a href="#read-data-from-a-local-data-package" class="anchor"></a>Read data from a local Data Package</h3>
+<div class="section level2">
+<h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
+</h2>
+<div class="section level3">
+<h3 id="read-data-from-a-local-data-package">Read data from a local Data Package<a class="anchor" aria-label="anchor" href="#read-data-from-a-local-data-package"></a>
+</h3>
 <p>You can read data from a Data Package using the two read functions (<code><a href="reference/read_package.html">read_package()</a></code>, then <code><a href="reference/read_resource.html">read_resource()</a></code>):</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/frictionlessdata/frictionless-r">frictionless</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/frictionlessdata/frictionless-r" class="external-link">frictionless</a></span><span class="op">)</span>
 
 <span class="co"># Read a datapackage.json file</span>
-<span class="va">package</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_package.html">read_package</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"datapackage.json"</span>, package <span class="op">=</span> <span class="st">"frictionless"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">package</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_package.html">read_package</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"datapackage.json"</span>, package <span class="op">=</span> <span class="st">"frictionless"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># List the resource names</span>
 <span class="va">package</span><span class="op">$</span><span class="va">resource_names</span>
@@ -112,10 +108,10 @@
 <span class="co">#&gt; 8 2-3            2             2021-10-01 04:47:30 Sus scrofa              1</span>
 <span class="co">#&gt; # … with 2 more variables: life_stage &lt;fct&gt;, comments &lt;chr&gt;</span></code></pre></div>
 </div>
-<div id="read-data-from-an-online-data-package" class="section level3">
-<h3 class="hasAnchor">
-<a href="#read-data-from-an-online-data-package" class="anchor"></a>Read data from an online Data Package</h3>
-<p>The read functions can also be used to access all data from an online Frictionless Data Package (e.g. one published on <a href="https://doi.org/10.5281/zenodo.5070086">Zenodo</a>) via the <code>datapackage.json</code> URL:</p>
+<div class="section level3">
+<h3 id="read-data-from-an-online-data-package">Read data from an online Data Package<a class="anchor" aria-label="anchor" href="#read-data-from-an-online-data-package"></a>
+</h3>
+<p>The read functions can also be used to access all data from an online Frictionless Data Package (e.g. one published on <a href="https://doi.org/10.5281/zenodo.5070086" class="external-link">Zenodo</a>) via the <code>datapackage.json</code> URL:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Read the datapackage.json file: this will give you access to all Data </span>
 <span class="co"># Resources without reading them, which is convenient and fast</span>
@@ -159,58 +155,69 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/frictionlessdata/frictionless-r/">https://​github.com/​frictionlessdata/​frictionless-r/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/frictionlessdata/frictionless-r/issues">https://​github.com/​frictionlessdata/​frictionless-r/​issues</a>
-</li>
+<li><a href="https://github.com/frictionlessdata/frictionless-r/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/frictionlessdata/frictionless-r/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
+<li><small><a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
+
 <div class="community">
-<h2>Community</h2>
+<h2 data-toc-skip>Community</h2>
 <ul class="list-unstyled">
 <li><a href="CONTRIBUTING.html">Contributing guide</a></li>
 </ul>
 </div>
-<div class="developers">
-<h2>Developers</h2>
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li>
-<a href="https://twitter.com/peterdesmet">Peter Desmet</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-8442-8025" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>
-<a href="https://twitter.com/damianozingaro">Damiano Oldoni</a> <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-3445-7562" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li><a href="authors.html">All authors...</a></li>
+<li><a href="authors.html#citation">Citing frictionless</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li><a href="http://lifewatch.be"><img src="https://img.shields.io/static/v1?label=powered+by&amp;message=lifewatch.be&amp;labelColor=1a4e8a&amp;color=f15922" alt="Funding"></a></li>
-<li><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
-<li><a href="https://CRAN.R-project.org/package=frictionless"><img src="https://www.r-pkg.org/badges/version/frictionless" alt="CRAN status"></a></li>
-<li><a href="https://github.com/frictionlessdata/frictionless-r/actions"><img src="https://github.com/frictionlessdata/frictionless-r/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
-<li><a href="https://codecov.io/gh/frictionlessdata/frictionless-r"><img src="https://codecov.io/gh/frictionlessdata/frictionless-r/branch/main/graph/badge.svg?token=bKtiHW21K0" alt="codecov"></a></li>
+<li>
+<a href="https://twitter.com/peterdesmet" class="external-link">Peter Desmet</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-8442-8025" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>
+<a href="https://twitter.com/damianozingaro" class="external-link">Damiano Oldoni</a> <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-3445-7562" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
+
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="http://lifewatch.be" class="external-link"><img src="https://img.shields.io/static/v1?label=powered+by&amp;message=lifewatch.be&amp;labelColor=1a4e8a&amp;color=f15922" alt="Funding"></a></li>
+<li><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
+<li><a href="https://CRAN.R-project.org/package=frictionless" class="external-link"><img src="https://www.r-pkg.org/badges/version/frictionless" alt="CRAN status"></a></li>
+<li><a href="https://github.com/frictionlessdata/frictionless-r/actions" class="external-link"><img src="https://github.com/frictionlessdata/frictionless-r/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://codecov.io/gh/frictionlessdata/frictionless-r" class="external-link"><img src="https://codecov.io/gh/frictionlessdata/frictionless-r/branch/main/graph/badge.svg?token=bKtiHW21K0" alt="codecov"></a></li>
+</ul>
 </div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://twitter.com/peterdesmet">Peter Desmet</a>, <a href="https://twitter.com/damianozingaro">Damiano Oldoni</a>.</p>
+  <p></p>
+<p>Developed by <a href="https://twitter.com/peterdesmet" class="external-link">Peter Desmet</a>, <a href="https://twitter.com/damianozingaro" class="external-link">Damiano Oldoni</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer>
@@ -218,6 +225,8 @@
 
   
 
+
+  
 
   </body>
 </html>

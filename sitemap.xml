@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://frictionlessdata.github.io/frictionless-r/404.html</loc>
+  </url>
+  <url>
+    <loc>https://frictionlessdata.github.io/frictionless-r/CONTRIBUTING.html</loc>
+  </url>
+  <url>
+    <loc>https://frictionlessdata.github.io/frictionless-r/LICENSE-text.html</loc>
+  </url>
+  <url>
+    <loc>https://frictionlessdata.github.io/frictionless-r/LICENSE.html</loc>
+  </url>
+  <url>
+    <loc>https://frictionlessdata.github.io/frictionless-r/authors.html</loc>
+  </url>
+  <url>
     <loc>https://frictionlessdata.github.io/frictionless-r/index.html</loc>
   </url>
   <url>
@@ -16,10 +31,10 @@
     <loc>https://frictionlessdata.github.io/frictionless-r/reference/frictionless-package.html</loc>
   </url>
   <url>
-    <loc>https://frictionlessdata.github.io/frictionless-r/reference/get_resource.html</loc>
+    <loc>https://frictionlessdata.github.io/frictionless-r/reference/get_schema.html</loc>
   </url>
   <url>
-    <loc>https://frictionlessdata.github.io/frictionless-r/reference/get_schema.html</loc>
+    <loc>https://frictionlessdata.github.io/frictionless-r/reference/index.html</loc>
   </url>
   <url>
     <loc>https://frictionlessdata.github.io/frictionless-r/reference/read_package.html</loc>
