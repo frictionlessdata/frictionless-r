@@ -7,7 +7,7 @@
 #' @return List object describing a Data Resource, with new property `read_from`
 #'   to indicate how data should be read. If present, `path` will be updated to
 #'   contain the full path(s).
-#' @export
+#' @noRd
 #' @examples
 #' # Load the example Data Package
 #' package <- example_package
