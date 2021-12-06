@@ -13,7 +13,7 @@
 #' # Load the example Data Package
 #' package <- example_package
 #'
-#' # Get the Table Schema for resource "observations"
+#' # Get the Table Schema for the resource "observations"
 #' schema <- get_schema(package, "observations")
 #' str(schema)
 get_schema <- function(package, resource_name) {

@@ -12,7 +12,7 @@
 #' # Load the example Data Package
 #' package <- example_package
 #'
-#' # Get the Data Resource "observations"
+#' # Get the resource "observations"
 #' resource <- get_resource(package, "observations")
 #' str(resource)
 get_resource <- function(package, resource_name) {

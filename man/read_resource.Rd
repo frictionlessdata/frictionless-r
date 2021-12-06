@@ -10,22 +10,26 @@ read_resource(package, resource_name)
 \item{package}{List object describing a Data Package, created with
 \code{\link[=read_package]{read_package()}} or \code{\link[=create_package]{create_package()}}.}
 
-\item{resource_name}{Name of the resource.}
+\item{resource_name}{Name of the Data Resource.}
 }
 \value{
-\code{\link[dplyr:reexports]{dplyr::tibble()}} data frame with the resource data.
+\code{\link[dplyr:reexports]{dplyr::tibble()}} data frame with the Data Resource's tabular data.
 }
 \description{
-Reads data from a Data Resource (in a Data Package) into a tibble (a
-Tidyverse data frame). The resource must be a
+Reads data from a
+\href{https://specs.frictionlessdata.io/data-resource/}{Data Resource}
+(in a Data Package) into a tibble (a Tidyverse data frame). The resource must
+be a
 \href{https://specs.frictionlessdata.io/tabular-data-resource/}{Tabular Data Resource}.
-The function is a wrapper around \code{\link[readr:read_delim]{readr::read_delim()}}, passing the resource
-properties \code{path}, CSV dialect, column names, data types, etc. Column names
-are taken from the provided \code{schema}, not from the header in the CSV file(s).
+The function uses \code{\link[readr:read_delim]{readr::read_delim()}} to read CSV files, passing the
+resource properties \code{path}, CSV dialect, column names, data types, etc.
+Column names are taken from the provided Table Schema (\code{schema}), not from
+the header in the CSV file(s).
 }
 \section{Resource properties}{
 
-The \href{https://specs.frictionlessdata.io/data-resource/}{resource properties}
+The
+\href{https://specs.frictionlessdata.io/data-resource/}{Data Resource properties}
 are handled as follows:
 \subsection{Path}{
 

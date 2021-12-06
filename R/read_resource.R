@@ -1,19 +1,23 @@
 #' Read data from a Data Resource into a tibble data frame
 #'
-#' Reads data from a Data Resource (in a Data Package) into a tibble (a
-#' Tidyverse data frame). The resource must be a
+#' Reads data from a
+#' [Data Resource](https://specs.frictionlessdata.io/data-resource/)
+#' (in a Data Package) into a tibble (a Tidyverse data frame). The resource must
+#' be a
 #' [Tabular Data Resource](https://specs.frictionlessdata.io/tabular-data-resource/).
-#' The function is a wrapper around [readr::read_delim()], passing the resource
-#' properties `path`, CSV dialect, column names, data types, etc. Column names
-#' are taken from the provided `schema`, not from the header in the CSV file(s).
+#' The function uses [readr::read_delim()] to read CSV files, passing the
+#' resource properties `path`, CSV dialect, column names, data types, etc.
+#' Column names are taken from the provided Table Schema (`schema`), not from
+#' the header in the CSV file(s).
 #'
 #' @param package List object describing a Data Package, created with
 #'   [read_package()] or [create_package()].
-#' @param resource_name Name of the resource.
-#' @return [dplyr::tibble()] data frame with the resource data.
+#' @param resource_name Name of the Data Resource.
+#' @return [dplyr::tibble()] data frame with the Data Resource's tabular data.
 #' @export
 #' @section Resource properties:
-#' The [resource properties](https://specs.frictionlessdata.io/data-resource/)
+#' The
+#' [Data Resource properties](https://specs.frictionlessdata.io/data-resource/)
 #' are handled as follows:
 #'
 #' ## Path

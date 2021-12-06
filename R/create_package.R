@@ -1,8 +1,9 @@
 #' Create an empty Data Package
 #'
-#' Initiates a [Data Package](https://specs.frictionlessdata.io/data-package/)
-#' descriptor as a list object of class `datapackage` (cf. [read_package()]).
-#' Can be extended with metadata and resources (see _add_resource()_).
+#' Initiates a list object describing a
+#' [Data Package](https://specs.frictionlessdata.io/data-package/). This empty
+#' Data Package can then be extended with metadata and resources (see
+#' [add_resource()]).
 #'
 #' @return List object describing a Data Package.
 #' @export

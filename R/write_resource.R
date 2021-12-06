@@ -4,7 +4,7 @@
 #'
 #' @inheritParams read_resource
 #' @param directory Path to local directory to write files to.
-#' @return Updated list object describing a Data Resource, ready for including
+#' @return Updated list object describing a Data Resource, ready to be included
 #'   in a `datapackage.json`.
 #' @noRd
 write_resource <- function(package, resource_name, directory = ".") {

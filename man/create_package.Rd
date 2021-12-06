@@ -10,9 +10,10 @@ create_package()
 List object describing a Data Package.
 }
 \description{
-Initiates a \href{https://specs.frictionlessdata.io/data-package/}{Data Package}
-descriptor as a list object of class \code{datapackage} (cf. \code{\link[=read_package]{read_package()}}).
-Can be extended with metadata and resources (see \emph{add_resource()}).
+Initiates a list object describing a
+\href{https://specs.frictionlessdata.io/data-package/}{Data Package}. This empty
+Data Package can then be extended with metadata and resources (see
+\code{\link[=add_resource]{add_resource()}}).
 }
 \examples{
 # Create a Data Package
