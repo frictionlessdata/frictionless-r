@@ -100,7 +100,7 @@ test_that("add_resource() adds schema when none is provided", {
   expect_equal(pkg_added$resources[[4]]$schema, create_schema(df))
 })
 
-test_that("add_resource() creates resource that can be read with read_resource()", {
+test_that("add_resource() creates resource that can be passed to read_resource()", {
   pkg <- example_package
   df <- data.frame(
     "col_1" = c(1, 2),
@@ -108,4 +108,27 @@ test_that("add_resource() creates resource that can be read with read_resource()
   )
   pkg_added <- add_resource(pkg, "positions", df)
   expect_equal(read_resource(pkg_added, "positions"), dplyr::as_tibble(df))
+})
+
+test_that("add_resource() creates resource that can be passed to get_schema()", {
+  pkg <- example_package
+  df <- data.frame(
+    "col_1" = c(1, 2),
+    "col_2" = factor(c("a", "b"), levels = c("a", "b", "c"))
+  )
+  schema <- create_schema(df)
+  pkg_added <- add_resource(pkg, "positions", df, schema)
+  expect_equal(get_schema(pkg_added, "positions"), schema)
+})
+
+test_that("add_resource() creates resource that can be passed to write_package()", {
+  pkg <- example_package
+  df <- data.frame(
+    "col_1" = c(1, 2),
+    "col_2" = factor(c("a", "b"), levels = c("a", "b", "c"))
+  )
+  pkg_added <- add_resource(pkg, "positions", df)
+  temp_dir <- tempdir()
+  expect_invisible(write_package(pkg_added, temp_dir)) # Can write successfully
+  unlink(temp_dir, recursive = TRUE)
 })
