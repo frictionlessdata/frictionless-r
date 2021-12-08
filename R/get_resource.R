@@ -20,7 +20,7 @@ get_resource <- function(package, resource_name) {
   check_package(package)
 
   # Check resource
-  resource_names_collapse <- paste(package$resource_names, collapse = ", ")
+  resource_names_collapse <- paste(package$resource_names, collapse = "`, `")
   assertthat::assert_that(
     resource_name %in% package$resource_names,
     msg = glue::glue(

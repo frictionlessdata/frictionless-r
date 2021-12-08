@@ -38,12 +38,12 @@ check_package <- function(package) {
   unknown_names <- setdiff(
     package$resource_names, purrr::map_chr(package$resources, ~ .x$name)
   )
-  unknown_names_collapse <- paste(unknown_names, collapse = ", ")
+  unknown_names_collapse <- paste(unknown_names, collapse = "`, `")
   assertthat::assert_that(
     length(unknown_names) == 0,
     msg = glue::glue(
-      "Can't find resource with name `{unknown_names}`.",
-      "* Is `package$resource_names` out of sync with names of resources?",
+      "Can't find resource(s) with name(s) `{unknown_names_collapse}`.",
+      "* Is `package$resource_names` out of sync with the names of resources?",
       .sep = "\n"
     )
   )
