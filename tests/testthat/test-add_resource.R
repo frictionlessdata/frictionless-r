@@ -50,16 +50,19 @@ test_that("add_resource() returns error when Data Resource of that name already 
   )
 })
 
-test_that("add_resource() returns error on missing or empty data frame", {
+test_that("add_resource() returns error on invalid or empty data frame", {
   pkg <- example_package
-  expect_error(add_resource(pkg, "positions"))
+  expect_error(
+    add_resource(pkg, "positions", "not_a_df"),
+    "`df` must be a data frame containing data."
+  )
   expect_error(
     add_resource(pkg, "positions", data.frame()),
     "`df` must be a data frame containing data."
   )
 })
 
-test_that("add_resource() returns error on incorrect schema", {
+test_that("add_resource() returns error on incorrect Table Schema", {
   pkg <- example_package
   df <- data.frame(
     "col_1" = c(1, 2),
@@ -67,8 +70,9 @@ test_that("add_resource() returns error on incorrect schema", {
   )
   schema_invalid <- create_schema(df)
   schema_invalid[[1]]$name <- "no_such_col"
-
   expect_error(add_resource(pkg, "positions", df, schema_invalid))
+
+  # For more tests see test-check_schema.R
 })
 
 test_that("add_resource() adds resource, resource_name", {
