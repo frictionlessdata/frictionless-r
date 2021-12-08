@@ -5,7 +5,7 @@
 #' (converted) types.
 #'
 #' @param df A data frame.
-#' @return List object describing a Table Schema
+#' @return List object describing a Table Schema.
 #' @export
 #' @section Table schema properties:
 #' The Table Schema will be created from the data frame columns:

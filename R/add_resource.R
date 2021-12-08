@@ -9,8 +9,8 @@
 #'
 #' @inheritParams read_resource
 #' @param df A data frame.
-#' @param schema A Table Schema for the Data Resource. If not provided, one
-#' will be created (using [create_schema()]).
+#' @param schema List object describing a Table Schema for that data frame. If
+#'   not provided, one will be created (using [create_schema()]).
 #' @return Provided `package` with one additional resource.
 #' @export
 #' @examples

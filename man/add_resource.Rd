@@ -14,8 +14,8 @@ add_resource(package, resource_name, df, schema = NULL)
 
 \item{df}{A data frame.}
 
-\item{schema}{A Table Schema for the Data Resource. If not provided, one
-will be created (using \code{\link[=create_schema]{create_schema()}}).}
+\item{schema}{List object describing a Table Schema for that data frame. If
+not provided, one will be created (using \code{\link[=create_schema]{create_schema()}}).}
 }
 \value{
 Provided \code{package} with one additional resource.
