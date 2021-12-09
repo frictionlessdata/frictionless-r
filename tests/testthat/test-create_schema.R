@@ -1,4 +1,4 @@
-test_that("create_schema() returns a Table Schema (as a list without empty properties)", {
+test_that("create_schema() returns a valid Table Schema", {
   df <- data.frame(
     "col_1" = c(1, 2),
     "col_2" = factor(c("a", "b"), levels = c("a", "b", "c"))
@@ -8,7 +8,7 @@ test_that("create_schema() returns a Table Schema (as a list without empty prope
       list(
         name = "col_1",
         type = "number"
-        # No constraints
+        # Do not add empty property "constraints"
       ),
       list(
         name = "col_2",
@@ -23,7 +23,14 @@ test_that("create_schema() returns a Table Schema (as a list without empty prope
 })
 
 test_that("create_schema() returns error on incorrect df", {
-  expect_error(create_schema("not_a_df"), "`df` must be a data frame.")
+  expect_error(
+    create_schema("not_a_df"),
+    "`df` must be a data frame with columns."
+  )
+  expect_error(
+    create_schema(data.frame()),
+    "`df` must be a data frame with columns."
+  )
 })
 
 test_that("create_schema() accepts data frames and tibbles", {
