@@ -79,7 +79,7 @@ test_that("read_resource() returns error on incorrect Data Resource", {
   # No schema
   pkg_invalid$resources[[1]]$profile <- "tabular-data-resource"
   expect_error(
-    read_resource(pkg_invalid, "deployments"), "must have property `schema`"
+    read_resource(pkg_invalid, "deployments"), "must have property `schema`."
   )
 
   # No file at schema url

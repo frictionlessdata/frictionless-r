@@ -11,7 +11,7 @@ check_package <- function(package) {
     "`package` must be a list object of class `datapackage` created with",
     "`read_package()` or `create_package()`.", .sep = " "
   )
-  # Check package is list object with correct class and properties
+  # Check package is list with correct class and properties
   assertthat::assert_that(
     all(c("datapackage", "list") %in% class(package)) &
     all(c("resources", "resource_names", "directory") %in% names(package)),

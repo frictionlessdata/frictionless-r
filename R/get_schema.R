@@ -30,17 +30,12 @@ get_schema <- function(package, resource_name) {
   )
 
   # Get schema
+  assertthat::assert_that(
+    !is.null(resource$schema),
+    msg = glue::glue("Resource `{resource_name}` must have property `schema`.")
+  )
   schema <- read_json(resource$schema, package$directory)
 
-  # Check schema has fields
-  fields <- schema$fields
-  assertthat::assert_that(
-    !is.null(fields),
-    msg = glue::glue(
-      "Resource `{resource_name}` must have property `schema` containing",
-      "`fields`.", .sep = " "
-    )
-  )
 
   schema
 }
