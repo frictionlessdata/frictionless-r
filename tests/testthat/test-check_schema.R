@@ -1,15 +1,63 @@
 test_that("check_schema() returns TRUE on valid Table Schema", {
   pkg <- example_package
-  df <- read_resource(pkg, "deployments")
-  schema <- get_schema(pkg, "deployments")
-  expect_true(check_schema(df, schema))
-
-  df_created <- data.frame(
-    "col_1" = c(1, 2),
-    "col_2" = factor(c("a", "b"), levels = c("a", "b", "c"))
+  # Can't obtain df using read_resource(), because that function uses
+  # check_schema() (in get_schema()) internally, which is what we want to test
+  df <- suppressMessages(
+    readr::read_csv(file.path(pkg$directory, pkg$resources[[1]]$path))
   )
-  schema_created <- create_schema(df)
-  expect_true(check_schema(df_created, schema_created))
+  schema_get <- get_schema(pkg, "deployments")
+  schema_create <- create_schema(df)
+  expect_true(check_schema(schema_get))
+  expect_true(check_schema(schema_create))
+  expect_true(check_schema(schema_get, df))
+  expect_true(check_schema(schema_create, df))
+})
+
+test_that("check_schema() returns error on invalid Table Schema", {
+  # Must be a list and have list property "fields"
+  expect_error(check_schema("not_a_list"))
+  expect_error(check_schema(list()))
+
+  # No names
+  invalid_schema <- list(fields = list(
+    list(type = "number"),
+    list(type = "string")
+  ))
+  expect_error(
+    check_schema(invalid_schema),
+    "All fields in `schema` must have property `name`."
+  )
+
+  # Invalid types
+  invalid_schema <- list(fields = list(
+    list(name = "col_1", type = "number"),
+    list(name = "col_2", type = "not_a_type")
+  ))
+  expect_error(
+    check_schema(invalid_schema),
+    "All fields in `schema` must have valid `type`."
+  )
+  invalid_schema <- list(fields = list(
+    list(name = "col_1", type = "not_a_type"),
+    list(name = "col_2", type = "not_a_type_either")
+  ))
+  expect_error(
+    check_schema(invalid_schema),
+    "All fields in `schema` must have valid `type`."
+  )
+})
+
+test_that("check_schema() allows Table Schema fields to not (all) have type", {
+  schema <- list(fields = list(
+    list(name = "col_1"),
+    list(name = "col_2")
+  ))
+  expect_true(check_schema(schema))
+  schema <- list(fields = list(
+    list(name = "col_1", type = "string"),
+    list(name = "col_2")
+  ))
+  expect_true(check_schema(schema))
 })
 
 test_that("check_schema() returns error on invalid or empty data frame", {
@@ -19,43 +67,39 @@ test_that("check_schema() returns error on invalid or empty data frame", {
   )
   schema <- create_schema(df)
   expect_error(
-    check_schema("not_a_df", schema),
-    "`df` must be a data frame containing data."
+    check_schema(schema, "not_a_df"),
+    "`df` must be a data frame with columns."
   )
   expect_error(
-    check_schema(data.frame(), schema),
-    "`df` must be a data frame containing data."
+    check_schema(schema, data.frame()),
+    "`df` must be a data frame with columns."
   )
 })
 
-test_that("check_schema() returns error on incorrect Table Schema", {
+test_that("check_schema() returns error on mismatching schema and data frame", {
   df <- data.frame(
     "col_1" = c(1, 2),
     "col_2" = factor(c("a", "b"), levels = c("a", "b", "c"))
   )
-  expect_error(check_schema(df, "not_a_list"))
-  expect_error(check_schema(df, list()))
-  expect_error(check_schema(df, list(fields = list())))
-
-  # Missing names
-  invalid_schema <- list(fields = list(
-    list(type = "number"),
-    list(type = "string")
-  ))
-  expect_error(check_schema(df, invalid_schema))
 
   # Non-matching names
   invalid_schema <- list(fields = list(
     list(name = "col_2", type = "number"),
     list(name = "col_1", type = "string")
   ))
-  expect_error(check_schema(df, invalid_schema))
+  expect_error(
+    check_schema(invalid_schema, df),
+    "Field names in `schema` must match column names in `df`"
+  )
 
   # Too few elements
   invalid_schema <- list(fields = list(
     list(name = "col_1", type = "number")
   ))
-  expect_error(check_schema(df, invalid_schema))
+  expect_error(
+    check_schema(invalid_schema, df),
+    "Field names in `schema` must match column names in `df`"
+  )
 
   # Too many elements
   invalid_schema <- list(fields = list(
@@ -63,12 +107,8 @@ test_that("check_schema() returns error on incorrect Table Schema", {
     list(name = "col_2", type = "string"),
     list(name = "col_3", type = "integer")
   ))
-  expect_error(check_schema(df, invalid_schema))
-
-  # Types not recognized
-  invalid_schema <- list(fields = list(
-    list(name = "col_1", type = "number"),
-    list(name = "col_2", type = "not_a_type")
-  ))
-  expect_error(check_schema(df, invalid_schema))
+  expect_error(
+    check_schema(invalid_schema, df),
+    "Field names in `schema` must match column names in `df`"
+  )
 })
