@@ -56,22 +56,13 @@ add_resource <- function(package, resource_name, df, schema = NULL) {
     )
   )
 
-  # Check df
-  assertthat::assert_that(
-    is.data.frame(df) &
-    dim(df)[1] != 0 & # Must have rows
-    dim(df)[2] != 0,  # Must have columns
-    msg = glue::glue(
-      "`df` must be a data frame containing data."
-    )
-  )
-
-  # Check schema
+  # Create schema
   if (is.null(schema)) {
-    out_schema <- create_schema(df)
-  } else {
-    out_schema <- schema
+    schema <- create_schema(df)
   }
+
+  # Check schema (also checks df)
+  check_schema(schema, df)
 
   # Create resource
   resource <- list(
@@ -79,7 +70,7 @@ add_resource <- function(package, resource_name, df, schema = NULL) {
     data = df,
     profile = "tabular-data-resource", # Necessary for read_resource()
     # other properties are set by write_resource()
-    schema = out_schema
+    schema = schema
   )
 
   # Add resource (needs to be wrapped in its own list)

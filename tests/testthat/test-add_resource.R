@@ -4,7 +4,9 @@ test_that("add_resource() returns a valid Data Package", {
     "col_1" = c(1, 2),
     "col_2" = factor(c("a", "b"), levels = c("a", "b", "c"))
   )
+  schema <- create_schema(df)
   expect_true(check_package(add_resource(pkg, "positions", df)))
+  expect_true(check_package(add_resource(pkg, "positions", df, schema)))
 })
 
 test_that("add_resource() returns error on incorrect Data Package", {
@@ -52,13 +54,26 @@ test_that("add_resource() returns error when Data Resource of that name already 
 
 test_that("add_resource() returns error on invalid or empty data frame", {
   pkg <- example_package
+  df <- data.frame(
+    "col_1" = c(1, 2),
+    "col_2" = factor(c("a", "b"), levels = c("a", "b", "c"))
+  )
+  schema <- create_schema(df)
   expect_error(
     add_resource(pkg, "positions", "not_a_df"),
-    "`df` must be a data frame containing data."
+    "`df` must be a data frame with columns."
+  )
+  expect_error(
+    add_resource(pkg, "positions", "not_a_df", schema),
+    "`df` must be a data frame with columns."
   )
   expect_error(
     add_resource(pkg, "positions", data.frame()),
-    "`df` must be a data frame containing data."
+    "`df` must be a data frame with columns."
+  )
+  expect_error(
+    add_resource(pkg, "positions", data.frame(), schema),
+    "`df` must be a data frame with columns."
   )
 })
 
