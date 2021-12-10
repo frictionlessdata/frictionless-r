@@ -21,7 +21,7 @@ Tabular Data Resource."><!-- mathjax --><script src="https://cdnjs.cloudflare.co
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">frictionless</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0.9000</span>
       </span>
     </div>
 
@@ -67,7 +67,7 @@ missing values. The resource must be a
 <dd><p>List object describing a Data Package, created with
 <code><a href="read_package.html">read_package()</a></code> or <code><a href="create_package.html">create_package()</a></code>.</p></dd>
 <dt>resource_name</dt>
-<dd><p>Name of the resource.</p></dd>
+<dd><p>Name of the Data Resource.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -79,7 +79,7 @@ missing values. The resource must be a
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Load the example Data Package</span></span>
 <span class="r-in"><span class="va">package</span> <span class="op">&lt;-</span> <span class="va">example_package</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="co"># Get the Table Schema for resource "observations"</span></span>
+<span class="r-in"><span class="co"># Get the Table Schema for the resource "observations"</span></span>
 <span class="r-in"><span class="va">schema</span> <span class="op">&lt;-</span> <span class="fu">get_schema</span><span class="op">(</span><span class="va">package</span>, <span class="st">"observations"</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">schema</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> List of 4</span>
