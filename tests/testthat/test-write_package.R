@@ -134,7 +134,7 @@ test_that("write_package() creates files for new data.frame Data Resources", {
     "col_1" = c(1, 2),
     "col_2" = factor(c("a", "b"), levels = c("a", "b", "c"))
   )
-  pkg$resources[[3]]$data <- df
+  pkg <- add_resource(pkg, "new", df)
   temp_dir <- tempdir()
   write_package(pkg, temp_dir)
   pkg_out <- suppressMessages(read_package(
@@ -142,12 +142,13 @@ test_that("write_package() creates files for new data.frame Data Resources", {
   ))
 
   # Added resource has path (not data) and was written to file
-  expect_equal(pkg_out$resources[[3]]$path, "media.csv")
-  expect_null(pkg_out$resources[[3]]$data)
-  expect_type(readr::read_file(file.path(temp_dir, "media.csv")), "character")
+  expect_equal(pkg_out$resources[[4]]$path, "new.csv")
+  expect_null(pkg_out$resources[[4]]$data)
+  expect_type(readr::read_file(file.path(temp_dir, "new.csv")), "character")
   unlink(temp_dir, recursive = TRUE)
 })
-
+if (FALSE) {
 test_that("write_package() adds Data Resource properties based on write_csv() behaviour", {
 
 })
+}
