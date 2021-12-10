@@ -10,7 +10,7 @@ test_that("remove_resource() returns error on incorrect Data Package", {
   )
 })
 
-test_that("remove_resource() returns error when Data Resource not found", {
+test_that("remove_resource() returns error when resource not found", {
   pkg <- example_package
   expect_error(remove_resource(pkg, "no_such_resource"), "Can't find resource")
 })

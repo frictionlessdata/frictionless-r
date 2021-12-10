@@ -18,7 +18,7 @@ test_that("read_resource() returns error on incorrect Data Package", {
   )
 })
 
-test_that("read_resource() returns error on incorrect Data Resource", {
+test_that("read_resource() returns error on incorrect resource", {
   pkg <- example_package
 
   # No such resource

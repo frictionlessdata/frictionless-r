@@ -42,7 +42,7 @@ test_that("check_package() returns error on incorrect Data Package", {
   expect_error(check_package(pkg_invalid), "`package` must be")
 })
 
-test_that("check_package() returns error if Data Resource has no name", {
+test_that("check_package() returns error if resources have no name", {
   pkg <- example_package
   pkg$resources[[2]]$name <- NULL
   expect_error(

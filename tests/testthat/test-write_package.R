@@ -14,7 +14,7 @@ test_that("write_package() returns error on incorrect Data Package", {
   )
 })
 
-test_that("write_package() returns error if Data Package has no Data Resource(s)", {
+test_that("write_package() returns error if Data Package has no resource(s)", {
   pkg_empty <- create_package()
   temp_dir <- tempdir()
   expect_error(
@@ -58,10 +58,10 @@ test_that("write_package() writes unaltered datapackage.json as is", {
   unlink(temp_dir, recursive = TRUE)
 })
 
-test_that("write_package() leaves Data Resources with URL as is (no copying)", {
-  pkg_remote <- example_package # Example Data Package is a remote one
+test_that("write_package() leaves resources with URL as is, but updates path to URLs", {
+  pkg <- example_package # Example Data Package is a remote one
   temp_dir <- tempdir()
-  write_package(pkg_remote, temp_dir)
+  write_package(pkg, temp_dir)
   pkg_out <- suppressMessages(read_package(
     file.path(temp_dir, "datapackage.json")
   ))
@@ -91,7 +91,7 @@ test_that("write_package() leaves Data Resources with URL as is (no copying)", {
   unlink(temp_dir, recursive = TRUE)
 })
 
-test_that("write_package() copies Data Resources with path, but does not read them", {
+test_that("write_package() leaves resources with path as is, but copies files", {
   pkg <- suppressMessages(read_package(
     system.file("extdata", "datapackage.json", package = "frictionless")
   ))
@@ -112,7 +112,7 @@ test_that("write_package() copies Data Resources with path, but does not read th
   unlink(temp_dir, recursive = TRUE)
 })
 
-test_that("write_package() leaves existing Data Resources with `data` as is", {
+test_that("write_package() leaves existing resources with `data` as is", {
   pkg <- example_package
   temp_dir <- tempdir()
   write_package(pkg, temp_dir)
@@ -125,7 +125,7 @@ test_that("write_package() leaves existing Data Resources with `data` as is", {
   unlink(temp_dir, recursive = TRUE)
 })
 
-test_that("write_package() creates files for new data.frame Data Resources", {
+test_that("write_package() creates files for new resources", {
   pkg <- example_package
   df <- data.frame(
     "col_1" = c(1, 2),

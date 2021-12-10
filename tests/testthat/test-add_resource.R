@@ -40,7 +40,7 @@ test_that("add_resource() returns error when resource name contains invalid char
   expect_true(check_package(add_resource(pkg, "n.3-w_10", df)))
 })
 
-test_that("add_resource() returns error when Data Resource of that name already exists", {
+test_that("add_resource() returns error when resource of that name already exists", {
   pkg <- example_package
   df <- data.frame(
     "col_1" = c(1, 2),
@@ -90,15 +90,15 @@ test_that("add_resource() adds resource, resource_name", {
     "col_1" = c(1, 2),
     "col_2" = factor(c("a", "b"), levels = c("a", "b", "c"))
   )
-  pkg_added <- add_resource(pkg, "new", df)
+  pkg <- add_resource(pkg, "new", df)
 
   # Resource added
-  expect_length(pkg_added$resources, 4) # Remains a list, now of length 4
-  expect_equal(pkg_added$resources[[4]][["name"]], "new")
+  expect_length(pkg$resources, 4) # Remains a list, now of length 4
+  expect_equal(pkg$resources[[4]][["name"]], "new")
 
   # Resource name added
   expect_equal(
-    pkg_added$resource_names,
+    pkg$resource_names,
     c("deployments", "observations", "media", "new")
   )
 })
@@ -109,8 +109,8 @@ test_that("add_resource() adds schema when none is provided", {
     "col_1" = c(1, 2),
     "col_2" = factor(c("a", "b"), levels = c("a", "b", "c"))
   )
-  pkg_added <- add_resource(pkg, "new", df)
-  expect_equal(pkg_added$resources[[4]]$schema, create_schema(df))
+  pkg <- add_resource(pkg, "new", df)
+  expect_equal(pkg$resources[[4]]$schema, create_schema(df))
 })
 
 test_that("add_resource() creates resource that can be passed to read_resource()", {
@@ -119,8 +119,8 @@ test_that("add_resource() creates resource that can be passed to read_resource()
     "col_1" = c(1, 2),
     "col_2" = factor(c("a", "b"), levels = c("a", "b", "c"))
   )
-  pkg_added <- add_resource(pkg, "new", df)
-  expect_equal(read_resource(pkg_added, "new"), dplyr::as_tibble(df))
+  pkg <- add_resource(pkg, "new", df)
+  expect_equal(read_resource(pkg, "new"), dplyr::as_tibble(df))
 })
 
 test_that("add_resource() creates resource that can be passed to get_schema()", {
@@ -130,8 +130,8 @@ test_that("add_resource() creates resource that can be passed to get_schema()", 
     "col_2" = factor(c("a", "b"), levels = c("a", "b", "c"))
   )
   schema <- create_schema(df)
-  pkg_added <- add_resource(pkg, "new", df, schema)
-  expect_equal(get_schema(pkg_added, "new"), schema)
+  pkg <- add_resource(pkg, "new", df, schema)
+  expect_equal(get_schema(pkg, "new"), schema)
 })
 
 test_that("add_resource() creates resource that can be passed to write_package()", {
@@ -140,8 +140,8 @@ test_that("add_resource() creates resource that can be passed to write_package()
     "col_1" = c(1, 2),
     "col_2" = factor(c("a", "b"), levels = c("a", "b", "c"))
   )
-  pkg_added <- add_resource(pkg, "new", df)
+  pkg <- add_resource(pkg, "new", df)
   temp_dir <- tempdir()
-  expect_invisible(write_package(pkg_added, temp_dir)) # Can write successfully
+  expect_invisible(write_package(pkg, temp_dir)) # Can write successfully
   unlink(temp_dir, recursive = TRUE)
 })
