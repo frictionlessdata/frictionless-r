@@ -67,8 +67,11 @@ create_schema <- function(df) {
   # Check df
   assertthat::assert_that(
     is.data.frame(df) &
+    replace_null(dim(df)[1], 0) != 0,
     replace_null(dim(df)[2], 0) != 0,
-    msg = glue::glue("`df` must be a data frame with columns.")
+    msg = glue::glue(
+      "`df` must be a data frame containing data."
+    )
   )
 
   # Create fields (a list of lists)
