@@ -144,8 +144,38 @@ test_that("write_package() creates files for new resources", {
   expect_type(readr::read_file(file.path(temp_dir, "new.csv")), "character")
   unlink(temp_dir, recursive = TRUE)
 })
-if (FALSE) {
-test_that("write_package() adds Data Resource properties based on write_csv() behaviour", {
 
+test_that("write_package() adds correct properties for new resources", {
+  pkg <- example_package
+  df <- data.frame(
+    "col_1" = c(1, 2),
+    "col_2" = factor(c("a", "b"), levels = c("a", "b", "c"))
+  )
+  schema <- create_schema(df)
+  pkg <- add_resource(pkg, "new", df)
+  temp_dir <- tempdir()
+  write_package(pkg, temp_dir)
+  pkg_out <- suppressMessages(read_package(
+    file.path(temp_dir, "datapackage.json")
+  ))
+  resource_out <- pkg_out$resources[[4]]
+
+  # Added resource has correct properties
+  expect_equal(resource_out$name, "new")
+  expect_equal(resource_out$path, "new.csv")
+  expect_equal(resource_out$profile, "tabular-data-resource")
+  expect_null(resource_out$title)
+  expect_null(resource_out$description)
+  expect_equal(resource_out$format, "csv")
+  expect_equal(resource_out$mediatype, "text/csv")
+  expect_equal(resource_out$encoding, "utf-8")
+  expect_null(resource_out$dialect)
+  expect_null(resource_out$bytes)
+  expect_null(resource_out$hash)
+  expect_null(resource_out$sources)
+  expect_null(resource_out$licenses)
+  expect_equal(resource_out$schema, schema)
+  expect_null(resource_out$data)
+  expect_null(resource_out$read_from)
+  unlink(temp_dir, recursive = TRUE)
 })
-}
