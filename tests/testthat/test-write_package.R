@@ -66,18 +66,14 @@ test_that("write_package() leaves Data Resources with URL as is (no copying)", {
     file.path(temp_dir, "datapackage.json")
   ))
 
-  # Paths are now URLs
-  expect_equal(
-    pkg_out$resources[[1]]$path,
-    "https://raw.githubusercontent.com/frictionlessdata/frictionless-r/main/inst/extdata/deployments.csv"
+  # Resources are unchanged, except that local paths are now URLs
+  pkg$resources[[1]]$path <- "https://raw.githubusercontent.com/frictionlessdata/frictionless-r/main/inst/extdata/deployments.csv"
+  pkg$resources[[2]]$path <- c(
+    "https://raw.githubusercontent.com/frictionlessdata/frictionless-r/main/inst/extdata/observations_1.csv",
+    "https://raw.githubusercontent.com/frictionlessdata/frictionless-r/main/inst/extdata/observations_2.csv"
   )
-  expect_equal(
-    pkg_out$resources[[2]]$path,
-    c(
-      "https://raw.githubusercontent.com/frictionlessdata/frictionless-r/main/inst/extdata/observations_1.csv",
-      "https://raw.githubusercontent.com/frictionlessdata/frictionless-r/main/inst/extdata/observations_2.csv"
-    )
-  )
+  expect_equal(pkg$resources[[1]], pkg_out$resources[[1]])
+  expect_equal(pkg$resources[[2]], pkg_out$resources[[2]])
 
   # Do not expect files
   expect_error(
@@ -105,9 +101,9 @@ test_that("write_package() copies Data Resources with path, but does not read th
     file.path(temp_dir, "datapackage.json")
   ))
 
-  # Path is unchanged (deployments and observations are local files)
-  expect_equal(pkg_out$resources[[1]]$path, pkg$resources[[1]]$path)
-  expect_equal(pkg_out$resources[[2]]$path, pkg$resources[[2]]$path)
+  # Resources are unchanged
+  expect_equal(pkg$resources[[1]], pkg_out$resources[[1]])
+  expect_equal(pkg$resources[[2]], pkg_out$resources[[2]])
 
   # Files are written
   expect_type(readr::read_file(file.path(temp_dir, "deployments.csv")), "character")
@@ -124,6 +120,7 @@ test_that("write_package() leaves existing Data Resources with `data` as is", {
     file.path(temp_dir, "datapackage.json")
   ))
 
+  # Resource is unchanged
   expect_equal(pkg$resources[[3]], pkg_out$resources[[3]])
   unlink(temp_dir, recursive = TRUE)
 })
