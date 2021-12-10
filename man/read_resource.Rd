@@ -181,7 +181,7 @@ with \code{01} for month and day.
 \code{character}.
 \item \href{https://specs.frictionlessdata.io/table-schema/#any}{any} → \code{character}.
 \item no type provided → type is guessed.
-\item unknown type → type is guessed.
+\item unknown type → not allowed.
 }
 }
 }

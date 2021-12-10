@@ -36,6 +36,8 @@ get_schema <- function(package, resource_name) {
   )
   schema <- read_json(resource$schema, package$directory)
 
+  # Check schema
+  check_schema(schema)
 
   schema
 }

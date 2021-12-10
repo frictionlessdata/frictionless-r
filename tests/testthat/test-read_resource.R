@@ -98,15 +98,23 @@ test_that("read_resource() returns error on incorrect Data Resource", {
   pkg_invalid$resources[[1]]$schema <- "../testthat/data/deployments_schema.json"
   expect_error(read_resource(pkg_invalid, "deployments"), "is a relative parent path")
 
+  # No fields
+  pkg_invalid$resources[[1]]$schema <- list()
+  expect_error(
+    read_resource(pkg_invalid, "deployments"),
+    "`schema` must be a list with property `fields`."
+  )
+
   # No field name
-  pkg_invalid$resources[[1]]$schema <- NULL
-  pkg_invalid$resources[[1]]$schema$fields <- list(
-    list(name = "deployment_id"), # Field 1
-    list(type = "number") # Field 2
+  pkg_invalid$resources[[1]]$schema <- list(
+    fields = list(
+      list(name = "deployment_id"), # Field 1
+      list(type = "number") # Field 2
+    )
   )
   expect_error(
     read_resource(pkg_invalid, "deployments"),
-    "Field 2 of resource `deployments` must have the property `name`."
+    "All fields in `schema` must have property `name`."
   )
 })
 
@@ -435,9 +443,8 @@ test_that("read_resource() handles other types", {
   # Interpret any as character
   expect_type(resource$any, "character")
 
-  # Guess undefined or unknown types
+  # Guess undefined types, unknown types are blocked by check_schema()
   expect_type(resource$no_type, "logical")
-  expect_type(resource$unknown_type, "logical")
 })
 
 test_that("read_resource() handles decimalChar/groupChar properties", {

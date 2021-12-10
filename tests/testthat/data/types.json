@@ -291,10 +291,6 @@
           },
           {
             "name": "no_type"
-          },
-          {
-            "name": "unknown_type",
-            "type": "not-a-type"
           }
         ]
       }

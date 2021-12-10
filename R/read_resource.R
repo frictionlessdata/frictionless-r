@@ -162,7 +162,7 @@
 #' `character`.
 #' - [any](https://specs.frictionlessdata.io/table-schema/#any) → `character`.
 #' - no type provided → type is guessed.
-#' - unknown type → type is guessed.
+#' - unknown type → not allowed.
 #' @examples
 #' # Read a datapackage.json file
 #' package <- read_package(
@@ -290,8 +290,9 @@ read_resource <- function(package, resource_name) {
       "geojson" = readr::col_character(),
       "any" = readr::col_character()
     )
-    # col_type will be NULL when type is undefined (NA_character) or an
-    # unrecognized value (e.g. "datum"). Set those to col_guess()
+    # col_type will be NULL when type is undefined (NA_character_) or an
+    # unrecognized value (e.g. "datum", but will be blocked by check_schema()).
+    # Set those to col_guess().
     col_type <- replace_null(col_type, readr::col_guess())
     col_type
   })
