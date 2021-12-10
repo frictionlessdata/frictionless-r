@@ -27,6 +27,7 @@ write_resource <- function(package, resource_name, directory = ".") {
       format = "csv",
       mediatype = "text/csv",
       encoding = "utf-8", # Enforced by readr::write_csv()
+      # dialect: not set, default
       # bytes: not set
       # hash: not set
       # sources: not set
