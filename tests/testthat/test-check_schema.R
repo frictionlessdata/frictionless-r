@@ -68,11 +68,15 @@ test_that("check_schema() returns error on invalid or empty data frame", {
   schema <- create_schema(df)
   expect_error(
     check_schema(schema, "not_a_df"),
-    "`df` must be a data frame with columns."
+    "`df` must be a data frame containing data."
   )
   expect_error(
     check_schema(schema, data.frame()),
-    "`df` must be a data frame with columns."
+    "`df` must be a data frame containing data."
+  )
+  expect_error(
+    check_schema(schema, data.frame("col_1" = character(0))),
+    "`df` must be a data frame containing data."
   )
 })
 

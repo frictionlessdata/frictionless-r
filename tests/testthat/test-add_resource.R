@@ -60,21 +60,15 @@ test_that("add_resource() returns error on invalid or empty data frame", {
   )
   schema <- create_schema(df)
   expect_error(
-    add_resource(pkg, "positions", "not_a_df"),
-    "`df` must be a data frame with columns."
+    add_resource(pkg, "new", data.frame("col_1" = character(0))),
+    "`df` must be a data frame containing data."
   )
   expect_error(
-    add_resource(pkg, "positions", "not_a_df", schema),
-    "`df` must be a data frame with columns."
+    add_resource(pkg, "new", data.frame("col_1" = character(0)), schema),
+    "`df` must be a data frame containing data."
   )
-  expect_error(
-    add_resource(pkg, "positions", data.frame()),
-    "`df` must be a data frame with columns."
-  )
-  expect_error(
-    add_resource(pkg, "positions", data.frame(), schema),
-    "`df` must be a data frame with columns."
-  )
+
+  # For more tests see test-check_schema.R
 })
 
 test_that("add_resource() returns error on incorrect Table Schema", {
