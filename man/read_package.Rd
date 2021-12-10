@@ -14,14 +14,14 @@ List object describing a Data Package, i.e the content of the
 descriptor file and two new properties:
 \itemize{
 \item \code{resource_names}: vector with resource names.
-\item \code{directory}: path to Data Package directory, used as root path to read
+\item \code{directory}: path to Data Package directory, used as base path to read
 resources with \code{\link[=read_resource]{read_resource()}}.
 }
 }
 \description{
 Reads information from a \code{datapackage.json} file, i.e. the
-\href{https://specs.frictionlessdata.io/data-package/#descriptor}{descriptor} that
-describes the Data Package metadata and its resources.
+\href{https://specs.frictionlessdata.io/data-package/#descriptor}{descriptor} file
+that describes the Data Package metadata and its resources.
 }
 \examples{
 # Read a datapackage.json file

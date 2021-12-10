@@ -13,7 +13,7 @@
 #' # Load the example Data Package
 #' package <- example_package
 #'
-#' # Get the Table Schema for resource "observations"
+#' # Get the Table Schema for the resource "observations"
 #' schema <- get_schema(package, "observations")
 #' str(schema)
 get_schema <- function(package, resource_name) {
@@ -30,17 +30,14 @@ get_schema <- function(package, resource_name) {
   )
 
   # Get schema
+  assertthat::assert_that(
+    !is.null(resource$schema),
+    msg = glue::glue("Resource `{resource_name}` must have property `schema`.")
+  )
   schema <- read_json(resource$schema, package$directory)
 
-  # Check schema has fields
-  fields <- schema$fields
-  assertthat::assert_that(
-    !is.null(fields),
-    msg = glue::glue(
-      "Resource `{resource_name}` must have property `schema` containing",
-      "`fields`.", .sep = " "
-    )
-  )
+  # Check schema
+  check_schema(schema)
 
   schema
 }

@@ -1,16 +1,14 @@
 test_that("read_resource() returns a tibble", {
   pkg <- example_package
-  resource_path <- read_resource(pkg, "deployments")
-  resource_data <- read_resource(pkg, "media")
-  pkg$resources[[3]]$data <- data.frame() # Media resource
-  resource_df <- read_resource(pkg, "media")
+  df <- data.frame(
+    "col_1" = c(1, 2),
+    "col_2" = factor(c("a", "b"), levels = c("a", "b", "c"))
+  )
+  pkg <- add_resource(pkg, "new", df)
 
-  expect_s3_class(resource_path, "data.frame")
-  expect_s3_class(resource_path, "tbl")
-  expect_s3_class(resource_data, "data.frame")
-  expect_s3_class(resource_data, "tbl")
-  expect_s3_class(resource_df, "data.frame")
-  expect_s3_class(resource_df, "tbl")
+  expect_s3_class(read_resource(pkg, "deployments"), "tbl") # via path
+  expect_s3_class(read_resource(pkg, "media"), "tbl")       # via data
+  expect_s3_class(read_resource(pkg, "new"), "tbl")         # via df
 })
 
 test_that("read_resource() returns error on incorrect Data Package", {
@@ -20,7 +18,7 @@ test_that("read_resource() returns error on incorrect Data Package", {
   )
 })
 
-test_that("read_resource() returns error on incorrect Data Resource", {
+test_that("read_resource() returns error on incorrect resource", {
   pkg <- example_package
 
   # No such resource
@@ -79,7 +77,7 @@ test_that("read_resource() returns error on incorrect Data Resource", {
   # No schema
   pkg_invalid$resources[[1]]$profile <- "tabular-data-resource"
   expect_error(
-    read_resource(pkg_invalid, "deployments"), "must have property `schema`"
+    read_resource(pkg_invalid, "deployments"), "must have property `schema`."
   )
 
   # No file at schema url
@@ -98,15 +96,23 @@ test_that("read_resource() returns error on incorrect Data Resource", {
   pkg_invalid$resources[[1]]$schema <- "../testthat/data/deployments_schema.json"
   expect_error(read_resource(pkg_invalid, "deployments"), "is a relative parent path")
 
+  # No fields
+  pkg_invalid$resources[[1]]$schema <- list()
+  expect_error(
+    read_resource(pkg_invalid, "deployments"),
+    "`schema` must be a list with property `fields`."
+  )
+
   # No field name
-  pkg_invalid$resources[[1]]$schema <- NULL
-  pkg_invalid$resources[[1]]$schema$fields <- list(
-    list(name = "deployment_id"), # Field 1
-    list(type = "number") # Field 2
+  pkg_invalid$resources[[1]]$schema <- list(
+    fields = list(
+      list(name = "deployment_id"), # Field 1
+      list(type = "number") # Field 2
+    )
   )
   expect_error(
     read_resource(pkg_invalid, "deployments"),
-    "Field 2 of resource `deployments` must have the property `name`."
+    "All fields in `schema` must have property `name`."
   )
 })
 
@@ -116,8 +122,8 @@ test_that("read_resource() can read newly added data (ignoring schema)", {
     "col_1" = c(1, 2),
     "col_2" = factor(c("a", "b"), levels = c("a", "b", "c"))
   )
-  pkg$resources[[3]]$data <- df # Media resource
-  expect_equal(read_resource(pkg, "media"), dplyr::as_tibble(df))
+  pkg <- add_resource(pkg, "new", df)
+  expect_equal(read_resource(pkg, "new"), dplyr::as_tibble(df))
 })
 
 test_that("read_resource() can read inline data (ignoring schema)", {
@@ -435,9 +441,8 @@ test_that("read_resource() handles other types", {
   # Interpret any as character
   expect_type(resource$any, "character")
 
-  # Guess undefined or unknown types
+  # Guess undefined types, unknown types are blocked by check_schema()
   expect_type(resource$no_type, "logical")
-  expect_type(resource$unknown_type, "logical")
 })
 
 test_that("read_resource() handles decimalChar/groupChar properties", {

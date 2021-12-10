@@ -1,14 +1,14 @@
 #' Read a Data Package descriptor file (`datapackage.json`)
 #'
 #' Reads information from a `datapackage.json` file, i.e. the
-#' [descriptor](https://specs.frictionlessdata.io/data-package/#descriptor) that
-#' describes the Data Package metadata and its resources.
+#' [descriptor](https://specs.frictionlessdata.io/data-package/#descriptor) file
+#' that describes the Data Package metadata and its resources.
 #'
 #' @param file Path or URL to a `datapackage.json` file.
 #' @return List object describing a Data Package, i.e the content of the
 #' descriptor file and two new properties:
 #'   - `resource_names`: vector with resource names.
-#'   - `directory`: path to Data Package directory, used as root path to read
+#'   - `directory`: path to Data Package directory, used as base path to read
 #'     resources with [read_resource()].
 #' @export
 #' @examples

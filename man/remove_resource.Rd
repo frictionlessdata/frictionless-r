@@ -10,14 +10,14 @@ remove_resource(package, resource_name)
 \item{package}{List object describing a Data Package, created with
 \code{\link[=read_package]{read_package()}} or \code{\link[=create_package]{create_package()}}.}
 
-\item{resource_name}{Name of the resource.}
+\item{resource_name}{Name of the Data Resource.}
 }
 \value{
-List object describing a Data Package.
+Provided \code{package} with one fewer resource.
 }
 \description{
 Removes a \href{https://specs.frictionlessdata.io/data-resource/}{Data Resource}
-from a Data Package, i.e. one of the described \code{resources} is removed.
+from a Data Package, i.e. it removes one of the described \code{resources}.
 }
 \examples{
 # Load the example Data Package

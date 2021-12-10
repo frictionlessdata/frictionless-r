@@ -10,7 +10,7 @@ get_schema(package, resource_name)
 \item{package}{List object describing a Data Package, created with
 \code{\link[=read_package]{read_package()}} or \code{\link[=create_package]{create_package()}}.}
 
-\item{resource_name}{Name of the resource.}
+\item{resource_name}{Name of the Data Resource.}
 }
 \value{
 List object describing a Table Schema.
@@ -26,7 +26,7 @@ missing values. The resource must be a
 # Load the example Data Package
 package <- example_package
 
-# Get the Table Schema for resource "observations"
+# Get the Table Schema for the resource "observations"
 schema <- get_schema(package, "observations")
 str(schema)
 }

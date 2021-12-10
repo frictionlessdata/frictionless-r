@@ -14,7 +14,7 @@ test_that("write_package() returns error on incorrect Data Package", {
   )
 })
 
-test_that("write_package() returns error if Data Package has no Data Resource(s)", {
+test_that("write_package() returns error if Data Package has no resource(s)", {
   pkg_empty <- create_package()
   temp_dir <- tempdir()
   expect_error(
@@ -58,26 +58,22 @@ test_that("write_package() writes unaltered datapackage.json as is", {
   unlink(temp_dir, recursive = TRUE)
 })
 
-test_that("write_package() leaves Data Resources with URL as is (no copying)", {
-  pkg_remote <- example_package # Example Data Package is a remote one
+test_that("write_package() leaves resources with URL as is, but updates path to URLs", {
+  pkg <- example_package # Example Data Package is a remote one
   temp_dir <- tempdir()
-  write_package(pkg_remote, temp_dir)
+  write_package(pkg, temp_dir)
   pkg_out <- suppressMessages(read_package(
     file.path(temp_dir, "datapackage.json")
   ))
 
-  # Paths are now URLs
-  expect_equal(
-    pkg_out$resources[[1]]$path,
-    "https://raw.githubusercontent.com/frictionlessdata/frictionless-r/main/inst/extdata/deployments.csv"
+  # Resources are unchanged, except that local paths are now URLs
+  pkg$resources[[1]]$path <- "https://raw.githubusercontent.com/frictionlessdata/frictionless-r/main/inst/extdata/deployments.csv"
+  pkg$resources[[2]]$path <- c(
+    "https://raw.githubusercontent.com/frictionlessdata/frictionless-r/main/inst/extdata/observations_1.csv",
+    "https://raw.githubusercontent.com/frictionlessdata/frictionless-r/main/inst/extdata/observations_2.csv"
   )
-  expect_equal(
-    pkg_out$resources[[2]]$path,
-    c(
-      "https://raw.githubusercontent.com/frictionlessdata/frictionless-r/main/inst/extdata/observations_1.csv",
-      "https://raw.githubusercontent.com/frictionlessdata/frictionless-r/main/inst/extdata/observations_2.csv"
-    )
-  )
+  expect_equal(pkg$resources[[1]], pkg_out$resources[[1]])
+  expect_equal(pkg$resources[[2]], pkg_out$resources[[2]])
 
   # Do not expect files
   expect_error(
@@ -95,7 +91,7 @@ test_that("write_package() leaves Data Resources with URL as is (no copying)", {
   unlink(temp_dir, recursive = TRUE)
 })
 
-test_that("write_package() copies Data Resources with path, but does not read them", {
+test_that("write_package() leaves resources with path as is, but copies files", {
   pkg <- suppressMessages(read_package(
     system.file("extdata", "datapackage.json", package = "frictionless")
   ))
@@ -105,9 +101,9 @@ test_that("write_package() copies Data Resources with path, but does not read th
     file.path(temp_dir, "datapackage.json")
   ))
 
-  # Path is unchanged (deployments and observations are local files)
-  expect_equal(pkg_out$resources[[1]]$path, pkg$resources[[1]]$path)
-  expect_equal(pkg_out$resources[[2]]$path, pkg$resources[[2]]$path)
+  # Resources are unchanged
+  expect_equal(pkg$resources[[1]], pkg_out$resources[[1]])
+  expect_equal(pkg$resources[[2]], pkg_out$resources[[2]])
 
   # Files are written
   expect_type(readr::read_file(file.path(temp_dir, "deployments.csv")), "character")
@@ -116,7 +112,7 @@ test_that("write_package() copies Data Resources with path, but does not read th
   unlink(temp_dir, recursive = TRUE)
 })
 
-test_that("write_package() leaves existing Data Resources with `data` as is", {
+test_that("write_package() leaves existing resources with `data` as is", {
   pkg <- example_package
   temp_dir <- tempdir()
   write_package(pkg, temp_dir)
@@ -124,17 +120,18 @@ test_that("write_package() leaves existing Data Resources with `data` as is", {
     file.path(temp_dir, "datapackage.json")
   ))
 
+  # Resource is unchanged
   expect_equal(pkg$resources[[3]], pkg_out$resources[[3]])
   unlink(temp_dir, recursive = TRUE)
 })
 
-test_that("write_package() creates files for new data.frame Data Resources", {
+test_that("write_package() creates files for new resources", {
   pkg <- example_package
   df <- data.frame(
     "col_1" = c(1, 2),
     "col_2" = factor(c("a", "b"), levels = c("a", "b", "c"))
   )
-  pkg$resources[[3]]$data <- df
+  pkg <- add_resource(pkg, "new", df)
   temp_dir <- tempdir()
   write_package(pkg, temp_dir)
   pkg_out <- suppressMessages(read_package(
@@ -142,12 +139,43 @@ test_that("write_package() creates files for new data.frame Data Resources", {
   ))
 
   # Added resource has path (not data) and was written to file
-  expect_equal(pkg_out$resources[[3]]$path, "media.csv")
-  expect_null(pkg_out$resources[[3]]$data)
-  expect_type(readr::read_file(file.path(temp_dir, "media.csv")), "character")
+  expect_equal(pkg_out$resources[[4]]$path, "new.csv")
+  expect_null(pkg_out$resources[[4]]$data)
+  expect_type(readr::read_file(file.path(temp_dir, "new.csv")), "character")
   unlink(temp_dir, recursive = TRUE)
 })
 
-test_that("write_package() adds Data Resource properties based on write_csv() behaviour", {
+test_that("write_package() adds correct properties for new resources", {
+  pkg <- example_package
+  df <- data.frame(
+    "col_1" = c(1, 2),
+    "col_2" = factor(c("a", "b"), levels = c("a", "b", "c"))
+  )
+  schema <- create_schema(df)
+  pkg <- add_resource(pkg, "new", df)
+  temp_dir <- tempdir()
+  write_package(pkg, temp_dir)
+  pkg_out <- suppressMessages(read_package(
+    file.path(temp_dir, "datapackage.json")
+  ))
+  resource_out <- pkg_out$resources[[4]]
 
+  # Added resource has correct properties
+  expect_equal(resource_out$name, "new")
+  expect_equal(resource_out$path, "new.csv")
+  expect_equal(resource_out$profile, "tabular-data-resource")
+  expect_null(resource_out$title)
+  expect_null(resource_out$description)
+  expect_equal(resource_out$format, "csv")
+  expect_equal(resource_out$mediatype, "text/csv")
+  expect_equal(resource_out$encoding, "utf-8")
+  expect_null(resource_out$dialect)
+  expect_null(resource_out$bytes)
+  expect_null(resource_out$hash)
+  expect_null(resource_out$sources)
+  expect_null(resource_out$licenses)
+  expect_equal(resource_out$schema, schema)
+  expect_null(resource_out$data)
+  expect_null(resource_out$read_from)
+  unlink(temp_dir, recursive = TRUE)
 })

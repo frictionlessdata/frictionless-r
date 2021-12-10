@@ -7,17 +7,23 @@
 #' @return `TRUE` or error.
 #' @noRd
 check_package <- function(package) {
-  # Check class, properties and types
+  msg_invalid <- glue::glue(
+    "`package` must be a list object of class `datapackage` created with",
+    "`read_package()` or `create_package()`.", .sep = " "
+  )
+  # Check package is list with correct class and properties
   assertthat::assert_that(
     all(c("datapackage", "list") %in% class(package)) &
-      all(c("resources", "resource_names", "directory") %in% names(package)) &
-      is.list(package$resources) &
-      is.character(package$resource_names) &
-      is.character(package$directory),
-    msg = glue::glue(
-      "`package` must be a list object of class `datapackage` created with",
-      "`read_package()` or `create_package()`.", .sep = " "
-    )
+    all(c("resources", "resource_names", "directory") %in% names(package)),
+    msg = msg_invalid
+  )
+
+  # Check package properties
+  assertthat::assert_that(
+    is.list(package$resources) &
+    is.character(package$resource_names) &
+    is.character(package$directory),
+    msg = msg_invalid
   )
 
   # Check all resources (if any) have a name
@@ -32,12 +38,12 @@ check_package <- function(package) {
   unknown_names <- setdiff(
     package$resource_names, purrr::map_chr(package$resources, ~ .x$name)
   )
-  unknown_names_collapse <- paste(unknown_names, collapse = ", ")
+  unknown_names_collapse <- paste(unknown_names, collapse = "`, `")
   assertthat::assert_that(
     length(unknown_names) == 0,
     msg = glue::glue(
-      "Can't find resource with name `{unknown_names}`.",
-      "* Is `package$resource_names` out of sync with names of resources?",
+      "Can't find resource(s) with name(s) `{unknown_names_collapse}`.",
+      "* Is `package$resource_names` out of sync with the names of resources?",
       .sep = "\n"
     )
   )

@@ -1,19 +1,23 @@
 #' Read data from a Data Resource into a tibble data frame
 #'
-#' Reads data from a Data Resource (in a Data Package) into a tibble (a
-#' Tidyverse data frame). The resource must be a
+#' Reads data from a
+#' [Data Resource](https://specs.frictionlessdata.io/data-resource/)
+#' (in a Data Package) into a tibble (a Tidyverse data frame). The resource must
+#' be a
 #' [Tabular Data Resource](https://specs.frictionlessdata.io/tabular-data-resource/).
-#' The function is a wrapper around [readr::read_delim()], passing the resource
-#' properties `path`, CSV dialect, column names, data types, etc. Column names
-#' are taken from the provided `schema`, not from the header in the CSV file(s).
+#' The function uses [readr::read_delim()] to read CSV files, passing the
+#' resource properties `path`, CSV dialect, column names, data types, etc.
+#' Column names are taken from the provided Table Schema (`schema`), not from
+#' the header in the CSV file(s).
 #'
 #' @param package List object describing a Data Package, created with
 #'   [read_package()] or [create_package()].
-#' @param resource_name Name of the resource.
-#' @return [dplyr::tibble()] data frame with the resource data.
+#' @param resource_name Name of the Data Resource.
+#' @return [dplyr::tibble()] data frame with the Data Resource's tabular data.
 #' @export
 #' @section Resource properties:
-#' The [resource properties](https://specs.frictionlessdata.io/data-resource/)
+#' The
+#' [Data Resource properties](https://specs.frictionlessdata.io/data-resource/)
 #' are handled as follows:
 #'
 #' ## Path
@@ -158,7 +162,7 @@
 #' `character`.
 #' - [any](https://specs.frictionlessdata.io/table-schema/#any) → `character`.
 #' - no type provided → type is guessed.
-#' - unknown type → type is guessed.
+#' - unknown type → not allowed.
 #' @examples
 #' # Read a datapackage.json file
 #' package <- read_package(
@@ -286,8 +290,9 @@ read_resource <- function(package, resource_name) {
       "geojson" = readr::col_character(),
       "any" = readr::col_character()
     )
-    # col_type will be NULL when type is undefined (NA_character) or an
-    # unrecognized value (e.g. "datum"). Set those to col_guess()
+    # col_type will be NULL when type is undefined (NA_character_) or an
+    # unrecognized value (e.g. "datum", but will be blocked by check_schema()).
+    # Set those to col_guess().
     col_type <- replace_null(col_type, readr::col_guess())
     col_type
   })
