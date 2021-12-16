@@ -30,9 +30,9 @@ camera trap data organized in 3 Data Resources:
 # be created using a URL, otherwise all Data Resource paths will point to
 # local paths that won't work for other users. One can load locally using:
 # read_package(system.file("extdata", "datapackage.json", package = "frictionless"))
-example_package <- read_package(paste(
+example_package <- read_package(file.path(
   "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
-  "main/inst/extdata/datapackage.json", sep = "/"
+  "main/inst/extdata/datapackage.json"
 ))
 save(example_package, file = "data/example_package.rda")
 }

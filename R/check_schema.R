@@ -22,7 +22,8 @@ check_schema <- function(schema, df = NULL) {
     all(!is.na(field_names)),
     msg = glue::glue(
       "All fields in `schema` must have property `name`.",
-      "* Field(s) `{field_numbers_collapse}` don't have a name.", .sep = "\n"
+      "* Field(s) `{field_numbers_collapse}` don't have a name.",
+      .sep = "\n"
     )
   )
 
@@ -38,7 +39,8 @@ check_schema <- function(schema, df = NULL) {
     all(is.na(field_types)) | length(invalid_types) == 0,
     msg = glue::glue(
       "All fields in `schema` must have valid `type`.",
-      "Type `{invalid_types}` is invalid.", .sep = " "
+      "Type `{invalid_types}` is invalid.",
+      .sep = " "
     )
   )
 
@@ -46,8 +48,8 @@ check_schema <- function(schema, df = NULL) {
   if (!is.null(df)) {
     assertthat::assert_that(
       is.data.frame(df) &
-      replace_null(dim(df)[1], 0) != 0,
-      replace_null(dim(df)[2], 0) != 0,
+        replace_null(dim(df)[1], 0) != 0 &
+        replace_null(dim(df)[2], 0) != 0,
       msg = glue::glue(
         "`df` must be a data frame containing data."
       )

@@ -44,7 +44,8 @@ add_resource <- function(package, resource_name, df, schema = NULL) {
     grepl(resource_name, pattern = "^[a-z0-9\\._-]+$"),
     msg = glue::glue(
       "`{resource_name}` must only contain lowercase alphanumeric characters",
-      "plus `.`, `-` and `_`.", .sep = " "
+      "plus `.`, `-` and `_`.",
+      .sep = " "
     )
   )
 

@@ -240,8 +240,8 @@ test_that("read_resource() handles LF and CRLF line terminator characters", {
   # https://specs.frictionlessdata.io/tabular-data-resource/#csv-file-requirements
   #
   # Line terminator characters can be checked in terminal with:
-  #$ file deployments_crlf.csv
-  #deployments_crlf.csv: UTF-8 Unicode text, with CRLF line terminators
+  # $ file deployments_crlf.csv
+  # deployments_crlf.csv: UTF-8 Unicode text, with CRLF line terminators
   #
   # read_delim() however only handles 2 line terminator characters (LF and CRLF)
   # without explicitly indicating them, so dialect$lineTerminator is ignored

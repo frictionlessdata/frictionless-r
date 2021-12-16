@@ -29,10 +29,11 @@ read_package <- function(file = "datapackage.json") {
   # https://specs.frictionlessdata.io/data-package/#metadata
   assertthat::assert_that(
     length(descriptor$resources) != 0 & # Null or empty list
-    purrr::every(descriptor$resources, ~ !is.null(.x$name)),
+      purrr::every(descriptor$resources, ~ !is.null(.x$name)),
     msg = glue::glue(
       "Descriptor `{file}` must have property `resources` containing at least",
-      "one resource. All resources must have a `name`.", .sep = " "
+      "one resource. All resources must have a `name`.",
+      .sep = " "
     )
   )
 
@@ -49,12 +50,14 @@ read_package <- function(file = "datapackage.json") {
   msg <- glue::glue(
     "Please make sure you have the right to access data from this Data Package",
     "for your intended use.\nFollow applicable norms or requirements to credit",
-    "the dataset and its authors.", .sep = " "
+    "the dataset and its authors.",
+    .sep = " "
   )
   if (!is.null(descriptor$id)) {
     if (startsWith(descriptor$id, "http")) {
       msg <- glue::glue(
-        "{msg}", "For more information, see {descriptor$id}", .sep = "\n"
+        "{msg}", "For more information, see {descriptor$id}",
+        .sep = "\n"
       )
     }
   }

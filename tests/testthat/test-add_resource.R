@@ -135,15 +135,15 @@ test_that("add_resource() creates resource that can be passed to get_schema()", 
 })
 
 if (FALSE) {
-test_that("add_resource() creates resource that can be passed to write_package()", {
-  pkg <- example_package
-  df <- data.frame(
-    "col_1" = c(1, 2),
-    "col_2" = factor(c("a", "b"), levels = c("a", "b", "c"))
-  )
-  pkg <- add_resource(pkg, "new", df)
-  temp_dir <- tempdir()
-  expect_invisible(write_package(pkg, temp_dir)) # Can write successfully
-  unlink(temp_dir, recursive = TRUE)
-})
+  test_that("add_resource() creates resource that can be passed to write_package()", {
+    pkg <- example_package
+    df <- data.frame(
+      "col_1" = c(1, 2),
+      "col_2" = factor(c("a", "b"), levels = c("a", "b", "c"))
+    )
+    pkg <- add_resource(pkg, "new", df)
+    temp_dir <- tempdir()
+    expect_invisible(write_package(pkg, temp_dir)) # Can write successfully
+    unlink(temp_dir, recursive = TRUE)
+  })
 }

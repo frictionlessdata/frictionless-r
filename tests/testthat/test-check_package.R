@@ -17,7 +17,7 @@ test_that("check_package() returns error on incorrect Data Package", {
 
   # Must have class datapackage
   pkg_invalid <- pkg
-  class(pkg_invalid) = "list"
+  class(pkg_invalid) <- "list"
   expect_error(check_package(pkg_invalid), "`package` must be")
 
   # Must have resources as list
