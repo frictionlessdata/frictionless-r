@@ -9,20 +9,21 @@
 check_package <- function(package) {
   msg_invalid <- glue::glue(
     "`package` must be a list object of class `datapackage` created with",
-    "`read_package()` or `create_package()`.", .sep = " "
+    "`read_package()` or `create_package()`.",
+    .sep = " "
   )
   # Check package is list with correct class and properties
   assertthat::assert_that(
     all(c("datapackage", "list") %in% class(package)) &
-    all(c("resources", "resource_names", "directory") %in% names(package)),
+      all(c("resources", "resource_names", "directory") %in% names(package)),
     msg = msg_invalid
   )
 
   # Check package properties
   assertthat::assert_that(
     is.list(package$resources) &
-    is.character(package$resource_names) &
-    is.character(package$directory),
+      is.character(package$resource_names) &
+      is.character(package$directory),
     msg = msg_invalid
   )
 
@@ -43,7 +44,7 @@ check_package <- function(package) {
     length(unknown_names) == 0,
     msg = glue::glue(
       "Can't find resource(s) with name(s) `{unknown_names_collapse}`.",
-      "* Is `package$resource_names` out of sync with the names of resources?",
+      "\u2139 Is `package$resource_names` out of sync with `name` of resources?",
       .sep = "\n"
     )
   )

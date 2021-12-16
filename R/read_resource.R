@@ -200,7 +200,8 @@ read_resource <- function(package, resource_name) {
     warning(glue::glue(
       "Some fields define a non-default `decimalChar`. Only a global value is",
       "supported, so all number fields will be parsed with `{d_chars[1]}` as",
-      "decimal mark.", .sep = " "
+      "decimal mark.",
+      .sep = " "
     ))
   }
   g_chars <- purrr::map_chr(fields, ~ replace_null(.x$groupChar, NA_character_))
@@ -212,7 +213,8 @@ read_resource <- function(package, resource_name) {
     warning(glue::glue(
       "Some fields define a non-default `groupChar`. Only a global value is",
       "supported, so all number fields with this property will be parsed with",
-      "`{g_chars[1]}` as grouping mark.", .sep = " "
+      "`{g_chars[1]}` as grouping mark.",
+      .sep = " "
     ))
   }
   locale <- readr::locale(
@@ -226,7 +228,8 @@ read_resource <- function(package, resource_name) {
   assertthat::assert_that(all(!is.na(col_names)),
     msg = glue::glue(
       "Field {which(is.na(col_names))} of resource `{resource_name}` must",
-      "have the property `name`.", .sep = " "
+      "have the property `name`.",
+      .sep = " "
     )
   )
 
@@ -244,26 +247,26 @@ read_resource <- function(package, resource_name) {
     # Assign types and formats
     col_type <- switch(type,
       "string" = if (length(enum) > 0) {
-          readr::col_factor(levels = enum)
-        } else {
-          readr::col_character()
-        },
+        readr::col_factor(levels = enum)
+      } else {
+        readr::col_character()
+      },
       "number" = if (length(enum) > 0) {
-          readr::col_factor(levels = as.character(enum))
-        } else if (group_char) {
-          readr::col_number() # Supports grouping_mark
-        } else if (bare_number) {
-          readr::col_double() # Allows NaN, INF, -INF
-        } else {
-          readr::col_number() # Strips non-numeric chars + uses default grouping_mark
-        },
+        readr::col_factor(levels = as.character(enum))
+      } else if (group_char) {
+        readr::col_number() # Supports grouping_mark
+      } else if (bare_number) {
+        readr::col_double() # Allows NaN, INF, -INF
+      } else {
+        readr::col_number() # Strips non-numeric chars + uses default grouping_mark
+      },
       "integer" = if (length(enum) > 0) {
-          readr::col_factor(levels = as.character(enum))
-        } else if (bare_number) {
-          readr::col_double() # Not col_integer() to avoid issues with big integers
-        } else {
-          readr::col_number() # Strips non-numeric chars
-        },
+        readr::col_factor(levels = as.character(enum))
+      } else if (bare_number) {
+        readr::col_double() # Not col_integer() to avoid issues with big integers
+      } else {
+        readr::col_number() # Strips non-numeric chars
+      },
       "boolean" = readr::col_logical(),
       "object" = readr::col_character(),
       "array" = readr::col_character(),

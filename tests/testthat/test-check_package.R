@@ -10,14 +10,21 @@ test_that("check_package() returns error on incorrect Data Package", {
     directory = "."
   )
   class(pkg) <- c("datapackage", class(pkg))
-  expect_true(check_package(pkg), "`package` must be")
+  expect_true(check_package(pkg))
 
   # Must be a list
-  expect_error(check_package("not_a_list"), "`package` must be")
+  expect_error(
+    check_package("not_a_list"),
+    paste(
+      "`package` must be a list object of class `datapackage` created with",
+      "`read_package()` or `create_package()`."
+    ),
+    fixed = TRUE
+  )
 
   # Must have class datapackage
   pkg_invalid <- pkg
-  class(pkg_invalid) = "list"
+  class(pkg_invalid) <- "list"
   expect_error(check_package(pkg_invalid), "`package` must be")
 
   # Must have resources as list
@@ -47,7 +54,8 @@ test_that("check_package() returns error if resources have no name", {
   pkg$resources[[2]]$name <- NULL
   expect_error(
     check_package(pkg),
-    "All resources in `package` must have property `name`"
+    "All resources in `package` must have property `name`",
+    fixed = TRUE
   )
 })
 
@@ -56,11 +64,21 @@ test_that("check_package() returns error if resource_names are out of sync", {
   pkg$resource_names <- c("no_such_resource", "observations", "media")
   expect_error(
     check_package(pkg),
-    "Can't find resource\\(s\\) with name\\(s\\) `no_such_resource`."
+    paste(
+      "Can't find resource(s) with name(s) `no_such_resource`.",
+      "ℹ Is `package$resource_names` out of sync with `name` of resources?",
+      sep = "\n"
+    ),
+    fixed = TRUE
   )
-  pkg$resource_names <- c("no_such_resource", "no_such_either", "media")
+  pkg$resource_names <- c("no_such_resource", "neither", "media")
   expect_error(
     check_package(pkg),
-    "Can't find resource\\(s\\) with name\\(s\\) `no_such_resource`, `no_such_either`."
+    paste(
+      "Can't find resource(s) with name(s) `no_such_resource`, `neither`.",
+      "ℹ Is `package$resource_names` out of sync with `name` of resources?",
+      sep = "\n"
+    ),
+    fixed = TRUE
   )
 })

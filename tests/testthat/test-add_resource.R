@@ -16,7 +16,8 @@ test_that("add_resource() returns error on incorrect Data Package", {
   )
   expect_error(
     add_resource(list(), "new", df),
-    "`package` must be a list object of class `datapackage`"
+    "`package` must be a list object of class `datapackage`",
+    fixed = TRUE
   )
 })
 
@@ -26,7 +27,14 @@ test_that("add_resource() returns error when resource name contains invalid char
     "col_1" = c(1, 2),
     "col_2" = factor(c("a", "b"), levels = c("a", "b", "c"))
   )
-  expect_error(add_resource(pkg, "New", df), "only contain lowercase")
+  expect_error(
+    add_resource(pkg, "New", df),
+    paste(
+      "`New` must only contain lowercase alphanumeric characters plus",
+      "`.`, `-` and `_`."
+    ),
+    fixed = TRUE
+  )
   expect_error(add_resource(pkg, "nëw", df), "only contain lowercase")
   expect_error(add_resource(pkg, " new", df), "only contain lowercase")
   expect_error(add_resource(pkg, "new ", df), "only contain lowercase")
@@ -48,7 +56,8 @@ test_that("add_resource() returns error when resource of that name already exist
   )
   expect_error(
     add_resource(pkg, "deployments", df),
-    "`package` already contains a resource named `deployments`."
+    "`package` already contains a resource named `deployments`.",
+    fixed = TRUE
   )
 })
 
@@ -61,11 +70,13 @@ test_that("add_resource() returns error on invalid or empty data frame", {
   schema <- create_schema(df)
   expect_error(
     add_resource(pkg, "new", data.frame("col_1" = character(0))),
-    "`df` must be a data frame containing data."
+    "`df` must be a data frame containing data.",
+    fixed = TRUE
   )
   expect_error(
     add_resource(pkg, "new", data.frame("col_1" = character(0)), schema),
-    "`df` must be a data frame containing data."
+    "`df` must be a data frame containing data.",
+    fixed = TRUE
   )
 
   # For more tests see test-check_schema.R
@@ -78,8 +89,17 @@ test_that("add_resource() returns error on incorrect Table Schema", {
     "col_2" = factor(c("a", "b"), levels = c("a", "b", "c"))
   )
   schema_invalid <- create_schema(df) # Not yet invalid
-  schema_invalid[[1]]$name <- "no_such_col"
-  expect_error(add_resource(pkg, "new", df, schema_invalid))
+  schema_invalid$fields[[1]]$name <- "no_such_col"
+  expect_error(
+    add_resource(pkg, "new", df, schema_invalid),
+    paste(
+      "Field names in `schema` must match column names in `df`:",
+      "ℹ Field names: `no_such_col`, `col_2`",
+      "ℹ Column names: `col_1`, `col_2`",
+      sep = "\n"
+    ),
+    fixed = TRUE
+  )
 
   # For more tests see test-check_schema.R
 })
@@ -94,10 +114,10 @@ test_that("add_resource() adds resource, resource_name", {
 
   # Resource added
   expect_length(pkg$resources, 4) # Remains a list, now of length 4
-  expect_equal(pkg$resources[[4]][["name"]], "new")
+  expect_identical(pkg$resources[[4]][["name"]], "new")
 
   # Resource name added
-  expect_equal(
+  expect_identical(
     pkg$resource_names,
     c("deployments", "observations", "media", "new")
   )
@@ -110,7 +130,7 @@ test_that("add_resource() adds schema when none is provided", {
     "col_2" = factor(c("a", "b"), levels = c("a", "b", "c"))
   )
   pkg <- add_resource(pkg, "new", df)
-  expect_equal(pkg$resources[[4]]$schema, create_schema(df))
+  expect_identical(pkg$resources[[4]]$schema, create_schema(df))
 })
 
 test_that("add_resource() creates resource that can be passed to read_resource()", {
@@ -120,7 +140,7 @@ test_that("add_resource() creates resource that can be passed to read_resource()
     "col_2" = factor(c("a", "b"), levels = c("a", "b", "c"))
   )
   pkg <- add_resource(pkg, "new", df)
-  expect_equal(read_resource(pkg, "new"), dplyr::as_tibble(df))
+  expect_identical(read_resource(pkg, "new"), dplyr::as_tibble(df))
 })
 
 test_that("add_resource() creates resource that can be passed to get_schema()", {
@@ -131,19 +151,19 @@ test_that("add_resource() creates resource that can be passed to get_schema()", 
   )
   schema <- create_schema(df)
   pkg <- add_resource(pkg, "new", df, schema)
-  expect_equal(get_schema(pkg, "new"), schema)
+  expect_identical(get_schema(pkg, "new"), schema)
 })
 
 if (FALSE) {
-test_that("add_resource() creates resource that can be passed to write_package()", {
-  pkg <- example_package
-  df <- data.frame(
-    "col_1" = c(1, 2),
-    "col_2" = factor(c("a", "b"), levels = c("a", "b", "c"))
-  )
-  pkg <- add_resource(pkg, "new", df)
-  temp_dir <- tempdir()
-  expect_invisible(write_package(pkg, temp_dir)) # Can write successfully
-  unlink(temp_dir, recursive = TRUE)
-})
+  test_that("add_resource() creates resource that can be passed to write_package()", {
+    pkg <- example_package
+    df <- data.frame(
+      "col_1" = c(1, 2),
+      "col_2" = factor(c("a", "b"), levels = c("a", "b", "c"))
+    )
+    pkg <- add_resource(pkg, "new", df)
+    temp_dir <- tempdir()
+    expect_invisible(write_package(pkg, temp_dir)) # Can write successfully
+    unlink(temp_dir, recursive = TRUE)
+  })
 }

@@ -3,14 +3,18 @@ test_that("write_package() returns a input Data Package (invisibly)", {
   temp_dir <- tempdir()
   expect_invisible(write_package(pkg, temp_dir))
   pkg_out <- write_package(pkg, temp_dir)
-  expect_equal(pkg, pkg_out)
+  expect_identical(pkg_out, pkg)
   unlink(temp_dir, recursive = TRUE)
 })
 
 test_that("write_package() returns error on incorrect Data Package", {
   expect_error(
     write_package(list()),
-    "`package` must be a list object of class `datapackage`"
+    paste(
+      "`package` must be a list object of class `datapackage` created with",
+      "`read_package()` or `create_package()`."
+    ),
+    fixed = TRUE
   )
 })
 
@@ -19,7 +23,8 @@ test_that("write_package() returns error if Data Package has no resource(s)", {
   temp_dir <- tempdir()
   expect_error(
     write_package(pkg_empty, temp_dir),
-    "`package` must have resources."
+    "`package` must have resources. Use `add_resource()` to add resources.",
+    fixed = TRUE
   )
 
   # Resources without name are tested in test-check_package.R
@@ -54,7 +59,7 @@ test_that("write_package() writes unaltered datapackage.json as is", {
 
   # Output json = input json. This also tests if new properties (resource_names,
   # directories) are removed and json is printed "pretty"
-  expect_equal(json_out, json_in)
+  expect_identical(json_out, json_in)
   unlink(temp_dir, recursive = TRUE)
 })
 
@@ -72,21 +77,24 @@ test_that("write_package() leaves resources with URL as is, but updates path to 
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r/main/inst/extdata/observations_1.csv",
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r/main/inst/extdata/observations_2.csv"
   )
-  expect_equal(pkg$resources[[1]], pkg_out$resources[[1]])
-  expect_equal(pkg$resources[[2]], pkg_out$resources[[2]])
+  expect_identical(pkg_out$resources[[1]], pkg$resources[[1]])
+  expect_identical(pkg_out$resources[[2]], pkg$resources[[2]])
 
   # Do not expect files
   expect_error(
     readr::read_file(file.path(temp_dir, "deployments.csv")),
-    "does not exist."
+    "'.*deployments.csv' does not exist."
+    # no fixed = TRUE, since full returned path depends on system
   )
   expect_error(
     readr::read_file(file.path(temp_dir, "observations_1.csv")),
-    "does not exist."
+    "'.*observations_1.csv' does not exist."
+    # no fixed = TRUE, since full returned path depends on system
   )
   expect_error(
     readr::read_file(file.path(temp_dir, "observations_2.csv")),
-    "does not exist."
+    "'.*observations_2.csv' does not exist."
+    # no fixed = TRUE, since full returned path depends on system
   )
   unlink(temp_dir, recursive = TRUE)
 })
@@ -102,8 +110,8 @@ test_that("write_package() leaves resources with path as is, but copies files", 
   ))
 
   # Resources are unchanged
-  expect_equal(pkg$resources[[1]], pkg_out$resources[[1]])
-  expect_equal(pkg$resources[[2]], pkg_out$resources[[2]])
+  expect_identical(pkg_out$resources[[1]], pkg$resources[[1]])
+  expect_identical(pkg_out$resources[[2]], pkg$resources[[2]])
 
   # Files are written
   expect_type(readr::read_file(file.path(temp_dir, "deployments.csv")), "character")
@@ -121,7 +129,7 @@ test_that("write_package() leaves existing resources with `data` as is", {
   ))
 
   # Resource is unchanged
-  expect_equal(pkg$resources[[3]], pkg_out$resources[[3]])
+  expect_identical(pkg_out$resources[[3]], pkg$resources[[3]])
   unlink(temp_dir, recursive = TRUE)
 })
 
@@ -139,7 +147,7 @@ test_that("write_package() creates files for new resources", {
   ))
 
   # Added resource has path (not data) and was written to file
-  expect_equal(pkg_out$resources[[4]]$path, "new.csv")
+  expect_identical(pkg_out$resources[[4]]$path, "new.csv")
   expect_null(pkg_out$resources[[4]]$data)
   expect_type(readr::read_file(file.path(temp_dir, "new.csv")), "character")
   unlink(temp_dir, recursive = TRUE)
@@ -161,20 +169,20 @@ test_that("write_package() adds correct properties for new resources", {
   resource_out <- pkg_out$resources[[4]]
 
   # Added resource has correct properties
-  expect_equal(resource_out$name, "new")
-  expect_equal(resource_out$path, "new.csv")
-  expect_equal(resource_out$profile, "tabular-data-resource")
+  expect_identical(resource_out$name, "new")
+  expect_identical(resource_out$path, "new.csv")
+  expect_identical(resource_out$profile, "tabular-data-resource")
   expect_null(resource_out$title)
   expect_null(resource_out$description)
-  expect_equal(resource_out$format, "csv")
-  expect_equal(resource_out$mediatype, "text/csv")
-  expect_equal(resource_out$encoding, "utf-8")
+  expect_identical(resource_out$format, "csv")
+  expect_identical(resource_out$mediatype, "text/csv")
+  expect_identical(resource_out$encoding, "utf-8")
   expect_null(resource_out$dialect)
   expect_null(resource_out$bytes)
   expect_null(resource_out$hash)
   expect_null(resource_out$sources)
   expect_null(resource_out$licenses)
-  expect_equal(resource_out$schema, schema)
+  expect_identical(resource_out$schema, schema)
   expect_null(resource_out$data)
   expect_null(resource_out$read_from)
   unlink(temp_dir, recursive = TRUE)

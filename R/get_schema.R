@@ -25,7 +25,8 @@ get_schema <- function(package, resource_name) {
     replace_null(resource$profile, "") == "tabular-data-resource",
     msg = glue::glue(
       "Resource `{resource_name}` must have property `profile` with value",
-      "`tabular-data-resource`.", .sep = " "
+      "`tabular-data-resource`.",
+      .sep = " "
     )
   )
 

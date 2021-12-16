@@ -15,8 +15,16 @@ test_that("check_schema() returns TRUE on valid Table Schema", {
 
 test_that("check_schema() returns error on invalid Table Schema", {
   # Must be a list and have list property "fields"
-  expect_error(check_schema("not_a_list"))
-  expect_error(check_schema(list()))
+  expect_error(
+    check_schema("not_a_list"),
+    "`schema` must be a list with property `fields`.",
+    fixed = TRUE
+  )
+  expect_error(
+    check_schema(list()),
+    "`schema` must be a list with property `fields`.",
+    fixed = TRUE
+  )
 
   # No names
   invalid_schema <- list(fields = list(
@@ -25,7 +33,12 @@ test_that("check_schema() returns error on invalid Table Schema", {
   ))
   expect_error(
     check_schema(invalid_schema),
-    "All fields in `schema` must have property `name`."
+    paste(
+      "All fields in `schema` must have property `name`.",
+      "ℹ Field(s) `1`, `2` don't have a name.",
+      sep = "\n"
+    ),
+    fixed = TRUE
   )
 
   # Invalid types
@@ -35,7 +48,11 @@ test_that("check_schema() returns error on invalid Table Schema", {
   ))
   expect_error(
     check_schema(invalid_schema),
-    "All fields in `schema` must have valid `type`."
+    paste(
+      "All fields in `schema` must have valid `type`.",
+      "Type `not_a_type` is invalid."
+    ),
+    fixed = TRUE
   )
   invalid_schema <- list(fields = list(
     list(name = "col_1", type = "not_a_type"),
@@ -43,7 +60,11 @@ test_that("check_schema() returns error on invalid Table Schema", {
   ))
   expect_error(
     check_schema(invalid_schema),
-    "All fields in `schema` must have valid `type`."
+    paste(
+      "All fields in `schema` must have valid `type`.",
+      "Type `not_a_type`, `not_a_type_either` is invalid."
+    ),
+    fixed = TRUE
   )
 })
 
@@ -68,15 +89,18 @@ test_that("check_schema() returns error on invalid or empty data frame", {
   schema <- create_schema(df)
   expect_error(
     check_schema(schema, "not_a_df"),
-    "`df` must be a data frame containing data."
+    "`df` must be a data frame containing data.",
+    fixed = TRUE
   )
   expect_error(
     check_schema(schema, data.frame()),
-    "`df` must be a data frame containing data."
+    "`df` must be a data frame containing data.",
+    fixed = TRUE
   )
   expect_error(
     check_schema(schema, data.frame("col_1" = character(0))),
-    "`df` must be a data frame containing data."
+    "`df` must be a data frame containing data.",
+    fixed = TRUE
   )
 })
 
@@ -93,7 +117,13 @@ test_that("check_schema() returns error on mismatching schema and data frame", {
   ))
   expect_error(
     check_schema(invalid_schema, df),
-    "Field names in `schema` must match column names in `df`"
+    paste(
+      "Field names in `schema` must match column names in `df`:",
+      "ℹ Field names: `col_2`, `col_1`",
+      "ℹ Column names: `col_1`, `col_2`",
+      sep = "\n"
+    ),
+    fixed = TRUE
   )
 
   # Too few elements
@@ -102,7 +132,13 @@ test_that("check_schema() returns error on mismatching schema and data frame", {
   ))
   expect_error(
     check_schema(invalid_schema, df),
-    "Field names in `schema` must match column names in `df`"
+    paste(
+      "Field names in `schema` must match column names in `df`:",
+      "ℹ Field names: `col_1`",
+      "ℹ Column names: `col_1`, `col_2`",
+      sep = "\n"
+    ),
+    fixed = TRUE
   )
 
   # Too many elements
@@ -113,6 +149,12 @@ test_that("check_schema() returns error on mismatching schema and data frame", {
   ))
   expect_error(
     check_schema(invalid_schema, df),
-    "Field names in `schema` must match column names in `df`"
+    paste(
+      "Field names in `schema` must match column names in `df`:",
+      "ℹ Field names: `col_1`, `col_2`, `col_3`",
+      "ℹ Column names: `col_1`, `col_2`",
+      sep = "\n"
+    ),
+    fixed = TRUE
   )
 })
