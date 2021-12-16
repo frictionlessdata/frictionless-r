@@ -201,9 +201,19 @@ test_that("read_resource() can read inline data (ignoring schema)", {
   )
 })
 
+test_that("read_resource() can read local files", {
+  pkg <- example_package
+  resource <- read_resource(pkg, "deployments") # local resource in remote package
+
+  pkg_local <- suppressMessages(read_package(
+    system.file("extdata", "datapackage.json", package = "frictionless")
+  ))
+  expect_identical(resource, read_resource(pkg_local, "deployments"))
+})
+
 test_that("read_resource() can read remote files", {
   pkg <- example_package
-  resource <- read_resource(pkg, "deployments")
+  resource <- read_resource(pkg, "deployments") # local resource in remote package
 
   pkg_remote_resource <- pkg
   pkg_remote_resource$resources[[1]]$path <- "https://github.com/frictionlessdata/frictionless-r/raw/main/inst/extdata/deployments.csv"
