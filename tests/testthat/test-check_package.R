@@ -56,11 +56,19 @@ test_that("check_package() returns error if resource_names are out of sync", {
   pkg$resource_names <- c("no_such_resource", "observations", "media")
   expect_error(
     check_package(pkg),
-    "Can't find resource\\(s\\) with name\\(s\\) `no_such_resource`."
+    paste(
+      "Can't find resource(s) with name(s) `no_such_resource`.",
+      "ℹ Is `package$resource_names` out of sync with `name` of resources?",
+      sep = "\n"
+    ),
   )
-  pkg$resource_names <- c("no_such_resource", "no_such_either", "media")
+  pkg$resource_names <- c("no_such_resource", "neither", "media")
   expect_error(
     check_package(pkg),
-    "Can't find resource\\(s\\) with name\\(s\\) `no_such_resource`, `no_such_either`."
+    paste(
+      "Can't find resource(s) with name(s) `no_such_resource`, `neither`.",
+      "ℹ Is `package$resource_names` out of sync with `name` of resources?",
+      sep = "\n"
+    ),
   )
 })

@@ -22,7 +22,7 @@ check_schema <- function(schema, df = NULL) {
     all(!is.na(field_names)),
     msg = glue::glue(
       "All fields in `schema` must have property `name`.",
-      "* Field(s) `{field_numbers_collapse}` don't have a name.",
+      "\u2139 Field(s) `{field_numbers_collapse}` don't have a name.",
       .sep = "\n"
     )
   )
@@ -35,11 +35,12 @@ check_schema <- function(schema, df = NULL) {
     NA_character_
   )
   invalid_types <- setdiff(field_types, valid_types)
+  invalid_types_collapse <- paste(invalid_types, collapse = "`, `")
   assertthat::assert_that(
     all(is.na(field_types)) | length(invalid_types) == 0,
     msg = glue::glue(
       "All fields in `schema` must have valid `type`.",
-      "Type `{invalid_types}` is invalid.",
+      "Type `{invalid_types_collapse}` is invalid.",
       .sep = " "
     )
   )
@@ -62,8 +63,8 @@ check_schema <- function(schema, df = NULL) {
       identical(field_names, col_names),
       msg = glue::glue(
         "Field names in `schema` must match column names in `df`:",
-        "* Field names: {field_names_collapse}",
-        "* Column names: {col_names_collapse}",
+        "\u2139 Field names: `{field_names_collapse}`",
+        "\u2139 Column names: `{col_names_collapse}`",
         .sep = "\n"
       )
     )

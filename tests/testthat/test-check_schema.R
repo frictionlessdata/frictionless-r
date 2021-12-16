@@ -25,7 +25,11 @@ test_that("check_schema() returns error on invalid Table Schema", {
   ))
   expect_error(
     check_schema(invalid_schema),
-    "All fields in `schema` must have property `name`."
+    paste(
+      "All fields in `schema` must have property `name`.",
+      "ℹ Field(s) `1`, `2` don't have a name.",
+      sep = "\n"
+    ),
   )
 
   # Invalid types
@@ -93,7 +97,12 @@ test_that("check_schema() returns error on mismatching schema and data frame", {
   ))
   expect_error(
     check_schema(invalid_schema, df),
-    "Field names in `schema` must match column names in `df`"
+    paste(
+      "Field names in `schema` must match column names in `df`:",
+      "ℹ Field names: `col_2`, `col_1`",
+      "ℹ Column names: `col_1`, `col_2`",
+      sep = "\n"
+    ),
   )
 
   # Too few elements
@@ -102,7 +111,12 @@ test_that("check_schema() returns error on mismatching schema and data frame", {
   ))
   expect_error(
     check_schema(invalid_schema, df),
-    "Field names in `schema` must match column names in `df`"
+    paste(
+      "Field names in `schema` must match column names in `df`:",
+      "ℹ Field names: `col_1`",
+      "ℹ Column names: `col_1`, `col_2`",
+      sep = "\n"
+    ),
   )
 
   # Too many elements
@@ -113,6 +127,11 @@ test_that("check_schema() returns error on mismatching schema and data frame", {
   ))
   expect_error(
     check_schema(invalid_schema, df),
-    "Field names in `schema` must match column names in `df`"
+    paste(
+      "Field names in `schema` must match column names in `df`:",
+      "ℹ Field names: `col_1`, `col_2`, `col_3`",
+      "ℹ Column names: `col_1`, `col_2`",
+      sep = "\n"
+    ),
   )
 })

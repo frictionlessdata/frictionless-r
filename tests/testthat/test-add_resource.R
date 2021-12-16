@@ -78,8 +78,16 @@ test_that("add_resource() returns error on incorrect Table Schema", {
     "col_2" = factor(c("a", "b"), levels = c("a", "b", "c"))
   )
   schema_invalid <- create_schema(df) # Not yet invalid
-  schema_invalid[[1]]$name <- "no_such_col"
-  expect_error(add_resource(pkg, "new", df, schema_invalid))
+  schema_invalid$fields[[1]]$name <- "no_such_col"
+  expect_error(
+    add_resource(pkg, "new", df, schema_invalid),
+    paste(
+      "Field names in `schema` must match column names in `df`:",
+      "ℹ Field names: `no_such_col`, `col_2`",
+      "ℹ Column names: `col_1`, `col_2`",
+      sep = "\n"
+    ),
+  )
 
   # For more tests see test-check_schema.R
 })
