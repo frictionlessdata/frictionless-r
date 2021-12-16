@@ -15,14 +15,14 @@ test_that("read_package() returns a valid Data Package, whether reading path or 
 
   # Package has correct "resource_names"
   resource_names <- c("deployments", "observations", "media")
-  expect_equal(pkg_local$resource_names, resource_names)
-  expect_equal(pkg_remote$resource_names, resource_names)
-  expect_equal(pkg_minimal$resource_names, resource_names)
+  expect_identical(pkg_local$resource_names, resource_names)
+  expect_identical(pkg_remote$resource_names, resource_names)
+  expect_identical(pkg_minimal$resource_names, resource_names)
 
   # Package has correct "directory", containing root dir of datapackage.json
-  expect_equal(pkg_local$directory, gsub("/datapackage.json", "", pkg_path))
-  expect_equal(pkg_remote$directory, gsub("/datapackage.json", "", pkg_url))
-  expect_equal(pkg_minimal$directory, "data")
+  expect_identical(pkg_local$directory, gsub("/datapackage.json", "", pkg_path))
+  expect_identical(pkg_remote$directory, gsub("/datapackage.json", "", pkg_url))
+  expect_identical(pkg_minimal$directory, "data")
 })
 
 test_that("read_package() informs about usage norms", {

@@ -34,8 +34,8 @@ test_that("remove_resource() removes resource, resource_name", {
 
   # Resource removed
   expect_length(pkg_removed$resources, 2) # Remains a list, now of length 2
-  expect_equal(pkg_removed$resources[[1]][["name"]], "observations")
+  expect_identical(pkg_removed$resources[[1]][["name"]], "observations")
 
   # Resource name removed
-  expect_equal(pkg_removed$resource_names, c("observations", "media"))
+  expect_identical(pkg_removed$resource_names, c("observations", "media"))
 })

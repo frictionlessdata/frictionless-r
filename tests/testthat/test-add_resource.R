@@ -114,10 +114,10 @@ test_that("add_resource() adds resource, resource_name", {
 
   # Resource added
   expect_length(pkg$resources, 4) # Remains a list, now of length 4
-  expect_equal(pkg$resources[[4]][["name"]], "new")
+  expect_identical(pkg$resources[[4]][["name"]], "new")
 
   # Resource name added
-  expect_equal(
+  expect_identical(
     pkg$resource_names,
     c("deployments", "observations", "media", "new")
   )
@@ -130,7 +130,7 @@ test_that("add_resource() adds schema when none is provided", {
     "col_2" = factor(c("a", "b"), levels = c("a", "b", "c"))
   )
   pkg <- add_resource(pkg, "new", df)
-  expect_equal(pkg$resources[[4]]$schema, create_schema(df))
+  expect_identical(pkg$resources[[4]]$schema, create_schema(df))
 })
 
 test_that("add_resource() creates resource that can be passed to read_resource()", {
@@ -140,7 +140,7 @@ test_that("add_resource() creates resource that can be passed to read_resource()
     "col_2" = factor(c("a", "b"), levels = c("a", "b", "c"))
   )
   pkg <- add_resource(pkg, "new", df)
-  expect_equal(read_resource(pkg, "new"), dplyr::as_tibble(df))
+  expect_identical(read_resource(pkg, "new"), dplyr::as_tibble(df))
 })
 
 test_that("add_resource() creates resource that can be passed to get_schema()", {
@@ -151,7 +151,7 @@ test_that("add_resource() creates resource that can be passed to get_schema()", 
   )
   schema <- create_schema(df)
   pkg <- add_resource(pkg, "new", df, schema)
-  expect_equal(get_schema(pkg, "new"), schema)
+  expect_identical(get_schema(pkg, "new"), schema)
 })
 
 if (FALSE) {

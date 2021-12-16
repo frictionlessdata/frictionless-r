@@ -19,7 +19,7 @@ test_that("create_schema() returns a valid Table Schema", {
       )
     )
   )
-  expect_equal(create_schema(df), expected_schema)
+  expect_identical(create_schema(df), expected_schema)
   expect_true(check_schema(create_schema(df)))
 })
 
@@ -47,7 +47,7 @@ test_that("create_schema() uses colnames as field names", {
   df <- data.frame(NA, NA, NA, NA)
   colnames <- c("col_1", "Column 2", "col_3!") # Only 3 of 4 defined
   colnames(df) <- colnames
-  expect_equal(
+  expect_identical(
     purrr::map_chr(create_schema(df)$fields, ~ .x$name),
     c(colnames, "") # Last unnamed column (NA) should have empty name ""
   )
@@ -97,7 +97,7 @@ test_that("create_schema() translates coltypes into field types", {
   types <- purrr::map(schema$fields, ~ .x$type)
   types <- setNames(types, purrr::map_chr(schema$fields, ~ .x$name))
 
-  expect_equal(
+  expect_identical(
     types,
     list(
       array = "number",

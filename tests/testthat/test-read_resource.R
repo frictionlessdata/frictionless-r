@@ -185,13 +185,13 @@ test_that("read_resource() can read newly added data (ignoring schema)", {
     "col_2" = factor(c("a", "b"), levels = c("a", "b", "c"))
   )
   pkg <- add_resource(pkg, "new", df)
-  expect_equal(read_resource(pkg, "new"), dplyr::as_tibble(df))
+  expect_identical(read_resource(pkg, "new"), dplyr::as_tibble(df))
 })
 
 test_that("read_resource() can read inline data (ignoring schema)", {
   pkg <- example_package
   expected_resource <- readr::read_csv("data/media.csv", col_types = "ccccc")
-  expect_equal(read_resource(pkg, "media"), expected_resource)
+  expect_identical(read_resource(pkg, "media"), expected_resource)
 
   pkg$resources[[3]]$data <- "not_a_list" # Media resource
   expect_error(
@@ -208,7 +208,7 @@ test_that("read_resource() can read local files", {
   pkg_local <- suppressMessages(read_package(
     system.file("extdata", "datapackage.json", package = "frictionless")
   ))
-  expect_identical(resource, read_resource(pkg_local, "deployments"))
+  expect_identical(read_resource(pkg_local, "deployments"), resource)
 })
 
 test_that("read_resource() can read remote files", {
@@ -217,7 +217,7 @@ test_that("read_resource() can read remote files", {
 
   pkg_remote_resource <- pkg
   pkg_remote_resource$resources[[1]]$path <- "https://github.com/frictionlessdata/frictionless-r/raw/main/inst/extdata/deployments.csv"
-  expect_identical(resource, read_resource(pkg_remote_resource, "deployments"))
+  expect_identical(read_resource(pkg_remote_resource, "deployments"), resource)
 })
 
 test_that("read_resource() can read local and remote Table Schemas", {
@@ -229,11 +229,11 @@ test_that("read_resource() can read local and remote Table Schemas", {
   pkg_local_schema$resources[[1]]$schema <- "data/deployments_schema.json"
   # Using a remote path, otherwise schema and path need to share same directory
   pkg_local_schema$resources[[1]]$path <- "https://github.com/frictionlessdata/frictionless-r/raw/main/inst/extdata/deployments.csv"
-  expect_identical(resource, read_resource(pkg_local_schema, "deployments"))
+  expect_identical(read_resource(pkg_local_schema, "deployments"), resource)
 
   pkg_remote_schema <- pkg
   pkg_remote_schema$resources[[1]]$schema <- "https://github.com/frictionlessdata/frictionless-r/raw/main/tests/testthat/data/deployments_schema.json"
-  expect_identical(resource, read_resource(pkg_remote_schema, "deployments"))
+  expect_identical(read_resource(pkg_remote_schema, "deployments"), resource)
 })
 
 test_that("read_resource() can read local and remote CSV dialect", {
@@ -245,11 +245,11 @@ test_that("read_resource() can read local and remote CSV dialect", {
   pkg_local_dialect$resources[[1]]$dialect <- "data/dialect.json"
   # Using a remote path, otherwise schema and path need to share same directory
   pkg_local_dialect$resources[[1]]$path <- "https://github.com/frictionlessdata/frictionless-r/raw/main/inst/extdata/deployments.csv"
-  expect_identical(resource, read_resource(pkg_local_dialect, "deployments"))
+  expect_identical(read_resource(pkg_local_dialect, "deployments"), resource)
 
   pkg_remote_dialect <- pkg
   pkg_remote_dialect$resources[[1]]$dialect <- "https://github.com/frictionlessdata/frictionless-r/raw/main/tests/testthat/data/dialect.json"
-  expect_identical(resource, read_resource(pkg_remote_dialect, "deployments"))
+  expect_identical(read_resource(pkg_remote_dialect, "deployments"), resource)
 })
 
 test_that("read_resource() understands CSV dialect", {
@@ -278,7 +278,7 @@ test_that("read_resource() understands CSV dialect", {
   # The default read_resource() sets this to: skip = 1
   # Since that is not a difference we want to test, we overwrite it
   attr(resource_dialect, "spec")$skip <- 1
-  expect_identical(resource, resource_dialect)
+  expect_identical(resource_dialect, resource)
 })
 
 test_that("read_resource() understands missing values", {
@@ -291,7 +291,7 @@ test_that("read_resource() understands missing values", {
   pkg_missing$resources[[1]]$path <- "data/deployments_missingvalues.csv"
   pkg_missing$resources[[1]]$schema$missingValues <-
     append(pkg_missing$resources[[1]]$schema$missingValues, "ignore")
-  expect_identical(resource, read_resource(pkg_missing, "deployments"))
+  expect_identical(read_resource(pkg_missing, "deployments"), resource)
 })
 
 test_that("read_resource() understands encoding", {
@@ -303,7 +303,7 @@ test_that("read_resource() understands encoding", {
   pkg_encoding$directory <- "." # Use "./tests/testthat" outside test
   pkg_encoding$resources[[1]]$path <- "data/deployments_encoding.csv"
   pkg_encoding$resources[[1]]$encoding <- "windows-1252"
-  expect_identical(resource, read_resource(pkg_encoding, "deployments"))
+  expect_identical(read_resource(pkg_encoding, "deployments"), resource)
 })
 
 test_that("read_resource() handles LF and CRLF line terminator characters", {
@@ -327,7 +327,7 @@ test_that("read_resource() handles LF and CRLF line terminator characters", {
   pkg_crlf <- pkg
   pkg_crlf$directory <- "." # Use "./tests/testthat" outside test
   pkg_crlf$resources[[1]]$path <- "data/deployments_crlf.csv" # This file has CRLF
-  expect_identical(resource, read_resource(pkg_crlf, "deployments"))
+  expect_identical(read_resource(pkg_crlf, "deployments"), resource)
 })
 
 test_that("read_resource() can read compressed files", {
@@ -352,7 +352,7 @@ test_that("read_resource() can read compressed files", {
   pkg_remote_gz$resources[[1]]$path <-
     "https://github.com/frictionlessdata/frictionless-r/raw/main/tests/testthat/data/deployments.csv.gz"
 
-  expect_identical(resource, read_resource(pkg_local_zip, "deployments"))
+  expect_identical(read_resource(pkg_local_zip, "deployments"), resource)
   # Remote zip not supported, see
   # https://github.com/tidyverse/readr/issues/1042#issuecomment-545103047
   expect_error(
@@ -364,8 +364,8 @@ test_that("read_resource() can read compressed files", {
     ),
     fixed = TRUE
   )
-  expect_identical(resource, read_resource(pkg_local_gz, "deployments"))
-  expect_identical(resource, read_resource(pkg_remote_gz, "deployments"))
+  expect_identical(read_resource(pkg_local_gz, "deployments"), resource)
+  expect_identical(read_resource(pkg_remote_gz, "deployments"), resource)
 })
 
 test_that("read_resource() handles strings", {
