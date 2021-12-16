@@ -2,7 +2,7 @@ pandoc: 2.7.3
 pkgdown: 2.0.1
 pkgdown_sha: ~
 articles: {}
-last_built: 2021-12-10T15:28Z
+last_built: 2021-12-16T20:57Z
 urls:
   reference: https://frictionlessdata.github.io/frictionless-r/reference
   article: https://frictionlessdata.github.io/frictionless-r/articles

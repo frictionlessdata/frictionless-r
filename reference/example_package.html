@@ -82,9 +82,9 @@ camera trap data organized in 3 Data Resources:</p><ul><li><p><code>deployments<
 <span class="r-in"><span class="co"># be created using a URL, otherwise all Data Resource paths will point to</span></span>
 <span class="r-in"><span class="co"># local paths that won't work for other users. One can load locally using:</span></span>
 <span class="r-in"><span class="co"># read_package(system.file("extdata", "datapackage.json", package = "frictionless"))</span></span>
-<span class="r-in"><span class="va">example_package</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_package.html">read_package</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span></span>
+<span class="r-in"><span class="va">example_package</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_package.html">read_package</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span></span>
 <span class="r-in">  <span class="st">"https://raw.githubusercontent.com/frictionlessdata/frictionless-r"</span>,</span>
-<span class="r-in">  <span class="st">"main/inst/extdata/datapackage.json"</span>, sep <span class="op">=</span> <span class="st">"/"</span></span>
+<span class="r-in">  <span class="st">"main/inst/extdata/datapackage.json"</span></span>
 <span class="r-in"><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/save.html" class="external-link">save</a></span><span class="op">(</span><span class="va">example_package</span>, file <span class="op">=</span> <span class="st">"data/example_package.rda"</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
