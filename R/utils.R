@@ -43,12 +43,12 @@ check_path <- function(path, directory = NULL, unsafe = TRUE) {
   if (!startsWith(path, "http")) {
     assertthat::assert_that(
       unsafe | !startsWith(path, "/"),
-      msg = glue::glue("{path} is an absolute path (`/`) which is unsafe.")
+      msg = glue::glue("`{path}` is an absolute path (`/`) which is unsafe.")
     )
     assertthat::assert_that(
       unsafe | !startsWith(path, "../"),
       msg = glue::glue(
-        "{path} is a relative parent path (`../`) which is unsafe."
+        "`{path}` is a relative parent path (`../`) which is unsafe."
       )
     )
     if (!is.null(directory)) {

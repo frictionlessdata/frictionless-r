@@ -30,31 +30,75 @@ test_that("read_package() informs about usage norms", {
   pkg_path <- system.file("extdata", "datapackage.json", package = "frictionless")
   minimal_extra_path <- "data/valid_minimal_extra.json"
 
-  expect_message(read_package(pkg_path), "make sure you have the right to")
+  expected_message <- glue::glue(
+    "Please make sure you have the right to access data from this",
+    "Data Package for your intended use.\n",
+    "Follow applicable norms or requirements to credit the dataset",
+    "and its authors.",
+    .sep = " "
+  )
+  expect_message(
+    read_package(pkg_path),
+    expected_message,
+    fixed = TRUE
+  )
   expect_message(
     read_package(minimal_extra_path),
-    "For more information, see https://example.com"
+    paste(
+      expected_message,
+      "For more information, see https://example.com",
+      sep = "\n"
+    ),
+    fixed = TRUE
   )
 })
 
 test_that("read_package() returns error on missing file and properties", {
   # No file
-  expect_error(read_package("nofile.json"), "Can't find file at")
+  expect_error(
+    read_package("nofile.json"),
+    "Can't find file at `nofile.json`",
+    fixed = TRUE
+  )
   expect_error(
     read_package("http://example.com/nofile.json"),
-    "Can't find file at"
+    "Can't find file at `http://example.com/nofile.json`.",
+    fixed = TRUE
   )
 
-  # Not a json file: parsing error
-  expect_error(read_package(system.file("extdata", "deployments.csv", package = "frictionless")))
+  # Not a json file
+  expect_error(
+    read_package(system.file("extdata", "deployments.csv", package = "frictionless")),
+    "lexical error: invalid char in json text."
+  )
 
   # No resources
-  expected_error_msg <- "must have property `resources` containing at least one resource. All resources must have a `name`."
-  expect_error(read_package("data/resources_missing.json"), expected_error_msg)
+  expect_error(
+    read_package("data/resources_missing.json"),
+    paste(
+      "`data/resources_missing.json` must have property `resources`",
+      "containing at least one resource. All resources must have a `name`."
+    ),
+    fixed = TRUE
+  )
 
   # Empty resources
-  expect_error(read_package("data/resources_empty.json"), expected_error_msg)
+  expect_error(
+    read_package("data/resources_empty.json"),
+    paste(
+      "`data/resources_empty.json` must have property `resources`",
+      "containing at least one resource. All resources must have a `name`."
+    ),
+    fixed = TRUE
+  )
 
   # No resource name
-  expect_error(read_package("data/resources_no_name.json"), expected_error_msg)
+  expect_error(
+    read_package("data/resources_no_name.json"),
+    paste(
+      "`data/resources_no_name.json` must have property `resources`",
+      "containing at least one resource. All resources must have a `name`."
+    ),
+    fixed = TRUE
+  )
 })

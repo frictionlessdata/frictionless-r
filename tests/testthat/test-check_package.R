@@ -10,10 +10,17 @@ test_that("check_package() returns error on incorrect Data Package", {
     directory = "."
   )
   class(pkg) <- c("datapackage", class(pkg))
-  expect_true(check_package(pkg), "`package` must be")
+  expect_true(check_package(pkg))
 
   # Must be a list
-  expect_error(check_package("not_a_list"), "`package` must be")
+  expect_error(
+    check_package("not_a_list"),
+    paste(
+      "`package` must be a list object of class `datapackage` created with",
+      "`read_package()` or `create_package()`."
+    ),
+    fixed = TRUE
+  )
 
   # Must have class datapackage
   pkg_invalid <- pkg
@@ -47,7 +54,8 @@ test_that("check_package() returns error if resources have no name", {
   pkg$resources[[2]]$name <- NULL
   expect_error(
     check_package(pkg),
-    "All resources in `package` must have property `name`"
+    "All resources in `package` must have property `name`",
+    fixed = TRUE
   )
 })
 
@@ -61,6 +69,7 @@ test_that("check_package() returns error if resource_names are out of sync", {
       "ℹ Is `package$resource_names` out of sync with `name` of resources?",
       sep = "\n"
     ),
+    fixed = TRUE
   )
   pkg$resource_names <- c("no_such_resource", "neither", "media")
   expect_error(
@@ -70,5 +79,6 @@ test_that("check_package() returns error if resource_names are out of sync", {
       "ℹ Is `package$resource_names` out of sync with `name` of resources?",
       sep = "\n"
     ),
+    fixed = TRUE
   )
 })

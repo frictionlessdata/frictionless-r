@@ -10,7 +10,11 @@ test_that("write_package() returns a input Data Package (invisibly)", {
 test_that("write_package() returns error on incorrect Data Package", {
   expect_error(
     write_package(list()),
-    "`package` must be a list object of class `datapackage`"
+    paste(
+      "`package` must be a list object of class `datapackage` created with",
+      "`read_package()` or `create_package()`."
+    ),
+    fixed = TRUE
   )
 })
 
@@ -19,7 +23,8 @@ test_that("write_package() returns error if Data Package has no resource(s)", {
   temp_dir <- tempdir()
   expect_error(
     write_package(pkg_empty, temp_dir),
-    "`package` must have resources."
+    "`package` must have resources. Use `add_resource()` to add resources.",
+    fixed = TRUE
   )
 
   # Resources without name are tested in test-check_package.R
@@ -78,15 +83,18 @@ test_that("write_package() leaves resources with URL as is, but updates path to 
   # Do not expect files
   expect_error(
     readr::read_file(file.path(temp_dir, "deployments.csv")),
-    "does not exist."
+    "'.*deployments.csv' does not exist."
+    # no fixed = TRUE, since full returned path depends on system
   )
   expect_error(
     readr::read_file(file.path(temp_dir, "observations_1.csv")),
-    "does not exist."
+    "'.*observations_1.csv' does not exist."
+    # no fixed = TRUE, since full returned path depends on system
   )
   expect_error(
     readr::read_file(file.path(temp_dir, "observations_2.csv")),
-    "does not exist."
+    "'.*observations_2.csv' does not exist."
+    # no fixed = TRUE, since full returned path depends on system
   )
   unlink(temp_dir, recursive = TRUE)
 })

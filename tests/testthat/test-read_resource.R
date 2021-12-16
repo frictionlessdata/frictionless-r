@@ -14,7 +14,11 @@ test_that("read_resource() returns a tibble", {
 test_that("read_resource() returns error on incorrect Data Package", {
   expect_error(
     read_resource(list(), "deployments"),
-    "`package` must be a list object of class `datapackage`"
+    paste(
+      "`package` must be a list object of class `datapackage` created with",
+      "`read_package()` or `create_package()`."
+    ),
+    fixed = TRUE
   )
 })
 
@@ -22,7 +26,14 @@ test_that("read_resource() returns error on incorrect resource", {
   pkg <- example_package
 
   # No such resource
-  expect_error(read_resource(pkg, "no_such_resource"), "Can't find resource")
+  expect_error(
+    read_resource(pkg, "no_such_resource"),
+    paste(
+      "Can't find resource `no_such_resource` in `deployments`,",
+      "`observations`, `media`."
+    ),
+    fixed = TRUE
+  )
 
   # Create invalid package and add properties one by one to pass errors
   pkg_invalid <- create_package()
@@ -31,35 +42,52 @@ test_that("read_resource() returns error on incorrect resource", {
 
   # No path or data
   expect_error(
-    read_resource(pkg_invalid, "deployments"), "must have property `path` or `data`."
+    read_resource(pkg_invalid, "deployments"),
+    "Resource `deployments` must have property `path` or `data`.",
+    fixed = TRUE
   )
 
   # No file at path url
   pkg_invalid$resources[[1]]$path <- "http://example.com/no_file.csv"
   expect_error(
-    read_resource(pkg_invalid, "deployments"), "Can't find file at `http:"
+    read_resource(pkg_invalid, "deployments"),
+    "Can't find file at `http://example.com/no_file.csv`.",
+    fixed = TRUE
   )
 
   # No file at path
   pkg_invalid$resources[[1]]$path <- "no_file.csv"
   expect_error(
-    read_resource(pkg_invalid, "deployments"), "Can't find file at `./no_file.csv"
+    read_resource(pkg_invalid, "deployments"),
+    "Can't find file at `./no_file.csv`.",
+    fixed = TRUE
   )
 
   # No file at paths
   pkg_invalid$resources[[1]]$path <- c("deployments.csv", "no_file.csv")
-  expect_error(read_resource(pkg_invalid, "deployments"), "Can't find file at")
+  expect_error(
+    read_resource(pkg_invalid, "deployments"),
+    "Can't find file at `./deployments.csv`.",
+    fixed = TRUE
+  )
 
   # Path is absolute path
   pkg_invalid$resources[[1]]$path <- "/inst/extdata/deployments.csv"
   expect_error(
-    read_resource(pkg_invalid, "deployments"), "is an absolute path"
+    read_resource(pkg_invalid, "deployments"),
+    "`/inst/extdata/deployments.csv` is an absolute path (`/`) which is unsafe.",
+    fixed = TRUE
   )
 
   # Path is relative parent path
   pkg_invalid$resources[[1]]$path <- "../../inst/extdata/deployments.csv"
   expect_error(
-    read_resource(pkg_invalid, "deployments"), "is a relative parent path"
+    read_resource(pkg_invalid, "deployments"),
+    paste(
+      "`../../inst/extdata/deployments.csv` is a relative parent path (`../`)",
+      "which is unsafe."
+    ),
+    fixed = TRUE
   )
 
   # Add valid path
@@ -71,36 +99,65 @@ test_that("read_resource() returns error on incorrect resource", {
   # Not a tabular-data-resource
   expect_error(
     read_resource(pkg_invalid, "deployments"),
-    "must have property `profile` with value `tabular-data-resource`"
+    paste(
+      "Resource `deployments` must have property `profile` with value",
+      "`tabular-data-resource`."
+    ),
+    fixed = TRUE
   )
 
   # No schema
   pkg_invalid$resources[[1]]$profile <- "tabular-data-resource"
   expect_error(
-    read_resource(pkg_invalid, "deployments"), "must have property `schema`."
+    read_resource(pkg_invalid, "deployments"),
+    "Resource `deployments` must have property `schema`.",
+    fixed = TRUE
   )
 
   # No file at schema url
   pkg_invalid$resources[[1]]$schema <- "http://example.com/no_schema.json"
-  expect_error(read_resource(pkg_invalid, "deployments"), "Can't find file at")
+  expect_error(
+    read_resource(pkg_invalid, "deployments"),
+    "Can't find file at `http://example.com/no_schema.json`.",
+    fixed = TRUE
+  )
 
   # No file at schema
   pkg_invalid$resources[[1]]$schema <- "no_schema.json"
-  expect_error(read_resource(pkg_invalid, "deployments"), "Can't find file at")
+  expect_error(
+    read_resource(pkg_invalid, "deployments"),
+    "Can't find file at `.*no_schema.json`",
+    # no fixed = TRUE, since full returned path depends on system
+  )
 
   # Schema is absolute path
   pkg_invalid$resources[[1]]$schema <- "/tests/testthat/data/deployments_schema.json"
-  expect_error(read_resource(pkg_invalid, "deployments"), "is an absolute path")
+  expect_error(
+    read_resource(pkg_invalid, "deployments"),
+    paste(
+      "`/tests/testthat/data/deployments_schema.json` is an absolute path",
+      "(`/`) which is unsafe."
+    ),
+    fixed = TRUE
+  )
 
   # Schema is relative parent path
   pkg_invalid$resources[[1]]$schema <- "../testthat/data/deployments_schema.json"
-  expect_error(read_resource(pkg_invalid, "deployments"), "is a relative parent path")
+  expect_error(
+    read_resource(pkg_invalid, "deployments"),
+    paste(
+      "`../testthat/data/deployments_schema.json` is a relative parent path",
+      "(`../`) which is unsafe."
+    ),
+    fixed = TRUE
+  )
 
   # No fields
   pkg_invalid$resources[[1]]$schema <- list()
   expect_error(
     read_resource(pkg_invalid, "deployments"),
-    "`schema` must be a list with property `fields`."
+    "`schema` must be a list with property `fields`.",
+    fixed = TRUE
   )
 
   # No field name
@@ -117,6 +174,7 @@ test_that("read_resource() returns error on incorrect resource", {
       "ℹ Field(s) `2` don't have a name.",
       sep = "\n"
     ),
+    fixed = TRUE
   )
 })
 
@@ -136,7 +194,11 @@ test_that("read_resource() can read inline data (ignoring schema)", {
   expect_equal(read_resource(pkg, "media"), expected_resource)
 
   pkg$resources[[3]]$data <- "not_a_list" # Media resource
-  expect_error(read_resource(pkg, "media"))
+  expect_error(
+    read_resource(pkg, "media"),
+    "second argument must be a list",
+    fixed = TRUE
+  )
 })
 
 test_that("read_resource() can read remote files", {
@@ -283,7 +345,15 @@ test_that("read_resource() can read compressed files", {
   expect_identical(resource, read_resource(pkg_local_zip, "deployments"))
   # Remote zip not supported, see
   # https://github.com/tidyverse/readr/issues/1042#issuecomment-545103047
-  expect_error(read_resource(pkg_remote_zip, "deployments"))
+  expect_error(
+    read_resource(pkg_remote_zip, "deployments"),
+    paste(
+      "Reading from remote `zip` compressed files is not supported,",
+      "  download the files locally first.",
+      sep = "\n"
+    ),
+    fixed = TRUE
+  )
   expect_identical(resource, read_resource(pkg_local_gz, "deployments"))
   expect_identical(resource, read_resource(pkg_remote_gz, "deployments"))
 })

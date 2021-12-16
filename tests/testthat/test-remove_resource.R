@@ -6,13 +6,24 @@ test_that("remove_resource() returns a valid Data Package", {
 test_that("remove_resource() returns error on incorrect Data Package", {
   expect_error(
     remove_resource(list(), "deployments"),
-    "`package` must be a list object of class `datapackage`"
+    paste(
+      "`package` must be a list object of class `datapackage` created with",
+      "`read_package()` or `create_package()`."
+    ),
+    fixed = TRUE
   )
 })
 
 test_that("remove_resource() returns error when resource not found", {
   pkg <- example_package
-  expect_error(remove_resource(pkg, "no_such_resource"), "Can't find resource")
+  expect_error(
+    remove_resource(pkg, "no_such_resource"),
+    paste(
+      "Can't find resource `no_such_resource` in `deployments`,",
+      "`observations`, `media`."
+    ),
+    fixed = TRUE
+  )
 })
 
 test_that("remove_resource() removes resource, resource_name", {

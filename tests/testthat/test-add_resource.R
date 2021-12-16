@@ -16,7 +16,8 @@ test_that("add_resource() returns error on incorrect Data Package", {
   )
   expect_error(
     add_resource(list(), "new", df),
-    "`package` must be a list object of class `datapackage`"
+    "`package` must be a list object of class `datapackage`",
+    fixed = TRUE
   )
 })
 
@@ -26,7 +27,14 @@ test_that("add_resource() returns error when resource name contains invalid char
     "col_1" = c(1, 2),
     "col_2" = factor(c("a", "b"), levels = c("a", "b", "c"))
   )
-  expect_error(add_resource(pkg, "New", df), "only contain lowercase")
+  expect_error(
+    add_resource(pkg, "New", df),
+    paste(
+      "`New` must only contain lowercase alphanumeric characters plus",
+      "`.`, `-` and `_`."
+    ),
+    fixed = TRUE
+  )
   expect_error(add_resource(pkg, "nëw", df), "only contain lowercase")
   expect_error(add_resource(pkg, " new", df), "only contain lowercase")
   expect_error(add_resource(pkg, "new ", df), "only contain lowercase")
@@ -48,7 +56,8 @@ test_that("add_resource() returns error when resource of that name already exist
   )
   expect_error(
     add_resource(pkg, "deployments", df),
-    "`package` already contains a resource named `deployments`."
+    "`package` already contains a resource named `deployments`.",
+    fixed = TRUE
   )
 })
 
@@ -61,11 +70,13 @@ test_that("add_resource() returns error on invalid or empty data frame", {
   schema <- create_schema(df)
   expect_error(
     add_resource(pkg, "new", data.frame("col_1" = character(0))),
-    "`df` must be a data frame containing data."
+    "`df` must be a data frame containing data.",
+    fixed = TRUE
   )
   expect_error(
     add_resource(pkg, "new", data.frame("col_1" = character(0)), schema),
-    "`df` must be a data frame containing data."
+    "`df` must be a data frame containing data.",
+    fixed = TRUE
   )
 
   # For more tests see test-check_schema.R
@@ -87,6 +98,7 @@ test_that("add_resource() returns error on incorrect Table Schema", {
       "ℹ Column names: `col_1`, `col_2`",
       sep = "\n"
     ),
+    fixed = TRUE
   )
 
   # For more tests see test-check_schema.R
