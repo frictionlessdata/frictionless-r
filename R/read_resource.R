@@ -240,9 +240,6 @@ read_resource <- function(package, resource_name) {
     group_char <- ifelse(replace_null(x$groupChar, "") != "", TRUE, FALSE)
     bare_number <- ifelse(replace_null(x$bareNumber, "") != FALSE, TRUE, FALSE)
     format <- replace_null(x$format, "default") # Undefined => default
-    convert_format <- function(format, translations) {
-      format %>% stringr::str_replace_all(translations)
-    }
 
     # Assign types and formats
     col_type <- switch(type,
@@ -270,18 +267,18 @@ read_resource <- function(package, resource_name) {
       "boolean" = readr::col_logical(),
       "object" = readr::col_character(),
       "array" = readr::col_character(),
-      "date" = readr::col_date(format = convert_format(format, c(
+      "date" = readr::col_date(format = stringr::str_replace_all(format, c(
         "^default$" = "%Y-%m-%d", # ISO
         "^any$" = "%AD",          # YMD
         "^%x$" = "%m/%d/%y"       # Python strptime for %x
       ))),
-      "time" = readr::col_time(format = convert_format(format, c(
+      "time" = readr::col_time(format = stringr::str_replace_all(format, c(
         "^default$" = "%AT",      # H(MS)
         "^any$" = "%AT",          # H(MS)
         "^%X$" = "%H:%M:%S",      # HMS
         "%S.%f" = "%OS"           # Milli/microseconds
       ))),
-      "datetime" = readr::col_datetime(format = convert_format(format, c(
+      "datetime" = readr::col_datetime(format = stringr::str_replace_all(format, c(
         "^default$" = "",         # ISO (lenient)
         "^any$" = "",             # ISO (lenient)
         "%S.%f" = "%OS"           # Milli/microseconds
