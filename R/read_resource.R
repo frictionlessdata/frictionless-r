@@ -33,7 +33,6 @@
 #'
 #' ## Data
 #'
-#' `r lifecycle::badge('experimental')`
 #' If `path` is not present, the function will attempt to read data from the
 #' `data` property. **`schema` will be ignored**.
 #'

@@ -45,7 +45,6 @@ paths are listed.
 
 \subsection{Data}{
 
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 If \code{path} is not present, the function will attempt to read data from the
 \code{data} property. \strong{\code{schema} will be ignored}.
 }
