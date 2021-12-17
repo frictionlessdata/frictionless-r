@@ -6,6 +6,7 @@
 #' [add_resource()]).
 #'
 #' @return List object describing a Data Package.
+#' @family create functions
 #' @export
 #' @examples
 #' # Create a Data Package

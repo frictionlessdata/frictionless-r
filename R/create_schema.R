@@ -6,6 +6,7 @@
 #'
 #' @param df A data frame.
 #' @return List object describing a Table Schema.
+#' @family create functions
 #' @export
 #' @section Table schema properties:
 #' The Table Schema will be created from the data frame columns:

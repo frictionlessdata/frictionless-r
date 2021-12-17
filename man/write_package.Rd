@@ -39,3 +39,4 @@ list.files("my_package")
 # Clean up (don't do this if you want to keep your files)
 unlink("my_package", recursive = TRUE)
 }
+\concept{write functions}

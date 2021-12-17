@@ -30,3 +30,9 @@ package <- example_package
 schema <- get_schema(package, "observations")
 str(schema)
 }
+\seealso{
+Other manipulate functions: 
+\code{\link{add_resource}()},
+\code{\link{remove_resource}()}
+}
+\concept{manipulate functions}

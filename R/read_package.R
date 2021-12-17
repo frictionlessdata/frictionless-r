@@ -10,6 +10,7 @@
 #'   - `resource_names`: vector with resource names.
 #'   - `directory`: path to Data Package directory, used as base path to read
 #'     resources with [read_resource()].
+#' @family read functions
 #' @export
 #' @examples
 #' # Read a datapackage.json file

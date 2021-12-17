@@ -9,6 +9,7 @@
 #'   [read_package()] or [create_package()].
 #' @param directory Path to local directory to write files to.
 #' @return Provided `package` (invisibly).
+#' @family write functions
 #' @export
 #' @examples
 #' # Load the example Data Package from disk

@@ -51,3 +51,9 @@ package <- add_resource(package, "positions", df)
 # List the resource names ("positions" added)
 package$resource_names
 }
+\seealso{
+Other manipulate functions: 
+\code{\link{get_schema}()},
+\code{\link{remove_resource}()}
+}
+\concept{manipulate functions}

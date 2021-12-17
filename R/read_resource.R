@@ -14,6 +14,7 @@
 #'   [read_package()] or [create_package()].
 #' @param resource_name Name of the Data Resource.
 #' @return [dplyr::tibble()] data frame with the Data Resource's tabular data.
+#' @family read functions
 #' @export
 #' @section Resource properties:
 #' The

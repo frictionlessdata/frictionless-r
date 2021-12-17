@@ -12,6 +12,7 @@
 #' @param schema List object describing a Table Schema for that data frame. If
 #'   not provided, one will be created (using [create_schema()]).
 #' @return Provided `package` with one additional resource.
+#' @family manipulate functions
 #' @export
 #' @examples
 #' # Load the example Data Package

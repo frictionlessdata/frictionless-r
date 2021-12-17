@@ -33,3 +33,8 @@ package <- read_package(
 package$name
 package$resource_names
 }
+\seealso{
+Other read functions: 
+\code{\link{read_resource}()}
+}
+\concept{read functions}

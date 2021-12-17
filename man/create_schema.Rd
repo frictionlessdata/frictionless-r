@@ -79,3 +79,8 @@ df <- data.frame(
 schema <- create_schema(df)
 str(schema)
 }
+\seealso{
+Other create functions: 
+\code{\link{create_package}()}
+}
+\concept{create functions}

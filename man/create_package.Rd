@@ -20,3 +20,8 @@ Data Package can then be extended with metadata and resources (see
 package <- create_package()
 str(package)
 }
+\seealso{
+Other create functions: 
+\code{\link{create_schema}()}
+}
+\concept{create functions}

@@ -8,6 +8,7 @@
 #'
 #' @inheritParams read_resource
 #' @return List object describing a Table Schema.
+#' @family manipulate functions
 #' @export
 #' @examples
 #' # Load the example Data Package

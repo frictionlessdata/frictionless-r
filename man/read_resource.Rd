@@ -204,3 +204,8 @@ package$resources[[2]]$path
 purrr::map_chr(package$resources[[2]]$schema$fields, "name")
 purrr::map_chr(package$resources[[2]]$schema$fields, "type")
 }
+\seealso{
+Other read functions: 
+\code{\link{read_package}()}
+}
+\concept{read functions}

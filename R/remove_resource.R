@@ -5,6 +5,7 @@
 #'
 #' @inheritParams read_resource
 #' @return Provided `package` with one fewer resource.
+#' @family manipulate functions
 #' @export
 #' @examples
 #' # Load the example Data Package

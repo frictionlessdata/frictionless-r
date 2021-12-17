@@ -5,6 +5,7 @@
 #' @param x Value to test.
 #' @param replacement Replacement value when `value` is `NULL`.
 #' @return `value` when not `NULL`, otherwise `replacement`.
+#' @family helper functions
 #' @noRd
 replace_null <- function(x, replacement) {
   if (!is.null(x)) {
@@ -18,6 +19,7 @@ replace_null <- function(x, replacement) {
 #'
 #' @param x Vector, e.g. `c("a", "b", "b", "b", "a")`.
 #' @return Vector with unique values sorted by occurrence, e.g. `c("b", "a")`.
+#' @family helper functions
 #' @noRd
 unique_sorted <- function(x) {
   dplyr::pull(
@@ -42,6 +44,7 @@ unique_sorted <- function(x) {
 #' @param fun Function returning `TRUE` for elements that should be removed.
 #' @param recursive Whether list should be cleaned recursively.
 #' @return Cleaned list.
+#' @family helper functions
 #' @noRd
 list_clean <- function(x, fun = is.null, recursive = FALSE) {
   if (recursive) {
@@ -67,6 +70,7 @@ list_clean <- function(x, fun = is.null, recursive = FALSE) {
 #' @param directory Directory to prepend to path.
 #' @param unsafe Allow `path` to be an unsafe absolute or relative parent path.
 #' @return Absolute path or URL.
+#' @family helper functions
 #' @noRd
 check_path <- function(path, directory = NULL, unsafe = TRUE) {
   # Check that (non-URL) path is safe and prepend with directory to make
@@ -109,6 +113,7 @@ check_path <- function(path, directory = NULL, unsafe = TRUE) {
 #' @param x Any object or a path or URL to a file.
 #' @param directory Directory to prepend to path.
 #' @return `x` (unchanged) or loaded JSON at path or URL.
+#' @family helper functions
 #' @noRd
 read_json <- function(x, directory) {
   if (is.character(x)) {
