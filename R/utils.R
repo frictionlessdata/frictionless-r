@@ -30,7 +30,7 @@ unique_sorted <- function(x) {
 #' Removes all elements from a list that meet a criterion function, e.g.
 #' `is.null(x)` for empty elements. Removal can be recursive to guarantee
 #' elements are removed at any level.
-#' Function is copied and adapted from `rlist::list.clean()` (MIT licensed), to
+#' Function is copied and adapted from [rlist::list.clean()] (MIT licensed), to
 #' avoid requiring full `rlist` dependency.
 #'
 #' @param x List or vector.
