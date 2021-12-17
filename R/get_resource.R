@@ -7,7 +7,7 @@
 #' @return List object describing a Data Resource, with new property `read_from`
 #'   to indicate how data should be read. If present, `path` will be updated to
 #'   contain the full path(s).
-#' @family manipulate functions
+#' @family edit functions
 #' @noRd
 #' @examples
 #' # Load the example Data Package

@@ -33,8 +33,8 @@ package <- remove_resource(package, "observations")
 package$resource_names
 }
 \seealso{
-Other manipulate functions: 
+Other edit functions: 
 \code{\link{add_resource}()},
 \code{\link{get_schema}()}
 }
-\concept{manipulate functions}
+\concept{edit functions}

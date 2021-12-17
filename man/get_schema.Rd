@@ -31,8 +31,8 @@ schema <- get_schema(package, "observations")
 str(schema)
 }
 \seealso{
-Other manipulate functions: 
+Other edit functions: 
 \code{\link{add_resource}()},
 \code{\link{remove_resource}()}
 }
-\concept{manipulate functions}
+\concept{edit functions}
