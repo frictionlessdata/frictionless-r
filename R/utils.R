@@ -20,9 +20,14 @@ replace_null <- function(x, replacement) {
 #' @return Vector with unique values sorted by occurrence, e.g. `c("b", "a")`.
 #' @noRd
 unique_sorted <- function(x) {
-  stats::aggregate(x, by = list(x), FUN = length) %>%
-    dplyr::arrange(dplyr::desc(x)) %>%
-    dplyr::pull("Group.1")
+  dplyr::pull(
+    dplyr::arrange(
+      # Create data.frame with values ("Group.1") and how often they occur ("x")
+      stats::aggregate(x, by = list(x), FUN = length),
+      dplyr::desc(x)
+    ),
+    "Group.1"
+  )
 }
 
 #' Check path or URL
