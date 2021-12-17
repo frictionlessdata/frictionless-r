@@ -30,6 +30,29 @@ unique_sorted <- function(x) {
   )
 }
 
+#' Clean list
+#'
+#' Removes all elements from a list that meet a criterion function, e.g.
+#' `is.null(x)` for empty elements. Removal can be recursive to guarantee
+#' elements are removed at any level.
+#' Function is copied and adapted from [rlist::list.clean()] (MIT licensed), to
+#' avoid requiring full `rlist` dependency.
+#'
+#' @param x List or vector.
+#' @param fun Function returning `TRUE` for elements that should be removed.
+#' @param recursive Whether list should be cleaned recursively.
+#' @return Cleaned list.
+#' @noRd
+list_clean <- function(x, fun = is.null, recursive = FALSE) {
+  if (recursive) {
+    x <- lapply(x, function(item) {
+      if (is.list(item))
+        list_clean(item, fun, recursive = TRUE) else item
+    })
+  }
+  "[<-"(x, vapply(x, fun, logical(1L)), NULL)
+}
+
 #' Check path or URL
 #'
 #' Check if a

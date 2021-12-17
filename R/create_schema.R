@@ -114,7 +114,7 @@ create_schema <- function(df) {
   )
 
   # Remove elements that are NULL or empty list
-  schema <- rlist::list.clean(
+  schema <- list_clean(
     schema,
     function(x) is.null(x) | length(x) == 0L,
     recursive = TRUE
