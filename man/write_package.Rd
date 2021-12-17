@@ -22,8 +22,10 @@ untouched, those added with \code{\link[=add_resource]{add_resource()}} are writ
 \code{\link[readr:write_delim]{readr::write_csv()}}.
 }
 \examples{
-# Load the example Data Package
-package <- example_package
+# Load the example Data Package from disk
+package <- read_package(
+  system.file("extdata", "datapackage.json", package = "frictionless")
+)
 
 # List the resource names
 package$resource_names
