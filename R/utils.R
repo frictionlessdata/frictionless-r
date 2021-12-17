@@ -46,8 +46,11 @@ unique_sorted <- function(x) {
 list_clean <- function(x, fun = is.null, recursive = FALSE) {
   if (recursive) {
     x <- lapply(x, function(item) {
-      if (is.list(item))
-        list_clean(item, fun, recursive = TRUE) else item
+      if (is.list(item)) {
+        list_clean(item, fun, recursive = TRUE)
+      } else {
+        item
+      }
     })
   }
   "[<-"(x, vapply(x, fun, logical(1L)), NULL)
