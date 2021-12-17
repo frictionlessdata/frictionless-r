@@ -12,7 +12,7 @@ Authors@R: c(
 Description: Read and write Frictionless Data Packages in a Tidyverse way.
 License: MIT + file LICENSE
 URL: https://github.com/frictionlessdata/frictionless-r,
-    https://frictionlessdata.github.io/frictionless-r
+    https://frictionlessdata.github.io/frictionless-r/
 BugReports: https://github.com/frictionlessdata/frictionless-r/issues
 Imports:
     assertthat,

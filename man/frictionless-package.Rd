@@ -12,7 +12,7 @@ Read and write Frictionless Data Packages in a Tidyverse way.
 Useful links:
 \itemize{
   \item \url{https://github.com/frictionlessdata/frictionless-r}
-  \item \url{https://frictionlessdata.github.io/frictionless-r}
+  \item \url{https://frictionlessdata.github.io/frictionless-r/}
   \item Report bugs at \url{https://github.com/frictionlessdata/frictionless-r/issues}
 }
 

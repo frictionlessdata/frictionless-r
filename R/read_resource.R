@@ -105,7 +105,7 @@
 #' - `licenses`
 #' @section Table schema properties:
 #' `schema` is required and must follow the [Table
-#' Schema](http://specs.frictionlessdata.io/table-schema/) specification. It
+#' Schema](https://specs.frictionlessdata.io/table-schema/) specification. It
 #' can either be a JSON object or a URL or path referencing a JSON object.
 #'
 #' - Field `name`s are used as column headers.
