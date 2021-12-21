@@ -41,7 +41,7 @@ write_resource <- function(package, resource_name, directory = ".") {
 
   # Resource has paths
   } else if (resource$read_from == "path") {
-    out_paths <- c()
+    out_paths <- vector()
     for (path in resource$path) {
       if (startsWith(path, "http")) {
         # File at URL
