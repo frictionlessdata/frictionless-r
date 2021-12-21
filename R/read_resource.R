@@ -52,9 +52,9 @@
 #'
 #' ## File encoding
 #'
-#' [encoding](https://specs.frictionlessdata.io/data-resource/#optional-properties).
 #' `encoding` is required if the resource file(s) are not encoded as UTF-8.
 #' For proper values (e.g. `windows-1252`), see "Preferred MIME Names" in
+#' [encoding](https://specs.frictionlessdata.io/data-resource/#optional-properties).
 #' The returned data frame will always be UTF-8.
 #'
 #' ## CSV Dialect
@@ -120,8 +120,6 @@
 #'
 #' ## Field types
 #'
-#' [strptime]: https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior
-#'
 #' Field `type` is used to set the column type, as follows:
 #'
 #' - [string](https://specs.frictionlessdata.io/table-schema/#string) →
@@ -146,15 +144,15 @@
 #'   `character`.
 #' - [date](https://specs.frictionlessdata.io/table-schema/#date) → `date`.
 #'   Supports `format`, with values `default` (ISO date), `any` (guess `ymd`)
-#'   and [Python/C strptime][strptime] patterns, such as `%a, %d %B %Y` for
-#'   `Sat, 23 November 2013`.
+#'   and [Python/C strptime](https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior)
+#'   patterns, such as `%a, %d %B %Y` for `Sat, 23 November 2013`.
 #'   `%x` is `%m/%d/%y`.
 #'   `%j`, `%U`, `%w` and `%W` are not supported.
 #' - [time](https://specs.frictionlessdata.io/table-schema/#time) →
 #'   [hms::hms()].
 #'   Supports `format`, with values `default` (ISO time), `any` (guess `hms`)
-#'   and [Python/C strptime][strptime] patterns, such as `%I%p%M:%S.%f%z` for
-#'   `8AM30:00.300+0200`.
+#'   and [Python/C strptime](https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior)
+#'   patterns, such as `%I%p%M:%S.%f%z` for `8AM30:00.300+0200`.
 #' - [datetime](https://specs.frictionlessdata.io/table-schema/#datetime) →
 #'   `POSIXct`.
 #'   Supports `format`, with values `default` (ISO datetime), `any`
@@ -268,12 +266,12 @@ read_resource <- function(package, resource_name) {
       } else if (bare_number) {
         readr::col_double() # Allows NaN, INF, -INF
       } else {
-        readr::col_number() # Strips non-numeric chars + uses default grouping_mark
+        readr::col_number() # Strips non-num. chars, uses default grouping_mark
       },
       "integer" = if (length(enum) > 0) {
         readr::col_factor(levels = as.character(enum))
       } else if (bare_number) {
-        readr::col_double() # Not col_integer() to avoid issues with big integers
+        readr::col_double() # Not col_integer() to avoid big integers issues
       } else {
         readr::col_number() # Strips non-numeric chars
       },
@@ -289,7 +287,7 @@ read_resource <- function(package, resource_name) {
         "^default$" = "%AT",      # H(MS)
         "^any$" = "%AT",          # H(MS)
         "^%X$" = "%H:%M:%S",      # HMS
-        "%S.%f" = "%OS"           # Milli/microseconds
+        "%S.%f" = "%OS"           # Milli or microseconds
       ))),
       "datetime" = readr::col_datetime(format = stringr::str_replace_all(format, c(
         "^default$" = "",         # ISO (lenient)

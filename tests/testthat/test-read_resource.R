@@ -203,7 +203,7 @@ test_that("read_resource() can read inline data (ignoring schema)", {
 
 test_that("read_resource() can read local files", {
   pkg <- example_package
-  resource <- read_resource(pkg, "deployments") # local resource in remote package
+  resource <- read_resource(pkg, "deployments") # local resource, remote package
 
   pkg_local <- suppressMessages(read_package(
     system.file("extdata", "datapackage.json", package = "frictionless")
@@ -213,10 +213,13 @@ test_that("read_resource() can read local files", {
 
 test_that("read_resource() can read remote files", {
   pkg <- example_package
-  resource <- read_resource(pkg, "deployments") # local resource in remote package
+  resource <- read_resource(pkg, "deployments") # local resource, remote package
 
   pkg_remote_resource <- pkg
-  pkg_remote_resource$resources[[1]]$path <- "https://github.com/frictionlessdata/frictionless-r/raw/main/inst/extdata/deployments.csv"
+  pkg_remote_resource$resources[[1]]$path <- file.path(
+    "https://github.com/frictionlessdata/frictionless-r",
+    "raw/main/inst/extdata/deployments.csv"
+  )
   expect_identical(read_resource(pkg_remote_resource, "deployments"), resource)
 })
 
@@ -228,11 +231,17 @@ test_that("read_resource() can read local and remote Table Schemas", {
   pkg_local_schema$directory <- "." # Use "./tests/testthat" outside test
   pkg_local_schema$resources[[1]]$schema <- "data/deployments_schema.json"
   # Using a remote path, otherwise schema and path need to share same directory
-  pkg_local_schema$resources[[1]]$path <- "https://github.com/frictionlessdata/frictionless-r/raw/main/inst/extdata/deployments.csv"
+  pkg_local_schema$resources[[1]]$path <- file.path(
+    "https://github.com/frictionlessdata/frictionless-r",
+    "raw/main/inst/extdata/deployments.csv"
+  )
   expect_identical(read_resource(pkg_local_schema, "deployments"), resource)
 
   pkg_remote_schema <- pkg
-  pkg_remote_schema$resources[[1]]$schema <- "https://github.com/frictionlessdata/frictionless-r/raw/main/tests/testthat/data/deployments_schema.json"
+  pkg_remote_schema$resources[[1]]$schema <- file.path(
+    "https://github.com/frictionlessdata/frictionless-r",
+    "raw/main/tests/testthat/data/deployments_schema.json"
+  )
   expect_identical(read_resource(pkg_remote_schema, "deployments"), resource)
 })
 
@@ -244,11 +253,17 @@ test_that("read_resource() can read local and remote CSV dialect", {
   pkg_local_dialect$directory <- "." # Use "./tests/testthat/data" outside test
   pkg_local_dialect$resources[[1]]$dialect <- "data/dialect.json"
   # Using a remote path, otherwise schema and path need to share same directory
-  pkg_local_dialect$resources[[1]]$path <- "https://github.com/frictionlessdata/frictionless-r/raw/main/inst/extdata/deployments.csv"
+  pkg_local_dialect$resources[[1]]$path <- file.path(
+    "https://github.com/frictionlessdata/frictionless-r",
+    "raw/main/inst/extdata/deployments.csv"
+  )
   expect_identical(read_resource(pkg_local_dialect, "deployments"), resource)
 
   pkg_remote_dialect <- pkg
-  pkg_remote_dialect$resources[[1]]$dialect <- "https://github.com/frictionlessdata/frictionless-r/raw/main/tests/testthat/data/dialect.json"
+  pkg_remote_dialect$resources[[1]]$dialect <- file.path(
+    "https://github.com/frictionlessdata/frictionless-r",
+    "raw/main/tests/testthat/data/dialect.json"
+  )
   expect_identical(read_resource(pkg_remote_dialect, "deployments"), resource)
 })
 
@@ -326,7 +341,7 @@ test_that("read_resource() handles LF and CRLF line terminator characters", {
 
   pkg_crlf <- pkg
   pkg_crlf$directory <- "." # Use "./tests/testthat" outside test
-  pkg_crlf$resources[[1]]$path <- "data/deployments_crlf.csv" # This file has CRLF
+  pkg_crlf$resources[[1]]$path <- "data/deployments_crlf.csv" # File with CRLF
   expect_identical(read_resource(pkg_crlf, "deployments"), resource)
 })
 
@@ -340,8 +355,10 @@ test_that("read_resource() can read compressed files", {
   pkg_local_zip$directory <- "." # Use "./tests/testthat" outside test
   pkg_local_zip$resources[[1]]$path <- "data/deployments.csv.zip"
   pkg_remote_zip <- pkg
-  pkg_remote_zip$resources[[1]]$path <-
-    "https://github.com/frictionlessdata/frictionless-r/raw/main/tests/testthat/data/deployments.csv.zip"
+  pkg_remote_zip$resources[[1]]$path <- file.path(
+    "https://github.com/frictionlessdata/frictionless-r",
+    "raw/main/tests/testthat/data/deployments.csv.zip"
+  )
 
   # File created in terminal with:
   # gzip deployments.csv
@@ -349,8 +366,10 @@ test_that("read_resource() can read compressed files", {
   pkg_local_gz$directory <- "." # Use "./tests/testthat" outside test
   pkg_local_gz$resources[[1]]$path <- "data/deployments.csv.gz"
   pkg_remote_gz <- pkg
-  pkg_remote_gz$resources[[1]]$path <-
-    "https://github.com/frictionlessdata/frictionless-r/raw/main/tests/testthat/data/deployments.csv.gz"
+  pkg_remote_gz$resources[[1]]$path <- file.path(
+    "https://github.com/frictionlessdata/frictionless-r",
+    "raw/main/tests/testthat/data/deployments.csv.gz"
+  )
 
   expect_identical(read_resource(pkg_local_zip, "deployments"), resource)
   # Remote zip not supported, see
@@ -452,7 +471,8 @@ test_that("read_resource() handles dates", {
   # This test covers:
   # - year: %Y %y
   # - month: %m (including 1 digit) %b %B
-  # - day: %d (including 1 digit) %a not %A, see https://github.com/tidyverse/readr/issues/1230
+  # - day: %d (including 1 digit) %a not %A, see
+  #   https://github.com/tidyverse/readr/issues/1230
   # - shortcut: %x (as %m/%d/%y, not the readr default %y/%m/%d)
 
   expect_identical(resource$dt_undefined, resource$dt_default)

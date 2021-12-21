@@ -63,9 +63,9 @@ to have the value \code{tabular-data-resource}.
 
 \subsection{File encoding}{
 
-\href{https://specs.frictionlessdata.io/data-resource/#optional-properties}{encoding}.
 \code{encoding} is required if the resource file(s) are not encoded as UTF-8.
 For proper values (e.g. \code{windows-1252}), see "Preferred MIME Names" in
+\href{https://specs.frictionlessdata.io/data-resource/#optional-properties}{encoding}.
 The returned data frame will always be UTF-8.
 }
 
@@ -162,15 +162,15 @@ Non-default \code{trueValues/falseValues} are not supported.
 \code{character}.
 \item \href{https://specs.frictionlessdata.io/table-schema/#date}{date} → \code{date}.
 Supports \code{format}, with values \code{default} (ISO date), \code{any} (guess \code{ymd})
-and \href{https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior}{Python/C strptime} patterns, such as \verb{\%a, \%d \%B \%Y} for
-\verb{Sat, 23 November 2013}.
+and \href{https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior}{Python/C strptime}
+patterns, such as \verb{\%a, \%d \%B \%Y} for \verb{Sat, 23 November 2013}.
 \verb{\%x} is \verb{\%m/\%d/\%y}.
 \verb{\%j}, \verb{\%U}, \verb{\%w} and \verb{\%W} are not supported.
 \item \href{https://specs.frictionlessdata.io/table-schema/#time}{time} →
 \code{\link[hms:hms]{hms::hms()}}.
 Supports \code{format}, with values \code{default} (ISO time), \code{any} (guess \code{hms})
-and \href{https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior}{Python/C strptime} patterns, such as \verb{\%I\%p\%M:\%S.\%f\%z} for
-\verb{8AM30:00.300+0200}.
+and \href{https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior}{Python/C strptime}
+patterns, such as \verb{\%I\%p\%M:\%S.\%f\%z} for \verb{8AM30:00.300+0200}.
 \item \href{https://specs.frictionlessdata.io/table-schema/#datetime}{datetime} →
 \code{POSIXct}.
 Supports \code{format}, with values \code{default} (ISO datetime), \code{any}
