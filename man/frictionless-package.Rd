@@ -6,7 +6,7 @@
 \alias{frictionless-package}
 \title{frictionless: Read and Write Frictionless Data Packages}
 \description{
-Read and write Frictionless Data Packages in a Tidyverse way.
+Read and write Frictionless Data Packages (<https://specs.frictionlessdata.io/data-package/>) in a 'tidyverse' way.
 }
 \seealso{
 Useful links:

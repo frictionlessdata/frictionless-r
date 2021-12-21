@@ -9,7 +9,8 @@ Authors@R: c(
     person("Research Institute for Nature and Forest (INBO)", , , 
            "info@inbo.be", role = c("cph"))
   )
-Description: Read and write Frictionless Data Packages in a Tidyverse way.
+Description: Read and write Frictionless Data Packages 
+  (<https://specs.frictionlessdata.io/data-package/>) in a 'tidyverse' way.
 License: MIT + file LICENSE
 URL: https://github.com/frictionlessdata/frictionless-r,
     https://frictionlessdata.github.io/frictionless-r/
