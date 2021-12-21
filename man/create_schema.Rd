@@ -25,14 +25,15 @@ The Table Schema will be created from the data frame columns:
 \item \code{title}: not set.
 \item \code{description}: not set.
 \item \code{type}: contains the converted column type (see further).
-\item \code{format}: not set and can thus be considered \code{default}. This is also the
-case for dates, times and datetimes, since \code{\link[readr:write_delim]{readr::write_csv()}} used by
-\code{\link[=write_package]{write_package()}} will format those to ISO8601 which is considered the
-default. Datetimes in local or non-UTC timezones will be converted to UTC
-before writing.
+\item \code{format}: not set and can thus be considered \code{default}.
+This is also the case for dates, times and datetimes, since
+\code{\link[readr:write_delim]{readr::write_csv()}} used by \code{\link[=write_package]{write_package()}} will format those to ISO8601
+which is considered the default.
+Datetimes in local or non-UTC timezones will be converted to UTC before
+writing.
 \item \code{constraints}: not set, except for factors (see further).
-\item \code{missingValues}: not set. \code{\link[=write_package]{write_package()}} will use the default \code{""} for
-missing values.
+\item \code{missingValues}: not set.
+\code{\link[=write_package]{write_package()}} will use the default \code{""} for missing values.
 \item \code{primaryKey}: not set.
 \item \code{foreignKeys}: not set.
 }
@@ -46,8 +47,8 @@ The column type will determine the field \code{type}, as follows:
 \item \code{difftime} →
 \href{https://specs.frictionlessdata.io/table-schema/#number}{number}.
 \item \code{factor} →
-\href{https://specs.frictionlessdata.io/table-schema/#string}{string} with factor
-levels as \code{enum}.
+\href{https://specs.frictionlessdata.io/table-schema/#string}{string} with
+factor levels as \code{enum}.
 \item \code{\link[hms:hms]{hms::hms()}} →
 \href{https://specs.frictionlessdata.io/table-schema/#time}{time}.
 \item \code{integer} →

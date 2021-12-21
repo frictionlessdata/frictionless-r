@@ -35,8 +35,8 @@ unique_sorted <- function(x) {
 #' Clean list
 #'
 #' Removes all elements from a list that meet a criterion function, e.g.
-#' `is.null(x)` for empty elements. Removal can be recursive to guarantee
-#' elements are removed at any level.
+#' `is.null(x)` for empty elements.
+#' Removal can be recursive to guarantee elements are removed at any level.
 #' Function is copied and adapted from [rlist::list.clean()] (MIT licensed), to
 #' avoid requiring full `rlist` dependency.
 #'
@@ -61,10 +61,11 @@ list_clean <- function(x, fun = is.null, recursive = FALSE) {
 
 #' Check path or URL
 #'
-#' Check if a
-#' [path or URL](https://specs.frictionlessdata.io/data-resource/#url-or-path)
-#' is valid (and optionally safe) and prepend with directory to create an
-#' absolute path or URL. Returns error when no file can be found.
+#' Check if a [path or
+#' URL](https://specs.frictionlessdata.io/data-resource/#url-or-path) is valid
+#' (and optionally safe) and prepend with directory to create an absolute path
+#' or URL.
+#' Returns error when no file can be found.
 #'
 #' @param path Path or URL to a file.
 #' @param directory Directory to prepend to path.
@@ -110,6 +111,7 @@ check_path <- function(path, directory = NULL, unsafe = TRUE) {
 #'
 #' Reads JSON when provided property is a character (path or URL), otherwise
 #' returns property.
+#'
 #' @param x Any object or a path or URL to a file.
 #' @param directory Directory to prepend to path.
 #' @return `x` (unchanged) or loaded JSON at path or URL.

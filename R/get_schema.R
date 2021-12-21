@@ -3,8 +3,9 @@
 #' Returns the [Table Schema](https://specs.frictionlessdata.io/table-schema/)
 #' of a Data Resource (in a Data Package), i.e. the content of its `schema`
 #' property, describing the resource's fields, data types, relationships, and
-#' missing values. The resource must be a
-#' [Tabular Data Resource](https://specs.frictionlessdata.io/tabular-data-resource/).
+#' missing values.
+#' The resource must be a [Tabular Data
+#' Resource](https://specs.frictionlessdata.io/tabular-data-resource/).
 #'
 #' @inheritParams read_resource
 #' @return List object describing a Table Schema.

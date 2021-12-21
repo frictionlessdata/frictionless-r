@@ -10,7 +10,7 @@ read_package(file = "datapackage.json")
 \item{file}{Path or URL to a \code{datapackage.json} file.}
 }
 \value{
-List object describing a Data Package, i.e the content of the
+List object describing a Data Package, i.e. the content of the
 descriptor file and two new properties:
 \itemize{
 \item \code{resource_names}: vector with resource names.

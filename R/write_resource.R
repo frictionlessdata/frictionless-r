@@ -45,8 +45,9 @@ write_resource <- function(package, resource_name, directory = ".") {
     for (path in resource$path) {
       if (startsWith(path, "http")) {
         # File at URL
-        # Don't touch file, point path to URL. Note that the original path might
-        # have been a local path, but datapackage.json was accessed via URL.
+        # Don't touch file, point path to URL.
+        # Note that the original path might have been a local path, but
+        # datapackage.json was accessed via URL.
         out_paths <- append(out_paths, path)
       } else {
         # Local file

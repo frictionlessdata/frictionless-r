@@ -1,9 +1,9 @@
 #' Write a Data Package to disk
 #'
 #' Writes a Data Package and its related Data Resources to disk as a
-#' `datapackage.json` and csv files. Originally included resources are left
-#' untouched, those added with [add_resource()] are written to file using
-#' [readr::write_csv()].
+#' `datapackage.json` and csv files.
+#' Originally included resources are left untouched, those added with
+#' [add_resource()] are written to file using [readr::write_csv()].
 #'
 #' @param package List object describing a Data Package, created with
 #'   [read_package()] or [create_package()].

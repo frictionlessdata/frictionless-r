@@ -5,8 +5,8 @@
 #'
 #' @inheritParams read_resource
 #' @return List object describing a Data Resource, with new property `read_from`
-#'   to indicate how data should be read. If present, `path` will be updated to
-#'   contain the full path(s).
+#'   to indicate how data should be read.
+#'   If present, `path` will be updated to contain the full path(s).
 #' @family edit functions
 #' @noRd
 #' @examples

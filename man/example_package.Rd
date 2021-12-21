@@ -14,9 +14,8 @@ An object of class \code{datapackage} (inherits from \code{list}) of length 9.
 example_package
 }
 \description{
-Example Tabular
-\href{https://specs.frictionlessdata.io/data-package/}{Data Package} with dummy
-camera trap data organized in 3 Data Resources:
+Example Tabular \href{https://specs.frictionlessdata.io/data-package/}{Data Package} with dummy camera
+trap data organized in 3 Data Resources:
 \itemize{
 \item \code{deployments}: data stored in \code{deployments.csv}.
 \item \code{observations}: data stored in \code{observations_1.csv} and
@@ -26,10 +25,13 @@ camera trap data organized in 3 Data Resources:
 }
 \examples{
 \dontrun{
-# example_package.rda was created with the following code. Note that it must
-# be created using a URL, otherwise all Data Resource paths will point to
-# local paths that won't work for other users. One can load locally using:
-# read_package(system.file("extdata", "datapackage.json", package = "frictionless"))
+# example_package.rda was created with the following code.
+# Note that it must be created using a URL, otherwise all Data Resource paths
+# will point to local paths that won't work for other users.
+# One can load locally using:
+# read_package(
+#   system.file("extdata", "datapackage.json", package = "frictionless")
+# )
 example_package <- read_package(file.path(
   "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
   "main/inst/extdata/datapackage.json"

@@ -17,9 +17,9 @@ Provided \code{package} (invisibly).
 }
 \description{
 Writes a Data Package and its related Data Resources to disk as a
-\code{datapackage.json} and csv files. Originally included resources are left
-untouched, those added with \code{\link[=add_resource]{add_resource()}} are written to file using
-\code{\link[readr:write_delim]{readr::write_csv()}}.
+\code{datapackage.json} and csv files.
+Originally included resources are left untouched, those added with
+\code{\link[=add_resource]{add_resource()}} are written to file using \code{\link[readr:write_delim]{readr::write_csv()}}.
 }
 \examples{
 # Load the example Data Package from disk

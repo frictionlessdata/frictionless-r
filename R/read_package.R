@@ -5,8 +5,8 @@
 #' that describes the Data Package metadata and its resources.
 #'
 #' @param file Path or URL to a `datapackage.json` file.
-#' @return List object describing a Data Package, i.e the content of the
-#' descriptor file and two new properties:
+#' @return List object describing a Data Package, i.e. the content of the
+#'   descriptor file and two new properties:
 #'   - `resource_names`: vector with resource names.
 #'   - `directory`: path to Data Package directory, used as base path to read
 #'     resources with [read_resource()].

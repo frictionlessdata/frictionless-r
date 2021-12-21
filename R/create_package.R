@@ -1,8 +1,8 @@
 #' Create an empty Data Package
 #'
-#' Initiates a list object describing a
-#' [Data Package](https://specs.frictionlessdata.io/data-package/). This empty
-#' Data Package can then be extended with metadata and resources (see
+#' Initiates a list object describing a [Data
+#' Package](https://specs.frictionlessdata.io/data-package/).
+#' This empty Data Package can then be extended with metadata and resources (see
 #' [add_resource()]).
 #'
 #' @return List object describing a Data Package.

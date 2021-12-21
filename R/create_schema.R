@@ -15,14 +15,15 @@
 #' - `title`: not set.
 #' - `description`: not set.
 #' - `type`: contains the converted column type (see further).
-#' - `format`: not set and can thus be considered `default`. This is also the
-#' case for dates, times and datetimes, since [readr::write_csv()] used by
-#' [write_package()] will format those to ISO8601 which is considered the
-#' default. Datetimes in local or non-UTC timezones will be converted to UTC
-#' before writing.
+#' - `format`: not set and can thus be considered `default`.
+#'   This is also the case for dates, times and datetimes, since
+#'   [readr::write_csv()] used by [write_package()] will format those to ISO8601
+#'   which is considered the default.
+#'   Datetimes in local or non-UTC timezones will be converted to UTC before
+#'   writing.
 #' - `constraints`: not set, except for factors (see further).
-#' - `missingValues`: not set. [write_package()] will use the default `""` for
-#' missing values.
+#' - `missingValues`: not set.
+#'   [write_package()] will use the default `""` for missing values.
 #' - `primaryKey`: not set.
 #' - `foreignKeys`: not set.
 #'
@@ -31,25 +32,25 @@
 #' The column type will determine the field `type`, as follows:
 #'
 #' - `character` →
-#' [string](https://specs.frictionlessdata.io/table-schema/#string).
+#'   [string](https://specs.frictionlessdata.io/table-schema/#string).
 #' - `Date` → [date](https://specs.frictionlessdata.io/table-schema/#date).
 #' - `difftime` →
-#' [number](https://specs.frictionlessdata.io/table-schema/#number).
+#'   [number](https://specs.frictionlessdata.io/table-schema/#number).
 #' - `factor` →
-#' [string](https://specs.frictionlessdata.io/table-schema/#string) with factor
-#' levels as `enum`.
+#'   [string](https://specs.frictionlessdata.io/table-schema/#string) with
+#'   factor levels as `enum`.
 #' - [hms::hms()] →
-#' [time](https://specs.frictionlessdata.io/table-schema/#time).
+#'   [time](https://specs.frictionlessdata.io/table-schema/#time).
 #' - `integer` →
-#' [integer](https://specs.frictionlessdata.io/table-schema/#integer).
+#'   [integer](https://specs.frictionlessdata.io/table-schema/#integer).
 #' - `logical` →.
-#' [boolean](https://specs.frictionlessdata.io/table-schema/#boolean).
+#'   [boolean](https://specs.frictionlessdata.io/table-schema/#boolean).
 #' - `numeric` →
-#' [number](https://specs.frictionlessdata.io/table-schema/#number).
+#'   [number](https://specs.frictionlessdata.io/table-schema/#number).
 #' - `POSIXct`/`POSIXlt` →
-#' [datetime](https://specs.frictionlessdata.io/table-schema/#datetime).
+#'   [datetime](https://specs.frictionlessdata.io/table-schema/#datetime).
 #' - Any other type →
-#' [any](https://specs.frictionlessdata.io/table-schema/#any).
+#'   [any](https://specs.frictionlessdata.io/table-schema/#any).
 #' @examples
 #' # Create a data frame
 #' df <- data.frame(
