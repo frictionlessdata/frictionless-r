@@ -63,7 +63,7 @@ package$resource_names
 
 # Read data from the resource "gps"
 # This will return a single data frame, even though the data are 
-# split over multiple csv files.
+# split over multiple CSV files.
 read_resource(package, "gps")
 #> # A tibble: 73,047 × 21
 #>     `event-id` visible timestamp           `location-long` `location-lat`
@@ -87,11 +87,27 @@ read_resource(package, "gps")
 #> #   tag-local-identifier <chr>, individual-local-identifier <chr>, …
 ```
 
-With frictionless you can also create your own Data Packages. See [get
+You can also create your own Data Package, add data and write it to
+disk:
+
+``` r
+# Create a data frame (from the built-in dataset iris)
+df <- iris
+
+# Create a Data Package and add iris as a resource
+my_package <-
+  create_package() |>
+  add_resource("iris", df)
+
+# Write the Data Package to disk
+my_package |>
+  write_package(tempdir())
+```
+
+For more functionality, see [get
 started](https://frictionlessdata.github.io/frictionless-r/articles/frictionless.html)
-or [function
-reference](https://frictionlessdata.github.io/frictionless-r/reference/index.html)
-for more information.
+or the [function
+reference](https://frictionlessdata.github.io/frictionless-r/reference/index.html).
 
 ## frictionless vs datapackage.r
 

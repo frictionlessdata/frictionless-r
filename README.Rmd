@@ -43,7 +43,7 @@ devtools::install_github("frictionlessdata/frictionless-r")
 
 With frictionless you can directly load data from a Data Package (local or remote) into your R environment. Here we load bird GPS tracking data from a Data Package published on [Zenodo](https://doi.org/10.5281/zenodo.5070086):
 
-```{r example}
+```{r read_example}
 library(frictionless)
 
 # Read the datapackage.json file
@@ -56,11 +56,27 @@ package$resource_names
 
 # Read data from the resource "gps"
 # This will return a single data frame, even though the data are 
-# split over multiple csv files.
+# split over multiple CSV files.
 read_resource(package, "gps")
 ```
 
-With frictionless you can also create your own Data Packages. See [get started](https://frictionlessdata.github.io/frictionless-r/articles/frictionless.html) or [function reference](https://frictionlessdata.github.io/frictionless-r/reference/index.html) for more information.
+You can also create your own Data Package, add data and write it to disk:
+
+```{r write_example}
+# Create a data frame (from the built-in dataset iris)
+df <- iris
+
+# Create a Data Package and add iris as a resource
+my_package <-
+  create_package() |>
+  add_resource("iris", df)
+
+# Write the Data Package to disk
+my_package |>
+  write_package(tempdir())
+```
+
+For more functionality, see [get started](https://frictionlessdata.github.io/frictionless-r/articles/frictionless.html) or the [function reference](https://frictionlessdata.github.io/frictionless-r/reference/index.html).
 
 ## frictionless vs datapackage.r
 
