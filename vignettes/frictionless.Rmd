@@ -55,8 +55,10 @@ You can also read data from a local (e.g. downloaded) Data Package. In fact, the
 local_package <- read_package(
   system.file("extdata", "datapackage.json", package = "frictionless")
 )
-read_resource(local_package, "deployments")
+read_resource(local_package, "media")
 ```
+
+Data from the `media` was not stored in a CSV file, but directly in the `data` property of that resource in `datapackage.json`. `read_resource()` will automatically detect where to read data from.
 
 ## Create and edit a Data Package
 
