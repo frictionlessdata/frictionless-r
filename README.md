@@ -50,8 +50,8 @@ from a Data Package published on
 library(frictionless)
 
 # Read the datapackage.json file
-# This gives you access to all Data Resources of the Data Package
-# without reading them, which is convenient and fast.
+# This gives you access to all Data Resources of the Data Package without 
+# reading them, which is convenient and fast.
 package <- read_package("https://zenodo.org/record/5070086/files/datapackage.json")
 #> Please make sure you have the right to access data from this Data Package for your intended use.
 #> Follow applicable norms or requirements to credit the dataset and its authors.
@@ -62,8 +62,8 @@ package$resource_names
 #> [1] "reference-data" "gps"            "acceleration"
 
 # Read data from the resource "gps"
-# This will return a single data frame, even though the data are 
-# split over multiple CSV files.
+# This will return a single data frame, even though the data are split over 
+# multiple CSV files.
 read_resource(package, "gps")
 #> # A tibble: 73,047 × 21
 #>     `event-id` visible timestamp           `location-long` `location-lat`
