@@ -14,9 +14,54 @@ knitr::opts_chunk$set(
 )
 ```
 
+## What is a Data Package?
+
+A [Data Package](https://specs.frictionlessdata.io/data-package/) is a simple container format to describe and package a collection of (tabular) data. It is typically used to publish FAIR and open datasets. In this tutorial we will show you how to read, create, edit and write Data Packages with the **R pkg frictionless**.
+
+**package** vs **pkg**: in the Frictionless Data community `package` refers to a Data Package, while in R that is a software library. In this tutorial we will use `pkg` to refer to the latter.
+
 ## Read a Data Package
+
+Load the pkg with:
+
+```{r setup}
+library(frictionless)
+```
+
+To read a Data Package, you need to know the path or URL to its descriptor file, named `datapackage.json`. That file describes the Data Package, provides access points to its Data Resources and can contain dataset-level metadata. Let's read data from a Data Package published on [Zenodo](https://doi.org/10.5281/zenodo.5070086):
+
+```{r}
+package <- read_package("https://zenodo.org/record/5070086/files/datapackage.json")
+```
+
+Now that you have loaded the `datapackage.json`, you can access any of its properties (it is a list object), including the Data Resource names. **Data Resources** contain the data of a Data Package.
+
+```{r}
+package$resource_names
+```
+
+This Data Package contains 3 resources. Let's read the data from the `gps` resource into a data frame:
+
+```{r}
+gps <- read_resource(package, "gps")
+gps
+```
+
+The data frame contains all GPS records, even though the actual data were split over [multiple CSV files](https://zenodo.org/record/5070086#files). `read_resource()` assigned the column names and types based on the Table Schema that was defined for that resource, not the headers of the CSV file.
+
+You can also read data from a local (e.g. downloaded) Data Package. In fact, there is one included in the frictionless pkg, let's read that one from disk:
+
+```{r}
+local_package <- read_package(
+  system.file("extdata", "datapackage.json", package = "frictionless")
+)
+read_resource(local_package, "deployments")
+```
 
 ## Create and edit a Data Package
 
+TBD
+
 ## Write a Data Package
 
+TBD
