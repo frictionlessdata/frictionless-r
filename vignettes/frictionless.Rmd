@@ -34,7 +34,7 @@ To read a Data Package, you need to know the path or URL to its descriptor file,
 package <- read_package("https://zenodo.org/record/5070086/files/datapackage.json")
 ```
 
-Now that you have loaded the `datapackage.json`, you can access any of its properties (it is a list object), including the Data Resource names. **Data Resources** contain the data of a Data Package.
+Now that you have loaded the `datapackage.json` with `read_package()`, you can access any of its properties (it is a list object), including the Data Resource names. **Data Resources** contain the data of a Data Package.
 
 ```{r}
 package$resource_names
