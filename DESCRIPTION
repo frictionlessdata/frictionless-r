@@ -9,8 +9,10 @@ Authors@R: c(
     person("Research Institute for Nature and Forest (INBO)", , , 
            "info@inbo.be", role = c("cph"))
   )
-Description: Read and write Frictionless Data Packages 
-  (<https://specs.frictionlessdata.io/data-package/>) in a 'tidyverse' way.
+Description: Read and write Frictionless Data Packages. A Data Package 
+  (<https://specs.frictionlessdata.io/data-package/>) is a simple container 
+  format to describe and package a collection of (tabular) data. It is typically 
+  used to publish FAIR and open datasets.
 License: MIT + file LICENSE
 URL: https://github.com/frictionlessdata/frictionless-r,
     https://frictionlessdata.github.io/frictionless-r/
