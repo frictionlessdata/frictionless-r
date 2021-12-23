@@ -17,8 +17,8 @@ status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repost
 Frictionless is an R package to read and write Frictionless Data
 Packages. A [Data
 Package](https://specs.frictionlessdata.io/data-package/) is a simple
-container format to describe and package a collection of (tabular) data.
-It is typically used to publish FAIR and open datasets.
+container format and standard to describe and package a collection of
+(tabular) data. It is typically used to publish FAIR and open datasets.
 
 To get started, see:
 
