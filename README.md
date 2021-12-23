@@ -41,9 +41,9 @@ devtools::install_github("frictionlessdata/frictionless-r")
 
 ## Usage
 
-With frictionless you can directly load data from a Data Package (local
-or remote) into your R environment. Here we load bird GPS tracking data
-from a Data Package published on
+With frictionless you can directly **read** data from a Data Package
+(local or remote) into your R environment. Here we read bird GPS
+tracking data from a Data Package published on
 [Zenodo](https://doi.org/10.5281/zenodo.5070086):
 
 ``` r
@@ -87,7 +87,7 @@ read_resource(package, "gps")
 #> #   tag-local-identifier <chr>, individual-local-identifier <chr>, …
 ```
 
-You can also create your own Data Package, add data and write it to
+You can also create your own Data Package, add data and **write** it to
 disk:
 
 ``` r
