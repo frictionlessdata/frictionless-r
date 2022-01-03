@@ -3,6 +3,7 @@ authors <- c(person("Peter", "Desmet"), person("Damiano", "Oldoni"))
 year <- format(Sys.Date(), "%Y")
 note <- sprintf("R package version %s", meta$Version)
 url <- "https://github.com/frictionlessdata/frictionless-r"
+doi <- "https://doi.org/10.5281/zenodo.5815355"
 
 citHeader("To cite frictionless in publications use:")
 
@@ -13,8 +14,9 @@ citEntry(
   year = year,
   note = note,
   url = url,
+  doi = doi,
   textVersion = paste0(
     paste(authors$family, substr(authors$given, 1, 1), collapse = ", "), " (",
-    year, ") ", title, ". ", note, ". ", url
+    year, ") ", title, ". ", note, ". ", url, ", ", doi
   )
 )
