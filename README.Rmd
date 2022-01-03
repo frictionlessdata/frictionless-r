@@ -69,11 +69,15 @@ df <- iris
 # Create a Data Package and add iris as a resource
 my_package <-
   create_package() |>
-  add_resource("iris", df)
+  add_resource(resource_name = "iris", df)
 
 # Write the Data Package to disk
 my_package |>
-  write_package(tempdir())
+  write_package("my_directory")
+```
+
+```{r, include = FALSE}
+unlink("my_directory", recursive = TRUE)
 ```
 
 For more functionality, see [get started](https://frictionlessdata.github.io/frictionless-r/articles/frictionless.html) or the [function reference](https://frictionlessdata.github.io/frictionless-r/reference/index.html).

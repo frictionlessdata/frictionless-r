@@ -97,11 +97,11 @@ df <- iris
 # Create a Data Package and add iris as a resource
 my_package <-
   create_package() |>
-  add_resource("iris", df)
+  add_resource(resource_name = "iris", df)
 
 # Write the Data Package to disk
 my_package |>
-  write_package(tempdir())
+  write_package("my_directory")
 ```
 
 For more functionality, see [get
