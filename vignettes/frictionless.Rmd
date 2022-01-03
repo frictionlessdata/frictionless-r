@@ -71,7 +71,7 @@ iris_df <- iris
 dplyr::as_tibble(iris_df)
 ```
 
-Create a package with `create_package()` and assign your data frame as a resource with the name `iris`:
+Create a Data Package with `create_package()` and assign your data frame as a resource with the name `iris`:
 
 ```{r}
 my_package <-
@@ -97,7 +97,7 @@ iris_schema <-
 str(iris_schema)
 ```
 
-You can also create a schema from a data frame before you attach it as a resource, using `create_schema()`:
+You can also create a schema from a data frame, using `create_schema()`:
 
 ```{r}
 iris_schema <- create_schema(iris_df)
@@ -105,7 +105,7 @@ iris_schema <- create_schema(iris_df)
 str(iris_schema)
 ```
 
-Doing so allows you to describe more about `iris` in the schema. E.g. let's add a description for `Sepal.Length`:
+Doing so allows you to customize the schema before adding the resource. E.g. let's add a description for `Sepal.Length`:
 
 ```{r}
 iris_schema$fields[[1]]$description <- "Sepal length in cm."
@@ -158,7 +158,7 @@ my_package <-
   )
 ```
 
-Note that in addition to starting a package from scratch with `create_package()`, you can also edit an existing package you have read with `read_package()`.
+Note that in addition to starting a Data Package from scratch with `create_package()`, you can also edit an existing Data Package you have read with `read_package()`.
 
 ## Write a Data Package
 
@@ -168,7 +168,7 @@ Now that you have created your Data Package, you can write it to a directory of 
 write_package(my_package, "my_directory")
 ```
 
-The directory will contain two files: the package descriptor `datapackage.json` and a CSV file containing the data for the resource `iris`.
+The directory will contain two files: the Data Package descriptor `datapackage.json` and a CSV file containing the data for the resource `iris`.
 
 ```{r}
 list.files("my_directory")
@@ -182,6 +182,6 @@ unlink("my_directory", recursive = TRUE)
 
 The frictionless pkg does not provide functionality to deposit a Data Package on a research repository, but here are some tips:
 
-1. Validate your package before depositing. You can do this in Python on the command line with the [Frictionless Framework](https://github.com/frictionlessdata/frictionless-py) using `frictionless validate datapackage.json`.
-2. Zip the individual csv files to reduce size, not the entire package. That way, users still have direct access to the `datapackage.json` file. See [this example](https://zenodo.org/record/5061303#files).
+1. Validate your Data Package before depositing. You can do this in Python on the command line with the [Frictionless Framework](https://github.com/frictionlessdata/frictionless-py) using `frictionless validate datapackage.json`.
+2. Zip the individual csv files to reduce size, not the entire Data Package. That way, users still have direct access to the `datapackage.json` file. See [this example](https://zenodo.org/record/5061303#files).
 3. Only describe the technical aspects of your dataset in `datapackage.json` (fields, units, the dataset identifier in `id`). Authors, methodology, license, etc. are better described in the metadata fields the research repository provides.
