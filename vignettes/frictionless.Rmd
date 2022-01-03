@@ -1,8 +1,8 @@
 ---
-title: "frictionless"
+title: "Introduction to frictionless"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{frictionless}
+  %\VignetteIndexEntry{Introduction to frictionless}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
