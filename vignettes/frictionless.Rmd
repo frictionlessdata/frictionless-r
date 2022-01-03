@@ -68,9 +68,8 @@ Data Package is a good format to technically describe your data, e.g. if you are
 The frictionless pkg assumes your data are stored as a data frame. Let's use the built-in dataset `iris` as your data frame:
 
 ```{r}
-iris_df <- iris
-# Show content of iris_df
-dplyr::as_tibble(iris_df)
+# Show content of the data frame "iris"
+dplyr::as_tibble(iris)
 ```
 
 Create a Data Package with `create_package()` and add your data frame as a resource with the name `iris`:
@@ -78,7 +77,7 @@ Create a Data Package with `create_package()` and add your data frame as a resou
 ```{r}
 my_package <-
   create_package() %>%
-  add_resource(resource_name = "iris", df = iris_df)
+  add_resource(resource_name = "iris", df = iris)
 ```
 
 Note that you can chain most frictionless functions together using pipes (`%>%` or `|>`), which improves readability.
@@ -102,7 +101,7 @@ str(iris_schema)
 You can also create a schema from a data frame, using `create_schema()`:
 
 ```{r}
-iris_schema <- create_schema(iris_df)
+iris_schema <- create_schema(iris)
 
 str(iris_schema)
 ```
@@ -137,7 +136,7 @@ iris_schema$fields <- purrr::imap(
 str(iris_schema)
 ```
 
-Let's add `iris` to your Data Package again, but this time with the customized schema. Note that you have to remove the originally added resource `iris` with `remove_resource()` first, since Data Packages can only contain uniquely named resources:
+Let's add `iris` as a resource to your Data Package again, but this time with the customized schema. Note that you have to remove the originally added resource `iris` with `remove_resource()` first, since Data Packages can only contain uniquely named resources:
 
 ```{r}
 my_package <-
@@ -145,7 +144,7 @@ my_package <-
   remove_resource("iris") %>% # Remove originally added resource
   add_resource(
     resource_name = "iris",
-    df = iris_df,
+    df = iris,
     schema = iris_schema # Your customized schema
   )
 ```
