@@ -22,25 +22,25 @@ A [Data Package](https://specs.frictionlessdata.io/data-package/) is a simple co
 
 ## Read a Data Package
 
-Load the pkg with:
+Load the frictionless pkg with:
 
 ```{r setup}
 library(frictionless)
 ```
 
-To read a Data Package, you need to know the path or URL to its descriptor file, named `datapackage.json`. That file describes the Data Package, provides access points to its Data Resources and can contain dataset-level metadata. Let's read data from a Data Package published on [Zenodo](https://doi.org/10.5281/zenodo.5070086):
+To read a Data Package, you need to know the path or URL to its descriptor file, named `datapackage.json`. That file describes the Data Package, provides access points to its Data Resources and can contain dataset-level metadata. Let's read a Data Package descriptor file published on [Zenodo](https://doi.org/10.5281/zenodo.5070086):
 
 ```{r}
 package <- read_package("https://zenodo.org/record/5070086/files/datapackage.json")
 ```
 
-Now that you have loaded the `datapackage.json` with `read_package()`, you can access any of its properties (it is a list object), including the Data Resource names. **Data Resources** contain the data of a Data Package.
+`read_package()` returns the content of `datapackage.json` as a list object. You can access any of its properties, including the names of the Data Resources. **Data Resources** contain the data of a Data Package.
 
 ```{r}
 package$resource_names
 ```
 
-This Data Package contains 3 resources. Let's read the data from the `gps` resource into a data frame:
+This Data Package has 3 resources. Let's read the data from the `gps` resource into a data frame:
 
 ```{r}
 gps <- read_resource(package, "gps")
@@ -64,14 +64,15 @@ Data from the `media` was not stored in a CSV file, but directly in the `data` p
 
 Data Package is a good format to technically describe your data, e.g. if you are planning to deposit it on research repository. It also goes a long way meeting [FAIR principles](https://www.go-fair.org/fair-principles/).
 
-frictionless assumes the data you want to include in a Data Package are stored as a data frame. Let's create one (from the built-in dataset iris):
+The frictionless pkg assumes your data are stored as a data frame. Let's use the built-in dataset `iris` as your data frame:
 
 ```{r}
 iris_df <- iris
+# Show content of iris_df
 dplyr::as_tibble(iris_df)
 ```
 
-Create a Data Package with `create_package()` and assign your data frame as a resource with the name `iris`:
+Create a Data Package with `create_package()` and add your data frame as a resource with the name `iris`:
 
 ```{r}
 my_package <-
@@ -79,7 +80,7 @@ my_package <-
   add_resource(resource_name = "iris", df = iris_df)
 ```
 
-Note how you can chain most frictionless functions together using pipes (`|>` or `%>%`), creating a more readable flow.
+Note that you can chain most frictionless functions together using pipes (`|>` or `%>%`), which improves readability.
 
 `my_package` now contains one resource:
 
@@ -135,7 +136,7 @@ iris_schema$fields <- purrr::imap(
 str(iris_schema)
 ```
 
-Let's add `iris` to the Data Package again, but this time with the customized schema. Note that we have to remove the originally added resource `iris` first with `remove_resource()`, since Data Packages can only contain uniquely named resources:
+Let's add `iris` to your Data Package again, but this time with the customized schema. Note that you have to remove the originally added resource `iris` with `remove_resource()` first, since Data Packages can only contain uniquely named resources:
 
 ```{r}
 my_package <-
@@ -148,7 +149,7 @@ my_package <-
   )
 ```
 
-Note that in addition to starting a Data Package from scratch with `create_package()`, you can also edit an existing Data Package you have read with `read_package()`.
+In the above steps you started a Data Package from scratch with `create_package()`, but you use the same functionality to edit an existing Data Package read with `read_package()`.
 
 ## Write a Data Package
 
@@ -158,7 +159,7 @@ Now that you have created your Data Package, you can write it to a directory of 
 write_package(my_package, "my_directory")
 ```
 
-The directory will contain two files: the Data Package descriptor `datapackage.json` and a CSV file containing the data for the resource `iris`.
+The directory will contain two files: the descriptor `datapackage.json` and a CSV file containing the data for the resource `iris`.
 
 ```{r}
 list.files("my_directory")
@@ -168,10 +169,8 @@ list.files("my_directory")
 unlink("my_directory", recursive = TRUE)
 ```
 
-## Deposit a Data Package
+The frictionless pkg does not provide functionality to deposit your Data Package on a research repository such as [Zenodo](https://zenodo.org), but here are some tips:
 
-The frictionless pkg does not provide functionality to deposit a Data Package on a research repository, but here are some tips:
-
-1. Validate your Data Package before depositing. You can do this in Python on the command line with the [Frictionless Framework](https://github.com/frictionlessdata/frictionless-py) using `frictionless validate datapackage.json`.
-2. Zip the individual csv files to reduce size, not the entire Data Package. That way, users still have direct access to the `datapackage.json` file. See [this example](https://zenodo.org/record/5061303#files).
+1. Validate your Data Package before depositing. You can do this in Python with the [Frictionless Framework](https://github.com/frictionlessdata/frictionless-py) using `frictionless validate datapackage.json`.
+2. Zip the individual csv files (and update their paths in `datapackage.json`) to reduce size, not the entire Data Package. That way, users still have direct access to the `datapackage.json` file. See [this example](https://zenodo.org/record/5061303#files).
 3. Only describe the technical aspects of your dataset in `datapackage.json` (fields, units, the dataset identifier in `id`). Authors, methodology, license, etc. are better described in the metadata fields the research repository provides.
