@@ -131,21 +131,11 @@ iris_schema$fields <- purrr::imap(
   iris_schema$fields,
   ~ c(.x, description = descriptions[.y])
 )
+
+str(iris_schema)
 ```
 
-Let's add `iris` to the package again, but this time with your customized schema:
-
-```{r}
-my_package <-
-  my_package |>
-  add_resource(
-    resource_name = "iris",
-    df = iris_df,
-    schema = iris_schema # Your customized schema
-  )
-```
-
-Since `my_package` still contains the originally added resource `iris`, you'll get an error trying to add a resource of the same name. Let's remove the existing resource with `remove_resource()` and try again:
+Let's add `iris` to the Data Package again, but this time with the customized schema. Note that we have to remove the originally added resource `iris` first with `remove_resource()`, since Data Packages can only contain uniquely named resources:
 
 ```{r}
 my_package <-
@@ -154,7 +144,7 @@ my_package <-
   add_resource(
     resource_name = "iris",
     df = iris_df,
-    schema = iris_schema
+    schema = iris_schema # Your customized schema
   )
 ```
 
