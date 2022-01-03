@@ -62,8 +62,126 @@ Data from the `media` was not stored in a CSV file, but directly in the `data` p
 
 ## Create and edit a Data Package
 
-TBD
+Data Package is a good format to technically describe your data, e.g. if you are planning to deposit it on research repository. It also goes a long way meeting [FAIR principles](https://www.go-fair.org/fair-principles/).
+
+frictionless assumes the data you want to include in a Data Package are stored as a data frame. Let's create one (from the built-in dataset iris):
+
+```{r}
+iris_df <- iris
+dplyr::as_tibble(iris_df)
+```
+
+Create a package with `create_package()` and assign your data frame as a resource with the name `iris`:
+
+```{r}
+my_package <-
+  create_package() |>
+  add_resource(resource_name = "iris", df = iris_df)
+```
+
+Note how you can chain most frictionless functions together using pipes (`|>` or `%>%`), creating a more readable flow.
+
+`my_package` now contains one resource:
+
+```{r}
+my_package$resource_names
+```
+
+By default, `add_resource()` will create a **Table Schema** for your data frame, describing its field names, field types and (for factors) constraints. You can retrieve the schema of a resource with `get_schema()`. It is a list object, which we print here using `str()`:
+
+```{r}
+iris_schema <-
+  my_package |>
+  get_schema("iris")
+
+str(iris_schema)
+```
+
+You can also create a schema from a data frame before you attach it as a resource, using `create_schema()`:
+
+```{r}
+iris_schema <- create_schema(iris_df)
+
+str(iris_schema)
+```
+
+Doing so allows you to describe more about `iris` in the schema. E.g. let's add a description for `Sepal.Length`:
+
+```{r}
+iris_schema$fields[[1]]$description <- "Sepal length in cm."
+# Show result
+str(iris_schema$fields[[1]])
+```
+
+Since schema is a list, you can use the `purrr` pkg to edit multiple elements at once:
+
+```{r}
+# Remove description for first field
+iris_schema$fields[[1]]$description <- NULL
+
+# Set descriptions for all fields
+descriptions <- c(
+  "Sepal length in cm.",
+  "Sepal width in cm.",
+  "Pedal length in cm.",
+  "Pedal width in cm.",
+  "Iris species."
+)
+iris_schema$fields <- purrr::imap(
+  iris_schema$fields,
+  ~ c(.x, description = descriptions[.y])
+)
+```
+
+Let's add `iris` to the package again, but this time with your customized schema:
+
+```{r}
+my_package <-
+  my_package |>
+  add_resource(
+    resource_name = "iris",
+    df = iris_df,
+    schema = iris_schema # Your customized schema
+  )
+```
+
+Since `my_package` still contains the originally added resource `iris`, you'll get an error trying to add a resource of the same name. Let's remove the existing resource with `remove_resource()` and try again:
+
+```{r}
+my_package <-
+  my_package |>
+  remove_resource("iris") |> # Remove originally added resource
+  add_resource(
+    resource_name = "iris",
+    df = iris_df,
+    schema = iris_schema
+  )
+```
+
+Note that in addition to starting a package from scratch with `create_package()`, you can also edit an existing package you have read with `read_package()`.
 
 ## Write a Data Package
 
-TBD
+Now that you have created your Data Package, you can write it to a directory of your choice with `write_package()`:
+
+```{r}
+write_package(my_package, "my_directory")
+```
+
+The directory will contain two files: the package descriptor `datapackage.json` and a CSV file containing the data for the resource `iris`.
+
+```{r}
+list.files("my_directory")
+```
+
+```{r, include = FALSE}
+unlink("my_directory", recursive = TRUE)
+```
+
+## Deposit a Data Package
+
+The frictionless pkg does not provide functionality to deposit a Data Package on a research repository, but here are some tips:
+
+1. Validate your package before depositing. You can do this in Python on the command line with the [Frictionless Framework](https://github.com/frictionlessdata/frictionless-py) using `frictionless validate datapackage.json`.
+2. Zip the individual csv files to reduce size, not the entire package. That way, users still have direct access to the `datapackage.json` file. See [this example](https://zenodo.org/record/5061303#files).
+3. Only describe the technical aspects of your dataset in `datapackage.json` (fields, units, the dataset identifier in `id`). Authors, methodology, license, etc. are better described in the metadata fields the research repository provides.
