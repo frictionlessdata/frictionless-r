@@ -19,12 +19,15 @@ a data frame, listing all column names and types as field names and
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">frictionless</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.8.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.9.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav"><li>
+  <a href="../articles/frictionless.html">Get started</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
@@ -74,14 +77,15 @@ a data frame, listing all column names and types as field names and
 <li><p><code>title</code>: not set.</p></li>
 <li><p><code>description</code>: not set.</p></li>
 <li><p><code>type</code>: contains the converted column type (see further).</p></li>
-<li><p><code>format</code>: not set and can thus be considered <code>default</code>. This is also the
-case for dates, times and datetimes, since <code><a href="https://readr.tidyverse.org/reference/write_delim.html" class="external-link">readr::write_csv()</a></code> used by
-<code><a href="write_package.html">write_package()</a></code> will format those to ISO8601 which is considered the
-default. Datetimes in local or non-UTC timezones will be converted to UTC
-before writing.</p></li>
+<li><p><code>format</code>: not set and can thus be considered <code>default</code>.
+This is also the case for dates, times and datetimes, since
+<code><a href="https://readr.tidyverse.org/reference/write_delim.html" class="external-link">readr::write_csv()</a></code> used by <code><a href="write_package.html">write_package()</a></code> will format those to ISO8601
+which is considered the default.
+Datetimes in local or non-UTC timezones will be converted to UTC before
+writing.</p></li>
 <li><p><code>constraints</code>: not set, except for factors (see further).</p></li>
-<li><p><code>missingValues</code>: not set. <code><a href="write_package.html">write_package()</a></code> will use the default <code>""</code> for
-missing values.</p></li>
+<li><p><code>missingValues</code>: not set.
+<code><a href="write_package.html">write_package()</a></code> will use the default <code>""</code> for missing values.</p></li>
 <li><p><code>primaryKey</code>: not set.</p></li>
 <li><p><code>foreignKeys</code>: not set.</p></li>
 </ul><div class="section">
@@ -94,8 +98,8 @@ missing values.</p></li>
 <li><p><code>difftime</code> →
 <a href="https://specs.frictionlessdata.io/table-schema/#number" class="external-link">number</a>.</p></li>
 <li><p><code>factor</code> →
-<a href="https://specs.frictionlessdata.io/table-schema/#string" class="external-link">string</a> with factor
-levels as <code>enum</code>.</p></li>
+<a href="https://specs.frictionlessdata.io/table-schema/#string" class="external-link">string</a> with
+factor levels as <code>enum</code>.</p></li>
 <li><p><code><a href="https://hms.tidyverse.org/reference/hms.html" class="external-link">hms::hms()</a></code> →
 <a href="https://specs.frictionlessdata.io/table-schema/#time" class="external-link">time</a>.</p></li>
 <li><p><code>integer</code> →
@@ -110,6 +114,11 @@ levels as <code>enum</code>.</p></li>
 <a href="https://specs.frictionlessdata.io/table-schema/#any" class="external-link">any</a>.</p></li>
 </ul></div>
 
+    </div>
+    <div id="see-also">
+    <h2>See also</h2>
+    <div class="dont-index"><p>Other create functions: 
+<code><a href="create_package.html">create_package</a>()</code></p></div>
     </div>
 
     <div id="ref-examples">
