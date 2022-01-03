@@ -12,6 +12,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+library(dplyr) # For %>%
 ```
 
 ## What is a Data Package?
@@ -76,11 +77,11 @@ Create a Data Package with `create_package()` and add your data frame as a resou
 
 ```{r}
 my_package <-
-  create_package() |>
+  create_package() %>%
   add_resource(resource_name = "iris", df = iris_df)
 ```
 
-Note that you can chain most frictionless functions together using pipes (`|>` or `%>%`), which improves readability.
+Note that you can chain most frictionless functions together using pipes (`%>%` or `|>`), which improves readability.
 
 `my_package` now contains one resource:
 
@@ -92,7 +93,7 @@ By default, `add_resource()` will create a **Table Schema** for your data frame,
 
 ```{r}
 iris_schema <-
-  my_package |>
+  my_package %>%
   get_schema("iris")
 
 str(iris_schema)
@@ -140,8 +141,8 @@ Let's add `iris` to your Data Package again, but this time with the customized s
 
 ```{r}
 my_package <-
-  my_package |>
-  remove_resource("iris") |> # Remove originally added resource
+  my_package %>%
+  remove_resource("iris") %>% # Remove originally added resource
   add_resource(
     resource_name = "iris",
     df = iris_df,
