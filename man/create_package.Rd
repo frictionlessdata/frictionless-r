@@ -10,9 +10,8 @@ create_package()
 List object describing a Data Package.
 }
 \description{
-Initiates a list object describing a
-\href{https://specs.frictionlessdata.io/data-package/}{Data Package}. This empty
-Data Package can then be extended with metadata and resources (see
+Initiates a list object describing a \href{https://specs.frictionlessdata.io/data-package/}{Data Package}.
+This empty Data Package can then be extended with metadata and resources (see
 \code{\link[=add_resource]{add_resource()}}).
 }
 \examples{
@@ -20,3 +19,8 @@ Data Package can then be extended with metadata and resources (see
 package <- create_package()
 str(package)
 }
+\seealso{
+Other create functions: 
+\code{\link{create_schema}()}
+}
+\concept{create functions}

@@ -6,13 +6,13 @@
 \alias{frictionless-package}
 \title{frictionless: Read and Write Frictionless Data Packages}
 \description{
-Read and write Frictionless Data Packages in a Tidyverse way.
+Read and write Frictionless Data Packages. A Data Package (<https://specs.frictionlessdata.io/data-package/>) is a simple container format and standard to describe and package a collection of (tabular) data. It is typically used to publish FAIR and open datasets.
 }
 \seealso{
 Useful links:
 \itemize{
   \item \url{https://github.com/frictionlessdata/frictionless-r}
-  \item \url{https://frictionlessdata.github.io/frictionless-r}
+  \item \url{https://frictionlessdata.github.io/frictionless-r/}
   \item Report bugs at \url{https://github.com/frictionlessdata/frictionless-r/issues}
 }
 

@@ -6,6 +6,7 @@
 #' @param directory Path to local directory to write files to.
 #' @return Updated list object describing a Data Resource, ready to be included
 #'   in a `datapackage.json`.
+#' @family write functions
 #' @noRd
 write_resource <- function(package, resource_name, directory = ".") {
   resource <- get_resource(package, resource_name)
@@ -40,12 +41,13 @@ write_resource <- function(package, resource_name, directory = ".") {
 
   # Resource has paths
   } else if (resource$read_from == "path") {
-    out_paths <- c()
+    out_paths <- vector()
     for (path in resource$path) {
       if (startsWith(path, "http")) {
         # File at URL
-        # Don't touch file, point path to URL. Note that the original path might
-        # have been a local path, but datapackage.json was accessed via URL.
+        # Don't touch file, point path to URL.
+        # Note that the original path might have been a local path, but
+        # datapackage.json was accessed via URL.
         out_paths <- append(out_paths, path)
       } else {
         # Local file

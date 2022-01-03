@@ -1,0 +1,20 @@
+title <- "frictionless: Read and Write Frictionless Data Packages"
+authors <- c(person("Peter", "Desmet"), person("Damiano", "Oldoni"))
+year <- format(Sys.Date(), "%Y")
+note <- sprintf("R package version %s", meta$Version)
+url <- "https://github.com/frictionlessdata/frictionless-r"
+
+citHeader("To cite frictionless in publications use:")
+
+citEntry(
+  entry = "manual",
+  title = title,
+  author = authors,
+  year = year,
+  note = note,
+  url = url,
+  textVersion = paste0(
+    paste(authors$family, substr(authors$given, 1, 1), collapse = ", "), " (",
+    year, ") ", title, ". ", note, ". ", url
+  )
+)

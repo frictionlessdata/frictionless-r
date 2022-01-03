@@ -1,17 +1,19 @@
 #' Add a Data Resource
 #'
-#' Adds a Tabular
-#' [Data Resource](https://specs.frictionlessdata.io/data-resource/)
-#' to a Data Package. The resource will be a
-#' [Tabular Data Resource](https://specs.frictionlessdata.io/tabular-data-resource/).
+#' Adds a Tabular [Data
+#' Resource](https://specs.frictionlessdata.io/data-resource/) to a Data
+#' Package.
+#' The resource will be a [Tabular Data
+#' Resource](https://specs.frictionlessdata.io/tabular-data-resource/).
 #' The resource name can only contain lowercase alphanumeric characters plus
 #' `.`, `-` and `_`.
 #'
 #' @inheritParams read_resource
 #' @param df A data frame.
-#' @param schema List object describing a Table Schema for that data frame. If
-#'   not provided, one will be created (using [create_schema()]).
+#' @param schema List object describing a Table Schema for that data frame.
+#'   If not provided, one will be created (using [create_schema()]).
 #' @return Provided `package` with one additional resource.
+#' @family edit functions
 #' @export
 #' @examples
 #' # Load the example Data Package

@@ -21,7 +21,8 @@ test_that("add_resource() returns error on incorrect Data Package", {
   )
 })
 
-test_that("add_resource() returns error when resource name contains invalid characters", {
+test_that("add_resource() returns error when resource name contains invalid
+           characters", {
   pkg <- example_package
   df <- data.frame(
     "col_1" = c(1, 2),
@@ -48,7 +49,8 @@ test_that("add_resource() returns error when resource name contains invalid char
   expect_true(check_package(add_resource(pkg, "n.3-w_10", df)))
 })
 
-test_that("add_resource() returns error when resource of that name already exists", {
+test_that("add_resource() returns error when resource of that name already
+           exists", {
   pkg <- example_package
   df <- data.frame(
     "col_1" = c(1, 2),
@@ -133,7 +135,8 @@ test_that("add_resource() adds schema when none is provided", {
   expect_identical(pkg$resources[[4]]$schema, create_schema(df))
 })
 
-test_that("add_resource() creates resource that can be passed to read_resource()", {
+test_that("add_resource() creates resource that can be passed to
+           read_resource()", {
   pkg <- example_package
   df <- data.frame(
     "col_1" = c(1, 2),
@@ -143,7 +146,8 @@ test_that("add_resource() creates resource that can be passed to read_resource()
   expect_identical(read_resource(pkg, "new"), dplyr::as_tibble(df))
 })
 
-test_that("add_resource() creates resource that can be passed to get_schema()", {
+test_that("add_resource() creates resource that can be passed to
+           get_schema()", {
   pkg <- example_package
   df <- data.frame(
     "col_1" = c(1, 2),
@@ -155,7 +159,8 @@ test_that("add_resource() creates resource that can be passed to get_schema()", 
 })
 
 if (FALSE) {
-  test_that("add_resource() creates resource that can be passed to write_package()", {
+  test_that("add_resource() creates resource that can be passed to
+             write_package()", {
     pkg <- example_package
     df <- data.frame(
       "col_1" = c(1, 2),

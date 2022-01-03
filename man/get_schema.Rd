@@ -19,8 +19,8 @@ List object describing a Table Schema.
 Returns the \href{https://specs.frictionlessdata.io/table-schema/}{Table Schema}
 of a Data Resource (in a Data Package), i.e. the content of its \code{schema}
 property, describing the resource's fields, data types, relationships, and
-missing values. The resource must be a
-\href{https://specs.frictionlessdata.io/tabular-data-resource/}{Tabular Data Resource}.
+missing values.
+The resource must be a \href{https://specs.frictionlessdata.io/tabular-data-resource/}{Tabular Data Resource}.
 }
 \examples{
 # Load the example Data Package
@@ -30,3 +30,9 @@ package <- example_package
 schema <- get_schema(package, "observations")
 str(schema)
 }
+\seealso{
+Other edit functions: 
+\code{\link{add_resource}()},
+\code{\link{remove_resource}()}
+}
+\concept{edit functions}

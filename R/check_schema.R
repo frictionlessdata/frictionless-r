@@ -6,6 +6,7 @@
 #' @param schema List object describing a Table Schema.
 #' @param df A data frame against which the Table Schema must be compared.
 #' @return `TRUE` or error.
+#' @family check functions
 #' @noRd
 check_schema <- function(schema, df = NULL) {
   # Check schema is list with property fields

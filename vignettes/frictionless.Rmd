@@ -1,0 +1,176 @@
+---
+title: "frictionless"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{frictionless}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(dplyr) # For %>%
+```
+
+## What is a Data Package?
+
+A [Data Package](https://specs.frictionlessdata.io/data-package/) is a simple container format to describe and package a collection of (tabular) data. It is typically used to publish FAIR and open datasets. In this tutorial we will show you how to read, create, edit and write Data Packages with the **R pkg frictionless**.
+
+**package** vs **pkg**: in the Frictionless Data community `package` refers to a Data Package, while in R that is a software package In this tutorial we will use `pkg` to refer to the latter.
+
+## Read a Data Package
+
+Load the frictionless pkg with:
+
+```{r setup}
+library(frictionless)
+```
+
+To read a Data Package, you need to know the path or URL to its descriptor file, named `datapackage.json`. That file describes the Data Package, provides access points to its Data Resources and can contain dataset-level metadata. Let's read a Data Package descriptor file published on [Zenodo](https://doi.org/10.5281/zenodo.5070086):
+
+```{r}
+package <- read_package("https://zenodo.org/record/5070086/files/datapackage.json")
+```
+
+`read_package()` returns the content of `datapackage.json` as a list object. You can access any of its properties, including the names of the Data Resources. **Data Resources** contain the data of a Data Package.
+
+```{r}
+package$resource_names
+```
+
+This Data Package has 3 resources. Let's read the data from the `gps` resource into a data frame:
+
+```{r}
+gps <- read_resource(package, "gps")
+gps
+```
+
+The data frame contains all GPS records, even though the actual data were split over [multiple CSV files](https://zenodo.org/record/5070086#files). `read_resource()` assigned the column names and types based on the Table Schema that was defined for that resource, not the headers of the CSV file.
+
+You can also read data from a local (e.g. downloaded) Data Package. In fact, there is one included in the frictionless pkg, let's read that one from disk:
+
+```{r}
+local_package <- read_package(
+  system.file("extdata", "datapackage.json", package = "frictionless")
+)
+read_resource(local_package, "media")
+```
+
+Data from the `media` was not stored in a CSV file, but directly in the `data` property of that resource in `datapackage.json`. `read_resource()` will automatically detect where to read data from.
+
+## Create and edit a Data Package
+
+Data Package is a good format to technically describe your data, e.g. if you are planning to deposit it on research repository. It also goes a long way meeting [FAIR principles](https://www.go-fair.org/fair-principles/).
+
+The frictionless pkg assumes your data are stored as a data frame. Let's use the built-in dataset `iris` as your data frame:
+
+```{r}
+# Show content of the data frame "iris"
+dplyr::as_tibble(iris)
+```
+
+Create a Data Package with `create_package()` and add your data frame as a resource with the name `iris`:
+
+```{r}
+my_package <-
+  create_package() %>%
+  add_resource(resource_name = "iris", df = iris)
+```
+
+Note that you can chain most frictionless functions together using pipes (`%>%` or `|>`), which improves readability.
+
+`my_package` now contains one resource:
+
+```{r}
+my_package$resource_names
+```
+
+By default, `add_resource()` will create a **Table Schema** for your data frame, describing its field names, field types and (for factors) constraints. You can retrieve the schema of a resource with `get_schema()`. It is a list object, which we print here using `str()`:
+
+```{r}
+iris_schema <-
+  my_package %>%
+  get_schema("iris")
+
+str(iris_schema)
+```
+
+You can also create a schema from a data frame, using `create_schema()`:
+
+```{r}
+iris_schema <- create_schema(iris)
+
+str(iris_schema)
+```
+
+Doing so allows you to customize the schema before adding the resource. E.g. let's add a description for `Sepal.Length`:
+
+```{r}
+iris_schema$fields[[1]]$description <- "Sepal length in cm."
+# Show result
+str(iris_schema$fields[[1]])
+```
+
+Since schema is a list, you can use the `purrr` pkg to edit multiple elements at once:
+
+```{r}
+# Remove description for first field
+iris_schema$fields[[1]]$description <- NULL
+
+# Set descriptions for all fields
+descriptions <- c(
+  "Sepal length in cm.",
+  "Sepal width in cm.",
+  "Pedal length in cm.",
+  "Pedal width in cm.",
+  "Iris species."
+)
+iris_schema$fields <- purrr::imap(
+  iris_schema$fields,
+  ~ c(.x, description = descriptions[.y])
+)
+
+str(iris_schema)
+```
+
+Let's add `iris` as a resource to your Data Package again, but this time with the customized schema. Note that you have to remove the originally added resource `iris` with `remove_resource()` first, since Data Packages can only contain uniquely named resources:
+
+```{r}
+my_package <-
+  my_package %>%
+  remove_resource("iris") %>% # Remove originally added resource
+  add_resource(
+    resource_name = "iris",
+    df = iris,
+    schema = iris_schema # Your customized schema
+  )
+```
+
+In the above steps you started a Data Package from scratch with `create_package()`, but you use the same functionality to edit an existing Data Package read with `read_package()`.
+
+## Write a Data Package
+
+Now that you have created your Data Package, you can write it to a directory of your choice with `write_package()`:
+
+```{r}
+write_package(my_package, "my_directory")
+```
+
+The directory will contain two files: the descriptor `datapackage.json` and a CSV file containing the data for the resource `iris`.
+
+```{r}
+list.files("my_directory")
+```
+
+```{r, include = FALSE}
+unlink("my_directory", recursive = TRUE)
+```
+
+The frictionless pkg does not provide functionality to deposit your Data Package on a research repository such as [Zenodo](https://zenodo.org), but here are some tips:
+
+1. Validate your Data Package before depositing. You can do this in Python with the [Frictionless Framework](https://github.com/frictionlessdata/frictionless-py) using `frictionless validate datapackage.json`.
+2. Zip the individual csv files (and update their paths in `datapackage.json`) to reduce size, not the entire Data Package. That way, users still have direct access to the `datapackage.json` file. See [this example](https://zenodo.org/record/5061303#files).
+3. Only describe the technical aspects of your dataset in `datapackage.json` (fields, units, the dataset identifier in `id`). Authors, methodology, license, etc. are better described in the metadata fields the research repository provides.

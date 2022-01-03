@@ -1,6 +1,6 @@
 Package: frictionless
 Title: Read and Write Frictionless Data Packages
-Version: 0.8.0.9000
+Version: 0.9.0
 Authors@R: c(
     person("Peter", "Desmet", , "peter.desmet@inbo.be", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-8442-8025")),
@@ -9,10 +9,13 @@ Authors@R: c(
     person("Research Institute for Nature and Forest (INBO)", , , 
            "info@inbo.be", role = c("cph"))
   )
-Description: Read and write Frictionless Data Packages in a Tidyverse way.
+Description: Read and write Frictionless Data Packages. A Data Package 
+  (<https://specs.frictionlessdata.io/data-package/>) is a simple container 
+  format and standard to describe and package a collection of (tabular) data. 
+  It is typically used to publish FAIR and open datasets.
 License: MIT + file LICENSE
 URL: https://github.com/frictionlessdata/frictionless-r,
-    https://frictionlessdata.github.io/frictionless-r
+    https://frictionlessdata.github.io/frictionless-r/
 BugReports: https://github.com/frictionlessdata/frictionless-r/issues
 Imports:
     assertthat,
@@ -20,16 +23,18 @@ Imports:
     glue,
     httr,
     jsonlite,
-    lifecycle,
     purrr,
     readr (>= 2.1.0),
     stringr
 Suggests:
+    knitr,
     hms,
     lubridate,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    rmarkdown
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
+VignetteBuilder: knitr

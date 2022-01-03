@@ -63,7 +63,8 @@ test_that("write_package() writes unaltered datapackage.json as is", {
   unlink(temp_dir, recursive = TRUE)
 })
 
-test_that("write_package() leaves resources with URL as is, but updates path to URLs", {
+test_that("write_package() leaves resources with URL as is, but updates path to
+           URLs", {
   pkg <- example_package # Example Data Package is a remote one
   temp_dir <- tempdir()
   write_package(pkg, temp_dir)
@@ -72,10 +73,15 @@ test_that("write_package() leaves resources with URL as is, but updates path to 
   ))
 
   # Resources are unchanged, except that local paths are now URLs
-  pkg$resources[[1]]$path <- "https://raw.githubusercontent.com/frictionlessdata/frictionless-r/main/inst/extdata/deployments.csv"
+  pkg$resources[[1]]$path <- file.path(
+    "https://raw.githubusercontent.com/frictionlessdata",
+    "frictionless-r/main/inst/extdata/deployments.csv"
+  )
   pkg$resources[[2]]$path <- c(
-    "https://raw.githubusercontent.com/frictionlessdata/frictionless-r/main/inst/extdata/observations_1.csv",
-    "https://raw.githubusercontent.com/frictionlessdata/frictionless-r/main/inst/extdata/observations_2.csv"
+    file.path("https://raw.githubusercontent.com/frictionlessdata",
+              "frictionless-r/main/inst/extdata/observations_1.csv"),
+    file.path("https://raw.githubusercontent.com/frictionlessdata",
+              "frictionless-r/main/inst/extdata/observations_2.csv")
   )
   expect_identical(pkg_out$resources[[1]], pkg$resources[[1]])
   expect_identical(pkg_out$resources[[2]], pkg$resources[[2]])
@@ -99,7 +105,8 @@ test_that("write_package() leaves resources with URL as is, but updates path to 
   unlink(temp_dir, recursive = TRUE)
 })
 
-test_that("write_package() leaves resources with path as is, but copies files", {
+test_that("write_package() leaves resources with path as is, but copies
+           files", {
   pkg <- suppressMessages(read_package(
     system.file("extdata", "datapackage.json", package = "frictionless")
   ))
@@ -114,9 +121,15 @@ test_that("write_package() leaves resources with path as is, but copies files", 
   expect_identical(pkg_out$resources[[2]], pkg$resources[[2]])
 
   # Files are written
-  expect_type(readr::read_file(file.path(temp_dir, "deployments.csv")), "character")
-  expect_type(readr::read_file(file.path(temp_dir, "observations_1.csv")), "character")
-  expect_type(readr::read_file(file.path(temp_dir, "observations_2.csv")), "character")
+  expect_type(
+    readr::read_file(file.path(temp_dir, "deployments.csv")), "character"
+  )
+  expect_type(
+    readr::read_file(file.path(temp_dir, "observations_1.csv")), "character"
+  )
+  expect_type(
+    readr::read_file(file.path(temp_dir, "observations_2.csv")), "character"
+  )
   unlink(temp_dir, recursive = TRUE)
 })
 

@@ -32,3 +32,9 @@ package <- remove_resource(package, "observations")
 # List the resource names ("observations" removed)
 package$resource_names
 }
+\seealso{
+Other edit functions: 
+\code{\link{add_resource}()},
+\code{\link{get_schema}()}
+}
+\concept{edit functions}

@@ -17,13 +17,15 @@ Provided \code{package} (invisibly).
 }
 \description{
 Writes a Data Package and its related Data Resources to disk as a
-\code{datapackage.json} and csv files. Originally included resources are left
-untouched, those added with \code{\link[=add_resource]{add_resource()}} are written to file using
-\code{\link[readr:write_delim]{readr::write_csv()}}.
+\code{datapackage.json} and CSV files.
+Originally included resources are left untouched, those added with
+\code{\link[=add_resource]{add_resource()}} are written to file using \code{\link[readr:write_delim]{readr::write_csv()}}.
 }
 \examples{
-# Load the example Data Package
-package <- example_package
+# Load the example Data Package from disk
+package <- read_package(
+  system.file("extdata", "datapackage.json", package = "frictionless")
+)
 
 # List the resource names
 package$resource_names
@@ -37,3 +39,4 @@ list.files("my_package")
 # Clean up (don't do this if you want to keep your files)
 unlink("my_package", recursive = TRUE)
 }
+\concept{write functions}

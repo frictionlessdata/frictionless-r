@@ -5,6 +5,7 @@
 #'
 #' @param package List object describing a Data Package.
 #' @return `TRUE` or error.
+#' @family check functions
 #' @noRd
 check_package <- function(package) {
   msg_invalid <- glue::glue(

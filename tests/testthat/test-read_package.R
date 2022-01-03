@@ -1,7 +1,11 @@
-test_that("read_package() returns a valid Data Package, whether reading path or url", {
+test_that("read_package() returns a valid Data Package, whether reading path or
+           url", {
   # Load example package (locally and remotely) and a valid minimal one
-  pkg_path <- system.file("extdata", "datapackage.json", package = "frictionless")
-  pkg_url <- "https://raw.githubusercontent.com/frictionlessdata/frictionless-r/main/inst/extdata/datapackage.json"
+  pkg_path <- system.file(
+    "extdata", "datapackage.json", package = "frictionless"
+  )
+  pkg_url <- file.path("https://raw.githubusercontent.com/frictionlessdata/",
+                       "frictionless-r/main/inst/extdata/datapackage.json")
   minimal_path <- "data/valid_minimal.json"
   pkg_local <- suppressMessages(read_package(pkg_path))
   pkg_remote <- suppressMessages(read_package(pkg_url))
@@ -27,7 +31,9 @@ test_that("read_package() returns a valid Data Package, whether reading path or 
 
 test_that("read_package() informs about usage norms", {
   # Load example package and a minimal valid one a URL in "id"
-  pkg_path <- system.file("extdata", "datapackage.json", package = "frictionless")
+  pkg_path <- system.file(
+    "extdata", "datapackage.json", package = "frictionless"
+  )
   minimal_extra_path <- "data/valid_minimal_extra.json"
 
   expected_message <- glue::glue(
@@ -68,7 +74,9 @@ test_that("read_package() returns error on missing file and properties", {
 
   # Not a json file
   expect_error(
-    read_package(system.file("extdata", "deployments.csv", package = "frictionless")),
+    read_package(
+      system.file("extdata", "deployments.csv", package = "frictionless")
+    ),
     "lexical error: invalid char in json text."
   )
 

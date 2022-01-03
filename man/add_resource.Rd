@@ -14,17 +14,16 @@ add_resource(package, resource_name, df, schema = NULL)
 
 \item{df}{A data frame.}
 
-\item{schema}{List object describing a Table Schema for that data frame. If
-not provided, one will be created (using \code{\link[=create_schema]{create_schema()}}).}
+\item{schema}{List object describing a Table Schema for that data frame.
+If not provided, one will be created (using \code{\link[=create_schema]{create_schema()}}).}
 }
 \value{
 Provided \code{package} with one additional resource.
 }
 \description{
-Adds a Tabular
-\href{https://specs.frictionlessdata.io/data-resource/}{Data Resource}
-to a Data Package. The resource will be a
-\href{https://specs.frictionlessdata.io/tabular-data-resource/}{Tabular Data Resource}.
+Adds a Tabular \href{https://specs.frictionlessdata.io/data-resource/}{Data Resource} to a Data
+Package.
+The resource will be a \href{https://specs.frictionlessdata.io/tabular-data-resource/}{Tabular Data Resource}.
 The resource name can only contain lowercase alphanumeric characters plus
 \code{.}, \code{-} and \verb{_}.
 }
@@ -51,3 +50,9 @@ package <- add_resource(package, "positions", df)
 # List the resource names ("positions" added)
 package$resource_names
 }
+\seealso{
+Other edit functions: 
+\code{\link{get_schema}()},
+\code{\link{remove_resource}()}
+}
+\concept{edit functions}
