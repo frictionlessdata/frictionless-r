@@ -1,0 +1,242 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+  "@type": "SoftwareSourceCode",
+  "identifier": "frictionless",
+  "description": "Read and write Frictionless Data Packages. A Data Package (<https://specs.frictionlessdata.io/data-package/>) is a simple container format and standard to describe and package a collection of (tabular) data. It is typically used to publish FAIR and open datasets.",
+  "name": "frictionless: Read and Write Frictionless Data Packages",
+  "relatedLink": "https://frictionlessdata.github.io/frictionless-r/",
+  "codeRepository": "https://github.com/frictionlessdata/frictionless-r",
+  "issueTracker": "https://github.com/frictionlessdata/frictionless-r/issues",
+  "license": "https://spdx.org/licenses/MIT",
+  "version": "0.9.0.9000",
+  "programmingLanguage": {
+    "@type": "ComputerLanguage",
+    "name": "R",
+    "url": "https://r-project.org"
+  },
+  "runtimePlatform": "R version 4.1.2 (2021-11-01)",
+  "author": [
+    {
+      "@type": "Person",
+      "givenName": "Peter",
+      "familyName": "Desmet",
+      "email": "peter.desmet@inbo.be",
+      "@id": "https://orcid.org/0000-0002-8442-8025"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Damiano",
+      "familyName": "Oldoni",
+      "email": "damiano.oldoni@inbo.be",
+      "@id": "https://orcid.org/0000-0003-3445-7562"
+    }
+  ],
+  "copyrightHolder": [
+    {
+      "@type": "Organization",
+      "name": "Research Institute for Nature and Forest (INBO)",
+      "email": "info@inbo.be"
+    }
+  ],
+  "maintainer": [
+    {
+      "@type": "Person",
+      "givenName": "Peter",
+      "familyName": "Desmet",
+      "email": "peter.desmet@inbo.be",
+      "@id": "https://orcid.org/0000-0002-8442-8025"
+    }
+  ],
+  "softwareSuggestions": [
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "knitr",
+      "name": "knitr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=knitr"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "hms",
+      "name": "hms",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=hms"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "lubridate",
+      "name": "lubridate",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=lubridate"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "testthat",
+      "name": "testthat",
+      "version": ">= 3.0.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=testthat"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "rmarkdown",
+      "name": "rmarkdown",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=rmarkdown"
+    }
+  ],
+  "softwareRequirements": {
+    "1": {
+      "@type": "SoftwareApplication",
+      "identifier": "assertthat",
+      "name": "assertthat",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=assertthat"
+    },
+    "2": {
+      "@type": "SoftwareApplication",
+      "identifier": "dplyr",
+      "name": "dplyr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=dplyr"
+    },
+    "3": {
+      "@type": "SoftwareApplication",
+      "identifier": "glue",
+      "name": "glue",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=glue"
+    },
+    "4": {
+      "@type": "SoftwareApplication",
+      "identifier": "httr",
+      "name": "httr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=httr"
+    },
+    "5": {
+      "@type": "SoftwareApplication",
+      "identifier": "jsonlite",
+      "name": "jsonlite",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=jsonlite"
+    },
+    "6": {
+      "@type": "SoftwareApplication",
+      "identifier": "purrr",
+      "name": "purrr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=purrr"
+    },
+    "7": {
+      "@type": "SoftwareApplication",
+      "identifier": "readr",
+      "name": "readr",
+      "version": ">= 2.1.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=readr"
+    },
+    "8": {
+      "@type": "SoftwareApplication",
+      "identifier": "stringr",
+      "name": "stringr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=stringr"
+    },
+    "SystemRequirements": null
+  },
+  "fileSize": "148.239KB",
+  "citation": [
+    {
+      "@type": "SoftwareSourceCode",
+      "datePublished": "2022",
+      "author": [
+        {
+          "@type": "Person",
+          "givenName": "Peter",
+          "familyName": "Desmet"
+        },
+        {
+          "@type": "Person",
+          "givenName": "Damiano",
+          "familyName": "Oldoni"
+        }
+      ],
+      "name": "frictionless: Read and Write Frictionless Data Packages",
+      "identifier": "https://doi.org/10.5281/zenodo.5815355",
+      "url": "https://github.com/frictionlessdata/frictionless-r",
+      "description": "R package version 0.9.0.9000",
+      "@id": "https://doi.org/10.5281/zenodo.5815355",
+      "sameAs": "https://doi.org/10.5281/zenodo.5815355"
+    }
+  ],
+  "readme": "https://github.com/frictionlessdata/frictionless-r/blob/main/README.md",
+  "contIntegration": ["https://github.com/frictionlessdata/frictionless-r/actions", "https://codecov.io/gh/frictionlessdata/frictionless-r"],
+  "developmentStatus": "https://www.repostatus.org/#active",
+  "keywords": ["frictionlessdata", "oscibio", "r", "r-package"]
+}
