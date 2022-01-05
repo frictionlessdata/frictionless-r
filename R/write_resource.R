@@ -52,8 +52,10 @@ write_resource <- function(package, resource_name, directory = ".") {
       } else {
         # Local file
         # Copy file to directory, point path to file name (in that directory).
+        # Note that existing files will not be overwritten (e.g. when reading
+        # and writing to same dir).
         file_name <- basename(path)
-        file.copy(path, file.path(directory, file_name))
+        file.copy(path, file.path(directory, file_name), overwrite = FALSE)
         out_paths <- append(out_paths, file_name)
       }
     }
