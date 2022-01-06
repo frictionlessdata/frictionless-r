@@ -1,8 +1,10 @@
 url: https://frictionlessdata.github.io/frictionless-r
 
 template:
-  params:
-    bootswatch: yeti
+  bootstrap: 5
+
+navbar:
+  bg: dark
 
 authors:
   Peter Desmet:
