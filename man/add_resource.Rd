@@ -4,7 +4,7 @@
 \alias{add_resource}
 \title{Add a Data Resource}
 \usage{
-add_resource(package, resource_name, data, schema = NULL)
+add_resource(package, resource_name, data, schema = NULL, ...)
 }
 \arguments{
 \item{package}{List object describing a Data Package, created with
@@ -14,17 +14,19 @@ add_resource(package, resource_name, data, schema = NULL)
 
 \item{data}{Data to attach, either a data frame or path(s) to CSV file(s).
 \itemize{
-\item data frame: will be attached to the resource as \code{data} and written to a
-CSV file when using \code{\link[=write_package]{write_package()}}.
-\item path(s) to CSV file(s): will be added to the resource as \code{path}.
-The (last in case of multiple) CSV file will be read with
-\code{\link[readr:read_delim]{readr::read_csv()}} using default parameters (comma-separated, headers
-present, etc.) only for the purpose of creating or comparing with a
-\code{schema}.
+\item Data frame: attached to the resource as \code{data} and written to a CSV file
+when using \code{\link[=write_package]{write_package()}}.
+\item Path(s) to CSV file(s): added to the resource as \code{path}.
+One file (default: last) will be read with
+\link[readr:read_delim(delim = ",")]{readr::read_delim(delim = ",")} to create or compare with \code{schema}.
+The other files are ignored but are expected to have the same structure.
 }}
 
 \item{schema}{List object describing a Table Schema for the \code{data}.
 If not provided, one will be created using \code{\link[=create_schema]{create_schema()}}.}
+
+\item{...}{Optional arguments passed to \code{\link[readr:read_delim]{readr::read_delim()}} when reading
+path in \code{data}, e.g. \code{delim = "\\t"} for tab delimited file.}
 }
 \value{
 Provided \code{package} with one additional resource.

@@ -10,15 +10,16 @@
 #'
 #' @inheritParams read_resource
 #' @param data Data to attach, either a data frame or path(s) to CSV file(s).
-#'   - data frame: will be attached to the resource as `data` and written to a
-#'     CSV file when using [write_package()].
-#'   - path(s) to CSV file(s): will be added to the resource as `path`.
-#'     The (last in case of multiple) CSV file will be read with
-#'     [readr::read_csv()] using default parameters (comma-separated, headers
-#'     present, etc.) only for the purpose of creating or comparing with a
-#'     `schema`.
+#'   - Data frame: attached to the resource as `data` and written to a CSV file
+#'     when using [write_package()].
+#'   - Path(s) to CSV file(s): added to the resource as `path`.
+#'     One file (default: last) will be read with
+#'     [readr::read_delim(delim = ",")] to create or compare with `schema`.
+#'     The other files are ignored but are expected to have the same structure.
 #' @param schema List object describing a Table Schema for the `data`.
 #'   If not provided, one will be created using [create_schema()].
+#' @param ... Optional arguments passed to [readr::read_delim()] when reading
+#'   path in `data`, e.g. `delim = "\t"` for tab delimited file.
 #' @return Provided `package` with one additional resource.
 #' @family edit functions
 #' @export
@@ -48,7 +49,7 @@
 #'
 #' # List the resource names ("positions" and "deployments2" added)
 #' package$resource_names
-add_resource <- function(package, resource_name, data, schema = NULL) {
+add_resource <- function(package, resource_name, data, schema = NULL, ...) {
   # Check package
   check_package(package)
 
@@ -78,11 +79,18 @@ add_resource <- function(package, resource_name, data, schema = NULL) {
   if (is.data.frame(data)) {
     df <- data
   } else {
+    # Check existence of files (no further checks)
     paths <- purrr::map_chr(
       data, ~ check_path(.x, directory = NULL, unsafe = TRUE)
     )
-    last_path <- paths[length(paths)]
-    df <- readr::read_csv(last_path, progress = FALSE, show_col_types = FALSE)
+    last_file <- paths[length(paths)]
+    # Parse arguments to be passed to read_delim and set defaults
+    read_args <- list(...)
+    read_args$file <- replace_null(read_args$file, last_file)
+    read_args$delim <- replace_null(read_args$delim, ",")
+    read_args$progress <- replace_null(read_args$progress, FALSE)
+    read_args$show_col_types <- replace_null(read_args$show_col_types, FALSE)
+    df <- do.call(readr::read_delim, read_args)
   }
 
   # Create schema
@@ -107,8 +115,8 @@ add_resource <- function(package, resource_name, data, schema = NULL) {
       name = resource_name,
       path = paths,
       profile = "tabular-data-resource", # Necessary for read_resource()
-      format = "csv",
-      mediatype = "text/csv",
+      # format: not set, not necessarily "csv"
+      # mediatype: not set, not necessarily "text/csv"
       # encoding: not set, not necessarily "utf-8"
       schema = schema
     )
