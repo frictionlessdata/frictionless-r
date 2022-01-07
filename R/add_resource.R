@@ -43,10 +43,8 @@
 #' package <- add_resource(package, "positions", data = df)
 #'
 #' # Add a new resource "deployments2" to the Data Package, from a CSV file path
-#' csv_file_path <- system.file(
-#'   "extdata", "deployments.csv", package = "frictionless"
-#' )
-#' package <- add_resource(package, "deployments2", data = csv_file_path)
+#' path <- system.file("extdata", "deployments.csv", package = "frictionless")
+#' package <- add_resource(package, "deployments2", data = path)
 #'
 #' # List the resource names ("positions" and "deployments2" added)
 #' package$resource_names
