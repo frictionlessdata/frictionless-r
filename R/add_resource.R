@@ -99,8 +99,8 @@ add_resource <- function(package, resource_name, data, schema = NULL) {
       name = resource_name,
       data = df,
       profile = "tabular-data-resource", # Necessary for read_resource()
-      schema = schema
       # other properties are set by write_resource()
+      schema = schema
     )
   } else {
     resource <- list(
@@ -112,6 +112,7 @@ add_resource <- function(package, resource_name, data, schema = NULL) {
       # encoding: not set, not necessarily "utf-8"
       schema = schema
     )
+    attr(resource, "path") <- "added"
   }
 
   # Add resource (needs to be wrapped in its own list)

@@ -44,10 +44,13 @@ get_resource <- function(package, resource_name) {
   # Assign read_from property (based on path, then df, then data)
   if (length(resource$path) != 0) {
     resource$read_from <- "path"
-    # Update paths to full paths
-    resource$path <- purrr::map_chr(
-      resource$path, ~ check_path(.x, package$directory, unsafe = FALSE)
-    )
+    if (replace_null(attributes(resource)$path, "") != "added") {
+      # Check safety of paths and update to full paths, unless those paths were
+      # willingly added by the user in add_resource().
+      resource$path <- purrr::map_chr(
+        resource$path, ~ check_path(.x, package$directory, unsafe = FALSE)
+      )
+    }
   } else if (is.data.frame(resource$data)) {
     resource$read_from <- "df"
   } else if (!is.null(resource$data)) {
