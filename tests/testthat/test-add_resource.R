@@ -72,12 +72,12 @@ test_that("add_resource() returns error on invalid or empty data frame", {
   schema <- create_schema(df)
   expect_error(
     add_resource(pkg, "new", data.frame("col_1" = character(0))),
-    "`df` must be a data frame containing data.",
+    "`data` must be a data frame containing data.",
     fixed = TRUE
   )
   expect_error(
     add_resource(pkg, "new", data.frame("col_1" = character(0)), schema),
-    "`df` must be a data frame containing data.",
+    "`data` must be a data frame containing data.",
     fixed = TRUE
   )
 
@@ -95,7 +95,7 @@ test_that("add_resource() returns error on incorrect Table Schema", {
   expect_error(
     add_resource(pkg, "new", df, schema_invalid),
     paste(
-      "Field names in `schema` must match column names in `df`:",
+      "Field names in `schema` must match column names in data:",
       "ℹ Field names: `no_such_col`, `col_2`",
       "ℹ Column names: `col_1`, `col_2`",
       sep = "\n"

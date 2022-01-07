@@ -9,9 +9,9 @@
 #' `.`, `-` and `_`.
 #'
 #' @inheritParams read_resource
-#' @param df A data frame.
-#' @param schema List object describing a Table Schema for that data frame.
-#'   If not provided, one will be created (using [create_schema()]).
+#' @param data Data to attach.
+#' @param schema List object describing a Table Schema for the data.
+#'   If not provided, one will be created using [create_schema()].
 #' @return Provided `package` with one additional resource.
 #' @family edit functions
 #' @export
@@ -32,12 +32,12 @@
 #'   y = c(860, 900)
 #' )
 #'
-#' # Add the data frame as a new resource to the Data Package
-#' package <- add_resource(package, "positions", df)
+#' # Add a new resource "positions" to the Data Package, from the data frame
+#' package <- add_resource(package, "positions", data = df)
 #'
 #' # List the resource names ("positions" added)
 #' package$resource_names
-add_resource <- function(package, resource_name, df, schema = NULL) {
+add_resource <- function(package, resource_name, data, schema = NULL) {
   # Check package
   check_package(package)
 

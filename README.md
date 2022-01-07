@@ -91,13 +91,10 @@ You can also create your own Data Package, add data and **write** it to
 disk:
 
 ``` r
-# Create a data frame (from the built-in dataset iris)
-df <- iris
-
-# Create a Data Package and add iris as a resource
+# Create a Data Package and add the "iris" data frame as a resource
 my_package <-
   create_package() %>%
-  add_resource(resource_name = "iris", df)
+  add_resource(resource_name = "iris", data = iris)
 
 # Write the Data Package to disk
 my_package %>%

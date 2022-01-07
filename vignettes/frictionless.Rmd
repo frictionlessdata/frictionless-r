@@ -77,7 +77,7 @@ Create a Data Package with `create_package()` and add your data frame as a resou
 ```{r}
 my_package <-
   create_package() %>%
-  add_resource(resource_name = "iris", df = iris)
+  add_resource(resource_name = "iris", data = iris)
 ```
 
 Note that you can chain most frictionless functions together using pipes (`%>%` or `|>`), which improves readability.
@@ -144,7 +144,7 @@ my_package <-
   remove_resource("iris") %>% # Remove originally added resource
   add_resource(
     resource_name = "iris",
-    df = iris,
+    data = iris,
     schema = iris_schema # Your customized schema
   )
 ```

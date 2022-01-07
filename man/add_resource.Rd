@@ -4,7 +4,7 @@
 \alias{add_resource}
 \title{Add a Data Resource}
 \usage{
-add_resource(package, resource_name, df, schema = NULL)
+add_resource(package, resource_name, data, schema = NULL)
 }
 \arguments{
 \item{package}{List object describing a Data Package, created with
@@ -12,10 +12,10 @@ add_resource(package, resource_name, df, schema = NULL)
 
 \item{resource_name}{Name of the Data Resource.}
 
-\item{df}{A data frame.}
+\item{data}{Data to attach.
 
-\item{schema}{List object describing a Table Schema for that data frame.
-If not provided, one will be created (using \code{\link[=create_schema]{create_schema()}}).}
+\item{schema}{List object describing a Table Schema for the data.
+If not provided, one will be created using \code{\link[=create_schema]{create_schema()}}.}
 }
 \value{
 Provided \code{package} with one additional resource.
@@ -44,8 +44,8 @@ df <- data.frame(
   y = c(860, 900)
 )
 
-# Add the data frame as a new resource to the Data Package
-package <- add_resource(package, "positions", df)
+# Add a new resource "positions" to the Data Package, from the data frame
+package <- add_resource(package, "positions", data = df)
 
 # List the resource names ("positions" added)
 package$resource_names
