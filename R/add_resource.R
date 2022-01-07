@@ -80,7 +80,7 @@ add_resource <- function(package, resource_name, data, schema = NULL) {
     paths <- purrr::map_chr(
       data, ~ check_path(.x, directory = NULL, unsafe = TRUE)
     )
-    last_path <- tail(paths, 1)
+    last_path <- paths[length(paths)]
     df <- readr::read_csv(last_path, progress = FALSE, show_col_types = FALSE)
   }
 
