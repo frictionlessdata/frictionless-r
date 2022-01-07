@@ -89,17 +89,17 @@ test_that("check_schema() returns error on invalid or empty data frame", {
   schema <- create_schema(df)
   expect_error(
     check_schema(schema, "not_a_df"),
-    "`df` must be a data frame containing data.",
+    "`data` must be a data frame containing data.",
     fixed = TRUE
   )
   expect_error(
     check_schema(schema, data.frame()),
-    "`df` must be a data frame containing data.",
+    "`data` must be a data frame containing data.",
     fixed = TRUE
   )
   expect_error(
     check_schema(schema, data.frame("col_1" = character(0))),
-    "`df` must be a data frame containing data.",
+    "`data` must be a data frame containing data.",
     fixed = TRUE
   )
 })
@@ -118,7 +118,7 @@ test_that("check_schema() returns error on mismatching schema and data frame", {
   expect_error(
     check_schema(invalid_schema, df),
     paste(
-      "Field names in `schema` must match column names in `df`:",
+      "Field names in `schema` must match column names in data:",
       "ℹ Field names: `col_2`, `col_1`",
       "ℹ Column names: `col_1`, `col_2`",
       sep = "\n"
@@ -133,7 +133,7 @@ test_that("check_schema() returns error on mismatching schema and data frame", {
   expect_error(
     check_schema(invalid_schema, df),
     paste(
-      "Field names in `schema` must match column names in `df`:",
+      "Field names in `schema` must match column names in data:",
       "ℹ Field names: `col_1`",
       "ℹ Column names: `col_1`, `col_2`",
       sep = "\n"
@@ -150,7 +150,7 @@ test_that("check_schema() returns error on mismatching schema and data frame", {
   expect_error(
     check_schema(invalid_schema, df),
     paste(
-      "Field names in `schema` must match column names in `df`:",
+      "Field names in `schema` must match column names in data:",
       "ℹ Field names: `col_1`, `col_2`, `col_3`",
       "ℹ Column names: `col_1`, `col_2`",
       sep = "\n"

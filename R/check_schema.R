@@ -4,11 +4,11 @@
 #' (optionally) compare against a provided data frame.
 #'
 #' @param schema List object describing a Table Schema.
-#' @param df A data frame against which the Table Schema must be compared.
+#' @param data A data frame against which the Table Schema must be compared.
 #' @return `TRUE` or error.
 #' @family check functions
 #' @noRd
-check_schema <- function(schema, df = NULL) {
+check_schema <- function(schema, data = NULL) {
   # Check schema is list with property fields
   assertthat::assert_that(
     is.list(schema) & "fields" %in% names(schema) & is.list(schema["fields"]),
@@ -46,24 +46,24 @@ check_schema <- function(schema, df = NULL) {
     )
   )
 
-  # Check df when present
-  if (!is.null(df)) {
+  # Check data when present
+  if (!is.null(data)) {
     assertthat::assert_that(
-      is.data.frame(df) &
-        replace_null(dim(df)[1], 0) != 0 &
-        replace_null(dim(df)[2], 0) != 0,
+      is.data.frame(data) &
+        replace_null(dim(data)[1], 0) != 0 &
+        replace_null(dim(data)[2], 0) != 0,
       msg = glue::glue(
-        "`df` must be a data frame containing data."
+        "`data` must be a data frame containing data."
       )
     )
 
     field_names_collapse <- paste(field_names, collapse = "`, `")
-    col_names <- colnames(df)
+    col_names <- colnames(data)
     col_names_collapse <- paste(col_names, collapse = "`, `")
     assertthat::assert_that(
       identical(field_names, col_names),
       msg = glue::glue(
-        "Field names in `schema` must match column names in `df`:",
+        "Field names in `schema` must match column names in data:",
         "\u2139 Field names: `{field_names_collapse}`",
         "\u2139 Column names: `{col_names_collapse}`",
         .sep = "\n"
