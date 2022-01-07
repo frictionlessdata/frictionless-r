@@ -10,6 +10,10 @@
 #'
 #' @inheritParams read_resource
 #' @param data Data to attach.
+#'   Either a data frame or path(s) to CSV file(s).
+#'   The (last in case of multiple) CSV file will be read with
+#'   [readr::read_csv()] using default parameters (comma-separated, headers
+#'   present, etc.) to create or compare with a `schema`.
 #' @param schema List object describing a Table Schema for the data.
 #'   If not provided, one will be created using [create_schema()].
 #' @return Provided `package` with one additional resource.
@@ -35,7 +39,13 @@
 #' # Add a new resource "positions" to the Data Package, from the data frame
 #' package <- add_resource(package, "positions", data = df)
 #'
-#' # List the resource names ("positions" added)
+#' # Add a new resource "deployments2" to the Data Package, from a CSV file path
+#' csv_file_path <- system.file(
+#'   "extdata", "deployments.csv", package = "frictionless"
+#' )
+#' package <- add_resource(package, "deployments2", data = csv_file_path)
+#'
+#' # List the resource names ("positions" and "deployments2" added)
 #' package$resource_names
 add_resource <- function(package, resource_name, data, schema = NULL) {
   # Check package
@@ -45,8 +55,8 @@ add_resource <- function(package, resource_name, data, schema = NULL) {
   assertthat::assert_that(
     grepl(resource_name, pattern = "^[a-z0-9\\._-]+$"),
     msg = glue::glue(
-      "`{resource_name}` must only contain lowercase alphanumeric characters",
-      "plus `.`, `-` and `_`.",
+      "`resource_name` `{resource_name}` must only contain lowercase",
+      "alphanumeric characters plus `.`, `-` and `_`.",
       .sep = " "
     )
   )
@@ -59,6 +69,22 @@ add_resource <- function(package, resource_name, data, schema = NULL) {
     )
   )
 
+  # Check data (df or path)
+  assertthat::assert_that(
+    is.data.frame(data) | is.character(data),
+    msg = "`data` must be a data frame or path(s) to CSV file(s)."
+  )
+  if (is.data.frame(data)) {
+    paths <- NULL
+    df <- data
+  } else {
+    paths <- purrr::map_chr(
+      data, ~ check_path(.x, directory = NULL, unsafe = TRUE)
+    )
+    last_path <- tail(paths, 1)
+    df <- readr::read_csv(last_path, progress = FALSE, show_col_types = FALSE)
+  }
+
   # Create schema
   if (is.null(schema)) {
     schema <- create_schema(df)
@@ -67,14 +93,26 @@ add_resource <- function(package, resource_name, data, schema = NULL) {
   # Check schema (also checks df)
   check_schema(schema, df)
 
-  # Create resource
-  resource <- list(
-    name = resource_name,
-    data = df,
-    profile = "tabular-data-resource", # Necessary for read_resource()
-    # other properties are set by write_resource()
-    schema = schema
-  )
+  # Create resource, with properties in specific order
+  if (!is.null(paths)) {
+    resource <- list(
+      name = resource_name,
+      data = df,
+      profile = "tabular-data-resource", # Necessary for read_resource()
+      schema = schema
+      # other properties are set by write_resource()
+    )
+  } else {
+    resource <- list(
+      name = resource_name,
+      path = paths,
+      profile = "tabular-data-resource", # Necessary for read_resource()
+      format = "csv",
+      mediatype = "text/csv",
+      # encoding: not set, not necessarily "utf-8"
+      schema = schema
+    )
+  }
 
   # Add resource (needs to be wrapped in its own list)
   package$resources <- append(package$resources, list(resource))

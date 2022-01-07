@@ -13,6 +13,10 @@ add_resource(package, resource_name, data, schema = NULL)
 \item{resource_name}{Name of the Data Resource.}
 
 \item{data}{Data to attach.
+Either a data frame or path(s) to CSV file(s).
+The (last in case of multiple) CSV file will be read with
+\code{\link[readr:read_delim]{readr::read_csv()}} using default parameters (comma-separated, headers
+present, etc.) to create or compare with a \code{schema}.}
 
 \item{schema}{List object describing a Table Schema for the data.
 If not provided, one will be created using \code{\link[=create_schema]{create_schema()}}.}
@@ -47,7 +51,13 @@ df <- data.frame(
 # Add a new resource "positions" to the Data Package, from the data frame
 package <- add_resource(package, "positions", data = df)
 
-# List the resource names ("positions" added)
+# Add a new resource "deployments2" to the Data Package, from a CSV file path
+csv_file_path <- system.file(
+  "extdata", "deployments.csv", package = "frictionless"
+)
+package <- add_resource(package, "deployments2", data = csv_file_path)
+
+# List the resource names ("positions" and "deployments2" added)
 package$resource_names
 }
 \seealso{
