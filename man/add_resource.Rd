@@ -12,13 +12,18 @@ add_resource(package, resource_name, data, schema = NULL)
 
 \item{resource_name}{Name of the Data Resource.}
 
-\item{data}{Data to attach.
-Either a data frame or path(s) to CSV file(s).
+\item{data}{Data to attach, either a data frame or path(s) to CSV file(s).
+\itemize{
+\item data frame: will be attached to the resource as \code{data} and written to a
+CSV file when using \code{\link[=write_package]{write_package()}}.
+\item path(s) to CSV file(s): will be added to the resource as \code{path}.
 The (last in case of multiple) CSV file will be read with
 \code{\link[readr:read_delim]{readr::read_csv()}} using default parameters (comma-separated, headers
-present, etc.) to create or compare with a \code{schema}.}
+present, etc.) only for the purpose of creating or comparing with a
+\code{schema}.
+}}
 
-\item{schema}{List object describing a Table Schema for the data.
+\item{schema}{List object describing a Table Schema for the \code{data}.
 If not provided, one will be created using \code{\link[=create_schema]{create_schema()}}.}
 }
 \value{

@@ -9,12 +9,15 @@
 #' `.`, `-` and `_`.
 #'
 #' @inheritParams read_resource
-#' @param data Data to attach.
-#'   Either a data frame or path(s) to CSV file(s).
-#'   The (last in case of multiple) CSV file will be read with
-#'   [readr::read_csv()] using default parameters (comma-separated, headers
-#'   present, etc.) to create or compare with a `schema`.
-#' @param schema List object describing a Table Schema for the data.
+#' @param data Data to attach, either a data frame or path(s) to CSV file(s).
+#'   - data frame: will be attached to the resource as `data` and written to a
+#'     CSV file when using [write_package()].
+#'   - path(s) to CSV file(s): will be added to the resource as `path`.
+#'     The (last in case of multiple) CSV file will be read with
+#'     [readr::read_csv()] using default parameters (comma-separated, headers
+#'     present, etc.) only for the purpose of creating or comparing with a
+#'     `schema`.
+#' @param schema List object describing a Table Schema for the `data`.
 #'   If not provided, one will be created using [create_schema()].
 #' @return Provided `package` with one additional resource.
 #' @family edit functions
