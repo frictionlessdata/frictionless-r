@@ -26,12 +26,12 @@ test_that("create_schema() returns a valid Table Schema", {
 test_that("create_schema() returns error on invalid or empty data frame", {
   expect_error(
     create_schema("not_a_df"),
-    "`df` must be a data frame containing data.",
+    "`data` must be a data frame containing data.",
     fixed = TRUE
   )
   expect_error(
     create_schema(data.frame()),
-    "`df` must be a data frame containing data.",
+    "`data` must be a data frame containing data.",
     fixed = TRUE
   )
 })

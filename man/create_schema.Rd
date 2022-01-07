@@ -4,10 +4,10 @@
 \alias{create_schema}
 \title{Create a Table Schema for a data frame}
 \usage{
-create_schema(df)
+create_schema(data)
 }
 \arguments{
-\item{df}{A data frame.}
+\item{data}{A data frame.}
 }
 \value{
 List object describing a Table Schema.
