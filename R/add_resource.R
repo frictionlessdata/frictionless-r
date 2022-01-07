@@ -75,7 +75,6 @@ add_resource <- function(package, resource_name, data, schema = NULL) {
     msg = "`data` must be a data frame or path(s) to CSV file(s)."
   )
   if (is.data.frame(data)) {
-    paths <- NULL
     df <- data
   } else {
     paths <- purrr::map_chr(
@@ -94,7 +93,7 @@ add_resource <- function(package, resource_name, data, schema = NULL) {
   check_schema(schema, df)
 
   # Create resource, with properties in specific order
-  if (!is.null(paths)) {
+  if (is.data.frame(data)) {
     resource <- list(
       name = resource_name,
       data = df,
