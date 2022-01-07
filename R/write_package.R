@@ -2,9 +2,14 @@
 #'
 #' Writes a Data Package and its related Data Resources to disk as a
 #' `datapackage.json` and CSV files.
-#' Originally included resources are left untouched, those added with
-#' [add_resource()] are written to file using [readr::write_csv()].
-#'
+#' Data Resources are handled as follows:
+#' - Resource has URL `path`: no action.
+#' - Resource has a local `path`: CSV files are copied (not read) to `directory`
+#'   to avoid relative/absolute local paths.
+#' - Resource has inline `data`:
+#'   - Originally included as such: no action.
+#'   - As result of adding a data frame with `add_resource()`: data are written
+#'     to a CSV file using [readr::write_csv()]; `data` property is removed.
 #' @param package List object describing a Data Package, created with
 #'   [read_package()] or [create_package()].
 #' @param directory Path to local directory to write files to.

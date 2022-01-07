@@ -18,8 +18,18 @@ Provided \code{package} (invisibly).
 \description{
 Writes a Data Package and its related Data Resources to disk as a
 \code{datapackage.json} and CSV files.
-Originally included resources are left untouched, those added with
-\code{\link[=add_resource]{add_resource()}} are written to file using \code{\link[readr:write_delim]{readr::write_csv()}}.
+Data Resources are handled as follows:
+\itemize{
+\item Resource has URL \code{path}: no action.
+\item Resource has a local \code{path}: CSV files are copied (not read) to \code{directory}
+to avoid relative/absolute local paths.
+\item Resource has inline \code{data}:
+\itemize{
+\item Originally included as such: no action.
+\item As result of adding a data frame with \code{add_resource()}: data are written
+to a CSV file using \code{\link[readr:write_delim]{readr::write_csv()}}; \code{data} property is removed.
+}
+}
 }
 \examples{
 # Load the example Data Package from disk
