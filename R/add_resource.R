@@ -13,9 +13,9 @@
 #'   - Data frame: attached to the resource as `data` and written to a CSV file
 #'     when using [write_package()].
 #'   - Path(s) to CSV file(s): added to the resource as `path`.
-#'     One file (default: last) will be read with
-#'     [readr::read_delim(delim = ",")] to create or compare with `schema`.
-#'     The other files are ignored but are expected to have the same structure.
+#'     One file (default: last) will be read with [readr::read_delim()] to
+#'     create or compare with `schema`.
+#'     The other files are ignored, but are expected to have the same structure.
 #' @param schema List object describing a Table Schema for the `data`.
 #'   If not provided, one will be created using [create_schema()].
 #' @param ... Optional arguments passed to [readr::read_delim()] when reading

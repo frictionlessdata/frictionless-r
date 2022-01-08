@@ -17,9 +17,9 @@ add_resource(package, resource_name, data, schema = NULL, ...)
 \item Data frame: attached to the resource as \code{data} and written to a CSV file
 when using \code{\link[=write_package]{write_package()}}.
 \item Path(s) to CSV file(s): added to the resource as \code{path}.
-One file (default: last) will be read with
-\link[readr:read_delim(delim = ",")]{readr::read_delim(delim = ",")} to create or compare with \code{schema}.
-The other files are ignored but are expected to have the same structure.
+One file (default: last) will be read with \code{\link[readr:read_delim]{readr::read_delim()}} to
+create or compare with \code{schema}.
+The other files are ignored, but are expected to have the same structure.
 }}
 
 \item{schema}{List object describing a Table Schema for the \code{data}.
