@@ -12,7 +12,8 @@
 #' @param data Data to attach, either a data frame or path(s) to CSV file(s).
 #'   - Data frame: attached to the resource as `data` and written to a CSV file
 #'     when using [write_package()].
-#'   - Path(s) to CSV file(s): added to the resource as `path`.
+#'   - One or more paths to CSV file(s) as a character (vector): added to the
+#'     resource as `path`.
 #'     One file (default: last) will be read with [readr::read_delim()] to
 #'     create or compare with `schema`.
 #'     The other files are ignored, but are expected to have the same structure.
