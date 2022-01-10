@@ -56,14 +56,19 @@ df <- data.frame(
   y = c(860, 900)
 )
 
-# Add a new resource "positions" to the Data Package, from the data frame
+# Add a resource "positions" to the Data Package, from the data frame
 package <- add_resource(package, "positions", data = df)
 
-# Add a new resource "deployments2" to the Data Package, from a CSV file path
-path <- system.file("extdata", "deployments.csv", package = "frictionless")
-package <- add_resource(package, "deployments2", data = path)
+# Add a resource "positions2" to the Data Package, with user-defined schema
+my_schema <- create_schema(df)
+package <- add_resource(package, "positions2", data = df, schema = my_schema)
 
-# List the resource names ("positions" and "deployments2" added)
+# Add a resource "observations2" to the Data Package, from CSV file paths
+path_1 <- system.file("extdata", "observations_1.csv", package = "frictionless")
+path_2 <- system.file("extdata", "observations_2.csv", package = "frictionless")
+package <- add_resource(package, "deployments2", data = c(path_1, path_2))
+
+# List the resource names ("positions", "positions2" & "observations2" added)
 package$resource_names
 }
 \seealso{
