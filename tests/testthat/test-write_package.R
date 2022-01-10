@@ -1,10 +1,10 @@
 test_that("write_package() returns a input Data Package (invisibly)", {
   pkg <- example_package
   temp_dir <- tempdir()
+  on.exit(unlink(temp_dir, recursive = TRUE))
   expect_invisible(write_package(pkg, temp_dir))
   pkg_out <- write_package(pkg, temp_dir)
   expect_identical(pkg_out, pkg)
-  unlink(temp_dir, recursive = TRUE)
 })
 
 test_that("write_package() returns error on incorrect Data Package", {
@@ -21,6 +21,7 @@ test_that("write_package() returns error on incorrect Data Package", {
 test_that("write_package() returns error if Data Package has no resource(s)", {
   pkg_empty <- create_package()
   temp_dir <- tempdir()
+  on.exit(unlink(temp_dir, recursive = TRUE))
   expect_error(
     write_package(pkg_empty, temp_dir),
     "`package` must have resources. Use `add_resource()` to add resources.",
@@ -29,12 +30,12 @@ test_that("write_package() returns error if Data Package has no resource(s)", {
 
   # Resources without name are tested in test-check_package.R
   # Resources without path or data are tested in test-read_resource.R
-  unlink(temp_dir, recursive = TRUE)
 })
 
 test_that("write_package() writes to the specified directory", {
   pkg <- example_package
   temp_subdir <- file.path(tempdir(), "x/y")
+  on.exit(unlink(temp_subdir, recursive = TRUE))
 
   # Function should create subdir(s) without error
   expect_invisible(write_package(pkg, temp_subdir))
@@ -43,7 +44,6 @@ test_that("write_package() writes to the specified directory", {
   expect_true(check_package(
     suppressMessages(read_package(file.path(temp_subdir, "datapackage.json")))
   ))
-  unlink(temp_subdir, recursive = TRUE)
 })
 
 test_that("write_package() writes unaltered datapackage.json as is", {
@@ -54,19 +54,20 @@ test_that("write_package() writes unaltered datapackage.json as is", {
     system.file("extdata", "datapackage.json", package = "frictionless")
   )
   temp_dir <- tempdir()
+  on.exit(unlink(temp_dir, recursive = TRUE))
   write_package(pkg, temp_dir)
   json_out <- readr::read_file(file.path(temp_dir, "datapackage.json"))
 
   # Output json = input json. This also tests if new properties (resource_names,
   # directories) are removed and json is printed "pretty"
   expect_identical(json_out, json_in)
-  unlink(temp_dir, recursive = TRUE)
 })
 
 test_that("write_package() leaves resources with URL as is, but updates path to
            URLs", {
   pkg <- example_package # Example Data Package is a remote one
   temp_dir <- tempdir()
+  on.exit(unlink(temp_dir, recursive = TRUE))
   write_package(pkg, temp_dir)
   pkg_out <- suppressMessages(read_package(
     file.path(temp_dir, "datapackage.json")
@@ -102,7 +103,6 @@ test_that("write_package() leaves resources with URL as is, but updates path to
     "'.*observations_2.csv' does not exist."
     # no fixed = TRUE, since full returned path depends on system
   )
-  unlink(temp_dir, recursive = TRUE)
 })
 
 test_that("write_package() leaves resources with path as is, but copies
@@ -111,6 +111,7 @@ test_that("write_package() leaves resources with path as is, but copies
     system.file("extdata", "datapackage.json", package = "frictionless")
   ))
   temp_dir <- tempdir()
+  on.exit(unlink(temp_dir, recursive = TRUE))
   write_package(pkg, temp_dir)
   pkg_out <- suppressMessages(read_package(
     file.path(temp_dir, "datapackage.json")
@@ -130,7 +131,6 @@ test_that("write_package() leaves resources with path as is, but copies
   expect_type(
     readr::read_file(file.path(temp_dir, "observations_2.csv")), "character"
   )
-  unlink(temp_dir, recursive = TRUE)
 })
 
 test_that("write_package() leaves existing resources with `data` as is", {
@@ -143,7 +143,6 @@ test_that("write_package() leaves existing resources with `data` as is", {
 
   # Resource is unchanged
   expect_identical(pkg_out$resources[[3]], pkg$resources[[3]])
-  unlink(temp_dir, recursive = TRUE)
 })
 
 test_that("write_package() creates files for new resources", {
@@ -154,6 +153,7 @@ test_that("write_package() creates files for new resources", {
   )
   pkg <- add_resource(pkg, "new", df)
   temp_dir <- tempdir()
+  on.exit(unlink(temp_dir, recursive = TRUE))
   write_package(pkg, temp_dir)
   pkg_out <- suppressMessages(read_package(
     file.path(temp_dir, "datapackage.json")
@@ -163,7 +163,6 @@ test_that("write_package() creates files for new resources", {
   expect_identical(pkg_out$resources[[4]]$path, "new.csv")
   expect_null(pkg_out$resources[[4]]$data)
   expect_type(readr::read_file(file.path(temp_dir, "new.csv")), "character")
-  unlink(temp_dir, recursive = TRUE)
 })
 
 test_that("write_package() adds correct properties for new resources", {
@@ -175,6 +174,7 @@ test_that("write_package() adds correct properties for new resources", {
   schema <- create_schema(df)
   pkg <- add_resource(pkg, "new", df)
   temp_dir <- tempdir()
+  on.exit(unlink(temp_dir, recursive = TRUE))
   write_package(pkg, temp_dir)
   pkg_out <- suppressMessages(read_package(
     file.path(temp_dir, "datapackage.json")
@@ -198,5 +198,4 @@ test_that("write_package() adds correct properties for new resources", {
   expect_identical(resource_out$schema, schema)
   expect_null(resource_out$data)
   expect_null(resource_out$read_from)
-  unlink(temp_dir, recursive = TRUE)
 })
