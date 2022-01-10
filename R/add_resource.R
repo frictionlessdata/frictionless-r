@@ -94,7 +94,6 @@ add_resource <- function(package, resource_name, data, schema = NULL, ...) {
     read_args <- list(...)
     read_args$file <- replace_null(read_args$file, last_file)
     read_args$delim <- replace_null(read_args$delim, ",")
-    read_args$progress <- replace_null(read_args$progress, FALSE)
     read_args$show_col_types <- replace_null(read_args$show_col_types, FALSE)
     df <- do.call(readr::read_delim, read_args)
   }
