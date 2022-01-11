@@ -48,18 +48,18 @@ test_that("read_resource() returns error on incorrect resource", {
   )
 
   # No file at path url
-  pkg_invalid$resources[[1]]$path <- "http://example.com/no_file.csv"
+  pkg_invalid$resources[[1]]$path <- "http://example.com/no_such_file.csv"
   expect_error(
     read_resource(pkg_invalid, "deployments"),
-    "Can't find file at `http://example.com/no_file.csv`.",
+    "Can't find file at `http://example.com/no_such_file.csv`.",
     fixed = TRUE
   )
 
   # No file at path
-  pkg_invalid$resources[[1]]$path <- "no_file.csv"
+  pkg_invalid$resources[[1]]$path <- "no_such_file.csv"
   expect_error(
     read_resource(pkg_invalid, "deployments"),
-    "Can't find file at `./no_file.csv`.",
+    "Can't find file at `./no_such_file.csv`.",
     fixed = TRUE
   )
 
