@@ -235,8 +235,8 @@ test_that("add_resource() can add resource from local, remote, relative,
   expect_s3_class(read_resource(pkg, "remote"), "tbl")
 
   # Relative (doesn't throw unsafe error)
-  relative_path <- "../../inst/extdata/deployments.csv"
-  pkg <- add_resource(pkg, "relative", relative_path, schema)
+  relative_path <- "../testthat/data/df.csv"
+  pkg <- add_resource(pkg, "relative", relative_path)
   expect_identical(pkg$resources[[6]]$path, relative_path)
   expect_s3_class(read_resource(pkg, "relative"), "tbl")
 
