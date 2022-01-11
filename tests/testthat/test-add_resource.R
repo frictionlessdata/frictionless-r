@@ -255,6 +255,13 @@ test_that("add_resource() can add resource from local, remote, relative,
   expect_s3_class(read_resource(pkg, "compressed"), "tbl")
 })
 
+test_that("add_resource() can add resource from CSV file with other delimiter,
+           readable by read_resource()", {
+  pkg <- example_package
+  pkg <- add_resource(pkg, "df", "data/df.csv")
+  pkg <- add_resource(pkg, "df_delim", "data/df_delim.csv", delim = ";")
+  expect_identical(pkg$resources[[5]]$dialect$delimiter, ";")
+  expect_identical(read_resource(pkg, "df_delim"), read_resource(pkg, "df"))
 })
 
 if (FALSE) {

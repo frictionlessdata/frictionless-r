@@ -14,13 +14,16 @@
 #'     when using [write_package()].
 #'   - One or more paths to CSV file(s) as a character (vector): added to the
 #'     resource as `path`.
-#'     One file (default: last) will be read with [readr::read_delim()] to
-#'     create or compare with `schema`.
+#'     The last file will be read with [readr::read_delim()] to create or
+#'     compare with `schema`.
 #'     The other files are ignored, but are expected to have the same structure.
 #' @param schema List object describing a Table Schema for the `data`.
 #'   If not provided, one will be created using [create_schema()].
-#' @param ... Optional arguments passed to [readr::read_delim()] when reading
-#'   path in `data`, e.g. `delim = "\t"` for tab delimited file.
+#' @param delim Single character used to separate the fields in the CSV file(s),
+#'   e.g. `\t` for tab delimited file.
+#'   Will be set as `delimiter` in the resource [CSV
+#'   dialect](https://specs.frictionlessdata.io/csv-dialect/#specification), so
+#'   read functions know how to read the file(s).
 #' @return Provided `package` with one additional resource.
 #' @family edit functions
 #' @export
@@ -55,7 +58,8 @@
 #'
 #' # List the resource names ("positions", "positions2" & "observations2" added)
 #' package$resource_names
-add_resource <- function(package, resource_name, data, schema = NULL, ...) {
+add_resource <- function(package, resource_name, data, schema = NULL,
+                         delim = ",") {
   # Check package
   check_package(package)
 
@@ -89,13 +93,11 @@ add_resource <- function(package, resource_name, data, schema = NULL, ...) {
     paths <- purrr::map_chr(
       data, ~ check_path(.x, directory = NULL, unsafe = TRUE)
     )
-    last_file <- paths[length(paths)]
-    # Parse arguments to be passed to read_delim and set defaults
-    read_args <- list(...)
-    read_args$file <- replace_null(read_args$file, last_file)
-    read_args$delim <- replace_null(read_args$delim, ",")
-    read_args$show_col_types <- replace_null(read_args$show_col_types, FALSE)
-    df <- do.call(readr::read_delim, read_args)
+    df <- readr::read_delim(
+      file = paths[length(paths)], # Last file
+      delim = delim,
+      show_col_types = FALSE,
+    )
   }
 
   # Create schema
@@ -125,6 +127,11 @@ add_resource <- function(package, resource_name, data, schema = NULL, ...) {
       # encoding: not set, not necessarily "utf-8"
       schema = schema
     )
+    # Add CSV dialect for non-default delimiter
+    if (delim != ",") {
+      resource$dialect = list(delimiter = delim)
+    }
+    # Set attribute for get_resource()
     attr(resource, "path") <- "added"
   }
 

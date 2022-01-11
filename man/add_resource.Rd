@@ -4,7 +4,7 @@
 \alias{add_resource}
 \title{Add a Data Resource}
 \usage{
-add_resource(package, resource_name, data, schema = NULL, ...)
+add_resource(package, resource_name, data, schema = NULL, delim = ",")
 }
 \arguments{
 \item{package}{List object describing a Data Package, created with
@@ -18,16 +18,18 @@ add_resource(package, resource_name, data, schema = NULL, ...)
 when using \code{\link[=write_package]{write_package()}}.
 \item One or more paths to CSV file(s) as a character (vector): added to the
 resource as \code{path}.
-One file (default: last) will be read with \code{\link[readr:read_delim]{readr::read_delim()}} to
-create or compare with \code{schema}.
+The last file will be read with \code{\link[readr:read_delim]{readr::read_delim()}} to create or
+compare with \code{schema}.
 The other files are ignored, but are expected to have the same structure.
 }}
 
 \item{schema}{List object describing a Table Schema for the \code{data}.
 If not provided, one will be created using \code{\link[=create_schema]{create_schema()}}.}
 
-\item{...}{Optional arguments passed to \code{\link[readr:read_delim]{readr::read_delim()}} when reading
-path in \code{data}, e.g. \code{delim = "\\t"} for tab delimited file.}
+\item{delim}{Single character used to separate the fields in the CSV file(s),
+e.g. \verb{\\t} for tab delimited file.
+Will be set as \code{delimiter} in the resource \href{https://specs.frictionlessdata.io/csv-dialect/#specification}{CSV dialect}, so
+read functions know how to read the file(s).}
 }
 \value{
 Provided \code{package} with one additional resource.
