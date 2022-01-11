@@ -16,7 +16,7 @@
 #' @param package List object describing a Data Package, created with
 #'   [read_package()] or [create_package()].
 #' @param directory Path to local directory to write files to.
-#' @return Provided `package` (invisibly).
+#' @return `package` as written to file (invisibly).
 #' @family write functions
 #' @export
 #' @examples
@@ -37,7 +37,6 @@
 #' # Clean up (don't do this if you want to keep your files)
 #' unlink("my_directory", recursive = TRUE)
 write_package <- function(package, directory = ".") {
-  orig_package <- package
   # Check package
   check_package(package)
 
@@ -65,13 +64,14 @@ write_package <- function(package, directory = ".") {
 
   # Update package
   package$resources <- out_resources
-  package$directory <- NULL
-  package$resource_names <- NULL
+  return_package <- package # Needs directory, resource_names to remain valid
 
   # Write datapackage.json
+  package$directory <- NULL
+  package$resource_names <- NULL
   package_json <- jsonlite::toJSON(package, pretty = TRUE, auto_unbox = TRUE)
   write(package_json, file.path(directory, "datapackage.json"))
 
   # Return (updated) package invisibly
-  invisible(orig_package)
+  invisible(return_package)
 }

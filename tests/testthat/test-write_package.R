@@ -1,10 +1,16 @@
-test_that("write_package() returns a input Data Package (invisibly)", {
+test_that("write_package() returns output Data Package (invisibly)", {
   pkg <- example_package
-  temp_dir <- tempdir()
-  on.exit(unlink(temp_dir, recursive = TRUE))
-  expect_invisible(write_package(pkg, temp_dir))
-  pkg_out <- write_package(pkg, temp_dir)
-  expect_identical(pkg_out, pkg)
+  dir <- file.path(tempdir(), "package")
+  on.exit(unlink(dir, recursive = TRUE))
+  pkg_returned <- write_package(pkg, dir)
+  pkg_as_written <- suppressMessages(read_package(
+    file.path(dir, "datapackage.json")
+  ))
+  # pkg_as_written$directory will differ: overwrite to make the same
+  pkg_as_written$directory <- pkg_returned$directory
+
+  expect_invisible(write_package(pkg, dir))
+  expect_identical(pkg_returned, pkg_as_written)
 })
 
 test_that("write_package() returns error on incorrect Data Package", {
