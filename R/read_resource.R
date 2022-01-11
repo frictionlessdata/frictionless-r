@@ -323,7 +323,7 @@ read_resource <- function(package, resource_name) {
     df <- dplyr::as_tibble(do.call(rbind.data.frame, resource$data))
 
   # Read data from path(s)
-  } else if (resource$read_from == "path") {
+  } else if (resource$read_from == "path" | resource$read_from == "url") {
     dataframes <- list()
     for (i in seq_along(paths)) {
       data <- readr::read_delim(

@@ -2,14 +2,17 @@
 #'
 #' Writes a Data Package and its related Data Resources to disk as a
 #' `datapackage.json` and CSV files.
-#' Data Resources are handled as follows:
-#' - Resource has URL `path`: no action.
-#' - Resource has a local `path`: CSV files are copied (not read) to `directory`
-#'   to avoid relative/absolute local paths.
-#' - Resource has inline `data`:
-#'   - Originally included as such: no action.
-#'   - As result of adding a data frame with `add_resource()`: data are written
-#'     to a CSV file using [readr::write_csv()]; `data` property is removed.
+#' Already existing CSV files of the same name will not be overwritten.
+#' The function can also be used to download a Data Package in its entirety.
+#' The Data Resources are handled as follows:
+#' - Resource `path` has at least one local path (e.g. `deployments.csv`):
+#'   CSV files are copied or downloaded to `directory` and `path` points to new
+#'   location of file(s).
+#' - Resource `path` has only URL(s): resource stays as is.
+#' - Resource has inline `data` originally: resource stays as is.
+#' - Resource has inline `data` as result of adding data with `add_resource()`:
+#'   data are written to a CSV file using [readr::write_csv()], `path` points to
+#'   location of file, `data` property is removed.
 #' @param package List object describing a Data Package, created with
 #'   [read_package()] or [create_package()].
 #' @param directory Path to local directory to write files to.
@@ -26,13 +29,13 @@
 #' package$resource_names
 #'
 #' # Write the (unchanged) Data Package to disk
-#' write_package(package, directory = "my_package")
+#' write_package(package, directory = "my_directory")
 #'
-#' # Check files
-#' list.files("my_package")
+#' # Check files (no media.csv since that resource has inline data)
+#' list.files("my_directory")
 #'
 #' # Clean up (don't do this if you want to keep your files)
-#' unlink("my_package", recursive = TRUE)
+#' unlink("my_directory", recursive = TRUE)
 write_package <- function(package, directory = ".") {
   orig_package <- package
   # Check package

@@ -39,27 +39,29 @@ write_resource <- function(package, resource_name, directory = ".") {
   } else if (resource$read_from == "data") {
     resource$read_from <- NULL
 
-  # Resource has paths
+  # Resource has local paths
   } else if (resource$read_from == "path") {
+    # Download or copy file to directory, point path to file name (in that dir)
+    # Note that existing files will not be overwritten
     out_paths <- vector()
     for (path in resource$path) {
+      file_name <- basename(path)
+      destination <- file.path(directory, file_name)
       if (startsWith(path, "http")) {
-        # File at URL
-        # Don't touch file, point path to URL.
-        # Note that the original path might have been a local path, but
-        # datapackage.json was accessed via URL.
-        out_paths <- append(out_paths, path)
+        if (!file.exists(destination)) {
+          download.file(path, destination)
+        }
       } else {
-        # Local file
-        # Copy file to directory, point path to file name (in that directory).
-        # Note that existing files will not be overwritten (e.g. when reading
-        # and writing to same dir).
-        file_name <- basename(path)
-        file.copy(path, file.path(directory, file_name), overwrite = FALSE)
-        out_paths <- append(out_paths, file_name)
+        file.copy(path, destination, overwrite = FALSE)
       }
+      out_paths <- append(out_paths, file_name)
     }
+    resource$read_from <- NULL
     resource$path <- out_paths
+
+  # Resource has URL paths (only)
+  } else if (resource$read_from == "url") {
+    # Don't touch file, leave URL path as is
     resource$read_from <- NULL
   }
 

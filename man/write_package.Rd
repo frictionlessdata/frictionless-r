@@ -18,17 +18,18 @@ Provided \code{package} (invisibly).
 \description{
 Writes a Data Package and its related Data Resources to disk as a
 \code{datapackage.json} and CSV files.
-Data Resources are handled as follows:
+Already existing CSV files of the same name will not be overwritten.
+The function can also be used to download a Data Package in its entirety.
+The Data Resources are handled as follows:
 \itemize{
-\item Resource has URL \code{path}: no action.
-\item Resource has a local \code{path}: CSV files are copied (not read) to \code{directory}
-to avoid relative/absolute local paths.
-\item Resource has inline \code{data}:
-\itemize{
-\item Originally included as such: no action.
-\item As result of adding a data frame with \code{add_resource()}: data are written
-to a CSV file using \code{\link[readr:write_delim]{readr::write_csv()}}; \code{data} property is removed.
-}
+\item Resource \code{path} has at least one local path (e.g. \code{deployments.csv}):
+CSV files are copied or downloaded to \code{directory} and \code{path} points to new
+location of file(s).
+\item Resource \code{path} has only URL(s): resource stays as is.
+\item Resource has inline \code{data} originally: resource stays as is.
+\item Resource has inline \code{data} as result of adding data with \code{add_resource()}:
+data are written to a CSV file using \code{\link[readr:write_delim]{readr::write_csv()}}, \code{path} points to
+location of file, \code{data} property is removed.
 }
 }
 \examples{
@@ -41,12 +42,12 @@ package <- read_package(
 package$resource_names
 
 # Write the (unchanged) Data Package to disk
-write_package(package, directory = "my_package")
+write_package(package, directory = "my_directory")
 
-# Check files
-list.files("my_package")
+# Check files (no media.csv since that resource has inline data)
+list.files("my_directory")
 
 # Clean up (don't do this if you want to keep your files)
-unlink("my_package", recursive = TRUE)
+unlink("my_directory", recursive = TRUE)
 }
 \concept{write functions}
