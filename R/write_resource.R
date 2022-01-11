@@ -49,7 +49,7 @@ write_resource <- function(package, resource_name, directory = ".") {
       destination <- file.path(directory, file_name)
       if (startsWith(path, "http")) {
         if (!file.exists(destination)) {
-          download.file(path, destination)
+          utils::download.file(path, destination)
         }
       } else {
         file.copy(path, destination, overwrite = FALSE)
