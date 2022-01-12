@@ -4,7 +4,7 @@
 #' a data frame, listing all column names and types as field names and
 #' (converted) types.
 #'
-#' @param df A data frame.
+#' @param data A data frame.
 #' @return List object describing a Table Schema.
 #' @family create functions
 #' @export
@@ -62,23 +62,23 @@
 #'   life_stage = factor(c("adult", "adult"), levels = c("adult", "juvenile"))
 #' )
 #'
-#' # Create a Table Schema
+#' # Create a Table Schema from the data frame
 #' schema <- create_schema(df)
 #' str(schema)
-create_schema <- function(df) {
-  # Check df
+create_schema <- function(data) {
+  # Check data
   assertthat::assert_that(
-    is.data.frame(df) &
-      replace_null(dim(df)[1], 0) != 0 &
-      replace_null(dim(df)[2], 0) != 0,
+    is.data.frame(data) &
+      replace_null(dim(data)[1], 0) != 0 &
+      replace_null(dim(data)[2], 0) != 0,
     msg = glue::glue(
-      "`df` must be a data frame containing data."
+      "`data` must be a data frame containing data."
     )
   )
 
   # Create fields (a list of lists)
   fields <-
-    purrr::imap(df, function(x, name) {
+    purrr::imap(data, function(x, name) {
       # Name
       name <- ifelse(is.na(name), "", name)
 
@@ -116,7 +116,7 @@ create_schema <- function(df) {
   )
 
   # Remove elements that are NULL or empty list
-  schema <- list_clean(
+  schema <- clean_list(
     schema,
     function(x) is.null(x) | length(x) == 0L,
     recursive = TRUE

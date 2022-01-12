@@ -43,11 +43,18 @@ get_resource <- function(package, resource_name) {
 
   # Assign read_from property (based on path, then df, then data)
   if (length(resource$path) != 0) {
-    resource$read_from <- "path"
-    # Update paths to full paths
-    resource$path <- purrr::map_chr(
-      resource$path, ~ check_path(.x, package$directory, unsafe = FALSE)
-    )
+    if (all(startsWith(resource$path, "http"))) {
+      resource$read_from <- "url"
+    } else {
+      resource$read_from <- "path"
+    }
+    # Expand paths to full paths, check if file exists and check path safety,
+    # unless those paths were willingly added by user in add_resource()
+    if (replace_null(attributes(resource)$path, "") != "added") {
+      resource$path <- purrr::map_chr(
+        resource$path, ~ check_path(.x, package$directory, unsafe = FALSE)
+      )
+    }
   } else if (is.data.frame(resource$data)) {
     resource$read_from <- "df"
   } else if (!is.null(resource$data)) {

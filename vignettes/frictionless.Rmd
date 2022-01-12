@@ -65,7 +65,7 @@ Data from the `media` was not stored in a CSV file, but directly in the `data` p
 
 Data Package is a good format to technically describe your data, e.g. if you are planning to deposit it on research repository. It also goes a long way meeting [FAIR principles](https://www.go-fair.org/fair-principles/).
 
-The frictionless pkg assumes your data are stored as a data frame. Let's use the built-in dataset `iris` as your data frame:
+The frictionless pkg assumes your data are stored as a data frame or CSV files. Let's use the built-in dataset `iris` as your data frame:
 
 ```{r}
 # Show content of the data frame "iris"
@@ -77,7 +77,7 @@ Create a Data Package with `create_package()` and add your data frame as a resou
 ```{r}
 my_package <-
   create_package() %>%
-  add_resource(resource_name = "iris", df = iris)
+  add_resource(resource_name = "iris", data = iris)
 ```
 
 Note that you can chain most frictionless functions together using pipes (`%>%` or `|>`), which improves readability.
@@ -144,9 +144,22 @@ my_package <-
   remove_resource("iris") %>% # Remove originally added resource
   add_resource(
     resource_name = "iris",
-    df = iris,
+    data = iris,
     schema = iris_schema # Your customized schema
   )
+```
+
+If you already have your data stored as CSV files and you want to include them _as is_ as a Data Resource, you can do so as well. As with data frames, you can opt to create a Table Schema automatically or provide your own.
+
+```{r}
+# Two CSV files with the same structure
+path_1 <- system.file("extdata", "observations_1.csv", package = "frictionless")
+path_2 <- system.file("extdata", "observations_2.csv", package = "frictionless")
+
+# Add both CSV files as a single resource
+my_package <-
+  my_package %>%
+  add_resource(resource_name = "observations", data = c(path_1, path_2))
 ```
 
 In the above steps you started a Data Package from scratch with `create_package()`, but you use the same functionality to edit an existing Data Package read with `read_package()`.
@@ -159,7 +172,7 @@ Now that you have created your Data Package, you can write it to a directory of 
 write_package(my_package, "my_directory")
 ```
 
-The directory will contain two files: the descriptor `datapackage.json` and a CSV file containing the data for the resource `iris`.
+The directory will contain four files: the descriptor `datapackage.json`, one CSV file containing the data for the resource `iris` and two CSV files containing the data for the resource `observations`.
 
 ```{r}
 list.files("my_directory")

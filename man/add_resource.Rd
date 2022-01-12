@@ -4,7 +4,7 @@
 \alias{add_resource}
 \title{Add a Data Resource}
 \usage{
-add_resource(package, resource_name, df, schema = NULL)
+add_resource(package, resource_name, data, schema = NULL, delim = ",")
 }
 \arguments{
 \item{package}{List object describing a Data Package, created with
@@ -12,10 +12,24 @@ add_resource(package, resource_name, df, schema = NULL)
 
 \item{resource_name}{Name of the Data Resource.}
 
-\item{df}{A data frame.}
+\item{data}{Data to attach, either a data frame or path(s) to CSV file(s).
+\itemize{
+\item Data frame: attached to the resource as \code{data} and written to a CSV file
+when using \code{\link[=write_package]{write_package()}}.
+\item One or more paths to CSV file(s) as a character (vector): added to the
+resource as \code{path}.
+The last file will be read with \code{\link[readr:read_delim]{readr::read_delim()}} to create or
+compare with \code{schema}.
+The other files are ignored, but are expected to have the same structure.
+}}
 
-\item{schema}{List object describing a Table Schema for that data frame.
-If not provided, one will be created (using \code{\link[=create_schema]{create_schema()}}).}
+\item{schema}{List object describing a Table Schema for the \code{data}.
+If not provided, one will be created using \code{\link[=create_schema]{create_schema()}}.}
+
+\item{delim}{Single character used to separate the fields in the CSV file(s),
+e.g. \verb{\\t} for tab delimited file.
+Will be set as \code{delimiter} in the resource \href{https://specs.frictionlessdata.io/csv-dialect/#specification}{CSV dialect}, so
+read functions know how to read the file(s).}
 }
 \value{
 Provided \code{package} with one additional resource.
@@ -44,10 +58,19 @@ df <- data.frame(
   y = c(860, 900)
 )
 
-# Add the data frame as a new resource to the Data Package
-package <- add_resource(package, "positions", df)
+# Add resource "positions" to the Data Package, from the data frame
+package <- add_resource(package, "positions", data = df)
 
-# List the resource names ("positions" added)
+# Add resource "positions2" to the Data Package, with user-defined schema
+my_schema <- create_schema(df)
+package <- add_resource(package, "positions2", data = df, schema = my_schema)
+
+# Add resource "observations2" to the Data Package, from CSV file paths
+path_1 <- system.file("extdata", "observations_1.csv", package = "frictionless")
+path_2 <- system.file("extdata", "observations_2.csv", package = "frictionless")
+package <- add_resource(package, "deployments2", data = c(path_1, path_2))
+
+# List the resource names ("positions", "positions2" & "observations2" added)
 package$resource_names
 }
 \seealso{

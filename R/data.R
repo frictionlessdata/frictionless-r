@@ -5,14 +5,14 @@
 #' trap data organized in 3 Data Resources:
 #' - `deployments`: data stored in `deployments.csv`.
 #' - `observations`: data stored in `observations_1.csv` and
-#'   `observations_2.csv`.
+#'   `observations_2.csv`, but referenced as URLs.
 #' - `media`: data stored in `data` property.
 #'
 #' @source
 #' <https://github.com/frictionlessdata/frictionless-r/tree/main/inst/extdata>
 #' @examples
 #' \dontrun{
-#' # example_package.rda was created with the following code.
+#' # example_package.rda was created with the code below.
 #' # Note that it must be created using a URL, otherwise all Data Resource paths
 #' # will point to local paths that won't work for other users.
 #' # One can load locally using:

@@ -11,7 +11,8 @@ status](https://www.r-pkg.org/badges/version/frictionless)](https://CRAN.R-proje
 [![codecov](https://codecov.io/gh/frictionlessdata/frictionless-r/branch/main/graph/badge.svg?token=bKtiHW21K0)](https://codecov.io/gh/frictionlessdata/frictionless-r)
 [![repo
 status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-[![Funding](https://img.shields.io/static/v1?label=powered+by&message=lifewatch.be&labelColor=1a4e8a&color=f15922)](https://lifewatch.be/)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5815355.svg)](https://doi.org/10.5281/zenodo.5815355)
+[![funding](https://img.shields.io/static/v1?label=powered+by&message=lifewatch.be&labelColor=1a4e8a&color=f15922)](https://lifewatch.be/)
 <!-- badges: end -->
 
 Frictionless is an R package to read and write Frictionless Data
@@ -91,13 +92,10 @@ You can also create your own Data Package, add data and **write** it to
 disk:
 
 ``` r
-# Create a data frame (from the built-in dataset iris)
-df <- iris
-
-# Create a Data Package and add iris as a resource
+# Create a Data Package and add the "iris" data frame as a resource
 my_package <-
   create_package() %>%
-  add_resource(resource_name = "iris", df)
+  add_resource(resource_name = "iris", data = iris)
 
 # Write the Data Package to disk
 my_package %>%

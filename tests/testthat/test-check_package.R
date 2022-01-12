@@ -4,13 +4,13 @@ test_that("check_package() returns TRUE on valid Data Package", {
 
 test_that("check_package() returns error on incorrect Data Package", {
   # Valid package
-  pkg <- list(
+  p <- list(
     resources = list(),
     resource_names = vector(mode = "character"),
     directory = "."
   )
-  class(pkg) <- c("datapackage", class(pkg))
-  expect_true(check_package(pkg))
+  class(p) <- c("datapackage", class(p))
+  expect_true(check_package(p))
 
   # Must be a list
   expect_error(
@@ -23,47 +23,47 @@ test_that("check_package() returns error on incorrect Data Package", {
   )
 
   # Must have class datapackage
-  pkg_invalid <- pkg
-  class(pkg_invalid) <- "list"
-  expect_error(check_package(pkg_invalid), "`package` must be")
+  p_invalid <- p
+  class(p_invalid) <- "list"
+  expect_error(check_package(p_invalid), "`package` must be")
 
   # Must have resources as list
-  pkg_invalid <- pkg
-  pkg_invalid$resources <- NULL
-  expect_error(check_package(pkg_invalid), "`package` must be")
-  pkg_invalid$resources <- vector(mode = "character")
-  expect_error(check_package(pkg_invalid), "`package` must be")
+  p_invalid <- p
+  p_invalid$resources <- NULL
+  expect_error(check_package(p_invalid), "`package` must be")
+  p_invalid$resources <- vector(mode = "character")
+  expect_error(check_package(p_invalid), "`package` must be")
 
   # Must have resource names as character vector
-  pkg_invalid <- pkg
-  pkg_invalid$resource_names <- NULL
-  expect_error(check_package(pkg_invalid), "`package` must be")
-  pkg_invalid$resource_names <- list()
-  expect_error(check_package(pkg_invalid), "`package` must be")
+  p_invalid <- p
+  p_invalid$resource_names <- NULL
+  expect_error(check_package(p_invalid), "`package` must be")
+  p_invalid$resource_names <- list()
+  expect_error(check_package(p_invalid), "`package` must be")
 
   # Must have directory as character
-  pkg_invalid <- pkg
-  pkg_invalid$directory <- NULL
-  expect_error(check_package(pkg_invalid), "`package` must be")
-  pkg_invalid$directory <- logical()
-  expect_error(check_package(pkg_invalid), "`package` must be")
+  p_invalid <- p
+  p_invalid$directory <- NULL
+  expect_error(check_package(p_invalid), "`package` must be")
+  p_invalid$directory <- logical()
+  expect_error(check_package(p_invalid), "`package` must be")
 })
 
 test_that("check_package() returns error if resources have no name", {
-  pkg <- example_package
-  pkg$resources[[2]]$name <- NULL
+  p <- example_package
+  p$resources[[2]]$name <- NULL
   expect_error(
-    check_package(pkg),
+    check_package(p),
     "All resources in `package` must have property `name`",
     fixed = TRUE
   )
 })
 
 test_that("check_package() returns error if resource_names are out of sync", {
-  pkg <- example_package
-  pkg$resource_names <- c("no_such_resource", "observations", "media")
+  p <- example_package
+  p$resource_names <- c("no_such_resource", "observations", "media")
   expect_error(
-    check_package(pkg),
+    check_package(p),
     paste(
       "Can't find resource(s) with name(s) `no_such_resource`.",
       "ℹ Is `package$resource_names` out of sync with `name` of resources?",
@@ -71,9 +71,9 @@ test_that("check_package() returns error if resource_names are out of sync", {
     ),
     fixed = TRUE
   )
-  pkg$resource_names <- c("no_such_resource", "neither", "media")
+  p$resource_names <- c("no_such_resource", "neither", "media")
   expect_error(
-    check_package(pkg),
+    check_package(p),
     paste(
       "Can't find resource(s) with name(s) `no_such_resource`, `neither`.",
       "ℹ Is `package$resource_names` out of sync with `name` of resources?",

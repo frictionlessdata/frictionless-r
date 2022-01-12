@@ -1,10 +1,17 @@
-test_that("write_package() returns a input Data Package (invisibly)", {
-  pkg <- example_package
-  temp_dir <- tempdir()
-  expect_invisible(write_package(pkg, temp_dir))
-  pkg_out <- write_package(pkg, temp_dir)
-  expect_identical(pkg_out, pkg)
-  unlink(temp_dir, recursive = TRUE)
+test_that("write_package() returns output Data Package (invisibly)", {
+  p <- example_package
+  # Note write_package() is expected to create directory without warning
+  dir <- file.path(tempdir(), "package")
+  on.exit(unlink(dir, recursive = TRUE))
+  p_written <- suppressMessages(write_package(p, dir))
+  p_from_file <- suppressMessages(read_package(
+    file.path(dir, "datapackage.json")
+  ))
+  # p_from_file$directory will differ: overwrite to make the same
+  p_from_file$directory <- p_written$directory
+
+  expect_invisible(suppressMessages(write_package(p, dir)))
+  expect_identical(p_written, p_from_file)
 })
 
 test_that("write_package() returns error on incorrect Data Package", {
@@ -19,184 +26,232 @@ test_that("write_package() returns error on incorrect Data Package", {
 })
 
 test_that("write_package() returns error if Data Package has no resource(s)", {
-  pkg_empty <- create_package()
-  temp_dir <- tempdir()
+  p_empty <- create_package()
+  dir <- file.path(tempdir(), "package")
+  on.exit(unlink(dir, recursive = TRUE))
   expect_error(
-    write_package(pkg_empty, temp_dir),
+    write_package(p_empty, dir),
     "`package` must have resources. Use `add_resource()` to add resources.",
     fixed = TRUE
   )
 
   # Resources without name are tested in test-check_package.R
   # Resources without path or data are tested in test-read_resource.R
-  unlink(temp_dir, recursive = TRUE)
-})
-
-test_that("write_package() writes to the specified directory", {
-  pkg <- example_package
-  temp_subdir <- file.path(tempdir(), "x/y")
-
-  # Function should create subdir(s) without error
-  expect_invisible(write_package(pkg, temp_subdir))
-
-  # Valid package can be found at temp_subdir
-  expect_true(check_package(
-    suppressMessages(read_package(file.path(temp_subdir, "datapackage.json")))
-  ))
-  unlink(temp_subdir, recursive = TRUE)
 })
 
 test_that("write_package() writes unaltered datapackage.json as is", {
-  pkg <- suppressMessages(read_package(
+  p <- suppressMessages(read_package(
     system.file("extdata", "datapackage.json", package = "frictionless")
   ))
-  json_in <- readr::read_file(
+  json_original <- readr::read_file(
     system.file("extdata", "datapackage.json", package = "frictionless")
   )
-  temp_dir <- tempdir()
-  write_package(pkg, temp_dir)
-  json_out <- readr::read_file(file.path(temp_dir, "datapackage.json"))
+  dir <- file.path(tempdir(), "package")
+  on.exit(unlink(dir, recursive = TRUE))
+  suppressMessages(write_package(p, dir))
+  json_as_written <- readr::read_file(file.path(dir, "datapackage.json"))
 
   # Output json = input json. This also tests if new properties (resource_names,
   # directories) are removed and json is printed "pretty"
-  expect_identical(json_out, json_in)
-  unlink(temp_dir, recursive = TRUE)
+  expect_identical(json_as_written, json_original)
 })
 
-test_that("write_package() leaves resources with URL as is, but updates path to
-           URLs", {
-  pkg <- example_package # Example Data Package is a remote one
-  temp_dir <- tempdir()
-  write_package(pkg, temp_dir)
-  pkg_out <- suppressMessages(read_package(
-    file.path(temp_dir, "datapackage.json")
-  ))
-
-  # Resources are unchanged, except that local paths are now URLs
-  pkg$resources[[1]]$path <- file.path(
-    "https://raw.githubusercontent.com/frictionlessdata",
-    "frictionless-r/main/inst/extdata/deployments.csv"
-  )
-  pkg$resources[[2]]$path <- c(
-    file.path("https://raw.githubusercontent.com/frictionlessdata",
-              "frictionless-r/main/inst/extdata/observations_1.csv"),
-    file.path("https://raw.githubusercontent.com/frictionlessdata",
-              "frictionless-r/main/inst/extdata/observations_2.csv")
-  )
-  expect_identical(pkg_out$resources[[1]], pkg$resources[[1]])
-  expect_identical(pkg_out$resources[[2]], pkg$resources[[2]])
-
-  # Do not expect files
-  expect_error(
-    readr::read_file(file.path(temp_dir, "deployments.csv")),
-    "'.*deployments.csv' does not exist."
-    # no fixed = TRUE, since full returned path depends on system
-  )
-  expect_error(
-    readr::read_file(file.path(temp_dir, "observations_1.csv")),
-    "'.*observations_1.csv' does not exist."
-    # no fixed = TRUE, since full returned path depends on system
-  )
-  expect_error(
-    readr::read_file(file.path(temp_dir, "observations_2.csv")),
-    "'.*observations_2.csv' does not exist."
-    # no fixed = TRUE, since full returned path depends on system
-  )
-  unlink(temp_dir, recursive = TRUE)
-})
-
-test_that("write_package() leaves resources with path as is, but copies
-           files", {
-  pkg <- suppressMessages(read_package(
+test_that("write_package() copies file(s) for path = local in local package", {
+  p <- suppressMessages(read_package(
     system.file("extdata", "datapackage.json", package = "frictionless")
   ))
-  temp_dir <- tempdir()
-  write_package(pkg, temp_dir)
-  pkg_out <- suppressMessages(read_package(
-    file.path(temp_dir, "datapackage.json")
-  ))
+  p$resources[[2]]$path[[2]] <- "observations_2.csv" # Make one URL a local path
+  p <- add_resource(p, "new", "data/df.csv")
+  dir <- file.path(tempdir(), "package")
+  on.exit(unlink(dir, recursive = TRUE))
+  p_written <- suppressMessages(write_package(p, dir))
 
-  # Resources are unchanged
-  expect_identical(pkg_out$resources[[1]], pkg$resources[[1]])
-  expect_identical(pkg_out$resources[[2]], pkg$resources[[2]])
+  # Original resource "deployments" with local path
+  expect_identical(p_written$resources[[1]]$path, "deployments.csv")
+  expect_true(file.exists(file.path(dir, "deployments.csv")))
 
-  # Files are written
-  expect_type(
-    readr::read_file(file.path(temp_dir, "deployments.csv")), "character"
+  # Original resource "observations" with URL + local path => both local
+  expect_identical(
+    p_written$resources[[2]]$path,
+    c("observations_1.csv", "observations_2.csv")
   )
-  expect_type(
-    readr::read_file(file.path(temp_dir, "observations_1.csv")), "character"
-  )
-  expect_type(
-    readr::read_file(file.path(temp_dir, "observations_2.csv")), "character"
-  )
-  unlink(temp_dir, recursive = TRUE)
+  expect_true(file.exists(file.path(dir, "observations_1.csv")))
+  expect_true(file.exists(file.path(dir, "observations_2.csv")))
+
+  # New resource "new" with local path
+  expect_identical(p_written$resources[[4]]$path, "df.csv") # Keeps file name
+  expect_true(file.exists(file.path(dir, "df.csv")))
 })
 
-test_that("write_package() leaves existing resources with `data` as is", {
-  pkg <- example_package
-  temp_dir <- tempdir()
-  write_package(pkg, temp_dir)
-  pkg_out <- suppressMessages(read_package(
-    file.path(temp_dir, "datapackage.json")
-  ))
+test_that("write_package() downloads file(s) for path = local in remote
+           package", {
+  p <- example_package
+  p$resources[[2]]$path[[2]] <- "observations_2.csv" # Make one URL a local path
+  p <- add_resource(p, "new", "data/df.csv")
+  dir <- file.path(tempdir(), "package")
+  on.exit(unlink(dir, recursive = TRUE))
+  p_written <- suppressMessages(write_package(p, dir))
 
-  # Resource is unchanged
-  expect_identical(pkg_out$resources[[3]], pkg$resources[[3]])
-  unlink(temp_dir, recursive = TRUE)
+  # Original resource "deployments" with local path
+  expect_identical(p_written$resources[[1]]$path, "deployments.csv")
+  expect_true(file.exists(file.path(dir, "deployments.csv")))
+
+  # Original resource "observations" with URL + local path => both local
+  expect_identical(
+    p_written$resources[[2]]$path,
+    c("observations_1.csv", "observations_2.csv")
+  )
+  expect_true(file.exists(file.path(dir, "observations_1.csv")))
+  expect_true(file.exists(file.path(dir, "observations_2.csv")))
+
+  # New resource "new" with local path
+  expect_identical(p_written$resources[[4]]$path, "df.csv") # Keeps file name
+  expect_true(file.exists(file.path(dir, "df.csv")))
 })
 
-test_that("write_package() creates files for new resources", {
-  pkg <- example_package
-  df <- data.frame(
-    "col_1" = c(1, 2),
-    "col_2" = factor(c("a", "b"), levels = c("a", "b", "c"))
-  )
-  pkg <- add_resource(pkg, "new", df)
-  temp_dir <- tempdir()
-  write_package(pkg, temp_dir)
-  pkg_out <- suppressMessages(read_package(
-    file.path(temp_dir, "datapackage.json")
+test_that("write_package() leaves as is for path = URL in local package", {
+  p <- suppressMessages(read_package(
+    system.file("extdata", "datapackage.json", package = "frictionless")
   ))
+  p <- add_resource(p, "new", file.path(
+    "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
+    "main/tests/testthat/data/df.csv"
+  ))
+  dir <- file.path(tempdir(), "package")
+  on.exit(unlink(dir, recursive = TRUE))
+  p_written <- suppressMessages(write_package(p, dir))
 
-  # Added resource has path (not data) and was written to file
-  expect_identical(pkg_out$resources[[4]]$path, "new.csv")
-  expect_null(pkg_out$resources[[4]]$data)
-  expect_type(readr::read_file(file.path(temp_dir, "new.csv")), "character")
-  unlink(temp_dir, recursive = TRUE)
+  # Original resource "observations" where all paths are URLs
+  expect_identical(p_written$resources[[2]]$path, p$resources[[2]]$path)
+  expect_false(file.exists(file.path(dir, "observations_1.csv")))
+  expect_false(file.exists(file.path(dir, "observations_2.csv")))
+
+  # New resource "new" with URL path
+  expect_identical(p_written$resources[[4]]$path, p$resources[[4]]$path)
+  expect_false(file.exists(file.path(dir, "df.csv")))
+})
+
+test_that("write_package() leaves as is for path = URL in remote package", {
+  p <- example_package
+  p <- add_resource(p, "new", file.path(
+    "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
+    "main/tests/testthat/data/df.csv"
+  ))
+  dir <- file.path(tempdir(), "package")
+  on.exit(unlink(dir, recursive = TRUE))
+  p_written <- suppressMessages(write_package(p, dir))
+
+  # Original resource "observations" where all paths are URLs
+  expect_identical(p_written$resources[[2]]$path, p$resources[[2]]$path)
+  expect_false(file.exists(file.path(dir, "observations_1.csv")))
+  expect_false(file.exists(file.path(dir, "observations_2.csv")))
+
+  # New resource "new" with URL path
+  expect_identical(p_written$resources[[4]]$path, p$resources[[4]]$path)
+  expect_false(file.exists(file.path(dir, "df.csv")))
+})
+
+test_that("write_package() leaves as is for data = json in local package", {
+  p <- suppressMessages(read_package(
+    system.file("extdata", "datapackage.json", package = "frictionless")
+  ))
+  dir <- file.path(tempdir(), "package")
+  on.exit(unlink(dir, recursive = TRUE))
+  p_written <- suppressMessages(write_package(p, dir))
+
+  # Original resource "media" with data = json
+  expect_identical(p_written$resources[[3]]$data, p$resources[[3]]$data)
+  expect_false(file.exists(file.path(dir, "media.csv")))
+
+  # New resources cannot have data = json
+})
+
+test_that("write_package() leaves as is for data = json in remote package", {
+  p <- example_package
+  dir <- file.path(tempdir(), "package")
+  on.exit(unlink(dir, recursive = TRUE))
+  p_written <- suppressMessages(write_package(p, dir))
+
+  # New resource "media" with data = json
+  expect_identical(p_written$resources[[3]]$data, p$resources[[3]]$data)
+  expect_false(file.exists(file.path(dir, "media.csv")))
+
+  # New resources cannot have data = json
+})
+
+test_that("write_package() creates file for data = df in local package", {
+  p <- suppressMessages(read_package(
+    system.file("extdata", "datapackage.json", package = "frictionless")
+  ))
+  df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
+  p <- add_resource(p, "new", df)
+  dir <- file.path(tempdir(), "package")
+  on.exit(unlink(dir, recursive = TRUE))
+  p_written <- suppressMessages(write_package(p, dir))
+
+  # Original resources cannot have data = df
+
+  # New resource "new" with data = df
+  expect_identical(p_written$resources[[4]]$path, "new.csv")
+  expect_null(p_written$resources[[4]]$data)
+  expect_true(file.exists(file.path(dir, "new.csv")))
+})
+
+test_that("write_package() creates file for data = df in remote package", {
+  p <- example_package
+  df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
+  p <- add_resource(p, "new", df)
+  dir <- file.path(tempdir(), "package")
+  on.exit(unlink(dir, recursive = TRUE))
+  p_written <- suppressMessages(write_package(p, dir))
+
+  # Original resources cannot have data = df
+
+  # New resource "new" with data = df
+  expect_identical(p_written$resources[[4]]$path, "new.csv")
+  expect_null(p_written$resources[[4]]$data)
+  expect_true(file.exists(file.path(dir, "new.csv")))
+})
+
+test_that("write_package() shows message when downloading file", {
+  p <- example_package
+  dir <- file.path(tempdir(), "package")
+  on.exit(unlink(dir, recursive = TRUE))
+  expect_message(
+    write_package(p, dir),
+    paste0(
+      "Downloading file from https://raw.githubusercontent.com/",
+      "frictionlessdata/frictionless-r/main/inst/extdata/deployments.csv"
+    ),
+    fixed = TRUE
+  )
 })
 
 test_that("write_package() adds correct properties for new resources", {
-  pkg <- example_package
-  df <- data.frame(
-    "col_1" = c(1, 2),
-    "col_2" = factor(c("a", "b"), levels = c("a", "b", "c"))
-  )
+  p <- example_package
+  df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   schema <- create_schema(df)
-  pkg <- add_resource(pkg, "new", df)
-  temp_dir <- tempdir()
-  write_package(pkg, temp_dir)
-  pkg_out <- suppressMessages(read_package(
-    file.path(temp_dir, "datapackage.json")
-  ))
-  resource_out <- pkg_out$resources[[4]]
+  p <- add_resource(p, "new", df)
+  dir <- file.path(tempdir(), "package")
+  on.exit(unlink(dir, recursive = TRUE))
+  p_written <- suppressMessages(write_package(p, dir))
+  resource_written <- p_written$resources[[4]]
 
   # Added resource has correct properties
-  expect_identical(resource_out$name, "new")
-  expect_identical(resource_out$path, "new.csv")
-  expect_identical(resource_out$profile, "tabular-data-resource")
-  expect_null(resource_out$title)
-  expect_null(resource_out$description)
-  expect_identical(resource_out$format, "csv")
-  expect_identical(resource_out$mediatype, "text/csv")
-  expect_identical(resource_out$encoding, "utf-8")
-  expect_null(resource_out$dialect)
-  expect_null(resource_out$bytes)
-  expect_null(resource_out$hash)
-  expect_null(resource_out$sources)
-  expect_null(resource_out$licenses)
-  expect_identical(resource_out$schema, schema)
-  expect_null(resource_out$data)
-  expect_null(resource_out$read_from)
-  unlink(temp_dir, recursive = TRUE)
+  expect_identical(resource_written$name, "new")
+  expect_identical(resource_written$path, "new.csv")
+  expect_identical(resource_written$profile, "tabular-data-resource")
+  expect_null(resource_written$title)
+  expect_null(resource_written$description)
+  expect_identical(resource_written$format, "csv")
+  expect_identical(resource_written$mediatype, "text/csv")
+  expect_identical(resource_written$encoding, "utf-8")
+  expect_null(resource_written$dialect)
+  expect_null(resource_written$bytes)
+  expect_null(resource_written$hash)
+  expect_null(resource_written$sources)
+  expect_null(resource_written$licenses)
+  expect_identical(resource_written$schema, schema)
+  expect_null(resource_written$data)
+  expect_null(resource_written$read_from)
 })

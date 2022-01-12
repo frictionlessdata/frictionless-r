@@ -187,7 +187,7 @@
 #' # The above tibble is merged from 2 files listed in the resource path
 #' package$resources[[2]]$path
 #'
-#' # With col_names and col_types derived from the resource schema
+#' # The column names and types are derived from the resource schema
 #' purrr::map_chr(package$resources[[2]]$schema$fields, "name")
 #' purrr::map_chr(package$resources[[2]]$schema$fields, "type")
 read_resource <- function(package, resource_name) {
@@ -323,7 +323,7 @@ read_resource <- function(package, resource_name) {
     df <- dplyr::as_tibble(do.call(rbind.data.frame, resource$data))
 
   # Read data from path(s)
-  } else if (resource$read_from == "path") {
+  } else if (resource$read_from == "path" | resource$read_from == "url") {
     dataframes <- list()
     for (i in seq_along(paths)) {
       data <- readr::read_delim(

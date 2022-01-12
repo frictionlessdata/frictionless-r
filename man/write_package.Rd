@@ -13,13 +13,24 @@ write_package(package, directory = ".")
 \item{directory}{Path to local directory to write files to.}
 }
 \value{
-Provided \code{package} (invisibly).
+\code{package} as written to file (invisibly).
 }
 \description{
 Writes a Data Package and its related Data Resources to disk as a
 \code{datapackage.json} and CSV files.
-Originally included resources are left untouched, those added with
-\code{\link[=add_resource]{add_resource()}} are written to file using \code{\link[readr:write_delim]{readr::write_csv()}}.
+Already existing CSV files of the same name will not be overwritten.
+The function can also be used to download a Data Package in its entirety.
+The Data Resources are handled as follows:
+\itemize{
+\item Resource \code{path} has at least one local path (e.g. \code{deployments.csv}):
+CSV files are copied or downloaded to \code{directory} and \code{path} points to new
+location of file(s).
+\item Resource \code{path} has only URL(s): resource stays as is.
+\item Resource has inline \code{data} originally: resource stays as is.
+\item Resource has inline \code{data} as result of adding data with \code{add_resource()}:
+data are written to a CSV file using \code{\link[readr:write_delim]{readr::write_csv()}}, \code{path} points to
+location of file, \code{data} property is removed.
+}
 }
 \examples{
 # Load the example Data Package from disk
@@ -31,12 +42,15 @@ package <- read_package(
 package$resource_names
 
 # Write the (unchanged) Data Package to disk
-write_package(package, directory = "my_package")
+write_package(package, directory = "my_directory")
 
 # Check files
-list.files("my_package")
+list.files("my_directory")
+
+# No files written for the "observations" resource, since those are all URLs.
+# No files written for the "media" resource, since it has inline data.
 
 # Clean up (don't do this if you want to keep your files)
-unlink("my_package", recursive = TRUE)
+unlink("my_directory", recursive = TRUE)
 }
 \concept{write functions}

@@ -1,39 +1,35 @@
 test_that("read_package() returns a valid Data Package, whether reading path or
            url", {
   # Load example package (locally and remotely) and a valid minimal one
-  pkg_path <- system.file(
-    "extdata", "datapackage.json", package = "frictionless"
-  )
-  pkg_url <- file.path("https://raw.githubusercontent.com/frictionlessdata/",
+  p_path <- system.file("extdata", "datapackage.json", package = "frictionless")
+  p_url <- file.path("https://raw.githubusercontent.com/frictionlessdata/",
                        "frictionless-r/main/inst/extdata/datapackage.json")
   minimal_path <- "data/valid_minimal.json"
-  pkg_local <- suppressMessages(read_package(pkg_path))
-  pkg_remote <- suppressMessages(read_package(pkg_url))
-  pkg_minimal <- suppressMessages(read_package(minimal_path))
+  p_local <- suppressMessages(read_package(p_path))
+  p_remote <- suppressMessages(read_package(p_url))
+  p_minimal <- suppressMessages(read_package(minimal_path))
 
   # Returns a list of class "datapackage", with at minimal resources,
   # resource_names and directory
-  expect_true(check_package(pkg_local))
-  expect_true(check_package(pkg_remote))
-  expect_true(check_package(pkg_minimal))
+  expect_true(check_package(p_local))
+  expect_true(check_package(p_remote))
+  expect_true(check_package(p_minimal))
 
   # Package has correct "resource_names"
   resource_names <- c("deployments", "observations", "media")
-  expect_identical(pkg_local$resource_names, resource_names)
-  expect_identical(pkg_remote$resource_names, resource_names)
-  expect_identical(pkg_minimal$resource_names, resource_names)
+  expect_identical(p_local$resource_names, resource_names)
+  expect_identical(p_remote$resource_names, resource_names)
+  expect_identical(p_minimal$resource_names, resource_names)
 
   # Package has correct "directory", containing root dir of datapackage.json
-  expect_identical(pkg_local$directory, gsub("/datapackage.json", "", pkg_path))
-  expect_identical(pkg_remote$directory, gsub("/datapackage.json", "", pkg_url))
-  expect_identical(pkg_minimal$directory, "data")
+  expect_identical(p_local$directory, gsub("/datapackage.json", "", p_path))
+  expect_identical(p_remote$directory, gsub("/datapackage.json", "", p_url))
+  expect_identical(p_minimal$directory, "data")
 })
 
-test_that("read_package() informs about usage norms", {
+test_that("read_package() shows message about usage norms", {
   # Load example package and a minimal valid one a URL in "id"
-  pkg_path <- system.file(
-    "extdata", "datapackage.json", package = "frictionless"
-  )
+  p_path <- system.file("extdata", "datapackage.json", package = "frictionless")
   minimal_extra_path <- "data/valid_minimal_extra.json"
 
   expected_message <- glue::glue(
@@ -44,7 +40,7 @@ test_that("read_package() informs about usage norms", {
     .sep = " "
   )
   expect_message(
-    read_package(pkg_path),
+    read_package(p_path),
     expected_message,
     fixed = TRUE
   )

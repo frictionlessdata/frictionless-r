@@ -26,12 +26,12 @@ test_that("create_schema() returns a valid Table Schema", {
 test_that("create_schema() returns error on invalid or empty data frame", {
   expect_error(
     create_schema("not_a_df"),
-    "`df` must be a data frame containing data.",
+    "`data` must be a data frame containing data.",
     fixed = TRUE
   )
   expect_error(
     create_schema(data.frame()),
-    "`df` must be a data frame containing data.",
+    "`data` must be a data frame containing data.",
     fixed = TRUE
   )
 })
@@ -89,7 +89,8 @@ test_that("create_schema() translates coltypes into field types", {
     # roman = as.roman(1),              # cannot coerce to df
     single = as.single(1),              # numeric
     # symbol = as.symbol(1),            # cannot coerce to df
-    # table = as.table(1),              # results in table.Var1 (fct), table.Freq (num)
+    # table = as.table(1),              # results in table.Var1 (fct),
+                                        # table.Freq (num)
     ts = as.ts(1),                      # ts
     vector = as.vector(1)               # numeric
   )
