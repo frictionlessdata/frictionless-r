@@ -263,13 +263,3 @@ test_that("add_resource() can add resource from CSV file with other delimiter,
   expect_identical(p$resources[[5]]$dialect$delimiter, ";")
   expect_identical(read_resource(p, "df_delim"), read_resource(p, "df"))
 })
-
-test_that("add_resource() creates resource that can be passed to
-           write_package()", {
-  p <- example_package
-  df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
-  p <- add_resource(p, "new", df)
-  dir <- file.path(tempdir(), "package")
-  on.exit(unlink(dir, recursive = TRUE))
-  expect_invisible(write_package(p, dir)) # Can write successfully
-})
