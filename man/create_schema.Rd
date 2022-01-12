@@ -76,7 +76,7 @@ df <- data.frame(
   life_stage = factor(c("adult", "adult"), levels = c("adult", "juvenile"))
 )
 
-# Create a Table Schema
+# Create a Table Schema from the data frame
 schema <- create_schema(df)
 str(schema)
 }

@@ -12,7 +12,7 @@
 #' <https://github.com/frictionlessdata/frictionless-r/tree/main/inst/extdata>
 #' @examples
 #' \dontrun{
-#' # example_package.rda was created with the following code.
+#' # example_package.rda was created with the code below.
 #' # Note that it must be created using a URL, otherwise all Data Resource paths
 #' # will point to local paths that won't work for other users.
 #' # One can load locally using:

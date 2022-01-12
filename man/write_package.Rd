@@ -45,9 +45,10 @@ package$resource_names
 write_package(package, directory = "my_directory")
 
 # Check files
-# no observations_1.csv, observations_2.csv since those are referred as URLs
-# no media.csv since that resource has inline data
 list.files("my_directory")
+
+# No files written for the "observations" resource, since those are all URLs.
+# No files written for the "media" resource, since it has inline data.
 
 # Clean up (don't do this if you want to keep your files)
 unlink("my_directory", recursive = TRUE)
