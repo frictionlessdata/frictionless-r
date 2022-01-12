@@ -31,7 +31,9 @@
 #' # Write the (unchanged) Data Package to disk
 #' write_package(package, directory = "my_directory")
 #'
-#' # Check files (no media.csv since that resource has inline data)
+#' # Check files
+#' # no observations_1.csv, observations_2.csv since those are referred as URLs
+#' # no media.csv since that resource has inline data
 #' list.files("my_directory")
 #'
 #' # Clean up (don't do this if you want to keep your files)
