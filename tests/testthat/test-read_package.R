@@ -27,7 +27,7 @@ test_that("read_package() returns a valid Data Package, whether reading path or
   expect_identical(p_minimal$directory, "data")
 })
 
-test_that("read_package() informs about usage norms", {
+test_that("read_package() shows message about usage norms", {
   # Load example package and a minimal valid one a URL in "id"
   p_path <- system.file("extdata", "datapackage.json", package = "frictionless")
   minimal_extra_path <- "data/valid_minimal_extra.json"

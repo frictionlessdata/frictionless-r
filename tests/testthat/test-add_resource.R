@@ -151,7 +151,7 @@ test_that("add_resource() returns error on mismatching schema and data", {
   # For more tests see test-check_schema.R
 })
 
-test_that("add_resource() adds resource, reource_name", {
+test_that("add_resource() adds resource, resource_name", {
   p <- example_package
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   df_csv <- "data/df.csv"

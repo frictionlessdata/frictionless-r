@@ -49,6 +49,7 @@ write_resource <- function(package, resource_name, directory = ".") {
       destination <- file.path(directory, file_name)
       if (startsWith(path, "http")) {
         if (!file.exists(destination)) {
+          message(glue::glue("Downloading file from {path}"))
           utils::download.file(path, destination, quiet = TRUE)
         }
       } else {
