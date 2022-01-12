@@ -1,11 +1,11 @@
 test_that("check_schema() returns TRUE on valid Table Schema", {
-  pkg <- example_package
+  p <- example_package
   # Can't obtain df using read_resource(), because that function uses
   # check_schema() (in get_schema()) internally, which is what we want to test
   df <- suppressMessages(
-    readr::read_csv(file.path(pkg$directory, pkg$resources[[1]]$path))
+    readr::read_csv(file.path(p$directory, p$resources[[1]]$path))
   )
-  schema_get <- get_schema(pkg, "deployments")
+  schema_get <- get_schema(p, "deployments")
   schema_create <- create_schema(df)
   expect_true(check_schema(schema_get))
   expect_true(check_schema(schema_create))
@@ -82,10 +82,7 @@ test_that("check_schema() allows Table Schema fields to not (all) have type", {
 })
 
 test_that("check_schema() returns error on invalid or empty data frame", {
-  df <- data.frame(
-    "col_1" = c(1, 2),
-    "col_2" = factor(c("a", "b"), levels = c("a", "b", "c"))
-  )
+  df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   schema <- create_schema(df)
   expect_error(
     check_schema(schema, "not_a_df"),
@@ -105,10 +102,7 @@ test_that("check_schema() returns error on invalid or empty data frame", {
 })
 
 test_that("check_schema() returns error on mismatching schema and data frame", {
-  df <- data.frame(
-    "col_1" = c(1, 2),
-    "col_2" = factor(c("a", "b"), levels = c("a", "b", "c"))
-  )
+  df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
 
   # Non-matching names
   invalid_schema <- list(fields = list(

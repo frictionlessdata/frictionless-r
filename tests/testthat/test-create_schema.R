@@ -89,7 +89,8 @@ test_that("create_schema() translates coltypes into field types", {
     # roman = as.roman(1),              # cannot coerce to df
     single = as.single(1),              # numeric
     # symbol = as.symbol(1),            # cannot coerce to df
-    # table = as.table(1),              # results in table.Var1 (fct), table.Freq (num)
+    # table = as.table(1),              # results in table.Var1 (fct),
+                                        # table.Freq (num)
     ts = as.ts(1),                      # ts
     vector = as.vector(1)               # numeric
   )
