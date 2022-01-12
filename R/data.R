@@ -5,7 +5,7 @@
 #' trap data organized in 3 Data Resources:
 #' - `deployments`: data stored in `deployments.csv`.
 #' - `observations`: data stored in `observations_1.csv` and
-#'   `observations_2.csv`.
+#'   `observations_2.csv`, but referenced as URLs.
 #' - `media`: data stored in `data` property.
 #'
 #' @source

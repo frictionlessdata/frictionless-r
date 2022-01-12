@@ -19,7 +19,7 @@ trap data organized in 3 Data Resources:
 \itemize{
 \item \code{deployments}: data stored in \code{deployments.csv}.
 \item \code{observations}: data stored in \code{observations_1.csv} and
-\code{observations_2.csv}.
+\code{observations_2.csv}, but referenced as URLs.
 \item \code{media}: data stored in \code{data} property.
 }
 }
