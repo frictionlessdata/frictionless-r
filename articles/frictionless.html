@@ -41,6 +41,9 @@
 <li class="nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
+<li class="nav-item">
+  <a class="nav-link" href="../news/index.html">Changelog</a>
+</li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off">
@@ -137,7 +140,7 @@
 <h2 id="create-and-edit-a-data-package">Create and edit a Data Package<a class="anchor" aria-label="anchor" href="#create-and-edit-a-data-package"></a>
 </h2>
 <p>Data Package is a good format to technically describe your data, e.g. if you are planning to deposit it on research repository. It also goes a long way meeting <a href="https://www.go-fair.org/fair-principles/" class="external-link">FAIR principles</a>.</p>
-<p>The frictionless pkg assumes your data are stored as a data frame. Let’s use the built-in dataset <code>iris</code> as your data frame:</p>
+<p>The frictionless pkg assumes your data are stored as a data frame or CSV files. Let’s use the built-in dataset <code>iris</code> as your data frame:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Show content of the data frame "iris"</span>
 <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span>
@@ -159,7 +162,7 @@
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">my_package</span> <span class="op">&lt;-</span>
   <span class="fu"><a href="../reference/create_package.html">create_package</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/add_resource.html">add_resource</a></span><span class="op">(</span>resource_name <span class="op">=</span> <span class="st">"iris"</span>, df <span class="op">=</span> <span class="va">iris</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="../reference/add_resource.html">add_resource</a></span><span class="op">(</span>resource_name <span class="op">=</span> <span class="st">"iris"</span>, data <span class="op">=</span> <span class="va">iris</span><span class="op">)</span></code></pre></div>
 <p>Note that you can chain most frictionless functions together using pipes (<code>%&gt;%</code> or <code>|&gt;</code>), which improves readability.</p>
 <p><code>my_package</code> now contains one resource:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
@@ -274,21 +277,32 @@
   <span class="fu"><a href="../reference/remove_resource.html">remove_resource</a></span><span class="op">(</span><span class="st">"iris"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="co"># Remove originally added resource</span>
   <span class="fu"><a href="../reference/add_resource.html">add_resource</a></span><span class="op">(</span>
     resource_name <span class="op">=</span> <span class="st">"iris"</span>,
-    df <span class="op">=</span> <span class="va">iris</span>,
+    data <span class="op">=</span> <span class="va">iris</span>,
     schema <span class="op">=</span> <span class="va">iris_schema</span> <span class="co"># Your customized schema</span>
   <span class="op">)</span></code></pre></div>
+<p>If you already have your data stored as CSV files and you want to include them <em>as is</em> as a Data Resource, you can do so as well. As with data frames, you can opt to create a Table Schema automatically or provide your own.</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Two CSV files with the same structure</span>
+<span class="va">path_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"observations_1.csv"</span>, package <span class="op">=</span> <span class="st">"frictionless"</span><span class="op">)</span>
+<span class="va">path_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"observations_2.csv"</span>, package <span class="op">=</span> <span class="st">"frictionless"</span><span class="op">)</span>
+
+<span class="co"># Add both CSV files as a single resource</span>
+<span class="va">my_package</span> <span class="op">&lt;-</span>
+  <span class="va">my_package</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/add_resource.html">add_resource</a></span><span class="op">(</span>resource_name <span class="op">=</span> <span class="st">"observations"</span>, data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">path_1</span>, <span class="va">path_2</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>In the above steps you started a Data Package from scratch with <code><a href="../reference/create_package.html">create_package()</a></code>, but you use the same functionality to edit an existing Data Package read with <code><a href="../reference/read_package.html">read_package()</a></code>.</p>
 </div>
 <div class="section level2">
 <h2 id="write-a-data-package">Write a Data Package<a class="anchor" aria-label="anchor" href="#write-a-data-package"></a>
 </h2>
 <p>Now that you have created your Data Package, you can write it to a directory of your choice with <code><a href="../reference/write_package.html">write_package()</a></code>:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/write_package.html">write_package</a></span><span class="op">(</span><span class="va">my_package</span>, <span class="st">"my_directory"</span><span class="op">)</span></code></pre></div>
-<p>The directory will contain two files: the descriptor <code>datapackage.json</code> and a CSV file containing the data for the resource <code>iris</code>.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/write_package.html">write_package</a></span><span class="op">(</span><span class="va">my_package</span>, <span class="st">"my_directory"</span><span class="op">)</span></code></pre></div>
+<p>The directory will contain four files: the descriptor <code>datapackage.json</code>, one CSV file containing the data for the resource <code>iris</code> and two CSV files containing the data for the resource <code>observations</code>.</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="st">"my_directory"</span><span class="op">)</span>
-<span class="co">#&gt; [1] "datapackage.json" "iris.csv"</span></code></pre></div>
+<span class="co">#&gt; [1] "datapackage.json"   "iris.csv"           "observations_1.csv"</span>
+<span class="co">#&gt; [4] "observations_2.csv"</span></code></pre></div>
 <p>The frictionless pkg does not provide functionality to deposit your Data Package on a research repository such as <a href="https://zenodo.org" class="external-link">Zenodo</a>, but here are some tips:</p>
 <ol style="list-style-type: decimal">
 <li>Validate your Data Package before depositing. You can do this in Python with the <a href="https://github.com/frictionlessdata/frictionless-py" class="external-link">Frictionless Framework</a> using <code>frictionless validate datapackage.json</code>.</li>

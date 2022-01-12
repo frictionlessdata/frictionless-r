@@ -47,6 +47,9 @@
 <li class="nav-item">
   <a class="nav-link" href="reference/index.html">Reference</a>
 </li>
+<li class="nav-item">
+  <a class="nav-link" href="news/index.html">Changelog</a>
+</li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="search.json" id="search-input" placeholder="Search for" autocomplete="off">
@@ -132,13 +135,10 @@
 <span class="co">#&gt; #   tag-local-identifier &lt;chr&gt;, individual-local-identifier &lt;chr&gt;, …</span></code></pre></div>
 <p>You can also create your own Data Package, add data and <strong>write</strong> it to disk:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Create a data frame (from the built-in dataset iris)</span>
-<span class="va">df</span> <span class="op">&lt;-</span> <span class="va">iris</span>
-
-<span class="co"># Create a Data Package and add iris as a resource</span>
+<code class="sourceCode R"><span class="co"># Create a Data Package and add the "iris" data frame as a resource</span>
 <span class="va">my_package</span> <span class="op">&lt;-</span>
   <span class="fu"><a href="reference/create_package.html">create_package</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="reference/add_resource.html">add_resource</a></span><span class="op">(</span>resource_name <span class="op">=</span> <span class="st">"iris"</span>, <span class="va">df</span><span class="op">)</span>
+  <span class="fu"><a href="reference/add_resource.html">add_resource</a></span><span class="op">(</span>resource_name <span class="op">=</span> <span class="st">"iris"</span>, data <span class="op">=</span> <span class="va">iris</span><span class="op">)</span>
 
 <span class="co"># Write the Data Package to disk</span>
 <span class="va">my_package</span> <span class="op">%&gt;%</span>
@@ -209,7 +209,8 @@
 <li><a href="https://github.com/frictionlessdata/frictionless-r/actions" class="external-link"><img src="https://github.com/frictionlessdata/frictionless-r/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
 <li><a href="https://codecov.io/gh/frictionlessdata/frictionless-r" class="external-link"><img src="https://codecov.io/gh/frictionlessdata/frictionless-r/branch/main/graph/badge.svg?token=bKtiHW21K0" alt="codecov"></a></li>
 <li><a href="https://www.repostatus.org/#active" class="external-link"><img src="https://www.repostatus.org/badges/latest/active.svg" alt="repo status"></a></li>
-<li><a href="https://lifewatch.be/" class="external-link"><img src="https://img.shields.io/static/v1?label=powered+by&amp;message=lifewatch.be&amp;labelColor=1a4e8a&amp;color=f15922" alt="Funding"></a></li>
+<li><a href="https://doi.org/10.5281/zenodo.5815355" class="external-link"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.5815355.svg" alt="DOI"></a></li>
+<li><a href="https://lifewatch.be/" class="external-link"><img src="https://img.shields.io/static/v1?label=powered+by&amp;message=lifewatch.be&amp;labelColor=1a4e8a&amp;color=f15922" alt="funding"></a></li>
 </ul>
 </div>
 

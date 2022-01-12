@@ -36,6 +36,9 @@ the header in the CSV file(s)."><!-- mathjax --><script src="https://cdnjs.cloud
 <li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
+<li class="nav-item">
+  <a class="nav-link" href="../news/index.html">Changelog</a>
+</li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
@@ -297,9 +300,10 @@ Can be parsed afterwards with <code><a href="https://lubridate.tidyverse.org/ref
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># The above tibble is merged from 2 files listed in the resource path</span></span>
 <span class="r-in"><span class="va">package</span><span class="op">$</span><span class="va">resources</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">path</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "observations_1.csv" "observations_2.csv"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "https://raw.githubusercontent.com/frictionlessdata/frictionless-r/main/inst/extdata/observations_1.csv"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "https://raw.githubusercontent.com/frictionlessdata/frictionless-r/main/inst/extdata/observations_2.csv"</span>
 <span class="r-in"></span>
-<span class="r-in"><span class="co"># With col_names and col_types derived from the resource schema</span></span>
+<span class="r-in"><span class="co"># The column names and types are derived from the resource schema</span></span>
 <span class="r-in"><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_chr</a></span><span class="op">(</span><span class="va">package</span><span class="op">$</span><span class="va">resources</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">schema</span><span class="op">$</span><span class="va">fields</span>, <span class="st">"name"</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "observation_id"  "deployment_id"   "timestamp"       "scientific_name"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5] "count"           "life_stage"      "comments"       </span>
