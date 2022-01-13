@@ -50,15 +50,17 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.10.0" id="frictionless-0100">frictionless 0.10.0<a class="anchor" aria-label="anchor" href="#frictionless-0100"></a></h2>
 <ul><li>
-<code><a href="../reference/add_resource.html">add_resource()</a></code> now allows adding CSV file(s) directly as a resource, without the need to read all data and giving users more control over <code>path</code> (<a href="https://github.com/frictionlessdata/frictionless-r/issues/74" class="external-link">#74</a>).</li>
+<code><a href="../reference/add_resource.html">add_resource()</a></code> now supports adding CSV file(s) directly as a resource. This skips reading/handling by R and gives users control over <code>path</code> (<a href="https://github.com/frictionlessdata/frictionless-r/issues/74" class="external-link">#74</a>).</li>
 <li>
-<code><a href="../reference/write_package.html">write_package()</a></code> will now download CSV files(s) from a remotely read package (like <code>example_package</code>) rather than skipping them. The behaviour for resources with a <code>path</code> containing URLs (only) and resources with <code>data</code> remains the same (no files are written). The write behaviour is better explained in the documentation (<a href="https://github.com/frictionlessdata/frictionless-r/issues/77" class="external-link">#77</a>).</li>
+<code><a href="../reference/write_package.html">write_package()</a></code> now downloads CSV files(s) from a remotely read package (like <code>example_package</code>) rather than skipping them. This is more consistent with locally read packages. The behaviour for resources with a <code>path</code> containing URLs (only) and resources with <code>data</code> remains the same (no files are written). The write behaviour is better explained in the documentation (<a href="https://github.com/frictionlessdata/frictionless-r/issues/77" class="external-link">#77</a>).</li>
 <li>
 <code><a href="../reference/write_package.html">write_package()</a></code> now silently returns the output rather than input <code>package</code>.</li>
 <li>
-<code>example_package</code>’s <code>observations</code> resource now has URLs as <code>path</code> to serve as an example for that.</li>
+<code><a href="../reference/add_resource.html">add_resource()</a></code>/<code><a href="../reference/create_schema.html">create_schema()</a></code>’s <code>df</code> parameter is renamed to <code>data</code>.</li>
 <li>
-<code><a href="../reference/add_resource.html">add_resource()</a></code> and <code><a href="../reference/create_schema.html">create_schema()</a></code>: <code>df</code> parameter is renamed to <code>data</code>.</li>
+<code><a href="../reference/create_schema.html">create_schema()</a></code> interprets empty columns as <code>string</code> not <code>boolean</code> (<a href="https://github.com/frictionlessdata/frictionless-r/issues/79" class="external-link">#79</a>).</li>
+<li>
+<code>example_package</code>’s <code>observations</code> resource now has URLs as <code>path</code> to serve as an example for that.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.9.0" id="frictionless-090">frictionless 0.9.0<a class="anchor" aria-label="anchor" href="#frictionless-090"></a></h2>
