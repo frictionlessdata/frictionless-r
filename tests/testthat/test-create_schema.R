@@ -125,3 +125,11 @@ test_that("create_schema() translates coltypes into field types", {
     )
   )
 })
+
+test_that("create_schema() will set columns containing all NA to string", {
+  df <- data.frame(col_1 = NA, col_2 = c(NA, 1), col_3 = c(TRUE, NA))
+  schema <- create_schema(df)
+  expect_identical(schema$fields[[1]]$type, "string") # Was logical
+  expect_identical(schema$fields[[2]]$type, "number") # Keep double
+  expect_identical(schema$fields[[3]]$type, "boolean") # Keep logical
+})
