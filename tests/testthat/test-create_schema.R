@@ -125,3 +125,31 @@ test_that("create_schema() translates coltypes into field types", {
     )
   )
 })
+
+test_that("create_schema() will set columns containing all NA to string", {
+  df <- data.frame(
+    na_all = NA,
+    na_one = c(NA, 1),
+    logical = c(TRUE, NA),
+    na_integer = NA_integer_,
+    na_real = NA_real_,
+    na_complex = NA_complex_,
+    na_character = NA_character_
+  )
+  schema <- create_schema(df)
+  types <- purrr::map(schema$fields, ~ .x$type)
+  types <- setNames(types, purrr::map_chr(schema$fields, ~ .x$name))
+
+  expect_identical(
+    types,
+    list(
+      na_all = "string",
+      na_one = "number",
+      logical = "boolean",
+      na_integer = "integer",
+      na_real = "number",
+      na_complex = "any",
+      na_character = "string"
+    )
+  )
+})
