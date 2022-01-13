@@ -12,7 +12,7 @@ status](https://www.r-pkg.org/badges/version/frictionless)](https://CRAN.R-proje
 [![repo
 status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5815355.svg)](https://doi.org/10.5281/zenodo.5815355)
-[![funding](https://img.shields.io/static/v1?label=powered+by&message=lifewatch.be&labelColor=1a4e8a&color=f15922)](https://lifewatch.be/)
+[![funding](https://img.shields.io/static/v1?label=funded+by&message=FWO+for+lifewatch.be&labelColor=1a4e8a&color=f15922)](https://lifewatch.be/)
 <!-- badges: end -->
 
 Frictionless is an R package to read and write Frictionless Data
