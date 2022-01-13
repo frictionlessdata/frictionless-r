@@ -11,8 +11,10 @@ List object describing a Data Package.
 }
 \description{
 Initiates a list object describing a \href{https://specs.frictionlessdata.io/data-package/}{Data Package}.
-This empty Data Package can then be extended with metadata and resources (see
+This empty Data Package can be extended with metadata and resources (see
 \code{\link[=add_resource]{add_resource()}}).
+Added resources will make the Data Package meet \href{https://specs.frictionlessdata.io/tabular-data-package/}{Tabular Data Package}
+requirements, so \code{profile} is set to \code{tabular-data-package}.
 }
 \examples{
 # Create a Data Package
