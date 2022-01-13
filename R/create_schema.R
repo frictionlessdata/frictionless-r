@@ -79,7 +79,7 @@ create_schema <- function(data) {
   # Columns with all NA are considered logical by R (and read_delim)
   # Set those to character, since string is a better default for Table Schema
   data_as_list <- lapply(data, function(x) {
-    if (all(is.na(x))) {
+    if (is.logical(x) & all(is.na(x))) {
       as.character(x)
     } else {
       x
