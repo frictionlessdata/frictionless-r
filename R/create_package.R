@@ -2,8 +2,11 @@
 #'
 #' Initiates a list object describing a [Data
 #' Package](https://specs.frictionlessdata.io/data-package/).
-#' This empty Data Package can then be extended with metadata and resources (see
+#' This empty Data Package can be extended with metadata and resources (see
 #' [add_resource()]).
+#' Added resources will make the Data Package meet [Tabular Data
+#' Package](https://specs.frictionlessdata.io/tabular-data-package/)
+#' requirements, so `profile` is set to `tabular-data-package`.
 #'
 #' @return List object describing a Data Package.
 #' @family create functions
@@ -14,6 +17,7 @@
 #' str(package)
 create_package <- function() {
   descriptor <- list(
+    profile = "tabular-data-package",
     resources = list(),
     resource_names = vector(mode = "character"),
     directory = "." # Current directory
