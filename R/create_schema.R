@@ -77,38 +77,37 @@ create_schema <- function(data) {
   )
 
   # Create fields (a list of lists)
-  fields <-
-    purrr::imap(data, function(x, name) {
-      # Name
-      name <- ifelse(is.na(name), "", name)
+  fields <- purrr::imap(data_as_list, function(x, name) {
+    # Name
+    name <- ifelse(is.na(name), "", name)
 
-      # Type
-      type <- paste(class(x), collapse = ",") # When data type is a vector
-      type <- dplyr::recode(type,
-        "character" = "string",
-        "Date" = "date",
-        "difftime" = "number",
-        "factor" = "string",
-        "hms,difftime" = "time", # Data read using col_time()
-        "integer" = "integer",
-        "logical" = "boolean",
-        "numeric" = "number", # Includes double
-        "POSIXct,POSIXt" = "datetime", # Includes POSIXlt,POSIXt
-        .default = "any"
+    # Type
+    type <- paste(class(x), collapse = ",") # When data type is a vector
+    type <- dplyr::recode(type,
+      "character" = "string",
+      "Date" = "date",
+      "difftime" = "number",
+      "factor" = "string",
+      "hms,difftime" = "time", # Data read using col_time()
+      "integer" = "integer",
+      "logical" = "boolean",
+      "numeric" = "number", # Includes double
+      "POSIXct,POSIXt" = "datetime", # Includes POSIXlt,POSIXt
+      .default = "any"
+    )
+
+    # Enumeration
+    enum <- levels(x)
+
+    # Create field list object
+    list(
+      name = name,
+      type = type,
+      constraints = list(
+        enum = enum
       )
-
-      # Enumeration
-      enum <- levels(x)
-
-      # Create field list object
-      list(
-        name = name,
-        type = type,
-        constraints = list(
-          enum = enum
-        )
-      )
-    })
+    )
+  })
 
   # Create schema
   schema <- list(
