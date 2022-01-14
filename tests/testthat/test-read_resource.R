@@ -130,30 +130,6 @@ test_that("read_resource() returns error on incorrect resource", {
     # no fixed = TRUE, since full returned path depends on system
   )
 
-  # Schema is absolute path
-  p_invalid$resources[[1]]$schema <- file.path(
-    "/tests/testthat/data/deployments_schema.json"
-  )
-  expect_error(
-    read_resource(p_invalid, "deployments"),
-    paste(
-      "`/tests/testthat/data/deployments_schema.json` is an absolute path",
-      "(`/`) which is unsafe."
-    ),
-    fixed = TRUE
-  )
-
-  # Schema is relative parent path
-  p_invalid$resources[[1]]$schema <- "../testthat/data/deployments_schema.json"
-  expect_error(
-    read_resource(p_invalid, "deployments"),
-    paste(
-      "`../testthat/data/deployments_schema.json` is a relative parent path",
-      "(`../`) which is unsafe."
-    ),
-    fixed = TRUE
-  )
-
   # No fields
   p_invalid$resources[[1]]$schema <- list()
   expect_error(
@@ -221,48 +197,111 @@ test_that("read_resource() can read remote files", {
   expect_identical(read_resource(p_remote_resource, "deployments"), resource)
 })
 
-test_that("read_resource() can read local and remote Table Schemas", {
+test_that("read_resource() can read safe local and remote Table Schema,
+           including YAML", {
   p <- example_package
   resource <- read_resource(p, "deployments")
-
-  p_local_schema <- p
-  p_local_schema$directory <- "." # Use "./tests/testthat" outside test
-  p_local_schema$resources[[1]]$schema <- "data/deployments_schema.json"
-  # Using a remote path, otherwise schema and path need to share same directory
-  p_local_schema$resources[[1]]$path <- file.path(
+  p$directory <- "."
+  # Use a remote path, otherwise schema and path need to share same directory
+  p$resources[[1]]$path <- file.path(
     "https://github.com/frictionlessdata/frictionless-r",
     "raw/main/inst/extdata/deployments.csv"
   )
+
+  # Schema is absolute path
+  p_unsafe <- p
+  p_unsafe$resources[[1]]$schema <- file.path(
+    "/tests/testthat/data/deployments_schema.json"
+  )
+  expect_error(
+    read_resource(p_unsafe, "deployments"),
+    paste(
+      "`/tests/testthat/data/deployments_schema.json` is an absolute path",
+      "(`/`) which is unsafe."
+    ),
+    fixed = TRUE
+  )
+
+  # Schema is relative parent path
+  p_unsafe$resources[[1]]$schema <- "../testthat/data/deployments_schema.json"
+  expect_error(
+    read_resource(p_unsafe, "deployments"),
+    paste(
+      "`../testthat/data/deployments_schema.json` is a relative parent path",
+      "(`../`) which is unsafe."
+    ),
+    fixed = TRUE
+  )
+
+  # Schema is local path
+  p_local_schema <- p
+  p_local_schema$resources[[1]]$schema <- "data/deployments_schema.json"
   expect_identical(read_resource(p_local_schema, "deployments"), resource)
 
+  # Schema is remote path
   p_remote_schema <- p
   p_remote_schema$resources[[1]]$schema <- file.path(
     "https://github.com/frictionlessdata/frictionless-r",
     "raw/main/tests/testthat/data/deployments_schema.json"
   )
   expect_identical(read_resource(p_remote_schema, "deployments"), resource)
+
+  # Schema is YAML
+  p_yaml_schema <- p
+  p_yaml_schema$resource[[1]]$schema <- "data/deployment_schema.yaml"
+  expect_identical(read_resource(p_yaml_schema, "deployments"), resource)
 })
 
-test_that("read_resource() can read local and remote CSV dialect", {
+test_that("read_resource() can read safe local and remote CSV dialect", {
   p <- example_package
   resource <- read_resource(p, "deployments")
-
-  p_local_dialect <- p
-  p_local_dialect$directory <- "." # Use "./tests/testthat/data" outside test
-  p_local_dialect$resources[[1]]$dialect <- "data/dialect.json"
-  # Using a remote path, otherwise schema and path need to share same directory
-  p_local_dialect$resources[[1]]$path <- file.path(
+  p$directory <- "."
+  # Use a remote path, otherwise dialect and path need to share same directory
+  p$resources[[1]]$path <- file.path(
     "https://github.com/frictionlessdata/frictionless-r",
     "raw/main/inst/extdata/deployments.csv"
   )
+
+  # Dialect is absolute path
+  p_unsafe <- p
+  p_unsafe$resources[[1]]$dialect <- "/tests/testthat/data/dialect.json"
+  expect_error(
+    read_resource(p_unsafe, "deployments"),
+    paste(
+      "`/tests/testthat/data/dialect.json` is an absolute path",
+      "(`/`) which is unsafe."
+    ),
+    fixed = TRUE
+  )
+
+  # Dialect is relative parent path
+  p_unsafe$resources[[1]]$dialect <- "../testthat/data/dialect.json"
+  expect_error(
+    read_resource(p_unsafe, "deployments"),
+    paste(
+      "`../testthat/data/dialect.json` is a relative parent path",
+      "(`../`) which is unsafe."
+    ),
+    fixed = TRUE
+  )
+
+  # Dialect is local path
+  p_local_dialect <- p
+  p_local_dialect$resources[[1]]$dialect <- "data/dialect.json"
   expect_identical(read_resource(p_local_dialect, "deployments"), resource)
 
+  # Dialect is remote path
   p_remote_dialect <- p
   p_remote_dialect$resources[[1]]$dialect <- file.path(
     "https://github.com/frictionlessdata/frictionless-r",
     "raw/main/tests/testthat/data/dialect.json"
   )
   expect_identical(read_resource(p_remote_dialect, "deployments"), resource)
+
+  # Dialect is YAML
+  p_yaml_dialect <- p
+  p_yaml_dialect$resource[[1]]$dialect <- "data/dialect.yaml"
+  expect_identical(read_resource(p_yaml_dialect, "deployments"), resource)
 })
 
 test_that("read_resource() understands CSV dialect", {
@@ -271,7 +310,7 @@ test_that("read_resource() understands CSV dialect", {
 
   # Create package with non-default dialect properties
   p_dialect <- p
-  p_dialect$directory <- "." # Use "./tests/testthat" outside test
+  p_dialect$directory <- "."
   p_dialect$resources[[1]]$path <- "data/deployments_dialect.csv"
   p_dialect$resources[[1]]$dialect <- list(
     delimiter = "/",
@@ -300,7 +339,7 @@ test_that("read_resource() understands missing values", {
 
   # Create package with non-default missing values
   p_missing <- p
-  p_missing$directory <- "." # Use "./tests/testthat" outside test
+  p_missing$directory <- "."
   p_missing$resources[[1]]$path <- "data/deployments_missingvalues.csv"
   p_missing$resources[[1]]$schema$missingValues <-
     append(p_missing$resources[[1]]$schema$missingValues, "ignore")
@@ -313,7 +352,7 @@ test_that("read_resource() understands encoding", {
 
   # Create package with non-default missing values
   p_encoding <- p
-  p_encoding$directory <- "." # Use "./tests/testthat" outside test
+  p_encoding$directory <- "."
   p_encoding$resources[[1]]$path <- "data/deployments_encoding.csv"
   p_encoding$resources[[1]]$encoding <- "windows-1252"
   expect_identical(read_resource(p_encoding, "deployments"), resource)
@@ -338,7 +377,7 @@ test_that("read_resource() handles LF and CRLF line terminator characters", {
   resource <- read_resource(p, "deployments") # This file has LF
 
   p_crlf <- p
-  p_crlf$directory <- "." # Use "./tests/testthat" outside test
+  p_crlf$directory <- "."
   p_crlf$resources[[1]]$path <- "data/deployments_crlf.csv" # File with CRLF
   expect_identical(read_resource(p_crlf, "deployments"), resource)
 })
@@ -350,7 +389,7 @@ test_that("read_resource() can read compressed files", {
   # File created in terminal with:
   # zip deployments.csv.zip deployments.csv
   p_local_zip <- p
-  p_local_zip$directory <- "." # Use "./tests/testthat" outside test
+  p_local_zip$directory <- "."
   p_local_zip$resources[[1]]$path <- "data/deployments.csv.zip"
   p_remote_zip <- p
   p_remote_zip$resources[[1]]$path <- file.path(
@@ -361,7 +400,7 @@ test_that("read_resource() can read compressed files", {
   # File created in terminal with:
   # gzip deployments.csv
   p_local_gz <- p
-  p_local_gz$directory <- "." # Use "./tests/testthat" outside test
+  p_local_gz$directory <- "."
   p_local_gz$resources[[1]]$path <- "data/deployments.csv.gz"
   p_remote_gz <- p
   p_remote_gz$resources[[1]]$path <- file.path(

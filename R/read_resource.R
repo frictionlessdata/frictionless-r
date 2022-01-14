@@ -312,7 +312,8 @@ read_resource <- function(package, resource_name) {
   names(col_types) <- col_names
 
   # Select CSV dialect, see https://specs.frictionlessdata.io/csv-dialect/
-  dialect <- read_json(resource$dialect, package$directory) # Can be NULL
+  # Note that dialect can be NULL
+  dialect <- read_descriptor(resource$dialect, package$directory, safe = TRUE)
 
   # Read data directly
   if (resource$read_from == "df") {

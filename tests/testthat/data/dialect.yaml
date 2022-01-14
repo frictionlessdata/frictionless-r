@@ -1,0 +1,7 @@
+delimiter: ","
+lineTerminator: ","
+quoteChar: "\""
+doubleQuote: true
+skipInitialSpace: false
+header: true
+caseSensitiveHeader: false

@@ -56,6 +56,13 @@ test_that("read_package() shows message about usage norms", {
 })
 
 test_that("read_package() returns error on missing file and properties", {
+  # Incorrect type
+  expect_error(
+    read_package(list()),
+    "`file` must be a path or URL to a `datapackage.json` file.",
+    fixed = TRUE
+  )
+
   # No file
   expect_error(
     read_package("nofile.json"),
@@ -104,5 +111,23 @@ test_that("read_package() returns error on missing file and properties", {
       "containing at least one resource. All resources must have a `name`."
     ),
     fixed = TRUE
+  )
+})
+
+test_that("read_package() allows descriptor at absolute or relative parent
+           path", {
+  relative_path <- "../testthat/data/valid_minimal.json"
+  expect_true(
+    check_package(suppressMessages(read_package(relative_path)))
+  )
+  absolute_path <- normalizePath("data/valid_minimal.json")
+  expect_true(
+    check_package(suppressMessages(read_package(absolute_path)))
+  )
+})
+
+test_that("read_package() allows YAML descriptor", {
+  expect_true(
+    check_package(suppressMessages(read_package("data/valid_minimal.yml")))
   )
 })

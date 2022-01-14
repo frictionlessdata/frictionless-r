@@ -1,0 +1,4 @@
+resources:
+- name: deployments
+- name: observations
+- name: media

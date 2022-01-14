@@ -89,12 +89,10 @@ add_resource <- function(package, resource_name, data, schema = NULL,
   if (is.data.frame(data)) {
     df <- data
   } else {
-    # Check existence of files (no further checks)
-    paths <- purrr::map_chr(
-      data, ~ check_path(.x, directory = NULL, unsafe = TRUE)
-    )
+    # Check existence of files (no further checks) and read last file
+    paths <- purrr::map_chr(data, ~ check_path(.x, safe = FALSE))
     df <- readr::read_delim(
-      file = paths[length(paths)], # Last file
+      file = paths[length(paths)],
       delim = delim,
       show_col_types = FALSE,
     )

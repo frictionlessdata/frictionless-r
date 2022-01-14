@@ -69,20 +69,21 @@ clean_list <- function(x, fun = is.null, recursive = FALSE) {
 #'
 #' @param path Path or URL to a file.
 #' @param directory Directory to prepend to path.
-#' @param unsafe Allow `path` to be an unsafe absolute or relative parent path.
+#' @param safe Require `path` to be safe, i.e. no absolute or relative parent
+#'   paths.
 #' @return Absolute path or URL.
 #' @family helper functions
 #' @noRd
-check_path <- function(path, directory = NULL, unsafe = TRUE) {
+check_path <- function(path, directory = NULL, safe = FALSE) {
   # Check that (non-URL) path is safe and prepend with directory to make
   # absolute path (both optional)
   if (!startsWith(path, "http")) {
     assertthat::assert_that(
-      unsafe | !startsWith(path, "/"),
+      !safe | !startsWith(path, "/"),
       msg = glue::glue("`{path}` is an absolute path (`/`) which is unsafe.")
     )
     assertthat::assert_that(
-      unsafe | !startsWith(path, "../"),
+      !safe | !startsWith(path, "../"),
       msg = glue::glue(
         "`{path}` is a relative parent path (`../`) which is unsafe."
       )
@@ -107,20 +108,23 @@ check_path <- function(path, directory = NULL, unsafe = TRUE) {
   return(path)
 }
 
-#' Read JSON at path or URL
+#' Read descriptor
 #'
-#' Reads JSON when provided property is a character (path or URL), otherwise
-#' returns property.
+#' Returns descriptor `x` as is, or attempts to read JSON/YAML from path or URL.
 #'
-#' @param x Any object or a path or URL to a file.
-#' @param directory Directory to prepend to path.
-#' @return `x` (unchanged) or loaded JSON at path or URL.
+#' @inheritParams check_path
+#' @return `x` (unchanged) or loaded JSON/YAML at path or URL.
 #' @family helper functions
 #' @noRd
-read_json <- function(x, directory) {
+read_descriptor <- function(x, directory = NULL, safe = FALSE) {
   if (is.character(x)) {
-    x <- check_path(x, directory = directory, unsafe = FALSE)
-    x <- jsonlite::fromJSON(x, simplifyDataFrame = FALSE)
+    x <- check_path(x, directory = directory, safe = safe)
+    if (grepl(".yaml$", x) | grepl(".yml$", x)) {
+      x <- yaml::yaml.load_file(x)
+    } else {
+      # Default to jsonlite: better error messages for non .json files
+      x <- jsonlite::fromJSON(x, simplifyDataFrame = FALSE)
+    }
   }
   return(x)
 }

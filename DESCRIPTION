@@ -26,7 +26,8 @@ Imports:
     purrr,
     readr (>= 2.1.0),
     stringr,
-    utils
+    utils,
+    yaml
 Suggests:
     knitr,
     hms,
