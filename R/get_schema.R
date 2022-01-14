@@ -37,7 +37,7 @@ get_schema <- function(package, resource_name) {
     !is.null(resource$schema),
     msg = glue::glue("Resource `{resource_name}` must have property `schema`.")
   )
-  schema <- read_json(resource$schema, package$directory)
+  schema <- read_json(resource$schema, package$directory, safe = TRUE)
 
   # Check schema
   check_schema(schema)

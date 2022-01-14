@@ -113,14 +113,13 @@ check_path <- function(path, directory = NULL, safe = FALSE) {
 #' Reads JSON when provided property is a character (path or URL), otherwise
 #' returns property.
 #'
-#' @param x Any object or a path or URL to a file.
-#' @param directory Directory to prepend to path.
+#' @inheritParams check_path
 #' @return `x` (unchanged) or loaded JSON at path or URL.
 #' @family helper functions
 #' @noRd
-read_json <- function(x, directory) {
+read_json <- function(x, directory, safe = FALSE) {
   if (is.character(x)) {
-    x <- check_path(x, directory = directory, unsafe = FALSE)
+    x <- check_path(x, directory = directory, safe = safe)
     x <- jsonlite::fromJSON(x, simplifyDataFrame = FALSE)
   }
   return(x)
