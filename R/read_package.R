@@ -23,8 +23,11 @@
 #' package$resource_names
 read_package <- function(file = "datapackage.json") {
   # Read file
-  file <- check_path(file, safe = FALSE)
-  descriptor <- jsonlite::fromJSON(file, simplifyDataFrame = FALSE)
+  assertthat::assert_that(
+    is.character(file),
+    msg = "`file` must be a path or URL to a `datapackage.json` file."
+  )
+  descriptor <- read_descriptor(file, safe = FALSE)
 
   # Check resources
   # https://specs.frictionlessdata.io/data-package/#metadata
