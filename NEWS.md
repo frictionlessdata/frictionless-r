@@ -12,6 +12,8 @@
 - `create_package()` will set `"profile" = "tabular-data-package"` since 
   packages created by frictionless meet those requirements (#81).
 - `create_schema()` interprets empty columns as `string` not `boolean` (#79).
+- `read_package()` can now read from a `datapackage.yaml` file.
+- `read_resource()` now accepts YAML Table Schemas and CSV dialects.
 - `add_resource()`/`create_schema()`'s `df` parameter is renamed to `data`.
 - `example_package`'s `observations` resource now has URLs as `path` to serve 
   as an example for that.
