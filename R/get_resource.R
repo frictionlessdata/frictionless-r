@@ -52,7 +52,7 @@ get_resource <- function(package, resource_name) {
     # unless those paths were willingly added by user in add_resource()
     if (replace_null(attributes(resource)$path, "") != "added") {
       resource$path <- purrr::map_chr(
-        resource$path, ~ check_path(.x, package$directory, unsafe = FALSE)
+        resource$path, ~ check_path(.x, package$directory, safe = TRUE)
       )
     }
   } else if (is.data.frame(resource$data)) {

@@ -23,7 +23,7 @@
 #' package$resource_names
 read_package <- function(file = "datapackage.json") {
   # Read file
-  file <- check_path(file)
+  file <- check_path(file, safe = FALSE)
   descriptor <- jsonlite::fromJSON(file, simplifyDataFrame = FALSE)
 
   # Check resources

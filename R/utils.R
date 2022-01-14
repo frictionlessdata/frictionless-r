@@ -69,20 +69,21 @@ clean_list <- function(x, fun = is.null, recursive = FALSE) {
 #'
 #' @param path Path or URL to a file.
 #' @param directory Directory to prepend to path.
-#' @param unsafe Allow `path` to be an unsafe absolute or relative parent path.
+#' @param safe Require `path` to be safe, i.e. no absolute or relative parent
+#'   paths.
 #' @return Absolute path or URL.
 #' @family helper functions
 #' @noRd
-check_path <- function(path, directory = NULL, unsafe = TRUE) {
+check_path <- function(path, directory = NULL, safe = FALSE) {
   # Check that (non-URL) path is safe and prepend with directory to make
   # absolute path (both optional)
   if (!startsWith(path, "http")) {
     assertthat::assert_that(
-      unsafe | !startsWith(path, "/"),
+      !safe | !startsWith(path, "/"),
       msg = glue::glue("`{path}` is an absolute path (`/`) which is unsafe.")
     )
     assertthat::assert_that(
-      unsafe | !startsWith(path, "../"),
+      !safe | !startsWith(path, "../"),
       msg = glue::glue(
         "`{path}` is a relative parent path (`../`) which is unsafe."
       )
