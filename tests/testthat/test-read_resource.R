@@ -197,11 +197,12 @@ test_that("read_resource() can read remote files", {
   expect_identical(read_resource(p_remote_resource, "deployments"), resource)
 })
 
-test_that("read_resource() can read safe local and remote Table Schemas", {
+test_that("read_resource() can read safe local and remote Table Schema,
+           including YAML", {
   p <- example_package
   resource <- read_resource(p, "deployments")
   p$directory <- "."
-  # Using a remote path, otherwise schema and path need to share same directory
+  # Use a remote path, otherwise schema and path need to share same directory
   p$resources[[1]]$path <- file.path(
     "https://github.com/frictionlessdata/frictionless-r",
     "raw/main/inst/extdata/deployments.csv"
@@ -244,13 +245,18 @@ test_that("read_resource() can read safe local and remote Table Schemas", {
     "raw/main/tests/testthat/data/deployments_schema.json"
   )
   expect_identical(read_resource(p_remote_schema, "deployments"), resource)
+
+  # Schema is YAML
+  p_yaml_schema <- p
+  p_yaml_schema$resource[[1]]$schema <- "data/deployment_schema.yaml"
+  expect_identical(read_resource(p_yaml_schema, "deployments"), resource)
 })
 
 test_that("read_resource() can read safe local and remote CSV dialect", {
   p <- example_package
   resource <- read_resource(p, "deployments")
   p$directory <- "."
-  # Using a remote path, otherwise dialect and path need to share same directory
+  # Use a remote path, otherwise dialect and path need to share same directory
   p$resources[[1]]$path <- file.path(
     "https://github.com/frictionlessdata/frictionless-r",
     "raw/main/inst/extdata/deployments.csv"
@@ -291,6 +297,11 @@ test_that("read_resource() can read safe local and remote CSV dialect", {
     "raw/main/tests/testthat/data/dialect.json"
   )
   expect_identical(read_resource(p_remote_dialect, "deployments"), resource)
+
+  # Dialect is YAML
+  p_yaml_dialect <- p
+  p_yaml_dialect$resource[[1]]$dialect <- "data/dialect.yaml"
+  expect_identical(read_resource(p_yaml_dialect, "deployments"), resource)
 })
 
 test_that("read_resource() understands CSV dialect", {

@@ -108,19 +108,23 @@ check_path <- function(path, directory = NULL, safe = FALSE) {
   return(path)
 }
 
-#' Read JSON at path or URL
+#' Read descriptor
 #'
-#' Reads JSON when provided property is a character (path or URL), otherwise
-#' returns property.
+#' Returns descriptor `x` as is, or attempts to read JSON/YAML from path or URL.
 #'
 #' @inheritParams check_path
-#' @return `x` (unchanged) or loaded JSON at path or URL.
+#' @return `x` (unchanged) or loaded JSON/YAML at path or URL.
 #' @family helper functions
 #' @noRd
-read_json <- function(x, directory, safe = FALSE) {
+read_descriptor <- function(x, directory = NULL, safe = FALSE) {
   if (is.character(x)) {
     x <- check_path(x, directory = directory, safe = safe)
-    x <- jsonlite::fromJSON(x, simplifyDataFrame = FALSE)
+    if (grepl(".yaml$", x) | grepl(".yml$", x)) {
+      x <- yaml::yaml.load_file(x)
+    } else {
+      # Default to jsonlite: better error messages for non .json files
+      x <- jsonlite::fromJSON(x, simplifyDataFrame = FALSE)
+    }
   }
   return(x)
 }
