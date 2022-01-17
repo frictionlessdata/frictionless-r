@@ -50,18 +50,6 @@
   "softwareSuggestions": [
     {
       "@type": "SoftwareApplication",
-      "identifier": "knitr",
-      "name": "knitr",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=knitr"
-    },
-    {
-      "@type": "SoftwareApplication",
       "identifier": "hms",
       "name": "hms",
       "provider": {
@@ -71,6 +59,18 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=hms"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "knitr",
+      "name": "knitr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=knitr"
     },
     {
       "@type": "SoftwareApplication",
@@ -86,6 +86,18 @@
     },
     {
       "@type": "SoftwareApplication",
+      "identifier": "rmarkdown",
+      "name": "rmarkdown",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=rmarkdown"
+    },
+    {
+      "@type": "SoftwareApplication",
       "identifier": "testthat",
       "name": "testthat",
       "version": ">= 3.0.0",
@@ -96,18 +108,6 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=testthat"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "rmarkdown",
-      "name": "rmarkdown",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=rmarkdown"
     }
   ],
   "softwareRequirements": {
@@ -208,9 +208,26 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=stringr"
     },
+    "9": {
+      "@type": "SoftwareApplication",
+      "identifier": "utils",
+      "name": "utils"
+    },
+    "10": {
+      "@type": "SoftwareApplication",
+      "identifier": "yaml",
+      "name": "yaml",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=yaml"
+    },
     "SystemRequirements": null
   },
-  "fileSize": "148.239KB",
+  "fileSize": "168.132KB",
   "citation": [
     {
       "@type": "SoftwareSourceCode",
@@ -235,6 +252,7 @@
       "sameAs": "https://doi.org/10.5281/zenodo.5815355"
     }
   ],
+  "releaseNotes": "https://github.com/frictionlessdata/frictionless-r/blob/master/NEWS.md",
   "readme": "https://github.com/frictionlessdata/frictionless-r/blob/main/README.md",
   "contIntegration": ["https://github.com/frictionlessdata/frictionless-r/actions", "https://codecov.io/gh/frictionlessdata/frictionless-r"],
   "developmentStatus": "https://www.repostatus.org/#active",
