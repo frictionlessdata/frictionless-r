@@ -1,4 +1,4 @@
-# frictionless 0.11.0
+# frictionless (development version)
 
 - `add_resource()` now sets `format`, `mediatype` and `encoding` for added CSV 
   file(s) (#78).
