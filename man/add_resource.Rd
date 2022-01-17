@@ -12,7 +12,7 @@ add_resource(package, resource_name, data, schema = NULL, delim = ",")
 
 \item{resource_name}{Name of the Data Resource.}
 
-\item{data}{Data to attach, either a data frame or path(s) to CSV file(s).
+\item{data}{Data to attach, either a data frame or path(s) to CSV file(s):
 \itemize{
 \item Data frame: attached to the resource as \code{data} and written to a CSV file
 when using \code{\link[=write_package]{write_package()}}.

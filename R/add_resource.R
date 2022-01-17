@@ -9,7 +9,7 @@
 #' `.`, `-` and `_`.
 #'
 #' @inheritParams read_resource
-#' @param data Data to attach, either a data frame or path(s) to CSV file(s).
+#' @param data Data to attach, either a data frame or path(s) to CSV file(s):
 #'   - Data frame: attached to the resource as `data` and written to a CSV file
 #'     when using [write_package()].
 #'   - One or more paths to CSV file(s) as a character (vector): added to the
