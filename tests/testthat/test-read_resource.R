@@ -358,6 +358,37 @@ test_that("read_resource() understands encoding", {
   expect_identical(read_resource(p_encoding, "deployments"), resource)
 })
 
+test_that("read_resource() handles decimalChar/groupChar properties", {
+  expected_value <- 3000000.3
+  p <- suppressMessages(read_package("data/mark.json"))
+
+  # Default decimalChar/groupChar
+  resource <- read_resource(p, "mark_default")
+  expect_identical(resource$num, expected_value) # 3000000.30
+  expect_identical(resource$num_undefined, expected_value) # 3000000.30
+
+  # Non-default decimalChar, default groupChar (which should not conflict)
+  warnings <- capture_warnings(read_resource(p, "mark_decimal"))
+  expect_match(warnings[1], "Some fields define a non-default `decimalChar`.")
+
+  resource <- suppressWarnings(read_resource(p, "mark_decimal"))
+  expect_identical(resource$num, expected_value) # 3000000.30
+  expect_identical(resource$num_undefined, expected_value) # 3000000.30
+
+  # Non-default decimalChar/groupChar
+  warnings <- capture_warnings(read_resource(p, "mark_decimal_group"))
+  expect_true(length(warnings) == 3) # 2 warnings + 1 parsing failure last field
+  expect_match(warnings[1], "Some fields define a non-default `decimalChar`.")
+  expect_match(warnings[2], "Some fields define a non-default `groupChar`.")
+
+  resource <- suppressWarnings(read_resource(p, "mark_decimal_group"))
+  expect_identical(resource$num, expected_value) # 3.000.000,30
+  # Field without decimalChar is still parsed with non-default decimalChar
+  expect_identical(resource$num_undefined, expected_value) # 3000000,30
+  # Field without groupChar is not parsed with non-default groupChar
+  expect_identical(resource$num_undefined_group, NA_real_) # 3.000.000,30
+})
+
 test_that("read_resource() handles LF and CRLF line terminator characters", {
   # There are 3 line terminator characters:
   # LF    \n    Unix/Mac OS X
@@ -584,35 +615,4 @@ test_that("read_resource() handles other types", {
 
   # Guess undefined types, unknown types are blocked by check_schema()
   expect_type(resource$no_type, "logical")
-})
-
-test_that("read_resource() handles decimalChar/groupChar properties", {
-  expected_value <- 3000000.3
-  p <- suppressMessages(read_package("data/mark.json"))
-
-  # Default decimalChar/groupChar
-  resource <- read_resource(p, "mark_default")
-  expect_identical(resource$num, expected_value) # 3000000.30
-  expect_identical(resource$num_undefined, expected_value) # 3000000.30
-
-  # Non-default decimalChar, default groupChar (which should not conflict)
-  warnings <- capture_warnings(read_resource(p, "mark_decimal"))
-  expect_match(warnings[1], "Some fields define a non-default `decimalChar`.")
-
-  resource <- suppressWarnings(read_resource(p, "mark_decimal"))
-  expect_identical(resource$num, expected_value) # 3000000.30
-  expect_identical(resource$num_undefined, expected_value) # 3000000.30
-
-  # Non-default decimalChar/groupChar
-  warnings <- capture_warnings(read_resource(p, "mark_decimal_group"))
-  expect_true(length(warnings) == 3) # 2 warnings + 1 parsing failure last field
-  expect_match(warnings[1], "Some fields define a non-default `decimalChar`.")
-  expect_match(warnings[2], "Some fields define a non-default `groupChar`.")
-
-  resource <- suppressWarnings(read_resource(p, "mark_decimal_group"))
-  expect_identical(resource$num, expected_value) # 3.000.000,30
-  # Field without decimalChar is still parsed with non-default decimalChar
-  expect_identical(resource$num_undefined, expected_value) # 3000000,30
-  # Field without groupChar is not parsed with non-default groupChar
-  expect_identical(resource$num_undefined_group, NA_real_) # 3.000.000,30
 })
