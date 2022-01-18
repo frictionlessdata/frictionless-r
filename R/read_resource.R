@@ -209,9 +209,8 @@ read_resource <- function(package, resource_name) {
   } else {
     decimal_mark <- d_chars[1]
     warning(glue::glue(
-      "Some fields define a non-default `decimalChar`. Only a global value is",
-      "supported, so all number fields will be parsed with `{d_chars[1]}` as",
-      "decimal mark.",
+      "Some fields define a non-default `decimalChar`.",
+      "Parsing all number fields with `{d_chars[1]}` as decimal mark.",
       .sep = " "
     ))
   }
@@ -222,9 +221,8 @@ read_resource <- function(package, resource_name) {
   } else {
     grouping_mark <- g_chars[1]
     warning(glue::glue(
-      "Some fields define a non-default `groupChar`. Only a global value is",
-      "supported, so all number fields with this property will be parsed with",
-      "`{g_chars[1]}` as grouping mark.",
+      "Some fields define a non-default `groupChar`.",
+      "Parsing all number fields with `{g_chars[1]}` as grouping mark.",
       .sep = " "
     ))
   }

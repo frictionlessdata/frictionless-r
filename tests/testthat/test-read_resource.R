@@ -369,7 +369,13 @@ test_that("read_resource() handles decimalChar/groupChar properties", {
 
   # Non-default decimalChar, default groupChar (which should not conflict)
   warnings <- capture_warnings(read_resource(p, "mark_decimal"))
-  expect_match(warnings[1], "Some fields define a non-default `decimalChar`.")
+  expect_identical(
+    warnings[1],
+    paste(
+      "Some fields define a non-default `decimalChar`.",
+      "Parsing all number fields with `,` as decimal mark."
+    )
+  )
 
   resource <- suppressWarnings(read_resource(p, "mark_decimal"))
   expect_identical(resource$num, expected_value) # 3000000.30
@@ -378,8 +384,20 @@ test_that("read_resource() handles decimalChar/groupChar properties", {
   # Non-default decimalChar/groupChar
   warnings <- capture_warnings(read_resource(p, "mark_decimal_group"))
   expect_true(length(warnings) == 3) # 2 warnings + 1 parsing failure last field
-  expect_match(warnings[1], "Some fields define a non-default `decimalChar`.")
-  expect_match(warnings[2], "Some fields define a non-default `groupChar`.")
+  expect_identical(
+    warnings[1],
+    paste(
+      "Some fields define a non-default `decimalChar`.",
+      "Parsing all number fields with `,` as decimal mark."
+    )
+  )
+  expect_identical(
+    warnings[2],
+    paste(
+      "Some fields define a non-default `groupChar`.",
+      "Parsing all number fields with `.` as grouping mark."
+    )
+  )
 
   resource <- suppressWarnings(read_resource(p, "mark_decimal_group"))
   expect_identical(resource$num, expected_value) # 3.000.000,30
