@@ -1,4 +1,7 @@
+# frictionless (development version)
 
+- `add_resource()` now sets `format`, `mediatype` and `encoding` for added CSV 
+  file(s) (#78).
 - `read_resource()` will now warn rather than error on unknown encoding (#86).
 
 # frictionless 0.10.0

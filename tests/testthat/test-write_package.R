@@ -227,7 +227,7 @@ test_that("write_package() shows message when downloading file", {
   )
 })
 
-test_that("write_package() adds correct properties for new resources", {
+test_that("write_package() sets correct properties for data frame resources", {
   p <- example_package
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   schema <- create_schema(df)
