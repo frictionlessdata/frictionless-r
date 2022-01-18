@@ -180,7 +180,7 @@ test_that("add_resource() adds resource, resource_name", {
 })
 
 test_that("add_resource() uses provided schema or creates one", {
-  p <- example_package
+  p <- create_package()
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   df_csv <- "data/df.csv"
   schema <- create_schema(df)
@@ -192,16 +192,16 @@ test_that("add_resource() uses provided schema or creates one", {
   # df
   p <- add_resource(p, "new_df", df)
   p <- add_resource(p, "new_df_with_schema", df, schema_custom)
-  expect_identical(p$resources[[4]]$schema, schema)
-  expect_identical(p$resources[[5]]$schema, schema_custom)
+  expect_identical(p$resources[[1]]$schema, schema)
+  expect_identical(p$resources[[2]]$schema, schema_custom)
   expect_identical(get_schema(p, "new_df"), schema)
   expect_identical(get_schema(p, "new_df_with_schema"), schema_custom)
 
   # csv
   p <- add_resource(p, "new_csv", df)
   p <- add_resource(p, "new_csv_with_schema", df, schema_custom)
-  expect_identical(p$resources[[6]]$schema, schema)
-  expect_identical(p$resources[[7]]$schema, schema_custom)
+  expect_identical(p$resources[[3]]$schema, schema)
+  expect_identical(p$resources[[4]]$schema, schema_custom)
   expect_identical(get_schema(p, "new_csv"), schema)
   expect_identical(get_schema(p, "new_csv_with_schema"), schema_custom)
 })
@@ -214,8 +214,8 @@ test_that("add_resource() can add resource from data frame, readable by
   expect_identical(read_resource(p, "new"), dplyr::as_tibble(df))
 })
 
-test_that("add_resource() can add resource from local, remote, relative,
-           absolute or compressed CSV file, readable by read_resource()", {
+test_that("add_resource() can add resource from local, relative, absolute,
+           remote or compressed CSV file, readable by read_resource()", {
   p <- example_package
   schema <- get_schema(p, "deployments")
 
@@ -225,19 +225,10 @@ test_that("add_resource() can add resource from local, remote, relative,
   expect_identical(p$resources[[4]]$path, local_path)
   expect_s3_class(read_resource(p, "local"), "tbl")
 
-  # Remote
-  remote_path <- file.path(
-    "https://github.com/frictionlessdata/frictionless-r",
-    "raw/main/inst/extdata/deployments.csv"
-  )
-  p <- add_resource(p, "remote", remote_path, schema)
-  expect_identical(p$resources[[5]]$path, remote_path)
-  expect_s3_class(read_resource(p, "remote"), "tbl")
-
   # Relative (doesn't throw unsafe error)
   relative_path <- "../testthat/data/df.csv"
   p <- add_resource(p, "relative", relative_path)
-  expect_identical(p$resources[[6]]$path, relative_path)
+  expect_identical(p$resources[[5]]$path, relative_path)
   expect_s3_class(read_resource(p, "relative"), "tbl")
 
   # Absolute (doesn't throw unsafe error)
@@ -245,8 +236,17 @@ test_that("add_resource() can add resource from local, remote, relative,
     "extdata", "deployments.csv", package = "frictionless" # Will start with /
   )
   p <- add_resource(p, "absolute", absolute_path, schema)
-  expect_identical(p$resources[[7]]$path, absolute_path)
+  expect_identical(p$resources[[6]]$path, absolute_path)
   expect_s3_class(read_resource(p, "absolute"), "tbl")
+
+  # Remote
+  remote_path <- file.path(
+    "https://github.com/frictionlessdata/frictionless-r",
+    "raw/main/inst/extdata/deployments.csv"
+  )
+  p <- add_resource(p, "remote", remote_path, schema)
+  expect_identical(p$resources[[7]]$path, remote_path)
+  expect_s3_class(read_resource(p, "remote"), "tbl")
 
   # Compressed
   compressed_file <- "data/deployments.csv.gz"
@@ -257,9 +257,54 @@ test_that("add_resource() can add resource from local, remote, relative,
 
 test_that("add_resource() can add resource from CSV file with other delimiter,
            readable by read_resource()", {
-  p <- example_package
+  p <- create_package()
   p <- add_resource(p, "df", "data/df.csv")
-  p <- add_resource(p, "df_delim", "data/df_delim.csv", delim = ";")
-  expect_identical(p$resources[[5]]$dialect$delimiter, ";")
-  expect_identical(read_resource(p, "df_delim"), read_resource(p, "df"))
+  expect_identical(p$resources[[1]]$dialect$delimiter, NULL)
+  p <- add_resource(p, "df_delim_1", "data/df_delim_1.txt", delim = ";")
+  expect_identical(p$resources[[2]]$dialect$delimiter, ";")
+  expect_identical(read_resource(p, "df_delim_1"), read_resource(p, "df"))
+  p <- add_resource(p, "df_delim_2", "data/df_delim_2.tsv", delim = "\t")
+  expect_identical(p$resources[[3]]$dialect$delimiter, "\t")
+  expect_identical(read_resource(p, "df_delim_2"), read_resource(p, "df"))
+})
+
+test_that("add_resource() sets correct properties for CSV resources", {
+  p <- create_package()
+  path <- system.file("extdata", "deployments.csv", package = "frictionless")
+
+  # Encoding UTF-8 (0.8), ISO-8859-1 (0.59), ISO-8859-2 (0.26)
+  p <- add_resource(p, "deployments", path)
+  expect_identical(p$resources[[1]]$format, "csv")
+  expect_identical(p$resources[[1]]$mediatype, "text/csv")
+  expect_identical(p$resources[[1]]$encoding, "UTF-8")
+
+  # Encoding ISO-8859-1 (0.6), ISO-8859-1 (0.26)
+  p <- add_resource(p, "deployments_encoding", "data/deployments_encoding.csv")
+  expect_identical(p$resources[[2]]$format, "csv")
+  expect_identical(p$resources[[2]]$mediatype, "text/csv")
+  expect_identical(p$resources[[2]]$encoding, "ISO-8859-1")
+  expect_identical(
+    read_resource(p, "deployments_encoding"), # read_resource understands encod.
+    read_resource(p, "deployments")
+  )
+
+  # Encoding ASCII, delimiter ","
+  p <- add_resource(p, "df", "data/df.csv")
+  expect_identical(p$resources[[3]]$format, "csv")
+  expect_identical(p$resources[[3]]$mediatype, "text/csv")
+  expect_identical(p$resources[[3]]$encoding, "UTF-8") # ASCII is set to UTF-8
+
+  # Encoding ASCII, delimiter ";", extension "txt"
+  p <- add_resource(p, "df_delim_1", "data/df_delim_1.txt", delim = ";")
+  expect_identical(p$resources[[4]]$format, "txt")
+  expect_identical(p$resources[[4]]$mediatype, "text/csv")
+  expect_identical(p$resources[[4]]$encoding, "UTF-8")
+  expect_identical(read_resource(p, "df_delim_1"), read_resource(p, "df"))
+
+  # Encoding ASCII, delimiter "\t", extension "tsv"
+  p <- add_resource(p, "df_delim_2", "data/df_delim_2.tsv", delim = "\t")
+  expect_identical(p$resources[[5]]$format, "tsv")
+  expect_identical(p$resources[[5]]$mediatype, "text/tab-separated-values")
+  expect_identical(p$resources[[5]]$encoding, "UTF-8")
+  expect_identical(read_resource(p, "df_delim_2"), read_resource(p, "df"))
 })

@@ -12,15 +12,16 @@ add_resource(package, resource_name, data, schema = NULL, delim = ",")
 
 \item{resource_name}{Name of the Data Resource.}
 
-\item{data}{Data to attach, either a data frame or path(s) to CSV file(s).
+\item{data}{Data to attach, either a data frame or path(s) to CSV file(s):
 \itemize{
 \item Data frame: attached to the resource as \code{data} and written to a CSV file
 when using \code{\link[=write_package]{write_package()}}.
 \item One or more paths to CSV file(s) as a character (vector): added to the
 resource as \code{path}.
-The last file will be read with \code{\link[readr:read_delim]{readr::read_delim()}} to create or
-compare with \code{schema}.
-The other files are ignored, but are expected to have the same structure.
+The \strong{last file will be read} with \code{\link[readr:read_delim]{readr::read_delim()}} to create or
+compare with \code{schema} and to set \code{format}, \code{mediatype} and \code{encoding}.
+The other files are ignored, but are expected to have the same structure
+and properties.
 }}
 
 \item{schema}{List object describing a Table Schema for the \code{data}.
@@ -68,7 +69,7 @@ package <- add_resource(package, "positions2", data = df, schema = my_schema)
 # Add resource "observations2" to the Data Package, from CSV file paths
 path_1 <- system.file("extdata", "observations_1.csv", package = "frictionless")
 path_2 <- system.file("extdata", "observations_2.csv", package = "frictionless")
-package <- add_resource(package, "deployments2", data = c(path_1, path_2))
+package <- add_resource(package, "observations2", data = c(path_1, path_2))
 
 # List the resource names ("positions", "positions2" & "observations2" added)
 package$resource_names

@@ -9,14 +9,15 @@
 #' `.`, `-` and `_`.
 #'
 #' @inheritParams read_resource
-#' @param data Data to attach, either a data frame or path(s) to CSV file(s).
+#' @param data Data to attach, either a data frame or path(s) to CSV file(s):
 #'   - Data frame: attached to the resource as `data` and written to a CSV file
 #'     when using [write_package()].
 #'   - One or more paths to CSV file(s) as a character (vector): added to the
 #'     resource as `path`.
-#'     The last file will be read with [readr::read_delim()] to create or
-#'     compare with `schema`.
-#'     The other files are ignored, but are expected to have the same structure.
+#'     The **last file will be read** with [readr::read_delim()] to create or
+#'     compare with `schema` and to set `format`, `mediatype` and `encoding`.
+#'     The other files are ignored, but are expected to have the same structure
+#'     and properties.
 #' @param schema List object describing a Table Schema for the `data`.
 #'   If not provided, one will be created using [create_schema()].
 #' @param delim Single character used to separate the fields in the CSV file(s),
@@ -54,7 +55,7 @@
 #' # Add resource "observations2" to the Data Package, from CSV file paths
 #' path_1 <- system.file("extdata", "observations_1.csv", package = "frictionless")
 #' path_2 <- system.file("extdata", "observations_2.csv", package = "frictionless")
-#' package <- add_resource(package, "deployments2", data = c(path_1, path_2))
+#' package <- add_resource(package, "observations2", data = c(path_1, path_2))
 #'
 #' # List the resource names ("positions", "positions2" & "observations2" added)
 #' package$resource_names
@@ -91,6 +92,10 @@ add_resource <- function(package, resource_name, data, schema = NULL,
   } else {
     # Check existence of files (no further checks) and read last file
     paths <- purrr::map_chr(data, ~ check_path(.x, safe = FALSE))
+    last_file <- utils::tail(paths, n = 1)
+    extension <- utils::tail(strsplit(last_file, "\\.")[[1]], n = 1)
+    encoding <- readr::guess_encoding(last_file, n_max = 1000)[[1, 1]]
+    encoding <- replace_null(encoding, "UTF-8")
     df <- readr::read_delim(
       file = paths[length(paths)],
       delim = delim,
@@ -120,9 +125,13 @@ add_resource <- function(package, resource_name, data, schema = NULL,
       name = resource_name,
       path = paths,
       profile = "tabular-data-resource", # Necessary for read_resource()
-      # format: not set, not necessarily "csv"
-      # mediatype: not set, not necessarily "text/csv"
-      # encoding: not set, not necessarily "utf-8"
+      format = extension,
+      mediatype = ifelse(
+        delim == "\t",
+        "text/tab-separated-values",
+        "text/csv"
+      ),
+      encoding = ifelse(encoding == "ASCII", "UTF-8", encoding),
       schema = schema
     )
     # Add CSV dialect for non-default delimiter
