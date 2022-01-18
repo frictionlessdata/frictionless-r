@@ -77,13 +77,14 @@ The resource name can only contain lowercase alphanumeric characters plus
 <dt>resource_name</dt>
 <dd><p>Name of the Data Resource.</p></dd>
 <dt>data</dt>
-<dd><p>Data to attach, either a data frame or path(s) to CSV file(s).</p><ul><li><p>Data frame: attached to the resource as <code>data</code> and written to a CSV file
+<dd><p>Data to attach, either a data frame or path(s) to CSV file(s):</p><ul><li><p>Data frame: attached to the resource as <code>data</code> and written to a CSV file
 when using <code><a href="write_package.html">write_package()</a></code>.</p></li>
 <li><p>One or more paths to CSV file(s) as a character (vector): added to the
 resource as <code>path</code>.
-The last file will be read with <code><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">readr::read_delim()</a></code> to create or
-compare with <code>schema</code>.
-The other files are ignored, but are expected to have the same structure.</p></li>
+The <strong>last file will be read</strong> with <code><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">readr::read_delim()</a></code> to create or
+compare with <code>schema</code> and to set <code>format</code>, <code>mediatype</code> and <code>encoding</code>.
+The other files are ignored, but are expected to have the same structure
+and properties.</p></li>
 </ul></dd>
 <dt>schema</dt>
 <dd><p>List object describing a Table Schema for the <code>data</code>.
@@ -134,12 +135,12 @@ read functions know how to read the file(s).</p></dd>
 <span class="r-in"><span class="co"># Add resource "observations2" to the Data Package, from CSV file paths</span></span>
 <span class="r-in"><span class="va">path_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"observations_1.csv"</span>, package <span class="op">=</span> <span class="st">"frictionless"</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">path_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"observations_2.csv"</span>, package <span class="op">=</span> <span class="st">"frictionless"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">package</span> <span class="op">&lt;-</span> <span class="fu">add_resource</span><span class="op">(</span><span class="va">package</span>, <span class="st">"deployments2"</span>, data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">path_1</span>, <span class="va">path_2</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">package</span> <span class="op">&lt;-</span> <span class="fu">add_resource</span><span class="op">(</span><span class="va">package</span>, <span class="st">"observations2"</span>, data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">path_1</span>, <span class="va">path_2</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># List the resource names ("positions", "positions2" &amp; "observations2" added)</span></span>
 <span class="r-in"><span class="va">package</span><span class="op">$</span><span class="va">resource_names</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "deployments"  "observations" "media"        "positions"    "positions2"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [6] "deployments2"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "deployments"   "observations"  "media"         "positions"    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "positions2"    "observations2"</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
