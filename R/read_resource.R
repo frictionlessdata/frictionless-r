@@ -52,9 +52,9 @@
 #'
 #' ## File encoding
 #'
-#' `encoding` is required if the resource file(s) are not encoded as UTF-8.
-#' For proper values (e.g. `windows-1252`), see "Preferred MIME Names" in
-#' [encoding](https://specs.frictionlessdata.io/data-resource/#optional-properties).
+#' `encoding` (e.g. `windows-1252`) is
+#' [required](https://specs.frictionlessdata.io/data-resource/#optional-properties)
+#' if the resource file(s) is not encoded as UTF-8.
 #' The returned data frame will always be UTF-8.
 #'
 #' ## CSV Dialect
@@ -200,6 +200,13 @@ read_resource <- function(package, resource_name) {
   fields <- schema$fields
 
   # Create locale with encoding, decimal_mark and grouping_mark
+  encoding <- replace_null(resource$encoding, "UTF-8") # Set default to UTF-8
+  if (!tolower(encoding) %in% tolower(iconvlist())) {
+    warning(glue::glue(
+      "Unknown encoding `{encoding}`. Reading file(s) with UTF-8 encoding."
+    ))
+    encoding <- "UTF-8"
+  }
   d_chars <- purrr::map_chr(
     fields, ~ replace_null(.x$decimalChar, NA_character_)
   )
@@ -227,7 +234,7 @@ read_resource <- function(package, resource_name) {
     ))
   }
   locale <- readr::locale(
-    encoding = replace_null(resource$encoding, "UTF-8"),
+    encoding = encoding,
     decimal_mark = decimal_mark,
     grouping_mark = grouping_mark
   )

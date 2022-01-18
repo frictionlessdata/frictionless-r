@@ -350,12 +350,25 @@ test_that("read_resource() understands encoding", {
   p <- example_package
   resource <- read_resource(p, "deployments")
 
-  # Create package with non-default missing values
+  # Create package with non-default encoding
   p_encoding <- p
   p_encoding$directory <- "."
   p_encoding$resources[[1]]$path <- "data/deployments_encoding.csv"
   p_encoding$resources[[1]]$encoding <- "windows-1252"
   expect_identical(read_resource(p_encoding, "deployments"), resource)
+
+  # Create package with unknown encoding
+  p_unknown <- p
+  p_unknown$resources[[1]]$encoding <- "utf-8-sig"
+  warnings <- capture_warnings(read_resource(p_unknown, "deployments"))
+  expect_identical(
+    warnings[1],
+    "Unknown encoding `utf-8-sig`. Reading file(s) with UTF-8 encoding."
+  )
+  expect_identical(
+    suppressWarnings(read_resource(p_unknown, "deployments")),
+    resource
+  )
 })
 
 test_that("read_resource() handles decimalChar/groupChar properties", {

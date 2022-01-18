@@ -63,9 +63,9 @@ to have the value \code{tabular-data-resource}.
 
 \subsection{File encoding}{
 
-\code{encoding} is required if the resource file(s) are not encoded as UTF-8.
-For proper values (e.g. \code{windows-1252}), see "Preferred MIME Names" in
-\href{https://specs.frictionlessdata.io/data-resource/#optional-properties}{encoding}.
+\code{encoding} (e.g. \code{windows-1252}) is
+\href{https://specs.frictionlessdata.io/data-resource/#optional-properties}{required}
+if the resource file(s) is not encoded as UTF-8.
 The returned data frame will always be UTF-8.
 }
 
