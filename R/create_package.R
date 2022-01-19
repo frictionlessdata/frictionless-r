@@ -16,15 +16,10 @@
 #' package <- create_package()
 #' str(package)
 create_package <- function() {
-  descriptor <- list(
+  list(
     profile = "tabular-data-package",
     resources = list(),
     resource_names = vector(mode = "character"),
     directory = "." # Current directory
   )
-
-  # Add datapackage class
-  class(descriptor) <- c("datapackage", class(descriptor))
-
-  descriptor
 }

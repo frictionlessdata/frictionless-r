@@ -41,9 +41,6 @@ read_package <- function(file = "datapackage.json") {
     )
   )
 
-  # Add datapackage class
-  class(descriptor) <- c("datapackage", class(descriptor))
-
   # Add resource_names
   descriptor$resource_names <- purrr::map_chr(descriptor$resources, "name")
 
