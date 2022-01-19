@@ -94,7 +94,7 @@
 <span class="co">#&gt; Please make sure you have the right to access data from this Data Package for your intended use.</span>
 <span class="co">#&gt; Follow applicable norms or requirements to credit the dataset and its authors.</span>
 <span class="co">#&gt; For more information, see https://doi.org/10.5281/zenodo.5070086</span></code></pre></div>
-<p><code><a href="../reference/read_package.html">read_package()</a></code> returns the content of <code>datapackage.json</code> as a list object. You can access any of its properties, including the names of the Data Resources. <strong>Data Resources</strong> contain the data of a Data Package.</p>
+<p><code><a href="../reference/read_package.html">read_package()</a></code> returns the content of <code>datapackage.json</code> as a list. You can access any of its properties, including the names of the Data Resources. <strong>Data Resources</strong> contain the data of a Data Package.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">package</span><span class="op">$</span><span class="va">resource_names</span>
 <span class="co">#&gt; [1] "reference-data" "gps"            "acceleration"</span></code></pre></div>
@@ -171,7 +171,7 @@
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">my_package</span><span class="op">$</span><span class="va">resource_names</span>
 <span class="co">#&gt; [1] "iris"</span></code></pre></div>
-<p>By default, <code><a href="../reference/add_resource.html">add_resource()</a></code> will create a <strong>Table Schema</strong> for your data frame, describing its field names, field types and (for factors) constraints. You can retrieve the schema of a resource with <code><a href="../reference/get_schema.html">get_schema()</a></code>. It is a list object, which we print here using <code><a href="https://rdrr.io/r/utils/str.html" class="external-link">str()</a></code>:</p>
+<p>By default, <code><a href="../reference/add_resource.html">add_resource()</a></code> will create a <strong>Table Schema</strong> for your data frame, describing its field names, field types and (for factors) constraints. You can retrieve the schema of a resource with <code><a href="../reference/get_schema.html">get_schema()</a></code>. It is a list, which we print here using <code><a href="https://rdrr.io/r/utils/str.html" class="external-link">str()</a></code>:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">iris_schema</span> <span class="op">&lt;-</span>
   <span class="va">my_package</span> <span class="op">%&gt;%</span>
@@ -293,16 +293,21 @@
 <span class="va">my_package</span> <span class="op">&lt;-</span>
   <span class="va">my_package</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/add_resource.html">add_resource</a></span><span class="op">(</span>resource_name <span class="op">=</span> <span class="st">"observations"</span>, data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">path_1</span>, <span class="va">path_2</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p>In the above steps you started a Data Package from scratch with <code><a href="../reference/create_package.html">create_package()</a></code>, but you use the same functionality to edit an existing Data Package read with <code><a href="../reference/read_package.html">read_package()</a></code>.</p>
+<p>Your Data Package now contains 2 resources, but you can add metadata properties as well (see the <a href="https://specs.frictionlessdata.io/data-package/#metadata" class="external-link">Data Package documentation</a> for an overview). Since it is a list, you can use <code><a href="https://rdrr.io/r/base/append.html" class="external-link">append()</a></code> to insert properties at the desired place. Let’s add <code>name</code> as first and <code>title</code> as second property:</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">my_package</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/append.html" class="external-link">append</a></span><span class="op">(</span><span class="va">my_package</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"my_package"</span><span class="op">)</span>, after <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>
+<span class="co"># Or with purrr::prepend(): prepend(my_package, c(name = "my_package))</span>
+<span class="va">my_package</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/append.html" class="external-link">append</a></span><span class="op">(</span><span class="va">my_package</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"My package"</span><span class="op">)</span>, after <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
+<p>Note that in the above steps you started a Data Package from scratch with <code><a href="../reference/create_package.html">create_package()</a></code>, but you can use the same functionality to edit an existing Data Package read with <code><a href="../reference/read_package.html">read_package()</a></code>.</p>
 </div>
 <div class="section level2">
 <h2 id="write-a-data-package">Write a Data Package<a class="anchor" aria-label="anchor" href="#write-a-data-package"></a>
 </h2>
 <p>Now that you have created your Data Package, you can write it to a directory of your choice with <code><a href="../reference/write_package.html">write_package()</a></code>:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/write_package.html">write_package</a></span><span class="op">(</span><span class="va">my_package</span>, <span class="st">"my_directory"</span><span class="op">)</span></code></pre></div>
 <p>The directory will contain four files: the descriptor <code>datapackage.json</code>, one CSV file containing the data for the resource <code>iris</code> and two CSV files containing the data for the resource <code>observations</code>.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="st">"my_directory"</span><span class="op">)</span>
 <span class="co">#&gt; [1] "datapackage.json"   "iris.csv"           "observations_1.csv"</span>
 <span class="co">#&gt; [4] "observations_2.csv"</span></code></pre></div>
