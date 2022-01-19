@@ -8,7 +8,7 @@
 #' Resource](https://specs.frictionlessdata.io/tabular-data-resource/).
 #'
 #' @inheritParams read_resource
-#' @return List object describing a Table Schema.
+#' @return List describing a Table Schema.
 #' @family edit functions
 #' @export
 #' @examples

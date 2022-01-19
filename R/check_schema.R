@@ -1,9 +1,9 @@
 #' Check Table Schema object
 #'
-#' Check if an object is a list object describing a Table Schema and
-#' (optionally) compare against a provided data frame.
+#' Check if an object is a list describing a Table Schema and (optionally)
+#' compare against a provided data frame.
 #'
-#' @param schema List object describing a Table Schema.
+#' @param schema List describing a Table Schema.
 #' @param data A data frame against which the Table Schema must be compared.
 #' @return `TRUE` or error.
 #' @family check functions

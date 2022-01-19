@@ -7,8 +7,8 @@
 write_package(package, directory = ".")
 }
 \arguments{
-\item{package}{List object describing a Data Package, created with
-\code{\link[=read_package]{read_package()}} or \code{\link[=create_package]{create_package()}}.}
+\item{package}{List describing a Data Package, created with \code{\link[=read_package]{read_package()}}
+or \code{\link[=create_package]{create_package()}}.}
 
 \item{directory}{Path to local directory to write files to.}
 }

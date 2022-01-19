@@ -10,7 +10,7 @@ create_schema(data)
 \item{data}{A data frame.}
 }
 \value{
-List object describing a Table Schema.
+List describing a Table Schema.
 }
 \description{
 Creates a \href{https://specs.frictionlessdata.io/table-schema/}{Table Schema} for

@@ -35,7 +35,7 @@ To read a Data Package, you need to know the path or URL to its descriptor file,
 package <- read_package("https://zenodo.org/record/5070086/files/datapackage.json")
 ```
 
-`read_package()` returns the content of `datapackage.json` as a list object. You can access any of its properties, including the names of the Data Resources. **Data Resources** contain the data of a Data Package.
+`read_package()` returns the content of `datapackage.json` as a list. You can access any of its properties, including the names of the Data Resources. **Data Resources** contain the data of a Data Package.
 
 ```{r}
 package$resource_names
@@ -88,7 +88,7 @@ Note that you can chain most frictionless functions together using pipes (`%>%` 
 my_package$resource_names
 ```
 
-By default, `add_resource()` will create a **Table Schema** for your data frame, describing its field names, field types and (for factors) constraints. You can retrieve the schema of a resource with `get_schema()`. It is a list object, which we print here using `str()`:
+By default, `add_resource()` will create a **Table Schema** for your data frame, describing its field names, field types and (for factors) constraints. You can retrieve the schema of a resource with `get_schema()`. It is a list, which we print here using `str()`:
 
 ```{r}
 iris_schema <-

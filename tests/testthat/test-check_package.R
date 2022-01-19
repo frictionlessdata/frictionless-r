@@ -12,8 +12,8 @@ test_that("check_package() returns error on incorrect Data Package", {
   expect_true(check_package(p))
 
   error_message <- paste(
-    "`package` must be a list object created with `read_package()` or",
-    "`create_package()`."
+    "`package` must be a list describing a Data Package,",
+    "created with `read_package()` or `create_package()`."
   )
   # Must be a list
   expect_error(check_package("not_a_list"), error_message, fixed = TRUE)

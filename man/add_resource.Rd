@@ -7,8 +7,8 @@
 add_resource(package, resource_name, data, schema = NULL, delim = ",")
 }
 \arguments{
-\item{package}{List object describing a Data Package, created with
-\code{\link[=read_package]{read_package()}} or \code{\link[=create_package]{create_package()}}.}
+\item{package}{List describing a Data Package, created with \code{\link[=read_package]{read_package()}}
+or \code{\link[=create_package]{create_package()}}.}
 
 \item{resource_name}{Name of the Data Resource.}
 
@@ -24,7 +24,7 @@ The other files are ignored, but are expected to have the same structure
 and properties.
 }}
 
-\item{schema}{List object describing a Table Schema for the \code{data}.
+\item{schema}{List describing a Table Schema for the \code{data}.
 If not provided, one will be created using \code{\link[=create_schema]{create_schema()}}.}
 
 \item{delim}{Single character used to separate the fields in the CSV file(s),

@@ -13,8 +13,8 @@
 #' - Resource has inline `data` as result of adding data with `add_resource()`:
 #'   data are written to a CSV file using [readr::write_csv()], `path` points to
 #'   location of file, `data` property is removed.
-#' @param package List object describing a Data Package, created with
-#'   [read_package()] or [create_package()].
+#' @param package List describing a Data Package, created with [read_package()]
+#'   or [create_package()].
 #' @param directory Path to local directory to write files to.
 #' @return `package` as written to file (invisibly).
 #' @family write functions

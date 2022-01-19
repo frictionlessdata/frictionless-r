@@ -5,7 +5,7 @@
 #' (converted) types.
 #'
 #' @param data A data frame.
-#' @return List object describing a Table Schema.
+#' @return List describing a Table Schema.
 #' @family create functions
 #' @export
 #' @section Table schema properties:
@@ -109,7 +109,7 @@ create_schema <- function(data) {
     # Enumeration
     enum <- levels(x)
 
-    # Create field list object
+    # Create field list
     list(
       name = name,
       type = type,

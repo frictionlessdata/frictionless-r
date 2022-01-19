@@ -10,8 +10,8 @@
 #' Column names are taken from the provided Table Schema (`schema`), not from
 #' the header in the CSV file(s).
 #'
-#' @param package List object describing a Data Package, created with
-#'   [read_package()] or [create_package()].
+#' @param package List describing a Data Package, created with [read_package()]
+#'   or [create_package()].
 #' @param resource_name Name of the Data Resource.
 #' @return [dplyr::tibble()] data frame with the Data Resource's tabular data.
 #' @family read functions

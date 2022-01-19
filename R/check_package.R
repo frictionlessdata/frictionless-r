@@ -1,16 +1,16 @@
 #' Check Data Package object
 #'
-#' Check if an object is a list object describing a Data Package, i.e. a list
-#' with the required properties.
+#' Check if an object is a list describing a Data Package, i.e. it has the
+#' required properties `resources`, `resource_names` and `directory`.
 #'
-#' @param package List object describing a Data Package.
+#' @param package List describing a Data Package.
 #' @return `TRUE` or error.
 #' @family check functions
 #' @noRd
 check_package <- function(package) {
   msg_invalid <- glue::glue(
-    "`package` must be a list object created with `read_package()` or",
-    "`create_package()`.",
+    "`package` must be a list describing a Data Package,",
+    "created with `read_package()` or `create_package()`.",
     .sep = " "
   )
   # Check package is list with required properties

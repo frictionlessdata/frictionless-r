@@ -12,8 +12,8 @@ test_that("read_resource() returns error on incorrect Data Package", {
   expect_error(
     read_resource(list(), "deployments"),
     paste(
-      "`package` must be a list object created with `read_package()` or",
-      "`create_package()`."
+      "`package` must be a list describing a Data Package,",
+      "created with `read_package()` or `create_package()`."
     ),
     fixed = TRUE
   )

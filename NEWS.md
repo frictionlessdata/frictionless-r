@@ -3,6 +3,8 @@
 - `add_resource()` now sets `format`, `mediatype` and `encoding` for added CSV 
   file(s) (#78).
 - `read_resource()` will now warn rather than error on unknown encoding (#86).
+- `package` objects no longer have or require the custom attribute 
+  `datapackage`, making it easier to insert attributes.
 
 # frictionless 0.10.0
 

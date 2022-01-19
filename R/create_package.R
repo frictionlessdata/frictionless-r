@@ -1,6 +1,6 @@
 #' Create an empty Data Package
 #'
-#' Initiates a list object describing a [Data
+#' Initiates a list describing a [Data
 #' Package](https://specs.frictionlessdata.io/data-package/).
 #' This empty Data Package can be extended with metadata and resources (see
 #' [add_resource()]).
@@ -8,7 +8,7 @@
 #' Package](https://specs.frictionlessdata.io/tabular-data-package/)
 #' requirements, so `profile` is set to `tabular-data-package`.
 #'
-#' @return List object describing a Data Package.
+#' @return List describing a Data Package.
 #' @family create functions
 #' @export
 #' @examples
