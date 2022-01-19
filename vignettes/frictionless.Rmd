@@ -35,7 +35,7 @@ To read a Data Package, you need to know the path or URL to its descriptor file,
 package <- read_package("https://zenodo.org/record/5070086/files/datapackage.json")
 ```
 
-`read_package()` returns the content of `datapackage.json` as a list object. You can access any of its properties, including the names of the Data Resources. **Data Resources** contain the data of a Data Package.
+`read_package()` returns the content of `datapackage.json` as a list. You can access any of its properties, including the names of the Data Resources. **Data Resources** contain the data of a Data Package.
 
 ```{r}
 package$resource_names
@@ -88,7 +88,7 @@ Note that you can chain most frictionless functions together using pipes (`%>%` 
 my_package$resource_names
 ```
 
-By default, `add_resource()` will create a **Table Schema** for your data frame, describing its field names, field types and (for factors) constraints. You can retrieve the schema of a resource with `get_schema()`. It is a list object, which we print here using `str()`:
+By default, `add_resource()` will create a **Table Schema** for your data frame, describing its field names, field types and (for factors) constraints. You can retrieve the schema of a resource with `get_schema()`. It is a list, which we print here using `str()`:
 
 ```{r}
 iris_schema <-
@@ -162,7 +162,15 @@ my_package <-
   add_resource(resource_name = "observations", data = c(path_1, path_2))
 ```
 
-In the above steps you started a Data Package from scratch with `create_package()`, but you use the same functionality to edit an existing Data Package read with `read_package()`.
+Your Data Package now contains 2 resources, but you can add metadata properties as well (see the [Data Package documentation](https://specs.frictionlessdata.io/data-package/#metadata) for an overview). Since it is a list, you can use `append()` to insert properties at the desired place. Let's add `name` as first and `title` as second property:
+
+```{r}
+my_package <- append(my_package, c(name = "my_package"), after = 0)
+# Or with purrr::prepend(): prepend(my_package, c(name = "my_package))
+my_package <- append(my_package, c(title = "My package"), after = 1)
+```
+
+Note that in the above steps you started a Data Package from scratch with `create_package()`, but you can use the same functionality to edit an existing Data Package read with `read_package()`.
 
 ## Write a Data Package
 

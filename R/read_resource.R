@@ -10,8 +10,8 @@
 #' Column names are taken from the provided Table Schema (`schema`), not from
 #' the header in the CSV file(s).
 #'
-#' @param package List object describing a Data Package, created with
-#'   [read_package()] or [create_package()].
+#' @param package List describing a Data Package, created with [read_package()]
+#'   or [create_package()].
 #' @param resource_name Name of the Data Resource.
 #' @return [dplyr::tibble()] data frame with the Data Resource's tabular data.
 #' @family read functions
@@ -191,7 +191,7 @@
 #' purrr::map_chr(package$resources[[2]]$schema$fields, "name")
 #' purrr::map_chr(package$resources[[2]]$schema$fields, "type")
 read_resource <- function(package, resource_name) {
-  # Get resource, includes check_package() and a number of other checks
+  # Get resource, includes check_package()
   resource <- get_resource(package, resource_name)
 
   # Get paths, schema and fields

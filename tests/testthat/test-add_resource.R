@@ -12,7 +12,10 @@ test_that("add_resource() returns error on incorrect Data Package", {
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   expect_error(
     add_resource(list(), "new", df),
-    "`package` must be a list object of class `datapackage`",
+    paste(
+      "`package` must be a list describing a Data Package,",
+      "created with `read_package()` or `create_package()`."
+    ),
     fixed = TRUE
   )
 })

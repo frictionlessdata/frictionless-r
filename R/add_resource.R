@@ -18,7 +18,7 @@
 #'     compare with `schema` and to set `format`, `mediatype` and `encoding`.
 #'     The other files are ignored, but are expected to have the same structure
 #'     and properties.
-#' @param schema List object describing a Table Schema for the `data`.
+#' @param schema List describing a Table Schema for the `data`.
 #'   If not provided, one will be created using [create_schema()].
 #' @param delim Single character used to separate the fields in the CSV file(s),
 #'   e.g. `\t` for tab delimited file.

@@ -7,13 +7,13 @@
 get_schema(package, resource_name)
 }
 \arguments{
-\item{package}{List object describing a Data Package, created with
-\code{\link[=read_package]{read_package()}} or \code{\link[=create_package]{create_package()}}.}
+\item{package}{List describing a Data Package, created with \code{\link[=read_package]{read_package()}}
+or \code{\link[=create_package]{create_package()}}.}
 
 \item{resource_name}{Name of the Data Resource.}
 }
 \value{
-List object describing a Table Schema.
+List describing a Table Schema.
 }
 \description{
 Returns the \href{https://specs.frictionlessdata.io/table-schema/}{Table Schema}
