@@ -162,7 +162,14 @@ my_package <-
   add_resource(resource_name = "observations", data = c(path_1, path_2))
 ```
 
-In the above steps you started a Data Package from scratch with `create_package()`, but you use the same functionality to edit an existing Data Package read with `read_package()`.
+Your Data Package now contains 2 resources, but you can add metadata properties as well (see the [Data Package documentation](https://specs.frictionlessdata.io/data-package/#metadata) for an overview). Since it is a list, you can use [purrr::prepend()] to insert properties at the desired place. Let's add `name` as first and `title` as second property:
+
+```{r}
+my_package <- purrr::prepend(my_package, c(name = "my_package"))
+my_package <- purrr::prepend(my_package, c(title = "My package"), before = 2)
+```
+
+Note that in the above steps you started a Data Package from scratch with `create_package()`, but you can use the same functionality to edit an existing Data Package read with `read_package()`.
 
 ## Write a Data Package
 
