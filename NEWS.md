@@ -4,7 +4,7 @@
   file(s) (#78).
 - `read_resource()` will now warn rather than error on unknown encoding (#86).
 - `package` objects no longer have or require the custom attribute 
-  `datapackage`, making it easier to edit them as lists (with e.g. [append()]).
+  `datapackage`, making it easier to edit them as lists (with e.g. `append()`).
 
 # frictionless 0.10.0
 
