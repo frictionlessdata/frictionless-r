@@ -9,8 +9,7 @@ test_that("read_package() returns a valid Data Package, whether reading path or
   p_remote <- suppressMessages(read_package(p_url))
   p_minimal <- suppressMessages(read_package(minimal_path))
 
-  # Returns a list of class "datapackage", with at minimal resources,
-  # resource_names and directory
+  # Returns a list with required properties
   expect_true(check_package(p_local))
   expect_true(check_package(p_remote))
   expect_true(check_package(p_minimal))

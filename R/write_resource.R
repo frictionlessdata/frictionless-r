@@ -9,6 +9,7 @@
 #' @family write functions
 #' @noRd
 write_resource <- function(package, resource_name, directory = ".") {
+  # Get resource, includes check_package()
   resource <- get_resource(package, resource_name)
 
   # Resource contains new data

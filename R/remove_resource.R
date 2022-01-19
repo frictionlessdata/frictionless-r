@@ -20,7 +20,7 @@
 #' # List the resource names ("observations" removed)
 #' package$resource_names
 remove_resource <- function(package, resource_name) {
-  # Check resource is present
+  # Check resource is present, includes check_package()
   resource <- get_resource(package, resource_name)
 
   # Remove resource

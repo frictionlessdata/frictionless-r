@@ -1,7 +1,7 @@
 #' Check Data Package object
 #'
 #' Check if an object is a list object describing a Data Package, i.e. a list
-#' object of class `datapackage`, with the required properties.
+#' with the required properties.
 #'
 #' @param package List object describing a Data Package.
 #' @return `TRUE` or error.
@@ -9,18 +9,18 @@
 #' @noRd
 check_package <- function(package) {
   msg_invalid <- glue::glue(
-    "`package` must be a list object of class `datapackage` created with",
-    "`read_package()` or `create_package()`.",
+    "`package` must be a list object created with `read_package()` or",
+    "`create_package()`.",
     .sep = " "
   )
-  # Check package is list with correct class and properties
+  # Check package is list with required properties
   assertthat::assert_that(
-    all(c("datapackage", "list") %in% class(package)) &
+    is.list(package) &
       all(c("resources", "resource_names", "directory") %in% names(package)),
     msg = msg_invalid
   )
 
-  # Check package properties
+  # Check package properties have correct class
   assertthat::assert_that(
     is.list(package$resources) &
       is.character(package$resource_names) &

@@ -7,8 +7,8 @@ test_that("remove_resource() returns error on incorrect Data Package", {
   expect_error(
     remove_resource(list(), "deployments"),
     paste(
-      "`package` must be a list object of class `datapackage` created with",
-      "`read_package()` or `create_package()`."
+      "`package` must be a list object created with `read_package()` or",
+      "`create_package()`."
     ),
     fixed = TRUE
   )

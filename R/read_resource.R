@@ -191,7 +191,7 @@
 #' purrr::map_chr(package$resources[[2]]$schema$fields, "name")
 #' purrr::map_chr(package$resources[[2]]$schema$fields, "type")
 read_resource <- function(package, resource_name) {
-  # Get resource, includes check_package() and a number of other checks
+  # Get resource, includes check_package()
   resource <- get_resource(package, resource_name)
 
   # Get paths, schema and fields
