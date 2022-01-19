@@ -45,7 +45,7 @@ devtools::install_github("frictionlessdata/frictionless-r")
 With frictionless you can directly **read** data from a Data Package
 (local or remote) into your R environment. Here we read bird GPS
 tracking data from a Data Package published on
-[Zenodo](https://doi.org/10.5281/zenodo.5070086):
+[Zenodo](https://doi.org/10.5281/zenodo.5879096):
 
 ``` r
 library(frictionless)
@@ -53,10 +53,10 @@ library(frictionless)
 # Read the datapackage.json file
 # This gives you access to all Data Resources of the Data Package without 
 # reading them, which is convenient and fast.
-package <- read_package("https://zenodo.org/record/5070086/files/datapackage.json")
+package <- read_package("https://zenodo.org/record/5879096/files/datapackage.json")
 #> Please make sure you have the right to access data from this Data Package for your intended use.
 #> Follow applicable norms or requirements to credit the dataset and its authors.
-#> For more information, see https://doi.org/10.5281/zenodo.5070086
+#> For more information, see https://doi.org/10.5281/zenodo.5879096
 
 # List the available resources
 package$resource_names
@@ -64,7 +64,7 @@ package$resource_names
 
 # Read data from the resource "gps"
 # This will return a single data frame, even though the data are split over 
-# multiple CSV files.
+# multiple zipped CSV files.
 read_resource(package, "gps")
 #> # A tibble: 73,047 × 21
 #>     `event-id` visible timestamp           `location-long` `location-lat`

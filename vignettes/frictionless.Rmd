@@ -29,10 +29,10 @@ Load the frictionless pkg with:
 library(frictionless)
 ```
 
-To read a Data Package, you need to know the path or URL to its descriptor file, named `datapackage.json`. That file describes the Data Package, provides access points to its Data Resources and can contain dataset-level metadata. Let's read a Data Package descriptor file published on [Zenodo](https://doi.org/10.5281/zenodo.5070086):
+To read a Data Package, you need to know the path or URL to its descriptor file, named `datapackage.json`. That file describes the Data Package, provides access points to its Data Resources and can contain dataset-level metadata. Let's read a Data Package descriptor file published on [Zenodo](https://doi.org/10.5281/zenodo.5879096):
 
 ```{r}
-package <- read_package("https://zenodo.org/record/5070086/files/datapackage.json")
+package <- read_package("https://zenodo.org/record/5879096/files/datapackage.json")
 ```
 
 `read_package()` returns the content of `datapackage.json` as a list. You can access any of its properties, including the names of the Data Resources. **Data Resources** contain the data of a Data Package.
@@ -48,7 +48,7 @@ gps <- read_resource(package, "gps")
 gps
 ```
 
-The data frame contains all GPS records, even though the actual data were split over [multiple CSV files](https://zenodo.org/record/5070086#files). `read_resource()` assigned the column names and types based on the Table Schema that was defined for that resource, not the headers of the CSV file.
+The data frame contains all GPS records, even though the actual data were split over [multiple CSV zipped files](https://zenodo.org/record/5879096#files). `read_resource()` assigned the column names and types based on the Table Schema that was defined for that resource, not the headers of the CSV file.
 
 You can also read data from a local (e.g. downloaded) Data Package. In fact, there is one included in the frictionless pkg, let's read that one from disk:
 
