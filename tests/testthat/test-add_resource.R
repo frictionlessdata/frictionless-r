@@ -182,7 +182,7 @@ test_that("add_resource() adds resource, resource_name", {
   )
 })
 
-test_that("add_resource() uses provided schema or creates one", {
+test_that("add_resource() uses provided schema (list or path) or creates one", {
   p <- create_package()
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   df_csv <- "data/df.csv"
@@ -191,22 +191,29 @@ test_that("add_resource() uses provided schema or creates one", {
     list(name = "col_1", type = "number", title = "Column 1"),
     list(name = "col_2", type = "string", title = "Column 2")
   ))
+  schema_file <- "data/schema_custom.json" # Same content as schema_custom
 
   # df
   p <- add_resource(p, "new_df", df)
-  p <- add_resource(p, "new_df_with_schema", df, schema_custom)
+  p <- add_resource(p, "new_df_with_list_schema", df, schema_custom)
+  p <- add_resource(p, "new_df_with_file_schema", df, schema_file)
   expect_identical(p$resources[[1]]$schema, schema)
   expect_identical(p$resources[[2]]$schema, schema_custom)
+  expect_identical(p$resources[[3]]$schema, schema_custom)
   expect_identical(get_schema(p, "new_df"), schema)
-  expect_identical(get_schema(p, "new_df_with_schema"), schema_custom)
+  expect_identical(get_schema(p, "new_df_with_list_schema"), schema_custom)
+  expect_identical(get_schema(p, "new_df_with_file_schema"), schema_custom)
 
   # csv
   p <- add_resource(p, "new_csv", df)
-  p <- add_resource(p, "new_csv_with_schema", df, schema_custom)
-  expect_identical(p$resources[[3]]$schema, schema)
-  expect_identical(p$resources[[4]]$schema, schema_custom)
+  p <- add_resource(p, "new_csv_with_list_schema", df, schema_custom)
+  p <- add_resource(p, "new_csv_with_file_schema", df, schema_file)
+  expect_identical(p$resources[[4]]$schema, schema)
+  expect_identical(p$resources[[5]]$schema, schema_custom)
+  expect_identical(p$resources[[6]]$schema, schema_custom)
   expect_identical(get_schema(p, "new_csv"), schema)
-  expect_identical(get_schema(p, "new_csv_with_schema"), schema_custom)
+  expect_identical(get_schema(p, "new_csv_with_list_schema"), schema_custom)
+  expect_identical(get_schema(p, "new_csv_with_file_schema"), schema_custom)
 })
 
 test_that("add_resource() can add resource from data frame, readable by

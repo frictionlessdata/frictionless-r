@@ -74,7 +74,7 @@ The returned data frame will always be UTF-8.
 \code{dialect} properties are
 \href{https://specs.frictionlessdata.io/csv-dialect/#specification}{required} if
 the resource file(s) deviate from the default CSV settings (see below).
-It can either be a JSON object or a URL or path referencing a JSON object.
+It can either be a JSON object or a path or URL referencing a JSON object.
 Only deviating properties need to be specified, e.g. a tab delimited file
 without a header row needs:\if{html}{\out{<div class="sourceCode json">}}\preformatted{"dialect": \{"delimiter": "\\t", "header": "false"\}
 }\if{html}{\out{</div>}}
@@ -129,7 +129,7 @@ the \code{compression} property is
 \section{Table schema properties}{
 
 \code{schema} is required and must follow the \href{https://specs.frictionlessdata.io/table-schema/}{Table Schema} specification.
-It can either be a JSON object or a URL or path referencing a JSON object.
+It can either be a JSON object or a path or URL referencing a JSON object.
 \itemize{
 \item Field \code{name}s are used as column headers.
 \item Field \code{type}s are use as column types (see further).

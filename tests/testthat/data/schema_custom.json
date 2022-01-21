@@ -1,0 +1,14 @@
+{
+  "fields": [
+    {
+      "name": "col_1",
+      "type": "number",
+      "title": "Column 1"
+    },
+    {
+      "name": "col_2",
+      "type": "string",
+      "title": "Column 2"
+    }
+  ]
+}

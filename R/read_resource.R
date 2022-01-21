@@ -62,7 +62,7 @@
 #' `dialect` properties are
 #' [required](https://specs.frictionlessdata.io/csv-dialect/#specification) if
 #' the resource file(s) deviate from the default CSV settings (see below).
-#' It can either be a JSON object or a URL or path referencing a JSON object.
+#' It can either be a JSON object or a path or URL referencing a JSON object.
 #' Only deviating properties need to be specified, e.g. a tab delimited file
 #' without a header row needs:
 #' ```json
@@ -111,7 +111,7 @@
 #' @section Table schema properties:
 #' `schema` is required and must follow the [Table
 #' Schema](https://specs.frictionlessdata.io/table-schema/) specification.
-#' It can either be a JSON object or a URL or path referencing a JSON object.
+#' It can either be a JSON object or a path or URL referencing a JSON object.
 #'
 #' - Field `name`s are used as column headers.
 #' - Field `type`s are use as column types (see further).
