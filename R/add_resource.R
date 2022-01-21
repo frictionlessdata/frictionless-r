@@ -18,7 +18,8 @@
 #'     compare with `schema` and to set `format`, `mediatype` and `encoding`.
 #'     The other files are ignored, but are expected to have the same structure
 #'     and properties.
-#' @param schema List describing a Table Schema for the `data`.
+#' @param schema Either a list, or path or URL to a JSON file describing a Table
+#'   Schema for the `data`.
 #'   If not provided, one will be created using [create_schema()].
 #' @param delim Single character used to separate the fields in the CSV file(s),
 #'   e.g. `\t` for tab delimited file.
@@ -106,6 +107,9 @@ add_resource <- function(package, resource_name, data, schema = NULL,
   # Create schema
   if (is.null(schema)) {
     schema <- create_schema(df)
+  } else if (is.character(schema)) {
+    # Path to schema can be unsafe, since schema will be verbosely included
+    schema <- read_descriptor(schema, safe = FALSE)
   }
 
   # Check schema (also checks df)

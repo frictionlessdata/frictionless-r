@@ -24,7 +24,8 @@ The other files are ignored, but are expected to have the same structure
 and properties.
 }}
 
-\item{schema}{List describing a Table Schema for the \code{data}.
+\item{schema}{Either a list, or path or URL to a JSON file describing a Table
+Schema for the \code{data}.
 If not provided, one will be created using \code{\link[=create_schema]{create_schema()}}.}
 
 \item{delim}{Single character used to separate the fields in the CSV file(s),
