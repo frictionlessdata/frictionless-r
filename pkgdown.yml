@@ -3,8 +3,5 @@ pkgdown: 2.0.2
 pkgdown_sha: ~
 articles:
   frictionless: frictionless.html
-last_built: 2022-01-19T15:11Z
-urls:
-  reference: https://frictionlessdata.github.io/frictionless-r/reference
-  article: https://frictionlessdata.github.io/frictionless-r/articles
+last_built: 2022-01-21T22:57Z
 

@@ -149,7 +149,7 @@ The returned data frame will always be UTF-8.</p>
 <p><code>dialect</code> properties are
 <a href="https://specs.frictionlessdata.io/csv-dialect/#specification" class="external-link">required</a> if
 the resource file(s) deviate from the default CSV settings (see below).
-It can either be a JSON object or a URL or path referencing a JSON object.
+It can either be a JSON object or a path or URL referencing a JSON object.
 Only deviating properties need to be specified, e.g. a tab delimited file
 without a header row needs:</p><div class="sourceCode json"><pre><code><span id="cb1-1"><a href="#cb1-1"></a><span class="er">"dialect":</span> <span class="fu">{</span><span class="dt">"delimiter"</span><span class="fu">:</span> <span class="st">"</span><span class="ch">\t</span><span class="st">"</span><span class="fu">,</span> <span class="dt">"header"</span><span class="fu">:</span> <span class="st">"false"</span><span class="fu">}</span></span></code></pre><p></p></div>
 <p>These are the CSV dialect properties.
@@ -203,7 +203,7 @@ the <code>compression</code> property is
     
 
 <p><code>schema</code> is required and must follow the <a href="https://specs.frictionlessdata.io/table-schema/" class="external-link">Table Schema</a> specification.
-It can either be a JSON object or a URL or path referencing a JSON object.</p><ul><li><p>Field <code>name</code>s are used as column headers.</p></li>
+It can either be a JSON object or a path or URL referencing a JSON object.</p><ul><li><p>Field <code>name</code>s are used as column headers.</p></li>
 <li><p>Field <code>type</code>s are use as column types (see further).</p></li>
 <li><p><a href="https://specs.frictionlessdata.io/table-schema/#missing-values" class="external-link"><code>missingValues</code></a>
 are used to interpret as <code>NA</code>, with <code>""</code> as default.</p></li>

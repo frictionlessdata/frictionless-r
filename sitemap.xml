@@ -1,63 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://frictionlessdata.github.io/frictionless-r/404.html</loc>
+    <loc>/404.html</loc>
   </url>
   <url>
-    <loc>https://frictionlessdata.github.io/frictionless-r/CONTRIBUTING.html</loc>
+    <loc>/CONTRIBUTING.html</loc>
   </url>
   <url>
-    <loc>https://frictionlessdata.github.io/frictionless-r/LICENSE-text.html</loc>
+    <loc>/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>https://frictionlessdata.github.io/frictionless-r/LICENSE.html</loc>
+    <loc>/LICENSE.html</loc>
   </url>
   <url>
-    <loc>https://frictionlessdata.github.io/frictionless-r/articles/frictionless.html</loc>
+    <loc>/articles/frictionless.html</loc>
   </url>
   <url>
-    <loc>https://frictionlessdata.github.io/frictionless-r/articles/index.html</loc>
+    <loc>/articles/index.html</loc>
   </url>
   <url>
-    <loc>https://frictionlessdata.github.io/frictionless-r/authors.html</loc>
+    <loc>/authors.html</loc>
   </url>
   <url>
-    <loc>https://frictionlessdata.github.io/frictionless-r/index.html</loc>
+    <loc>/index.html</loc>
   </url>
   <url>
-    <loc>https://frictionlessdata.github.io/frictionless-r/news/index.html</loc>
+    <loc>/news/index.html</loc>
   </url>
   <url>
-    <loc>https://frictionlessdata.github.io/frictionless-r/reference/add_resource.html</loc>
+    <loc>/reference/add_resource.html</loc>
   </url>
   <url>
-    <loc>https://frictionlessdata.github.io/frictionless-r/reference/create_package.html</loc>
+    <loc>/reference/create_package.html</loc>
   </url>
   <url>
-    <loc>https://frictionlessdata.github.io/frictionless-r/reference/create_schema.html</loc>
+    <loc>/reference/create_schema.html</loc>
   </url>
   <url>
-    <loc>https://frictionlessdata.github.io/frictionless-r/reference/example_package.html</loc>
+    <loc>/reference/example_package.html</loc>
   </url>
   <url>
-    <loc>https://frictionlessdata.github.io/frictionless-r/reference/frictionless-package.html</loc>
+    <loc>/reference/frictionless-package.html</loc>
   </url>
   <url>
-    <loc>https://frictionlessdata.github.io/frictionless-r/reference/get_schema.html</loc>
+    <loc>/reference/get_schema.html</loc>
   </url>
   <url>
-    <loc>https://frictionlessdata.github.io/frictionless-r/reference/index.html</loc>
+    <loc>/reference/index.html</loc>
   </url>
   <url>
-    <loc>https://frictionlessdata.github.io/frictionless-r/reference/read_package.html</loc>
+    <loc>/reference/read_package.html</loc>
   </url>
   <url>
-    <loc>https://frictionlessdata.github.io/frictionless-r/reference/read_resource.html</loc>
+    <loc>/reference/read_resource.html</loc>
   </url>
   <url>
-    <loc>https://frictionlessdata.github.io/frictionless-r/reference/remove_resource.html</loc>
+    <loc>/reference/remove_resource.html</loc>
   </url>
   <url>
-    <loc>https://frictionlessdata.github.io/frictionless-r/reference/write_package.html</loc>
+    <loc>/reference/write_package.html</loc>
   </url>
 </urlset>
