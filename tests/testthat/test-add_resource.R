@@ -298,7 +298,7 @@ test_that("add_resource() sets correct properties for CSV resources", {
     read_resource(p, "deployments")
   )
 
-  # Encoding UTF-8, compressed with zip
+  # Encoding UTF-8 (0.8), ISO-8859-1 (0.59), ISO-8859-2 (0.26), zip compressed
   p <- add_resource(p, "deployments_zip", "data/deployments.csv.zip")
   expect_identical(p$resources[[3]]$format, "csv") # .zip extension ignored
   expect_identical(p$resources[[3]]$mediatype, "text/csv")
@@ -308,33 +308,23 @@ test_that("add_resource() sets correct properties for CSV resources", {
     read_resource(p, "deployments")
   )
 
-  # Encoding UTF-8, compressed with gzip
-  p <- add_resource(p, "deployments_gz", "data/deployments.csv.gz")
-  expect_identical(p$resources[[4]]$format, "csv") # .gz extension ignored
-  expect_identical(p$resources[[4]]$mediatype, "text/csv")
-  expect_identical(p$resources[[4]]$encoding, "UTF-8")
-  expect_identical(
-    read_resource(p, "deployments_zip"),
-    read_resource(p, "deployments")
-  )
-
   # Encoding ASCII, delimiter ","
   p <- add_resource(p, "df", "data/df.csv")
-  expect_identical(p$resources[[5]]$format, "csv")
-  expect_identical(p$resources[[5]]$mediatype, "text/csv")
-  expect_identical(p$resources[[5]]$encoding, "UTF-8") # ASCII is set to UTF-8
+  expect_identical(p$resources[[4]]$format, "csv")
+  expect_identical(p$resources[[4]]$mediatype, "text/csv")
+  expect_identical(p$resources[[4]]$encoding, "UTF-8") # ASCII is set to UTF-8
 
   # Encoding ASCII, delimiter ";", extension "txt"
   p <- add_resource(p, "df_delim_1", "data/df_delim_1.txt", delim = ";")
-  expect_identical(p$resources[[6]]$format, "txt")
-  expect_identical(p$resources[[6]]$mediatype, "text/csv")
-  expect_identical(p$resources[[6]]$encoding, "UTF-8")
+  expect_identical(p$resources[[5]]$format, "csv")
+  expect_identical(p$resources[[5]]$mediatype, "text/csv")
+  expect_identical(p$resources[[5]]$encoding, "UTF-8")
   expect_identical(read_resource(p, "df_delim_1"), read_resource(p, "df"))
 
   # Encoding ASCII, delimiter "\t", extension "tsv"
   p <- add_resource(p, "df_delim_2", "data/df_delim_2.tsv", delim = "\t")
-  expect_identical(p$resources[[7]]$format, "tsv")
-  expect_identical(p$resources[[7]]$mediatype, "text/tab-separated-values")
-  expect_identical(p$resources[[7]]$encoding, "UTF-8")
+  expect_identical(p$resources[[6]]$format, "tsv")
+  expect_identical(p$resources[[6]]$mediatype, "text/tab-separated-values")
+  expect_identical(p$resources[[6]]$encoding, "UTF-8")
   expect_identical(read_resource(p, "df_delim_2"), read_resource(p, "df"))
 })
