@@ -25,7 +25,6 @@ Imports:
     jsonlite,
     purrr,
     readr (>= 2.1.0),
-    stringr,
     utils,
     yaml
 Suggests:
