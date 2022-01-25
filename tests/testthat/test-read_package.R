@@ -4,7 +4,7 @@ test_that("read_package() returns a valid Data Package, whether reading path or
   p_path <- system.file("extdata", "datapackage.json", package = "frictionless")
   p_url <- file.path("https://raw.githubusercontent.com/frictionlessdata/",
                        "frictionless-r/main/inst/extdata/datapackage.json")
-  minimal_path <- "data/valid_minimal.json"
+  minimal_path <- test_path("data/valid_minimal.json")
   p_local <- suppressMessages(read_package(p_path))
   p_remote <- suppressMessages(read_package(p_url))
   p_minimal <- suppressMessages(read_package(minimal_path))
@@ -29,7 +29,7 @@ test_that("read_package() returns a valid Data Package, whether reading path or
 test_that("read_package() shows message about usage norms", {
   # Load example package and a minimal valid one a URL in "id"
   p_path <- system.file("extdata", "datapackage.json", package = "frictionless")
-  minimal_extra_path <- "data/valid_minimal_extra.json"
+  minimal_extra_path <- test_path("data/valid_minimal_extra.json")
 
   expected_message <- glue::glue(
     "Please make sure you have the right to access data from this",
@@ -84,7 +84,7 @@ test_that("read_package() returns error on missing file and properties", {
 
   # No resources
   expect_error(
-    read_package("data/resources_missing.json"),
+    read_package(test_path("data/resources_missing.json")),
     paste(
       "`data/resources_missing.json` must have property `resources`",
       "containing at least one resource. All resources must have a `name`."
@@ -94,7 +94,7 @@ test_that("read_package() returns error on missing file and properties", {
 
   # Empty resources
   expect_error(
-    read_package("data/resources_empty.json"),
+    read_package(test_path("data/resources_empty.json")),
     paste(
       "`data/resources_empty.json` must have property `resources`",
       "containing at least one resource. All resources must have a `name`."
@@ -104,7 +104,7 @@ test_that("read_package() returns error on missing file and properties", {
 
   # No resource name
   expect_error(
-    read_package("data/resources_no_name.json"),
+    read_package(test_path("data/resources_no_name.json")),
     paste(
       "`data/resources_no_name.json` must have property `resources`",
       "containing at least one resource. All resources must have a `name`."
@@ -127,6 +127,8 @@ test_that("read_package() allows descriptor at absolute or relative parent
 
 test_that("read_package() allows YAML descriptor", {
   expect_true(
-    check_package(suppressMessages(read_package("data/valid_minimal.yml")))
+    check_package(
+      suppressMessages(read_package(test_path("data/valid_minimal.yml")))
+    )
   )
 })

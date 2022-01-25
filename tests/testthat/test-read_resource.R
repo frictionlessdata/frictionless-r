@@ -164,7 +164,10 @@ test_that("read_resource() can read newly added data (ignoring schema)", {
 
 test_that("read_resource() can read inline data (ignoring schema)", {
   p <- example_package
-  expected_resource <- readr::read_csv("data/media.csv", col_types = "ccccc")
+  expected_resource <- readr::read_csv(
+    test_path("data/media.csv"),
+    col_types = "ccccc"
+  )
   expect_identical(read_resource(p, "media"), expected_resource)
 
   p$resources[[3]]$data <- "not_a_list" # Media resource
@@ -210,9 +213,8 @@ test_that("read_resource() can read safe local and remote Table Schema,
 
   # Schema is absolute path
   p_unsafe <- p
-  p_unsafe$resources[[1]]$schema <- file.path(
+  p_unsafe$resources[[1]]$schema <-
     "/tests/testthat/data/deployments_schema.json"
-  )
   expect_error(
     read_resource(p_unsafe, "deployments"),
     paste(
@@ -235,7 +237,8 @@ test_that("read_resource() can read safe local and remote Table Schema,
 
   # Schema is local path
   p_local_schema <- p
-  p_local_schema$resources[[1]]$schema <- "data/deployments_schema.json"
+  p_local_schema$resources[[1]]$schema <-
+    test_path("data/deployments_schema.json")
   expect_identical(read_resource(p_local_schema, "deployments"), resource)
 
   # Schema is remote path
@@ -248,7 +251,7 @@ test_that("read_resource() can read safe local and remote Table Schema,
 
   # Schema is YAML
   p_yaml_schema <- p
-  p_yaml_schema$resource[[1]]$schema <- "data/deployment_schema.yaml"
+  p_yaml_schema$resource[[1]]$schema <- test_path("data/deployment_schema.yaml")
   expect_identical(read_resource(p_yaml_schema, "deployments"), resource)
 })
 
@@ -287,7 +290,7 @@ test_that("read_resource() can read safe local and remote CSV dialect", {
 
   # Dialect is local path
   p_local_dialect <- p
-  p_local_dialect$resources[[1]]$dialect <- "data/dialect.json"
+  p_local_dialect$resources[[1]]$dialect <- test_path("data/dialect.json")
   expect_identical(read_resource(p_local_dialect, "deployments"), resource)
 
   # Dialect is remote path
@@ -300,7 +303,7 @@ test_that("read_resource() can read safe local and remote CSV dialect", {
 
   # Dialect is YAML
   p_yaml_dialect <- p
-  p_yaml_dialect$resource[[1]]$dialect <- "data/dialect.yaml"
+  p_yaml_dialect$resource[[1]]$dialect <- test_path("data/dialect.yaml")
   expect_identical(read_resource(p_yaml_dialect, "deployments"), resource)
 })
 
@@ -311,7 +314,7 @@ test_that("read_resource() understands CSV dialect", {
   # Create package with non-default dialect properties
   p_dialect <- p
   p_dialect$directory <- "."
-  p_dialect$resources[[1]]$path <- "data/deployments_dialect.csv"
+  p_dialect$resources[[1]]$path <- test_path("data/deployments_dialect.csv")
   p_dialect$resources[[1]]$dialect <- list(
     delimiter = "/",
     # lineTerminator
@@ -340,7 +343,8 @@ test_that("read_resource() understands missing values", {
   # Create package with non-default missing values
   p_missing <- p
   p_missing$directory <- "."
-  p_missing$resources[[1]]$path <- "data/deployments_missingvalues.csv"
+  p_missing$resources[[1]]$path <-
+    test_path("data/deployments_missingvalues.csv")
   p_missing$resources[[1]]$schema$missingValues <-
     append(p_missing$resources[[1]]$schema$missingValues, "ignore")
   expect_identical(read_resource(p_missing, "deployments"), resource)
@@ -353,7 +357,7 @@ test_that("read_resource() understands encoding", {
   # Create package with non-default encoding
   p_encoding <- p
   p_encoding$directory <- "."
-  p_encoding$resources[[1]]$path <- "data/deployments_encoding.csv"
+  p_encoding$resources[[1]]$path <- test_path("data/deployments_encoding.csv")
   p_encoding$resources[[1]]$encoding <- "windows-1252"
   expect_identical(read_resource(p_encoding, "deployments"), resource)
 
@@ -373,7 +377,7 @@ test_that("read_resource() understands encoding", {
 
 test_that("read_resource() handles decimalChar/groupChar properties", {
   expected_value <- 3000000.3
-  p <- suppressMessages(read_package("data/mark.json"))
+  p <- suppressMessages(read_package(test_path("data/mark.json")))
 
   # Default decimalChar/groupChar
   resource <- read_resource(p, "mark_default")
@@ -440,7 +444,8 @@ test_that("read_resource() handles LF and CRLF line terminator characters", {
 
   p_crlf <- p
   p_crlf$directory <- "."
-  p_crlf$resources[[1]]$path <- "data/deployments_crlf.csv" # File with CRLF
+  p_crlf$resources[[1]]$path <-
+    test_path("data/deployments_crlf.csv") # File with CRLF
   expect_identical(read_resource(p_crlf, "deployments"), resource)
 })
 
@@ -452,7 +457,7 @@ test_that("read_resource() can read compressed files", {
   # zip deployments.csv.zip deployments.csv
   p_local_zip <- p
   p_local_zip$directory <- "."
-  p_local_zip$resources[[1]]$path <- "data/deployments.csv.zip"
+  p_local_zip$resources[[1]]$path <- test_path("data/deployments.csv.zip")
   p_remote_zip <- p
   p_remote_zip$resources[[1]]$path <- file.path(
     "https://github.com/frictionlessdata/frictionless-r",
@@ -463,7 +468,7 @@ test_that("read_resource() can read compressed files", {
   # gzip deployments.csv
   p_local_gz <- p
   p_local_gz$directory <- "."
-  p_local_gz$resources[[1]]$path <- "data/deployments.csv.gz"
+  p_local_gz$resources[[1]]$path <- test_path("data/deployments.csv.gz")
   p_remote_gz <- p
   p_remote_gz$resources[[1]]$path <- file.path(
     "https://github.com/frictionlessdata/frictionless-r",
@@ -487,7 +492,7 @@ test_that("read_resource() can read compressed files", {
 })
 
 test_that("read_resource() handles strings", {
-  p <- suppressMessages(read_package("data/types.json"))
+  p <- suppressMessages(read_package(test_path("data/types.json")))
   resource <- read_resource(p, "string")
   expect_type(resource$str, "character")
 
@@ -498,7 +503,7 @@ test_that("read_resource() handles strings", {
 })
 
 test_that("read_resource() handles numbers", {
-  p <- suppressMessages(read_package("data/types.json"))
+  p <- suppressMessages(read_package(test_path("data/types.json")))
   resource <- read_resource(p, "number")
 
   # Leading/trailing zeros are optional, + is assumed
@@ -531,7 +536,7 @@ test_that("read_resource() handles numbers", {
 })
 
 test_that("read_resource() handles integers (as doubles)", {
-  p <- suppressMessages(read_package("data/types.json"))
+  p <- suppressMessages(read_package(test_path("data/types.json")))
   resource <- read_resource(p, "integer")
 
   # Leading/trailing zeros are optional, + is assumed
@@ -553,7 +558,7 @@ test_that("read_resource() handles integers (as doubles)", {
 })
 
 test_that("read_resource() handles booleans", {
-  p <- suppressMessages(read_package("data/types.json"))
+  p <- suppressMessages(read_package(test_path("data/types.json")))
   resource <- read_resource(p, "boolean")
 
   # Default trueValues/falseValues are cast to logical
@@ -565,7 +570,7 @@ test_that("read_resource() handles booleans", {
 
 test_that("read_resource() handles dates", {
   expected_value <- as.Date("2013-11-23")
-  p <- suppressMessages(read_package("data/types.json"))
+  p <- suppressMessages(read_package(test_path("data/types.json")))
   resource <- read_resource(p, "date")
   # This test covers:
   # - year: %Y %y
@@ -586,7 +591,7 @@ test_that("read_resource() handles dates", {
 
 test_that("read_resource() handles times", {
   expected_value <- hms::hms(0, 30, 8) # "08:30:00"
-  p <- suppressMessages(read_package("data/types.json"))
+  p <- suppressMessages(read_package(test_path("data/types.json")))
   resource <- read_resource(p, "time")
   # This test covers:
   # - hour: %H (including 1 digit) %I + %p
@@ -610,7 +615,7 @@ test_that("read_resource() handles times", {
 
 test_that("read_resource() handles datetimes", {
   expected_value <- as.POSIXct("2013-11-23 08:30:00", tz = "UTC")
-  p <- suppressMessages(read_package("data/types.json"))
+  p <- suppressMessages(read_package(test_path("data/types.json")))
   resource <- read_resource(p, "datetime")
 
   expect_identical(resource$dttm_undefined, resource$dttm_default)
@@ -625,7 +630,7 @@ test_that("read_resource() handles datetimes", {
 })
 
 test_that("read_resource() handles other types", {
-  p <- suppressMessages(read_package("data/types.json"))
+  p <- suppressMessages(read_package(test_path("data/types.json")))
   resource <- read_resource(p, "other")
 
   # Interpret year, yearmonth as dates
