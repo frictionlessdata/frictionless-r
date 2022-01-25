@@ -94,11 +94,9 @@ add_resource <- function(package, resource_name, data, schema = NULL,
     # Check existence of files (no further checks) and read last file
     paths <- purrr::map_chr(data, ~ check_path(.x, safe = FALSE))
     last_file <- utils::tail(paths, n = 1)
-    extension <- utils::tail(strsplit(last_file, "\\.")[[1]], n = 1)
     encoding <- readr::guess_encoding(last_file, n_max = 1000)[[1, 1]]
-    encoding <- replace_null(encoding, "UTF-8")
     df <- readr::read_delim(
-      file = paths[length(paths)],
+      file = last_file,
       delim = delim,
       show_col_types = FALSE,
     )
@@ -129,13 +127,13 @@ add_resource <- function(package, resource_name, data, schema = NULL,
       name = resource_name,
       path = paths,
       profile = "tabular-data-resource", # Necessary for read_resource()
-      format = extension,
+      format = ifelse(delim == "\t", "tsv", "csv"),
       mediatype = ifelse(
         delim == "\t",
         "text/tab-separated-values",
         "text/csv"
       ),
-      encoding = ifelse(encoding == "ASCII", "UTF-8", encoding),
+      encoding = ifelse(encoding == "ASCII", "UTF-8", encoding), # UTF-8 is safer
       schema = schema
     )
     # Add CSV dialect for non-default delimiter
