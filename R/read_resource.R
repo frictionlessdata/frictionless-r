@@ -283,22 +283,23 @@ read_resource <- function(package, resource_name) {
       "boolean" = readr::col_logical(),
       "object" = readr::col_character(),
       "array" = readr::col_character(),
-      "date" = readr::col_date(format = stringr::str_replace_all(format, c(
-        "^default$" = "%Y-%m-%d", # ISO
-        "^any$" = "%AD",          # YMD
-        "^%x$" = "%m/%d/%y"       # Python strptime for %x
-      ))),
-      "time" = readr::col_time(format = stringr::str_replace_all(format, c(
-        "^default$" = "%AT",      # H(MS)
-        "^any$" = "%AT",          # H(MS)
-        "^%X$" = "%H:%M:%S",      # HMS
-        "%S.%f" = "%OS"           # Milli or microseconds
-      ))),
-      "datetime" = readr::col_datetime(format = stringr::str_replace_all(format, c(
-        "^default$" = "",         # ISO (lenient)
-        "^any$" = "",             # ISO (lenient)
-        "%S.%f" = "%OS"           # Milli/microseconds
-      ))),
+      "date" = readr::col_date(format = switch(format,
+        "default" = "%Y-%m-%d", # ISO
+        "any" = "%AD", # YMD
+        "%x" = "%m/%d/%y", # Python strptime for %x
+        format # Default
+      )),
+      "time" = readr::col_time(format = switch(format,
+        "default" = "%AT", # H(MS)
+        "any" = "%AT", # H(MS)
+        "%X" = "%H:%M:%S", # HMS
+        gsub("%S.%f", "%OS", format) # Default, use %OS for milli/microseconds
+      )),
+      "datetime" = readr::col_datetime(format = switch(format,
+        "default" = "", # ISO (lenient)
+        "any" = "", # ISO (lenient)
+        gsub("%S.%f", "%OS", format) # Default, use %OS for milli/microseconds
+      )),
       "year" = readr::col_date(format = "%Y"),
       "yearmonth" = readr::col_date(format = "%Y-%m"),
       "duration" = readr::col_character(),
