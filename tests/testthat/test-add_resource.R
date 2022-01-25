@@ -1,7 +1,7 @@
 test_that("add_resource() returns a valid Data Package", {
   p <- example_package
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
-  df_csv <- "data/df.csv"
+  df_csv <- test_path("data/df.csv")
   schema <- create_schema(df)
   expect_true(check_package(add_resource(p, "new", df)))
   expect_true(check_package(add_resource(p, "new", df, schema)))
@@ -86,7 +86,7 @@ test_that("add_resource() returns error on invalid or empty data frame", {
 
 test_that("add_resource() returns error if CSV file cannot be found", {
   p <- example_package
-  df_csv <- "data/df.csv"
+  df_csv <- test_path("data/df.csv")
   schema <- create_schema(data.frame("col_1" = c(1, 2), "col_2" = c("a", "b")))
   expect_error(
     add_resource(p, "new", "no_such_file.csv"),
@@ -123,7 +123,7 @@ test_that("add_resource() returns error if CSV file cannot be found", {
 test_that("add_resource() returns error on mismatching schema and data", {
   p <- example_package
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
-  df_csv <- "data/df.csv"
+  df_csv <- test_path("data/df.csv")
   schema_invalid <- create_schema(df) # Not yet invalid
   schema_invalid$fields[[1]]$name <- "no_such_col"
 
@@ -157,7 +157,7 @@ test_that("add_resource() returns error on mismatching schema and data", {
 test_that("add_resource() adds resource, resource_name", {
   p <- example_package
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
-  df_csv <- "data/df.csv"
+  df_csv <- test_path("data/df.csv")
 
   # df
   p <- add_resource(p, "new_df", df)
@@ -185,13 +185,13 @@ test_that("add_resource() adds resource, resource_name", {
 test_that("add_resource() uses provided schema (list or path) or creates one", {
   p <- create_package()
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
-  df_csv <- "data/df.csv"
+  df_csv <- test_path("data/df.csv")
   schema <- create_schema(df)
   schema_custom <- list(fields = list(
     list(name = "col_1", type = "number", title = "Column 1"),
     list(name = "col_2", type = "string", title = "Column 2")
   ))
-  schema_file <- "data/schema_custom.json" # Same content as schema_custom
+  schema_file <- test_path("data/schema_custom.json")
 
   # df
   p <- add_resource(p, "new_df", df)
@@ -259,7 +259,7 @@ test_that("add_resource() can add resource from local, relative, absolute,
   expect_s3_class(read_resource(p, "remote"), "tbl")
 
   # Compressed
-  compressed_file <- "data/deployments.csv.gz"
+  compressed_file <- test_path("data/deployments.csv.gz")
   p <- add_resource(p, "compressed", compressed_file, schema)
   expect_identical(p$resources[[8]]$path, compressed_file)
   expect_s3_class(read_resource(p, "compressed"), "tbl")
@@ -268,12 +268,14 @@ test_that("add_resource() can add resource from local, relative, absolute,
 test_that("add_resource() can add resource from CSV file with other delimiter,
            readable by read_resource()", {
   p <- create_package()
-  p <- add_resource(p, "df", "data/df.csv")
+  p <- add_resource(p, "df", test_path("data/df.csv"))
   expect_identical(p$resources[[1]]$dialect$delimiter, NULL)
-  p <- add_resource(p, "df_delim_1", "data/df_delim_1.txt", delim = ";")
+  p <- add_resource(p, "df_delim_1", test_path("data/df_delim_1.txt"),
+                    delim = ";")
   expect_identical(p$resources[[2]]$dialect$delimiter, ";")
   expect_identical(read_resource(p, "df_delim_1"), read_resource(p, "df"))
-  p <- add_resource(p, "df_delim_2", "data/df_delim_2.tsv", delim = "\t")
+  p <- add_resource(p, "df_delim_2", test_path("data/df_delim_2.tsv"),
+                    delim = "\t")
   expect_identical(p$resources[[3]]$dialect$delimiter, "\t")
   expect_identical(read_resource(p, "df_delim_2"), read_resource(p, "df"))
 })
@@ -289,7 +291,8 @@ test_that("add_resource() sets correct properties for CSV resources", {
   expect_identical(p$resources[[1]]$encoding, "UTF-8")
 
   # Encoding ISO-8859-1 (0.6), ISO-8859-1 (0.26)
-  p <- add_resource(p, "deployments_encoding", "data/deployments_encoding.csv")
+  p <- add_resource(p, "deployments_encoding",
+                    test_path("data/deployments_encoding.csv"))
   expect_identical(p$resources[[2]]$format, "csv")
   expect_identical(p$resources[[2]]$mediatype, "text/csv")
   expect_identical(p$resources[[2]]$encoding, "ISO-8859-1")
@@ -299,7 +302,7 @@ test_that("add_resource() sets correct properties for CSV resources", {
   )
 
   # Encoding UTF-8 (0.8), ISO-8859-1 (0.59), ISO-8859-2 (0.26), zip compressed
-  p <- add_resource(p, "deployments_zip", "data/deployments.csv.zip")
+  p <- add_resource(p, "deployments_zip", test_path("data/deployments.csv.zip"))
   expect_identical(p$resources[[3]]$format, "csv") # .zip extension ignored
   expect_identical(p$resources[[3]]$mediatype, "text/csv")
   expect_identical(p$resources[[3]]$encoding, "UTF-8")
@@ -309,20 +312,22 @@ test_that("add_resource() sets correct properties for CSV resources", {
   )
 
   # Encoding ASCII, delimiter ","
-  p <- add_resource(p, "df", "data/df.csv")
+  p <- add_resource(p, "df", test_path("data/df.csv"))
   expect_identical(p$resources[[4]]$format, "csv")
   expect_identical(p$resources[[4]]$mediatype, "text/csv")
   expect_identical(p$resources[[4]]$encoding, "UTF-8") # ASCII is set to UTF-8
 
   # Encoding ASCII, delimiter ";", extension "txt"
-  p <- add_resource(p, "df_delim_1", "data/df_delim_1.txt", delim = ";")
+  p <- add_resource(p, "df_delim_1", test_path("data/df_delim_1.txt"),
+                    delim = ";")
   expect_identical(p$resources[[5]]$format, "csv")
   expect_identical(p$resources[[5]]$mediatype, "text/csv")
   expect_identical(p$resources[[5]]$encoding, "UTF-8")
   expect_identical(read_resource(p, "df_delim_1"), read_resource(p, "df"))
 
   # Encoding ASCII, delimiter "\t", extension "tsv"
-  p <- add_resource(p, "df_delim_2", "data/df_delim_2.tsv", delim = "\t")
+  p <- add_resource(p, "df_delim_2", test_path("data/df_delim_2.tsv"),
+                    delim = "\t")
   expect_identical(p$resources[[6]]$format, "tsv")
   expect_identical(p$resources[[6]]$mediatype, "text/tab-separated-values")
   expect_identical(p$resources[[6]]$encoding, "UTF-8")

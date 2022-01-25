@@ -86,7 +86,7 @@ test_that("write_package() copies file(s) for path = local in local package", {
     system.file("extdata", "datapackage.json", package = "frictionless")
   ))
   p$resources[[2]]$path[[2]] <- "observations_2.csv" # Make one URL a local path
-  p <- add_resource(p, "new", "data/df.csv")
+  p <- add_resource(p, "new", test_path("data/df.csv"))
   dir <- file.path(tempdir(), "package")
   on.exit(unlink(dir, recursive = TRUE))
   p_written <- suppressMessages(write_package(p, dir))
@@ -112,7 +112,7 @@ test_that("write_package() downloads file(s) for path = local in remote
            package", {
   p <- example_package
   p$resources[[2]]$path[[2]] <- "observations_2.csv" # Make one URL a local path
-  p <- add_resource(p, "new", "data/df.csv")
+  p <- add_resource(p, "new", test_path("data/df.csv"))
   dir <- file.path(tempdir(), "package")
   on.exit(unlink(dir, recursive = TRUE))
   p_written <- suppressMessages(write_package(p, dir))
