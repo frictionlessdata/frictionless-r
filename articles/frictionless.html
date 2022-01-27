@@ -68,7 +68,9 @@
 <script src="frictionless_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <main id="main"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Introduction to frictionless</h1>
+                        <h4 data-toc-skip class="author">Peter Desmet</h4>
             
+            <h4 data-toc-skip class="date">2022-01-03</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/frictionlessdata/frictionless-r/blob/HEAD/vignettes/frictionless.Rmd" class="external-link"><code>vignettes/frictionless.Rmd</code></a></small>
       <div class="d-none name"><code>frictionless.Rmd</code></div>
@@ -116,12 +118,12 @@
 <span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> <span style="text-decoration: underline;">14</span>256<span style="text-decoration: underline;">075</span>770 TRUE    2018-05-25 <span style="color: #949494;">16:50:49</span>            4.25           51.3</span>
 <span class="co">#&gt; <span style="color: #BCBCBC;">10</span> <span style="text-decoration: underline;">14</span>256<span style="text-decoration: underline;">075</span>771 TRUE    2018-05-25 <span style="color: #949494;">16:55:36</span>            4.25           51.3</span>
 <span class="co">#&gt; <span style="color: #949494;"># … with 73,037 more rows, and 16 more variables:</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   bar:barometric-pressure &lt;dbl&gt;, external-temperature &lt;dbl&gt;, gps:dop &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   gps:satellite-count &lt;dbl&gt;, gps-time-to-fix &lt;dbl&gt;, ground-speed &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   heading &lt;dbl&gt;, height-above-msl &lt;dbl&gt;, location-error-numerical &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   manually-marked-outlier &lt;lgl&gt;, vertical-error-numerical &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   sensor-type &lt;chr&gt;, individual-taxon-canonical-name &lt;chr&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   tag-local-identifier &lt;chr&gt;, individual-local-identifier &lt;chr&gt;, …</span></span></code></pre></div>
+<span class="co">#&gt; <span style="color: #949494;">#   `bar:barometric-pressure` &lt;dbl&gt;, `external-temperature` &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   `gps:dop` &lt;dbl&gt;, `gps:satellite-count` &lt;dbl&gt;, `gps-time-to-fix` &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   `ground-speed` &lt;dbl&gt;, heading &lt;dbl&gt;, `height-above-msl` &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   `location-error-numerical` &lt;dbl&gt;, `manually-marked-outlier` &lt;lgl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   `vertical-error-numerical` &lt;dbl&gt;, `sensor-type` &lt;chr&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   `individual-taxon-canonical-name` &lt;chr&gt;, `tag-local-identifier` &lt;chr&gt;, …</span></span></code></pre></div>
 <p>The data frame contains all GPS records, even though the actual data were split over <a href="https://zenodo.org/record/5879096#files" class="external-link">multiple CSV zipped files</a>. <code><a href="../reference/read_resource.html">read_resource()</a></code> assigned the column names and types based on the Table Schema that was defined for that resource, not the headers of the CSV file.</p>
 <p>You can also read data from a local (e.g. downloaded) Data Package. In fact, there is one included in the frictionless pkg, let’s read that one from disk:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -132,11 +134,11 @@
 <span class="co">#&gt; Follow applicable norms or requirements to credit the dataset and its authors.</span>
 <span class="fu"><a href="../reference/read_resource.html">read_resource</a></span><span class="op">(</span><span class="va">local_package</span>, <span class="st">"media"</span><span class="op">)</span>
 <span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 5</span></span>
-<span class="co">#&gt;   media_id       deployment_id observation_id timestamp    file_path            </span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> aed5fa71-3ed4… 1             1-1            2020-09-28 … https://multimedia.a…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> da81a501-8236… 1             1-1            2020-09-28 … https://multimedia.a…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 0ba57608-3cf1… 1             1-1            2020-09-28 … https://multimedia.a…</span></code></pre></div>
+<span class="co">#&gt;   media_id                      deployment_id observation_id timestamp file_path</span>
+<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> aed5fa71-3ed4-4284-a6ba-3550… 1             1-1            2020-09-… https://…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> da81a501-8236-4cbd-aa95-4bc4… 1             1-1            2020-09-… https://…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 0ba57608-3cf1-49d6-a5a2-fe68… 1             1-1            2020-09-… https://…</span></code></pre></div>
 <p>Data from the <code>media</code> was not stored in a CSV file, but directly in the <code>data</code> property of that resource in <code>datapackage.json</code>. <code><a href="../reference/read_resource.html">read_resource()</a></code> will automatically detect where to read data from.</p>
 </div>
 <div class="section level2">
