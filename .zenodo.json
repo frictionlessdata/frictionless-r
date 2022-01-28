@@ -1,0 +1,34 @@
+{
+  "title": "frictionless: Read and Write Frictionless Data Packages",
+  "version": "0.10.0.9000",
+  "description": "Read and write Frictionless Data Packages. A Data Package (<https://specs.frictionlessdata.io/data-package/>) is a simple container format and standard to describe and package a collection of (tabular) data. It is typically used to publish FAIR and open datasets.",
+  "creators": [
+    {
+      "name": "Desmet, Peter",
+      "orcid": "https://orcid.org/0000-0002-8442-8025"
+    },
+    {
+      "name": "Oldoni, Damiano",
+      "orcid": "https://orcid.org/0000-0003-3445-7562"
+    }
+  ],
+  "upload_type": "software",
+  "access_right": "open",
+  "license": "MIT + file LICENSE",
+  "communities": [
+    {
+      "identifier": "inbo"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "Research Institute for Nature and Forest (INBO)",
+      "type": "RightsHolder"
+    },
+    {
+      "name": "Desmet, Peter",
+      "type": "ContactPerson",
+      "orcid": "https://orcid.org/0000-0002-8442-8025"
+    }
+  ]
+}
