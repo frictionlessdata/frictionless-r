@@ -25,7 +25,7 @@ To get started, see:
 
 -   [Get
     started](https://frictionlessdata.github.io/frictionless-r/articles/frictionless.html):
-    an introduction to the package’s main functionality.
+    an introduction to the package’s main functionalities.
 -   [Function
     reference](https://frictionlessdata.github.io/frictionless-r/reference/index.html):
     overview of all functions.
@@ -42,9 +42,9 @@ devtools::install_github("frictionlessdata/frictionless-r")
 
 ## Usage
 
-With frictionless you can directly **read** data from a Data Package
-(local or remote) into your R environment. Here we read bird GPS
-tracking data from a Data Package published on
+With frictionless you can **read** data from a Data Package (local or
+remote) into your R environment. Here we read bird GPS tracking data
+from a Data Package published on
 [Zenodo](https://doi.org/10.5281/zenodo.5879096):
 
 ``` r
@@ -112,9 +112,9 @@ reference](https://frictionlessdata.github.io/frictionless-r/reference/index.htm
 [datapackage.r](https://cran.r-project.org/web/packages/datapackage.r/)
 is an alternative R package to work with Data Packages. It has an
 object-oriented design (using a `Package` class) and offers validation.
-frictionless on the other hand allows users to quickly read and write
-Data Package data to and from R data frames, getting out of your way for
-the rest of your analysis. It is designed to be lightweight, follows
+frictionless on the other hand allows you to quickly read and write Data
+Packages to and from data frames, getting out of the your for the rest
+of your analysis. It is designed to be lightweight, follows
 [tidyverse](https://www.tidyverse.org/) principles and supports piping.
 
 ## Meta
