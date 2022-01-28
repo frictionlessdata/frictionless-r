@@ -138,7 +138,7 @@ add_resource <- function(package, resource_name, data, schema = NULL,
     )
     # Add CSV dialect for non-default delimiter
     if (delim != ",") {
-      resource$dialect = list(delimiter = delim)
+      resource$dialect <- list(delimiter = delim)
     }
     # Set attribute for get_resource()
     attr(resource, "path") <- "added"
