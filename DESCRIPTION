@@ -6,7 +6,10 @@ Authors@R: c(
            comment = c(ORCID = "0000-0002-8442-8025")),
     person("Damiano", "Oldoni", , "damiano.oldoni@inbo.be", role = "aut",
            comment = c(ORCID = "0000-0003-3445-7562")),
-    person("Research Institute for Nature and Forest (INBO)", , , "info@inbo.be", role = "cph")
+    person("Research Institute for Nature and Forest (INBO)", , , 
+           "info@inbo.be", role = "cph"),
+    person("Beatriz", "Milz", , "milz.bea@gmail.com", role = c("rev"),
+           comment = c(ORCID = "0000-0002-3064-4486"))
   )
 Description: Read and write Frictionless Data Packages. A Data Package
     (<https://specs.frictionlessdata.io/data-package/>) is a simple container
