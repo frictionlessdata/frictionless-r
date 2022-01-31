@@ -18,7 +18,7 @@
 #'   or [create_package()].
 #' @param directory Path to local directory to write files to.
 #' @param compress If `TRUE`, data of added resources will be gzip compressed
-#'   before written to file (e.g. `deployments.csv.gz`).
+#'   before being written to disk (e.g. `deployments.csv.gz`).
 #' @return `package` as written to file (invisibly).
 #' @family write functions
 #' @export

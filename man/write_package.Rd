@@ -13,7 +13,7 @@ or \code{\link[=create_package]{create_package()}}.}
 \item{directory}{Path to local directory to write files to.}
 
 \item{compress}{If \code{TRUE}, data of added resources will be gzip compressed
-before written to file (e.g. \code{deployments.csv.gz}).}
+before being written to disk (e.g. \code{deployments.csv.gz}).}
 }
 \value{
 \code{package} as written to file (invisibly).
