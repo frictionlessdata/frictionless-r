@@ -14,7 +14,6 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-library(dplyr) # For %>%
 ```
 
 ## What is a Data Package?
@@ -77,6 +76,9 @@ dplyr::as_tibble(iris)
 Create a Data Package with `create_package()` and add your data frame as a resource with the name `iris`:
 
 ```{r}
+# Load dplyr or magrittr to support %>% pipes
+library(dplyr) # or library(magrittr)
+
 my_package <-
   create_package() %>%
   add_resource(resource_name = "iris", data = iris)
