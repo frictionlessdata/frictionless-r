@@ -4,13 +4,16 @@
 \alias{write_package}
 \title{Write a Data Package to disk}
 \usage{
-write_package(package, directory = ".")
+write_package(package, directory = ".", compress = FALSE)
 }
 \arguments{
 \item{package}{List describing a Data Package, created with \code{\link[=read_package]{read_package()}}
 or \code{\link[=create_package]{create_package()}}.}
 
 \item{directory}{Path to local directory to write files to.}
+
+\item{compress}{If \code{TRUE}, data of added resources will be gzip compressed
+before written to file (e.g. \code{deployments.csv.gz}).}
 }
 \value{
 \code{package} as written to file (invisibly).
@@ -30,6 +33,7 @@ location of file(s).
 \item Resource has inline \code{data} as result of adding data with \code{add_resource()}:
 data are written to a CSV file using \code{\link[readr:write_delim]{readr::write_csv()}}, \code{path} points to
 location of file, \code{data} property is removed.
+Use \code{compress = TRUE} to gzip those CSV files.
 }
 }
 \examples{

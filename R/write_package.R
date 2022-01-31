@@ -13,9 +13,12 @@
 #' - Resource has inline `data` as result of adding data with `add_resource()`:
 #'   data are written to a CSV file using [readr::write_csv()], `path` points to
 #'   location of file, `data` property is removed.
+#'   Use `compress = TRUE` to gzip those CSV files.
 #' @param package List describing a Data Package, created with [read_package()]
 #'   or [create_package()].
 #' @param directory Path to local directory to write files to.
+#' @param compress If `TRUE`, data of added resources will be gzip compressed
+#'   before written to file (e.g. `deployments.csv.gz`).
 #' @return `package` as written to file (invisibly).
 #' @family write functions
 #' @export
@@ -39,7 +42,7 @@
 #'
 #' # Clean up (don't do this if you want to keep your files)
 #' unlink("my_directory", recursive = TRUE)
-write_package <- function(package, directory = ".") {
+write_package <- function(package, directory = ".", compress = FALSE) {
   # Check package
   check_package(package)
 
@@ -61,7 +64,7 @@ write_package <- function(package, directory = ".") {
   out_resources <- list()
   for (i in seq_along(package$resources)) {
     resource_name <- package$resources[[i]]$name
-    out_resource <- write_resource(package, resource_name, directory)
+    out_resource <- write_resource(package, resource_name, directory, compress)
     out_resources[[i]] <- out_resource
   }
 

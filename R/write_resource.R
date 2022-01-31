@@ -3,18 +3,23 @@
 #' Helper function used by [write_package()] to write Data Resources to disk.
 #'
 #' @inheritParams read_resource
-#' @param directory Path to local directory to write files to.
+#' @inheritParams write_package
 #' @return Updated list describing a Data Resource, ready to be included in a
 #'   `datapackage.json`.
 #' @family write functions
 #' @noRd
-write_resource <- function(package, resource_name, directory = ".") {
+write_resource <- function(package, resource_name, directory = ".",
+                           compress = FALSE) {
   # Get resource, includes check_package()
   resource <- get_resource(package, resource_name)
 
   # Resource contains new data
   if (resource$read_from == "df") {
-    file_name <- paste(resource_name, "csv", sep = ".")
+    if (compress) {
+      file_name <- paste(resource_name, "csv", "gz", sep = ".")
+    } else {
+      file_name <- paste(resource_name, "csv", sep = ".")
+    }
     readr::write_csv(resource$data, file.path(directory, file_name))
 
     # Save schema and reassign all resource properties (in correct order)

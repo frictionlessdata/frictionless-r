@@ -280,3 +280,22 @@ test_that("write_package() sets correct properties for data frame resources", {
   expect_null(resource_written$data)
   expect_null(resource_written$read_from)
 })
+
+test_that("write_package() will gzip file for compress = TRUE", {
+  p <- example_package
+  df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
+  p <- add_resource(p, "new", df)
+  dir <- file.path(tempdir(), "package")
+  on.exit(unlink(dir, recursive = TRUE))
+  p_written <- suppressMessages(write_package(p, dir, compress = TRUE))
+  resource_written <- p_written$resources[[4]]
+
+  # Writes correct file to disk
+  expect_identical(resource_written$path, "new.csv.gz")
+  expect_true(file.exists(file.path(dir, "new.csv.gz")))
+  expect_false(file.exists(file.path(dir, "new.csv")))
+
+  # Written file can be read by read_resource()
+  p_reread <- suppressMessages(read_package(file.path(dir, "datapackage.json")))
+  expect_identical(read_resource(p_reread, "new"), dplyr::as_tibble(df))
+})
