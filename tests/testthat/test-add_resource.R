@@ -154,7 +154,7 @@ test_that("add_resource() returns error on mismatching schema and data", {
   # For more tests see test-check_schema.R
 })
 
-test_that("add_resource() adds resource, resource_name", {
+test_that("add_resource() adds resource", {
   p <- example_package
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   df_csv <- test_path("data/df.csv")
@@ -166,7 +166,7 @@ test_that("add_resource() adds resource, resource_name", {
   expect_identical(p$resources[[4]][["profile"]], "tabular-data-resource")
   expect_identical(p$resources[[4]][["data"]], df)
   expect_identical(
-    p$resource_names,
+    resources(p),
     c("deployments", "observations", "media", "new_df")
   )
 
@@ -177,7 +177,7 @@ test_that("add_resource() adds resource, resource_name", {
   expect_identical(p$resources[[5]][["profile"]], "tabular-data-resource")
   expect_identical(p$resources[[5]][["data"]], NULL)
   expect_identical(
-    p$resource_names,
+    resources(p),
     c("deployments", "observations", "media", "new_df", "new_csv")
   )
 })

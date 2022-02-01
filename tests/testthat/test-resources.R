@@ -2,7 +2,7 @@ test_that("resources() returns a character vector of resource names", {
   p <- example_package
   expect_identical(resources(p), c("deployments", "observations", "media"))
 
-  # 1 resources
+  # 1 resource
   p <- remove_resource(p, "media")
   p <- remove_resource(p, "observations")
   expect_identical(resources(p), c("deployments"))

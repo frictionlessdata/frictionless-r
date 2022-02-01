@@ -35,7 +35,6 @@ test_that("read_resource() returns error on incorrect resource", {
   # Create invalid package and add properties one by one to pass errors
   p_invalid <- create_package()
   p_invalid$resources <- list(list(name = "deployments"))
-  p_invalid$resource_names <- c("deployments")
 
   # No path or data
   expect_error(

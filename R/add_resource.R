@@ -77,7 +77,7 @@ add_resource <- function(package, resource_name, data, schema = NULL,
 
   # Check resource is absent
   assertthat::assert_that(
-    !resource_name %in% package$resource_names,
+    !resource_name %in% resources(package),
     msg = glue::glue(
       "`package` already contains a resource named `{resource_name}`."
     )
@@ -146,9 +146,6 @@ add_resource <- function(package, resource_name, data, schema = NULL,
 
   # Add resource (needs to be wrapped in its own list)
   package$resources <- append(package$resources, list(resource))
-
-  # Add resource_name
-  package$resource_names <- append(package$resource_names, resource_name)
 
   package
 }

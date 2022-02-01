@@ -10,10 +10,10 @@ resources(package)
 \item{package}{List describing a Data Package.}
 }
 \value{
-Character vector with the resource names.
+Character vector with the Data Resource names.
 }
 \description{
-List the names of the Data Resources included in a Data Package
+Lists the names of the Data Resources included in a Data Package.
 }
 \examples{
 # Load the example Data Package

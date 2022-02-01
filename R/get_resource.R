@@ -21,9 +21,10 @@ get_resource <- function(package, resource_name) {
   check_package(package)
 
   # Check resource
-  resource_names_collapse <- paste(package$resource_names, collapse = "`, `")
+  resource_names <- resources(package)
+  resource_names_collapse <- paste(resource_names, collapse = "`, `")
   assertthat::assert_that(
-    resource_name %in% package$resource_names,
+    resource_name %in% resource_names,
     msg = glue::glue(
       "Can't find resource `{resource_name}` in `{resource_names_collapse}`."
     )
