@@ -39,7 +39,7 @@ package <- read_package(
 )
 
 # List the resource names
-package$resource_names
+resources(package)
 
 # Write the (unchanged) Data Package to disk
 write_package(package, directory = "my_directory")

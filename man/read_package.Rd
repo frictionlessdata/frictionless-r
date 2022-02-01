@@ -21,7 +21,7 @@ resources with \code{\link[=read_resource]{read_resource()}}.
 \description{
 Reads information from a \code{datapackage.json} file, i.e. the
 \href{https://specs.frictionlessdata.io/data-package/#descriptor}{descriptor} file
-that describes the Data Package metadata and its resources.
+that describes the Data Package metadata and its Data Resources.
 }
 \examples{
 # Read a datapackage.json file
@@ -29,12 +29,16 @@ package <- read_package(
   system.file("extdata", "datapackage.json", package = "frictionless")
 )
 
-# Access the package properties
+# Access the Data Package properties
 package$name
-package$resource_names
+package$created
+
+# List the resource names
+resources(package)
 }
 \seealso{
 Other read functions: 
-\code{\link{read_resource}()}
+\code{\link{read_resource}()},
+\code{\link{resources}()}
 }
 \concept{read functions}

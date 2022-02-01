@@ -12,13 +12,13 @@
 #' package <- example_package
 #'
 #' # List the resource names
-#' package$resource_names
+#' resources(package)
 #'
 #' # Remove the resource "observations"
 #' package <- remove_resource(package, "observations")
 #'
 #' # List the resource names ("observations" removed)
-#' package$resource_names
+#' resources(package)
 remove_resource <- function(package, resource_name) {
   # Check resource is present, includes check_package()
   resource <- get_resource(package, resource_name)

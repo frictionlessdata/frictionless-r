@@ -2,7 +2,7 @@
 #'
 #' Reads information from a `datapackage.json` file, i.e. the
 #' [descriptor](https://specs.frictionlessdata.io/data-package/#descriptor) file
-#' that describes the Data Package metadata and its resources.
+#' that describes the Data Package metadata and its Data Resources.
 #'
 #' @param file Path or URL to a `datapackage.json` file.
 #' @return List describing a Data Package, i.e. the content of the descriptor
@@ -18,9 +18,12 @@
 #'   system.file("extdata", "datapackage.json", package = "frictionless")
 #' )
 #'
-#' # Access the package properties
+#' # Access the Data Package properties
 #' package$name
-#' package$resource_names
+#' package$created
+#'
+#' # List the resource names
+#' resources(package)
 read_package <- function(file = "datapackage.json") {
   # Read file
   assertthat::assert_that(
