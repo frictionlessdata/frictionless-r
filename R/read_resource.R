@@ -179,7 +179,7 @@
 #' )
 #'
 #' # List the resource names
-#' package$resource_names
+#' resources(package)
 #'
 #' # Read data from the resource "observations"
 #' read_resource(package, "observations")

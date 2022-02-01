@@ -60,7 +60,7 @@ package <- read_package("https://zenodo.org/record/5879096/files/datapackage.jso
 #> For more information, see https://doi.org/10.5281/zenodo.5879096
 
 # List the available resources
-package$resource_names
+resources(package)
 #> [1] "reference-data" "gps"            "acceleration"
 
 # Read data from the resource "gps"

@@ -54,7 +54,7 @@ library(frictionless)
 package <- read_package("https://zenodo.org/record/5879096/files/datapackage.json")
 
 # List the available resources
-package$resource_names
+resources(package)
 
 # Read data from the resource "gps"
 # This will return a single data frame, even though the data are split over 
