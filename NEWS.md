@@ -4,6 +4,9 @@
   file(s) (#78).
 - `add_resource()` now supports adding `schema` via path or URL.
 - `read_resource()` will now warn rather than error on unknown encoding (#86).
+- New function `resources()` returns list of resource names (#97).
+- `package` objects no longer have or require the custom attribute 
+  `resource_names`, use `resources(package)` instead.
 - `package` objects no longer have or require the custom attribute 
   `datapackage`, making it easier to edit them as lists (with e.g. `append()`).
 
