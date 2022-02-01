@@ -19,7 +19,7 @@ Lists the names of the Data Resources included in a Data Package.
 # Load the example Data Package
 package <- example_package
 
-# List the resource names
+# List resources
 resources(package)
 }
 \seealso{
