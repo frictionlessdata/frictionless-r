@@ -10,13 +10,9 @@ read_package(file = "datapackage.json")
 \item{file}{Path or URL to a \code{datapackage.json} file.}
 }
 \value{
-List describing a Data Package, i.e. the content of the descriptor
-file and two new properties:
-\itemize{
-\item \code{resource_names}: vector with resource names.
-\item \code{directory}: path to Data Package directory, used as base path to read
-resources with \code{\link[=read_resource]{read_resource()}}.
-}
+List describing a Data Package.
+The function will add a custom property \code{directory} with the directory the
+descriptor was read from and is used as a base path to access resources.
 }
 \description{
 Reads information from a \code{datapackage.json} file, i.e. the

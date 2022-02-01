@@ -5,11 +5,10 @@
 #' that describes the Data Package metadata and its Data Resources.
 #'
 #' @param file Path or URL to a `datapackage.json` file.
-#' @return List describing a Data Package, i.e. the content of the descriptor
-#'   file and two new properties:
-#'   - `resource_names`: vector with resource names.
-#'   - `directory`: path to Data Package directory, used as base path to read
-#'     resources with [read_resource()].
+#' @return List describing a Data Package.
+#'   The function will add a custom property `directory` with the directory the
+#'   descriptor was read from.
+#'   It is used as a base path to access resources.
 #' @family read functions
 #' @export
 #' @examples
@@ -32,6 +31,9 @@ read_package <- function(file = "datapackage.json") {
   )
   descriptor <- read_descriptor(file, safe = FALSE)
 
+# -------------------------------------------------------------------------
+
+
   # Check resources
   # https://specs.frictionlessdata.io/data-package/#metadata
   assertthat::assert_that(
@@ -43,9 +45,6 @@ read_package <- function(file = "datapackage.json") {
       .sep = " "
     )
   )
-
-  # Add resource_names
-  descriptor$resource_names <- purrr::map_chr(descriptor$resources, "name")
 
   # Add directory
   descriptor$directory <- dirname(file) # Also works for URLs

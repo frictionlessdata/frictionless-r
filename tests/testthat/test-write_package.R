@@ -51,8 +51,8 @@ test_that("write_package() writes unaltered datapackage.json as is", {
   suppressMessages(write_package(p, dir))
   json_as_written <- readr::read_file(file.path(dir, "datapackage.json"))
 
-  # Output json = input json. This also tests if new properties (resource_names,
-  # directories) are removed and json is printed "pretty"
+  # Output json = input json. This also tests if custom property "directory"
+  # is removed and json is printed "pretty"
   expect_identical(json_as_written, json_original)
 })
 

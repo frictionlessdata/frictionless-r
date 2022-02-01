@@ -70,11 +70,10 @@ write_package <- function(package, directory = ".", compress = FALSE) {
 
   # Update package
   package$resources <- out_resources
-  return_package <- package # Needs directory, resource_names to remain valid
+  return_package <- package # Needs directory to remain valid
 
   # Write datapackage.json
   package$directory <- NULL
-  package$resource_names <- NULL
   package_json <- jsonlite::toJSON(package, pretty = TRUE, auto_unbox = TRUE)
   write(package_json, file.path(directory, "datapackage.json"))
 

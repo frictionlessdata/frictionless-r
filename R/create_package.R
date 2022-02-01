@@ -19,7 +19,6 @@ create_package <- function() {
   list(
     profile = "tabular-data-package",
     resources = list(),
-    resource_names = vector(mode = "character"),
     directory = "." # Current directory
   )
 }

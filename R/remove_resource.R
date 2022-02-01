@@ -28,9 +28,5 @@ remove_resource <- function(package, resource_name) {
     (x$name == resource_name)
   })
 
-  # Remove resource_name
-  resource_names <- package$resource_names
-  package$resource_names <- resource_names[!(resource_names %in% resource_name)]
-
   package
 }
