@@ -33,7 +33,7 @@
 #' # Load the example Data Package
 #' package <- example_package
 #'
-#' # List the resource names
+#' # List resources
 #' resources(package)
 #'
 #' # Create a data frame
@@ -58,7 +58,7 @@
 #' path_2 <- system.file("extdata", "observations_2.csv", package = "frictionless")
 #' package <- add_resource(package, "observations_2", data = c(path_1, path_2))
 #'
-#' # List the resource names ("positions", "positions_2", "observations_2" added)
+#' # List resources ("positions", "positions_2", "observations_2" added)
 #' resources(package)
 add_resource <- function(package, resource_name, data, schema = NULL,
                          delim = ",") {

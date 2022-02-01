@@ -12,7 +12,8 @@ read_package(file = "datapackage.json")
 \value{
 List describing a Data Package.
 The function will add a custom property \code{directory} with the directory the
-descriptor was read from and is used as a base path to access resources.
+descriptor was read from.
+It is used as a base path to access resources.
 }
 \description{
 Reads information from a \code{datapackage.json} file, i.e. the
@@ -29,7 +30,7 @@ package <- read_package(
 package$name
 package$created
 
-# List the resource names
+# List resources
 resources(package)
 }
 \seealso{

@@ -21,7 +21,7 @@
 #' package$name
 #' package$created
 #'
-#' # List the resource names
+#' # List resources
 #' resources(package)
 read_package <- function(file = "datapackage.json") {
   # Read file

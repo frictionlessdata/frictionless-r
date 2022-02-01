@@ -42,7 +42,7 @@ package <- read_package(
   system.file("extdata", "datapackage.json", package = "frictionless")
 )
 
-# List the resource names
+# List resources
 resources(package)
 
 # Write the (unchanged) Data Package to disk
