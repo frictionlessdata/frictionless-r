@@ -1,4 +1,4 @@
-# frictionless (development version)
+# frictionless 0.11.0
 
 - `add_resource()` now sets `format`, `mediatype` and `encoding` for added CSV 
   file(s) (#78).
@@ -6,9 +6,8 @@
 - `write_package()` now supports added data to be gzip compressed before being
   written to disk (#98).
 - `read_resource()` will now warn rather than error on unknown encoding (#86).
-- New function `resources()` returns list of resource names (#97).
 - `package` objects no longer have or require the custom attribute 
-  `resource_names`, use `resources(package)` instead.
+  `resource_names`, use new function `resources()` instead (#97).
 - `package` objects no longer have or require the custom attribute 
   `datapackage`, making it easier to edit them as lists (with e.g. `append()`).
 
