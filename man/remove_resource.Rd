@@ -23,14 +23,14 @@ from a Data Package, i.e. it removes one of the described \code{resources}.
 # Load the example Data Package
 package <- example_package
 
-# List the resource names
-package$resource_names
+# List resources
+resources(package)
 
 # Remove the resource "observations"
 package <- remove_resource(package, "observations")
 
-# List the resource names ("observations" removed)
-package$resource_names
+# List resources ("observations" removed)
+resources(package)
 }
 \seealso{
 Other edit functions: 

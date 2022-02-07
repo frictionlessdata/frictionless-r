@@ -14,11 +14,11 @@ test_that("read_package() returns a valid Data Package, whether reading path or
   expect_true(check_package(p_remote))
   expect_true(check_package(p_minimal))
 
-  # Package has correct "resource_names"
+  # Package has correct resources
   resource_names <- c("deployments", "observations", "media")
-  expect_identical(p_local$resource_names, resource_names)
-  expect_identical(p_remote$resource_names, resource_names)
-  expect_identical(p_minimal$resource_names, resource_names)
+  expect_identical(resources(p_local), resource_names)
+  expect_identical(resources(p_remote), resource_names)
+  expect_identical(resources(p_minimal), resource_names)
 
   # Package has correct "directory", containing root dir of datapackage.json
   expect_identical(p_local$directory, gsub("/datapackage.json", "", p_path))

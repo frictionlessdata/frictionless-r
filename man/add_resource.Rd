@@ -47,8 +47,8 @@ The resource name can only contain lowercase alphanumeric characters plus
 # Load the example Data Package
 package <- example_package
 
-# List the resource names
-package$resource_names
+# List resources
+resources(package)
 
 # Create a data frame
 df <- data.frame(
@@ -63,17 +63,17 @@ df <- data.frame(
 # Add resource "positions" to the Data Package, from the data frame
 package <- add_resource(package, "positions", data = df)
 
-# Add resource "positions2" to the Data Package, with user-defined schema
+# Add resource "positions_2" to the Data Package, with user-defined schema
 my_schema <- create_schema(df)
-package <- add_resource(package, "positions2", data = df, schema = my_schema)
+package <- add_resource(package, "positions_2", data = df, schema = my_schema)
 
-# Add resource "observations2" to the Data Package, from CSV file paths
+# Add resource "observations_2" to the Data Package, from CSV file paths
 path_1 <- system.file("extdata", "observations_1.csv", package = "frictionless")
 path_2 <- system.file("extdata", "observations_2.csv", package = "frictionless")
-package <- add_resource(package, "observations2", data = c(path_1, path_2))
+package <- add_resource(package, "observations_2", data = c(path_1, path_2))
 
-# List the resource names ("positions", "positions2" & "observations2" added)
-package$resource_names
+# List resources ("positions", "positions_2", "observations_2" added)
+resources(package)
 }
 \seealso{
 Other edit functions: 

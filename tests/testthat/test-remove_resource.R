@@ -26,7 +26,7 @@ test_that("remove_resource() returns error when resource not found", {
   )
 })
 
-test_that("remove_resource() removes resource, resource_name", {
+test_that("remove_resource() removes resource", {
   p <- example_package
 
   # Remove "deployments", keep "observations" and "media
@@ -35,7 +35,4 @@ test_that("remove_resource() removes resource, resource_name", {
   # Resource removed
   expect_length(p_removed$resources, 2) # Remains a list, now of length 2
   expect_identical(p_removed$resources[[1]][["name"]], "observations")
-
-  # Resource name removed
-  expect_identical(p_removed$resource_names, c("observations", "media"))
 })

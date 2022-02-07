@@ -11,14 +11,14 @@
 #' # Load the example Data Package
 #' package <- example_package
 #'
-#' # List the resource names
-#' package$resource_names
+#' # List resources
+#' resources(package)
 #'
 #' # Remove the resource "observations"
 #' package <- remove_resource(package, "observations")
 #'
-#' # List the resource names ("observations" removed)
-#' package$resource_names
+#' # List resources ("observations" removed)
+#' resources(package)
 remove_resource <- function(package, resource_name) {
   # Check resource is present, includes check_package()
   resource <- get_resource(package, resource_name)
@@ -27,10 +27,6 @@ remove_resource <- function(package, resource_name) {
   package$resources <- purrr::discard(package$resources, function(x) {
     (x$name == resource_name)
   })
-
-  # Remove resource_name
-  resource_names <- package$resource_names
-  package$resource_names <- resource_names[!(resource_names %in% resource_name)]
 
   package
 }

@@ -51,8 +51,8 @@ test_that("write_package() writes unaltered datapackage.json as is", {
   suppressMessages(write_package(p, dir))
   json_as_written <- readr::read_file(file.path(dir, "datapackage.json"))
 
-  # Output json = input json. This also tests if new properties (resource_names,
-  # directories) are removed and json is printed "pretty"
+  # Output json = input json. This also tests if custom property "directory"
+  # is removed and json is printed "pretty"
   expect_identical(json_as_written, json_original)
 })
 
@@ -279,4 +279,23 @@ test_that("write_package() sets correct properties for data frame resources", {
   expect_identical(resource_written$schema, schema)
   expect_null(resource_written$data)
   expect_null(resource_written$read_from)
+})
+
+test_that("write_package() will gzip file for compress = TRUE", {
+  p <- example_package
+  df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
+  p <- add_resource(p, "new", df)
+  dir <- file.path(tempdir(), "package")
+  on.exit(unlink(dir, recursive = TRUE))
+  p_written <- suppressMessages(write_package(p, dir, compress = TRUE))
+  resource_written <- p_written$resources[[4]]
+
+  # Writes correct file to disk
+  expect_identical(resource_written$path, "new.csv.gz")
+  expect_true(file.exists(file.path(dir, "new.csv.gz")))
+  expect_false(file.exists(file.path(dir, "new.csv")))
+
+  # Written file can be read by read_resource()
+  p_reread <- suppressMessages(read_package(file.path(dir, "datapackage.json")))
+  expect_identical(read_resource(p_reread, "new"), dplyr::as_tibble(df))
 })

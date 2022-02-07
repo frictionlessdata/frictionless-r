@@ -178,8 +178,8 @@
 #'   system.file("extdata", "datapackage.json", package = "frictionless")
 #' )
 #'
-#' # List the resource names
-#' package$resource_names
+#' # List resources
+#' resources(package)
 #'
 #' # Read data from the resource "observations"
 #' read_resource(package, "observations")

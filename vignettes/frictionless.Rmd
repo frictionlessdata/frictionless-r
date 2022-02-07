@@ -14,7 +14,6 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-library(dplyr) # For %>%
 ```
 
 ## What is a Data Package?
@@ -37,10 +36,16 @@ To read a Data Package, you need to know the path or URL to its descriptor file,
 package <- read_package("https://zenodo.org/record/5879096/files/datapackage.json")
 ```
 
-`read_package()` returns the content of `datapackage.json` as a list. You can access any of its properties, including the names of the Data Resources. **Data Resources** contain the data of a Data Package.
+`read_package()` returns the content of `datapackage.json` as a list, printed here with `str()` to improve readability:
 
 ```{r}
-package$resource_names
+str(package, list.len = 3)
+```
+
+The most important aspect of a Data Package are its **Data Resources**, which describe and point to the data. You can list all included resources with `resources()`:
+
+```{r}
+resources(package)
 ```
 
 This Data Package has 3 resources. Let's read the data from the `gps` resource into a data frame:
@@ -77,6 +82,9 @@ dplyr::as_tibble(iris)
 Create a Data Package with `create_package()` and add your data frame as a resource with the name `iris`:
 
 ```{r}
+# Load dplyr or magrittr to support %>% pipes
+library(dplyr) # or library(magrittr)
+
 my_package <-
   create_package() %>%
   add_resource(resource_name = "iris", data = iris)
@@ -87,7 +95,7 @@ Note that you can chain most frictionless functions together using pipes (`%>%` 
 `my_package` now contains one resource:
 
 ```{r}
-my_package$resource_names
+resources(my_package)
 ```
 
 By default, `add_resource()` will create a **Table Schema** for your data frame, describing its field names, field types and (for factors) constraints. You can retrieve the schema of a resource with `get_schema()`. It is a list, which we print here using `str()`:

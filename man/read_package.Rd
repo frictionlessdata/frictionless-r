@@ -10,18 +10,15 @@ read_package(file = "datapackage.json")
 \item{file}{Path or URL to a \code{datapackage.json} file.}
 }
 \value{
-List describing a Data Package, i.e. the content of the descriptor
-file and two new properties:
-\itemize{
-\item \code{resource_names}: vector with resource names.
-\item \code{directory}: path to Data Package directory, used as base path to read
-resources with \code{\link[=read_resource]{read_resource()}}.
-}
+List describing a Data Package.
+The function will add a custom property \code{directory} with the directory the
+descriptor was read from.
+It is used as a base path to access resources.
 }
 \description{
 Reads information from a \code{datapackage.json} file, i.e. the
 \href{https://specs.frictionlessdata.io/data-package/#descriptor}{descriptor} file
-that describes the Data Package metadata and its resources.
+that describes the Data Package metadata and its Data Resources.
 }
 \examples{
 # Read a datapackage.json file
@@ -29,12 +26,16 @@ package <- read_package(
   system.file("extdata", "datapackage.json", package = "frictionless")
 )
 
-# Access the package properties
+# Access the Data Package properties
 package$name
-package$resource_names
+package$created
+
+# List resources
+resources(package)
 }
 \seealso{
 Other read functions: 
-\code{\link{read_resource}()}
+\code{\link{read_resource}()},
+\code{\link{resources}()}
 }
 \concept{read functions}

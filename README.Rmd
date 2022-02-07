@@ -25,7 +25,7 @@ library(dplyr) # For %>%
 [![funding](https://img.shields.io/static/v1?label=funded+by&message=FWO+for+lifewatch.be&labelColor=1a4e8a&color=f15922)](https://lifewatch.be/)
 <!-- badges: end -->
 
-Frictionless is an R package to read and write Frictionless Data Packages. A [Data Package](https://specs.frictionlessdata.io/data-package/) is a simple container format and standard to describe and package a collection of (tabular) data. It is typically used to publish FAIR and open datasets.
+Frictionless is an R package to read and write Frictionless Data Packages. A [Data Package](https://specs.frictionlessdata.io/data-package/) is a simple container format and standard to describe and package a collection of (tabular) data. It is typically used to publish [FAIR](https://www.go-fair.org/fair-principles/) and open datasets.
 
 To get started, see:
 
@@ -53,8 +53,8 @@ library(frictionless)
 # reading them, which is convenient and fast.
 package <- read_package("https://zenodo.org/record/5879096/files/datapackage.json")
 
-# List the available resources
-package$resource_names
+# List resources
+resources(package)
 
 # Read data from the resource "gps"
 # This will return a single data frame, even though the data are split over 

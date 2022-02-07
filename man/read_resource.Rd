@@ -200,8 +200,8 @@ package <- read_package(
   system.file("extdata", "datapackage.json", package = "frictionless")
 )
 
-# List the resource names
-package$resource_names
+# List resources
+resources(package)
 
 # Read data from the resource "observations"
 read_resource(package, "observations")
@@ -215,6 +215,7 @@ purrr::map_chr(package$resources[[2]]$schema$fields, "type")
 }
 \seealso{
 Other read functions: 
-\code{\link{read_package}()}
+\code{\link{read_package}()},
+\code{\link{resources}()}
 }
 \concept{read functions}
