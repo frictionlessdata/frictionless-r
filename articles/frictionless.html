@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">frictionless</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.10.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.11.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -96,12 +96,35 @@
 <span class="co">#&gt; Please make sure you have the right to access data from this Data Package for your intended use.</span>
 <span class="co">#&gt; Follow applicable norms or requirements to credit the dataset and its authors.</span>
 <span class="co">#&gt; For more information, see https://doi.org/10.5281/zenodo.5879096</span></code></pre></div>
-<p><code><a href="../reference/read_package.html">read_package()</a></code> returns the content of <code>datapackage.json</code> as a list. You can access any of its properties, including the names of the Data Resources. <strong>Data Resources</strong> contain the data of a Data Package.</p>
+<p><code><a href="../reference/read_package.html">read_package()</a></code> returns the content of <code>datapackage.json</code> as a list, printed here with <code><a href="https://rdrr.io/r/utils/str.html" class="external-link">str()</a></code> to improve readability:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">package</span><span class="op">$</span><span class="va">resource_names</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">package</span>, list.len <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
+<span class="co">#&gt; List of 4</span>
+<span class="co">#&gt;  $ id       : chr "https://doi.org/10.5281/zenodo.5879096"</span>
+<span class="co">#&gt;  $ profile  : chr "tabular-data-package"</span>
+<span class="co">#&gt;  $ resources:List of 3</span>
+<span class="co">#&gt;   ..$ :List of 7</span>
+<span class="co">#&gt;   .. ..$ name     : chr "reference-data"</span>
+<span class="co">#&gt;   .. ..$ path     : chr "O_WESTERSCHELDE-reference-data.csv"</span>
+<span class="co">#&gt;   .. ..$ profile  : chr "tabular-data-resource"</span>
+<span class="co">#&gt;   .. .. [list output truncated]</span>
+<span class="co">#&gt;   ..$ :List of 7</span>
+<span class="co">#&gt;   .. ..$ name     : chr "gps"</span>
+<span class="co">#&gt;   .. ..$ path     : chr [1:3] "O_WESTERSCHELDE-gps-2018.csv.gz" "O_WESTERSCHELDE-gps-2019.csv.gz" "O_WESTERSCHELDE-gps-2020.csv.gz"</span>
+<span class="co">#&gt;   .. ..$ profile  : chr "tabular-data-resource"</span>
+<span class="co">#&gt;   .. .. [list output truncated]</span>
+<span class="co">#&gt;   ..$ :List of 7</span>
+<span class="co">#&gt;   .. ..$ name     : chr "acceleration"</span>
+<span class="co">#&gt;   .. ..$ path     : chr [1:3] "O_WESTERSCHELDE-acceleration-2018.csv.gz" "O_WESTERSCHELDE-acceleration-2019.csv.gz" "O_WESTERSCHELDE-acceleration-2020.csv.gz"</span>
+<span class="co">#&gt;   .. ..$ profile  : chr "tabular-data-resource"</span>
+<span class="co">#&gt;   .. .. [list output truncated]</span>
+<span class="co">#&gt;   [list output truncated]</span></code></pre></div>
+<p>The most important aspect of a Data Package are its <strong>Data Resources</strong>, which describe and point to the data. You can list all included resources with <code><a href="../reference/resources.html">resources()</a></code>:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/resources.html">resources</a></span><span class="op">(</span><span class="va">package</span><span class="op">)</span>
 <span class="co">#&gt; [1] "reference-data" "gps"            "acceleration"</span></code></pre></div>
 <p>This Data Package has 3 resources. Let’s read the data from the <code>gps</code> resource into a data frame:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">gps</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_resource.html">read_resource</a></span><span class="op">(</span><span class="va">package</span>, <span class="st">"gps"</span><span class="op">)</span>
 <span class="va">gps</span>
 <span class="co">#&gt; <span style="color: #949494;"># A tibble: 73,047 × 21</span></span>
@@ -126,7 +149,7 @@
 <span class="co">#&gt; <span style="color: #949494;">#   `individual-taxon-canonical-name` &lt;chr&gt;, `tag-local-identifier` &lt;chr&gt;, …</span></span></code></pre></div>
 <p>The data frame contains all GPS records, even though the actual data were split over <a href="https://zenodo.org/record/5879096#files" class="external-link">multiple CSV zipped files</a>. <code><a href="../reference/read_resource.html">read_resource()</a></code> assigned the column names and types based on the Table Schema that was defined for that resource, not the headers of the CSV file.</p>
 <p>You can also read data from a local (e.g. downloaded) Data Package. In fact, there is one included in the frictionless pkg, let’s read that one from disk:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">local_package</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_package.html">read_package</a></span><span class="op">(</span>
   <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"datapackage.json"</span>, package <span class="op">=</span> <span class="st">"frictionless"</span><span class="op">)</span>
 <span class="op">)</span>
@@ -146,7 +169,7 @@
 </h2>
 <p>Data Package is a good format to technically describe your data, e.g. if you are planning to deposit it on research repository. It also goes a long way meeting <a href="https://www.go-fair.org/fair-principles/" class="external-link">FAIR principles</a>.</p>
 <p>The frictionless pkg assumes your data are stored as a data frame or CSV files. Let’s use the built-in dataset <code>iris</code> as your data frame:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Show content of the data frame "iris"</span>
 <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span>
 <span class="co">#&gt; <span style="color: #949494;"># A tibble: 150 × 5</span></span>
@@ -164,19 +187,30 @@
 <span class="co">#&gt; <span style="color: #BCBCBC;">10</span>          4.9         3.1          1.5         0.1 setosa </span>
 <span class="co">#&gt; <span style="color: #949494;"># … with 140 more rows</span></span></code></pre></div>
 <p>Create a Data Package with <code><a href="../reference/create_package.html">create_package()</a></code> and add your data frame as a resource with the name <code>iris</code>:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">my_package</span> <span class="op">&lt;-</span>
-  <span class="fu"><a href="../reference/create_package.html">create_package</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Load dplyr or magrittr to support %&gt;% pipes</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span> <span class="co"># or library(magrittr)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Attaching package: 'dplyr'</span>
+<span class="co">#&gt; The following objects are masked from 'package:stats':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     filter, lag</span>
+<span class="co">#&gt; The following objects are masked from 'package:base':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     intersect, setdiff, setequal, union</span>
+
+<span class="va">my_package</span> <span class="op">&lt;-</span>
+  <span class="fu"><a href="../reference/create_package.html">create_package</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="../reference/add_resource.html">add_resource</a></span><span class="op">(</span>resource_name <span class="op">=</span> <span class="st">"iris"</span>, data <span class="op">=</span> <span class="va">iris</span><span class="op">)</span></code></pre></div>
 <p>Note that you can chain most frictionless functions together using pipes (<code>%&gt;%</code> or <code>|&gt;</code>), which improves readability.</p>
 <p><code>my_package</code> now contains one resource:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">my_package</span><span class="op">$</span><span class="va">resource_names</span>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/resources.html">resources</a></span><span class="op">(</span><span class="va">my_package</span><span class="op">)</span>
 <span class="co">#&gt; [1] "iris"</span></code></pre></div>
 <p>By default, <code><a href="../reference/add_resource.html">add_resource()</a></code> will create a <strong>Table Schema</strong> for your data frame, describing its field names, field types and (for factors) constraints. You can retrieve the schema of a resource with <code><a href="../reference/get_schema.html">get_schema()</a></code>. It is a list, which we print here using <code><a href="https://rdrr.io/r/utils/str.html" class="external-link">str()</a></code>:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">iris_schema</span> <span class="op">&lt;-</span>
-  <span class="va">my_package</span> <span class="op">%&gt;%</span>
+  <span class="va">my_package</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="../reference/get_schema.html">get_schema</a></span><span class="op">(</span><span class="st">"iris"</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">iris_schema</span><span class="op">)</span>
@@ -200,7 +234,7 @@
 <span class="co">#&gt;   .. ..$ constraints:List of 1</span>
 <span class="co">#&gt;   .. .. ..$ enum: chr [1:3] "setosa" "versicolor" "virginica"</span></code></pre></div>
 <p>You can also create a schema from a data frame, using <code><a href="../reference/create_schema.html">create_schema()</a></code>:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">iris_schema</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_schema.html">create_schema</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">iris_schema</span><span class="op">)</span>
@@ -224,7 +258,7 @@
 <span class="co">#&gt;   .. ..$ constraints:List of 1</span>
 <span class="co">#&gt;   .. .. ..$ enum: chr [1:3] "setosa" "versicolor" "virginica"</span></code></pre></div>
 <p>Doing so allows you to customize the schema before adding the resource. E.g. let’s add a description for <code>Sepal.Length</code>:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">iris_schema</span><span class="op">$</span><span class="va">fields</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">description</span> <span class="op">&lt;-</span> <span class="st">"Sepal length in cm."</span>
 <span class="co"># Show result</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">iris_schema</span><span class="op">$</span><span class="va">fields</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
@@ -233,7 +267,7 @@
 <span class="co">#&gt;  $ type       : chr "number"</span>
 <span class="co">#&gt;  $ description: chr "Sepal length in cm."</span></code></pre></div>
 <p>Since schema is a list, you can use the <code>purrr</code> pkg to edit multiple elements at once:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Remove description for first field</span>
 <span class="va">iris_schema</span><span class="op">$</span><span class="va">fields</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">description</span> <span class="op">&lt;-</span> <span class="cn">NULL</span>
 
@@ -276,27 +310,27 @@
 <span class="co">#&gt;   .. .. ..$ enum: chr [1:3] "setosa" "versicolor" "virginica"</span>
 <span class="co">#&gt;   .. ..$ description: chr "Iris species."</span></code></pre></div>
 <p>Let’s add <code>iris</code> as a resource to your Data Package again, but this time with the customized schema. Note that you have to remove the originally added resource <code>iris</code> with <code><a href="../reference/remove_resource.html">remove_resource()</a></code> first, since Data Packages can only contain uniquely named resources:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">my_package</span> <span class="op">&lt;-</span>
-  <span class="va">my_package</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/remove_resource.html">remove_resource</a></span><span class="op">(</span><span class="st">"iris"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="co"># Remove originally added resource</span>
+  <span class="va">my_package</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/remove_resource.html">remove_resource</a></span><span class="op">(</span><span class="st">"iris"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="co"># Remove originally added resource</span>
   <span class="fu"><a href="../reference/add_resource.html">add_resource</a></span><span class="op">(</span>
     resource_name <span class="op">=</span> <span class="st">"iris"</span>,
     data <span class="op">=</span> <span class="va">iris</span>,
     schema <span class="op">=</span> <span class="va">iris_schema</span> <span class="co"># Your customized schema</span>
   <span class="op">)</span></code></pre></div>
 <p>If you already have your data stored as CSV files and you want to include them <em>as is</em> as a Data Resource, you can do so as well. As with data frames, you can opt to create a Table Schema automatically or provide your own.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Two CSV files with the same structure</span>
 <span class="va">path_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"observations_1.csv"</span>, package <span class="op">=</span> <span class="st">"frictionless"</span><span class="op">)</span>
 <span class="va">path_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"observations_2.csv"</span>, package <span class="op">=</span> <span class="st">"frictionless"</span><span class="op">)</span>
 
 <span class="co"># Add both CSV files as a single resource</span>
 <span class="va">my_package</span> <span class="op">&lt;-</span>
-  <span class="va">my_package</span> <span class="op">%&gt;%</span>
+  <span class="va">my_package</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="../reference/add_resource.html">add_resource</a></span><span class="op">(</span>resource_name <span class="op">=</span> <span class="st">"observations"</span>, data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">path_1</span>, <span class="va">path_2</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Your Data Package now contains 2 resources, but you can add metadata properties as well (see the <a href="https://specs.frictionlessdata.io/data-package/#metadata" class="external-link">Data Package documentation</a> for an overview). Since it is a list, you can use <code><a href="https://rdrr.io/r/base/append.html" class="external-link">append()</a></code> to insert properties at the desired place. Let’s add <code>name</code> as first and <code>title</code> as second property:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">my_package</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/append.html" class="external-link">append</a></span><span class="op">(</span><span class="va">my_package</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"my_package"</span><span class="op">)</span>, after <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>
 <span class="co"># Or with purrr::prepend(): prepend(my_package, c(name = "my_package))</span>
 <span class="va">my_package</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/append.html" class="external-link">append</a></span><span class="op">(</span><span class="va">my_package</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"My package"</span><span class="op">)</span>, after <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
@@ -306,10 +340,10 @@
 <h2 id="write-a-data-package">Write a Data Package<a class="anchor" aria-label="anchor" href="#write-a-data-package"></a>
 </h2>
 <p>Now that you have created your Data Package, you can write it to a directory of your choice with <code><a href="../reference/write_package.html">write_package()</a></code>:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/write_package.html">write_package</a></span><span class="op">(</span><span class="va">my_package</span>, <span class="st">"my_directory"</span><span class="op">)</span></code></pre></div>
 <p>The directory will contain four files: the descriptor <code>datapackage.json</code>, one CSV file containing the data for the resource <code>iris</code> and two CSV files containing the data for the resource <code>observations</code>.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="st">"my_directory"</span><span class="op">)</span>
 <span class="co">#&gt; [1] "datapackage.json"   "iris.csv"           "observations_1.csv"</span>
 <span class="co">#&gt; [4] "observations_2.csv"</span></code></pre></div>

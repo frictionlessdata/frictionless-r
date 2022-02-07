@@ -12,7 +12,7 @@ from a Data Package, i.e. it removes one of the described resources."><!-- mathj
     
     <a class="navbar-brand me-2" href="../index.html">frictionless</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.10.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.11.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -84,15 +84,15 @@ or <code><a href="create_package.html">create_package()</a></code>.</p></dd>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Load the example Data Package</span></span>
 <span class="r-in"><span class="va">package</span> <span class="op">&lt;-</span> <span class="va">example_package</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="co"># List the resource names</span></span>
-<span class="r-in"><span class="va">package</span><span class="op">$</span><span class="va">resource_names</span></span>
+<span class="r-in"><span class="co"># List resources</span></span>
+<span class="r-in"><span class="fu"><a href="resources.html">resources</a></span><span class="op">(</span><span class="va">package</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "deployments"  "observations" "media"       </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Remove the resource "observations"</span></span>
 <span class="r-in"><span class="va">package</span> <span class="op">&lt;-</span> <span class="fu">remove_resource</span><span class="op">(</span><span class="va">package</span>, <span class="st">"observations"</span><span class="op">)</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="co"># List the resource names ("observations" removed)</span></span>
-<span class="r-in"><span class="va">package</span><span class="op">$</span><span class="va">resource_names</span></span>
+<span class="r-in"><span class="co"># List resources ("observations" removed)</span></span>
+<span class="r-in"><span class="fu"><a href="resources.html">resources</a></span><span class="op">(</span><span class="va">package</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "deployments" "media"      </span>
 </code></pre></div>
     </div>
