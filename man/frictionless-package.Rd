@@ -29,6 +29,7 @@ Other contributors:
 \itemize{
   \item Research Institute for Nature and Forest (INBO) \email{info@inbo.be} [copyright holder]
   \item Beatriz Milz \email{milz.bea@gmail.com} (\href{https://orcid.org/0000-0002-3064-4486}{ORCID}) [reviewer]
+  \item João Martins \email{joao.martins@gmx.net} (\href{https://orcid.org/0000-0001-7961-4280}{ORCID}) [reviewer]
 }
 
 }
