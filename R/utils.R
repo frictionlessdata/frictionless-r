@@ -23,12 +23,12 @@ replace_null <- function(x, replacement) {
 #' @family helper functions
 #' @noRd
 unique_sorted <- function(x) {
-  # Create data frame with values and how often they occur
-  df <- stats::aggregate(x, by = list(x), FUN = length)
-  colnames(df) <- c("value", "count")
-  # Sort dataframe on count (can only be ascending) and retrieve values
-  values <- df[with(df, order(count)),][[1]]
-  rev(values) # Reverse order
+  # Create table, sort on occurrence, return values (names)
+  # c a b
+  # 1 2 3
+  values <- names(sort(table(x), decreasing = TRUE))
+  # Return empty char vector if all values in x where NA, resulting in NULL
+  replace_null(values, character(0))
 }
 
 #' Clean list

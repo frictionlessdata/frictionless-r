@@ -8,6 +8,12 @@ test_that("replace_null() replaces NULL or returns value", {
 test_that("unique_sorted() returns unique values sorted by descending count", {
   x <- c("a", "b", "b", "b", "c", "a")
   expect_identical(frictionless:::unique_sorted(x), c("b", "a", "c"))
+
+  x_na <- c(NA_character_, NA_character_)
+  expect_identical(frictionless:::unique_sorted(x_na), character(0))
+
+  x_part_na <- c(NA_character_, NA_character_, "a")
+  expect_identical(frictionless:::unique_sorted(x_part_na), "a")
 })
 
 test_that("clean_list() removes elements from list that match condition", {
