@@ -21,6 +21,7 @@ library(dplyr) # For %>%
 [![R-CMD-check](https://github.com/frictionlessdata/frictionless-r/workflows/R-CMD-check/badge.svg)](https://github.com/frictionlessdata/frictionless-r/actions)
 [![codecov](https://codecov.io/gh/frictionlessdata/frictionless-r/branch/main/graph/badge.svg?token=bKtiHW21K0)](https://codecov.io/gh/frictionlessdata/frictionless-r)
 [![repo status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![rOpenSci](https://badges.ropensci.org/495_status.svg)](https://github.com/ropensci/software-review/issues/495)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5815355.svg)](https://doi.org/10.5281/zenodo.5815355)
 [![funding](https://img.shields.io/static/v1?label=funded+by&message=FWO+for+lifewatch.be&labelColor=1a4e8a&color=f15922)](https://lifewatch.be/)
 <!-- badges: end -->
