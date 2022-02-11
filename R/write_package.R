@@ -55,7 +55,7 @@ write_package <- function(package, directory = ".", compress = FALSE) {
     )
   )
 
-  # Make directory if it doesn't exists yet
+  # Create directory if it doesn't exists yet
   if (!dir.exists(directory)) {
     dir.create(directory, recursive = TRUE)
   }

@@ -20,7 +20,7 @@ write_resource <- function(package, resource_name, directory = ".",
     } else {
       file_name <- paste(resource_name, "csv", sep = ".")
     }
-    readr::write_csv(resource$data, file.path(directory, file_name))
+    readr::write_csv(resource$data, file.path(directory, file_name), na = "")
 
     # Save schema and reassign all resource properties (in correct order)
     # This also removes $data and $read_from
