@@ -1,3 +1,8 @@
+# frictionless (development version)
+
+- Files (`datapackage.json`, resource files, schemas) can now be read from
+  `(s)ftp://` URLs (#102).
+
 # frictionless 0.11.0
 
 - `add_resource()` now sets `format`, `mediatype` and `encoding` for added CSV 
