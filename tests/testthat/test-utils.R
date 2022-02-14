@@ -52,3 +52,16 @@ test_that("clean_list() removes elements from list that match condition", {
     )
   )
 })
+
+test_that("is_url() tests whether path is URL", {
+  expect_true(is_url("http://example.com"))
+  expect_true(is_url("https://example.com"))
+  expect_true(is_url("ftp://example.com"))
+  expect_true(is_url("sftp://example.com"))
+
+  expect_false(is_url("path/to/file"))
+  expect_false(is_url("/path/to/file"))
+  expect_false(is_url("../path/to/file"))
+  expect_false(is_url("http:/example.com"))
+  expect_true(is_url("ftps://example.com")) # Not a correct protocol
+})

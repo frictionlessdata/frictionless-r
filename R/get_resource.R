@@ -44,7 +44,7 @@ get_resource <- function(package, resource_name) {
 
   # Assign read_from property (based on path, then df, then data)
   if (length(resource$path) != 0) {
-    if (all(startsWith(resource$path, "http"))) {
+    if (all(is_url(resource$path))) {
       resource$read_from <- "url"
     } else {
       resource$read_from <- "path"

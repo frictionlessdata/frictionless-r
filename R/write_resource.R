@@ -45,7 +45,7 @@ write_resource <- function(package, resource_name, directory = ".",
   } else if (resource$read_from == "data") {
     resource$read_from <- NULL
 
-  # Resource has local paths
+  # Resource has local paths (optionally mixed with URLs)
   } else if (resource$read_from == "path") {
     # Download or copy file to directory, point path to file name (in that dir)
     # Note that existing files will not be overwritten
@@ -53,7 +53,7 @@ write_resource <- function(package, resource_name, directory = ".",
     for (path in resource$path) {
       file_name <- basename(path)
       destination <- file.path(directory, file_name)
-      if (startsWith(path, "http")) {
+      if (is_url(path)) {
         if (!file.exists(destination)) {
           message(glue::glue("Downloading file from {path}"))
           utils::download.file(path, destination, quiet = TRUE)

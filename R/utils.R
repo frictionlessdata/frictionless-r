@@ -58,6 +58,16 @@ clean_list <- function(x, fun = is.null, recursive = FALSE) {
   "[<-"(x, vapply(x, fun, logical(1L)), NULL)
 }
 
+#' Check if path is URL
+#'
+#' @param path Path.
+#' @return `TRUE` if `path` is a http(s) or (s)ftp URL, otherwise `FALSE`.
+#' @family helper functions
+#' @noRd
+is_url <- function(path) {
+  grepl("^(http|https|ftp|ftps|sftp):\\/\\/", path)
+}
+
 #' Check path or URL
 #'
 #' Check if a [path or
@@ -76,7 +86,7 @@ clean_list <- function(x, fun = is.null, recursive = FALSE) {
 check_path <- function(path, directory = NULL, safe = FALSE) {
   # Check that (non-URL) path is safe and prepend with directory to make
   # absolute path (both optional)
-  if (!startsWith(path, "http")) {
+  if (!is_url(path)) {
     assertthat::assert_that(
       !safe | !startsWith(path, "/"),
       msg = glue::glue("`{path}` is an absolute path (`/`) which is unsafe.")
@@ -93,7 +103,7 @@ check_path <- function(path, directory = NULL, safe = FALSE) {
   }
 
   # Check existence of file at path
-  if (startsWith(path, "http")) {
+  if (is_url(path)) {
     assertthat::assert_that(
       !httr::http_error(path),
       msg = glue::glue("Can't find file at `{path}`.")
