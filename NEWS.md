@@ -1,5 +1,6 @@
-# frictionless (development version)
+# frictionless 1.0.0
 
+- First release on CRAN.
 - Files (`datapackage.json`, resource files, schemas) can now be read from
   `(s)ftp://` URLs (#102).
 - Package website is now served from <https://docs.ropensci.org/frictionless/>.
