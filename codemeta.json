@@ -8,7 +8,7 @@
   "codeRepository": "https://github.com/frictionlessdata/frictionless-r",
   "issueTracker": "https://github.com/frictionlessdata/frictionless-r/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.11.0",
+  "version": "1.0.0",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -20,7 +20,7 @@
       "@type": "Person",
       "givenName": "Peter",
       "familyName": "Desmet",
-      "email": "peter.desmet@inbo.be",
+      "email": "peter.desmet.work@gmail.com",
       "@id": "https://orcid.org/0000-0002-8442-8025"
     },
     {
@@ -43,7 +43,7 @@
       "@type": "Person",
       "givenName": "Peter",
       "familyName": "Desmet",
-      "email": "peter.desmet@inbo.be",
+      "email": "peter.desmet.work@gmail.com",
       "@id": "https://orcid.org/0000-0002-8442-8025"
     }
   ],
@@ -215,7 +215,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "177.741KB",
+  "fileSize": "177.965KB",
   "citation": [
     {
       "@type": "SoftwareSourceCode",
@@ -235,7 +235,7 @@
       "name": "frictionless: Read and Write Frictionless Data Packages",
       "identifier": "https://doi.org/10.5281/zenodo.5815355",
       "url": "https://github.com/frictionlessdata/frictionless-r",
-      "description": "R package version 0.11.0",
+      "description": "R package version 1.0.0",
       "@id": "https://doi.org/10.5281/zenodo.5815355",
       "sameAs": "https://doi.org/10.5281/zenodo.5815355"
     }
