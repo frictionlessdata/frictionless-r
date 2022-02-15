@@ -18,7 +18,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Peter Desmet \email{peter.desmet@inbo.be} (\href{https://orcid.org/0000-0002-8442-8025}{ORCID})
+\strong{Maintainer}: Peter Desmet \email{peter.desmet.work@gmail.com} (\href{https://orcid.org/0000-0002-8442-8025}{ORCID})
 
 Authors:
 \itemize{
