@@ -20,7 +20,7 @@ Description: Read and write Frictionless Data Packages. A Data Package
     (<https://www.go-fair.org/fair-principles/>) and open datasets.
 License: MIT + file LICENSE
 URL: https://github.com/frictionlessdata/frictionless-r,
-    https://frictionlessdata.github.io/frictionless-r/
+    https://docs.ropensci.org/frictionless/
 BugReports: https://github.com/frictionlessdata/frictionless-r/issues
 Imports:
     assertthat,

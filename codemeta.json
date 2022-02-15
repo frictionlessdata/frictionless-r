@@ -4,7 +4,7 @@
   "identifier": "frictionless",
   "description": "Read and write Frictionless Data Packages. A Data Package (<https://specs.frictionlessdata.io/data-package/>) is a simple container format and standard to describe and package a collection of (tabular) data. It is typically used to publish FAIR (<https://www.go-fair.org/fair-principles/>) and open datasets.",
   "name": "frictionless: Read and Write Frictionless Data Packages",
-  "relatedLink": "https://frictionlessdata.github.io/frictionless-r/",
+  "relatedLink": "https://docs.ropensci.org/frictionless/",
   "codeRepository": "https://github.com/frictionlessdata/frictionless-r",
   "issueTracker": "https://github.com/frictionlessdata/frictionless-r/issues",
   "license": "https://spdx.org/licenses/MIT",
@@ -215,7 +215,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "176.34KB",
+  "fileSize": "177.741KB",
   "citation": [
     {
       "@type": "SoftwareSourceCode",
@@ -244,5 +244,10 @@
   "readme": "https://github.com/frictionlessdata/frictionless-r/blob/main/README.md",
   "contIntegration": ["https://github.com/frictionlessdata/frictionless-r/actions", "https://codecov.io/gh/frictionlessdata/frictionless-r"],
   "developmentStatus": "https://www.repostatus.org/#active",
-  "keywords": ["frictionlessdata", "oscibio", "r", "r-package"]
+  "review": {
+    "@type": "Review",
+    "url": "https://github.com/ropensci/software-review/issues/495",
+    "provider": "https://ropensci.org"
+  },
+  "keywords": ["frictionlessdata", "oscibio", "r", "r-package", "rstats"]
 }

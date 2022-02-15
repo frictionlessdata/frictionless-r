@@ -26,10 +26,10 @@ container format and standard to describe and package a collection of
 To get started, see:
 
 -   [Get
-    started](https://frictionlessdata.github.io/frictionless-r/articles/frictionless.html):
+    started](https://docs.ropensci.org/frictionless/articles/frictionless.html):
     an introduction to the package’s main functionalities.
 -   [Function
-    reference](https://frictionlessdata.github.io/frictionless-r/reference/index.html):
+    reference](https://docs.ropensci.org/frictionless/reference/index.html):
     overview of all functions.
 
 ## Installation
@@ -82,12 +82,12 @@ read_resource(package, "gps")
 #>  9 14256075770 TRUE    2018-05-25 16:50:49            4.25           51.3
 #> 10 14256075771 TRUE    2018-05-25 16:55:36            4.25           51.3
 #> # … with 73,037 more rows, and 16 more variables:
-#> #   bar:barometric-pressure <dbl>, external-temperature <dbl>, gps:dop <dbl>,
-#> #   gps:satellite-count <dbl>, gps-time-to-fix <dbl>, ground-speed <dbl>,
-#> #   heading <dbl>, height-above-msl <dbl>, location-error-numerical <dbl>,
-#> #   manually-marked-outlier <lgl>, vertical-error-numerical <dbl>,
-#> #   sensor-type <chr>, individual-taxon-canonical-name <chr>,
-#> #   tag-local-identifier <chr>, individual-local-identifier <chr>, …
+#> #   `bar:barometric-pressure` <dbl>, `external-temperature` <dbl>,
+#> #   `gps:dop` <dbl>, `gps:satellite-count` <dbl>, `gps-time-to-fix` <dbl>,
+#> #   `ground-speed` <dbl>, heading <dbl>, `height-above-msl` <dbl>,
+#> #   `location-error-numerical` <dbl>, `manually-marked-outlier` <lgl>,
+#> #   `vertical-error-numerical` <dbl>, `sensor-type` <chr>,
+#> #   `individual-taxon-canonical-name` <chr>, `tag-local-identifier` <chr>, …
 ```
 
 You can also create your own Data Package, add data and **write** it to
@@ -105,9 +105,9 @@ my_package %>%
 ```
 
 For more functionality, see [get
-started](https://frictionlessdata.github.io/frictionless-r/articles/frictionless.html)
+started](https://docs.ropensci.org/frictionless/articles/frictionless.html)
 or the [function
-reference](https://frictionlessdata.github.io/frictionless-r/reference/index.html).
+reference](https://docs.ropensci.org/frictionless/reference/index.html).
 
 ## frictionless vs datapackage.r
 
@@ -122,11 +122,11 @@ your analysis. It is designed to be lightweight, follows
 ## Meta
 
 -   We welcome
-    [contributions](https://frictionlessdata.github.io/frictionless-r/CONTRIBUTING.html)
+    [contributions](https://docs.ropensci.org/frictionless/CONTRIBUTING.html)
     including bug reports.
 -   License: MIT
 -   Get [citation
-    information](https://frictionlessdata.github.io/frictionless-r/authors.html#citation)
+    information](https://docs.ropensci.org/frictionless/authors.html#citation)
     for frictionless in R doing `citation("frictionless")`.
 -   Please note that this project is released with a [Contributor Code
     of

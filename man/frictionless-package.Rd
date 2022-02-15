@@ -12,7 +12,7 @@ Read and write Frictionless Data Packages. A Data Package (<https://specs.fricti
 Useful links:
 \itemize{
   \item \url{https://github.com/frictionlessdata/frictionless-r}
-  \item \url{https://frictionlessdata.github.io/frictionless-r/}
+  \item \url{https://docs.ropensci.org/frictionless/}
   \item Report bugs at \url{https://github.com/frictionlessdata/frictionless-r/issues}
 }
 
