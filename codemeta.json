@@ -2,7 +2,7 @@
   "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
   "@type": "SoftwareSourceCode",
   "identifier": "frictionless",
-  "description": "Read and write Frictionless Data Packages. A Data Package (<https://specs.frictionlessdata.io/data-package/>) is a simple container format and standard to describe and package a collection of (tabular) data. It is typically used to publish FAIR (<https://www.go-fair.org/fair-principles/>) and open datasets.",
+  "description": "Read and write Frictionless Data Packages. A 'Data Package' (<https://specs.frictionlessdata.io/data-package/>) is a simple container format and standard to describe and package a collection of (tabular) data. It is typically used to publish FAIR (<https://www.go-fair.org/fair-principles/>) and open datasets.",
   "name": "frictionless: Read and Write Frictionless Data Packages",
   "relatedLink": "https://docs.ropensci.org/frictionless/",
   "codeRepository": "https://github.com/frictionlessdata/frictionless-r",
@@ -215,7 +215,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "177.965KB",
+  "fileSize": "177.856KB",
   "citation": [
     {
       "@type": "SoftwareSourceCode",
@@ -242,7 +242,7 @@
   ],
   "releaseNotes": "https://github.com/frictionlessdata/frictionless-r/blob/master/NEWS.md",
   "readme": "https://github.com/frictionlessdata/frictionless-r/blob/main/README.md",
-  "contIntegration": ["https://github.com/frictionlessdata/frictionless-r/actions", "https://codecov.io/gh/frictionlessdata/frictionless-r"],
+  "contIntegration": ["https://github.com/frictionlessdata/frictionless-r/actions", "https://app.codecov.io/gh/frictionlessdata/frictionless-r/"],
   "developmentStatus": "https://www.repostatus.org/#active",
   "review": {
     "@type": "Review",
