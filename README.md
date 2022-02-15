@@ -34,12 +34,22 @@ To get started, see:
 
 ## Installation
 
-You can install the development version from
-[GitHub](https://github.com/frictionlessdata/frictionless-r) with:
+Install the latest released version from CRAN:
+
+``` r
+install.packages("frictionless")
+```
+
+Or the development version from
+[GitHub](https://github.com/frictionlessdata/frictionless-r) or
+[R-universe](https://ropensci.r-universe.dev):
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("frictionlessdata/frictionless-r")
+
+# Or rOpenSci R-universe
+install.packages("frictionless", repos = "https://ropensci.r-universe.dev")
 ```
 
 ## Usage
