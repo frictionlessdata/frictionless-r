@@ -30,8 +30,8 @@ Frictionless is an R package to read and write Frictionless Data Packages. A [Da
 
 To get started, see:
 
-- [Get started](https://frictionlessdata.github.io/frictionless-r/articles/frictionless.html): an introduction to the package's main functionalities.
-- [Function reference](https://frictionlessdata.github.io/frictionless-r/reference/index.html): overview of all functions.
+- [Get started](https://docs.ropensci.org/frictionless/articles/frictionless.html): an introduction to the package's main functionalities.
+- [Function reference](https://docs.ropensci.org/frictionless/reference/index.html): overview of all functions.
 
 ## Installation
 
@@ -80,7 +80,7 @@ my_package %>%
 unlink("my_directory", recursive = TRUE)
 ```
 
-For more functionality, see [get started](https://frictionlessdata.github.io/frictionless-r/articles/frictionless.html) or the [function reference](https://frictionlessdata.github.io/frictionless-r/reference/index.html).
+For more functionality, see [get started](https://docs.ropensci.org/frictionless/articles/frictionless.html) or the [function reference](https://docs.ropensci.org/frictionless/reference/index.html).
 
 ## frictionless vs datapackage.r
 
@@ -88,7 +88,7 @@ For more functionality, see [get started](https://frictionlessdata.github.io/fri
 
 ## Meta
 
-- We welcome [contributions](https://frictionlessdata.github.io/frictionless-r/CONTRIBUTING.html) including bug reports.
+- We welcome [contributions](https://docs.ropensci.org/frictionless/CONTRIBUTING.html) including bug reports.
 - License: MIT
-- Get [citation information](https://frictionlessdata.github.io/frictionless-r/authors.html#citation) for frictionless in R doing `citation("frictionless")`.
+- Get [citation information](https://docs.ropensci.org/frictionless/authors.html#citation) for frictionless in R doing `citation("frictionless")`.
 - Please note that this project is released with a [Contributor Code of Conduct](https://frictionlessdata.io/work-with-us/code-of-conduct/). By participating in this project you agree to abide by its terms.
