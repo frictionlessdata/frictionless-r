@@ -40,16 +40,14 @@ test_that("write_package() returns error if Data Package has no resource(s)", {
 })
 
 test_that("write_package() writes unaltered datapackage.json as is", {
-  p <- suppressMessages(read_package(
-    system.file("extdata", "datapackage.json", package = "frictionless")
-  ))
-  json_original <- readr::read_file(
-    system.file("extdata", "datapackage.json", package = "frictionless")
-  )
+  p_file <- system.file("extdata", "datapackage.json", package = "frictionless")
+  json_original <- readr::read_lines(p_file) # Will use line endings of system
+
+  p <- suppressMessages(read_package(p_file))
   dir <- file.path(tempdir(), "package")
   on.exit(unlink(dir, recursive = TRUE))
   suppressMessages(write_package(p, dir))
-  json_as_written <- readr::read_file(file.path(dir, "datapackage.json"))
+  json_as_written <- readr::read_lines(file.path(dir, "datapackage.json"))
 
   # Output json = input json. This also tests if custom property "directory"
   # is removed and json is printed "pretty"
