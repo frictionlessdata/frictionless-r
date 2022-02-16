@@ -215,7 +215,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "177.856KB",
+  "fileSize": "177.78KB",
   "citation": [
     {
       "@type": "SoftwareSourceCode",
@@ -233,7 +233,7 @@
         }
       ],
       "name": "frictionless: Read and Write Frictionless Data Packages",
-      "identifier": "https://doi.org/10.5281/zenodo.5815355",
+      "identifier": "10.5281/zenodo.5815355",
       "url": "https://github.com/frictionlessdata/frictionless-r",
       "description": "R package version 1.0.0",
       "@id": "https://doi.org/10.5281/zenodo.5815355",
