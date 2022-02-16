@@ -140,56 +140,56 @@ are used to interpret as \code{NA}, with \code{""} as default.
 
 Field \code{type} is used to set the column type, as follows:
 \itemize{
-\item \href{https://specs.frictionlessdata.io/table-schema/#string}{string} →
+\item \href{https://specs.frictionlessdata.io/table-schema/#string}{string} as
 \code{character}; or \code{factor} when \code{enum} is present.
 \code{format} is ignored.
-\item \href{https://specs.frictionlessdata.io/table-schema/#number}{number} →
+\item \href{https://specs.frictionlessdata.io/table-schema/#number}{number} as
 \code{double}; or \code{factor} when \code{enum} is present.
 Use \code{bareNumber: false} to ignore whitespace and non-numeric characters.
 \code{decimalChar} (\code{.} by default) and \code{groupChar} (undefined by default) can
 be defined, but the most occurring value will be used as a global value for
 all number fields of that resource.
-\item \href{https://specs.frictionlessdata.io/table-schema/#integer}{integer} →
+\item \href{https://specs.frictionlessdata.io/table-schema/#integer}{integer} as
 \code{double} (not integer, to avoid issues with big numbers); or \code{factor} when
 \code{enum} is present.
 Use \code{bareNumber: false} to ignore whitespace and non-numeric characters.
-\item \href{https://specs.frictionlessdata.io/table-schema/#boolean}{boolean} →
+\item \href{https://specs.frictionlessdata.io/table-schema/#boolean}{boolean} as
 \code{logical}.
 Non-default \code{trueValues/falseValues} are not supported.
-\item \href{https://specs.frictionlessdata.io/table-schema/#object}{object} →
+\item \href{https://specs.frictionlessdata.io/table-schema/#object}{object} as
 \code{character}.
-\item \href{https://specs.frictionlessdata.io/table-schema/#array}{array} →
+\item \href{https://specs.frictionlessdata.io/table-schema/#array}{array} as
 \code{character}.
-\item \href{https://specs.frictionlessdata.io/table-schema/#date}{date} → \code{date}.
+\item \href{https://specs.frictionlessdata.io/table-schema/#date}{date} as \code{date}.
 Supports \code{format}, with values \code{default} (ISO date), \code{any} (guess \code{ymd})
 and \href{https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior}{Python/C strptime}
 patterns, such as \verb{\%a, \%d \%B \%Y} for \verb{Sat, 23 November 2013}.
 \verb{\%x} is \verb{\%m/\%d/\%y}.
 \verb{\%j}, \verb{\%U}, \verb{\%w} and \verb{\%W} are not supported.
-\item \href{https://specs.frictionlessdata.io/table-schema/#time}{time} →
+\item \href{https://specs.frictionlessdata.io/table-schema/#time}{time} as
 \code{\link[hms:hms]{hms::hms()}}.
 Supports \code{format}, with values \code{default} (ISO time), \code{any} (guess \code{hms})
 and \href{https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior}{Python/C strptime}
 patterns, such as \verb{\%I\%p\%M:\%S.\%f\%z} for \verb{8AM30:00.300+0200}.
-\item \href{https://specs.frictionlessdata.io/table-schema/#datetime}{datetime} →
+\item \href{https://specs.frictionlessdata.io/table-schema/#datetime}{datetime} as
 \code{POSIXct}.
 Supports \code{format}, with values \code{default} (ISO datetime), \code{any}
 (ISO datetime) and the same patterns as for \code{date} and \code{time}.
 \verb{\%c} is not supported.
-\item \href{https://specs.frictionlessdata.io/table-schema/#year}{year} → \code{date},
+\item \href{https://specs.frictionlessdata.io/table-schema/#year}{year} as \code{date},
 with \code{01} for month and day.
-\item \href{https://specs.frictionlessdata.io/table-schema/#yearmonth}{yearmonth} →
+\item \href{https://specs.frictionlessdata.io/table-schema/#yearmonth}{yearmonth} as
 \code{date}, with \code{01} for day.
-\item \href{https://specs.frictionlessdata.io/table-schema/#duration}{duration} →
+\item \href{https://specs.frictionlessdata.io/table-schema/#duration}{duration} as
 \code{character}.
 Can be parsed afterwards with \code{\link[lubridate:duration]{lubridate::duration()}}.
-\item \href{https://specs.frictionlessdata.io/table-schema/#geopoint}{geopoint} →
+\item \href{https://specs.frictionlessdata.io/table-schema/#geopoint}{geopoint} as
 \code{character}.
-\item \href{https://specs.frictionlessdata.io/table-schema/#geojson}{geojson} →
+\item \href{https://specs.frictionlessdata.io/table-schema/#geojson}{geojson} as
 \code{character}.
-\item \href{https://specs.frictionlessdata.io/table-schema/#any}{any} → \code{character}.
-\item no type provided → type is guessed.
-\item unknown type → not allowed.
+\item \href{https://specs.frictionlessdata.io/table-schema/#any}{any} as \code{character}.
+\item no type provided as type is guessed.
+\item unknown type as not allowed.
 }
 }
 }

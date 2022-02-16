@@ -14,7 +14,7 @@
 #' package <- example_package
 #'
 #' # Get the resource "observations"
-#' resource <- get_resource(package, "observations")
+#' resource <- frictionless:::get_resource(package, "observations")
 #' str(resource)
 get_resource <- function(package, resource_name) {
   # Check package

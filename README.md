@@ -5,10 +5,8 @@
 
 <!-- badges: start -->
 
-[![CRAN
-status](https://www.r-pkg.org/badges/version/frictionless)](https://CRAN.R-project.org/package=frictionless)
 [![R-CMD-check](https://github.com/frictionlessdata/frictionless-r/workflows/R-CMD-check/badge.svg)](https://github.com/frictionlessdata/frictionless-r/actions)
-[![codecov](https://codecov.io/gh/frictionlessdata/frictionless-r/branch/main/graph/badge.svg?token=bKtiHW21K0)](https://codecov.io/gh/frictionlessdata/frictionless-r)
+[![codecov](https://codecov.io/gh/frictionlessdata/frictionless-r/branch/main/graph/badge.svg)](https://app.codecov.io/gh/frictionlessdata/frictionless-r/)
 [![repo
 status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![rOpenSci](https://badges.ropensci.org/495_status.svg)](https://github.com/ropensci/software-review/issues/495)
@@ -34,12 +32,22 @@ To get started, see:
 
 ## Installation
 
-You can install the development version from
-[GitHub](https://github.com/frictionlessdata/frictionless-r) with:
+Install the latest released version from CRAN:
+
+``` r
+install.packages("frictionless")
+```
+
+Or the development version from
+[GitHub](https://github.com/frictionlessdata/frictionless-r) or
+[R-universe](https://ropensci.r-universe.dev):
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("frictionlessdata/frictionless-r")
+
+# Or rOpenSci R-universe
+install.packages("frictionless", repos = "https://ropensci.r-universe.dev")
 ```
 
 ## Usage
@@ -111,8 +119,8 @@ reference](https://docs.ropensci.org/frictionless/reference/index.html).
 
 ## frictionless vs datapackage.r
 
-[datapackage.r](https://cran.r-project.org/web/packages/datapackage.r/)
-is an alternative R package to work with Data Packages. It has an
+[datapackage.r](https://CRAN.R-project.org/package=datapackage.r) is an
+alternative R package to work with Data Packages. It has an
 object-oriented design (using a `Package` class) and offers validation.
 frictionless on the other hand allows you to quickly read and write Data
 Packages to and from data frames, getting out of the way for the rest of

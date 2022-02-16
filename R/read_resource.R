@@ -122,56 +122,56 @@
 #'
 #' Field `type` is used to set the column type, as follows:
 #'
-#' - [string](https://specs.frictionlessdata.io/table-schema/#string) →
+#' - [string](https://specs.frictionlessdata.io/table-schema/#string) as
 #'   `character`; or `factor` when `enum` is present.
 #'   `format` is ignored.
-#' - [number](https://specs.frictionlessdata.io/table-schema/#number) →
+#' - [number](https://specs.frictionlessdata.io/table-schema/#number) as
 #'   `double`; or `factor` when `enum` is present.
 #'   Use `bareNumber: false` to ignore whitespace and non-numeric characters.
 #'   `decimalChar` (`.` by default) and `groupChar` (undefined by default) can
 #'   be defined, but the most occurring value will be used as a global value for
 #'   all number fields of that resource.
-#' - [integer](https://specs.frictionlessdata.io/table-schema/#integer) →
+#' - [integer](https://specs.frictionlessdata.io/table-schema/#integer) as
 #'   `double` (not integer, to avoid issues with big numbers); or `factor` when
 #'   `enum` is present.
 #'   Use `bareNumber: false` to ignore whitespace and non-numeric characters.
-#' - [boolean](https://specs.frictionlessdata.io/table-schema/#boolean) →
+#' - [boolean](https://specs.frictionlessdata.io/table-schema/#boolean) as
 #'   `logical`.
 #'   Non-default `trueValues/falseValues` are not supported.
-#' - [object](https://specs.frictionlessdata.io/table-schema/#object) →
+#' - [object](https://specs.frictionlessdata.io/table-schema/#object) as
 #'   `character`.
-#' - [array](https://specs.frictionlessdata.io/table-schema/#array) →
+#' - [array](https://specs.frictionlessdata.io/table-schema/#array) as
 #'   `character`.
-#' - [date](https://specs.frictionlessdata.io/table-schema/#date) → `date`.
+#' - [date](https://specs.frictionlessdata.io/table-schema/#date) as `date`.
 #'   Supports `format`, with values `default` (ISO date), `any` (guess `ymd`)
 #'   and [Python/C strptime](https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior)
 #'   patterns, such as `%a, %d %B %Y` for `Sat, 23 November 2013`.
 #'   `%x` is `%m/%d/%y`.
 #'   `%j`, `%U`, `%w` and `%W` are not supported.
-#' - [time](https://specs.frictionlessdata.io/table-schema/#time) →
+#' - [time](https://specs.frictionlessdata.io/table-schema/#time) as
 #'   [hms::hms()].
 #'   Supports `format`, with values `default` (ISO time), `any` (guess `hms`)
 #'   and [Python/C strptime](https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior)
 #'   patterns, such as `%I%p%M:%S.%f%z` for `8AM30:00.300+0200`.
-#' - [datetime](https://specs.frictionlessdata.io/table-schema/#datetime) →
+#' - [datetime](https://specs.frictionlessdata.io/table-schema/#datetime) as
 #'   `POSIXct`.
 #'   Supports `format`, with values `default` (ISO datetime), `any`
 #'   (ISO datetime) and the same patterns as for `date` and `time`.
 #'   `%c` is not supported.
-#' - [year](https://specs.frictionlessdata.io/table-schema/#year) → `date`,
+#' - [year](https://specs.frictionlessdata.io/table-schema/#year) as `date`,
 #'   with `01` for month and day.
-#' - [yearmonth](https://specs.frictionlessdata.io/table-schema/#yearmonth) →
+#' - [yearmonth](https://specs.frictionlessdata.io/table-schema/#yearmonth) as
 #'   `date`, with `01` for day.
-#' - [duration](https://specs.frictionlessdata.io/table-schema/#duration) →
+#' - [duration](https://specs.frictionlessdata.io/table-schema/#duration) as
 #'   `character`.
 #'   Can be parsed afterwards with [lubridate::duration()].
-#' - [geopoint](https://specs.frictionlessdata.io/table-schema/#geopoint) →
+#' - [geopoint](https://specs.frictionlessdata.io/table-schema/#geopoint) as
 #'   `character`.
-#' - [geojson](https://specs.frictionlessdata.io/table-schema/#geojson) →
+#' - [geojson](https://specs.frictionlessdata.io/table-schema/#geojson) as
 #'   `character`.
-#' - [any](https://specs.frictionlessdata.io/table-schema/#any) → `character`.
-#' - no type provided → type is guessed.
-#' - unknown type → not allowed.
+#' - [any](https://specs.frictionlessdata.io/table-schema/#any) as `character`.
+#' - no type provided as type is guessed.
+#' - unknown type as not allowed.
 #' @examples
 #' # Read a datapackage.json file
 #' package <- read_package(
