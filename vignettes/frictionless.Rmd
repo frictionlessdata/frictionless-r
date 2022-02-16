@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 
 A [Data Package](https://specs.frictionlessdata.io/data-package/) is a simple container format to describe and package a collection of (tabular) data. It is typically used to publish FAIR and open datasets. In this tutorial we will show you how to read, create, edit and write Data Packages with the **R pkg frictionless**.
 
-**package** vs **pkg**: in the Frictionless Data community `package` refers to a Data Package, while in R that is a software package In this tutorial we will use `pkg` to refer to the latter.
+**package** vs **pkg**: in the Frictionless Data community `package` refers to a Data Package, while in R that is a software package. In this tutorial we will use `pkg` to refer to the latter.
 
 ## Read a Data Package
 
