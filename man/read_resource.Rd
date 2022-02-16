@@ -188,8 +188,8 @@ Can be parsed afterwards with \code{\link[lubridate:duration]{lubridate::duratio
 \item \href{https://specs.frictionlessdata.io/table-schema/#geojson}{geojson} as
 \code{character}.
 \item \href{https://specs.frictionlessdata.io/table-schema/#any}{any} as \code{character}.
-\item no type provided as type is guessed.
-\item unknown type as not allowed.
+\item Any other value is not allowed.
+\item Type is guessed when not provided.
 }
 }
 }

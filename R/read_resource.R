@@ -170,8 +170,8 @@
 #' - [geojson](https://specs.frictionlessdata.io/table-schema/#geojson) as
 #'   `character`.
 #' - [any](https://specs.frictionlessdata.io/table-schema/#any) as `character`.
-#' - no type provided as type is guessed.
-#' - unknown type as not allowed.
+#' - Any other value is not allowed.
+#' - Type is guessed when not provided.
 #' @examples
 #' # Read a datapackage.json file
 #' package <- read_package(
