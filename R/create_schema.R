@@ -31,25 +31,25 @@
 #'
 #' The column type will determine the field `type`, as follows:
 #'
-#' - `character` →
+#' - `character` as
 #'   [string](https://specs.frictionlessdata.io/table-schema/#string).
-#' - `Date` → [date](https://specs.frictionlessdata.io/table-schema/#date).
-#' - `difftime` →
+#' - `Date` as [date](https://specs.frictionlessdata.io/table-schema/#date).
+#' - `difftime` as
 #'   [number](https://specs.frictionlessdata.io/table-schema/#number).
-#' - `factor` →
+#' - `factor` as
 #'   [string](https://specs.frictionlessdata.io/table-schema/#string) with
 #'   factor levels as `enum`.
-#' - [hms::hms()] →
+#' - [hms::hms()] as
 #'   [time](https://specs.frictionlessdata.io/table-schema/#time).
-#' - `integer` →
+#' - `integer` as
 #'   [integer](https://specs.frictionlessdata.io/table-schema/#integer).
-#' - `logical` →.
+#' - `logical` as.
 #'   [boolean](https://specs.frictionlessdata.io/table-schema/#boolean).
-#' - `numeric` →
+#' - `numeric` as
 #'   [number](https://specs.frictionlessdata.io/table-schema/#number).
-#' - `POSIXct`/`POSIXlt` →
+#' - `POSIXct`/`POSIXlt` as
 #'   [datetime](https://specs.frictionlessdata.io/table-schema/#datetime).
-#' - Any other type →
+#' - Any other type as
 #'   [any](https://specs.frictionlessdata.io/table-schema/#any).
 #' @examples
 #' # Create a data frame

@@ -41,25 +41,25 @@ writing.
 
 The column type will determine the field \code{type}, as follows:
 \itemize{
-\item \code{character} →
+\item \code{character} as
 \href{https://specs.frictionlessdata.io/table-schema/#string}{string}.
-\item \code{Date} → \href{https://specs.frictionlessdata.io/table-schema/#date}{date}.
-\item \code{difftime} →
+\item \code{Date} as \href{https://specs.frictionlessdata.io/table-schema/#date}{date}.
+\item \code{difftime} as
 \href{https://specs.frictionlessdata.io/table-schema/#number}{number}.
-\item \code{factor} →
+\item \code{factor} as
 \href{https://specs.frictionlessdata.io/table-schema/#string}{string} with
 factor levels as \code{enum}.
-\item \code{\link[hms:hms]{hms::hms()}} →
+\item \code{\link[hms:hms]{hms::hms()}} as
 \href{https://specs.frictionlessdata.io/table-schema/#time}{time}.
-\item \code{integer} →
+\item \code{integer} as
 \href{https://specs.frictionlessdata.io/table-schema/#integer}{integer}.
-\item \code{logical} →.
+\item \code{logical} as.
 \href{https://specs.frictionlessdata.io/table-schema/#boolean}{boolean}.
-\item \code{numeric} →
+\item \code{numeric} as
 \href{https://specs.frictionlessdata.io/table-schema/#number}{number}.
-\item \code{POSIXct}/\code{POSIXlt} →
+\item \code{POSIXct}/\code{POSIXlt} as
 \href{https://specs.frictionlessdata.io/table-schema/#datetime}{datetime}.
-\item Any other type →
+\item Any other type as
 \href{https://specs.frictionlessdata.io/table-schema/#any}{any}.
 }
 }
