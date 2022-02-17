@@ -5,9 +5,9 @@
 ^cache$
 ^codemeta\.json$
 ^cran-comments\.md$
+^CRAN-SUBMISSION$
 ^docs$
 ^frictionless\.Rproj$
 ^LICENSE\.md$
 ^pkgdown$
 ^README\.Rmd$
-^CRAN-SUBMISSION$
