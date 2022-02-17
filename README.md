@@ -5,6 +5,8 @@
 
 <!-- badges: start -->
 
+[![CRAN
+status](https://www.r-pkg.org/badges/version/frictionless)](https://CRAN.R-project.org/package=frictionless)
 [![R-CMD-check](https://github.com/frictionlessdata/frictionless-r/workflows/R-CMD-check/badge.svg)](https://github.com/frictionlessdata/frictionless-r/actions)
 [![codecov](https://codecov.io/gh/frictionlessdata/frictionless-r/branch/main/graph/badge.svg)](https://app.codecov.io/gh/frictionlessdata/frictionless-r/)
 [![repo
