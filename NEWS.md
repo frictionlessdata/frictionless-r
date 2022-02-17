@@ -1,3 +1,5 @@
+# frictionless (development version)
+
 # frictionless 1.0.0
 
 - First release on [CRAN](https://cran.r-project.org/package=frictionless). 🎉
