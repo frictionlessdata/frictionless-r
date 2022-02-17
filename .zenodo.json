@@ -14,7 +14,7 @@
   ],
   "upload_type": "software",
   "access_right": "open",
-  "license": "http://www.opensource.org/licenses/MIT",
+  "license": "MIT",
   "communities": [
     {
       "identifier": "inbo"
