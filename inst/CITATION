@@ -1,22 +1,12 @@
-title <- "frictionless: Read and Write Frictionless Data Packages"
-authors <- c(person("Peter", "Desmet"), person("Damiano", "Oldoni"))
-year <- format(Sys.Date(), "%Y")
-note <- sprintf("R package version %s", meta$Version)
-url <- "https://github.com/frictionlessdata/frictionless-r"
-doi <- "10.5281/zenodo.5815355"
+authors <- eval(parse(text = meta$`Authors@R`))
+authors <- authors[which(unlist(lapply(authors, function(x) { "aut" %in% x$role })))]
 
-citHeader("To cite frictionless in publications use:")
-
-citEntry(
-  entry = "manual",
-  title = title,
+bibentry(
+  bibtype = "manual",
+  title = meta$Title,
   author = authors,
-  year = year,
-  note = note,
-  url = url,
-  doi = doi,
-  textVersion = paste0(
-    paste(authors$family, substr(authors$given, 1, 1), collapse = ", "), " (",
-    year, ") ", title, ". ", note, ". ", url, ", https://doi.org/", doi
-  )
+  year = format(Sys.Date(), "%Y"),
+  note = sprintf("R package version %s", meta$Version),
+  url = "https://cran.r-project.org/package=frictionless",
+  doi = "10.5281/zenodo.5815355"
 )
