@@ -31,9 +31,6 @@ read_package <- function(file = "datapackage.json") {
   )
   descriptor <- read_descriptor(file, safe = FALSE)
 
-# -------------------------------------------------------------------------
-
-
   # Check resources
   # https://specs.frictionlessdata.io/data-package/#metadata
   assertthat::assert_that(
