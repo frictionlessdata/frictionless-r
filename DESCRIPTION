@@ -2,15 +2,17 @@ Package: frictionless
 Title: Read and Write Frictionless Data Packages
 Version: 1.0.0.9000
 Authors@R: c(
-    person("Peter", "Desmet", , "peter.desmet.work@gmail.com",
+    person("Peter", "Desmet", email = "peter.desmet.work@gmail.com",
            role = c("aut", "cre"), comment = c(ORCID = "0000-0002-8442-8025")),
-    person("Damiano", "Oldoni", , "damiano.oldoni@inbo.be",
+    person("Damiano", "Oldoni", email = "damiano.oldoni@inbo.be",
            role = "aut", comment = c(ORCID = "0000-0003-3445-7562")),
-    person("Research Institute for Nature and Forest (INBO)", , , , 
+    person("Research Institute for Nature and Forest (INBO)",
            role = "cph", comment = "https://www.vlaanderen.be/inbo/en-gb/"),
-    person("Beatriz", "Milz", , "milz.bea@gmail.com",
+    person("Research Foundation - Flanders (FWO)",
+           role = "fnd", comment = "https://lifewatch.be"),
+    person("Beatriz", "Milz", email = "milz.bea@gmail.com",
            role = "rev", comment = c(ORCID = "0000-0002-3064-4486")),
-    person("João", "Martins", , "joao.martins@gmx.net",
+    person("João", "Martins", email = "joao.martins@gmx.net",
            role = "rev", comment = c(ORCID = "0000-0001-7961-4280"))
   )
 Description: Read and write Frictionless Data Packages. A 'Data Package'
