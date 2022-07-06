@@ -11,6 +11,8 @@ authors:
     href: https://twitter.com/peterdesmet
   Damiano Oldoni:
     href: https://twitter.com/damianozingaro
+  LifeWatch Belgium:
+    html: "<img src='https://www.lifewatch.be/sites/lifewatch.be/themes/lifewatchportal/images/header_lw_logo.png' width=72>"
 
 reference:
 - title: "Read a Data Package"
