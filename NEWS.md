@@ -1,5 +1,10 @@
 # frictionless (development version)
 
+# frictionless 1.0.1
+
+- Rebuild documentation for compatibility with HTML5 on request of CRAN.
+- Add funder information.
+
 # frictionless 1.0.0
 
 - First release on [CRAN](https://cran.r-project.org/package=frictionless). 🎉
