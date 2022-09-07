@@ -4,17 +4,23 @@
   "identifier": "frictionless",
   "description": "Read and write Frictionless Data Packages. A 'Data Package' (<https://specs.frictionlessdata.io/data-package/>) is a simple container format and standard to describe and package a collection of (tabular) data. It is typically used to publish FAIR (<https://www.go-fair.org/fair-principles/>) and open datasets.",
   "name": "frictionless: Read and Write Frictionless Data Packages",
-  "relatedLink": "https://docs.ropensci.org/frictionless/",
+  "relatedLink": ["https://docs.ropensci.org/frictionless/", "https://CRAN.R-project.org/package=frictionless"],
   "codeRepository": "https://github.com/frictionlessdata/frictionless-r",
   "issueTracker": "https://github.com/frictionlessdata/frictionless-r/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
   "runtimePlatform": "R version 4.1.2 (2021-11-01)",
+  "provider": {
+    "@id": "https://cran.r-project.org",
+    "@type": "Organization",
+    "name": "Comprehensive R Archive Network (CRAN)",
+    "url": "https://cran.r-project.org"
+  },
   "author": [
     {
       "@type": "Person",
@@ -34,8 +40,13 @@
   "copyrightHolder": [
     {
       "@type": "Organization",
-      "name": "Research Institute for Nature and Forest (INBO)",
-      "email": "info@inbo.be"
+      "name": "Research Institute for Nature and Forest (INBO)"
+    }
+  ],
+  "funder": [
+    {
+      "@type": "Organization",
+      "name": "LifeWatch Belgium"
     }
   ],
   "maintainer": [
@@ -215,7 +226,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "177.956KB",
+  "fileSize": "178.01KB",
   "citation": [
     {
       "@type": "SoftwareSourceCode",
@@ -224,25 +235,29 @@
         {
           "@type": "Person",
           "givenName": "Peter",
-          "familyName": "Desmet"
+          "familyName": "Desmet",
+          "email": "peter.desmet.work@gmail.com",
+          "@id": "https://orcid.org/0000-0002-8442-8025"
         },
         {
           "@type": "Person",
           "givenName": "Damiano",
-          "familyName": "Oldoni"
+          "familyName": "Oldoni",
+          "email": "damiano.oldoni@inbo.be",
+          "@id": "https://orcid.org/0000-0003-3445-7562"
         }
       ],
-      "name": "frictionless: Read and Write Frictionless Data Packages",
+      "name": "Read and Write Frictionless Data Packages",
       "identifier": "10.5281/zenodo.5815355",
-      "url": "https://github.com/frictionlessdata/frictionless-r",
-      "description": "R package version 1.0.0",
+      "url": "https://cran.r-project.org/package=frictionless",
+      "description": "R package version 1.0.1",
       "@id": "https://doi.org/10.5281/zenodo.5815355",
       "sameAs": "https://doi.org/10.5281/zenodo.5815355"
     }
   ],
   "releaseNotes": "https://github.com/frictionlessdata/frictionless-r/blob/master/NEWS.md",
   "readme": "https://github.com/frictionlessdata/frictionless-r/blob/main/README.md",
-  "contIntegration": ["https://github.com/frictionlessdata/frictionless-r/actions", "https://app.codecov.io/gh/frictionlessdata/frictionless-r/"],
+  "contIntegration": ["https://github.com/frictionlessdata/frictionless-r/actions/workflows/R-CMD-check.yaml", "https://app.codecov.io/gh/frictionlessdata/frictionless-r/"],
   "developmentStatus": "https://www.repostatus.org/#active",
   "review": {
     "@type": "Review",
