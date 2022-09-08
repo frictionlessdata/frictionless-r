@@ -1,6 +1,6 @@
 Package: frictionless
 Title: Read and Write Frictionless Data Packages
-Version: 1.0.0.9000
+Version: 1.0.1
 Authors@R: c(
     person("Peter", "Desmet", email = "peter.desmet.work@gmail.com",
            role = c("aut", "cre"), comment = c(ORCID = "0000-0002-8442-8025")),
@@ -46,4 +46,4 @@ Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1

@@ -202,6 +202,6 @@ unlink("my_directory", recursive = TRUE)
 
 The frictionless pkg does not provide functionality to deposit your Data Package on a research repository such as [Zenodo](https://zenodo.org), but here are some tips:
 
-1. Validate your Data Package before depositing. You can do this in Python with the [Frictionless Framework](https://github.com/frictionlessdata/frictionless-py) using `frictionless validate datapackage.json`.
+1. Validate your Data Package before depositing. You can do this in Python with the [Frictionless Framework](https://github.com/frictionlessdata/framework) using `frictionless validate datapackage.json`.
 2. Zip the individual CSV files (and update their paths in `datapackage.json`) to reduce size, not the entire Data Package. That way, users still have direct access to the `datapackage.json` file. See [this example](https://zenodo.org/record/5061303#files).
 3. Only describe the technical aspects of your dataset in `datapackage.json` (fields, units, the dataset identifier in `id`). Authors, methodology, license, etc. are better described in the metadata fields the research repository provides.
