@@ -1,41 +1,41 @@
 test_that("read_package() returns a valid Data Package reading path", {
-             # Load example package locally and a valid minimal one
-             p_path <- system.file("extdata", "datapackage.json", package = "frictionless")
-             minimal_path <- test_path("data/valid_minimal.json")
-             p_local <- suppressMessages(read_package(p_path))
-             p_minimal <- suppressMessages(read_package(minimal_path))
+  # Load example package locally and a valid minimal one
+  p_path <- system.file("extdata", "datapackage.json", package = "frictionless")
+  minimal_path <- test_path("data/valid_minimal.json")
+  p_local <- suppressMessages(read_package(p_path))
+  p_minimal <- suppressMessages(read_package(minimal_path))
 
-             # Returns a list with required properties
-             expect_true(check_package(p_local))
-             expect_true(check_package(p_minimal))
+  # Returns a list with required properties
+  expect_true(check_package(p_local))
+  expect_true(check_package(p_minimal))
 
-             # Package has correct resources
-             resource_names <- c("deployments", "observations", "media")
-             expect_identical(resources(p_local), resource_names)
-             expect_identical(resources(p_minimal), resource_names)
+  # Package has correct resources
+  resource_names <- c("deployments", "observations", "media")
+  expect_identical(resources(p_local), resource_names)
+  expect_identical(resources(p_minimal), resource_names)
 
-             # Package has correct "directory", containing root dir of datapackage.json
-             expect_identical(p_local$directory, gsub("/datapackage.json", "", p_path))
-             expect_identical(p_minimal$directory, "data")
-           })
+  # Package has correct "directory", containing root dir of datapackage.json
+  expect_identical(p_local$directory, gsub("/datapackage.json", "", p_path))
+  expect_identical(p_minimal$directory, "data")
+})
 
 test_that("read_package() returns a valid Data Package reading url", {
-             testthat::skip_if_offline()
-             # Load example package remotely
-             p_url <- file.path("https://raw.githubusercontent.com/frictionlessdata/",
-                                "frictionless-r/main/inst/extdata/datapackage.json")
-             p_remote <- suppressMessages(read_package(p_url))
+  testthat::skip_if_offline()
+  # Load example package remotely
+  p_url <- file.path("https://raw.githubusercontent.com/frictionlessdata/",
+                     "frictionless-r/main/inst/extdata/datapackage.json")
+  p_remote <- suppressMessages(read_package(p_url))
 
-             # Returns a list with required properties
-             expect_true(check_package(p_remote))
+  # Returns a list with required properties
+  expect_true(check_package(p_remote))
 
-             # Package has correct resources
-             resource_names <- c("deployments", "observations", "media")
-             expect_identical(resources(p_remote), resource_names)
+  # Package has correct resources
+  resource_names <- c("deployments", "observations", "media")
+  expect_identical(resources(p_remote), resource_names)
 
-             # Package has correct "directory", containing root dir of datapackage.json
-             expect_identical(p_remote$directory, gsub("/datapackage.json", "", p_url))
-           })
+  # Package has correct "directory", containing root dir of datapackage.json
+  expect_identical(p_remote$directory, gsub("/datapackage.json", "", p_url))
+})
 
 test_that("read_package() shows message about usage norms", {
   # Load example package and a minimal valid one a URL in "id"
