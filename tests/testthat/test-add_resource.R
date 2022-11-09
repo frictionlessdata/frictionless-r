@@ -256,12 +256,6 @@ test_that("add_resource() can add resource from local, relative, absolute,
   expect_identical(p$resources[[6]]$path, absolute_path)
   expect_s3_class(read_resource(p, "absolute"), "tbl")
 
-  # Compressed
-  compressed_file <- test_path("data/deployments.csv.gz")
-  p <- add_resource(p, "compressed", compressed_file, schema)
-  expect_identical(p$resources[[8]]$path, compressed_file)
-  expect_s3_class(read_resource(p, "compressed"), "tbl")
-
   # Remote
   remote_path <- file.path(
     "https://github.com/frictionlessdata/frictionless-r",
@@ -270,6 +264,13 @@ test_that("add_resource() can add resource from local, relative, absolute,
   p <- add_resource(p, "remote", remote_path, schema)
   expect_identical(p$resources[[7]]$path, remote_path)
   expect_s3_class(read_resource(p, "remote"), "tbl")
+
+  # Compressed
+  compressed_file <- test_path("data/deployments.csv.gz")
+  p <- add_resource(p, "compressed", compressed_file, schema)
+  expect_identical(p$resources[[8]]$path, compressed_file)
+  expect_s3_class(read_resource(p, "compressed"), "tbl")
+
 })
 
 test_that("add_resource() can add resource from CSV file with other delimiter,
