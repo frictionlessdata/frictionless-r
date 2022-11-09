@@ -85,6 +85,7 @@ test_that("add_resource() returns error on invalid or empty data frame", {
 })
 
 test_that("add_resource() returns error if CSV file cannot be found", {
+  testthat::skip_if_offline()
   p <- example_package
   df_csv <- test_path("data/df.csv")
   schema <- create_schema(data.frame("col_1" = c(1, 2), "col_2" = c("a", "b")))
@@ -96,11 +97,6 @@ test_that("add_resource() returns error if CSV file cannot be found", {
   expect_error(
     add_resource(p, "new", "no_such_file.csv", schema),
     "Can't find file at `no_such_file.csv`.",
-    fixed = TRUE
-  )
-  expect_error(
-    add_resource(p, "new", "http://example.com/no_such_file.csv"),
-    "Can't find file at `http://example.com/no_such_file.csv`.",
     fixed = TRUE
   )
   expect_error(
@@ -118,9 +114,16 @@ test_that("add_resource() returns error if CSV file cannot be found", {
     "Can't find file at `no_such_file_1.csv`.",
     fixed = TRUE
   )
+  testthat::skip_if_offline()
+  expect_error(
+    add_resource(p, "new", "http://example.com/no_such_file.csv"),
+    "Can't find file at `http://example.com/no_such_file.csv`.",
+    fixed = TRUE
+  )
 })
 
 test_that("add_resource() returns error on mismatching schema and data", {
+  testthat::skip_if_offline()
   p <- example_package
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   df_csv <- test_path("data/df.csv")
@@ -155,6 +158,7 @@ test_that("add_resource() returns error on mismatching schema and data", {
 })
 
 test_that("add_resource() adds resource", {
+  testthat::skip_if_offline()
   p <- example_package
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   df_csv <- test_path("data/df.csv")
@@ -183,6 +187,7 @@ test_that("add_resource() adds resource", {
 })
 
 test_that("add_resource() uses provided schema (list or path) or creates one", {
+  testthat::skip_if_offline()
   p <- create_package()
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   df_csv <- test_path("data/df.csv")
@@ -218,6 +223,7 @@ test_that("add_resource() uses provided schema (list or path) or creates one", {
 
 test_that("add_resource() can add resource from data frame, readable by
            read_resource()", {
+  testthat::skip_if_offline()
   p <- example_package
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   p <- add_resource(p, "new", df)
@@ -226,6 +232,7 @@ test_that("add_resource() can add resource from data frame, readable by
 
 test_that("add_resource() can add resource from local, relative, absolute,
            remote or compressed CSV file, readable by read_resource()", {
+  testthat::skip_if_offline()
   p <- example_package
   schema <- get_schema(p, "deployments")
 
@@ -249,7 +256,14 @@ test_that("add_resource() can add resource from local, relative, absolute,
   expect_identical(p$resources[[6]]$path, absolute_path)
   expect_s3_class(read_resource(p, "absolute"), "tbl")
 
+  # Compressed
+  compressed_file <- test_path("data/deployments.csv.gz")
+  p <- add_resource(p, "compressed", compressed_file, schema)
+  expect_identical(p$resources[[8]]$path, compressed_file)
+  expect_s3_class(read_resource(p, "compressed"), "tbl")
+
   # Remote
+  testthat::skip_if_offline()
   remote_path <- file.path(
     "https://github.com/frictionlessdata/frictionless-r",
     "raw/main/inst/extdata/deployments.csv"
@@ -257,12 +271,6 @@ test_that("add_resource() can add resource from local, relative, absolute,
   p <- add_resource(p, "remote", remote_path, schema)
   expect_identical(p$resources[[7]]$path, remote_path)
   expect_s3_class(read_resource(p, "remote"), "tbl")
-
-  # Compressed
-  compressed_file <- test_path("data/deployments.csv.gz")
-  p <- add_resource(p, "compressed", compressed_file, schema)
-  expect_identical(p$resources[[8]]$path, compressed_file)
-  expect_s3_class(read_resource(p, "compressed"), "tbl")
 })
 
 test_that("add_resource() can add resource from CSV file with other delimiter,
