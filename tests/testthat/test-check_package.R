@@ -1,4 +1,5 @@
 test_that("check_package() returns TRUE on valid Data Package", {
+  testthat::skip_if_offline()
   expect_true(check_package(example_package))
 })
 
@@ -33,6 +34,7 @@ test_that("check_package() returns error on incorrect Data Package", {
 })
 
 test_that("check_package() returns error if resources have no name", {
+  testthat::skip_if_offline()
   p <- example_package
   p$resources[[2]]$name <- NULL
   expect_error(
