@@ -270,7 +270,6 @@ test_that("add_resource() can add resource from local, relative, absolute,
   p <- add_resource(p, "compressed", compressed_file, schema)
   expect_identical(p$resources[[8]]$path, compressed_file)
   expect_s3_class(read_resource(p, "compressed"), "tbl")
-
 })
 
 test_that("add_resource() can add resource from CSV file with other delimiter,
