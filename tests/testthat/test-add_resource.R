@@ -263,7 +263,6 @@ test_that("add_resource() can add resource from local, relative, absolute,
   expect_s3_class(read_resource(p, "compressed"), "tbl")
 
   # Remote
-  testthat::skip_if_offline()
   remote_path <- file.path(
     "https://github.com/frictionlessdata/frictionless-r",
     "raw/main/inst/extdata/deployments.csv"
