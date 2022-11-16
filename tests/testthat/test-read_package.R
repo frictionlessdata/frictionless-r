@@ -1,4 +1,4 @@
-test_that("read_package() returns a valid Data Package reading path", {
+test_that("read_package() returns a valid Data Package reading from path", {
   # Load example package locally and a valid minimal one
   p_path <- system.file("extdata", "datapackage.json", package = "frictionless")
   minimal_path <- test_path("data/valid_minimal.json")
@@ -19,7 +19,7 @@ test_that("read_package() returns a valid Data Package reading path", {
   expect_identical(p_minimal$directory, "data")
 })
 
-test_that("read_package() returns a valid Data Package reading url", {
+test_that("read_package() returns a valid Data Package reading from url", {
   testthat::skip_if_offline()
   # Load example package remotely
   p_url <- file.path("https://raw.githubusercontent.com/frictionlessdata/",
@@ -129,15 +129,15 @@ test_that("read_package() returns error on missing file and properties", {
 
 test_that("read_package() allows descriptor at absolute or relative parent
            path", {
-             relative_path <- "../testthat/data/valid_minimal.json"
-             expect_true(
-               check_package(suppressMessages(read_package(relative_path)))
-             )
-             absolute_path <- normalizePath("data/valid_minimal.json")
-             expect_true(
-               check_package(suppressMessages(read_package(absolute_path)))
-             )
-           })
+  relative_path <- "../testthat/data/valid_minimal.json"
+  expect_true(
+    check_package(suppressMessages(read_package(relative_path)))
+  )
+  absolute_path <- normalizePath("data/valid_minimal.json")
+  expect_true(
+    check_package(suppressMessages(read_package(absolute_path)))
+  )
+})
 
 test_that("read_package() allows YAML descriptor", {
   expect_true(
