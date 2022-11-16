@@ -1,29 +1,40 @@
-test_that("read_package() returns a valid Data Package, whether reading path or
-           url", {
-  # Load example package (locally and remotely) and a valid minimal one
+test_that("read_package() returns a valid Data Package reading from path", {
+  # Load example package locally and a valid minimal one
   p_path <- system.file("extdata", "datapackage.json", package = "frictionless")
-  p_url <- file.path("https://raw.githubusercontent.com/frictionlessdata/",
-                       "frictionless-r/main/inst/extdata/datapackage.json")
   minimal_path <- test_path("data/valid_minimal.json")
   p_local <- suppressMessages(read_package(p_path))
-  p_remote <- suppressMessages(read_package(p_url))
   p_minimal <- suppressMessages(read_package(minimal_path))
 
   # Returns a list with required properties
   expect_true(check_package(p_local))
-  expect_true(check_package(p_remote))
   expect_true(check_package(p_minimal))
 
   # Package has correct resources
   resource_names <- c("deployments", "observations", "media")
   expect_identical(resources(p_local), resource_names)
-  expect_identical(resources(p_remote), resource_names)
   expect_identical(resources(p_minimal), resource_names)
 
   # Package has correct "directory", containing root dir of datapackage.json
   expect_identical(p_local$directory, gsub("/datapackage.json", "", p_path))
-  expect_identical(p_remote$directory, gsub("/datapackage.json", "", p_url))
   expect_identical(p_minimal$directory, "data")
+})
+
+test_that("read_package() returns a valid Data Package reading from url", {
+  testthat::skip_if_offline()
+  # Load example package remotely
+  p_url <- file.path("https://raw.githubusercontent.com/frictionlessdata/",
+                     "frictionless-r/main/inst/extdata/datapackage.json")
+  p_remote <- suppressMessages(read_package(p_url))
+
+  # Returns a list with required properties
+  expect_true(check_package(p_remote))
+
+  # Package has correct resources
+  resource_names <- c("deployments", "observations", "media")
+  expect_identical(resources(p_remote), resource_names)
+
+  # Package has correct "directory", containing root dir of datapackage.json
+  expect_identical(p_remote$directory, gsub("/datapackage.json", "", p_url))
 })
 
 test_that("read_package() shows message about usage norms", {
@@ -55,6 +66,7 @@ test_that("read_package() shows message about usage norms", {
 })
 
 test_that("read_package() returns error on missing file and properties", {
+  testthat::skip_if_offline()
   # Incorrect type
   expect_error(
     read_package(list()),
@@ -62,15 +74,10 @@ test_that("read_package() returns error on missing file and properties", {
     fixed = TRUE
   )
 
-  # No file
+  # No file locally
   expect_error(
     read_package("nofile.json"),
     "Can't find file at `nofile.json`",
-    fixed = TRUE
-  )
-  expect_error(
-    read_package("http://example.com/nofile.json"),
-    "Can't find file at `http://example.com/nofile.json`.",
     fixed = TRUE
   )
 
@@ -109,6 +116,13 @@ test_that("read_package() returns error on missing file and properties", {
       "`data/resources_no_name.json` must have property `resources`",
       "containing at least one resource. All resources must have a `name`."
     ),
+    fixed = TRUE
+  )
+
+  # No file remotely
+  expect_error(
+    read_package("http://example.com/nofile.json"),
+    "Can't find file at `http://example.com/nofile.json`.",
     fixed = TRUE
   )
 })

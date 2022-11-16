@@ -32,38 +32,91 @@ library(frictionless)
 
 To read a Data Package, you need to know the path or URL to its descriptor file, named `datapackage.json`. That file describes the Data Package, provides access points to its Data Resources and can contain dataset-level metadata. Let's read a Data Package descriptor file published on [Zenodo](https://doi.org/10.5281/zenodo.5879096):
 
-```{r}
+``` r
 package <- read_package("https://zenodo.org/record/5879096/files/datapackage.json")
+#> Please make sure you have the right to access data from this Data Package for your intended use.
+#> Follow applicable norms or requirements to credit the dataset and its authors.
+#> For more information, see https://doi.org/10.5281/zenodo.5879096
 ```
 
 `read_package()` returns the content of `datapackage.json` as a list, printed here with `str()` to improve readability:
 
-```{r}
+```r
 str(package, list.len = 3)
+#> List of 4
+#>  $ id       : chr "https://doi.org/10.5281/zenodo.5879096"
+#>  $ profile  : chr "tabular-data-package"
+#>  $ resources:List of 3
+#>   ..$ :List of 7
+#>   .. ..$ name     : chr "reference-data"
+#>   .. ..$ path     : chr "O_WESTERSCHELDE-reference-data.csv"
+#>   .. ..$ profile  : chr "tabular-data-resource"
+#>   .. .. [list output truncated]
+#>   ..$ :List of 7
+#>   .. ..$ name     : chr "gps"
+#>   .. ..$ path     : chr [1:3] "O_WESTERSCHELDE-gps-2018.csv.gz" "O_WESTERSCHELDE-gps-2019.csv.gz" "O_WESTERSCHELDE-gps-2020.csv.gz"
+#>   .. ..$ profile  : chr "tabular-data-resource"
+#>   .. .. [list output truncated]
+#>   ..$ :List of 7
+#>   .. ..$ name     : chr "acceleration"
+#>   .. ..$ path     : chr [1:3] "O_WESTERSCHELDE-acceleration-2018.csv.gz" "O_WESTERSCHELDE-acceleration-2019.csv.gz" "O_WESTERSCHELDE-acceleration-2020.csv.gz"
+#>   .. ..$ profile  : chr "tabular-data-resource"
+#>   .. .. [list output truncated]
+#>   [list output truncated]
 ```
 
 The most important aspect of a Data Package are its **Data Resources**, which describe and point to the data. You can list all included resources with `resources()`:
 
-```{r}
+```r
 resources(package)
+#> [1] "reference-data" "gps"            "acceleration"
 ```
 
 This Data Package has 3 resources. Let's read the data from the `gps` resource into a data frame:
 
-```{r}
+```r
 gps <- read_resource(package, "gps")
 gps
+#> # A tibble: 73,047 × 21
+#>    event-i…¹ visible timestamp           locat…² locat…³ bar:b…⁴ exter…⁵ gps:d…⁶
+#>        <dbl> <lgl>   <dttm>                <dbl>   <dbl>   <dbl>   <dbl>   <dbl>
+#>  1   1.43e10 TRUE    2018-05-25 16:11:37    4.25    51.3      NA    32.5     2  
+#>  2   1.43e10 TRUE    2018-05-25 16:16:41    4.25    51.3      NA    32.8     2.1
+#>  3   1.43e10 TRUE    2018-05-25 16:21:29    4.25    51.3      NA    34.1     2.1
+#>  4   1.43e10 TRUE    2018-05-25 16:26:28    4.25    51.3      NA    34.5     2.2
+#>  5   1.43e10 TRUE    2018-05-25 16:31:21    4.25    51.3      NA    34.1     2.2
+#>  6   1.43e10 TRUE    2018-05-25 16:36:09    4.25    51.3      NA    32.5     2.2
+#>  7   1.43e10 TRUE    2018-05-25 16:40:57    4.25    51.3      NA    32.1     2.2
+#>  8   1.43e10 TRUE    2018-05-25 16:45:55    4.25    51.3      NA    33.3     2.1
+#>  9   1.43e10 TRUE    2018-05-25 16:50:49    4.25    51.3      NA    32.6     2.1
+#> 10   1.43e10 TRUE    2018-05-25 16:55:36    4.25    51.3      NA    31.7     2  
+#> # … with 73,037 more rows, 13 more variables: `gps:satellite-count` <dbl>,
+#> #   `gps-time-to-fix` <dbl>, `ground-speed` <dbl>, heading <dbl>,
+#> #   `height-above-msl` <dbl>, `location-error-numerical` <dbl>,
+#> #   `manually-marked-outlier` <lgl>, `vertical-error-numerical` <dbl>,
+#> #   `sensor-type` <chr>, `individual-taxon-canonical-name` <chr>,
+#> #   `tag-local-identifier` <chr>, `individual-local-identifier` <chr>,
+#> #   `study-name` <chr>, and abbreviated variable names ¹​`event-id`, …
 ```
 
 The data frame contains all GPS records, even though the actual data were split over [multiple CSV zipped files](https://zenodo.org/record/5879096#files). `read_resource()` assigned the column names and types based on the Table Schema that was defined for that resource, not the headers of the CSV file.
 
 You can also read data from a local (e.g. downloaded) Data Package. In fact, there is one included in the frictionless pkg, let's read that one from disk:
 
-```{r}
+```r
 local_package <- read_package(
   system.file("extdata", "datapackage.json", package = "frictionless")
 )
+#> Please make sure you have the right to access data from this Data Package for your intended use.
+#> Follow applicable norms or requirements to credit the dataset and its authors.
 read_resource(local_package, "media")
+#> # A tibble: 3 × 5
+#>   media_id                             deployment_id observati…¹ times…² file_…³
+#>   <chr>                                <chr>         <chr>       <chr>   <chr>  
+#> 1 aed5fa71-3ed4-4284-a6ba-3550d1a4de8d 1             1-1         2020-0… https:…
+#> 2 da81a501-8236-4cbd-aa95-4bc4b10a05df 1             1-1         2020-0… https:…
+#> 3 0ba57608-3cf1-49d6-a5a2-fe680851024d 1             1-1         2020-0… https:…
+#> # … with abbreviated variable names ¹​observation_id, ²​timestamp, ³​file_path
 ```
 
 Data from the `media` was not stored in a CSV file, but directly in the `data` property of that resource in `datapackage.json`. `read_resource()` will automatically detect where to read data from.
@@ -161,7 +214,7 @@ my_package <-
 
 If you already have your data stored as CSV files and you want to include them _as is_ as a Data Resource, you can do so as well. As with data frames, you can opt to create a Table Schema automatically or provide your own.
 
-```{r}
+```r
 # Two CSV files with the same structure
 path_1 <- system.file("extdata", "observations_1.csv", package = "frictionless")
 path_2 <- system.file("extdata", "observations_2.csv", package = "frictionless")
@@ -192,8 +245,10 @@ write_package(my_package, "my_directory")
 
 The directory will contain four files: the descriptor `datapackage.json`, one CSV file containing the data for the resource `iris` and two CSV files containing the data for the resource `observations`.
 
-```{r}
+```r
 list.files("my_directory")
+#> [1] "datapackage.json"   "iris.csv"           "observations_1.csv"
+#> [4] "observations_2.csv"
 ```
 
 ```{r, include = FALSE}

@@ -85,6 +85,7 @@ test_that("add_resource() returns error on invalid or empty data frame", {
 })
 
 test_that("add_resource() returns error if CSV file cannot be found", {
+  testthat::skip_if_offline()
   p <- example_package
   df_csv <- test_path("data/df.csv")
   schema <- create_schema(data.frame("col_1" = c(1, 2), "col_2" = c("a", "b")))
@@ -96,11 +97,6 @@ test_that("add_resource() returns error if CSV file cannot be found", {
   expect_error(
     add_resource(p, "new", "no_such_file.csv", schema),
     "Can't find file at `no_such_file.csv`.",
-    fixed = TRUE
-  )
-  expect_error(
-    add_resource(p, "new", "http://example.com/no_such_file.csv"),
-    "Can't find file at `http://example.com/no_such_file.csv`.",
     fixed = TRUE
   )
   expect_error(
@@ -116,6 +112,11 @@ test_that("add_resource() returns error if CSV file cannot be found", {
   expect_error(
     add_resource(p, "new", c("no_such_file_1.csv", "no_such_file_2.csv")),
     "Can't find file at `no_such_file_1.csv`.",
+    fixed = TRUE
+  )
+  expect_error(
+    add_resource(p, "new", "http://example.com/no_such_file.csv"),
+    "Can't find file at `http://example.com/no_such_file.csv`.",
     fixed = TRUE
   )
 })
@@ -226,6 +227,7 @@ test_that("add_resource() can add resource from data frame, readable by
 
 test_that("add_resource() can add resource from local, relative, absolute,
            remote or compressed CSV file, readable by read_resource()", {
+  testthat::skip_if_offline()
   p <- example_package
   schema <- get_schema(p, "deployments")
 
