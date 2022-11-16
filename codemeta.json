@@ -8,7 +8,7 @@
   "codeRepository": "https://github.com/frictionlessdata/frictionless-r",
   "issueTracker": "https://github.com/frictionlessdata/frictionless-r/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -226,7 +226,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "178.01KB",
+  "fileSize": "183.204KB",
   "citation": [
     {
       "@type": "SoftwareSourceCode",
@@ -250,7 +250,7 @@
       "name": "Read and Write Frictionless Data Packages",
       "identifier": "10.5281/zenodo.5815355",
       "url": "https://cran.r-project.org/package=frictionless",
-      "description": "R package version 1.0.1",
+      "description": "R package version 1.0.2",
       "@id": "https://doi.org/10.5281/zenodo.5815355",
       "sameAs": "https://doi.org/10.5281/zenodo.5815355"
     }
