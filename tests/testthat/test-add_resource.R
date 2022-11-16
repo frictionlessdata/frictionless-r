@@ -114,7 +114,6 @@ test_that("add_resource() returns error if CSV file cannot be found", {
     "Can't find file at `no_such_file_1.csv`.",
     fixed = TRUE
   )
-  testthat::skip_if_offline()
   expect_error(
     add_resource(p, "new", "http://example.com/no_such_file.csv"),
     "Can't find file at `http://example.com/no_such_file.csv`.",
