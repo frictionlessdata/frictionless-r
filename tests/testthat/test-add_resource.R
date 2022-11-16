@@ -114,7 +114,6 @@ test_that("add_resource() returns error if CSV file cannot be found", {
     "Can't find file at `no_such_file_1.csv`.",
     fixed = TRUE
   )
-  testthat::skip_if_offline()
   expect_error(
     add_resource(p, "new", "http://example.com/no_such_file.csv"),
     "Can't find file at `http://example.com/no_such_file.csv`.",
@@ -123,7 +122,6 @@ test_that("add_resource() returns error if CSV file cannot be found", {
 })
 
 test_that("add_resource() returns error on mismatching schema and data", {
-  testthat::skip_if_offline()
   p <- example_package
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   df_csv <- test_path("data/df.csv")
@@ -158,7 +156,6 @@ test_that("add_resource() returns error on mismatching schema and data", {
 })
 
 test_that("add_resource() adds resource", {
-  testthat::skip_if_offline()
   p <- example_package
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   df_csv <- test_path("data/df.csv")
@@ -187,7 +184,6 @@ test_that("add_resource() adds resource", {
 })
 
 test_that("add_resource() uses provided schema (list or path) or creates one", {
-  testthat::skip_if_offline()
   p <- create_package()
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   df_csv <- test_path("data/df.csv")
@@ -223,7 +219,6 @@ test_that("add_resource() uses provided schema (list or path) or creates one", {
 
 test_that("add_resource() can add resource from data frame, readable by
            read_resource()", {
-  testthat::skip_if_offline()
   p <- example_package
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   p <- add_resource(p, "new", df)

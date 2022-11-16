@@ -157,7 +157,6 @@ test_that("read_resource() returns error on incorrect resource", {
 })
 
 test_that("read_resource() can read newly added data (ignoring schema)", {
-  testthat::skip_if_offline()
   p <- example_package
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   p <- add_resource(p, "new", df)
@@ -165,7 +164,6 @@ test_that("read_resource() can read newly added data (ignoring schema)", {
 })
 
 test_that("read_resource() can read inline data (ignoring schema)", {
-  testthat::skip_if_offline()
   p <- example_package
   expected_resource <- readr::read_csv(
     test_path("data/media.csv"),

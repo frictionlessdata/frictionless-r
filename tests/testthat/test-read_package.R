@@ -66,6 +66,7 @@ test_that("read_package() shows message about usage norms", {
 })
 
 test_that("read_package() returns error on missing file and properties", {
+  testthat::skip_if_offline()
   # Incorrect type
   expect_error(
     read_package(list()),
@@ -119,7 +120,6 @@ test_that("read_package() returns error on missing file and properties", {
   )
 
   # No file remotely
-  testthat::skip_if_offline()
   expect_error(
     read_package("http://example.com/nofile.json"),
     "Can't find file at `http://example.com/nofile.json`.",

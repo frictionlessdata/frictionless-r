@@ -14,7 +14,6 @@ test_that("resources() returns a character vector of resource names", {
 })
 
 test_that("resources() returns error if resources have no name", {
-  testthat::skip_if_offline()
   p <- example_package
   p$resources[[2]]$name <- NULL
   expect_error(
