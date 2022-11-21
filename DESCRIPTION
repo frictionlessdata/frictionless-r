@@ -43,6 +43,8 @@ Suggests:
 VignetteBuilder: 
     knitr
 Config/testthat/edition: 3
+Config/checklist/communities: inbo
+Config/checklist/keywords: R package; frictionlessdata
 Encoding: UTF-8
 Language: en-GB
 LazyData: true
