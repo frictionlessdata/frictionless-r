@@ -77,9 +77,9 @@ test_that("write_package() does not overwrite existing data files", {
   # Write package to directory, expect only datapackage.json is overwritten
   suppressMessages(write_package(p, dir))
   expect_gt(file.info(files["datapackage"])$size, 0) # Overwitten
-  expect_equal(file.info(files["deployments"])$size, 0)
-  expect_equal(file.info(files["observations_1"])$size, 0)
-  expect_equal(file.info(files["observations_2"])$size, 0)
+  expect_identical(file.info(files["deployments"])$size, 0)
+  expect_identical(file.info(files["observations_1"])$size, 0)
+  expect_identical(file.info(files["observations_2"])$size, 0)
 })
 
 test_that("write_package() copies file(s) for path = local in local package", {
