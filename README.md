@@ -80,25 +80,25 @@ resources(package)
 # multiple zipped CSV files.
 read_resource(package, "gps")
 #> # A tibble: 73,047 × 21
-#>     `event-id` visible timestamp           `location-long` `location-lat`
-#>          <dbl> <lgl>   <dttm>                        <dbl>          <dbl>
-#>  1 14256075762 TRUE    2018-05-25 16:11:37            4.25           51.3
-#>  2 14256075763 TRUE    2018-05-25 16:16:41            4.25           51.3
-#>  3 14256075764 TRUE    2018-05-25 16:21:29            4.25           51.3
-#>  4 14256075765 TRUE    2018-05-25 16:26:28            4.25           51.3
-#>  5 14256075766 TRUE    2018-05-25 16:31:21            4.25           51.3
-#>  6 14256075767 TRUE    2018-05-25 16:36:09            4.25           51.3
-#>  7 14256075768 TRUE    2018-05-25 16:40:57            4.25           51.3
-#>  8 14256075769 TRUE    2018-05-25 16:45:55            4.25           51.3
-#>  9 14256075770 TRUE    2018-05-25 16:50:49            4.25           51.3
-#> 10 14256075771 TRUE    2018-05-25 16:55:36            4.25           51.3
-#> # … with 73,037 more rows, and 16 more variables:
-#> #   `bar:barometric-pressure` <dbl>, `external-temperature` <dbl>,
-#> #   `gps:dop` <dbl>, `gps:satellite-count` <dbl>, `gps-time-to-fix` <dbl>,
-#> #   `ground-speed` <dbl>, heading <dbl>, `height-above-msl` <dbl>,
-#> #   `location-error-numerical` <dbl>, `manually-marked-outlier` <lgl>,
-#> #   `vertical-error-numerical` <dbl>, `sensor-type` <chr>,
-#> #   `individual-taxon-canonical-name` <chr>, `tag-local-identifier` <chr>, …
+#>    event-i…¹ visible timestamp           locat…² locat…³ bar:b…⁴ exter…⁵ gps:d…⁶
+#>        <dbl> <lgl>   <dttm>                <dbl>   <dbl>   <dbl>   <dbl>   <dbl>
+#>  1   1.43e10 TRUE    2018-05-25 16:11:37    4.25    51.3      NA    32.5     2  
+#>  2   1.43e10 TRUE    2018-05-25 16:16:41    4.25    51.3      NA    32.8     2.1
+#>  3   1.43e10 TRUE    2018-05-25 16:21:29    4.25    51.3      NA    34.1     2.1
+#>  4   1.43e10 TRUE    2018-05-25 16:26:28    4.25    51.3      NA    34.5     2.2
+#>  5   1.43e10 TRUE    2018-05-25 16:31:21    4.25    51.3      NA    34.1     2.2
+#>  6   1.43e10 TRUE    2018-05-25 16:36:09    4.25    51.3      NA    32.5     2.2
+#>  7   1.43e10 TRUE    2018-05-25 16:40:57    4.25    51.3      NA    32.1     2.2
+#>  8   1.43e10 TRUE    2018-05-25 16:45:55    4.25    51.3      NA    33.3     2.1
+#>  9   1.43e10 TRUE    2018-05-25 16:50:49    4.25    51.3      NA    32.6     2.1
+#> 10   1.43e10 TRUE    2018-05-25 16:55:36    4.25    51.3      NA    31.7     2  
+#> # … with 73,037 more rows, 13 more variables: `gps:satellite-count` <dbl>,
+#> #   `gps-time-to-fix` <dbl>, `ground-speed` <dbl>, heading <dbl>,
+#> #   `height-above-msl` <dbl>, `location-error-numerical` <dbl>,
+#> #   `manually-marked-outlier` <lgl>, `vertical-error-numerical` <dbl>,
+#> #   `sensor-type` <chr>, `individual-taxon-canonical-name` <chr>,
+#> #   `tag-local-identifier` <chr>, `individual-local-identifier` <chr>,
+#> #   `study-name` <chr>, and abbreviated variable names ¹​`event-id`, …
 ```
 
 You can also create your own Data Package, add data and **write** it to

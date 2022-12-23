@@ -1,5 +1,8 @@
 # frictionless (development version)
 
+- Adhere to requirements of [checklist](https://github.com/inbo/checklist) pkg,
+  so that `checklist::update_citation()` can be used.
+
 # frictionless 1.0.2
 
 - Add `skip_if_offline()` to selected tests and verbosely include 
