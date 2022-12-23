@@ -1,5 +1,5 @@
 test_that("check_schema() returns TRUE on valid Table Schema", {
-  testthat::skip_if_offline()
+  skip_if_offline()
   p <- example_package
   # Can't obtain df using read_resource(), because that function uses
   # check_schema() (in get_schema()) internally, which is what we want to test

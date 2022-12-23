@@ -1,5 +1,5 @@
 test_that("write_package() returns output Data Package (invisibly)", {
-  testthat::skip_if_offline()
+  skip_if_offline()
   p <- example_package
   # Note write_package() is expected to create directory without warning
   dir <- file.path(tempdir(), "package")
@@ -41,7 +41,7 @@ test_that("write_package() returns error if Data Package has no resource(s)", {
 })
 
 test_that("write_package() writes unaltered datapackage.json as is", {
-  testthat::skip_if_offline()
+  skip_if_offline()
   p_file <- system.file("extdata", "datapackage.json", package = "frictionless")
   json_original <- readr::read_lines(p_file) # Will use line endings of system
 
@@ -57,7 +57,7 @@ test_that("write_package() writes unaltered datapackage.json as is", {
 })
 
 test_that("write_package() does not overwrite existing data files", {
-  testthat::skip_if_offline()
+  skip_if_offline()
   p <- suppressMessages(read_package(
     system.file("extdata", "datapackage.json", package = "frictionless")
   ))
@@ -83,7 +83,7 @@ test_that("write_package() does not overwrite existing data files", {
 })
 
 test_that("write_package() copies file(s) for path = local in local package", {
-  testthat::skip_if_offline()
+  skip_if_offline()
   p <- suppressMessages(read_package(
     system.file("extdata", "datapackage.json", package = "frictionless")
   ))
@@ -112,7 +112,7 @@ test_that("write_package() copies file(s) for path = local in local package", {
 
 test_that("write_package() downloads file(s) for path = local in remote
            package", {
-  testthat::skip_if_offline()
+  skip_if_offline()
   p <- example_package
   p$resources[[2]]$path[[2]] <- "observations_2.csv" # Make one URL a local path
   p <- add_resource(p, "new", test_path("data/df.csv"))
@@ -138,7 +138,7 @@ test_that("write_package() downloads file(s) for path = local in remote
 })
 
 test_that("write_package() leaves as is for path = URL in local package", {
-  testthat::skip_if_offline()
+  skip_if_offline()
   p <- suppressMessages(read_package(
     system.file("extdata", "datapackage.json", package = "frictionless")
   ))
@@ -161,7 +161,7 @@ test_that("write_package() leaves as is for path = URL in local package", {
 })
 
 test_that("write_package() leaves as is for path = URL in remote package", {
-  testthat::skip_if_offline()
+  skip_if_offline()
   p <- example_package
   p <- add_resource(p, "new", file.path(
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
@@ -182,7 +182,7 @@ test_that("write_package() leaves as is for path = URL in remote package", {
 })
 
 test_that("write_package() leaves as is for data = json in local package", {
-  testthat::skip_if_offline()
+  skip_if_offline()
   p <- suppressMessages(read_package(
     system.file("extdata", "datapackage.json", package = "frictionless")
   ))
@@ -198,7 +198,7 @@ test_that("write_package() leaves as is for data = json in local package", {
 })
 
 test_that("write_package() leaves as is for data = json in remote package", {
-  testthat::skip_if_offline()
+  skip_if_offline()
   p <- example_package
   dir <- file.path(tempdir(), "package")
   on.exit(unlink(dir, recursive = TRUE))
@@ -212,7 +212,7 @@ test_that("write_package() leaves as is for data = json in remote package", {
 })
 
 test_that("write_package() creates file for data = df in local package", {
-  testthat::skip_if_offline()
+  skip_if_offline()
   p <- suppressMessages(read_package(
     system.file("extdata", "datapackage.json", package = "frictionless")
   ))
@@ -231,7 +231,7 @@ test_that("write_package() creates file for data = df in local package", {
 })
 
 test_that("write_package() creates file for data = df in remote package", {
-  testthat::skip_if_offline()
+  skip_if_offline()
   p <- example_package
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   p <- add_resource(p, "new", df)
@@ -248,7 +248,7 @@ test_that("write_package() creates file for data = df in remote package", {
 })
 
 test_that("write_package() shows message when downloading file", {
-  testthat::skip_if_offline()
+  skip_if_offline()
   p <- example_package
   dir <- file.path(tempdir(), "package")
   on.exit(unlink(dir, recursive = TRUE))
@@ -263,7 +263,7 @@ test_that("write_package() shows message when downloading file", {
 })
 
 test_that("write_package() sets correct properties for data frame resources", {
-  testthat::skip_if_offline()
+  skip_if_offline()
   p <- example_package
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   schema <- create_schema(df)
@@ -293,7 +293,7 @@ test_that("write_package() sets correct properties for data frame resources", {
 })
 
 test_that("write_package() will gzip file for compress = TRUE", {
-  testthat::skip_if_offline()
+  skip_if_offline()
   p <- example_package
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   p <- add_resource(p, "new", df)
