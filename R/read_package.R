@@ -5,8 +5,8 @@
 #' that describes the Data Package metadata and its Data Resources.
 #'
 #' @param file Path or URL to a `datapackage.json` file.
-#' @param quietly Do you want to suppress the rights/citations reminder?
-#'    This reminder can be disabled by setting `quietly = TRUE`
+#' @param quietly A logical. If `TRUE` no reminder about citations/rights
+#'   regarding the usage of the read Data Package will be displayed.
 #' @return List describing a Data Package.
 #'   The function will add a custom property `directory` with the directory the
 #'   descriptor was read from.

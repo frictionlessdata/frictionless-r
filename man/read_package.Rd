@@ -9,8 +9,8 @@ read_package(file = "datapackage.json", quietly = FALSE)
 \arguments{
 \item{file}{Path or URL to a \code{datapackage.json} file.}
 
-\item{quietly}{Do you want to suppress the rights/citations reminder?
-This reminder can be disabled by setting \code{quietly = TRUE}}
+\item{quietly}{A logical. If \code{TRUE} no reminder about citations/rights
+regarding the usage of the read Data Package will be displayed.}
 }
 \value{
 List describing a Data Package.
