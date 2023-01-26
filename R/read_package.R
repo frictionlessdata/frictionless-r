@@ -5,6 +5,8 @@
 #' that describes the Data Package metadata and its Data Resources.
 #'
 #' @param file Path or URL to a `datapackage.json` file.
+#' @param silently Do you want to suppress the rights/citations reminder?
+#'    This reminder can be disabled by setting `silently = TRUE`
 #' @return List describing a Data Package.
 #'   The function will add a custom property `directory` with the directory the
 #'   descriptor was read from.
@@ -23,7 +25,7 @@
 #'
 #' # List resources
 #' resources(package)
-read_package <- function(file = "datapackage.json") {
+read_package <- function(file = "datapackage.json", silently = FALSE) {
   # Read file
   assertthat::assert_that(
     is.character(file),
@@ -61,7 +63,11 @@ read_package <- function(file = "datapackage.json") {
       )
     }
   }
-  message(msg)
+
+  ## Optionally supress the message
+  if (!isTRUE(silently)) {
+    message(msg)
+  }
 
   descriptor
 }
