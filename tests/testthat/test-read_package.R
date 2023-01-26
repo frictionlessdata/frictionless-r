@@ -144,3 +144,12 @@ test_that("read_package() allows YAML descriptor", {
     )
   )
 })
+
+test_that(paste(
+  "read_package() quietly argument allows to toggle",
+  "the rights/citation reminder"
+), {
+  p_path <- system.file("extdata", "datapackage.json", package = "frictionless")
+  expect_message(read_package(p_path, quietly = FALSE))
+  expect_no_message(read_package(p_path, quietly = TRUE))
+})
