@@ -4,13 +4,13 @@
 \alias{read_package}
 \title{Read a Data Package descriptor file (\code{datapackage.json})}
 \usage{
-read_package(file = "datapackage.json", silently = FALSE)
+read_package(file = "datapackage.json", quietly = FALSE)
 }
 \arguments{
 \item{file}{Path or URL to a \code{datapackage.json} file.}
 
-\item{silently}{Do you want to suppress the rights/citations reminder?
-This reminder can be disabled by setting \code{silently = TRUE}}
+\item{quietly}{Do you want to suppress the rights/citations reminder?
+This reminder can be disabled by setting \code{quietly = TRUE}}
 }
 \value{
 List describing a Data Package.
