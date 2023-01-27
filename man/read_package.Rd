@@ -4,12 +4,12 @@
 \alias{read_package}
 \title{Read a Data Package descriptor file (\code{datapackage.json})}
 \usage{
-read_package(file = "datapackage.json", quietly = FALSE)
+read_package(file = "datapackage.json", quiet = FALSE)
 }
 \arguments{
 \item{file}{Path or URL to a \code{datapackage.json} file.}
 
-\item{quietly}{A logical. If \code{TRUE} no reminder about citations/rights
+\item{quiet}{A logical. If \code{TRUE} no reminder about citations/rights
 regarding the usage of the read Data Package will be displayed.}
 }
 \value{

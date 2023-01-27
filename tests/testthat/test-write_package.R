@@ -6,7 +6,7 @@ test_that("write_package() returns output Data Package (invisibly)", {
   on.exit(unlink(dir, recursive = TRUE))
   p_written <- suppressMessages(write_package(p, dir))
   p_from_file <-
-    read_package(file.path(dir, "datapackage.json"), quietly = TRUE)
+    read_package(file.path(dir, "datapackage.json"), quiet = TRUE)
   # p_from_file$directory will differ: overwrite to make the same
   p_from_file$directory <- p_written$directory
 
@@ -44,7 +44,7 @@ test_that("write_package() writes unaltered datapackage.json as is", {
   p_file <- system.file("extdata", "datapackage.json", package = "frictionless")
   json_original <- readr::read_lines(p_file) # Will use line endings of system
 
-  p <- read_package(p_file, quietly = TRUE)
+  p <- read_package(p_file, quiet = TRUE)
   dir <- file.path(tempdir(), "package")
   on.exit(unlink(dir, recursive = TRUE))
   suppressMessages(write_package(p, dir))
@@ -59,7 +59,7 @@ test_that("write_package() does not overwrite existing data files", {
   testthat::skip_if_offline()
   p <- read_package(
     system.file("extdata", "datapackage.json", package = "frictionless"),
-    quietly = TRUE
+    quiet = TRUE
   )
   dir <- file.path(tempdir(), "package")
   on.exit(unlink(dir, recursive = TRUE))
@@ -86,7 +86,7 @@ test_that("write_package() copies file(s) for path = local in local package", {
   testthat::skip_if_offline()
   p <- read_package(
     system.file("extdata", "datapackage.json", package = "frictionless"),
-    quietly = TRUE
+    quiet = TRUE
   )
   p$resources[[2]]$path[[2]] <- "observations_2.csv" # Make one URL a local path
   p <- add_resource(p, "new", test_path("data/df.csv"))
@@ -142,7 +142,7 @@ test_that("write_package() leaves as is for path = URL in local package", {
   testthat::skip_if_offline()
   p <- read_package(
     system.file("extdata", "datapackage.json", package = "frictionless"),
-    quietly = TRUE
+    quiet = TRUE
   )
   p <- add_resource(p, "new", file.path(
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
@@ -187,7 +187,7 @@ test_that("write_package() leaves as is for data = json in local package", {
   testthat::skip_if_offline()
   p <- read_package(
     system.file("extdata", "datapackage.json", package = "frictionless"),
-    quietly = TRUE
+    quiet = TRUE
   )
   dir <- file.path(tempdir(), "package")
   on.exit(unlink(dir, recursive = TRUE))
@@ -218,7 +218,7 @@ test_that("write_package() creates file for data = df in local package", {
   testthat::skip_if_offline()
   p <- read_package(
     system.file("extdata", "datapackage.json", package = "frictionless"),
-    quietly = TRUE
+    quiet = TRUE
   )
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   p <- add_resource(p, "new", df)
@@ -312,6 +312,6 @@ test_that("write_package() will gzip file for compress = TRUE", {
   expect_false(file.exists(file.path(dir, "new.csv")))
 
   # Written file can be read by read_resource()
-  p_reread <- read_package(file.path(dir, "datapackage.json"), quietly = TRUE)
+  p_reread <- read_package(file.path(dir, "datapackage.json"), quiet = TRUE)
   expect_identical(read_resource(p_reread, "new"), dplyr::as_tibble(df))
 })

@@ -2,8 +2,8 @@ test_that("read_package() returns a valid Data Package reading from path", {
   # Load example package locally and a valid minimal one
   p_path <- system.file("extdata", "datapackage.json", package = "frictionless")
   minimal_path <- test_path("data/valid_minimal.json")
-  p_local <- read_package(p_path, quietly = TRUE)
-  p_minimal <- read_package(minimal_path, quietly = TRUE)
+  p_local <- read_package(p_path, quiet = TRUE)
+  p_minimal <- read_package(minimal_path, quiet = TRUE)
   # Returns a list with required properties
   expect_true(check_package(p_local))
   expect_true(check_package(p_minimal))
@@ -23,7 +23,7 @@ test_that("read_package() returns a valid Data Package reading from url", {
   # Load example package remotely
   p_url <- file.path("https://raw.githubusercontent.com/frictionlessdata/",
                      "frictionless-r/main/inst/extdata/datapackage.json")
-  p_remote <- read_package(p_url, quietly = TRUE)
+  p_remote <- read_package(p_url, quiet = TRUE)
   # Returns a list with required properties
   expect_true(check_package(p_remote))
 
@@ -129,27 +129,27 @@ test_that("read_package() allows descriptor at absolute or relative parent
            path", {
   relative_path <- "../testthat/data/valid_minimal.json"
   expect_true(
-    check_package(read_package(relative_path, quietly = TRUE))
+    check_package(read_package(relative_path, quiet = TRUE))
   )
   absolute_path <- normalizePath("data/valid_minimal.json")
   expect_true(
-    check_package(read_package(absolute_path, quietly = TRUE))
+    check_package(read_package(absolute_path, quiet = TRUE))
   )
 })
 
 test_that("read_package() allows YAML descriptor", {
   expect_true(
     check_package(
-      read_package(test_path("data/valid_minimal.yml"), quietly = TRUE)
+      read_package(test_path("data/valid_minimal.yml"), quiet = TRUE)
     )
   )
 })
 
 test_that(paste(
-  "read_package() quietly argument allows to toggle",
+  "read_package() quiet argument allows to toggle",
   "the rights/citation reminder"
 ), {
   p_path <- system.file("extdata", "datapackage.json", package = "frictionless")
-  expect_message(read_package(p_path, quietly = FALSE))
-  expect_no_message(read_package(p_path, quietly = TRUE))
+  expect_message(read_package(p_path, quiet = FALSE))
+  expect_no_message(read_package(p_path, quiet = TRUE))
 })
