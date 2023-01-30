@@ -48,13 +48,18 @@ read_package <- function(file = "datapackage.json", quiet = FALSE) {
   # Add directory
   descriptor$directory <- dirname(file) # Also works for URLs
 
-  # Inform user regarding rights/citations
+  # Inform user regarding rights/citations unless silenced
   msg <- glue::glue(
     "Please make sure you have the right to access data from this Data Package",
     "for your intended use.\nFollow applicable norms or requirements to credit",
     "the dataset and its authors.",
     .sep = " "
   )
+
+  if (!isTRUE(quiet)) {
+    message(msg)
+  }
+
   if (!is.null(descriptor$id)) {
     if (startsWith(descriptor$id, "http")) {
       msg <- glue::glue(
@@ -62,11 +67,6 @@ read_package <- function(file = "datapackage.json", quiet = FALSE) {
         .sep = "\n"
       )
     }
-  }
-
-  ## Optionally supress the message
-  if (!isTRUE(quiet)) {
-    message(msg)
   }
 
   descriptor
