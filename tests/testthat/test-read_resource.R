@@ -1,6 +1,5 @@
 test_that("read_resource() returns a tibble", {
-  testthat::skip_if_offline()
-  p <- example_package
+
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   p <- add_resource(p, "new", df)
 
@@ -661,4 +660,33 @@ test_that("read_resource() handles other types", {
 
   # Guess undefined types, unknown types are blocked by check_schema()
   expect_type(resource$no_type, "logical")
+})
+
+test_that("read_resource() allows selecting of resource columns", {
+  # single column
+  expect_named(
+    read_resource(example_package,
+                  "observations",
+                  col_select = "observation_id"),
+    "observation_id")
+  # multiple columns
+  expect_named(
+    read_resource(
+      example_package,
+      "observations",
+      col_select = c("observation_id", "deployment_id")
+    ),
+    c(
+      "observation_id",
+      "deployment_id"
+    )
+  )
+  # different order
+  expect_named(
+    read_resource(example_package,
+                  "observations",
+                  col_select = c("observation_id","deployment_id","media_id")),
+    c("observation_id","deployment_id","media_id"),
+    ignore.order = FALSE
+  )
 })
