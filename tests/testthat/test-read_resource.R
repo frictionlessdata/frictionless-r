@@ -690,3 +690,16 @@ test_that("read_resource() allows selecting of resource columns", {
     ignore.order = FALSE
   )
 })
+
+test_that("read_resource() returns error on column select outside schema", {
+  not_a_column <- "this is not a valid column name!"
+  resource_to_read <- "media"
+  expect_error(
+    read_resource(example_package,
+                  resource_to_read,
+                  col_select = not_a_column),
+    regexp = glue::glue("{not_a_column} not found in {resource_to_read} schema"),
+    fixed = TRUE
+  )
+})
+
