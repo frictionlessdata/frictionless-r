@@ -5,7 +5,7 @@
 #' that describes the Data Package metadata and its Data Resources.
 #'
 #' @param file Path or URL to a `datapackage.json` file.
-#' @param quiet A logical. If `TRUE` no reminder about citations/rights
+#' @param quiet If `TRUE`, do not show message about access rights.
 #'   regarding the usage of the read Data Package will be displayed.
 #' @return List describing a Data Package.
 #'   The function will add a custom property `directory` with the directory the
