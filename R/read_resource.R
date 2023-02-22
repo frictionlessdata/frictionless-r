@@ -2,176 +2,154 @@
 #'
 #' Reads data from a [Data
 #' Resource](https://specs.frictionlessdata.io/data-resource/) (in a Data
-#' Package) into a tibble (a Tidyverse data frame).
-#' The resource must be a [Tabular Data
-#' Resource](https://specs.frictionlessdata.io/tabular-data-resource/).
-#' The function uses [readr::read_delim()] to read CSV files, passing the
-#' resource properties `path`, CSV dialect, column names, data types, etc.
-#' Column names are taken from the provided Table Schema (`schema`), not from
-#' the header in the CSV file(s).
+#' Package) into a tibble (a Tidyverse data frame). The resource must be a
+#' [Tabular Data
+#' Resource](https://specs.frictionlessdata.io/tabular-data-resource/). The
+#' function uses [readr::read_delim()] to read CSV files, passing the resource
+#' properties `path`, CSV dialect, column names, data types, etc. Column names
+#' are taken from the provided Table Schema (`schema`), not from the header in
+#' the CSV file(s).
 #'
 #' @param package List describing a Data Package, created with [read_package()]
 #'   or [create_package()].
 #' @param resource_name Name of the Data Resource.
+#' @param col_select Character vector of columns to include in the results.
+#'   Columns will be provided in the same order as they are stated.
 #' @return [dplyr::tibble()] data frame with the Data Resource's tabular data.
 #' @family read functions
 #' @export
-#' @section Resource properties:
-#' The [Data Resource
-#' properties](https://specs.frictionlessdata.io/data-resource/) are handled as
-#' follows:
+#' @section Resource properties: The [Data Resource
+#'   properties](https://specs.frictionlessdata.io/data-resource/) are handled
+#'   as follows:
 #'
-#' ## Path
+#'   ## Path
 #'
-#' [`path`](https://specs.frictionlessdata.io/data-resource/#data-location) is
-#' required.
-#' It can be a local path or URL, which must resolve.
-#' Absolute path (`/`) and relative parent path (`../`) are forbidden to avoid
-#' security vulnerabilities.
+#'   [`path`](https://specs.frictionlessdata.io/data-resource/#data-location) is
+#'   required. It can be a local path or URL, which must resolve. Absolute path
+#'   (`/`) and relative parent path (`../`) are forbidden to avoid security
+#'   vulnerabilities.
 #'
-#' When multiple paths are provided (`"path": [ "myfile1.csv", "myfile2.csv"]`)
-#' then data are merged into a single data frame, in the order in which the
-#' paths are listed.
+#'   When multiple paths are provided (`"path": [ "myfile1.csv",
+#'   "myfile2.csv"]`) then data are merged into a single data frame, in the
+#'   order in which the paths are listed.
 #'
-#' ## Data
+#'   ## Data
 #'
-#' If `path` is not present, the function will attempt to read data from the
-#' `data` property.
-#' **`schema` will be ignored**.
+#'   If `path` is not present, the function will attempt to read data from the
+#'   `data` property. **`schema` will be ignored**.
 #'
-#' ## Name
+#'   ## Name
 #'
-#' `name` is [required](https://specs.frictionlessdata.io/data-resource/#name).
-#' It is used to find the resource with `name` = `resource_name`.
+#'   `name` is
+#'   [required](https://specs.frictionlessdata.io/data-resource/#name). It is
+#'   used to find the resource with `name` = `resource_name`.
 #'
-#' ## Profile
+#'   ## Profile
 #'
-#' `profile` is
-#' [required](https://specs.frictionlessdata.io/tabular-data-resource/#specification)
-#' to have the value `tabular-data-resource`.
+#'   `profile` is
+#'   [required](https://specs.frictionlessdata.io/tabular-data-resource/#specification)
+#'    to have the value `tabular-data-resource`.
 #'
-#' ## File encoding
+#'   ## File encoding
 #'
-#' `encoding` (e.g. `windows-1252`) is
-#' [required](https://specs.frictionlessdata.io/data-resource/#optional-properties)
-#' if the resource file(s) is not encoded as UTF-8.
-#' The returned data frame will always be UTF-8.
+#'   `encoding` (e.g. `windows-1252`) is
+#'   [required](https://specs.frictionlessdata.io/data-resource/#optional-properties)
+#'    if the resource file(s) is not encoded as UTF-8. The returned data frame
+#'   will always be UTF-8.
 #'
-#' ## CSV Dialect
+#'   ## CSV Dialect
 #'
-#' `dialect` properties are
-#' [required](https://specs.frictionlessdata.io/csv-dialect/#specification) if
-#' the resource file(s) deviate from the default CSV settings (see below).
-#' It can either be a JSON object or a path or URL referencing a JSON object.
-#' Only deviating properties need to be specified, e.g. a tab delimited file
-#' without a header row needs:
-#' ```json
-#' "dialect": {"delimiter": "\t", "header": "false"}
-#' ```
+#'   `dialect` properties are
+#'   [required](https://specs.frictionlessdata.io/csv-dialect/#specification) if
+#'   the resource file(s) deviate from the default CSV settings (see below). It
+#'   can either be a JSON object or a path or URL referencing a JSON object.
+#'   Only deviating properties need to be specified, e.g. a tab delimited file
+#'   without a header row needs: ```json "dialect": {"delimiter": "\t",
+#'   "header": "false"} ```
 #'
-#' These are the CSV dialect properties.
-#' Some are ignored by the function:
-#' - `delimiter`: default `,`.
-#' - `lineTerminator`: ignored, line terminator characters `LF` and `CRLF` are
-#'   interpreted automatically by [readr::read_delim()], while `CR` (used by
-#'   Classic Mac OS, final release 2001) is not supported.
-#' - `doubleQuote`: default `true`.
-#' - `quoteChar`: default `"`.
-#' - `escapeChar`: anything but `\` is ignored and it will set `doubleQuote` to
-#'   `false` as these fields are mutually exclusive.
-#'   You can thus not escape with `\"` and `""` in the same file.
-#' - `nullSequence`: ignored, use `missingValues`.
-#' - `skipInitialSpace`: default `false`.
-#' - `header`: default `true`.
-#' - `commentChar`: not set by default.
-#' - `caseSensitiveHeader`: ignored, header is not used for column names, see
-#'   Schema.
-#' - `csvddfVersion`: ignored.
+#'   These are the CSV dialect properties. Some are ignored by the function: -
+#'   `delimiter`: default `,`. - `lineTerminator`: ignored, line terminator
+#'   characters `LF` and `CRLF` are interpreted automatically by
+#'   [readr::read_delim()], while `CR` (used by Classic Mac OS, final release
+#'   2001) is not supported. - `doubleQuote`: default `true`. - `quoteChar`:
+#'   default `"`. - `escapeChar`: anything but `\` is ignored and it will set
+#'   `doubleQuote` to `false` as these fields are mutually exclusive. You can
+#'   thus not escape with `\"` and `""` in the same file. - `nullSequence`:
+#'   ignored, use `missingValues`. - `skipInitialSpace`: default `false`. -
+#'   `header`: default `true`. - `commentChar`: not set by default. -
+#'   `caseSensitiveHeader`: ignored, header is not used for column names, see
+#'   Schema. - `csvddfVersion`: ignored.
 #'
-#' ## File compression
+#'   ## File compression
 #'
-#' Resource file(s) with `path` ending in `.gz`, `.bz2`, `.xz`, or `.zip` are
-#' automatically decompressed using default [readr::read_delim()]
-#' functionality.
-#' Only `.gz` files can be read directly from URL `path`s.
-#' Only the extension in `path` can be used to indicate compression type,
-#' the `compression` property is
-#' [ignored](https://specs.frictionlessdata.io/patterns/#specification-3).
+#'   Resource file(s) with `path` ending in `.gz`, `.bz2`, `.xz`, or `.zip` are
+#'   automatically decompressed using default [readr::read_delim()]
+#'   functionality. Only `.gz` files can be read directly from URL `path`s. Only
+#'   the extension in `path` can be used to indicate compression type, the
+#'   `compression` property is
+#'   [ignored](https://specs.frictionlessdata.io/patterns/#specification-3).
 #'
-#' ## Ignored resource properties
+#'   ## Ignored resource properties
 #'
-#' - `title`
-#' - `description`
-#' - `format`
-#' - `mediatype`
-#' - `bytes`
-#' - `hash`
-#' - `sources`
-#' - `licenses`
-#' @section Table schema properties:
-#' `schema` is required and must follow the [Table
-#' Schema](https://specs.frictionlessdata.io/table-schema/) specification.
-#' It can either be a JSON object or a path or URL referencing a JSON object.
+#'   - `title` - `description` - `format` - `mediatype` - `bytes` - `hash` -
+#'   `sources` - `licenses`
+#' @section Table schema properties: `schema` is required and must follow the
+#'   [Table Schema](https://specs.frictionlessdata.io/table-schema/)
+#'   specification. It can either be a JSON object or a path or URL referencing
+#'   a JSON object.
 #'
-#' - Field `name`s are used as column headers.
-#' - Field `type`s are use as column types (see further).
-#' - [`missingValues`](https://specs.frictionlessdata.io/table-schema/#missing-values)
-#'   are used to interpret as `NA`, with `""` as default.
+#'   - Field `name`s are used as column headers. - Field `type`s are use as
+#'   column types (see further). -
+#'   [`missingValues`](https://specs.frictionlessdata.io/table-schema/#missing-values)
+#'    are used to interpret as `NA`, with `""` as default.
 #'
-#' ## Field types
+#'   ## Field types
 #'
-#' Field `type` is used to set the column type, as follows:
+#'   Field `type` is used to set the column type, as follows:
 #'
-#' - [string](https://specs.frictionlessdata.io/table-schema/#string) as
-#'   `character`; or `factor` when `enum` is present.
-#'   `format` is ignored.
-#' - [number](https://specs.frictionlessdata.io/table-schema/#number) as
-#'   `double`; or `factor` when `enum` is present.
-#'   Use `bareNumber: false` to ignore whitespace and non-numeric characters.
-#'   `decimalChar` (`.` by default) and `groupChar` (undefined by default) can
-#'   be defined, but the most occurring value will be used as a global value for
-#'   all number fields of that resource.
-#' - [integer](https://specs.frictionlessdata.io/table-schema/#integer) as
+#'   - [string](https://specs.frictionlessdata.io/table-schema/#string) as
+#'   `character`; or `factor` when `enum` is present. `format` is ignored. -
+#'   [number](https://specs.frictionlessdata.io/table-schema/#number) as
+#'   `double`; or `factor` when `enum` is present. Use `bareNumber: false` to
+#'   ignore whitespace and non-numeric characters. `decimalChar` (`.` by
+#'   default) and `groupChar` (undefined by default) can be defined, but the
+#'   most occurring value will be used as a global value for all number fields
+#'   of that resource. -
+#'   [integer](https://specs.frictionlessdata.io/table-schema/#integer) as
 #'   `double` (not integer, to avoid issues with big numbers); or `factor` when
-#'   `enum` is present.
-#'   Use `bareNumber: false` to ignore whitespace and non-numeric characters.
-#' - [boolean](https://specs.frictionlessdata.io/table-schema/#boolean) as
-#'   `logical`.
-#'   Non-default `trueValues/falseValues` are not supported.
-#' - [object](https://specs.frictionlessdata.io/table-schema/#object) as
-#'   `character`.
-#' - [array](https://specs.frictionlessdata.io/table-schema/#array) as
-#'   `character`.
-#' - [date](https://specs.frictionlessdata.io/table-schema/#date) as `date`.
-#'   Supports `format`, with values `default` (ISO date), `any` (guess `ymd`)
-#'   and [Python/C strptime](https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior)
-#'   patterns, such as `%a, %d %B %Y` for `Sat, 23 November 2013`.
-#'   `%x` is `%m/%d/%y`.
-#'   `%j`, `%U`, `%w` and `%W` are not supported.
-#' - [time](https://specs.frictionlessdata.io/table-schema/#time) as
-#'   [hms::hms()].
-#'   Supports `format`, with values `default` (ISO time), `any` (guess `hms`)
-#'   and [Python/C strptime](https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior)
-#'   patterns, such as `%I%p%M:%S.%f%z` for `8AM30:00.300+0200`.
-#' - [datetime](https://specs.frictionlessdata.io/table-schema/#datetime) as
-#'   `POSIXct`.
-#'   Supports `format`, with values `default` (ISO datetime), `any`
-#'   (ISO datetime) and the same patterns as for `date` and `time`.
-#'   `%c` is not supported.
-#' - [year](https://specs.frictionlessdata.io/table-schema/#year) as `date`,
-#'   with `01` for month and day.
-#' - [yearmonth](https://specs.frictionlessdata.io/table-schema/#yearmonth) as
-#'   `date`, with `01` for day.
-#' - [duration](https://specs.frictionlessdata.io/table-schema/#duration) as
-#'   `character`.
-#'   Can be parsed afterwards with [lubridate::duration()].
-#' - [geopoint](https://specs.frictionlessdata.io/table-schema/#geopoint) as
-#'   `character`.
-#' - [geojson](https://specs.frictionlessdata.io/table-schema/#geojson) as
-#'   `character`.
-#' - [any](https://specs.frictionlessdata.io/table-schema/#any) as `character`.
-#' - Any other value is not allowed.
-#' - Type is guessed when not provided.
+#'   `enum` is present. Use `bareNumber: false` to ignore whitespace and
+#'   non-numeric characters. -
+#'   [boolean](https://specs.frictionlessdata.io/table-schema/#boolean) as
+#'   `logical`. Non-default `trueValues/falseValues` are not supported. -
+#'   [object](https://specs.frictionlessdata.io/table-schema/#object) as
+#'   `character`. -
+#'   [array](https://specs.frictionlessdata.io/table-schema/#array) as
+#'   `character`. - [date](https://specs.frictionlessdata.io/table-schema/#date)
+#'   as `date`. Supports `format`, with values `default` (ISO date), `any`
+#'   (guess `ymd`) and [Python/C
+#'   strptime](https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior)
+#'    patterns, such as `%a, %d %B %Y` for `Sat, 23 November 2013`. `%x` is
+#'   `%m/%d/%y`. `%j`, `%U`, `%w` and `%W` are not supported. -
+#'   [time](https://specs.frictionlessdata.io/table-schema/#time) as
+#'   [hms::hms()]. Supports `format`, with values `default` (ISO time), `any`
+#'   (guess `hms`) and [Python/C
+#'   strptime](https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior)
+#'    patterns, such as `%I%p%M:%S.%f%z` for `8AM30:00.300+0200`. -
+#'   [datetime](https://specs.frictionlessdata.io/table-schema/#datetime) as
+#'   `POSIXct`. Supports `format`, with values `default` (ISO datetime), `any`
+#'   (ISO datetime) and the same patterns as for `date` and `time`. `%c` is not
+#'   supported. - [year](https://specs.frictionlessdata.io/table-schema/#year)
+#'   as `date`, with `01` for month and day. -
+#'   [yearmonth](https://specs.frictionlessdata.io/table-schema/#yearmonth) as
+#'   `date`, with `01` for day. -
+#'   [duration](https://specs.frictionlessdata.io/table-schema/#duration) as
+#'   `character`. Can be parsed afterwards with [lubridate::duration()]. -
+#'   [geopoint](https://specs.frictionlessdata.io/table-schema/#geopoint) as
+#'   `character`. -
+#'   [geojson](https://specs.frictionlessdata.io/table-schema/#geojson) as
+#'   `character`. - [any](https://specs.frictionlessdata.io/table-schema/#any)
+#'   as `character`. - Any other value is not allowed. - Type is guessed when
+#'   not provided.
 #' @examples
 #' # Read a datapackage.json file
 #' package <- read_package(
@@ -190,7 +168,7 @@
 #' # The column names and types are derived from the resource schema
 #' purrr::map_chr(package$resources[[2]]$schema$fields, "name")
 #' purrr::map_chr(package$resources[[2]]$schema$fields, "type")
-read_resource <- function(package, resource_name) {
+read_resource <- function(package, resource_name, col_select = NULL) {
   # Get resource, includes check_package()
   resource <- get_resource(package, resource_name)
 
