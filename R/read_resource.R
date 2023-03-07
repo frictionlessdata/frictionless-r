@@ -326,6 +326,7 @@ read_resource <- function(package, resource_name, col_select = NULL) {
         ),
         col_names = col_names,
         col_types = col_types,
+        col_select = {{col_select}},
         locale = locale,
         na = replace_null(schema$missingValues, ""),
         comment = replace_null(dialect$commentChar, ""),
