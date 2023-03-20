@@ -177,6 +177,18 @@ read_resource <- function(package, resource_name, col_select = NULL) {
   schema <- get_schema(package, resource_name)
   fields <- schema$fields
 
+  # check if selected columns appear in schema
+  field_names <- purrr::map_chr(fields,~purrr::pluck(.x,"name"))
+  multiple_missing_columns <- sum(!col_select %in% field_names) > 1
+  assertthat::assert_that(
+    all(col_select %in% field_names),
+    msg = glue::glue(
+      "Can't find {ifelse(multiple_missing_columns,'columns','column')} ",
+      "`{paste(col_select[!col_select %in% field_names],collapse = '`, `')}` ",
+      "in schema"
+    )
+    )
+
   # Create locale with encoding, decimal_mark and grouping_mark
   encoding <- replace_null(resource$encoding, "UTF-8") # Set default to UTF-8
   if (!tolower(encoding) %in% tolower(iconvlist())) {
