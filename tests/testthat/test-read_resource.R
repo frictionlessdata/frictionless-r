@@ -698,15 +698,19 @@ test_that("read_resource() returns error on column select outside schema", {
   expect_error(
     read_resource(example_package,
                   resource_to_read,
-                  col_select = not_a_column)#,
-    # regexp = glue::glue("{not_a_column} not found in {resource_to_read} schema"),
-    # fixed = TRUE
+                  col_select = not_a_column),
+    regexp = glue::glue("Can't find column `{not_a_column}` in schema"),
+    fixed = TRUE
   )
 
   expect_error(
-    read_resource(example_package,
-                  resource_to_read,
-                  col_select = "not_a_column","timestamp","also_not_a_column")
+    read_resource(
+      example_package,
+      resource_to_read,
+      col_select = c("not_a_column", "timestamp", "also_not_a_column")
+    ),
+    regexp = "Can't find columns `not_a_column`, `also_not_a_column` in schema",
+    fixed = TRUE
   )
 
   expect_no_error(
