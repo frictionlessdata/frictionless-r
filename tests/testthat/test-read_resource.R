@@ -670,6 +670,21 @@ test_that("read_resource() allows selecting of resource columns", {
                   "observations",
                   col_select = "observation_id"),
     "observation_id")
+
+  ## Ignore vroom::spec(), readr::read_delim includes a spec of what columns
+  ## weren't read, dplyr::select() does not.
+  expect_identical(
+    read_resource(example_package,
+      "observations",
+      col_select = "observation_id"
+    ),
+    dplyr::select(read_resource(
+      example_package,
+      "observations"
+    ), "observation_id"),
+    ignore_attr = "spec"
+  )
+
   # Multiple columns
   expect_named(
     read_resource(
@@ -682,6 +697,21 @@ test_that("read_resource() allows selecting of resource columns", {
       "deployment_id"
     )
   )
+
+  ## Ignore vroom::spec(), readr::read_delim includes a spec of what columns
+  ## weren't read, dplyr::select() does not.
+  expect_identical(
+    read_resource(example_package,
+      "observations",
+      col_select = c("comments", "count")
+    ),
+    dplyr::select(read_resource(
+      example_package,
+      "observations"
+    ), "comments", "count"),
+    ignore_attr = "spec"
+  )
+
   # Different order
   expect_named(
     read_resource(example_package,
@@ -691,6 +721,19 @@ test_that("read_resource() allows selecting of resource columns", {
                                  "deployment_id")),
     c("observation_id", "scientific_name", "deployment_id"),
     ignore.order = FALSE
+  )
+  ## Ignore vroom::spec(), readr::read_delim includes a spec of what columns
+  ## weren't read, dplyr::select() does not.
+  expect_identical(
+    read_resource(example_package,
+      "observations",
+      col_select = c("life_stage", "deployment_id", "observation_id")
+    ),
+    dplyr::select(read_resource(
+      example_package,
+      "observations"
+    ), "life_stage", "deployment_id", "observation_id"),
+    ignore_attr = "spec"
   )
 })
 
