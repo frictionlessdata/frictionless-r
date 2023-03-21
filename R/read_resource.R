@@ -13,8 +13,8 @@
 #' @param package List describing a Data Package, created with [read_package()]
 #'   or [create_package()].
 #' @param resource_name Name of the Data Resource.
-#' @param col_select Character vector of columns to include in the results.
-#'   Columns will be provided in the same order as they are stated.
+#' @param col_select Character vector of columns to include in the returned
+#'   data frame. Columns will be provided in the same order as they are stated.
 #' @return [dplyr::tibble()] data frame with the Data Resource's tabular data.
 #' @family read functions
 #' @export
