@@ -738,21 +738,19 @@ test_that("read_resource() allows selecting of resource columns", {
 })
 
 test_that("read_resource() returns error on column select outside schema", {
-  not_a_column <- "this is not a valid column name!"
-  resource_to_read <- "media"
   expect_error(
     read_resource(example_package,
-      resource_to_read,
-      col_select = not_a_column
+      "media",
+      col_select = "no valid column"
     ),
-    regexp = glue::glue("Can't find column(s) `{not_a_column}` in schema"),
+    regexp = glue::glue("Can't find column(s) `no valid column` in schema"),
     fixed = TRUE
   )
 
   expect_error(
     read_resource(
       example_package,
-      resource_to_read,
+      "media",
       col_select = c("not_a_column", "timestamp", "also_not_a_col")
     ),
     regexp = "Can't find column(s) `not_a_column`, `also_not_a_col` in schema",
@@ -761,7 +759,7 @@ test_that("read_resource() returns error on column select outside schema", {
 
   expect_no_error(
     read_resource(example_package,
-      resource_to_read,
+      "media",
       col_select = c("media_id", "timestamp", "observation_id")
     )
   )
