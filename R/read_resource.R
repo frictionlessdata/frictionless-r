@@ -183,7 +183,7 @@ read_resource <- function(package, resource_name, col_select = NULL) {
   assertthat::assert_that(
     all(col_select %in% field_names),
     msg = glue::glue(
-      "Can't find {ifelse(multiple_missing_columns,'columns','column')} ",
+      "Can't find column(s) ",
       "`{paste(col_select[!col_select %in% field_names],collapse = '`, `')}` ",
       "in schema"
     )
