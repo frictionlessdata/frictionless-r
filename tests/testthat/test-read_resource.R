@@ -743,7 +743,7 @@ test_that("read_resource() returns error on column select outside schema", {
       "media",
       col_select = "no valid column"
     ),
-    regexp = glue::glue("Can't find column(s) `no valid column` in schema"),
+    regexp = "Can't find column(s) `no valid column` in schema",
     fixed = TRUE
   )
 
