@@ -177,7 +177,7 @@ read_resource <- function(package, resource_name, col_select = NULL) {
   schema <- get_schema(package, resource_name)
   fields <- schema$fields
 
-  # check if selected columns appear in schema
+  # Check if selected columns appear in schema
   field_names <- purrr::map_chr(fields,~purrr::pluck(.x,"name"))
   multiple_missing_columns <- sum(!col_select %in% field_names) > 1
   assertthat::assert_that(
