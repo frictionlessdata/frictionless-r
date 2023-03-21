@@ -664,13 +664,13 @@ test_that("read_resource() handles other types", {
 })
 
 test_that("read_resource() allows selecting of resource columns", {
-  # single column
+  # Single column
   expect_named(
     read_resource(example_package,
                   "observations",
                   col_select = "observation_id"),
     "observation_id")
-  # multiple columns
+  # Multiple columns
   expect_named(
     read_resource(
       example_package,
@@ -682,12 +682,14 @@ test_that("read_resource() allows selecting of resource columns", {
       "deployment_id"
     )
   )
-  # different order
+  # Different order
   expect_named(
     read_resource(example_package,
                   "observations",
-                  col_select = c("observation_id","scientific_name","deployment_id")),
-    c("observation_id","scientific_name","deployment_id"),
+                  col_select = c("observation_id",
+                                 "scientific_name",
+                                 "deployment_id")),
+    c("observation_id", "scientific_name", "deployment_id"),
     ignore.order = FALSE
   )
 })
@@ -697,8 +699,9 @@ test_that("read_resource() returns error on column select outside schema", {
   resource_to_read <- "media"
   expect_error(
     read_resource(example_package,
-                  resource_to_read,
-                  col_select = not_a_column),
+      resource_to_read,
+      col_select = not_a_column
+    ),
     regexp = glue::glue("Can't find column(s) `{not_a_column}` in schema"),
     fixed = TRUE
   )
@@ -707,17 +710,16 @@ test_that("read_resource() returns error on column select outside schema", {
     read_resource(
       example_package,
       resource_to_read,
-      col_select = c("not_a_column", "timestamp", "also_not_a_column")
+      col_select = c("not_a_column", "timestamp", "also_not_a_col")
     ),
-    regexp = "Can't find column(s) `not_a_column`, `also_not_a_column` in schema",
+    regexp = "Can't find column(s) `not_a_column`, `also_not_a_col` in schema",
     fixed = TRUE
   )
 
   expect_no_error(
     read_resource(example_package,
-                  resource_to_read,
-                  col_select = c("media_id","timestamp","observation_id")
+      resource_to_read,
+      col_select = c("media_id", "timestamp", "observation_id")
     )
   )
 })
-
