@@ -18,13 +18,13 @@ check_schema <- function(schema, data = NULL) {
 
   # Check fields have names
   field_names <- purrr::map_chr(fields, ~ replace_null(.x$name, NA_character_))
-  field_numbers_collapse <- paste(which(is.na(field_names)), collapse = "`, `")
   assertthat::assert_that(
     all(!is.na(field_names)),
     msg = glue::glue(
       "All fields in `schema` must have property `name`.",
       "\u2139 Field(s) `{field_numbers_collapse}` don't have a name.",
-      .sep = "\n"
+      .sep = "\n",
+      field_numbers_collapse = paste(which(is.na(field_names)), collapse = "`, `")
     )
   )
 
@@ -36,13 +36,13 @@ check_schema <- function(schema, data = NULL) {
     NA_character_
   )
   invalid_types <- setdiff(field_types, valid_types)
-  invalid_types_collapse <- paste(invalid_types, collapse = "`, `")
   assertthat::assert_that(
     all(is.na(field_types)) | length(invalid_types) == 0,
     msg = glue::glue(
       "All fields in `schema` must have valid `type`.",
       "Type `{invalid_types_collapse}` is invalid.",
-      .sep = " "
+      .sep = " ",
+      invalid_types_collapse = paste(invalid_types, collapse = "`, `")
     )
   )
 
@@ -57,16 +57,16 @@ check_schema <- function(schema, data = NULL) {
       )
     )
 
-    field_names_collapse <- paste(field_names, collapse = "`, `")
     col_names <- colnames(data)
-    col_names_collapse <- paste(col_names, collapse = "`, `")
     assertthat::assert_that(
       identical(field_names, col_names),
       msg = glue::glue(
         "Field names in `schema` must match column names in data:",
         "\u2139 Field names: `{field_names_collapse}`",
         "\u2139 Column names: `{col_names_collapse}`",
-        .sep = "\n"
+        .sep = "\n",
+        field_names_collapse = paste(field_names, collapse = "`, `"),
+        col_names_collapse = paste(col_names, collapse = "`, `")
       )
     )
   } else {
