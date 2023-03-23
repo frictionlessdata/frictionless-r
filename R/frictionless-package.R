@@ -4,4 +4,6 @@
 ## usethis namespace: start
 #' @importFrom readr problems
 ## usethis namespace: end
+
+#' @export problems
 NULL
