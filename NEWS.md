@@ -2,7 +2,7 @@
 
 - Add `readr::problems()` to NAMESPACE so users don't have to load readr to
   inspect parsing issues.
-  The function is mentioned in the documentation of `read_resource()`.
+  The function is mentioned in the documentation of `read_resource()` (#129).
 
 # frictionless 1.0.2
 
