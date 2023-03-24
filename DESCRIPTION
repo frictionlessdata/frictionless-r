@@ -6,6 +6,8 @@ Authors@R: c(
            role = c("aut", "cre"), comment = c(ORCID = "0000-0002-8442-8025")),
     person("Damiano", "Oldoni", email = "damiano.oldoni@inbo.be",
            role = "aut", comment = c(ORCID = "0000-0003-3445-7562")),
+    person("Pieter", "Huybrechts", email = "pieter.huybrechts@inbo.be",
+           role = "aut", comment = c(ORCID = "0000-0002-6658-6062")),
     person("Research Institute for Nature and Forest (INBO)",
            role = "cph", comment = "https://www.vlaanderen.be/inbo/en-gb/"),
     person("LifeWatch Belgium",

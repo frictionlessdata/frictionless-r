@@ -3,6 +3,9 @@
 - `read_resource()` now supports column selection via the `col_select` parameter
   from `readr::read_delim()`.
   This can vastly improve reading speed (#123).
+- Add [Pieter Huybrechts](https://orcid.org/0000-0002-6658-6062) as author.
+  Welcome Pieter!
+
 # frictionless 1.0.2
 
 - Add `testthat::skip_if_offline()` to selected tests and verbosely include 
