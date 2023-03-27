@@ -203,9 +203,9 @@ read_resource <- function(package, resource_name, col_select = NULL) {
   field_names <- purrr::map_chr(fields, ~ purrr::pluck(.x, "name"))
 
   # Check if selected columns appear in schema
-  multiple_missing_columns <- sum(!col_select %in% field_names) > 1
+  no_missing_columns <- all(col_select %in% field_names)
   assertthat::assert_that(
-    multiple_missing_columns,
+    no_missing_columns,
     msg = glue::glue(
       "Can't find column(s) ",
       "`{x}` ",
