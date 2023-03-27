@@ -6,9 +6,6 @@ template:
 navbar:
   bg: dark
 
-development:
-  mode: auto
-
 authors:
   Peter Desmet:
     href: https://twitter.com/peterdesmet
