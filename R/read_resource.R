@@ -363,6 +363,10 @@ read_resource <- function(package, resource_name, col_select = NULL) {
         ),
         col_names = col_names,
         col_types = col_types,
+         # use embracing from rlang {{}} allows us to tell readr::read_delim to
+         # not use dplyr::select like syntax for col_select, but instead to
+         # evaluate the embraced symbol `col_select` instead. See
+         # https://rlang.r-lib.org/reference/topic-data-mask.html
         col_select = {{col_select}},
         locale = locale,
         na = replace_null(schema$missingValues, ""),
