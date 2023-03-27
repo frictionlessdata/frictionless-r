@@ -85,7 +85,7 @@ test_that("add_resource() returns error on invalid or empty data frame", {
 })
 
 test_that("add_resource() returns error if CSV file cannot be found", {
-  testthat::skip_if_offline()
+  skip_if_offline()
   p <- example_package
   df_csv <- test_path("data/df.csv")
   schema <- create_schema(data.frame("col_1" = c(1, 2), "col_2" = c("a", "b")))
@@ -227,7 +227,7 @@ test_that("add_resource() can add resource from data frame, readable by
 
 test_that("add_resource() can add resource from local, relative, absolute,
            remote or compressed CSV file, readable by read_resource()", {
-  testthat::skip_if_offline()
+  skip_if_offline()
   p <- example_package
   schema <- get_schema(p, "deployments")
 

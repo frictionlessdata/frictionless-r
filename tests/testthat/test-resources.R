@@ -1,5 +1,5 @@
 test_that("resources() returns a character vector of resource names", {
-  testthat::skip_if_offline()
+  skip_if_offline()
   p <- example_package
   expect_identical(resources(p), c("deployments", "observations", "media"))
 

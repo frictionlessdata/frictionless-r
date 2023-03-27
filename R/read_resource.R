@@ -14,8 +14,12 @@
 #'   or [create_package()].
 #' @param resource_name Name of the Data Resource.
 #' @param col_select Character vector of columns to include in the returned
-#'   data frame. Columns will be provided in the same order as they are stated.
-#' @return [dplyr::tibble()] data frame with the Data Resource's tabular data.
+#'   data frame.
+#'   Columns will be provided in the same order as they are stated.
+#' @return A [tibble()] data frame with the Data Resource's tabular data.
+#'   If there are parsing problems, a warning will alert you.
+#'   You can retrieve the full details by calling [problems()] on your data
+#'   frame.
 #' @family read functions
 #' @export
 #' @section Resource properties:

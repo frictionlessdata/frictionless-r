@@ -1,5 +1,5 @@
 test_that("remove_resource() returns a valid Data Package", {
-  testthat::skip_if_offline()
+  skip_if_offline()
   p <- example_package
   expect_true(check_package(remove_resource(p, "deployments")))
 })
@@ -16,7 +16,7 @@ test_that("remove_resource() returns error on incorrect Data Package", {
 })
 
 test_that("remove_resource() returns error when resource not found", {
-  testthat::skip_if_offline()
+  skip_if_offline()
   p <- example_package
   expect_error(
     remove_resource(p, "no_such_resource"),
@@ -29,7 +29,7 @@ test_that("remove_resource() returns error when resource not found", {
 })
 
 test_that("remove_resource() removes resource", {
-  testthat::skip_if_offline()
+  skip_if_offline()
   p <- example_package
 
   # Remove "deployments", keep "observations" and "media
