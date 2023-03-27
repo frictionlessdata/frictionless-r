@@ -3,10 +3,12 @@
 - Add `readr::problems()` to NAMESPACE so users don't have to load readr to
   inspect parsing issues.
   The function is mentioned in the documentation of `read_resource()` (#129).
+- Adhere to the requirements of [checklist](https://github.com/inbo/checklist),
+  so that `.zenodo.json` can be created with `checklist::update_citation()`.
 
 # frictionless 1.0.2
 
-- Add `testthat::skip_if_offline()` to selected tests and verbosely include 
+- Add `skip_if_offline()` to selected tests and verbosely include 
   output in vignette examples, to avoid CRAN errors caused by timeouts (#116).
 
 # frictionless 1.0.1
