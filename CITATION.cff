@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: If you use this software, please cite it using these metadata.
+title: 'frictionless: Read and Write Frictionless Data Packages'
+authors:
+- given-names: Peter
+  family-names: Desmet
+  orcid: 0000-0002-8442-8025
+- given-names: Damiano
+  family-names: Oldoni
+  orcid: 0000-0003-3445-7562
+keywords:
+- R package
+- frictionlessdata
+contact:
+- given-names: Peter
+  family-names: Desmet
+  orcid: 0000-0002-8442-8025
+doi: ~
+license: MIT
+repository-code: https://github.com/frictionlessdata/frictionless-r
+type: software
+abstract: Read and write Frictionless Data Packages. A 'Data Package' () is a simple
+  container format and standard to describe and package a collection of (tabular)
+  data. It is typically used to publish FAIR () and open datasets.
+identifiers:
+- type: url
+  value: https://docs.ropensci.org/frictionless/
+version: 1.0.2

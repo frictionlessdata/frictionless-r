@@ -1,34 +1,49 @@
 {
   "title": "frictionless: Read and Write Frictionless Data Packages",
   "version": "1.0.2",
-  "description": "Read and write Frictionless Data Packages. A 'Data Package' (<https://specs.frictionlessdata.io/data-package/>) is a simple container format and standard to describe and package a collection of (tabular) data. It is typically used to publish FAIR (<https://www.go-fair.org/fair-principles/>) and open datasets.",
-  "creators": [
+  "license": "MIT",
+  "upload_type": "software",
+  "description": "<p>Read and write Frictionless Data Packages. A ‘Data Package’ (<a href=\"https://specs.frictionlessdata.io/data-package/\" class=\"uri\">https://specs.frictionlessdata.io/data-package/<\/a>) is a simple container format and standard to describe and package a collection of (tabular) data. It is typically used to publish FAIR (<a href=\"https://www.go-fair.org/fair-principles/\" class=\"uri\">https://www.go-fair.org/fair-principles/<\/a>) and open datasets.<\/p>",
+  "keywords": [
+    "R package",
+    "frictionlessdata"
+  ],
+  "language": "eng",
+  "contributors": [
     {
       "name": "Desmet, Peter",
-      "orcid": "https://orcid.org/0000-0002-8442-8025"
+      "orcid": "0000-0002-8442-8025",
+      "type": "ContactPerson"
     },
-    {
-      "name": "Oldoni, Damiano",
-      "orcid": "https://orcid.org/0000-0003-3445-7562"
-    }
-  ],
-  "upload_type": "software",
-  "access_right": "open",
-  "license": "MIT + file LICENSE",
-  "communities": [
-    {
-      "identifier": "inbo"
-    }
-  ],
-  "contributors": [
     {
       "name": "Research Institute for Nature and Forest (INBO)",
       "type": "RightsHolder"
     },
     {
+      "name": "Milz, Beatriz",
+      "orcid": "0000-0002-3064-4486",
+      "type": "Other"
+    },
+    {
+      "name": "Martins, João",
+      "orcid": "0000-0001-7961-4280",
+      "type": "Other"
+    }
+  ],
+  "creators": [
+    {
       "name": "Desmet, Peter",
-      "type": "ContactPerson",
-      "orcid": "https://orcid.org/0000-0002-8442-8025"
+      "orcid": "0000-0002-8442-8025"
+    },
+    {
+      "name": "Oldoni, Damiano",
+      "orcid": "0000-0003-3445-7562"
+    }
+  ],
+  "access_right": "open",
+  "communities": [
+    {
+      "identifier": "inbo"
     }
   ]
 }

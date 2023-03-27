@@ -1,0 +1,28 @@
+description: Configuration file for checklist::check_pkg()
+package: yes
+allowed:
+  warnings: []
+  notes: []
+citation_roles:
+- aut
+- cre
+required:
+- .zenodo.json
+- CITATION
+- CITATION.cff
+- DESCRIPTION
+- R CMD check
+- checklist
+- codemeta
+- documentation
+- filename conventions
+- license
+- lintr
+- repository secret
+- spelling
+keywords: R package
+spelling:
+  default: en-GB
+  ignore:
+  - .github
+  - LICENSE.md

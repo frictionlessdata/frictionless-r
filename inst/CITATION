@@ -3,7 +3,7 @@ authors <- authors[which(unlist(lapply(authors, function(x) { "aut" %in% x$role 
 
 bibentry(
   bibtype = "manual",
-  title = meta$Title,
+  title = paste(meta$Package, meta$Title, sep = ": "),
   author = authors,
   year = format(Sys.Date(), "%Y"),
   note = sprintf("R package version %s", meta$Version),

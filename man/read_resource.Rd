@@ -13,7 +13,10 @@ or \code{\link[=create_package]{create_package()}}.}
 \item{resource_name}{Name of the Data Resource.}
 }
 \value{
-\code{\link[dplyr:reexports]{dplyr::tibble()}} data frame with the Data Resource's tabular data.
+A \code{\link[=tibble]{tibble()}} data frame with the Data Resource's tabular data.
+If there are parsing problems, a warning will alert you.
+You can retrieve the full details by calling \code{\link[=problems]{problems()}} on your data
+frame.
 }
 \description{
 Reads data from a \href{https://specs.frictionlessdata.io/data-resource/}{Data Resource} (in a Data

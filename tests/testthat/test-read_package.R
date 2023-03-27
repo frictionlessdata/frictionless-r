@@ -20,7 +20,7 @@ test_that("read_package() returns a valid Data Package reading from path", {
 })
 
 test_that("read_package() returns a valid Data Package reading from url", {
-  testthat::skip_if_offline()
+  skip_if_offline()
   # Load example package remotely
   p_url <- file.path("https://raw.githubusercontent.com/frictionlessdata/",
                      "frictionless-r/main/inst/extdata/datapackage.json")
@@ -66,7 +66,7 @@ test_that("read_package() shows message about usage norms", {
 })
 
 test_that("read_package() returns error on missing file and properties", {
-  testthat::skip_if_offline()
+  skip_if_offline()
   # Incorrect type
   expect_error(
     read_package(list()),
