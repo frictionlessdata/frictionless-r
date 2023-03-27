@@ -13,7 +13,10 @@
 #' @param package List describing a Data Package, created with [read_package()]
 #'   or [create_package()].
 #' @param resource_name Name of the Data Resource.
-#' @return [dplyr::tibble()] data frame with the Data Resource's tabular data.
+#' @return A [tibble()] data frame with the Data Resource's tabular data.
+#'   If there are parsing problems, a warning will alert you.
+#'   You can retrieve the full details by calling [problems()] on your data
+#'   frame.
 #' @family read functions
 #' @export
 #' @section Resource properties:

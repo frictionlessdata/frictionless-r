@@ -8,7 +8,7 @@
 [![CRAN
 status](https://www.r-pkg.org/badges/version/frictionless)](https://CRAN.R-project.org/package=frictionless)
 [![CRAN
-checks](https://cranchecks.info/badges/worst/frictionless)](https://cran.r-project.org/web/checks/check_results_frictionless.html)
+checks](https://badges.cranchecks.info/worst/frictionless.svg)](https://cran.r-project.org/web/checks/check_results_frictionless.html)
 [![R-CMD-check](https://github.com/frictionlessdata/frictionless-r/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/frictionlessdata/frictionless-r/actions/workflows/R-CMD-check.yaml)
 [![codecov](https://codecov.io/gh/frictionlessdata/frictionless-r/branch/main/graph/badge.svg)](https://app.codecov.io/gh/frictionlessdata/frictionless-r/)
 [![repo
