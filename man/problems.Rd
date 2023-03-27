@@ -4,7 +4,7 @@
 \alias{problems}
 \title{Retrieve parsing problems}
 \description{
-Allows to show parsing issues in data frame returned by \code{\link[=read_resource]{read_resource()}}.
+Retrieves the parsing problems in data frame returned by \code{\link[=read_resource]{read_resource()}}.
 See \code{\link[readr:problems]{readr::problems()}} for details.
 }
 \keyword{internal}
