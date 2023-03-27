@@ -205,7 +205,7 @@ read_resource <- function(package, resource_name, col_select = NULL) {
   # Check if selected columns appear in schema
   multiple_missing_columns <- sum(!col_select %in% field_names) > 1
   assertthat::assert_that(
-    all(col_select %in% field_names),
+    multiple_missing_columns,
     msg = glue::glue(
       "Can't find column(s) ",
       "`{x}` ",
