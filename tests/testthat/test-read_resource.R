@@ -664,6 +664,7 @@ test_that("read_resource() handles other types", {
 })
 
 test_that("read_resource() allows selecting of resource columns", {
+  testthat::skip_if_offline()
   # Single column
   expect_named(
     read_resource(example_package,
