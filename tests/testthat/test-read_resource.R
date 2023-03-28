@@ -9,6 +9,91 @@ test_that("read_resource() returns a tibble", {
   expect_s3_class(read_resource(p, "new"), "tbl")         # via df
 })
 
+test_that("read_resource() allows column selection", {
+  skip_if_offline()
+  p <- example_package
+
+  # Single column
+  expect_named(
+    read_resource(p, "deployments", col_select = "start"),
+    "start"
+  )
+  expect_identical(
+    read_resource(p, "deployments", col_select = "start"),
+    dplyr::select(
+      read_resource(p, "deployments"),
+      "start"
+    ),
+    ignore_attr = "spec" # read_delim() returns vroom::spec(), select() does not
+  )
+
+  # Multiple columns
+  expect_named(
+    read_resource(p, "deployments", col_select = c("deployment_id", "start")),
+    c("deployment_id", "start")
+  )
+  expect_identical(
+    read_resource(p, "deployments", col_select = c("deployment_id", "start")),
+    dplyr::select(
+      read_resource(p, "deployments"),
+      "deployment_id",
+      "start"
+    ),
+    ignore_attr = "spec"
+  )
+
+  # Different order
+  expect_named(
+    read_resource(
+      p,
+      "deployments",
+      col_select = c("start", "deployment_id", "comments")
+    ),
+    c("start", "deployment_id", "comments"),
+    ignore.order = FALSE
+  )
+  expect_identical(
+    read_resource(
+      p,
+      "deployments",
+      col_select = c("start", "deployment_id", "comments")
+    ),
+    dplyr::select(
+      read_resource(p, "deployments"),
+      "start",
+      "deployment_id",
+      "comments"
+    ),
+    ignore_attr = "spec"
+  )
+})
+
+test_that("read_resource() returns error on column selection not in schema", {
+  skip_if_offline()
+  p <- example_package
+  expect_error(
+    read_resource(p, "deployments", col_select = "no_such_column"),
+    "Can't find column(s) `no_such_column` in schema.",
+    fixed = TRUE
+  )
+  expect_error(
+    read_resource(
+      p,
+      "deployments",
+      col_select = c("no_such_column", "start", "no_such_column_either")
+    ),
+    "Can't find column(s) `no_such_column`, `no_such_column_either` in schema.",
+    fixed = TRUE
+  )
+  expect_no_error(
+    read_resource(
+      p,
+      "deployments",
+      col_select = c("start", "deployment_id", "comments")
+    )
+  )
+})
+
 test_that("read_resource() returns error on incorrect Data Package", {
   expect_error(
     read_resource(list(), "deployments"),

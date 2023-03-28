@@ -1,10 +1,15 @@
 # frictionless (development version)
 
+- `read_resource()` now supports column selection via the `col_select` parameter
+  from `readr::read_delim()`.
+  This can vastly improve reading speed (#123).
 - Add `readr::problems()` to NAMESPACE so users don't have to load readr to
   inspect parsing issues.
   The function is mentioned in the documentation of `read_resource()` (#129).
 - Adhere to the requirements of [checklist](https://github.com/inbo/checklist),
   so that `.zenodo.json` can be created with `checklist::update_citation()`.
+- Add [Pieter Huybrechts](https://orcid.org/0000-0002-6658-6062) as author.
+  Welcome Pieter!
 
 # frictionless 1.0.2
 

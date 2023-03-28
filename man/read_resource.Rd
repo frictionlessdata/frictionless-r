@@ -4,13 +4,17 @@
 \alias{read_resource}
 \title{Read data from a Data Resource into a tibble data frame}
 \usage{
-read_resource(package, resource_name)
+read_resource(package, resource_name, col_select = NULL)
 }
 \arguments{
 \item{package}{List describing a Data Package, created with \code{\link[=read_package]{read_package()}}
 or \code{\link[=create_package]{create_package()}}.}
 
 \item{resource_name}{Name of the Data Resource.}
+
+\item{col_select}{Character vector of the columns to include in the result,
+in the order provided.
+Selecting columns can improve read speed.}
 }
 \value{
 A \code{\link[=tibble]{tibble()}} data frame with the Data Resource's tabular data.
@@ -217,6 +221,9 @@ package$resources[[2]]$path
 # The column names and types are derived from the resource schema
 purrr::map_chr(package$resources[[2]]$schema$fields, "name")
 purrr::map_chr(package$resources[[2]]$schema$fields, "type")
+
+# Read data from the resource "deployments" with column selection
+read_resource(package, "deployments", col_select = c("latitude", "longitude"))
 }
 \seealso{
 Other read functions: 
