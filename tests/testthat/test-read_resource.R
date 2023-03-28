@@ -663,105 +663,87 @@ test_that("read_resource() handles other types", {
   expect_type(resource$no_type, "logical")
 })
 
-test_that("read_resource() allows selecting of resource columns", {
-  testthat::skip_if_offline()
+test_that("read_resource() allows column selection", {
+  skip_if_offline()
+  p <- example_package
+
   # Single column
   expect_named(
-    read_resource(example_package,
-                  "observations",
-                  col_select = "observation_id"),
-    "observation_id")
-
-  ## Ignore vroom::spec(), readr::read_delim includes a spec of what columns
-  ## weren't read, dplyr::select() does not.
+    read_resource(p, "deployments", col_select = "start"),
+    "start"
+  )
   expect_identical(
-    read_resource(example_package,
-      "observations",
-      col_select = "observation_id"
+    read_resource(p, "deployments", col_select = "start"),
+    dplyr::select(
+      read_resource(p, "deployments"),
+      "start"
     ),
-    dplyr::select(read_resource(
-      example_package,
-      "observations"
-    ), "observation_id"),
-    ignore_attr = "spec"
+    ignore_attr = "spec" # read_delim() returns vroom::spec(), select() does not
   )
 
   # Multiple columns
   expect_named(
-    read_resource(
-      example_package,
-      "observations",
-      col_select = c("observation_id", "deployment_id")
-    ),
-    c(
-      "observation_id",
-      "deployment_id"
-    )
+    read_resource(p, "deployments", col_select = c("deployment_id", "start")),
+    c("deployment_id", "start")
   )
-
-  ## Ignore vroom::spec(), readr::read_delim includes a spec of what columns
-  ## weren't read, dplyr::select() does not.
   expect_identical(
-    read_resource(example_package,
-      "observations",
-      col_select = c("comments", "count")
+    read_resource(p, "deployments", col_select = c("deployment_id", "start")),
+    dplyr::select(
+      read_resource(p, "deployments"),
+      "deployment_id",
+      "start"
     ),
-    dplyr::select(read_resource(
-      example_package,
-      "observations"
-    ), "comments", "count"),
     ignore_attr = "spec"
   )
 
   # Different order
   expect_named(
-    read_resource(example_package,
-                  "observations",
-                  col_select = c("observation_id",
-                                 "scientific_name",
-                                 "deployment_id")),
-    c("observation_id", "scientific_name", "deployment_id"),
+    read_resource(
+      p,
+      "deployments",
+      col_select = c("start", "deployment_id", "comments")
+    ),
+    c("start", "deployment_id", "comments"),
     ignore.order = FALSE
   )
-  ## Ignore vroom::spec(), readr::read_delim includes a spec of what columns
-  ## weren't read, dplyr::select() does not.
   expect_identical(
-    read_resource(example_package,
-      "observations",
-      col_select = c("life_stage", "deployment_id", "observation_id")
+    read_resource(
+      p,
+      "deployments",
+      col_select = c("start", "deployment_id", "comments")
     ),
-    dplyr::select(read_resource(
-      example_package,
-      "observations"
-    ), "life_stage", "deployment_id", "observation_id"),
+    dplyr::select(
+      read_resource(p, "deployments"),
+      "start",
+      "deployment_id",
+      "comments"
+    ),
     ignore_attr = "spec"
   )
 })
 
-test_that("read_resource() returns error on column select outside schema", {
+test_that("read_resource() returns error on column selection outside schema", {
+  skip_if_offline()
+  p <- example_package
   expect_error(
-    read_resource(example_package,
-      "media",
-      col_select = "no valid column"
-    ),
-    regexp = "Can't find column(s) `no valid column` in schema",
+    read_resource(p, "deployments", col_select = "no_such_column"),
+    "Can't find column(s) `no_such_column` in schema.",
     fixed = TRUE
   )
-
   expect_error(
     read_resource(
-      example_package,
-      "media",
-      col_select = c("not_a_column", "timestamp", "also_not_a_col")
+      p,
+      "deployments",
+      col_select = c("no_such_column", "start", "no_such_column_either")
     ),
-    regexp = "Can't find column(s) `not_a_column`, `also_not_a_col` in schema",
+    "Can't find column(s) `no_such_column`, `no_such_column_either` in schema.",
     fixed = TRUE
   )
-
   expect_no_error(
-    read_resource(example_package,
-      "media",
-      col_select = c("media_id", "timestamp", "observation_id")
+    read_resource(
+      p,
+      "deployments",
+      col_select = c("start", "deployment_id", "comments")
     )
   )
 })
