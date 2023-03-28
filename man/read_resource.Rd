@@ -12,8 +12,9 @@ or \code{\link[=create_package]{create_package()}}.}
 
 \item{resource_name}{Name of the Data Resource.}
 
-\item{col_select}{Character vector of columns to include in the returned
-data frame. Columns will be provided in the same order as they are stated.}
+\item{col_select}{Character vector of the columns to include in the result,
+in the order provided.
+Selecting columns can improve read speed.}
 }
 \value{
 A \code{\link[=tibble]{tibble()}} data frame with the Data Resource's tabular data.
@@ -220,6 +221,9 @@ package$resources[[2]]$path
 # The column names and types are derived from the resource schema
 purrr::map_chr(package$resources[[2]]$schema$fields, "name")
 purrr::map_chr(package$resources[[2]]$schema$fields, "type")
+
+# Read data from the resource "deployments" with column selection
+read_resource(package, "deployments", col_select = c("latitude", "longitude"))
 }
 \seealso{
 Other read functions: 

@@ -13,9 +13,9 @@
 #' @param package List describing a Data Package, created with [read_package()]
 #'   or [create_package()].
 #' @param resource_name Name of the Data Resource.
-#' @param col_select Character vector of columns to include in the returned
-#'   data frame.
-#'   Columns will be provided in the same order as they are stated.
+#' @param col_select Character vector of the columns to include in the result,
+#'   in the order provided.
+#'   Selecting columns can improve read speed.
 #' @return A [tibble()] data frame with the Data Resource's tabular data.
 #'   If there are parsing problems, a warning will alert you.
 #'   You can retrieve the full details by calling [problems()] on your data
@@ -196,6 +196,9 @@
 #' # The column names and types are derived from the resource schema
 #' purrr::map_chr(package$resources[[2]]$schema$fields, "name")
 #' purrr::map_chr(package$resources[[2]]$schema$fields, "type")
+#'
+#' # Read data from the resource "deployments" with column selection
+#' read_resource(package, "deployments", col_select = c("latitude", "longitude"))
 read_resource <- function(package, resource_name, col_select = NULL) {
   # Get resource, includes check_package()
   resource <- get_resource(package, resource_name)
@@ -206,17 +209,17 @@ read_resource <- function(package, resource_name, col_select = NULL) {
   fields <- schema$fields
   field_names <- purrr::map_chr(fields, ~ purrr::pluck(.x, "name"))
 
-  # Check if selected columns appear in schema
-  no_missing_columns <- all(col_select %in% field_names)
+  # Check all selected columns appear in schema
   assertthat::assert_that(
-    no_missing_columns,
+    all(col_select %in% field_names),
     msg = glue::glue(
-      "Can't find column(s) ",
-      "`{x}` ",
-      "in schema",
-      x = paste(col_select[!col_select %in% field_names],collapse = '`, `')
+      "Can't find column(s) {field_names_collapse} in schema.",
+      field_names_collapse = glue::glue_collapse(
+        glue::backtick(col_select[!col_select %in% field_names]),
+        sep = ", "
+      )
     )
-    )
+  )
 
   # Create locale with encoding, decimal_mark and grouping_mark
   encoding <- replace_null(resource$encoding, "UTF-8") # Set default to UTF-8
