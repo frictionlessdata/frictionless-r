@@ -213,11 +213,17 @@ read_resource <- function(package, resource_name, col_select = NULL) {
   assertthat::assert_that(
     all(col_select %in% field_names),
     msg = glue::glue(
-      "Can't find column(s) {field_names_collapse} in schema.",
-      field_names_collapse = glue::glue_collapse(
+      "Can't find column(s) {missing_col_select_collapse} in field names.",
+      "\u2139 Field names: {field_names_collapse}",
+      missing_col_select_collapse = glue::glue_collapse(
         glue::backtick(col_select[!col_select %in% field_names]),
         sep = ", "
-      )
+      ),
+      field_names_collapse = glue::glue_collapse(
+        glue::backtick(field_names),
+        sep = ", "
+      ),
+      .sep = "\n"
     )
   )
 
