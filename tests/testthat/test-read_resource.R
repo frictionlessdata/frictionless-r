@@ -70,6 +70,7 @@ test_that("read_resource() allows column selection", {
 
 test_that("read_resource() returns error on column selection not in schema", {
   skip_if_offline()
+  skip_on_covr()
   p <- example_package
   expect_snapshot(
     error = TRUE,
