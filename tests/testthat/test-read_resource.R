@@ -70,21 +70,28 @@ test_that("read_resource() allows column selection", {
 
 test_that("read_resource() returns error on column selection not in schema", {
   skip_if_offline()
-  skip_on_covr()
   p <- example_package
-  expect_snapshot(
-    error = TRUE,
-    cat(read_resource(p, "deployments", col_select = "no_such_column"))
+  expect_error(
+    read_resource(p, "deployments", col_select = "no_such_column"),
+    paste(
+      "Can't find column(s) `no_such_column` in field names.",
+      "ℹ Field names: `deployment_id`, `longitude`, `latitude`, `start`, `comments`",
+      sep = "\n"
+    ),
+    fixed = TRUE
   )
-  expect_snapshot(
-    error = TRUE,
-    cat(read_resource(p,
-                      "deployments",
-                      col_select = c("no_such_column",
-                                     "start",
-                                     "no_such_column_either")
-                      )
-        )
+  expect_error(
+    read_resource(
+      p,
+      "deployments",
+      col_select = c("no_such_column", "start", "no_such_column_either")
+    ),
+    paste(
+      "Can't find column(s) `no_such_column`, `no_such_column_either` in field names.",
+      "ℹ Field names: `deployment_id`, `longitude`, `latitude`, `start`, `comments`",
+      sep = "\n"
+    ),
+    fixed = TRUE
   )
   expect_no_error(
     read_resource(
