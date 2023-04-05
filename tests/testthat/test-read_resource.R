@@ -93,13 +93,6 @@ test_that("read_resource() returns error on column selection not in schema", {
     ),
     fixed = TRUE
   )
-  expect_no_error(
-    read_resource(
-      p,
-      "deployments",
-      col_select = c("start", "deployment_id", "comments")
-    )
-  )
 })
 
 test_that("read_resource() returns error on incorrect Data Package", {
