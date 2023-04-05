@@ -214,12 +214,12 @@ read_resource <- function(package, resource_name, col_select = NULL) {
     all(col_select %in% field_names),
     msg = glue::glue(
       "Can't find column(s) {missing_col_select_collapse} in field names.",
-      "\u2139 Field names: {schema_names_collapse}",
+      "\u2139 Field names: {field_names_collapse}",
       missing_col_select_collapse = glue::glue_collapse(
         glue::backtick(col_select[!col_select %in% field_names]),
         sep = ", "
       ),
-      schema_names_collapse = glue::glue_collapse(
+      field_names_collapse = glue::glue_collapse(
         glue::backtick(field_names),
         sep = ", "
       ),
