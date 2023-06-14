@@ -132,7 +132,7 @@ read_descriptor <- function(x, directory = NULL, safe = FALSE) {
       x <- yaml::yaml.load_file(x)
     } else {
       # Default to jsonlite: better error messages for non .json files
-      x <- jsonlite::fromJSON(x, simplifyDataFrame = FALSE)
+      x <- jsonlite::fromJSON(x, simplifyDataFrame = FALSE, simplifyVector = TRUE)
     }
   }
   return(x)
