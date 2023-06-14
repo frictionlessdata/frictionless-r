@@ -128,7 +128,7 @@ check_path <- function(path, directory = NULL, safe = FALSE) {
 read_descriptor <- function(x, directory = NULL, safe = FALSE) {
   if (is.character(x)) {
     x <- check_path(x, directory = directory, safe = safe)
-    if (grepl(".yaml$", x) | grepl(".yml$", x)) {
+    if (grepl(".yaml$", x) || grepl(".yml$", x)) {
       x <- yaml::yaml.load_file(x)
     } else {
       # Default to jsonlite: better error messages for non .json files
