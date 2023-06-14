@@ -239,7 +239,7 @@ read_resource <- function(package, resource_name, col_select = NULL) {
     fields, ~ replace_null(.x$decimalChar, NA_character_)
   )
   d_chars <- unique_sorted(d_chars)
-  if (length(d_chars) == 0 | (length(d_chars) == 1 & d_chars[1] == ".")) {
+  if (length(d_chars) == 0 || (length(d_chars) == 1 && d_chars[1] == ".")) {
     decimal_mark <- "." # Set default to "." if undefined or all set to "."
   } else {
     decimal_mark <- d_chars[1]
@@ -251,7 +251,7 @@ read_resource <- function(package, resource_name, col_select = NULL) {
   }
   g_chars <- purrr::map_chr(fields, ~ replace_null(.x$groupChar, NA_character_))
   g_chars <- unique_sorted(g_chars)
-  if (length(g_chars) == 0 | (length(g_chars) == 1 & g_chars[1] == "")) {
+  if (length(g_chars) == 0 || (length(g_chars) == 1 && g_chars[1] == "")) {
     grouping_mark <- "" # Set default to "" if undefined or all set to ""
   } else {
     grouping_mark <- g_chars[1]
@@ -358,7 +358,7 @@ read_resource <- function(package, resource_name, col_select = NULL) {
     df <- dplyr::as_tibble(do.call(rbind.data.frame, resource$data))
 
   # Read data from path(s)
-  } else if (resource$read_from == "path" | resource$read_from == "url") {
+  } else if (resource$read_from == "path" || resource$read_from == "url") {
     dataframes <- list()
     for (i in seq_along(paths)) {
       data <- readr::read_delim(
