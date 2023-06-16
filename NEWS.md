@@ -1,5 +1,7 @@
 # frictionless (development version)
 
+- `add_resource()` gains `...` argument to allow passing of optional 
+  resource-level metadata
 - `read_resource()` now supports column selection via the `col_select` parameter
   from `readr::read_delim()`.
   This can vastly improve reading speed (#123).
