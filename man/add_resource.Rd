@@ -4,7 +4,7 @@
 \alias{add_resource}
 \title{Add a Data Resource}
 \usage{
-add_resource(package, resource_name, data, schema = NULL, delim = ",")
+add_resource(package, resource_name, data, schema = NULL, delim = ",", ...)
 }
 \arguments{
 \item{package}{List describing a Data Package, created with \code{\link[=read_package]{read_package()}}
@@ -32,6 +32,10 @@ If not provided, one will be created using \code{\link[=create_schema]{create_sc
 e.g. \verb{\\t} for tab delimited file.
 Will be set as \code{delimiter} in the resource \href{https://specs.frictionlessdata.io/csv-dialect/#specification}{CSV dialect}, so
 read functions know how to read the file(s).}
+
+\item{...}{Additional resource-level metadata properties passed as key-value
+pairs.
+See \href{https://specs.frictionlessdata.io/data-resource/#metadata-properties}{frictionless specs metadata properties}.}
 }
 \value{
 Provided \code{package} with one additional resource.
@@ -64,8 +68,14 @@ df <- data.frame(
 package <- add_resource(package, "positions", data = df)
 
 # Add resource "positions_2" to the Data Package, with user-defined schema
+# and additional description property
 my_schema <- create_schema(df)
-package <- add_resource(package, "positions_2", data = df, schema = my_schema)
+package <- add_resource(
+  package,
+  "positions_2",
+  data = df,
+  schema = my_schema,
+  description = "Positions of multimedia files")
 
 # Add resource "observations_2" to the Data Package, from CSV file paths
 path_1 <- system.file("extdata", "observations_1.csv", package = "frictionless")

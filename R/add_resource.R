@@ -26,6 +26,10 @@
 #'   Will be set as `delimiter` in the resource [CSV
 #'   dialect](https://specs.frictionlessdata.io/csv-dialect/#specification), so
 #'   read functions know how to read the file(s).
+#' @param ... Additional resource-level metadata properties passed as key-value
+#'   pairs.
+#'   See [frictionless specs metadata
+#'   properties](https://specs.frictionlessdata.io/data-resource/#metadata-properties).
 #' @return Provided `package` with one additional resource.
 #' @family edit functions
 #' @export
@@ -50,8 +54,14 @@
 #' package <- add_resource(package, "positions", data = df)
 #'
 #' # Add resource "positions_2" to the Data Package, with user-defined schema
+#' # and additional description property
 #' my_schema <- create_schema(df)
-#' package <- add_resource(package, "positions_2", data = df, schema = my_schema)
+#' package <- add_resource(
+#'   package,
+#'   "positions_2",
+#'   data = df,
+#'   schema = my_schema,
+#'   description = "Positions of multimedia files")
 #'
 #' # Add resource "observations_2" to the Data Package, from CSV file paths
 #' path_1 <- system.file("extdata", "observations_1.csv", package = "frictionless")
@@ -61,7 +71,7 @@
 #' # List resources ("positions", "positions_2", "observations_2" added)
 #' resources(package)
 add_resource <- function(package, resource_name, data, schema = NULL,
-                         delim = ",") {
+                         delim = ",", ...) {
   # Check package
   check_package(package)
 
@@ -113,6 +123,50 @@ add_resource <- function(package, resource_name, data, schema = NULL,
   # Check schema (also checks df)
   check_schema(schema, df)
 
+  # Check ellipsis
+  # check that named arguments are passed
+  assertthat::assert_that(
+    ...length() == length(...names()),
+    msg = "All arguments in ... should be named."
+  )
+  # check names are not among those set internally
+  set_internally <- c(
+    "name", "data", "path", "profile", "schema", "format", "mediatype",
+    "encoding", "dialect"
+  )
+  assertthat::assert_that(
+    !any(...names() %in% set_internally),
+    msg = paste0(
+      paste(...names()[...names() %in% set_internally], collapse = ", "),
+      " are passed to ... but are set internally. Please remove them.")
+  )
+  # message in other cases
+  optional_resource_metadata <- c(
+    "title", "description", "bytes", "hash", "licenses", "sources"
+  )
+
+  if (...length()) {
+    has_meta1 <- any(...names() %in% optional_resource_metadata)
+    meta1 <- ...names()[...names() %in% optional_resource_metadata]
+    has_meta2 <- any(!...names() %in% optional_resource_metadata)
+    meta2 <- ...names()[!...names() %in% optional_resource_metadata]
+    message(
+      paste0(
+        "The following custom properties were provided:\n",
+        paste0(
+          "  ",
+          meta1,
+          ": added, should meet requirements defined at https://specs.frictionlessdata.io/data-resource/#optional-properties." # nolint
+        )[has_meta1],
+        paste0(
+          "  ",
+          meta2,
+          ": added."
+        )[has_meta2]
+      )
+    )
+  }
+
   # Create resource, with properties in specific order
   if (is.data.frame(data)) {
     resource <- list(
@@ -120,7 +174,8 @@ add_resource <- function(package, resource_name, data, schema = NULL,
       data = df,
       profile = "tabular-data-resource", # Necessary for read_resource()
       # other properties are set by write_resource()
-      schema = schema
+      schema = schema,
+      ...
     )
   } else {
     resource <- list(
@@ -134,7 +189,8 @@ add_resource <- function(package, resource_name, data, schema = NULL,
         "text/csv"
       ),
       encoding = ifelse(encoding == "ASCII", "UTF-8", encoding), # UTF-8 is safer
-      schema = schema
+      schema = schema,
+      ...
     )
     # Add CSV dialect for non-default delimiter
     if (delim != ",") {
