@@ -5,6 +5,14 @@ test_that("add_resource() returns a valid Data Package", {
   schema <- create_schema(df)
   expect_true(check_package(add_resource(p, "new", df)))
   expect_true(check_package(add_resource(p, "new", df, schema)))
+  expect_true(
+    check_package(
+      add_resource(
+        p, "new", df, schema,
+        description = "description",
+        title = "title")
+    )
+  )
   expect_true(check_package(add_resource(p, "new", df_csv)))
 })
 
@@ -335,3 +343,36 @@ test_that("add_resource() sets correct properties for CSV resources", {
   expect_identical(p$resources[[6]]$encoding, "UTF-8")
   expect_identical(read_resource(p, "df_delim_2"), read_resource(p, "df"))
 })
+
+test_that(
+  "add_resource() errors when internally set metadata are passed to ...", {
+  p <- create_package()
+  path <- system.file("extdata", "deployments.csv", package = "frictionless")
+
+  # Encoding UTF-8 (0.8), ISO-8859-1 (0.59), ISO-8859-2 (0.26)
+  expect_error(add_resource(p, "deployments", path, encoding = "utf8"))
+})
+
+test_that(
+  "add_resource() errors when metadata passed to ... are unnamed", {
+    p <- create_package()
+    path <- system.file("extdata", "deployments.csv", package = "frictionless")
+
+    expect_error(add_resource(p, "deployments", path, schema = NULL,
+                              delim = ",", "utf8"))
+})
+
+test_that(
+  "passing ... to add_resource() works as expected", {
+    p <- create_package()
+    path <- system.file("extdata", "deployments.csv", package = "frictionless")
+
+    expect_message(
+      add_resource(
+        p, "deployments", path,
+        title = "title",
+        bla = "bla"))
+    p <- add_resource(p, "deployments", path, title = "title", bla = "bla")
+    expect_identical(p$resources[[1]]$title, "title")
+    expect_identical(p$resources[[1]]$bla, "bla")
+  })
