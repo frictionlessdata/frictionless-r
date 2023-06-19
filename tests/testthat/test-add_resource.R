@@ -5,15 +5,10 @@ test_that("add_resource() returns a valid Data Package", {
   schema <- create_schema(df)
   expect_true(check_package(add_resource(p, "new", df)))
   expect_true(check_package(add_resource(p, "new", df, schema)))
-  expect_true(
-    check_package(
-      add_resource(
-        p, "new", df, schema,
-        description = "description",
-        title = "title")
-    )
-  )
   expect_true(check_package(add_resource(p, "new", df_csv)))
+  expect_true(check_package(
+    add_resource(p, "new", df, title = "New", foo = "bar")
+  ))
 })
 
 test_that("add_resource() returns error on incorrect Data Package", {
