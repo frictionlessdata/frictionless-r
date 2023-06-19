@@ -6,6 +6,9 @@ test_that("add_resource() returns a valid Data Package", {
   expect_true(check_package(add_resource(p, "new", df)))
   expect_true(check_package(add_resource(p, "new", df, schema)))
   expect_true(check_package(add_resource(p, "new", df_csv)))
+  expect_true(check_package(
+    add_resource(p, "new", df, title = "New", foo = "bar")
+  ))
 })
 
 test_that("add_resource() returns error on incorrect Data Package", {
@@ -153,6 +156,38 @@ test_that("add_resource() returns error on mismatching schema and data", {
   )
 
   # For more tests see test-check_schema.R
+})
+
+test_that("add_resource() returns error if ... arguments are unnamed", {
+  p <- create_package()
+  df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
+  schema <- create_schema(df)
+  expect_error(
+    add_resource(p, "new", df, schema, delim = ",", "unnamed_value"),
+    "All arguments in `...` must be named.",
+    fixed = TRUE
+  )
+})
+
+test_that("add_resource() returns error if ... arguments are reserved", {
+  p <- create_package()
+  df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
+  expect_error(
+    add_resource(p, "new", df, name = "custom_name"),
+    paste(
+      "`name` must be removed as an argument.",
+      "It is automatically added as a resource property by the function."
+    ),
+    fixed = TRUE
+  )
+  expect_error(
+    add_resource(p, "new", df, path = "custom_path", encoding = "utf8"),
+    paste(
+      "`path` must be removed as an argument.", # First conflicting argument
+      "It is automatically added as a resource property by the function."
+    ),
+    fixed = TRUE
+  )
 })
 
 test_that("add_resource() adds resource", {
@@ -334,4 +369,20 @@ test_that("add_resource() sets correct properties for CSV resources", {
   expect_identical(p$resources[[6]]$mediatype, "text/tab-separated-values")
   expect_identical(p$resources[[6]]$encoding, "UTF-8")
   expect_identical(read_resource(p, "df_delim_2"), read_resource(p, "df"))
+})
+
+test_that("add_resource() sets ... arguments as extra properties", {
+  p <- create_package()
+  df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
+  df_csv <- test_path("data/df.csv")
+
+  # df
+  p <- add_resource(p, "new_df", df, title = "custom_title", foo = "bar")
+  expect_identical(p$resources[[1]]$title, "custom_title")
+  expect_identical(p$resources[[1]]$foo, "bar")
+
+  # csv
+  p <- add_resource(p, "new_csv", df_csv, title = "custom_title", foo = "bar")
+  expect_identical(p$resources[[2]]$title, "custom_title")
+  expect_identical(p$resources[[2]]$foo, "bar")
 })

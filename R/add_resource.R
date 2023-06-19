@@ -26,6 +26,14 @@
 #'   Will be set as `delimiter` in the resource [CSV
 #'   dialect](https://specs.frictionlessdata.io/csv-dialect/#specification), so
 #'   read functions know how to read the file(s).
+#' @param ... Additional [metadata
+#'   properties](https://specs.frictionlessdata.io/data-resource/#metadata-properties)
+#'   to add to the resource, e.g. `title = "My title", validated = FALSE`.
+#'   These are not verified against specifications and are ignored by
+#'   [read_resource()].
+#'   The following properties are automatically set and can't be provided with
+#'   `...`: `name`, `data`, `path`, `schema`, `profile`, `format`, `mediatype`,
+#'   `encoding` and `dialect`.
 #' @return Provided `package` with one additional resource.
 #' @family edit functions
 #' @export
@@ -50,8 +58,15 @@
 #' package <- add_resource(package, "positions", data = df)
 #'
 #' # Add resource "positions_2" to the Data Package, with user-defined schema
+#' # and title
 #' my_schema <- create_schema(df)
-#' package <- add_resource(package, "positions_2", data = df, schema = my_schema)
+#' package <- add_resource(
+#'   package,
+#'   "positions_2",
+#'   data = df,
+#'   schema = my_schema,
+#'   title = "Positions"
+#' )
 #'
 #' # Add resource "observations_2" to the Data Package, from CSV file paths
 #' path_1 <- system.file("extdata", "observations_1.csv", package = "frictionless")
@@ -61,7 +76,7 @@
 #' # List resources ("positions", "positions_2", "observations_2" added)
 #' resources(package)
 add_resource <- function(package, resource_name, data, schema = NULL,
-                         delim = ",") {
+                         delim = ",", ...) {
   # Check package
   check_package(package)
 
@@ -113,6 +128,24 @@ add_resource <- function(package, resource_name, data, schema = NULL,
   # Check schema (also checks df)
   check_schema(schema, df)
 
+  # Check ellipsis
+  assertthat::assert_that(
+    ...length() == length(...names()),
+    msg = "All arguments in `...` must be named."
+  )
+  properties <- ...names()
+  reserved_properties <- c(
+    "name", "path", "profile", "format", "mediatype", "encoding", "dialect"
+  ) # data and schema are also reserved, but are named arguments
+  conflicting_properties <- properties[properties %in% reserved_properties]
+  assertthat::assert_that(
+    length(conflicting_properties) == 0,
+    msg = glue::glue(
+      "`{conflicting_properties[1]}` must be removed as an argument. ",
+      "It is automatically added as a resource property by the function."
+    )
+  )
+
   # Create resource, with properties in specific order
   if (is.data.frame(data)) {
     resource <- list(
@@ -120,7 +153,8 @@ add_resource <- function(package, resource_name, data, schema = NULL,
       data = df,
       profile = "tabular-data-resource", # Necessary for read_resource()
       # other properties are set by write_resource()
-      schema = schema
+      schema = schema,
+      ...
     )
   } else {
     resource <- list(
@@ -134,7 +168,8 @@ add_resource <- function(package, resource_name, data, schema = NULL,
         "text/csv"
       ),
       encoding = ifelse(encoding == "ASCII", "UTF-8", encoding), # UTF-8 is safer
-      schema = schema
+      schema = schema,
+      ...
     )
     # Add CSV dialect for non-default delimiter
     if (delim != ",") {
