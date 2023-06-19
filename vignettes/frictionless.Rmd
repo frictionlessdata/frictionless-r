@@ -199,7 +199,7 @@ iris_schema$fields <- purrr::imap(
 str(iris_schema)
 ```
 
-Let's add `iris` as a resource to your Data Package again, but this time with the customized schema. Note that you have to remove the originally added resource `iris` with `remove_resource()` first, since Data Packages can only contain uniquely named resources:
+Let's add `iris` as a resource to your Data Package again, but this time with the customized schema. Let's also add `title` and `description` as a metadata properties. Note that you have to remove the originally added resource `iris` with `remove_resource()` first, since Data Packages can only contain uniquely named resources:
 
 ```{r}
 my_package <-
@@ -208,7 +208,9 @@ my_package <-
   add_resource(
     resource_name = "iris",
     data = iris,
-    schema = iris_schema # Your customized schema
+    schema = iris_schema, # Your customized schema
+    title = "Iris dataset", # Your additional metadata
+    description = "The built-in dataset in R."
   )
 ```
 
@@ -234,21 +236,6 @@ my_package <- append(my_package, c(title = "My package"), after = 1)
 ```
 
 Note that in the above steps you started a Data Package from scratch with `create_package()`, but you can use the same functionality to edit an existing Data Package read with `read_package()`.
-
-To add metadata to a resource, you can also make use of the ... argument of `add_resource()`:
-
-```{r}
-my_package <-
-  my_package %>%
-  remove_resource("iris") %>% # Remove originally added resource
-  add_resource(
-    resource_name = "iris",
-    data = iris,
-    schema = iris_schema,
-    description = "The famous iris dataset" # Your additional metadata
-  )
-```
-
 
 ## Write a Data Package
 

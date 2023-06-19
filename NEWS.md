@@ -1,8 +1,8 @@
 # frictionless (development version)
 
-- `add_resource()` gains `...` argument to allow passing of optional 
-  resource-level metadata
-- `read_resource()` now supports column selection via the `col_select` parameter
+- `add_resource()` now supports adding additional resource properties via the 
+  `...` argument.
+- `read_resource()` now supports column selection via the `col_select` argument
   from `readr::read_delim()`.
   This can vastly improve reading speed (#123).
 - Add `readr::problems()` to NAMESPACE so users don't have to load readr to
@@ -59,7 +59,7 @@
 - `create_schema()` interprets empty columns as `string` not `boolean` (#79).
 - `read_package()` can now read from a `datapackage.yaml` file.
 - `read_resource()` now accepts YAML Table Schemas and CSV dialects.
-- `add_resource()`/`create_schema()`'s `df` parameter is renamed to `data`.
+- `add_resource()`/`create_schema()`'s `df` argument is renamed to `data`.
 - `example_package`'s `observations` resource now has URLs as `path` to serve 
   as an example for that.
 
