@@ -26,10 +26,14 @@
 #'   Will be set as `delimiter` in the resource [CSV
 #'   dialect](https://specs.frictionlessdata.io/csv-dialect/#specification), so
 #'   read functions know how to read the file(s).
-#' @param ... Additional resource-level metadata properties passed as key-value
-#'   pairs.
-#'   See [frictionless specs metadata
-#'   properties](https://specs.frictionlessdata.io/data-resource/#metadata-properties).
+#' @param ... Additional [metadata
+#'   properties](https://specs.frictionlessdata.io/data-resource/#metadata-properties)
+#'   to add to the resource, e.g. `title = "My title", validated = FALSE`.
+#'   These are not verified against specifications and are ignored by
+#'   [read_resource()].
+#'   The following properties are automatically set and can't be provided with
+#'   `...`: `name`, `data`, `path`, `schema`, `profile`, `format`, `mediatype`,
+#'   `encoding` and `dialect`.
 #' @return Provided `package` with one additional resource.
 #' @family edit functions
 #' @export
@@ -54,14 +58,15 @@
 #' package <- add_resource(package, "positions", data = df)
 #'
 #' # Add resource "positions_2" to the Data Package, with user-defined schema
-#' # and additional description property
+#' # and title
 #' my_schema <- create_schema(df)
 #' package <- add_resource(
 #'   package,
 #'   "positions_2",
 #'   data = df,
 #'   schema = my_schema,
-#'   description = "Positions of multimedia files")
+#'   title = "Positions"
+#' )
 #'
 #' # Add resource "observations_2" to the Data Package, from CSV file paths
 #' path_1 <- system.file("extdata", "observations_1.csv", package = "frictionless")
@@ -124,48 +129,22 @@ add_resource <- function(package, resource_name, data, schema = NULL,
   check_schema(schema, df)
 
   # Check ellipsis
-  # check that named arguments are passed
   assertthat::assert_that(
     ...length() == length(...names()),
-    msg = "All arguments in ... should be named."
+    msg = "All arguments in `...` must be named."
   )
-  # check names are not among those set internally
-  set_internally <- c(
-    "name", "data", "path", "profile", "schema", "format", "mediatype",
-    "encoding", "dialect"
-  )
+  properties <- ...names()
+  reserved_properties <- c(
+    "name", "path", "profile", "format", "mediatype", "encoding", "dialect"
+  ) # data and schema are also reserved, but are named arguments
+  conflicting_properties <- properties[properties %in% reserved_properties]
   assertthat::assert_that(
-    !any(...names() %in% set_internally),
-    msg = paste0(
-      paste(...names()[...names() %in% set_internally], collapse = ", "),
-      " are passed to ... but are set internally. Please remove them.")
-  )
-  # message in other cases
-  optional_resource_metadata <- c(
-    "title", "description", "bytes", "hash", "licenses", "sources"
-  )
-
-  if (...length()) {
-    has_meta1 <- any(...names() %in% optional_resource_metadata)
-    meta1 <- ...names()[...names() %in% optional_resource_metadata]
-    has_meta2 <- any(!...names() %in% optional_resource_metadata)
-    meta2 <- ...names()[!...names() %in% optional_resource_metadata]
-    message(
-      paste0(
-        "The following custom properties were provided:\n",
-        paste0(
-          "  ",
-          meta1,
-          ": added, should meet requirements defined at https://specs.frictionlessdata.io/data-resource/#optional-properties." # nolint
-        )[has_meta1],
-        paste0(
-          "  ",
-          meta2,
-          ": added."
-        )[has_meta2]
-      )
+    length(conflicting_properties) == 0,
+    msg = glue::glue(
+      "`{conflicting_properties[1]}` must be removed as an argument. ",
+      "It is automatically added as a resource property by the function."
     )
-  }
+  )
 
   # Create resource, with properties in specific order
   if (is.data.frame(data)) {

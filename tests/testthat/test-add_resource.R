@@ -163,6 +163,38 @@ test_that("add_resource() returns error on mismatching schema and data", {
   # For more tests see test-check_schema.R
 })
 
+test_that("add_resource() returns error if ... arguments are unnamed", {
+  p <- create_package()
+  df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
+  schema <- create_schema(df)
+  expect_error(
+    add_resource(p, "new", df, schema, delim = ",", "unnamed_value"),
+    "All arguments in `...` must be named.",
+    fixed = TRUE
+  )
+})
+
+test_that("add_resource() returns error if ... arguments are reserved", {
+  p <- create_package()
+  df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
+  expect_error(
+    add_resource(p, "new", df, name = "custom_name"),
+    paste(
+      "`name` must be removed as an argument.",
+      "It is automatically added as a resource property by the function."
+    ),
+    fixed = TRUE
+  )
+  expect_error(
+    add_resource(p, "new", df, path = "custom_path", encoding = "utf8"),
+    paste(
+      "`path` must be removed as an argument.", # First conflicting argument
+      "It is automatically added as a resource property by the function."
+    ),
+    fixed = TRUE
+  )
+})
+
 test_that("add_resource() adds resource", {
   p <- example_package
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
@@ -344,35 +376,18 @@ test_that("add_resource() sets correct properties for CSV resources", {
   expect_identical(read_resource(p, "df_delim_2"), read_resource(p, "df"))
 })
 
-test_that(
-  "add_resource() errors when internally set metadata are passed to ...", {
+test_that("add_resource() sets ... arguments as extra properties", {
   p <- create_package()
-  path <- system.file("extdata", "deployments.csv", package = "frictionless")
+  df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
+  df_csv <- test_path("data/df.csv")
 
-  # Encoding UTF-8 (0.8), ISO-8859-1 (0.59), ISO-8859-2 (0.26)
-  expect_error(add_resource(p, "deployments", path, encoding = "utf8"))
+  # df
+  p <- add_resource(p, "new_df", df, title = "custom_title", foo = "bar")
+  expect_identical(p$resources[[1]]$title, "custom_title")
+  expect_identical(p$resources[[1]]$foo, "bar")
+
+  # csv
+  p <- add_resource(p, "new_csv", df_csv, title = "custom_title", foo = "bar")
+  expect_identical(p$resources[[2]]$title, "custom_title")
+  expect_identical(p$resources[[2]]$foo, "bar")
 })
-
-test_that(
-  "add_resource() errors when metadata passed to ... are unnamed", {
-    p <- create_package()
-    path <- system.file("extdata", "deployments.csv", package = "frictionless")
-
-    expect_error(add_resource(p, "deployments", path, schema = NULL,
-                              delim = ",", "utf8"))
-})
-
-test_that(
-  "passing ... to add_resource() works as expected", {
-    p <- create_package()
-    path <- system.file("extdata", "deployments.csv", package = "frictionless")
-
-    expect_message(
-      add_resource(
-        p, "deployments", path,
-        title = "title",
-        bla = "bla"))
-    p <- add_resource(p, "deployments", path, title = "title", bla = "bla")
-    expect_identical(p$resources[[1]]$title, "title")
-    expect_identical(p$resources[[1]]$bla, "bla")
-  })
