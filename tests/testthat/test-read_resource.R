@@ -122,6 +122,33 @@ test_that("read_resource() returns error on missing columns in data", {
   )
 })
 
+test_that("read_resource() returns error on extra columns in data", {
+  # clean up after test
+  on.exit(unlink(file.path(tempdir(),"extra_cols_package"), recursive = TRUE))
+  # create datapackage with extra columns in data
+  temp_package_dir <- file.path(tempdir(),"extra_cols_package")
+  dir.create(temp_package_dir)
+  file.copy(from = list.files(file.path("inst","extdata"), full.names = TRUE),
+            to = file.path(
+              temp_package_dir,
+              list.files(file.path("inst","extdata"), full.names = FALSE))
+  )
+  readr::read_csv(file.path(temp_package_dir, "deployments.csv"),
+                  show_col_types = FALSE) %>%
+    dplyr::mutate(random_column = runif(n = 3)) %>%
+    readr::write_csv(file.path(temp_package_dir, "deployments.csv"))
+  # read the new package
+  extra_cols_package <-
+    suppressMessages(
+      read_package(file.path(temp_package_dir,"datapackage.json"))
+    )
+  # test
+  expect_error(
+    read_resource(extra_cols_package, "deployments"),
+    regexp = "must match column names in data"
+  )
+})
+
 test_that("read_resource() returns error on missing columns in schema", {})
 
 test_that("read_resource() returns error on column order mismatch between
