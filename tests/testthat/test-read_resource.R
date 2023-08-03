@@ -95,6 +95,15 @@ test_that("read_resource() returns error on column selection not in schema", {
   )
 })
 
+test_that("read_resource() returns error on missing columns in data", {})
+
+test_that("read_resource() returns error on missing columns in schema", {})
+
+test_that("read_resource() returns error on column order mismatch between
+          schema and data", {})
+
+test_that("read_resource() allows case mismatch between schema and data", {})
+
 test_that("read_resource() returns error on incorrect Data Package", {
   expect_error(
     read_resource(list(), "deployments"),
