@@ -115,6 +115,7 @@ test_that("read_resource() returns error on missing columns in data", {
     suppressMessages(
       read_package(file.path(temp_package_dir,"datapackage.json"))
       )
+  # test
   expect_error(
     read_resource(missing_cols_package, "deployments"),
     regexp = "must match column names in data"
