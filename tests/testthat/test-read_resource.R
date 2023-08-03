@@ -186,7 +186,25 @@ test_that("read_resource() doesn't compare header when dialect$header is null", 
   # not only will it not be compared, the header will be skipped when reading
 })
 
-test_that("read_resource() allows case mismatch between schema and data", {})
+test_that("read_resource() allows case mismatch between schema and data", {
+  # create package with the wrong case in the schema of observations
+  wrong_case_in_schema_pkg <- example_package
+  ## change case
+  purrr::pluck(wrong_case_in_schema_pkg, "resources", 2, "schema", "fields") <-
+    purrr::chuck(wrong_case_in_schema_pkg, "resources", 2, "schema", "fields") %>%
+    purrr::map2_chr(
+      c(TRUE, TRUE, FALSE, FALSE, FALSE, TRUE, TRUE), #set some to upper, some to lower case
+      ~ ifelse(.y,
+        toupper(purrr::chuck(.x, "name")),
+        tolower(purrr::chuck(.x, "name"))
+      )
+    )
+  # test
+  expect_s3_class(
+    read_resource(wrong_case_in_schema_pkg, "observations"),
+    "tbl"
+  )
+})
 
 test_that("read_resource() returns error on incorrect Data Package", {
   expect_error(
