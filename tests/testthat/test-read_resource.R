@@ -167,7 +167,20 @@ test_that("read_resource() returns error on missing columns in schema", {
 })
 
 test_that("read_resource() returns error on column order mismatch between
-          schema and data", {})
+          schema and data", {
+  # create package with the wrong order in the schema of deployments
+  wrong_order_in_schema_pkg <- example_package
+  ## reorder columns
+  purrr::pluck(wrong_order_in_schema_pkg, "resources", 1, "schema", "fields") <-
+    purrr::chuck(wrong_order_in_schema_pkg, "resources", 1, "schema", "fields")[
+      c(5, 1, 4, 3, 2) # this is not the order the columns have in the data!
+    ]
+  # test
+  expect_error(
+    read_resource(wrong_order_in_schema_pkg, "deployments"),
+    regexp = "must match column names in data"
+  )
+})
 
 test_that("read_resource() doesn't compare header when dialect$header is null", {
   # not only will it not be compared, the header will be skipped when reading
