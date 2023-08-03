@@ -102,6 +102,10 @@ test_that("read_resource() returns error on missing columns in schema", {})
 test_that("read_resource() returns error on column order mismatch between
           schema and data", {})
 
+test_that("read_resource() doesn't compare header when dialect$header is null", {
+  # not only will it not be compared, the header will be skipped when reading
+})
+
 test_that("read_resource() allows case mismatch between schema and data", {})
 
 test_that("read_resource() returns error on incorrect Data Package", {
