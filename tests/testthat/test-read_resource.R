@@ -95,7 +95,31 @@ test_that("read_resource() returns error on column selection not in schema", {
   )
 })
 
-test_that("read_resource() returns error on missing columns in data", {})
+test_that("read_resource() returns error on missing columns in data", {
+  # clean up after test
+  on.exit(unlink(file.path(tempdir(),"missing_cols_package"), recursive = TRUE))
+  # create datapackage with missing columns in data
+  temp_package_dir <- file.path(tempdir(),"missing_cols_package")
+  dir.create(temp_package_dir)
+  file.copy(from = list.files(file.path("inst","extdata"), full.names = TRUE),
+            to = file.path(
+              temp_package_dir,
+              list.files(file.path("inst","extdata"), full.names = FALSE))
+  )
+  readr::read_csv(file.path(temp_package_dir, "deployments.csv"),
+                  col_select = -start,
+                  show_col_types = FALSE) %>%
+    readr::write_csv(file.path(temp_package_dir, "deployments.csv"))
+  # read the new package
+  missing_cols_package <-
+    suppressMessages(
+      read_package(file.path(temp_package_dir,"datapackage.json"))
+      )
+  expect_error(
+    read_resource(missing_cols_package, "deployments"),
+    regexp = "must match column names in data"
+  )
+})
 
 test_that("read_resource() returns error on missing columns in schema", {})
 
