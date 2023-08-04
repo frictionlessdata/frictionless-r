@@ -352,11 +352,11 @@ read_resource <- function(package, resource_name, col_select = NULL) {
   # Read data directly
   if (resource$read_from == "df") {
     df <- dplyr::as_tibble(resource$data)
-
+    data_col_names <- colnames(df)
   # Read data from data
   } else if (resource$read_from == "data") {
     df <- dplyr::as_tibble(do.call(rbind.data.frame, resource$data))
-
+    data_col_names <- colnames(df)
   # Read data from path(s)
   } else if (resource$read_from == "path" || resource$read_from == "url") {
     dataframes <- list()
