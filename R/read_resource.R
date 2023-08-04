@@ -391,6 +391,29 @@ read_resource <- function(package, resource_name, col_select = NULL) {
     }
     # Merge data frames for all paths
     df <- dplyr::bind_rows(dataframes)
+    # Read header from first file
+    data_col_names <-
+      readr::read_lines(file = paths[1],n_max = 1) %>%
+      I() %>%
+      readr::read_delim(delim = replace_null(dialect$delimiter, ","),
+                        quote = replace_null(dialect$quoteChar, "\""),
+                        escape_backslash = ifelse(
+                          replace_null(dialect$escapeChar, "not set") == "\\", TRUE, FALSE
+                        ),
+                        escape_double = ifelse(
+                          # if escapeChar is set, set doubleQuote to FALSE (mutually exclusive)
+                          replace_null(dialect$escapeChar, "not set") == "\\",
+                          FALSE,
+                          replace_null(dialect$doubleQuote, TRUE)
+                        ),
+                        locale = locale,
+                        na = replace_null(schema$missingValues, ""),
+                        comment = replace_null(dialect$commentChar, ""),
+                        trim_ws = replace_null(dialect$skipInitialSpace, FALSE),
+                        col_names = FALSE,
+                        show_col_types = FALSE) %>%
+      dplyr::slice_head(n = 1) %>%
+      unlist(use.names = FALSE)
   }
   # compare df header to schema
   assertthat::assert_that(
