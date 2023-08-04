@@ -392,6 +392,17 @@ read_resource <- function(package, resource_name, col_select = NULL) {
     # Merge data frames for all paths
     df <- dplyr::bind_rows(dataframes)
   }
+  # compare df header to schema
+  assertthat::assert_that(
+    tolower(col_names) == tolower(data_col_names),
+    msg = glue::glue(
+      "Field names in `schema` must match column names in data:",
+      "\u2139 Field names: `{field_names_collapse}`",
+      "\u2139 Column names in data: `{data_col_names_collapse}`",
+      .sep = "\n",
+      field_names_collapse = glue::glue_collapse(col_names, sep = ", "),
+      data_col_names_collapse = glue::glue_collapse(data_col_names, sep = ", ")
+    ))
 
   return(df)
 }
