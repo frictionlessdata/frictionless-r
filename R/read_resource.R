@@ -394,7 +394,7 @@ read_resource <- function(package, resource_name, col_select = NULL) {
   }
   # compare df header to schema
   assertthat::assert_that(
-    tolower(col_names) == tolower(data_col_names),
+    identical(tolower(col_names), tolower(data_col_names)),
     msg = glue::glue(
       "Field names in `schema` must match column names in data:",
       "\u2139 Field names: `{field_names_collapse}`",
