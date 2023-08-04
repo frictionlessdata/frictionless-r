@@ -153,12 +153,8 @@ test_that("read_resource() returns error on missing columns in schema", {
   # create package with a missing column in the schema of observations
   missing_col_in_schema_pkg <- example_package
   ## remove `timestamp`
-  purrr::pluck(missing_col_in_schema_pkg,
-               "resources",
-               2,
-               "schema",
-               "fields",
-               3) <- NULL
+  missing_col_in_schema_pkg$resources[[2]]$schema$fields <-
+    missing_col_in_schema_pkg$resources[[2]]$schema$fields[-3]
   # test
   expect_error(
     read_resource(missing_col_in_schema_pkg, "observations"),
