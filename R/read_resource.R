@@ -393,7 +393,7 @@ read_resource <- function(package, resource_name, col_select = NULL) {
     df <- dplyr::bind_rows(dataframes)
     # Read header from first file
     data_col_names <-
-      readr::read_lines(file = paths[1],n_max = 1) %>%
+      readr::read_lines(file = paths[1], n_max = 1) %>%
       I() %>%
       readr::read_delim(delim = replace_null(dialect$delimiter, ","),
                         quote = replace_null(dialect$quoteChar, "\""),
