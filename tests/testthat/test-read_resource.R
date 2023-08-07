@@ -96,21 +96,23 @@ test_that("read_resource() returns error on column selection not in schema", {
 })
 
 test_that("read_resource() returns error on missing columns in data", {
-  # clean up after test
-  on.exit(unlink(file.path(tempdir(),"missing_cols_package"), recursive = TRUE))
-  # create datapackage with missing columns in data
   temp_package_dir <- file.path(tempdir(),"missing_cols_package")
+  # Create datapackage with missing columns in data
   dir.create(temp_package_dir)
-  file.copy(from = list.files(file.path("inst","extdata"), full.names = TRUE),
+  file.copy(from = list.files(system.file("extdata", package = "frictionless"),
+                              full.names = TRUE),
             to = file.path(
               temp_package_dir,
-              list.files(file.path("inst","extdata"), full.names = FALSE))
+              list.files(system.file("extdata", package = "frictionless"),
+                         full.names = FALSE))
   )
   readr::read_csv(file.path(temp_package_dir, "deployments.csv"),
                   col_select = -start,
                   show_col_types = FALSE) %>%
     readr::write_csv(file.path(temp_package_dir, "deployments.csv"))
-  # read the new package
+  # Clean up after test
+  on.exit(unlink(temp_package_dir, recursive = TRUE))
+  # Read the new package
   missing_cols_package <-
     suppressMessages(
       read_package(file.path(temp_package_dir,"datapackage.json"))
@@ -128,10 +130,12 @@ test_that("read_resource() returns error on extra columns in data", {
   # create datapackage with extra columns in data
   temp_package_dir <- file.path(tempdir(),"extra_cols_package")
   dir.create(temp_package_dir)
-  file.copy(from = list.files(file.path("inst","extdata"), full.names = TRUE),
+  file.copy(from = list.files(system.file("extdata", package = "frictionless"),
+                              full.names = TRUE),
             to = file.path(
               temp_package_dir,
-              list.files(file.path("inst","extdata"), full.names = FALSE))
+              list.files(system.file("extdata", package = "frictionless"),
+                         full.names = FALSE))
   )
   readr::read_csv(file.path(temp_package_dir, "deployments.csv"),
                   show_col_types = FALSE) %>%
