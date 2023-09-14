@@ -37,6 +37,7 @@ Imports:
     utils,
     yaml
 Suggests:
+    curl,
     hms,
     knitr,
     lubridate,
