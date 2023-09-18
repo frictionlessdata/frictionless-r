@@ -122,7 +122,7 @@ reference](https://docs.ropensci.org/frictionless/reference/index.html).
 
 ## frictionless vs datapackage.r
 
-[datapackage.r](https://CRAN.R-project.org/package=datapackage.r) is an
+[datapackage-r](https://github.com/frictionlessdata/datapackage-r) is an
 alternative R package to work with Data Packages. It has an
 object-oriented design (using a `Package` class) and offers validation.
 frictionless on the other hand allows you to quickly read and write Data
