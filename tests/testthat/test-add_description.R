@@ -97,7 +97,7 @@ test_that("edit_field_from_name()", {
       "constraints" = list("enum" = c("setosa", "versicolor", "virginica"))
     )
   ))
-  obtained <- iris_schema |> edit_field_from_name("Sepal.Length", description, "description")
+  obtained <- iris_schema |> edit_field_from_name("Sepal.Length", "description", description)
   expect_equal(obtained, expected)
 })
 
