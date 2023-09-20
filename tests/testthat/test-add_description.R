@@ -54,6 +54,18 @@ test_that("edit_fields(): Iris example", {
     "Petal.Width",
     "Species"
   )
+  expected <- list("fields" = list(
+    .add_field_basic_metadata("Sepal.Length", "number", descriptions[1]),
+    .add_field_basic_metadata("Sepal.Width", "number", descriptions[2]),
+    .add_field_basic_metadata("Petal.Length", "number", descriptions[3]),
+    .add_field_basic_metadata("Petal.Width", "number", descriptions[4]),
+    list(
+      "name" = "Species",
+      "type" = "string",
+      "constraints" = list("enum" = c("setosa", "versicolor", "virginica")),
+      "description" = descriptions[5]
+    )
+  ))
   names(descriptions) <- field_names
   obtained <- iris_schema |> edit_fields(
     "description",
