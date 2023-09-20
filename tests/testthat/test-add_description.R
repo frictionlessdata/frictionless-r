@@ -73,3 +73,16 @@ test_that("edit_fields(): Iris example", {
   )
   expect_equal(obtained, expected)
 })
+
+
+test_that("get_field_names",{
+  expected_names <- c(
+    "Sepal.Length",
+    "Sepal.Width",
+    "Petal.Length",
+    "Petal.Width",
+    "Species"
+  )
+  obtained_names <- get_field_names(iris_schema)
+  expect_equal(expected_names, obtained_names)
+})
