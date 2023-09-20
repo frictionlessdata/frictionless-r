@@ -8,7 +8,14 @@ add_description <- function(old_schema, descriptions) {
 }
 
 
-edit_fields <- function(old_schema, metadata_name, metadata) {}
+edit_fields <- function(old_schema, metadata_name, metadata) {
+  field_names <- names(metadata)
+  schema <- old_schema
+  for (name in field_names) {
+    schema <- edit_field_from_name(schema, name, metadata_name, metadata[[name]])
+  }
+  return(schema)
+}
 
 
 edit_field_from_name <- function(old_schema, field_name, metadata_name, metadata) {
