@@ -1,9 +1,9 @@
 .add_field_basic_metadata <- function(name, type, description) {
   list(
-      "name" = name,
-      "type" = type,
-      "description" = description
-    )
+    "name" = name,
+    "type" = type,
+    "description" = description
+  )
 }
 
 # Create a Data Package and add the "iris" data frame as a resource
@@ -39,3 +39,25 @@ test_that("add_description(): Iris example", {
   expect_equal(obtained, expected)
 })
 
+test_that("edit_fields(): Iris example", {
+  descriptions <- c(
+    "Sepal length in cm.",
+    "Sepal width in cm.",
+    "Pedal length in cm.",
+    "Pedal width in cm.",
+    "Iris species."
+  )
+  field_names <- c(
+    "Sepal.Length",
+    "Sepal.Width",
+    "Petal.Length",
+    "Petal.Width",
+    "Species"
+  )
+  names(descriptions) <- field_names
+  obtained <- iris_schema |> edit_fields(
+    "description",
+    descriptions
+  )
+  expect_equal(obtained, expected)
+})
