@@ -1,3 +1,11 @@
+.add_field_basic_metadata <- function(name, type, description) {
+  list(
+      "name" = name,
+      "type" = type,
+      "description" = description
+    )
+}
+
 # Create a Data Package and add the "iris" data frame as a resource
 my_package <- create_package() %>%
   add_resource(resource_name = "iris", data = iris)
@@ -15,26 +23,10 @@ test_that("add_description(): Iris example", {
     "Iris species."
   )
   expected <- list("fields" = list(
-    list(
-      "name" = "Sepal.Length",
-      "type" = "number",
-      "description" = descriptions[1]
-    ),
-    list(
-      "name" = "Sepal.Width",
-      "type" = "number",
-      "description" = descriptions[2]
-    ),
-    list(
-      "name" = "Petal.Length",
-      "type" = "number",
-      "description" = descriptions[3]
-    ),
-    list(
-      "name" = "Petal.Width",
-      "type" = "number",
-      "description" = descriptions[4]
-    ),
+    .add_field_basic_metadata("Sepal.Length", "number", descriptions[1]),
+    .add_field_basic_metadata("Sepal.Width", "number", descriptions[2]),
+    .add_field_basic_metadata("Petal.Length", "number", descriptions[3]),
+    .add_field_basic_metadata("Petal.Width", "number", descriptions[4]),
     list(
       "name" = "Species",
       "type" = "string",
@@ -46,3 +38,4 @@ test_that("add_description(): Iris example", {
     add_description(descriptions)
   expect_equal(obtained, expected)
 })
+
