@@ -6,3 +6,6 @@ add_description <- function(old_schema, descriptions) {
   )
   return(schema)
 }
+
+
+edit_fields <- function(old_schema, metadata_name, metadata) {}
