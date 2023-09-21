@@ -28,7 +28,6 @@ URL: https://github.com/frictionlessdata/frictionless-r,
 BugReports: https://github.com/frictionlessdata/frictionless-r/issues
 Imports:
     assertthat,
-    comprehenr,
     dplyr,
     glue,
     httr,

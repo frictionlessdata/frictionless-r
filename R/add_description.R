@@ -29,5 +29,5 @@ edit_field_from_name <- function(old_schema, field_name, metadata_name, metadata
 
 
 get_field_names <- function(old_schema) {
-  comprehenr::to_vec(for (field in old_schema$fields) field$name)
+  purrr::map_chr(old_schema$fields, ~ .$name)
 }
