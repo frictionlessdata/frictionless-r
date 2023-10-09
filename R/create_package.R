@@ -16,9 +16,12 @@
 #' package <- create_package()
 #' str(package)
 create_package <- function() {
-  list(
-    profile = "tabular-data-package",
-    resources = list(),
-    directory = "." # Current directory
+  structure(
+    list(
+      profile = "tabular-data-package",
+      resources = list(),
+      directory = "." # Current directory
+    ),
+    class="fls_pkg"
   )
 }

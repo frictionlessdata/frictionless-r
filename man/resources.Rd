@@ -24,6 +24,7 @@ resources(package)
 }
 \seealso{
 Other read functions: 
+\code{\link{print.fls_pkg}()},
 \code{\link{read_package}()},
 \code{\link{read_resource}()}
 }
