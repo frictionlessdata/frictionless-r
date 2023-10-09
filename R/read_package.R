@@ -63,7 +63,7 @@ read_package <- function(file = "datapackage.json") {
   }
   message(msg)
 
-  class(descriptor) <- "fls_pkg"
+  class(descriptor) <- "datapackage"
 
   descriptor
 }

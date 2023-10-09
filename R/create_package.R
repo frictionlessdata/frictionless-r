@@ -22,6 +22,6 @@ create_package <- function() {
       resources = list(),
       directory = "." # Current directory
     ),
-    class="fls_pkg"
+    class="datapackage"
   )
 }

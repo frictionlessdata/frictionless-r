@@ -11,7 +11,7 @@
 #'
 #' # Print out a summary of the data package
 #' print(package)
-print.fls_pkg <- function(x) {
+print.datapackage <- function(x) {
   name <- replace_null(x$name, "(Unnamed)")
 
   tbl_resources <- purrr::keep(x$resources, \(r) r$profile == "tabular-data-resource")
