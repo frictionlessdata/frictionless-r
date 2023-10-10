@@ -63,7 +63,5 @@ read_package <- function(file = "datapackage.json") {
   }
   message(msg)
 
-  class(descriptor) <- c("datapackage", class(descriptor))
-
-  descriptor
+  create_package(descriptor)
 }

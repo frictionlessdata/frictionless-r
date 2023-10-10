@@ -15,12 +15,14 @@
 #' # Create a Data Package
 #' package <- create_package()
 #' str(package)
-create_package <- function() {
-  descriptor <- list(
+create_package <- function(
+  descriptor = list(
     profile = "tabular-data-package",
     resources = list(),
     directory = "." # Current directory
   )
+) {
+  # Add datapackage class
   class(descriptor) <- c("datapackage", class(descriptor))
   descriptor
 }
