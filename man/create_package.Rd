@@ -4,10 +4,16 @@
 \alias{create_package}
 \title{Create an empty Data Package}
 \usage{
-create_package()
+create_package(
+  descriptor = list(profile = "tabular-data-package", resources = list(), directory =
+    ".")
+)
+}
+\arguments{
+\item{descriptor}{List describing a data package}
 }
 \value{
-List describing a Data Package.
+A data package
 }
 \description{
 Initiates a list describing a \href{https://specs.frictionlessdata.io/data-package/}{Data Package}.

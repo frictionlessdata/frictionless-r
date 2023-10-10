@@ -8,7 +8,8 @@
 #' Package](https://specs.frictionlessdata.io/tabular-data-package/)
 #' requirements, so `profile` is set to `tabular-data-package`.
 #'
-#' @return List describing a Data Package.
+#' @param descriptor List describing a data package
+#' @return A data package
 #' @family create functions
 #' @export
 #' @examples
