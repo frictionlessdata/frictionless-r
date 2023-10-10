@@ -8,7 +8,8 @@
 #' Package](https://specs.frictionlessdata.io/tabular-data-package/)
 #' requirements, so `profile` is set to `tabular-data-package`.
 #'
-#' @param descriptor List describing a data package
+#' @param descriptor List describing a data package. If unspecified, it
+#'   will create an unnamed tabular data package with no resources
 #' @return A data package
 #' @family create functions
 #' @export
@@ -16,13 +17,15 @@
 #' # Create a Data Package
 #' package <- create_package()
 #' str(package)
-create_package <- function(
-  descriptor = list(
-    profile = "tabular-data-package",
-    resources = list(),
-    directory = "." # Current directory
+create_package <- function(descriptor = NULL) {
+  descriptor <- replace_null(
+    descriptor,
+    list(
+      profile = "tabular-data-package",
+      resources = list(),
+      directory = "." # Current directory
+    )
   )
-) {
   # Add datapackage class
   class(descriptor) <- c("datapackage", class(descriptor))
   descriptor

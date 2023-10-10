@@ -4,13 +4,11 @@
 \alias{create_package}
 \title{Create an empty Data Package}
 \usage{
-create_package(
-  descriptor = list(profile = "tabular-data-package", resources = list(), directory =
-    ".")
-)
+create_package(descriptor = NULL)
 }
 \arguments{
-\item{descriptor}{List describing a data package}
+\item{descriptor}{List describing a data package. If unspecified, it
+will create an unnamed tabular data package with no resources}
 }
 \value{
 A data package
