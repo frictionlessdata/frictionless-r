@@ -127,7 +127,7 @@ check_path <- function(path, directory = NULL, safe = FALSE,
       }
       # If we got here, none of the file candidates exist in the dir
       candidates_str <- paste(file_candidates, collapse=", ")
-      assertthat::assert_that(TRUE, msg = glue::glue(
+      assertthat::assert_that(FALSE, msg = glue::glue(
         "Can't find candidate file {candidates_str} in directory `{path}`."
       ))
     }
