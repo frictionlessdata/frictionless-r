@@ -29,7 +29,11 @@ read_package <- function(file = "datapackage.json") {
     is.character(file),
     msg = "`file` must be a path or URL to a `datapackage.json` file."
   )
-  descriptor <- read_descriptor(file, safe = FALSE)
+  descriptor <- read_descriptor(
+    file,
+    safe = FALSE,
+    file_candidates=c("datapackage.json", "datapackage.yaml", "datapackage.yml")
+  )
 
   # Check resources
   # https://specs.frictionlessdata.io/data-package/#metadata
