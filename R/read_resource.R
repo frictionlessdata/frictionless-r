@@ -16,6 +16,9 @@
 #' @param col_select Character vector of the columns to include in the result,
 #'   in the order provided.
 #'   Selecting columns can improve read speed.
+#' @param channel Data channel to load: `values`, `missing` or `both`.
+#' @param values_channel_suffix Suffix for `values` channel column names.
+#' @param missing_channel_suffix Suffix for `missing` channel column names.
 #' @return A [tibble()] data frame with the Data Resource's tabular data.
 #'   If there are parsing problems, a warning will alert you.
 #'   You can retrieve the full details by calling [problems()] on your data
@@ -199,7 +202,10 @@
 #'
 #' # Read data from the resource "deployments" with column selection
 #' read_resource(package, "deployments", col_select = c("latitude", "longitude"))
-read_resource <- function(package, resource_name, col_select = NULL) {
+read_resource <- function(package, resource_name, col_select = NULL,
+                          channel = "values",
+                          values_channel_suffix = "",
+                          missing_channel_suffix = "__missing") {
   # Get resource, includes check_package()
   resource <- get_resource(package, resource_name)
 
@@ -361,7 +367,7 @@ read_resource <- function(package, resource_name, col_select = NULL) {
   } else if (resource$read_from == "path" || resource$read_from == "url") {
     dataframes <- list()
     for (i in seq_along(paths)) {
-      data <- readr::read_delim(
+      str_data <- readr::read_delim(
         file = paths[i],
         delim = replace_null(dialect$delimiter, ","),
         quote = replace_null(dialect$quoteChar, "\""),
@@ -375,18 +381,55 @@ read_resource <- function(package, resource_name, col_select = NULL) {
           replace_null(dialect$doubleQuote, TRUE)
         ),
         col_names = col_names,
-        col_types = col_types,
+        col_types = list(.default=readr::col_character()),
         # Use rlang {{}} to avoid `col_select` to be interpreted as the name of
         # a column, see https://rlang.r-lib.org/reference/topic-data-mask.html
         col_select = {{col_select}},
         locale = locale,
-        na = replace_null(schema$missingValues, ""),
         comment = replace_null(dialect$commentChar, ""),
         trim_ws = replace_null(dialect$skipInitialSpace, FALSE),
         # Skip header row when present
         skip = ifelse(replace_null(dialect$header, TRUE), 1, 0),
-        skip_empty_rows = TRUE
+        skip_empty_rows = TRUE,
       )
+
+      values_channel <- readr::type_convert(
+        str_data,
+        col_types = col_types,
+        na = replace_null(schema$missingValues, ""),
+      )
+
+      values_channel_renamed <- dplyr::rename_with(
+        values_channel,
+        \(n) paste0(n, values_channel_suffix),
+      )
+
+      missing_channel <- dplyr::mutate(
+        str_data,
+        dplyr::across(
+          dplyr::everything(),
+          \(v) dplyr::if_else(v %in% schema$missingValues, v, NA_character_)
+        )
+      )
+
+      missing_channel_renamed = dplyr::rename_with(
+        missing_channel,
+        \(n) paste0(n, missing_channel_suffix),
+      )
+
+      if (channel == "values") {
+        data <- values_channel_renamed
+      } else if (channel == "missing") {
+        data <- missing_channel_renamed
+      } else if (channel == "both") {
+        data <- dplyr::bind_cols(values_channel_renamed, missing_channel_renamed)
+      } else {
+        assertthat::assert_that(
+          FALSE,
+          msg = glue::glue("Unknown channel: {channel}"),
+        )
+      }
+
       dataframes[[i]] <- data
     }
     # Merge data frames for all paths
