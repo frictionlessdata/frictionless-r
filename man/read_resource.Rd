@@ -8,9 +8,7 @@ read_resource(
   package,
   resource_name,
   col_select = NULL,
-  channel = "values",
-  values_channel_suffix = "",
-  missing_channel_suffix = "__missing"
+  channels = c("values")
 )
 }
 \arguments{
@@ -23,11 +21,10 @@ or \code{\link[=create_package]{create_package()}}.}
 in the order provided.
 Selecting columns can improve read speed.}
 
-\item{channel}{Data channel to load: \code{values}, \code{missing} or \code{both}.}
-
-\item{values_channel_suffix}{Suffix for \code{values} channel column names.}
-
-\item{missing_channel_suffix}{Suffix for \code{missing} channel column names.}
+\item{channels}{A character vector representing the data channels to load.
+Available channels are \code{"values"} and \code{"missing"}. Use named vectors to
+control column suffixes, e.g.
+\code{c(values = "__values", missing = "__missing")}.}
 }
 \value{
 A \code{\link[=tibble]{tibble()}} data frame with the Data Resource's tabular data.

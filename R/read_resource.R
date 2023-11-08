@@ -16,9 +16,10 @@
 #' @param col_select Character vector of the columns to include in the result,
 #'   in the order provided.
 #'   Selecting columns can improve read speed.
-#' @param channel Data channel to load: `values`, `missing` or `both`.
-#' @param values_channel_suffix Suffix for `values` channel column names.
-#' @param missing_channel_suffix Suffix for `missing` channel column names.
+#' @param channels A character vector representing the data channels to load.
+#'   Available channels are `"values"` and `"missing"`. Use named vectors to
+#'   control column suffixes, e.g.
+#'   `c(values = "__values", missing = "__missing")`.
 #' @return A [tibble()] data frame with the Data Resource's tabular data.
 #'   If there are parsing problems, a warning will alert you.
 #'   You can retrieve the full details by calling [problems()] on your data
@@ -203,9 +204,7 @@
 #' # Read data from the resource "deployments" with column selection
 #' read_resource(package, "deployments", col_select = c("latitude", "longitude"))
 read_resource <- function(package, resource_name, col_select = NULL,
-                          channel = "values",
-                          values_channel_suffix = "",
-                          missing_channel_suffix = "__missing") {
+                          channels = c("values")) {
   # Get resource, includes check_package()
   resource <- get_resource(package, resource_name)
 
@@ -355,6 +354,51 @@ read_resource <- function(package, resource_name, col_select = NULL,
   # Note that dialect can be NULL
   dialect <- read_descriptor(resource$dialect, package$directory, safe = TRUE)
 
+  # Select channels
+
+  assertthat::assert_that(
+    length(channels) > 0,
+    msg = "Error: no channels selected"
+  )
+
+  if (is.null(names(channels))) {
+    if (length(channels) == 1) {
+      single_channel <- ""
+      names(single_channel) <- channels
+      channels <- single_channel
+    } else {
+      names(channels) = rep("", length(channels))
+    }
+  }
+
+  channel_names <- purrr::imap(channels, \(x, n) dplyr::if_else(n == "", x, n))
+
+  assertthat::assert_that(
+    all(purrr::map_vec(channel_names, \(x) x %in% c("values", "missing"))),
+    msg = glue::glue(
+      "Unrecognized channel name in channel selection: {channel_names}"
+    )
+  )
+
+  default_channel_suffix <- list(
+    values = "__values",
+    missing = "__missing"
+  )
+
+  channel_suffixes <- purrr::imap(
+    channels,
+    \(x, n) if (n == "") default_channel_suffix[[x]] else x
+  )
+
+  channels <- purrr::set_names(channel_suffixes, channel_names)
+
+  assertthat::assert_that(
+    length(unique(channels)) == length(channels),
+    msg = glue::glue(
+      "Error: channels have duplicate column suffixes"
+    )
+  )
+
   # Read data directly
   if (resource$read_from == "df") {
     df <- dplyr::as_tibble(resource$data)
@@ -393,44 +437,41 @@ read_resource <- function(package, resource_name, col_select = NULL,
         skip_empty_rows = TRUE,
       )
 
-      values_channel <- readr::type_convert(
-        str_data,
-        col_types = col_types,
-        na = replace_null(schema$missingValues, ""),
-      )
+      channel_data <- list()
 
-      values_channel_renamed <- dplyr::rename_with(
-        values_channel,
-        \(n) paste0(n, values_channel_suffix),
-      )
-
-      missing_channel <- dplyr::mutate(
-        str_data,
-        dplyr::across(
-          dplyr::everything(),
-          \(v) dplyr::if_else(v %in% schema$missingValues, v, NA_character_)
+      if ("values" %in% names(channels)) {
+         values_channel <- readr::type_convert(
+          str_data,
+          col_types = col_types,
+          na = replace_null(schema$missingValues, ""),
         )
-      )
 
-      missing_channel_renamed = dplyr::rename_with(
-        missing_channel,
-        \(n) paste0(n, missing_channel_suffix),
-      )
-
-      if (channel == "values") {
-        data <- values_channel_renamed
-      } else if (channel == "missing") {
-        data <- missing_channel_renamed
-      } else if (channel == "both") {
-        data <- dplyr::bind_cols(values_channel_renamed, missing_channel_renamed)
-      } else {
-        assertthat::assert_that(
-          FALSE,
-          msg = glue::glue("Unknown channel: {channel}"),
+        values_channel_renamed <- dplyr::rename_with(
+          values_channel,
+          \(n) paste0(n, channels["values"]),
         )
+
+        channel_data <- append(channel_data, values_channel_renamed)
       }
 
-      dataframes[[i]] <- data
+      if ("missing" %in% names(channels)) {
+        missing_channel <- dplyr::mutate(
+          str_data,
+          dplyr::across(
+            dplyr::everything(),
+            \(v) dplyr::if_else(v %in% schema$missingValues, v, NA_character_)
+          )
+        )
+
+        missing_channel_renamed = dplyr::rename_with(
+          missing_channel,
+          \(n) paste0(n, channels["missing"]),
+        )
+
+        channel_data <- append(channel_data, missing_channel_renamed)
+      }
+
+      dataframes[[i]] <- dplyr::bind_cols(channel_data)
     }
     # Merge data frames for all paths
     df <- dplyr::bind_rows(dataframes)
