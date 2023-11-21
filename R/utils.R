@@ -152,7 +152,7 @@ read_descriptor <- function(x, directory = NULL, safe = FALSE) {
 #' @family helper functions
 #' @noRd
 read_delim_ext <- function(file, delim, na = c("", "NA"), col_types = NULL,
-                           channels = "values", ...) {
+                           col_select = NULL, channels = "values", ...) {
   default_suffixes <- c(
     values = "_values",
     missing = "_missing"
@@ -180,9 +180,19 @@ read_delim_ext <- function(file, delim, na = c("", "NA"), col_types = NULL,
 
   channels <- purrr::set_names(channel_suffixes, channel_names)
 
+  if (is.null(col_select)) {
+    selected_col_types <- col_types
+  } else {
+     selected_col_types <- col_types[tidyselect::eval_select(
+      rlang::enquo(col_select),
+      col_types,
+    )]
+  }
+
   string_df <- readr::read_delim(
     file,
     delim,
+    col_select = {{col_select}},
     col_types = readr::cols(.default=readr::col_character()),
     ...
   )
@@ -192,7 +202,7 @@ read_delim_ext <- function(file, delim, na = c("", "NA"), col_types = NULL,
   if ("values" %in% channel_names) {
     values_df <- string_df %>%
       readr::type_convert(
-        col_types=col_types,
+        col_types=selected_col_types,
         na=na,
       ) %>%
       dplyr::rename_with(\(x) paste0(x, channels[["values"]]))
