@@ -354,51 +354,6 @@ read_resource <- function(package, resource_name, col_select = NULL,
   # Note that dialect can be NULL
   dialect <- read_descriptor(resource$dialect, package$directory, safe = TRUE)
 
-  # Select channels
-
-  assertthat::assert_that(
-    length(channels) > 0,
-    msg = "Error: no channels selected"
-  )
-
-  if (is.null(names(channels))) {
-    if (length(channels) == 1) {
-      single_channel <- ""
-      names(single_channel) <- channels
-      channels <- single_channel
-    } else {
-      names(channels) = rep("", length(channels))
-    }
-  }
-
-  channel_names <- purrr::imap(channels, \(x, n) dplyr::if_else(n == "", x, n))
-
-  assertthat::assert_that(
-    all(purrr::map_vec(channel_names, \(x) x %in% c("values", "missing"))),
-    msg = glue::glue(
-      "Unrecognized channel name in channel selection: {channel_names}"
-    )
-  )
-
-  default_channel_suffix <- list(
-    values = "__values",
-    missing = "__missing"
-  )
-
-  channel_suffixes <- purrr::imap(
-    channels,
-    \(x, n) if (n == "") default_channel_suffix[[x]] else x
-  )
-
-  channels <- purrr::set_names(channel_suffixes, channel_names)
-
-  assertthat::assert_that(
-    length(unique(channels)) == length(channels),
-    msg = glue::glue(
-      "Error: channels have duplicate column suffixes"
-    )
-  )
-
   # Read data directly
   if (resource$read_from == "df") {
     df <- dplyr::as_tibble(resource$data)
@@ -411,10 +366,11 @@ read_resource <- function(package, resource_name, col_select = NULL,
   } else if (resource$read_from == "path" || resource$read_from == "url") {
     dataframes <- list()
     for (i in seq_along(paths)) {
-      str_data <- readr::read_delim(
+      data <- read_delim_ext(
         file = paths[i],
         delim = replace_null(dialect$delimiter, ","),
         quote = replace_null(dialect$quoteChar, "\""),
+        channels = channels,
         escape_backslash = ifelse(
           replace_null(dialect$escapeChar, "not set") == "\\", TRUE, FALSE
         ),
@@ -425,53 +381,19 @@ read_resource <- function(package, resource_name, col_select = NULL,
           replace_null(dialect$doubleQuote, TRUE)
         ),
         col_names = col_names,
-        col_types = list(.default=readr::col_character()),
+        col_types = col_types,
         # Use rlang {{}} to avoid `col_select` to be interpreted as the name of
         # a column, see https://rlang.r-lib.org/reference/topic-data-mask.html
         col_select = {{col_select}},
         locale = locale,
+        na = replace_null(schema$missingValues, ""),
         comment = replace_null(dialect$commentChar, ""),
         trim_ws = replace_null(dialect$skipInitialSpace, FALSE),
         # Skip header row when present
         skip = ifelse(replace_null(dialect$header, TRUE), 1, 0),
         skip_empty_rows = TRUE,
       )
-
-      channel_data <- list()
-
-      if ("values" %in% names(channels)) {
-         values_channel <- readr::type_convert(
-          str_data,
-          col_types = col_types,
-          na = replace_null(schema$missingValues, ""),
-        )
-
-        values_channel_renamed <- dplyr::rename_with(
-          values_channel,
-          \(n) paste0(n, channels["values"]),
-        )
-
-        channel_data <- append(channel_data, values_channel_renamed)
-      }
-
-      if ("missing" %in% names(channels)) {
-        missing_channel <- dplyr::mutate(
-          str_data,
-          dplyr::across(
-            dplyr::everything(),
-            \(v) dplyr::if_else(v %in% schema$missingValues, v, NA_character_)
-          )
-        )
-
-        missing_channel_renamed = dplyr::rename_with(
-          missing_channel,
-          \(n) paste0(n, channels["missing"]),
-        )
-
-        channel_data <- append(channel_data, missing_channel_renamed)
-      }
-
-      dataframes[[i]] <- dplyr::bind_cols(channel_data)
+      dataframes[[i]] <- data
     }
     # Merge data frames for all paths
     df <- dplyr::bind_rows(dataframes)
