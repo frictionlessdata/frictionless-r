@@ -1,18 +1,13 @@
-#' Proposed extension of readr::read_delim
+#' Standardize channel names / suffixes from channel options
 #'
-#' Adds a `channels` argument that facilitates the loading of missing values
-#'
-#'
-#' @inheritParams readr::read_delim
 #' @param channels A character vector representing the data channels to load.
 #'   Available channels are `"values"` and `"missing"`. Use named vectors to
 #'   control column suffixes, e.g.
 #'   `c(values = "_values", missing = "_missing")`.
-#' @return A `tibble()` of loaded values.
+#' @return A named list. Names are channel names, values are suffixes.
 #' @family helper functions
 #' @noRd
-read_delim_ext <- function(file, delim, na = c("", "NA"), col_types = NULL,
-                           col_select = NULL, channels = "values", ...) {
+channel_opt_standardize <- function(channels) {
   default_suffixes <- c(
     values = "_values",
     missing = "_missing"
@@ -38,7 +33,26 @@ read_delim_ext <- function(file, delim, na = c("", "NA"), col_types = NULL,
     \(x, n) dplyr::if_else(n == "", x, n)
   )
 
-  channels <- purrr::set_names(channel_suffixes, channel_names)
+  purrr::set_names(channel_suffixes, channel_names)
+}
+
+#' Proposed extension of readr::read_delim
+#'
+#' Adds a `channels` argument that facilitates the loading of missing values
+#'
+#'
+#' @inheritParams readr::read_delim
+#' @param channels A character vector representing the data channels to load.
+#'   Available channels are `"values"` and `"missing"`. Use named vectors to
+#'   control column suffixes, e.g.
+#'   `c(values = "_values", missing = "_missing")`.
+#' @return A `tibble()` of loaded values.
+#' @family helper functions
+#' @noRd
+read_delim_ext <- function(file, delim, na = c("", "NA"), col_types = NULL,
+                           col_select = NULL, channels = "values", ...) {
+
+  channels <- channel_opt_standardize(channels)
 
   if (is.null(col_select)) {
     selected_col_types <- col_types
@@ -59,7 +73,7 @@ read_delim_ext <- function(file, delim, na = c("", "NA"), col_types = NULL,
 
   result <- list()
 
-  if ("values" %in% channel_names) {
+  if ("values" %in% names(channels)) {
     values_df <- string_df %>%
       readr::type_convert(
         col_types=selected_col_types,
@@ -69,7 +83,7 @@ read_delim_ext <- function(file, delim, na = c("", "NA"), col_types = NULL,
     result <- append(result, values_df)
   }
 
-  if ("missing" %in% channel_names) {
+  if ("missing" %in% names(channels)) {
     missing_df <- string_df %>%
       dplyr::mutate(
         dplyr::across(
