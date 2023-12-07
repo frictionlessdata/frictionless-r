@@ -35,7 +35,9 @@ Imports:
     purrr,
     readr (>= 2.1.0),
     utils,
-    yaml
+    yaml,
+    tidyselect,
+    rlang
 Suggests:
     hms,
     knitr,
