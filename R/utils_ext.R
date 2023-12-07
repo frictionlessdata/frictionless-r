@@ -71,16 +71,29 @@ read_delim_ext <- function(file, delim, na = c("", "NA"), col_types = NULL,
     ...
   )
 
-  result <- list()
+  result <- NULL
 
   if ("values" %in% names(channels)) {
-    values_df <- string_df %>%
-      readr::type_convert(
+    # Commenting out because https://github.com/tidyverse/readr/issues/1526
+    #values_df <- string_df %>%
+    #  readr::type_convert(
+    #    col_types=selected_col_types,
+    #    na=na,
+    #  ) %>%
+    #  dplyr::rename_with(\(x) paste0(x, channels[["values"]]))
+
+    # Until the issue is fixed, let's just re-read the csv...
+    values_df <- readr::read_delim(
+        file,
+        delim,
         col_types=selected_col_types,
+        col_select = {{col_select}},
         na=na,
+        ...
       ) %>%
       dplyr::rename_with(\(x) paste0(x, channels[["values"]]))
-    result <- append(result, values_df)
+
+    result <- dplyr::bind_cols(result, values_df)
   }
 
   if ("missing" %in% names(channels)) {
@@ -92,7 +105,7 @@ read_delim_ext <- function(file, delim, na = c("", "NA"), col_types = NULL,
         )
       ) %>%
       dplyr::rename_with(\(x) paste0(x, channels[["missing"]]))
-    result <- append(result, missing_df)
+    result <- dplyr::bind_cols(result, values_df)
   }
-  dplyr::bind_cols(result)
+  result
 }
