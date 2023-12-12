@@ -29,7 +29,7 @@ print.datapackage <- function(x) {
         fields = length(r$schema$fields),
         description = stringr::str_trunc(replace_null(r$description, "~"), 20),
       )
-    }) %>%
+    }) |>
       dplyr::bind_rows()
 
     print.data.frame(rtable)
