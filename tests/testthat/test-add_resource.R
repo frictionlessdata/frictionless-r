@@ -94,33 +94,27 @@ test_that("add_resource() returns error if CSV file cannot be found", {
   schema <- create_schema(data.frame("col_1" = c(1, 2), "col_2" = c("a", "b")))
   expect_error(
     add_resource(p, "new", "no_such_file.csv"),
-    "Can't find file at 'no_such_file.csv'.",
-    fixed = TRUE
+    class = "frictionless_error_not_found_path"
   )
   expect_error(
     add_resource(p, "new", "no_such_file.csv", schema),
-    "Can't find file at 'no_such_file.csv'.",
-    fixed = TRUE
+    class = "frictionless_error_not_found_path"
   )
   expect_error(
     add_resource(p, "new", c(df_csv, "no_such_file.csv")),
-    "Can't find file at 'no_such_file.csv'.",
-    fixed = TRUE
+    class = "frictionless_error_not_found_path"
   )
   expect_error(
     add_resource(p, "new", c("no_such_file.csv", df_csv)),
-    "Can't find file at 'no_such_file.csv'.",
-    fixed = TRUE
+    class = "frictionless_error_not_found_path"
   )
   expect_error(
     add_resource(p, "new", c("no_such_file_1.csv", "no_such_file_2.csv")),
-    "Can't find file at 'no_such_file_1.csv'.",
-    fixed = TRUE
+    class = "frictionless_error_not_found_path"
   )
   expect_error(
     add_resource(p, "new", "http://example.com/no_such_file.csv"),
-    "Can't find file at <http://example.com/no_such_file.csv>.",
-    fixed = TRUE
+    class = "frictionless_error_not_found_url"
   )
 })
 

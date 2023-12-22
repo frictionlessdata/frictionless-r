@@ -18,20 +18,26 @@ check_path <- function(path, directory = NULL, safe = FALSE) {
   if (!is_url(path)) {
     # Check absolute path
     if (safe && startsWith(path, "/")) {
-      cli::cli_abort(c(
-        "{.arg path} must be a safe path.",
-        "x" = "{.path {path}} is an absolute path starting with {.val /} which
-               is unsafe."
-      ))
+      cli::cli_abort(
+        c(
+          "{.arg path} must be a safe path.",
+          "x" = "{.path {path}} is an absolute path starting with {.val /}
+                 which is unsafe."
+        ),
+        class = "frictionless_error_unsafe_absolute_path"
+      )
     }
 
     # Check relative path
     if (safe && startsWith(path, "../")) {
-      cli::cli_abort(c(
-        "{.arg path} must be a safe path.",
-        "x" = "{.path {path}} is a relative parent path starting with {.val ../}
-               which is unsafe."
-      ))
+      cli::cli_abort(
+        c(
+          "{.arg path} must be a safe path.",
+          "x" = "{.path {path}} is a relative parent path starting with
+                 {.val ../} which is unsafe."
+        ),
+        class = "frictionless_error_unsafe_relative_path"
+      )
     }
 
     # Prepend with directory (which can be a URL)
@@ -43,11 +49,17 @@ check_path <- function(path, directory = NULL, safe = FALSE) {
   # Check existence of file at path
   if (is_url(path)) {
     if (httr::http_error(path)) {
-      cli::cli_abort("Can't find file at {.url {path}}.")
+      cli::cli_abort(
+        "Can't find file at {.url {path}}.",
+        class = "frictionless_error_not_found_url"
+      )
     }
   } else {
     if (!file.exists(path)) {
-      cli::cli_abort("Can't find file at {.path {path}}.")
+      cli::cli_abort(
+        "Can't find file at {.path {path}}.",
+        class = "frictionless_error_not_found_path"
+      )
     }
   }
   return(path)
