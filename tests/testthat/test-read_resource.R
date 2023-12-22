@@ -135,7 +135,7 @@ test_that("read_resource() returns error on incorrect resource", {
   p_invalid$resources[[1]]$path <- "http://example.com/no_such_file.csv"
   expect_error(
     read_resource(p_invalid, "deployments"),
-    "Can't find file at `http://example.com/no_such_file.csv`.",
+    "Can't find file at <http://example.com/no_such_file.csv>.",
     fixed = TRUE
   )
 
@@ -143,7 +143,7 @@ test_that("read_resource() returns error on incorrect resource", {
   p_invalid$resources[[1]]$path <- "no_such_file.csv"
   expect_error(
     read_resource(p_invalid, "deployments"),
-    "Can't find file at `./no_such_file.csv`.",
+    "Can't find file at './no_such_file.csv'.",
     fixed = TRUE
   )
 
@@ -151,7 +151,7 @@ test_that("read_resource() returns error on incorrect resource", {
   p_invalid$resources[[1]]$path <- c("deployments.csv", "no_such_file.csv")
   expect_error(
     read_resource(p_invalid, "deployments"),
-    "Can't find file at `./deployments.csv`.",
+    "Can't find file at './deployments.csv'.",
     fixed = TRUE
   )
 
@@ -160,8 +160,8 @@ test_that("read_resource() returns error on incorrect resource", {
   expect_error(
     read_resource(p_invalid, "deployments"),
     paste(
-      "`/inst/extdata/deployments.csv` is an absolute path (`/`)",
-      "which is unsafe."
+      "'/inst/extdata/deployments.csv' is an absolute path",
+      "starting with \"/\" which is unsafe."
     ),
     fixed = TRUE
   )
@@ -171,8 +171,8 @@ test_that("read_resource() returns error on incorrect resource", {
   expect_error(
     read_resource(p_invalid, "deployments"),
     paste(
-      "`../../inst/extdata/deployments.csv` is a relative parent path (`../`)",
-      "which is unsafe."
+      "'../../inst/extdata/deployments.csv' is a relative parent path",
+      "starting with \"../\" which is unsafe."
     ),
     fixed = TRUE
   )
@@ -205,7 +205,7 @@ test_that("read_resource() returns error on incorrect resource", {
   p_invalid$resources[[1]]$schema <- "http://example.com/no_schema.json"
   expect_error(
     read_resource(p_invalid, "deployments"),
-    "Can't find file at `http://example.com/no_schema.json`.",
+    "Can't find file at <http://example.com/no_schema.json>.",
     fixed = TRUE
   )
 
@@ -213,8 +213,8 @@ test_that("read_resource() returns error on incorrect resource", {
   p_invalid$resources[[1]]$schema <- "no_schema.json"
   expect_error(
     read_resource(p_invalid, "deployments"),
-    "Can't find file at `.*no_schema.json`",
-    # no fixed = TRUE, since full returned path depends on system
+    "Can't find file at '.*/no_schema.json'.",
+    fixed = FALSE # Full returned path depends on system
   )
 
   # No fields
@@ -308,8 +308,8 @@ test_that("read_resource() can read safe local and remote Table Schema,
   expect_error(
     read_resource(p_unsafe, "deployments"),
     paste(
-      "`/tests/testthat/data/deployments_schema.json` is an absolute path",
-      "(`/`) which is unsafe."
+      "'/tests/testthat/data/deployments_schema.json' is an absolute path",
+      "starting with \"/\" which is unsafe."
     ),
     fixed = TRUE
   )
@@ -319,8 +319,8 @@ test_that("read_resource() can read safe local and remote Table Schema,
   expect_error(
     read_resource(p_unsafe, "deployments"),
     paste(
-      "`../testthat/data/deployments_schema.json` is a relative parent path",
-      "(`../`) which is unsafe."
+      "'../testthat/data/deployments_schema.json' is a relative parent path",
+      "starting with \"../\" which is unsafe."
     ),
     fixed = TRUE
   )
@@ -362,8 +362,8 @@ test_that("read_resource() can read safe local and remote CSV dialect", {
   expect_error(
     read_resource(p_unsafe, "deployments"),
     paste(
-      "`/tests/testthat/data/dialect.json` is an absolute path",
-      "(`/`) which is unsafe."
+      "'/tests/testthat/data/dialect.json' is an absolute path",
+      "starting with \"/\" which is unsafe."
     ),
     fixed = TRUE
   )
@@ -373,8 +373,8 @@ test_that("read_resource() can read safe local and remote CSV dialect", {
   expect_error(
     read_resource(p_unsafe, "deployments"),
     paste(
-      "`../testthat/data/dialect.json` is a relative parent path",
-      "(`../`) which is unsafe."
+      "'../testthat/data/dialect.json' is a relative parent path",
+      "starting with \"../\" which is unsafe."
     ),
     fixed = TRUE
   )
