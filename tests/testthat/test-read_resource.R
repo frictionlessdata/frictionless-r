@@ -135,35 +135,35 @@ test_that("read_resource() returns error on incorrect resource", {
   p_invalid$resources[[1]]$path <- "http://example.com/no_such_file.csv"
   expect_error(
     read_resource(p_invalid, "deployments"),
-    class = "frictionless_error_not_found_url"
+    class = "frictionless_error_url_not_found"
   )
 
   # No file at path
   p_invalid$resources[[1]]$path <- "no_such_file.csv"
   expect_error(
     read_resource(p_invalid, "deployments"),
-    class = "frictionless_error_not_found_path"
+    class = "frictionless_error_path_not_found"
   )
 
   # No file at paths
   p_invalid$resources[[1]]$path <- c("deployments.csv", "no_such_file.csv")
   expect_error(
     read_resource(p_invalid, "deployments"),
-    class = "frictionless_error_not_found_path"
+    class = "frictionless_error_path_not_found"
   )
 
   # Path is absolute path
   p_invalid$resources[[1]]$path <- "/inst/extdata/deployments.csv"
   expect_error(
     read_resource(p_invalid, "deployments"),
-    class = "frictionless_error_unsafe_absolute_path"
+    class = "frictionless_error_path_unsafe_absolute"
   )
 
   # Path is relative parent path
   p_invalid$resources[[1]]$path <- "../../inst/extdata/deployments.csv"
   expect_error(
     read_resource(p_invalid, "deployments"),
-    class = "frictionless_error_unsafe_relative_path"
+    class = "frictionless_error_path_unsafe_relative"
   )
 
   # Add valid path
@@ -194,14 +194,14 @@ test_that("read_resource() returns error on incorrect resource", {
   p_invalid$resources[[1]]$schema <- "http://example.com/no_schema.json"
   expect_error(
     read_resource(p_invalid, "deployments"),
-    class = "frictionless_error_not_found_url"
+    class = "frictionless_error_url_not_found"
   )
 
   # No file at schema
   p_invalid$resources[[1]]$schema <- "no_schema.json"
   expect_error(
     read_resource(p_invalid, "deployments"),
-    class = "frictionless_error_not_found_path"
+    class = "frictionless_error_path_not_found"
   )
 
   # No fields

@@ -19,16 +19,16 @@ test_that("check_path() returns path prepended with directory", {
 test_that("check_path() returns error on absolute path when safe = TRUE", {
   expect_error(
     check_path("/dir/file.txt", safe = TRUE),
-    class = "frictionless_error_unsafe_absolute_path"
+    class = "frictionless_error_path_unsafe_absolute"
   )
   expect_error(
     frictionless:::check_path("/dir/file.txt", safe = TRUE),
-    "`path` must be a safe path.",
+    regexp = "`path` must be a safe path.",
     fixed = TRUE
   )
   expect_error(
     frictionless:::check_path("/dir/file.txt", safe = TRUE),
-    "'/dir/file.txt' is an absolute path starting with \"/\" which is unsafe.",
+    regexp = "'/dir/file.txt' is an absolute path starting with \"/\" which is unsafe.",
     fixed = TRUE
   )
 })
@@ -36,16 +36,16 @@ test_that("check_path() returns error on absolute path when safe = TRUE", {
 test_that("check_path() returns error on relative parent path when safe = TRUE", {
   expect_error(
     check_path("../dir/file.txt", safe = TRUE),
-    class = "frictionless_error_unsafe_relative_path"
+    class = "frictionless_error_path_unsafe_relative"
   )
   expect_error(
     check_path("../dir/file.txt", safe = TRUE),
-    "`path` must be a safe path.",
+    regexp = "`path` must be a safe path.",
     fixed = TRUE
   )
   expect_error(
     check_path("../dir/file.txt", safe = TRUE),
-    "'../dir/file.txt' is a relative parent path starting with \"../\" which is unsafe.",
+    regexp = "'../dir/file.txt' is a relative parent path starting with \"../\" which is unsafe.",
     fixed = TRUE
   )
 })
@@ -53,11 +53,11 @@ test_that("check_path() returns error on relative parent path when safe = TRUE",
 test_that("check_path() returns error when local file cannot be found", {
   expect_error(
     check_path("no_such_file.csv"),
-    class = "frictionless_error_not_found_path"
+    class = "frictionless_error_path_not_found"
   )
   expect_error(
     check_path("no_such_file.csv"),
-    "Can't find file at 'no_such_file.csv'.",
+    regexp = "Can't find file at 'no_such_file.csv'.",
     fixed = TRUE
   )
 })
@@ -65,11 +65,11 @@ test_that("check_path() returns error when local file cannot be found", {
 test_that("check_path() returns error when remote file cannot be found", {
   expect_error(
     check_path("http://example.com/no_such_file.csv"),
-    class = "frictionless_error_not_found_url"
+    class = "frictionless_error_url_not_found"
   )
   expect_error(
     check_path("http://example.com/no_such_file.csv"),
-    "Can't find file at <http://example.com/no_such_file.csv>.",
+    regexp = "Can't find file at <http://example.com/no_such_file.csv>.",
     fixed = TRUE
   )
 })

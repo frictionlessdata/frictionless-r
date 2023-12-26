@@ -77,7 +77,7 @@ test_that("read_package() returns error on missing file and properties", {
   # No file locally
   expect_error(
     read_package("nofile.json"),
-    class = "frictionless_error_not_found_path"
+    class = "frictionless_error_path_not_found"
   )
 
   # Not a json file
@@ -121,7 +121,7 @@ test_that("read_package() returns error on missing file and properties", {
   # No file remotely
   expect_error(
     read_package("http://example.com/nofile.json"),
-    class = "frictionless_error_not_found_url"
+    class = "frictionless_error_url_not_found"
   )
 })
 
