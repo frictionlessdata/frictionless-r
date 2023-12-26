@@ -24,7 +24,7 @@ check_path <- function(path, directory = NULL, safe = FALSE) {
           "x" = "{.path {path}} is an absolute path starting with {.val /}
                  which is unsafe."
         ),
-        class = "frictionless_error_unsafe_absolute_path"
+        class = "frictionless_error_path_unsafe_absolute"
       )
     }
 
@@ -36,7 +36,7 @@ check_path <- function(path, directory = NULL, safe = FALSE) {
           "x" = "{.path {path}} is a relative parent path starting with
                  {.val ../} which is unsafe."
         ),
-        class = "frictionless_error_unsafe_relative_path"
+        class = "frictionless_error_path_unsafe_relative"
       )
     }
 
@@ -51,14 +51,14 @@ check_path <- function(path, directory = NULL, safe = FALSE) {
     if (httr::http_error(path)) {
       cli::cli_abort(
         "Can't find file at {.url {path}}.",
-        class = "frictionless_error_not_found_url"
+        class = "frictionless_error_url_not_found"
       )
     }
   } else {
     if (!file.exists(path)) {
       cli::cli_abort(
         "Can't find file at {.path {path}}.",
-        class = "frictionless_error_not_found_path"
+        class = "frictionless_error_path_not_found"
       )
     }
   }
