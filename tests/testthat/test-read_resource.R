@@ -215,12 +215,7 @@ test_that("read_resource() returns error on invalid resource", {
   )
   expect_error(
     read_resource(p_invalid, "deployments"),
-    paste(
-      "All fields in `schema` must have property `name`.",
-      "ℹ Field(s) `2` don't have a name.",
-      sep = "\n"
-    ),
-    fixed = TRUE
+    class = "frictionless_error_fields_without_name"
   )
 })
 

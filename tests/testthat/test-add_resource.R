@@ -124,25 +124,13 @@ test_that("add_resource() returns error on mismatching schema and data", {
   # df
   expect_error(
     add_resource(p, "new", df, schema_invalid),
-    paste(
-      "Field names in `schema` must match column names in data:",
-      "ℹ Field names: `no_such_col`, `col_2`",
-      "ℹ Column names: `col_1`, `col_2`",
-      sep = "\n"
-    ),
-    fixed = TRUE
+    class = "frictionless_error_fields_colnames_mismatch"
   )
 
   # csv
   expect_error(
     add_resource(p, "new", df_csv, schema_invalid),
-    paste(
-      "Field names in `schema` must match column names in data:",
-      "ℹ Field names: `no_such_col`, `col_2`",
-      "ℹ Column names: `col_1`, `col_2`",
-      sep = "\n"
-    ),
-    fixed = TRUE
+    class = "frictionless_error_fields_colnames_mismatch"
   )
 
   # For more tests see test-check_schema.R

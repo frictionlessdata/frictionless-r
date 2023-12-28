@@ -59,24 +59,17 @@ check_schema <- function(schema, data = NULL) {
     check_data(data)
 
     col_names <- colnames(data)
-    assertthat::assert_that(
-      identical(field_names, col_names),
-      msg = glue::glue(
-        "Field names in `schema` must match column names in data:",
-        "\u2139 Field names: {field_names_collapse}",
-        "\u2139 Column names: {col_names_collapse}",
-        .sep = "\n",
-        field_names_collapse = glue::glue_collapse(
-          glue::backtick(field_names),
-          sep = ", "
+    if (!identical(field_names, col_names)) {
+      cli::cli_abort(
+        c(
+          "Field names in {.arg schema} must match column names in {.arg data}.",
+          "i" = "Field name{?s}: {.val {field_names}}",
+          "i" = "Column name{?s}: {.val {col_names}}"
         ),
-        col_names_collapse = glue::glue_collapse(
-          glue::backtick(col_names),
-          sep = ", "
-        )
+        class = "frictionless_error_fields_colnames_mismatch"
       )
-    )
-  } else {
-    return(TRUE)
+    }
   }
+
+  return(TRUE)
 }

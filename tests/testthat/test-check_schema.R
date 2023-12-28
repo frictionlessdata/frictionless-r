@@ -140,12 +140,21 @@ test_that("check_schema() returns error on mismatching schema and data frame", {
   ))
   expect_error(
     check_schema(invalid_schema, df),
-    paste(
-      "Field names in `schema` must match column names in data:",
-      "ℹ Field names: `col_2`, `col_1`",
-      "ℹ Column names: `col_1`, `col_2`",
-      sep = "\n"
-    ),
+    class = "frictionless_error_fields_colnames_mismatch"
+  )
+  expect_error(
+    check_schema(invalid_schema, df),
+    regexp = "Field names in `schema` must match column names in `data`.",
+    fixed = TRUE
+  )
+  expect_error(
+    check_schema(invalid_schema, df),
+    regexp = "Field names: \"col_2\" and \"col_1\"",
+    fixed = TRUE
+  )
+  expect_error(
+    check_schema(invalid_schema, df),
+    regexp = "Column names: \"col_1\" and \"col_2\"", # Same for other tests
     fixed = TRUE
   )
 
@@ -155,12 +164,11 @@ test_that("check_schema() returns error on mismatching schema and data frame", {
   ))
   expect_error(
     check_schema(invalid_schema, df),
-    paste(
-      "Field names in `schema` must match column names in data:",
-      "ℹ Field names: `col_1`",
-      "ℹ Column names: `col_1`, `col_2`",
-      sep = "\n"
-    ),
+    class = "frictionless_error_fields_colnames_mismatch"
+  )
+  expect_error(
+    check_schema(invalid_schema, df),
+    regexp = "Field name: \"col_1\"",
     fixed = TRUE
   )
 
@@ -172,12 +180,11 @@ test_that("check_schema() returns error on mismatching schema and data frame", {
   ))
   expect_error(
     check_schema(invalid_schema, df),
-    paste(
-      "Field names in `schema` must match column names in data:",
-      "ℹ Field names: `col_1`, `col_2`, `col_3`",
-      "ℹ Column names: `col_1`, `col_2`",
-      sep = "\n"
-    ),
+    class = "frictionless_error_fields_colnames_mismatch"
+  )
+  expect_error(
+    check_schema(invalid_schema, df),
+    regexp = "Field names: \"col_1\", \"col_2\", and \"col_3\"",
     fixed = TRUE
   )
 })
