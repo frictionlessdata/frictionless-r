@@ -1,37 +1,35 @@
 #' Check Data Package object
 #'
 #' Check if an object is a list describing a Data Package, i.e. it has the
-#' required properties `resources`, `resource_names` and `directory`.
+#' required properties `resources` and `directory`.
 #'
 #' @param package List describing a Data Package.
 #' @return `TRUE` or error.
 #' @family check functions
 #' @noRd
 check_package <- function(package) {
-  msg_invalid <- glue::glue(
-    "`package` must be a list describing a Data Package,",
-    "created with `read_package()` or `create_package()`.",
-    .sep = " "
-  )
-  # Check package is list with required properties
-  assertthat::assert_that(
-    is.list(package) &
-      all(c("resources", "directory") %in% names(package)),
-    msg = msg_invalid
-  )
-
-  # Check package properties have correct class
-  assertthat::assert_that(
-    is.list(package$resources) &
-      is.character(package$directory),
-    msg = msg_invalid
-  )
+  # Check package is a list with resources (list) and directory (character)
+  if (
+    !is.list(package) ||
+    !all(c("resources", "directory") %in% names(package)) ||
+    !is.list(package$resources) ||
+    !is.character(package$directory)
+  ) {
+    cli::cli_abort(
+      "{.arg package} must be a list describing a Data Package created with
+       {.fun read_package} or {.fun create_package}.",
+      class = "frictionless_error_package_incorrect"
+    )
+  }
 
   # Check all resources (if any) have a name
-  assertthat::assert_that(
-    purrr::every(package$resources, ~ !is.null(.x$name)),
-    msg = glue::glue(
-      "All resources in `package` must have property `name`."
+  if (purrr::some(package$resources, ~ is.null(.x$name))) {
+    cli::cli_abort(
+      "All resources in {.arg package} must have a {.field name} property.",
+      class = "frictionless_error_resources_without_name"
     )
-  )
+  }
+
+  # Return TRUE
+  TRUE
 }

@@ -98,11 +98,7 @@ test_that("read_resource() returns error on column selection not in schema", {
 test_that("read_resource() returns error on incorrect Data Package", {
   expect_error(
     read_resource(list(), "deployments"),
-    paste(
-      "`package` must be a list describing a Data Package,",
-      "created with `read_package()` or `create_package()`."
-    ),
-    fixed = TRUE
+    class = "frictionless_error_package_incorrect"
   )
 })
 
