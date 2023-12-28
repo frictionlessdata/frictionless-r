@@ -7,11 +7,7 @@ test_that("remove_resource() returns a valid Data Package", {
 test_that("remove_resource() returns error on incorrect Data Package", {
   expect_error(
     remove_resource(list(), "deployments"),
-    paste(
-      "`package` must be a list describing a Data Package,",
-      "created with `read_package()` or `create_package()`."
-    ),
-    fixed = TRUE
+    class = "frictionless_error_package_incorrect"
   )
 })
 

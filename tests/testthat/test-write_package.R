@@ -18,11 +18,7 @@ test_that("write_package() returns output Data Package (invisibly)", {
 test_that("write_package() returns error on incorrect Data Package", {
   expect_error(
     write_package(list()),
-    paste(
-      "`package` must be a list describing a Data Package,",
-      "created with `read_package()` or `create_package()`."
-    ),
-    fixed = TRUE
+    class = "frictionless_error_package_incorrect"
   )
 })
 
