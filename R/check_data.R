@@ -13,10 +13,7 @@ check_data <- function(data) {
     replace_null(dim(data)[2], 0) == 0
   ) {
     cli::cli_abort(
-      c(
-        "{.arg data} must be a data frame containing data.",
-        "x" = "{.arg data} is {.type {data}}."
-      ),
+      "{.arg data} must be a data frame containing data.",
       class = "frictionless_error_data_incorrect"
     )
   }

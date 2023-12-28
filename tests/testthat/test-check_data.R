@@ -12,13 +12,8 @@ test_that("check_data() returns error on incorrect or empty data frame", {
     class = "frictionless_error_data_incorrect"
   )
   expect_error(
-    create_schema(0),
+    create_schema("not_a_df"),
     regexp = "`data` must be a data frame containing data.",
-    fixed = TRUE
-  )
-  expect_error(
-    create_schema(0),
-    regexp = "`data` is a number.",
     fixed = TRUE
   )
 })
