@@ -67,14 +67,7 @@
 #' str(schema)
 create_schema <- function(data) {
   # Check data
-  assertthat::assert_that(
-    is.data.frame(data) &
-      replace_null(dim(data)[1], 0) != 0 &
-      replace_null(dim(data)[2], 0) != 0,
-    msg = glue::glue(
-      "`data` must be a data frame containing data."
-    )
-  )
+  check_data(data)
 
   # Columns with all NA are considered logical by R (and read_delim)
   # Set those to character, since string is a better default for Table Schema

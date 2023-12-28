@@ -95,14 +95,14 @@ test_that("read_resource() returns error on column selection not in schema", {
   )
 })
 
-test_that("read_resource() returns error on incorrect Data Package", {
+test_that("read_resource() returns error on invalid Data Package", {
   expect_error(
     read_resource(list(), "deployments"),
-    class = "frictionless_error_package_incorrect"
+    class = "frictionless_error_package_invalid"
   )
 })
 
-test_that("read_resource() returns error on incorrect resource", {
+test_that("read_resource() returns error on invalid resource", {
   skip_if_offline()
   p <- example_package
 
@@ -171,9 +171,13 @@ test_that("read_resource() returns error on incorrect resource", {
   # Not a tabular-data-resource
   expect_error(
     read_resource(p_invalid, "deployments"),
-    paste(
-      "Resource `deployments` must have property `profile` with value",
-      "`tabular-data-resource`."
+    class = "frictionless_error_resource_not_tabular"
+  )
+  expect_error(
+    read_resource(p_invalid, "deployments"),
+    regexp = paste(
+      "Resource \"deployments\" must have a profile property with value",
+      "\"tabular-data-resource\"."
     ),
     fixed = TRUE
   )
@@ -182,7 +186,11 @@ test_that("read_resource() returns error on incorrect resource", {
   p_invalid$resources[[1]]$profile <- "tabular-data-resource"
   expect_error(
     read_resource(p_invalid, "deployments"),
-    "Resource `deployments` must have property `schema`.",
+    class = "frictionless_error_resource_without_schema"
+  )
+  expect_error(
+    read_resource(p_invalid, "deployments"),
+    regexp = "Resource \"deployments\" must have a schema property.",
     fixed = TRUE
   )
 
@@ -204,8 +212,7 @@ test_that("read_resource() returns error on incorrect resource", {
   p_invalid$resources[[1]]$schema <- list()
   expect_error(
     read_resource(p_invalid, "deployments"),
-    "`schema` must be a list with property `fields`.",
-    fixed = TRUE
+    class = "frictionless_error_schema_invalid"
   )
 
   # No field name
@@ -216,12 +223,7 @@ test_that("read_resource() returns error on incorrect resource", {
   )
   expect_error(
     read_resource(p_invalid, "deployments"),
-    paste(
-      "All fields in `schema` must have property `name`.",
-      "ℹ Field(s) `2` don't have a name.",
-      sep = "\n"
-    ),
-    fixed = TRUE
+    class = "frictionless_error_fields_without_name"
   )
 })
 

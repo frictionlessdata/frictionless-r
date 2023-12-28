@@ -4,10 +4,10 @@ test_that("remove_resource() returns a valid Data Package", {
   expect_true(check_package(remove_resource(p, "deployments")))
 })
 
-test_that("remove_resource() returns error on incorrect Data Package", {
+test_that("remove_resource() returns error on invalid Data Package", {
   expect_error(
     remove_resource(list(), "deployments"),
-    class = "frictionless_error_package_incorrect"
+    class = "frictionless_error_package_invalid"
   )
 })
 
