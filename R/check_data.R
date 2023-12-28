@@ -18,6 +18,5 @@ check_data <- function(data) {
     )
   }
 
-  # Return TRUE
-  TRUE
+  return(TRUE)
 }

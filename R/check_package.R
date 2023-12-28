@@ -30,6 +30,5 @@ check_package <- function(package) {
     )
   }
 
-  # Return TRUE
-  TRUE
+  return(TRUE)
 }
