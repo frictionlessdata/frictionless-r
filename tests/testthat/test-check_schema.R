@@ -18,12 +18,15 @@ test_that("check_schema() returns error on invalid Table Schema", {
   # Must be a list and have list property "fields"
   expect_error(
     check_schema("not_a_list"),
-    "`schema` must be a list with property `fields`.",
-    fixed = TRUE
+    class = "frictionless_error_schema_incorrect"
   )
   expect_error(
     check_schema(list()),
-    "`schema` must be a list with property `fields`.",
+    class = "frictionless_error_schema_incorrect"
+  )
+  expect_error(
+    frictionless:::check_schema("not_a_list"),
+    regexp = "`schema` must be a list with a fields property.",
     fixed = TRUE
   )
 

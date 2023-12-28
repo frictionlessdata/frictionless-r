@@ -208,8 +208,7 @@ test_that("read_resource() returns error on incorrect resource", {
   p_invalid$resources[[1]]$schema <- list()
   expect_error(
     read_resource(p_invalid, "deployments"),
-    "`schema` must be a list with property `fields`.",
-    fixed = TRUE
+    class = "frictionless_error_schema_incorrect"
   )
 
   # No field name

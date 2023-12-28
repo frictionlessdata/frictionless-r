@@ -10,10 +10,16 @@
 #' @noRd
 check_schema <- function(schema, data = NULL) {
   # Check schema is list with property fields
-  assertthat::assert_that(
-    is.list(schema) & "fields" %in% names(schema) & is.list(schema["fields"]),
-    msg = glue::glue("`schema` must be a list with property `fields`.")
-  )
+  if (
+    !is.list(schema) ||
+    !"fields" %in% names(schema) ||
+    !is.list(schema["fields"])
+  ) {
+    cli::cli_abort(
+      "{.arg schema} must be a list with a {.field fields} property.",
+      class = "frictionless_error_schema_incorrect"
+    )
+  }
   fields <- schema$fields
 
   # Check fields have names
