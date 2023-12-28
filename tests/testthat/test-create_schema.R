@@ -25,14 +25,22 @@ test_that("create_schema() returns a valid Table Schema", {
 
 test_that("create_schema() returns error on invalid or empty data frame", {
   expect_error(
-    create_schema("not_a_df"),
-    "`data` must be a data frame containing data.",
+    create_schema(0),
+    regexp = "`data` must be a data frame containing data.",
     fixed = TRUE
   )
   expect_error(
-    create_schema(data.frame()),
-    "`data` must be a data frame containing data.",
+    create_schema(0),
+    regexp = "`data` is a number.",
     fixed = TRUE
+  )
+  expect_error(
+    create_schema("not_a_df"),
+    class = "frictionless_error_data_incorrect"
+  )
+  expect_error(
+    create_schema(data.frame()),
+    class = "frictionless_error_data_incorrect"
   )
 })
 
