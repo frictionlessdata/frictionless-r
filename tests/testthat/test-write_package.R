@@ -68,18 +68,15 @@ test_that("write_package() does not overwrite existing data files", {
   # Create files in directory
   files <- c(
     datapackage = file.path(dir, "datapackage.json"),
-    deployments = file.path(dir, "deployments.csv"),
-    observations_1 = file.path(dir, "observations_1.csv"),
-    observations_2 = file.path(dir, "observations_2.csv")
+    deployments = file.path(dir, "deployments.csv") # Local path
+    # observations_1, observations_2 have remote path and would not be written
   )
   file.create(files) # Size for these files will be 0
 
   # Write package to directory, expect only datapackage.json is overwritten
   suppressMessages(write_package(p, dir))
   expect_gt(file.info(files["datapackage"])$size, 0) # Overwitten
-  expect_identical(file.info(files["deployments"])$size, 0)
-  expect_identical(file.info(files["observations_1"])$size, 0)
-  expect_identical(file.info(files["observations_2"])$size, 0)
+  expect_identical(file.info(files["deployments"])$size, 0) # Remains the same
 })
 
 test_that("write_package() copies file(s) for path = local in local package", {

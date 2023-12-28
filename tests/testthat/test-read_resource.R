@@ -135,46 +135,35 @@ test_that("read_resource() returns error on incorrect resource", {
   p_invalid$resources[[1]]$path <- "http://example.com/no_such_file.csv"
   expect_error(
     read_resource(p_invalid, "deployments"),
-    "Can't find file at `http://example.com/no_such_file.csv`.",
-    fixed = TRUE
+    class = "frictionless_error_url_not_found"
   )
 
   # No file at path
   p_invalid$resources[[1]]$path <- "no_such_file.csv"
   expect_error(
     read_resource(p_invalid, "deployments"),
-    "Can't find file at `./no_such_file.csv`.",
-    fixed = TRUE
+    class = "frictionless_error_path_not_found"
   )
 
   # No file at paths
   p_invalid$resources[[1]]$path <- c("deployments.csv", "no_such_file.csv")
   expect_error(
     read_resource(p_invalid, "deployments"),
-    "Can't find file at `./deployments.csv`.",
-    fixed = TRUE
+    class = "frictionless_error_path_not_found"
   )
 
   # Path is absolute path
   p_invalid$resources[[1]]$path <- "/inst/extdata/deployments.csv"
   expect_error(
     read_resource(p_invalid, "deployments"),
-    paste(
-      "`/inst/extdata/deployments.csv` is an absolute path (`/`)",
-      "which is unsafe."
-    ),
-    fixed = TRUE
+    class = "frictionless_error_path_unsafe_absolute"
   )
 
   # Path is relative parent path
   p_invalid$resources[[1]]$path <- "../../inst/extdata/deployments.csv"
   expect_error(
     read_resource(p_invalid, "deployments"),
-    paste(
-      "`../../inst/extdata/deployments.csv` is a relative parent path (`../`)",
-      "which is unsafe."
-    ),
-    fixed = TRUE
+    class = "frictionless_error_path_unsafe_relative"
   )
 
   # Add valid path
@@ -205,16 +194,14 @@ test_that("read_resource() returns error on incorrect resource", {
   p_invalid$resources[[1]]$schema <- "http://example.com/no_schema.json"
   expect_error(
     read_resource(p_invalid, "deployments"),
-    "Can't find file at `http://example.com/no_schema.json`.",
-    fixed = TRUE
+    class = "frictionless_error_url_not_found"
   )
 
   # No file at schema
   p_invalid$resources[[1]]$schema <- "no_schema.json"
   expect_error(
     read_resource(p_invalid, "deployments"),
-    "Can't find file at `.*no_schema.json`",
-    # no fixed = TRUE, since full returned path depends on system
+    class = "frictionless_error_path_not_found"
   )
 
   # No fields
@@ -307,22 +294,14 @@ test_that("read_resource() can read safe local and remote Table Schema,
     "/tests/testthat/data/deployments_schema.json"
   expect_error(
     read_resource(p_unsafe, "deployments"),
-    paste(
-      "`/tests/testthat/data/deployments_schema.json` is an absolute path",
-      "(`/`) which is unsafe."
-    ),
-    fixed = TRUE
+    class = "frictionless_error_path_unsafe_absolute"
   )
 
   # Schema is relative parent path
   p_unsafe$resources[[1]]$schema <- "../testthat/data/deployments_schema.json"
   expect_error(
     read_resource(p_unsafe, "deployments"),
-    paste(
-      "`../testthat/data/deployments_schema.json` is a relative parent path",
-      "(`../`) which is unsafe."
-    ),
-    fixed = TRUE
+    class = "frictionless_error_path_unsafe_relative"
   )
 
   # Schema is local path
@@ -361,22 +340,14 @@ test_that("read_resource() can read safe local and remote CSV dialect", {
   p_unsafe$resources[[1]]$dialect <- "/tests/testthat/data/dialect.json"
   expect_error(
     read_resource(p_unsafe, "deployments"),
-    paste(
-      "`/tests/testthat/data/dialect.json` is an absolute path",
-      "(`/`) which is unsafe."
-    ),
-    fixed = TRUE
+    class = "frictionless_error_path_unsafe_absolute"
   )
 
   # Dialect is relative parent path
   p_unsafe$resources[[1]]$dialect <- "../testthat/data/dialect.json"
   expect_error(
     read_resource(p_unsafe, "deployments"),
-    paste(
-      "`../testthat/data/dialect.json` is a relative parent path",
-      "(`../`) which is unsafe."
-    ),
-    fixed = TRUE
+    class = "frictionless_error_path_unsafe_relative"
   )
 
   # Dialect is local path
