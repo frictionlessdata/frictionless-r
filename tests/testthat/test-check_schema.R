@@ -14,7 +14,7 @@ test_that("check_schema() returns TRUE on valid Table Schema", {
   expect_true(check_schema(schema_create, df))
 })
 
-test_that("check_schema() returns error when Table Schema is empty or not a list", {
+test_that("check_schema() returns error on invalid or empty Table Schema", {
   # Must be a list and have list property "fields"
   expect_error(
     check_schema("not_a_list"),
@@ -69,29 +69,37 @@ test_that("check_schema() returns error when Table Schema fields don't have name
 })
 
 test_that("check_schema() returns error when Table Schema fields have invalid types", {
-  # Invalid types
+  # One invalid types
   invalid_schema <- list(fields = list(
     list(name = "col_1", type = "number"),
     list(name = "col_2", type = "not_a_type")
   ))
   expect_error(
     check_schema(invalid_schema),
-    paste(
-      "All fields in `schema` must have valid `type`.",
-      "Type `not_a_type` is invalid."
-    ),
+    class = "frictionless_error_fields_type_invalid"
+  )
+  expect_error(
+    check_schema(invalid_schema),
+    regexp = "All fields in `schema` must have a valid type.",
     fixed = TRUE
   )
+  expect_error(
+    check_schema(invalid_schema),
+    regexp = "Type \"not_a_type\" is invalid.",
+    fixed = TRUE
+  )
+  # All invalid types
   invalid_schema <- list(fields = list(
     list(name = "col_1", type = "not_a_type"),
     list(name = "col_2", type = "not_a_type_either")
   ))
   expect_error(
     check_schema(invalid_schema),
-    paste(
-      "All fields in `schema` must have valid `type`.",
-      "Type `not_a_type`, `not_a_type_either` is invalid."
-    ),
+    class = "frictionless_error_fields_type_invalid"
+  )
+  expect_error(
+    check_schema(invalid_schema),
+    regexp = "Types \"not_a_type\" and \"not_a_type_either\" are invalid.",
     fixed = TRUE
   )
 })

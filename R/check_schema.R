@@ -44,18 +44,15 @@ check_schema <- function(schema, data = NULL) {
     NA_character_
   )
   invalid_types <- setdiff(field_types, valid_types)
-  assertthat::assert_that(
-    all(is.na(field_types)) | length(invalid_types) == 0,
-    msg = glue::glue(
-      "All fields in `schema` must have valid `type`.",
-      "Type {invalid_types_collapse} is invalid.",
-      .sep = " ",
-      invalid_types_collapse = glue::glue_collapse(
-        glue::backtick(invalid_types),
-        sep = ", "
-      )
+  if (length(invalid_types) > 0) {
+    cli::cli_abort(
+      c(
+        "All fields in {.arg schema} must have a valid {.field type}.",
+        "x" = "Type{?s} {.val {invalid_types}} {?is/are} invalid."
+      ),
+      class = "frictionless_error_fields_type_invalid"
     )
-  )
+  }
 
   # Check data when present
   if (!is.null(data)) {
