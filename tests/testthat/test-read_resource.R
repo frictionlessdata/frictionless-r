@@ -290,14 +290,14 @@ test_that("read_resource() can read safe local and remote Table Schema,
     "/tests/testthat/data/deployments_schema.json"
   expect_error(
     read_resource(p_unsafe, "deployments"),
-    class = "frictionless_error_unsafe_absolute_path"
+    class = "frictionless_error_path_unsafe_absolute"
   )
 
   # Schema is relative parent path
   p_unsafe$resources[[1]]$schema <- "../testthat/data/deployments_schema.json"
   expect_error(
     read_resource(p_unsafe, "deployments"),
-    class = "frictionless_error_unsafe_relative_path"
+    class = "frictionless_error_path_unsafe_relative"
   )
 
   # Schema is local path
@@ -336,14 +336,14 @@ test_that("read_resource() can read safe local and remote CSV dialect", {
   p_unsafe$resources[[1]]$dialect <- "/tests/testthat/data/dialect.json"
   expect_error(
     read_resource(p_unsafe, "deployments"),
-    class = "frictionless_error_unsafe_absolute_path"
+    class = "frictionless_error_path_unsafe_absolute"
   )
 
   # Dialect is relative parent path
   p_unsafe$resources[[1]]$dialect <- "../testthat/data/dialect.json"
   expect_error(
     read_resource(p_unsafe, "deployments"),
-    class = "frictionless_error_unsafe_relative_path"
+    class = "frictionless_error_path_unsafe_relative"
   )
 
   # Dialect is local path
