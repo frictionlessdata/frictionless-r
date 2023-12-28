@@ -24,18 +24,17 @@ check_schema <- function(schema, data = NULL) {
 
   # Check fields have names
   field_names <- purrr::map_chr(fields, ~ replace_null(.x$name, NA_character_))
-  assertthat::assert_that(
-    all(!is.na(field_names)),
-    msg = glue::glue(
-      "All fields in `schema` must have property `name`.",
-      "\u2139 Field(s) {field_numbers_collapse} don't have a name.",
-      .sep = "\n",
-      field_numbers_collapse = glue::glue_collapse(
-        glue::backtick(which(is.na(field_names))),
-        sep = ", "
-      )
+  fields_without_name <- as.character(which(is.na(field_names)))
+  if (any(is.na(field_names))) {
+    cli::cli_abort(
+      c(
+        "All fields in {.arg schema} must have a {.field name} property.",
+        "x" = "Field{?s} {fields_without_name} {?doesn't/don't} have a
+               {.field name}."
+      ),
+      class = "frictionless_error_fields_without_name"
     )
-  )
+  }
 
   # Check fields have valid types (a mix of valid types and undefined is ok)
   field_types <- purrr::map_chr(fields, ~ replace_null(.x$type, NA_character_))

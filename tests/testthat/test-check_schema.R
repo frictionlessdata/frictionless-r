@@ -14,7 +14,7 @@ test_that("check_schema() returns TRUE on valid Table Schema", {
   expect_true(check_schema(schema_create, df))
 })
 
-test_that("check_schema() returns error on invalid Table Schema", {
+test_that("check_schema() returns error when Table Schema is empty or not a list", {
   # Must be a list and have list property "fields"
   expect_error(
     check_schema("not_a_list"),
@@ -25,26 +25,50 @@ test_that("check_schema() returns error on invalid Table Schema", {
     class = "frictionless_error_schema_incorrect"
   )
   expect_error(
-    frictionless:::check_schema("not_a_list"),
+    check_schema("not_a_list"),
     regexp = "`schema` must be a list with a fields property.",
     fixed = TRUE
   )
+})
 
-  # No names
+test_that("check_schema() returns error when Table Schema fields don't have names", {
+  # One missing name
+  invalid_schema <- list(fields = list(
+    list(name = "col_1", type = "number"),
+    list(type = "string")
+  ))
+  expect_error(
+    check_schema(invalid_schema),
+    class = "frictionless_error_fields_without_name"
+  )
+  expect_error(
+    check_schema(invalid_schema),
+    regexp = "All fields in `schema` must have a name property.",
+    fixed = TRUE
+  )
+  expect_error(
+    check_schema(invalid_schema),
+    regexp = "Field 2 doesn't have a name.",
+    fixed = TRUE
+  )
+
+  # All missing names
   invalid_schema <- list(fields = list(
     list(type = "number"),
     list(type = "string")
   ))
   expect_error(
     check_schema(invalid_schema),
-    paste(
-      "All fields in `schema` must have property `name`.",
-      "ℹ Field(s) `1`, `2` don't have a name.",
-      sep = "\n"
-    ),
+    class = "frictionless_error_fields_without_name"
+  )
+  expect_error(
+    check_schema(invalid_schema),
+    regexp = "Fields 1 and 2 don't have a name.",
     fixed = TRUE
   )
+})
 
+test_that("check_schema() returns error when Table Schema fields have invalid types", {
   # Invalid types
   invalid_schema <- list(fields = list(
     list(name = "col_1", type = "number"),
