@@ -95,14 +95,14 @@ test_that("read_resource() returns error on column selection not in schema", {
   )
 })
 
-test_that("read_resource() returns error on incorrect Data Package", {
+test_that("read_resource() returns error on invalid Data Package", {
   expect_error(
     read_resource(list(), "deployments"),
-    class = "frictionless_error_package_incorrect"
+    class = "frictionless_error_package_invalid"
   )
 })
 
-test_that("read_resource() returns error on incorrect resource", {
+test_that("read_resource() returns error on invalid resource", {
   skip_if_offline()
   p <- example_package
 
@@ -204,7 +204,7 @@ test_that("read_resource() returns error on incorrect resource", {
   p_invalid$resources[[1]]$schema <- list()
   expect_error(
     read_resource(p_invalid, "deployments"),
-    class = "frictionless_error_schema_incorrect"
+    class = "frictionless_error_schema_invalid"
   )
 
   # No field name

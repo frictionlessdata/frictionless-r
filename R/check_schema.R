@@ -17,7 +17,7 @@ check_schema <- function(schema, data = NULL) {
   ) {
     cli::cli_abort(
       "{.arg schema} must be a list with a {.field fields} property.",
-      class = "frictionless_error_schema_incorrect"
+      class = "frictionless_error_schema_invalid"
     )
   }
   fields <- schema$fields

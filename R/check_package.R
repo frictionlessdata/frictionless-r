@@ -18,7 +18,7 @@ check_package <- function(package) {
     cli::cli_abort(
       "{.arg package} must be a list describing a Data Package created with
        {.fun read_package} or {.fun create_package}.",
-      class = "frictionless_error_package_incorrect"
+      class = "frictionless_error_package_invalid"
     )
   }
 

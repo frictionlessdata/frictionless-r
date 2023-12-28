@@ -18,11 +18,11 @@ test_that("check_schema() returns error when Table Schema is empty or not a list
   # Must be a list and have list property "fields"
   expect_error(
     check_schema("not_a_list"),
-    class = "frictionless_error_schema_incorrect"
+    class = "frictionless_error_schema_invalid"
   )
   expect_error(
     check_schema(list()),
-    class = "frictionless_error_schema_incorrect"
+    class = "frictionless_error_schema_invalid"
   )
   expect_error(
     check_schema("not_a_list"),
@@ -109,16 +109,16 @@ test_that("check_schema() allows Table Schema fields to not (all) have type", {
   expect_true(check_schema(schema))
 })
 
-test_that("check_schema() returns error on incorrect or empty data frame", {
+test_that("check_schema() returns error on invalid or empty data frame", {
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   schema <- create_schema(df)
   expect_error(
     check_schema(schema, "not_a_df"),
-    class = "frictionless_error_data_incorrect"
+    class = "frictionless_error_data_invalid"
   )
   expect_error(
     check_schema(schema, data.frame()),
-    class = "frictionless_error_data_incorrect"
+    class = "frictionless_error_data_invalid"
   )
 })
 

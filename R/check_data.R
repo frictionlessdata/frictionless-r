@@ -14,7 +14,7 @@ check_data <- function(data) {
   ) {
     cli::cli_abort(
       "{.arg data} must be a data frame containing data.",
-      class = "frictionless_error_data_incorrect"
+      class = "frictionless_error_data_invalid"
     )
   }
 

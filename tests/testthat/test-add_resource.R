@@ -11,11 +11,11 @@ test_that("add_resource() returns a valid Data Package", {
   ))
 })
 
-test_that("add_resource() returns error on incorrect Data Package", {
+test_that("add_resource() returns error on invalid Data Package", {
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   expect_error(
     add_resource(list(), "new", df),
-    class = "frictionless_error_package_incorrect"
+    class = "frictionless_error_package_invalid"
   )
 })
 

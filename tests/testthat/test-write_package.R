@@ -15,10 +15,10 @@ test_that("write_package() returns output Data Package (invisibly)", {
   expect_identical(p_written, p_from_file)
 })
 
-test_that("write_package() returns error on incorrect Data Package", {
+test_that("write_package() returns error on invalid Data Package", {
   expect_error(
     write_package(list()),
-    class = "frictionless_error_package_incorrect"
+    class = "frictionless_error_package_invalid"
   )
 })
 
