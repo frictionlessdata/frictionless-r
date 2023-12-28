@@ -18,8 +18,7 @@ test_that("resources() returns error if resources have no name", {
   p$resources[[2]]$name <- NULL
   expect_error(
     resources(p),
-    "All resources in `package` must have property `name`",
-    fixed = TRUE
+    class = "frictionless_error_resources_without_name"
   )
 
   # For more tests see test-check_package.R
