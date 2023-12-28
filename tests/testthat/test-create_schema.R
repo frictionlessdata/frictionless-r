@@ -23,17 +23,7 @@ test_that("create_schema() returns a valid Table Schema", {
   expect_true(check_schema(create_schema(df)))
 })
 
-test_that("create_schema() returns error on invalid or empty data frame", {
-  expect_error(
-    create_schema(0),
-    regexp = "`data` must be a data frame containing data.",
-    fixed = TRUE
-  )
-  expect_error(
-    create_schema(0),
-    regexp = "`data` is a number.",
-    fixed = TRUE
-  )
+test_that("create_schema() returns error on incorrect or empty data frame", {
   expect_error(
     create_schema("not_a_df"),
     class = "frictionless_error_data_incorrect"

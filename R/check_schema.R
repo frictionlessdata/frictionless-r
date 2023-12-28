@@ -54,14 +54,7 @@ check_schema <- function(schema, data = NULL) {
 
   # Check data when present
   if (!is.null(data)) {
-    assertthat::assert_that(
-      is.data.frame(data) &
-        replace_null(dim(data)[1], 0) != 0 &
-        replace_null(dim(data)[2], 0) != 0,
-      msg = glue::glue(
-        "`data` must be a data frame containing data."
-      )
-    )
+    check_data(data)
 
     col_names <- colnames(data)
     assertthat::assert_that(

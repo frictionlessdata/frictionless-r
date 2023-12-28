@@ -67,19 +67,7 @@
 #' str(schema)
 create_schema <- function(data) {
   # Check data
-  if (
-    !is.data.frame(data) ||
-    replace_null(dim(data)[1], 0) == 0 ||
-    replace_null(dim(data)[2], 0) == 0
-  ) {
-    cli::cli_abort(
-      c(
-        "{.arg data} must be a data frame containing data.",
-        "x" = "{.arg data} is {.type {data}}."
-      ),
-      class = "frictionless_error_data_incorrect"
-    )
-  }
+  check_data(data)
 
   # Columns with all NA are considered logical by R (and read_delim)
   # Set those to character, since string is a better default for Table Schema
