@@ -171,9 +171,13 @@ test_that("read_resource() returns error on invalid resource", {
   # Not a tabular-data-resource
   expect_error(
     read_resource(p_invalid, "deployments"),
-    paste(
-      "Resource `deployments` must have property `profile` with value",
-      "`tabular-data-resource`."
+    class = "frictionless_error_resource_not_tabular"
+  )
+  expect_error(
+    read_resource(p_invalid, "deployments"),
+    regexp = paste(
+      "Resource \"deployments\" must have a profile property with value",
+      "\"tabular-data-resource\"."
     ),
     fixed = TRUE
   )
@@ -182,7 +186,11 @@ test_that("read_resource() returns error on invalid resource", {
   p_invalid$resources[[1]]$profile <- "tabular-data-resource"
   expect_error(
     read_resource(p_invalid, "deployments"),
-    "Resource `deployments` must have property `schema`.",
+    class = "frictionless_error_resource_without_schema"
+  )
+  expect_error(
+    read_resource(p_invalid, "deployments"),
+    regexp = "Resource \"deployments\" must have a schema property.",
     fixed = TRUE
   )
 
