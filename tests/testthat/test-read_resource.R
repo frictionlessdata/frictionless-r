@@ -109,11 +109,7 @@ test_that("read_resource() returns error on invalid resource", {
   # No such resource
   expect_error(
     read_resource(p, "no_such_resource"),
-    paste(
-      "Can't find resource `no_such_resource` in `deployments`,",
-      "`observations`, `media`."
-    ),
-    fixed = TRUE
+    class = "frictionless_error_resource_not_found"
   )
 
   # Create invalid package and add properties one by one to pass errors

@@ -77,7 +77,11 @@ test_that("add_resource() returns error when resource of that name already
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   expect_error(
     add_resource(p, "deployments", df),
-    "`package` already contains a resource named `deployments`.",
+    class = "frictionless_error_resource_already_exists"
+  )
+  expect_error(
+    add_resource(p, "deployments", df),
+    regexp = "`package` already contains a resource named \"deployments\".",
     fixed = TRUE
   )
 })

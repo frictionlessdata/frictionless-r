@@ -22,16 +22,15 @@ get_resource <- function(package, resource_name) {
 
   # Check resource
   resource_names <- resources(package)
-  assertthat::assert_that(
-    resource_name %in% resource_names,
-    msg = glue::glue(
-      "Can't find resource `{resource_name}` in {resource_names_collapse}.",
-      resource_names_collapse = glue::glue_collapse(
-        glue::backtick(resource_names),
-        sep = ", "
-      )
+  if (!resource_name %in% resources(package)) {
+    cli::cli_abort(
+      c(
+        "Can't find resource {.val {resource_name}} in {.arg package}.",
+        "i" = "Available resource{?s}: {.val {resources(package)}}."
+      ),
+      class = "frictionless_error_resource_not_found"
     )
-  )
+  }
 
   # Get resource
   resource <- purrr::keep(package$resources, ~ .x$name == resource_name)[[1]]

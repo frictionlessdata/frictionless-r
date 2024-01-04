@@ -93,12 +93,12 @@ add_resource <- function(package, resource_name, data, schema = NULL,
   }
 
   # Check resource is absent
-  assertthat::assert_that(
-    !resource_name %in% resources(package),
-    msg = glue::glue(
-      "`package` already contains a resource named `{resource_name}`."
+  if (resource_name %in% resources(package)) {
+    cli::cli_abort(
+      "{.arg package} already contains a resource named {.val {resource_name}}.",
+      class = "frictionless_error_resource_already_exists"
     )
-  )
+  }
 
   # Check data (df or path)
   assertthat::assert_that(
