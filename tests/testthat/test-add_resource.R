@@ -23,20 +23,47 @@ test_that("add_resource() returns error when resource name contains invalid
            characters", {
   p <- example_package
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
+
+  # Invalid names
   expect_error(
     add_resource(p, "New", df),
-    paste(
-      "`New` must only contain lowercase alphanumeric characters plus",
-      "`.`, `-` and `_`."
+    class = "frictionless_error_resource_name_invalid"
+  )
+  expect_error(
+    add_resource(p, "New", df),
+    regexp = paste(
+      "`resource_name` must only consist of lowercase alphanumeric characters,",
+      "\".\", \"-\" and \"_\"."
     ),
     fixed = TRUE
   )
-  expect_error(add_resource(p, "nëw", df), "only contain lowercase")
-  expect_error(add_resource(p, " new", df), "only contain lowercase")
-  expect_error(add_resource(p, "new ", df), "only contain lowercase")
-  expect_error(add_resource(p, "n ew", df), "only contain lowercase")
-  expect_error(add_resource(p, "n/ew", df), "only contain lowercase")
+  expect_error(
+    add_resource(p, "New", df),
+    regexp = "\"New\" does not meet those criteria.",
+    fixed = TRUE
+  )
+  expect_error(
+    add_resource(p, "nëw", df),
+    class = "frictionless_error_resource_name_invalid"
+  )
+  expect_error(
+    add_resource(p, " new", df),
+    class = "frictionless_error_resource_name_invalid"
+  )
+  expect_error(
+    add_resource(p, "new ", df),
+    class = "frictionless_error_resource_name_invalid"
+  )
+  expect_error(
+    add_resource(p, "n ew", df),
+    class = "frictionless_error_resource_name_invalid"
+  )
+  expect_error(
+    add_resource(p, "n/ew", df),
+    class = "frictionless_error_resource_name_invalid"
+  )
 
+  # Valid names
   expect_true(check_package(add_resource(p, "n.ew", df)))
   expect_true(check_package(add_resource(p, "n-ew", df)))
   expect_true(check_package(add_resource(p, "n_ew", df)))

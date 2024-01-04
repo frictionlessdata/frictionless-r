@@ -81,14 +81,16 @@ add_resource <- function(package, resource_name, data, schema = NULL,
   check_package(package)
 
   # Check resource name
-  assertthat::assert_that(
-    grepl(resource_name, pattern = "^[a-z0-9\\._-]+$"),
-    msg = glue::glue(
-      "`resource_name` `{resource_name}` must only contain lowercase",
-      "alphanumeric characters plus `.`, `-` and `_`.",
-      .sep = " "
+  if (!grepl(resource_name, pattern = "^[a-z0-9\\._-]+$")) {
+    cli::cli_abort(
+      c(
+        "{.arg resource_name} must only consist of lowercase alphanumeric
+         characters, {.val .}, {.val -} and {.val _}.",
+        "x" = "{.val {resource_name}} does not meet those criteria."
+      ),
+      class = "frictionless_error_resource_name_invalid"
     )
-  )
+  }
 
   # Check resource is absent
   assertthat::assert_that(
