@@ -80,7 +80,7 @@ test_that("check_schema() returns error when Table Schema fields have invalid ty
   )
   expect_error(
     check_schema(invalid_schema),
-    regexp = "All fields in `schema` must have a valid type.",
+    regexp = "All fields in `schema` must have a valid type property.",
     fixed = TRUE
   )
   expect_error(

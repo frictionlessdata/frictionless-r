@@ -145,11 +145,11 @@ add_resource <- function(package, resource_name, data, schema = NULL,
     "name", "path", "profile", "format", "mediatype", "encoding", "dialect"
   ) # data and schema are also reserved, but are named arguments
   conflicting_properties <- properties[properties %in% reserved_properties]
-  if (length(conflicting_properties) > 0) {
+  if (length(conflicting_properties) != 0) {
     cli::cli_abort(
       c(
         "{.arg {conflicting_properties}} must be removed as argument{?s}.",
-        "i" = "{.val {conflicting_properties}} {?is/are} automatically added
+        "i" = "{.field {conflicting_properties}} {?is/are} automatically added
                as resource propert{?y/ies}."
       ),
       class = "frictionless_error_resource_properties_reserved"

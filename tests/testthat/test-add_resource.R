@@ -203,7 +203,7 @@ test_that("add_resource() returns error if ... arguments are reserved", {
   )
   expect_error(
     add_resource(p, "new", df, name = "custom_name"),
-    regexp = "\"name\" is automatically added as resource property.",
+    regexp = "name is automatically added as resource property.",
     fixed = TRUE
   )
   expect_error(
@@ -213,7 +213,7 @@ test_that("add_resource() returns error if ... arguments are reserved", {
   )
   expect_error(
     add_resource(p, "new", df, name = "custom_name", format = "custom_format"),
-    regexp = "\"name\" and \"format\" are automatically added as resource properties.",
+    regexp = "name and format are automatically added as resource properties.",
     fixed = TRUE
   )
 })
