@@ -37,12 +37,13 @@ get_resource <- function(package, resource_name) {
 
   # Check path(s) to file(s)
   # https://specs.frictionlessdata.io/data-resource/#data-location
-  assertthat::assert_that(
-    !is.null(resource$path) | !is.null(resource$data),
-    msg = glue::glue(
-      "Resource `{resource_name}` must have property `path` or `data`."
+  if (is.null(resource$path) && is.null(resource$data)) {
+    cli::cli_abort(
+      "Resource {.val {resource_name}} must have a {.field path} or
+      {.field data} property.",
+      class = "frictionless_error_resource_without_path_data"
     )
-  )
+  }
 
   # Assign read_from property (based on path, then df, then data)
   if (length(resource$path) != 0) {
