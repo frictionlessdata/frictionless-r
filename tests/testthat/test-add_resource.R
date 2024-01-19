@@ -91,7 +91,11 @@ test_that("add_resource() returns error when data is not data frame or
   p <- example_package
   expect_error(
     add_resource(p, "new", list()),
-    "`data` must be a data frame or path(s) to CSV file(s).",
+    class = "frictionless_error_data_type_invalid"
+  )
+  expect_error(
+    add_resource(p, "new", list()),
+    regexp = "`data` must either be a data frame or path(s) to CSV file(s).",
     fixed = TRUE
   )
 })
@@ -102,13 +106,11 @@ test_that("add_resource() returns error on invalid or empty data frame", {
   schema <- create_schema(df)
   expect_error(
     add_resource(p, "new", data.frame("col_1" = character(0))),
-    "`data` must be a data frame containing data.",
-    fixed = TRUE
+    class = "frictionless_error_data_invalid"
   )
   expect_error(
     add_resource(p, "new", data.frame("col_1" = character(0)), schema),
-    "`data` must be a data frame containing data.",
-    fixed = TRUE
+    class = "frictionless_error_data_invalid"
   )
 
   # For more tests see test-check_schema.R

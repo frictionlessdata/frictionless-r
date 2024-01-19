@@ -100,11 +100,14 @@ add_resource <- function(package, resource_name, data, schema = NULL,
     )
   }
 
-  # Check data (df or path)
-  assertthat::assert_that(
-    is.data.frame(data) | is.character(data),
-    msg = "`data` must be a data frame or path(s) to CSV file(s)."
-  )
+  # Check data (data frame or path), content of data frame is checked later
+  if (!is.data.frame(data) && !is.character(data)) {
+    cli::cli_abort(
+      "{.arg data} must either be a data frame or path(s) to CSV file(s).",
+      class = "frictionless_error_data_type_invalid"
+    )
+  }
+
   if (is.data.frame(data)) {
     df <- data
   } else {
