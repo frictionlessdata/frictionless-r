@@ -134,22 +134,27 @@ add_resource <- function(package, resource_name, data, schema = NULL,
   check_schema(schema, df)
 
   # Check ellipsis
-  assertthat::assert_that(
-    ...length() == length(...names()),
-    msg = "All arguments in `...` must be named."
-  )
+  if (...length() != length(...names())) {
+    cli::cli_abort(
+      "All arguments in {.arg ...} must be named.",
+      class = "frictionless_error_unnamed_argument"
+    )
+  }
   properties <- ...names()
   reserved_properties <- c(
     "name", "path", "profile", "format", "mediatype", "encoding", "dialect"
   ) # data and schema are also reserved, but are named arguments
   conflicting_properties <- properties[properties %in% reserved_properties]
-  assertthat::assert_that(
-    length(conflicting_properties) == 0,
-    msg = glue::glue(
-      "`{conflicting_properties[1]}` must be removed as an argument. ",
-      "It is automatically added as a resource property by the function."
+  if (length(conflicting_properties) > 0) {
+    cli::cli_abort(
+      c(
+        "{.arg {conflicting_properties}} must be removed as argument{?s}.",
+        "i" = "{.val {conflicting_properties}} {?is/are} automatically added
+               as resource propert{?y/ies}."
+      ),
+      class = "frictionless_error_resource_properties_reserved"
     )
-  )
+  }
 
   # Create resource, with properties in specific order
   if (is.data.frame(data)) {

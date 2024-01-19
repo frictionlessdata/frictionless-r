@@ -175,6 +175,10 @@ test_that("add_resource() returns error if ... arguments are unnamed", {
   schema <- create_schema(df)
   expect_error(
     add_resource(p, "new", df, schema, delim = ",", "unnamed_value"),
+    class = "frictionless_error_unnamed_argument"
+  )
+  expect_error(
+    add_resource(p, "new", df, schema, delim = ",", "unnamed_value"),
     "All arguments in `...` must be named.",
     fixed = TRUE
   )
@@ -185,18 +189,31 @@ test_that("add_resource() returns error if ... arguments are reserved", {
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   expect_error(
     add_resource(p, "new", df, name = "custom_name"),
-    paste(
-      "`name` must be removed as an argument.",
-      "It is automatically added as a resource property by the function."
-    ),
+    class = "frictionless_error_resource_properties_reserved"
+  )
+  expect_error(
+    add_resource(p, "new", df, name = "custom_name", format = "custom_format"),
+    class = "frictionless_error_resource_properties_reserved"
+  )
+
+  expect_error(
+    add_resource(p, "new", df, name = "custom_name"),
+    regexp = "`name` must be removed as argument.",
     fixed = TRUE
   )
   expect_error(
-    add_resource(p, "new", df, path = "custom_path", encoding = "utf8"),
-    paste(
-      "`path` must be removed as an argument.", # First conflicting argument
-      "It is automatically added as a resource property by the function."
-    ),
+    add_resource(p, "new", df, name = "custom_name"),
+    regexp = "\"name\" is automatically added as resource property.",
+    fixed = TRUE
+  )
+  expect_error(
+    add_resource(p, "new", df, name = "custom_name", format = "custom_format"),
+    regexp = "`name` and `format` must be removed as arguments.",
+    fixed = TRUE
+  )
+  expect_error(
+    add_resource(p, "new", df, name = "custom_name", format = "custom_format"),
+    regexp = "\"name\" and \"format\" are automatically added as resource properties.",
     fixed = TRUE
   )
 })
