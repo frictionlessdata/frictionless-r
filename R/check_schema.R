@@ -47,7 +47,7 @@ check_schema <- function(schema, data = NULL) {
   if (length(invalid_types) > 0) {
     cli::cli_abort(
       c(
-        "All fields in {.arg schema} must have a valid {.field type}.",
+        "All fields in {.arg schema} must have a valid {.field type} property.",
         "x" = "Type{?s} {.val {invalid_types}} {?is/are} invalid."
       ),
       class = "frictionless_error_fields_type_invalid"
@@ -63,8 +63,8 @@ check_schema <- function(schema, data = NULL) {
       cli::cli_abort(
         c(
           "Field names in {.arg schema} must match column names in {.arg data}.",
-          "i" = "Field name{?s}: {.val {field_names}}",
-          "i" = "Column name{?s}: {.val {col_names}}"
+          "i" = "Field name{?s}: {.val {field_names}}.",
+          "i" = "Column name{?s}: {.val {col_names}}."
         ),
         class = "frictionless_error_fields_colnames_mismatch"
       )

@@ -80,7 +80,7 @@ test_that("check_schema() returns error when Table Schema fields have invalid ty
   )
   expect_error(
     check_schema(invalid_schema),
-    regexp = "All fields in `schema` must have a valid type.",
+    regexp = "All fields in `schema` must have a valid type property.",
     fixed = TRUE
   )
   expect_error(
@@ -149,12 +149,12 @@ test_that("check_schema() returns error on mismatching schema and data frame", {
   )
   expect_error(
     check_schema(invalid_schema, df),
-    regexp = "Field names: \"col_2\" and \"col_1\"",
+    regexp = "Field names: \"col_2\" and \"col_1\".",
     fixed = TRUE
   )
   expect_error(
     check_schema(invalid_schema, df),
-    regexp = "Column names: \"col_1\" and \"col_2\"", # Same for other tests
+    regexp = "Column names: \"col_1\" and \"col_2\".", # Same for other tests
     fixed = TRUE
   )
 
@@ -184,7 +184,7 @@ test_that("check_schema() returns error on mismatching schema and data frame", {
   )
   expect_error(
     check_schema(invalid_schema, df),
-    regexp = "Field names: \"col_1\", \"col_2\", and \"col_3\"",
+    regexp = "Field names: \"col_1\", \"col_2\", and \"col_3\".",
     fixed = TRUE
   )
 })

@@ -72,7 +72,7 @@ create_schema <- function(data) {
   # Columns with all NA are considered logical by R (and read_delim)
   # Set those to character, since string is a better default for Table Schema
   data_as_list <- lapply(data, function(x) {
-    if (is.logical(x) & all(is.na(x))) {
+    if (is.logical(x) && all(is.na(x))) {
       as.character(x)
     } else {
       x
@@ -120,7 +120,7 @@ create_schema <- function(data) {
   # Remove elements that are NULL or empty list
   schema <- clean_list(
     schema,
-    function(x) is.null(x) | length(x) == 0L,
+    function(x) is.null(x) || length(x) == 0L,
     recursive = TRUE
   )
 
