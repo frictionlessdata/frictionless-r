@@ -8,13 +8,13 @@
   "codeRepository": "https://github.com/frictionlessdata/frictionless-r",
   "issueTracker": "https://github.com/frictionlessdata/frictionless-r/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.1.2 (2021-11-01)",
+  "runtimePlatform": "R version 4.2.3 (2023-03-15)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -106,6 +106,18 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=rmarkdown"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "stringi",
+      "name": "stringi",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=stringi"
     },
     {
       "@type": "SoftwareApplication",
@@ -226,11 +238,11 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "183.204KB",
+  "fileSize": "183.522KB",
   "citation": [
     {
       "@type": "SoftwareSourceCode",
-      "datePublished": "2022",
+      "datePublished": "2024",
       "author": [
         {
           "@type": "Person",
@@ -250,7 +262,7 @@
       "name": "Read and Write Frictionless Data Packages",
       "identifier": "10.5281/zenodo.5815355",
       "url": "https://cran.r-project.org/package=frictionless",
-      "description": "R package version 1.0.2",
+      "description": "R package version 1.0.3",
       "@id": "https://doi.org/10.5281/zenodo.5815355",
       "sameAs": "https://doi.org/10.5281/zenodo.5815355"
     }

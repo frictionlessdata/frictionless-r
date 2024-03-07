@@ -13,6 +13,13 @@
 - Add [Pieter Huybrechts](https://orcid.org/0000-0002-6658-6062) as author.
   Welcome Pieter!
 
+# frictionless 1.0.3
+
+- Add [stringi](https://cran.r-project.org/package=stringi) to `Suggests`.
+  It was removed as a dependency from [rmarkdown](
+  https://cran.r-project.org/package=rmarkdown) 2.26, resulting in "stringi 
+  package required for encoding operations" build errors on CRAN (#176).
+
 # frictionless 1.0.2
 
 - Add `skip_if_offline()` to selected tests and verbosely include 
