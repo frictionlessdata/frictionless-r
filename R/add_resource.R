@@ -26,6 +26,14 @@
 #'   Will be set as `delimiter` in the resource [CSV
 #'   dialect](https://specs.frictionlessdata.io/csv-dialect/#specification), so
 #'   read functions know how to read the file(s).
+#' @param ... Additional [metadata
+#'   properties](https://specs.frictionlessdata.io/data-resource/#metadata-properties)
+#'   to add to the resource, e.g. `title = "My title", validated = FALSE`.
+#'   These are not verified against specifications and are ignored by
+#'   [read_resource()].
+#'   The following properties are automatically set and can't be provided with
+#'   `...`: `name`, `data`, `path`, `schema`, `profile`, `format`, `mediatype`,
+#'   `encoding` and `dialect`.
 #' @return Provided `package` with one additional resource.
 #' @family edit functions
 #' @export
@@ -50,8 +58,15 @@
 #' package <- add_resource(package, "positions", data = df)
 #'
 #' # Add resource "positions_2" to the Data Package, with user-defined schema
+#' # and title
 #' my_schema <- create_schema(df)
-#' package <- add_resource(package, "positions_2", data = df, schema = my_schema)
+#' package <- add_resource(
+#'   package,
+#'   "positions_2",
+#'   data = df,
+#'   schema = my_schema,
+#'   title = "Positions"
+#' )
 #'
 #' # Add resource "observations_2" to the Data Package, from CSV file paths
 #' path_1 <- system.file("extdata", "observations_1.csv", package = "frictionless")
@@ -61,33 +76,38 @@
 #' # List resources ("positions", "positions_2", "observations_2" added)
 #' resources(package)
 add_resource <- function(package, resource_name, data, schema = NULL,
-                         delim = ",") {
+                         delim = ",", ...) {
   # Check package
   check_package(package)
 
   # Check resource name
-  assertthat::assert_that(
-    grepl(resource_name, pattern = "^[a-z0-9\\._-]+$"),
-    msg = glue::glue(
-      "`resource_name` `{resource_name}` must only contain lowercase",
-      "alphanumeric characters plus `.`, `-` and `_`.",
-      .sep = " "
+  if (!grepl(resource_name, pattern = "^[a-z0-9\\._-]+$")) {
+    cli::cli_abort(
+      c(
+        "{.arg resource_name} must only consist of lowercase alphanumeric
+         characters, {.val .}, {.val -} and {.val _}.",
+        "x" = "{.val {resource_name}} does not meet those criteria."
+      ),
+      class = "frictionless_error_resource_name_invalid"
     )
-  )
+  }
 
   # Check resource is absent
-  assertthat::assert_that(
-    !resource_name %in% resources(package),
-    msg = glue::glue(
-      "`package` already contains a resource named `{resource_name}`."
+  if (resource_name %in% resources(package)) {
+    cli::cli_abort(
+      "{.arg package} already contains a resource named {.val {resource_name}}.",
+      class = "frictionless_error_resource_already_exists"
     )
-  )
+  }
 
-  # Check data (df or path)
-  assertthat::assert_that(
-    is.data.frame(data) | is.character(data),
-    msg = "`data` must be a data frame or path(s) to CSV file(s)."
-  )
+  # Check data (data frame or path), content of data frame is checked later
+  if (!is.data.frame(data) && !is.character(data)) {
+    cli::cli_abort(
+      "{.arg data} must either be a data frame or path(s) to CSV file(s).",
+      class = "frictionless_error_data_type_invalid"
+    )
+  }
+
   if (is.data.frame(data)) {
     df <- data
   } else {
@@ -113,6 +133,29 @@ add_resource <- function(package, resource_name, data, schema = NULL,
   # Check schema (also checks df)
   check_schema(schema, df)
 
+  # Check ellipsis
+  if (...length() != length(...names())) {
+    cli::cli_abort(
+      "All arguments in {.arg ...} must be named.",
+      class = "frictionless_error_unnamed_argument"
+    )
+  }
+  properties <- ...names()
+  reserved_properties <- c(
+    "name", "path", "profile", "format", "mediatype", "encoding", "dialect"
+  ) # data and schema are also reserved, but are named arguments
+  conflicting_properties <- properties[properties %in% reserved_properties]
+  if (length(conflicting_properties) != 0) {
+    cli::cli_abort(
+      c(
+        "{.arg {conflicting_properties}} must be removed as argument{?s}.",
+        "i" = "{.field {conflicting_properties}} {?is/are} automatically added
+               as resource propert{?y/ies}."
+      ),
+      class = "frictionless_error_resource_properties_reserved"
+    )
+  }
+
   # Create resource, with properties in specific order
   if (is.data.frame(data)) {
     resource <- list(
@@ -120,7 +163,8 @@ add_resource <- function(package, resource_name, data, schema = NULL,
       data = df,
       profile = "tabular-data-resource", # Necessary for read_resource()
       # other properties are set by write_resource()
-      schema = schema
+      schema = schema,
+      ...
     )
   } else {
     resource <- list(
@@ -134,7 +178,8 @@ add_resource <- function(package, resource_name, data, schema = NULL,
         "text/csv"
       ),
       encoding = ifelse(encoding == "ASCII", "UTF-8", encoding), # UTF-8 is safer
-      schema = schema
+      schema = schema,
+      ...
     )
     # Add CSV dialect for non-default delimiter
     if (delim != ",") {

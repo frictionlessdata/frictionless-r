@@ -10,23 +10,31 @@
 #' @noRd
 check_schema <- function(schema, data = NULL) {
   # Check schema is list with property fields
-  assertthat::assert_that(
-    is.list(schema) & "fields" %in% names(schema) & is.list(schema["fields"]),
-    msg = glue::glue("`schema` must be a list with property `fields`.")
-  )
+  if (
+    !is.list(schema) ||
+    !"fields" %in% names(schema) ||
+    !is.list(schema["fields"])
+  ) {
+    cli::cli_abort(
+      "{.arg schema} must be a list with a {.field fields} property.",
+      class = "frictionless_error_schema_invalid"
+    )
+  }
   fields <- schema$fields
 
   # Check fields have names
   field_names <- purrr::map_chr(fields, ~ replace_null(.x$name, NA_character_))
-  field_numbers_collapse <- paste(which(is.na(field_names)), collapse = "`, `")
-  assertthat::assert_that(
-    all(!is.na(field_names)),
-    msg = glue::glue(
-      "All fields in `schema` must have property `name`.",
-      "\u2139 Field(s) `{field_numbers_collapse}` don't have a name.",
-      .sep = "\n"
+  fields_without_name <- as.character(which(is.na(field_names)))
+  if (any(is.na(field_names))) {
+    cli::cli_abort(
+      c(
+        "All fields in {.arg schema} must have a {.field name} property.",
+        "x" = "Field{?s} {fields_without_name} {?doesn't/don't} have a
+               {.field name}."
+      ),
+      class = "frictionless_error_fields_without_name"
     )
-  )
+  }
 
   # Check fields have valid types (a mix of valid types and undefined is ok)
   field_types <- purrr::map_chr(fields, ~ replace_null(.x$type, NA_character_))
@@ -36,40 +44,32 @@ check_schema <- function(schema, data = NULL) {
     NA_character_
   )
   invalid_types <- setdiff(field_types, valid_types)
-  invalid_types_collapse <- paste(invalid_types, collapse = "`, `")
-  assertthat::assert_that(
-    all(is.na(field_types)) | length(invalid_types) == 0,
-    msg = glue::glue(
-      "All fields in `schema` must have valid `type`.",
-      "Type `{invalid_types_collapse}` is invalid.",
-      .sep = " "
+  if (length(invalid_types) > 0) {
+    cli::cli_abort(
+      c(
+        "All fields in {.arg schema} must have a valid {.field type} property.",
+        "x" = "Type{?s} {.val {invalid_types}} {?is/are} invalid."
+      ),
+      class = "frictionless_error_fields_type_invalid"
     )
-  )
+  }
 
   # Check data when present
   if (!is.null(data)) {
-    assertthat::assert_that(
-      is.data.frame(data) &
-        replace_null(dim(data)[1], 0) != 0 &
-        replace_null(dim(data)[2], 0) != 0,
-      msg = glue::glue(
-        "`data` must be a data frame containing data."
-      )
-    )
+    check_data(data)
 
-    field_names_collapse <- paste(field_names, collapse = "`, `")
     col_names <- colnames(data)
-    col_names_collapse <- paste(col_names, collapse = "`, `")
-    assertthat::assert_that(
-      identical(field_names, col_names),
-      msg = glue::glue(
-        "Field names in `schema` must match column names in data:",
-        "\u2139 Field names: `{field_names_collapse}`",
-        "\u2139 Column names: `{col_names_collapse}`",
-        .sep = "\n"
+    if (!identical(field_names, col_names)) {
+      cli::cli_abort(
+        c(
+          "Field names in {.arg schema} must match column names in {.arg data}.",
+          "i" = "Field name{?s}: {.val {field_names}}.",
+          "i" = "Column name{?s}: {.val {col_names}}."
+        ),
+        class = "frictionless_error_fields_colnames_mismatch"
       )
-    )
-  } else {
-    return(TRUE)
+    }
   }
+
+  return(TRUE)
 }

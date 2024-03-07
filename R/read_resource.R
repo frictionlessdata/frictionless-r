@@ -13,7 +13,13 @@
 #' @param package List describing a Data Package, created with [read_package()]
 #'   or [create_package()].
 #' @param resource_name Name of the Data Resource.
-#' @return [dplyr::tibble()] data frame with the Data Resource's tabular data.
+#' @param col_select Character vector of the columns to include in the result,
+#'   in the order provided.
+#'   Selecting columns can improve read speed.
+#' @return A [tibble()] data frame with the Data Resource's tabular data.
+#'   If there are parsing problems, a warning will alert you.
+#'   You can retrieve the full details by calling [problems()] on your data
+#'   frame.
 #' @family read functions
 #' @export
 #' @section Resource properties:
@@ -190,7 +196,10 @@
 #' # The column names and types are derived from the resource schema
 #' purrr::map_chr(package$resources[[2]]$schema$fields, "name")
 #' purrr::map_chr(package$resources[[2]]$schema$fields, "type")
-read_resource <- function(package, resource_name) {
+#'
+#' # Read data from the resource "deployments" with column selection
+#' read_resource(package, "deployments", col_select = c("latitude", "longitude"))
+read_resource <- function(package, resource_name, col_select = NULL) {
   # Get resource, includes check_package()
   resource <- get_resource(package, resource_name)
 
@@ -198,6 +207,25 @@ read_resource <- function(package, resource_name) {
   paths <- resource$path
   schema <- get_schema(package, resource_name)
   fields <- schema$fields
+  field_names <- purrr::map_chr(fields, ~ purrr::pluck(.x, "name"))
+
+  # Check all selected columns appear in schema
+  assertthat::assert_that(
+    all(col_select %in% field_names),
+    msg = glue::glue(
+      "Can't find column(s) {missing_col_select_collapse} in field names.",
+      "\u2139 Field names: {field_names_collapse}",
+      missing_col_select_collapse = glue::glue_collapse(
+        glue::backtick(col_select[!col_select %in% field_names]),
+        sep = ", "
+      ),
+      field_names_collapse = glue::glue_collapse(
+        glue::backtick(field_names),
+        sep = ", "
+      ),
+      .sep = "\n"
+    )
+  )
 
   # Create locale with encoding, decimal_mark and grouping_mark
   encoding <- replace_null(resource$encoding, "UTF-8") # Set default to UTF-8
@@ -211,7 +239,7 @@ read_resource <- function(package, resource_name) {
     fields, ~ replace_null(.x$decimalChar, NA_character_)
   )
   d_chars <- unique_sorted(d_chars)
-  if (length(d_chars) == 0 | (length(d_chars) == 1 & d_chars[1] == ".")) {
+  if (length(d_chars) == 0 || (length(d_chars) == 1 && d_chars[1] == ".")) {
     decimal_mark <- "." # Set default to "." if undefined or all set to "."
   } else {
     decimal_mark <- d_chars[1]
@@ -223,7 +251,7 @@ read_resource <- function(package, resource_name) {
   }
   g_chars <- purrr::map_chr(fields, ~ replace_null(.x$groupChar, NA_character_))
   g_chars <- unique_sorted(g_chars)
-  if (length(g_chars) == 0 | (length(g_chars) == 1 & g_chars[1] == "")) {
+  if (length(g_chars) == 0 || (length(g_chars) == 1 && g_chars[1] == "")) {
     grouping_mark <- "" # Set default to "" if undefined or all set to ""
   } else {
     grouping_mark <- g_chars[1]
@@ -330,7 +358,7 @@ read_resource <- function(package, resource_name) {
     df <- dplyr::as_tibble(do.call(rbind.data.frame, resource$data))
 
   # Read data from path(s)
-  } else if (resource$read_from == "path" | resource$read_from == "url") {
+  } else if (resource$read_from == "path" || resource$read_from == "url") {
     dataframes <- list()
     for (i in seq_along(paths)) {
       data <- readr::read_delim(
@@ -341,13 +369,16 @@ read_resource <- function(package, resource_name) {
           replace_null(dialect$escapeChar, "not set") == "\\", TRUE, FALSE
         ),
         escape_double = ifelse(
-          # if escapeChar is set, set doubleQuote to FALSE (mutually exclusive)
+          # If escapeChar is set, set doubleQuote to FALSE (mutually exclusive)
           replace_null(dialect$escapeChar, "not set") == "\\",
           FALSE,
           replace_null(dialect$doubleQuote, TRUE)
         ),
         col_names = col_names,
         col_types = col_types,
+        # Use rlang {{}} to avoid `col_select` to be interpreted as the name of
+        # a column, see https://rlang.r-lib.org/reference/topic-data-mask.html
+        col_select = {{col_select}},
         locale = locale,
         na = replace_null(schema$missingValues, ""),
         comment = replace_null(dialect$commentChar, ""),

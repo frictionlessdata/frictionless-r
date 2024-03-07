@@ -1,5 +1,5 @@
 test_that("read_resource() returns a tibble", {
-  testthat::skip_if_offline()
+  skip_if_offline()
   p <- example_package
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   p <- add_resource(p, "new", df)
@@ -9,29 +9,107 @@ test_that("read_resource() returns a tibble", {
   expect_s3_class(read_resource(p, "new"), "tbl")         # via df
 })
 
-test_that("read_resource() returns error on incorrect Data Package", {
+test_that("read_resource() allows column selection", {
+  skip_if_offline()
+  p <- example_package
+
+  # Single column
+  expect_named(
+    read_resource(p, "deployments", col_select = "start"),
+    "start"
+  )
+  expect_identical(
+    read_resource(p, "deployments", col_select = "start"),
+    dplyr::select(
+      read_resource(p, "deployments"),
+      "start"
+    ),
+    ignore_attr = "spec" # read_delim() returns vroom::spec(), select() does not
+  )
+
+  # Multiple columns
+  expect_named(
+    read_resource(p, "deployments", col_select = c("deployment_id", "start")),
+    c("deployment_id", "start")
+  )
+  expect_identical(
+    read_resource(p, "deployments", col_select = c("deployment_id", "start")),
+    dplyr::select(
+      read_resource(p, "deployments"),
+      "deployment_id",
+      "start"
+    ),
+    ignore_attr = "spec"
+  )
+
+  # Different order
+  expect_named(
+    read_resource(
+      p,
+      "deployments",
+      col_select = c("start", "deployment_id", "comments")
+    ),
+    c("start", "deployment_id", "comments"),
+    ignore.order = FALSE
+  )
+  expect_identical(
+    read_resource(
+      p,
+      "deployments",
+      col_select = c("start", "deployment_id", "comments")
+    ),
+    dplyr::select(
+      read_resource(p, "deployments"),
+      "start",
+      "deployment_id",
+      "comments"
+    ),
+    ignore_attr = "spec"
+  )
+})
+
+test_that("read_resource() returns error on column selection not in schema", {
+  skip_if_offline()
+  p <- example_package
   expect_error(
-    read_resource(list(), "deployments"),
+    read_resource(p, "deployments", col_select = "no_such_column"),
     paste(
-      "`package` must be a list describing a Data Package,",
-      "created with `read_package()` or `create_package()`."
+      "Can't find column(s) `no_such_column` in field names.",
+      "ℹ Field names: `deployment_id`, `longitude`, `latitude`, `start`, `comments`",
+      sep = "\n"
+    ),
+    fixed = TRUE
+  )
+  expect_error(
+    read_resource(
+      p,
+      "deployments",
+      col_select = c("no_such_column", "start", "no_such_column_either")
+    ),
+    paste(
+      "Can't find column(s) `no_such_column`, `no_such_column_either` in field names.",
+      "ℹ Field names: `deployment_id`, `longitude`, `latitude`, `start`, `comments`",
+      sep = "\n"
     ),
     fixed = TRUE
   )
 })
 
-test_that("read_resource() returns error on incorrect resource", {
-  testthat::skip_if_offline()
+test_that("read_resource() returns error on invalid Data Package", {
+  expect_error(
+    read_resource(list(), "deployments"),
+    class = "frictionless_error_package_invalid"
+  )
+})
+
+test_that("read_resource() returns error on invalid resource", {
+  skip_if_offline()
   p <- example_package
 
   # No such resource
   expect_error(
     read_resource(p, "no_such_resource"),
-    paste(
-      "Can't find resource `no_such_resource` in `deployments`,",
-      "`observations`, `media`."
-    ),
-    fixed = TRUE
+    class = "frictionless_error_resource_not_found"
   )
 
   # Create invalid package and add properties one by one to pass errors
@@ -41,7 +119,11 @@ test_that("read_resource() returns error on incorrect resource", {
   # No path or data
   expect_error(
     read_resource(p_invalid, "deployments"),
-    "Resource `deployments` must have property `path` or `data`.",
+    class = "frictionless_error_resource_without_path_data"
+  )
+  expect_error(
+    read_resource(p_invalid, "deployments"),
+    regexp = "Resource \"deployments\" must have a path or data property.",
     fixed = TRUE
   )
 
@@ -49,46 +131,35 @@ test_that("read_resource() returns error on incorrect resource", {
   p_invalid$resources[[1]]$path <- "http://example.com/no_such_file.csv"
   expect_error(
     read_resource(p_invalid, "deployments"),
-    "Can't find file at `http://example.com/no_such_file.csv`.",
-    fixed = TRUE
+    class = "frictionless_error_url_not_found"
   )
 
   # No file at path
   p_invalid$resources[[1]]$path <- "no_such_file.csv"
   expect_error(
     read_resource(p_invalid, "deployments"),
-    "Can't find file at `./no_such_file.csv`.",
-    fixed = TRUE
+    class = "frictionless_error_path_not_found"
   )
 
   # No file at paths
   p_invalid$resources[[1]]$path <- c("deployments.csv", "no_such_file.csv")
   expect_error(
     read_resource(p_invalid, "deployments"),
-    "Can't find file at `./deployments.csv`.",
-    fixed = TRUE
+    class = "frictionless_error_path_not_found"
   )
 
   # Path is absolute path
   p_invalid$resources[[1]]$path <- "/inst/extdata/deployments.csv"
   expect_error(
     read_resource(p_invalid, "deployments"),
-    paste(
-      "`/inst/extdata/deployments.csv` is an absolute path (`/`)",
-      "which is unsafe."
-    ),
-    fixed = TRUE
+    class = "frictionless_error_path_unsafe_absolute"
   )
 
   # Path is relative parent path
   p_invalid$resources[[1]]$path <- "../../inst/extdata/deployments.csv"
   expect_error(
     read_resource(p_invalid, "deployments"),
-    paste(
-      "`../../inst/extdata/deployments.csv` is a relative parent path (`../`)",
-      "which is unsafe."
-    ),
-    fixed = TRUE
+    class = "frictionless_error_path_unsafe_relative"
   )
 
   # Add valid path
@@ -100,9 +171,13 @@ test_that("read_resource() returns error on incorrect resource", {
   # Not a tabular-data-resource
   expect_error(
     read_resource(p_invalid, "deployments"),
-    paste(
-      "Resource `deployments` must have property `profile` with value",
-      "`tabular-data-resource`."
+    class = "frictionless_error_resource_not_tabular"
+  )
+  expect_error(
+    read_resource(p_invalid, "deployments"),
+    regexp = paste(
+      "Resource \"deployments\" must have a profile property with value",
+      "\"tabular-data-resource\"."
     ),
     fixed = TRUE
   )
@@ -111,7 +186,11 @@ test_that("read_resource() returns error on incorrect resource", {
   p_invalid$resources[[1]]$profile <- "tabular-data-resource"
   expect_error(
     read_resource(p_invalid, "deployments"),
-    "Resource `deployments` must have property `schema`.",
+    class = "frictionless_error_resource_without_schema"
+  )
+  expect_error(
+    read_resource(p_invalid, "deployments"),
+    regexp = "Resource \"deployments\" must have a schema property.",
     fixed = TRUE
   )
 
@@ -119,24 +198,21 @@ test_that("read_resource() returns error on incorrect resource", {
   p_invalid$resources[[1]]$schema <- "http://example.com/no_schema.json"
   expect_error(
     read_resource(p_invalid, "deployments"),
-    "Can't find file at `http://example.com/no_schema.json`.",
-    fixed = TRUE
+    class = "frictionless_error_url_not_found"
   )
 
   # No file at schema
   p_invalid$resources[[1]]$schema <- "no_schema.json"
   expect_error(
     read_resource(p_invalid, "deployments"),
-    "Can't find file at `.*no_schema.json`",
-    # no fixed = TRUE, since full returned path depends on system
+    class = "frictionless_error_path_not_found"
   )
 
   # No fields
   p_invalid$resources[[1]]$schema <- list()
   expect_error(
     read_resource(p_invalid, "deployments"),
-    "`schema` must be a list with property `fields`.",
-    fixed = TRUE
+    class = "frictionless_error_schema_invalid"
   )
 
   # No field name
@@ -147,12 +223,7 @@ test_that("read_resource() returns error on incorrect resource", {
   )
   expect_error(
     read_resource(p_invalid, "deployments"),
-    paste(
-      "All fields in `schema` must have property `name`.",
-      "ℹ Field(s) `2` don't have a name.",
-      sep = "\n"
-    ),
-    fixed = TRUE
+    class = "frictionless_error_fields_without_name"
   )
 })
 
@@ -180,7 +251,7 @@ test_that("read_resource() can read inline data (ignoring schema)", {
 })
 
 test_that("read_resource() can read local files", {
-  testthat::skip_if_offline()
+  skip_if_offline()
   p <- example_package
   resource <- read_resource(p, "deployments") # local resource, remote package
 
@@ -191,7 +262,7 @@ test_that("read_resource() can read local files", {
 })
 
 test_that("read_resource() can read remote files", {
-  testthat::skip_if_offline()
+  skip_if_offline()
   p <- example_package
   resource <- read_resource(p, "deployments") # local resource, remote package
 
@@ -205,7 +276,7 @@ test_that("read_resource() can read remote files", {
 
 test_that("read_resource() can read safe local and remote Table Schema,
            including YAML", {
-  testthat::skip_if_offline()
+  skip_if_offline()
   p <- example_package
   resource <- read_resource(p, "deployments")
   p$directory <- "."
@@ -221,22 +292,14 @@ test_that("read_resource() can read safe local and remote Table Schema,
     "/tests/testthat/data/deployments_schema.json"
   expect_error(
     read_resource(p_unsafe, "deployments"),
-    paste(
-      "`/tests/testthat/data/deployments_schema.json` is an absolute path",
-      "(`/`) which is unsafe."
-    ),
-    fixed = TRUE
+    class = "frictionless_error_path_unsafe_absolute"
   )
 
   # Schema is relative parent path
   p_unsafe$resources[[1]]$schema <- "../testthat/data/deployments_schema.json"
   expect_error(
     read_resource(p_unsafe, "deployments"),
-    paste(
-      "`../testthat/data/deployments_schema.json` is a relative parent path",
-      "(`../`) which is unsafe."
-    ),
-    fixed = TRUE
+    class = "frictionless_error_path_unsafe_relative"
   )
 
   # Schema is local path
@@ -260,7 +323,7 @@ test_that("read_resource() can read safe local and remote Table Schema,
 })
 
 test_that("read_resource() can read safe local and remote CSV dialect", {
-  testthat::skip_if_offline()
+  skip_if_offline()
   p <- example_package
   resource <- read_resource(p, "deployments")
   p$directory <- "."
@@ -275,22 +338,14 @@ test_that("read_resource() can read safe local and remote CSV dialect", {
   p_unsafe$resources[[1]]$dialect <- "/tests/testthat/data/dialect.json"
   expect_error(
     read_resource(p_unsafe, "deployments"),
-    paste(
-      "`/tests/testthat/data/dialect.json` is an absolute path",
-      "(`/`) which is unsafe."
-    ),
-    fixed = TRUE
+    class = "frictionless_error_path_unsafe_absolute"
   )
 
   # Dialect is relative parent path
   p_unsafe$resources[[1]]$dialect <- "../testthat/data/dialect.json"
   expect_error(
     read_resource(p_unsafe, "deployments"),
-    paste(
-      "`../testthat/data/dialect.json` is a relative parent path",
-      "(`../`) which is unsafe."
-    ),
-    fixed = TRUE
+    class = "frictionless_error_path_unsafe_relative"
   )
 
   # Dialect is local path
@@ -313,7 +368,7 @@ test_that("read_resource() can read safe local and remote CSV dialect", {
 })
 
 test_that("read_resource() understands CSV dialect", {
-  testthat::skip_if_offline()
+  skip_if_offline()
   p <- example_package
   resource <- read_resource(p, "deployments")
 
@@ -343,7 +398,7 @@ test_that("read_resource() understands CSV dialect", {
 })
 
 test_that("read_resource() understands missing values", {
-  testthat::skip_if_offline()
+  skip_if_offline()
   p <- example_package
   resource <- read_resource(p, "deployments")
 
@@ -358,7 +413,7 @@ test_that("read_resource() understands missing values", {
 })
 
 test_that("read_resource() understands encoding", {
-  testthat::skip_if_offline()
+  skip_if_offline()
   p <- example_package
   resource <- read_resource(p, "deployments")
 
@@ -447,7 +502,7 @@ test_that("read_resource() handles LF and CRLF line terminator characters", {
   #
   # read_delim() however only handles 2 line terminator characters (LF and CRLF)
   # without explicitly indicating them, so dialect$lineTerminator is ignored
-  testthat::skip_if_offline()
+  skip_if_offline()
   p <- example_package
   resource <- read_resource(p, "deployments") # This file has LF
 
@@ -459,7 +514,7 @@ test_that("read_resource() handles LF and CRLF line terminator characters", {
 })
 
 test_that("read_resource() can read compressed files", {
-  testthat::skip_if_offline()
+  skip_if_offline()
   p <- example_package
   resource <- read_resource(p, "deployments")
 

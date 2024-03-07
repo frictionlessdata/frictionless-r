@@ -1,5 +1,5 @@
 test_that("check_schema() returns TRUE on valid Table Schema", {
-  testthat::skip_if_offline()
+  skip_if_offline()
   p <- example_package
   # Can't obtain df using read_resource(), because that function uses
   # check_schema() (in get_schema()) internally, which is what we want to test
@@ -14,57 +14,92 @@ test_that("check_schema() returns TRUE on valid Table Schema", {
   expect_true(check_schema(schema_create, df))
 })
 
-test_that("check_schema() returns error on invalid Table Schema", {
+test_that("check_schema() returns error on invalid or empty Table Schema", {
   # Must be a list and have list property "fields"
   expect_error(
     check_schema("not_a_list"),
-    "`schema` must be a list with property `fields`.",
-    fixed = TRUE
+    class = "frictionless_error_schema_invalid"
   )
   expect_error(
     check_schema(list()),
-    "`schema` must be a list with property `fields`.",
+    class = "frictionless_error_schema_invalid"
+  )
+  expect_error(
+    check_schema("not_a_list"),
+    regexp = "`schema` must be a list with a fields property.",
+    fixed = TRUE
+  )
+})
+
+test_that("check_schema() returns error when Table Schema fields don't have names", {
+  # One missing name
+  invalid_schema <- list(fields = list(
+    list(name = "col_1", type = "number"),
+    list(type = "string")
+  ))
+  expect_error(
+    check_schema(invalid_schema),
+    class = "frictionless_error_fields_without_name"
+  )
+  expect_error(
+    check_schema(invalid_schema),
+    regexp = "All fields in `schema` must have a name property.",
+    fixed = TRUE
+  )
+  expect_error(
+    check_schema(invalid_schema),
+    regexp = "Field 2 doesn't have a name.",
     fixed = TRUE
   )
 
-  # No names
+  # All missing names
   invalid_schema <- list(fields = list(
     list(type = "number"),
     list(type = "string")
   ))
   expect_error(
     check_schema(invalid_schema),
-    paste(
-      "All fields in `schema` must have property `name`.",
-      "ℹ Field(s) `1`, `2` don't have a name.",
-      sep = "\n"
-    ),
+    class = "frictionless_error_fields_without_name"
+  )
+  expect_error(
+    check_schema(invalid_schema),
+    regexp = "Fields 1 and 2 don't have a name.",
     fixed = TRUE
   )
+})
 
-  # Invalid types
+test_that("check_schema() returns error when Table Schema fields have invalid types", {
+  # One invalid types
   invalid_schema <- list(fields = list(
     list(name = "col_1", type = "number"),
     list(name = "col_2", type = "not_a_type")
   ))
   expect_error(
     check_schema(invalid_schema),
-    paste(
-      "All fields in `schema` must have valid `type`.",
-      "Type `not_a_type` is invalid."
-    ),
+    class = "frictionless_error_fields_type_invalid"
+  )
+  expect_error(
+    check_schema(invalid_schema),
+    regexp = "All fields in `schema` must have a valid type property.",
     fixed = TRUE
   )
+  expect_error(
+    check_schema(invalid_schema),
+    regexp = "Type \"not_a_type\" is invalid.",
+    fixed = TRUE
+  )
+  # All invalid types
   invalid_schema <- list(fields = list(
     list(name = "col_1", type = "not_a_type"),
     list(name = "col_2", type = "not_a_type_either")
   ))
   expect_error(
     check_schema(invalid_schema),
-    paste(
-      "All fields in `schema` must have valid `type`.",
-      "Type `not_a_type`, `not_a_type_either` is invalid."
-    ),
+    class = "frictionless_error_fields_type_invalid"
+  )
+  expect_error(
+    check_schema(invalid_schema),
+    regexp = "Types \"not_a_type\" and \"not_a_type_either\" are invalid.",
     fixed = TRUE
   )
 })
@@ -87,18 +122,11 @@ test_that("check_schema() returns error on invalid or empty data frame", {
   schema <- create_schema(df)
   expect_error(
     check_schema(schema, "not_a_df"),
-    "`data` must be a data frame containing data.",
-    fixed = TRUE
+    class = "frictionless_error_data_invalid"
   )
   expect_error(
     check_schema(schema, data.frame()),
-    "`data` must be a data frame containing data.",
-    fixed = TRUE
-  )
-  expect_error(
-    check_schema(schema, data.frame("col_1" = character(0))),
-    "`data` must be a data frame containing data.",
-    fixed = TRUE
+    class = "frictionless_error_data_invalid"
   )
 })
 
@@ -112,12 +140,21 @@ test_that("check_schema() returns error on mismatching schema and data frame", {
   ))
   expect_error(
     check_schema(invalid_schema, df),
-    paste(
-      "Field names in `schema` must match column names in data:",
-      "ℹ Field names: `col_2`, `col_1`",
-      "ℹ Column names: `col_1`, `col_2`",
-      sep = "\n"
-    ),
+    class = "frictionless_error_fields_colnames_mismatch"
+  )
+  expect_error(
+    check_schema(invalid_schema, df),
+    regexp = "Field names in `schema` must match column names in `data`.",
+    fixed = TRUE
+  )
+  expect_error(
+    check_schema(invalid_schema, df),
+    regexp = "Field names: \"col_2\" and \"col_1\".",
+    fixed = TRUE
+  )
+  expect_error(
+    check_schema(invalid_schema, df),
+    regexp = "Column names: \"col_1\" and \"col_2\".", # Same for other tests
     fixed = TRUE
   )
 
@@ -127,12 +164,11 @@ test_that("check_schema() returns error on mismatching schema and data frame", {
   ))
   expect_error(
     check_schema(invalid_schema, df),
-    paste(
-      "Field names in `schema` must match column names in data:",
-      "ℹ Field names: `col_1`",
-      "ℹ Column names: `col_1`, `col_2`",
-      sep = "\n"
-    ),
+    class = "frictionless_error_fields_colnames_mismatch"
+  )
+  expect_error(
+    check_schema(invalid_schema, df),
+    regexp = "Field name: \"col_1\"",
     fixed = TRUE
   )
 
@@ -144,12 +180,11 @@ test_that("check_schema() returns error on mismatching schema and data frame", {
   ))
   expect_error(
     check_schema(invalid_schema, df),
-    paste(
-      "Field names in `schema` must match column names in data:",
-      "ℹ Field names: `col_1`, `col_2`, `col_3`",
-      "ℹ Column names: `col_1`, `col_2`",
-      sep = "\n"
-    ),
+    class = "frictionless_error_fields_colnames_mismatch"
+  )
+  expect_error(
+    check_schema(invalid_schema, df),
+    regexp = "Field names: \"col_1\", \"col_2\", and \"col_3\".",
     fixed = TRUE
   )
 })

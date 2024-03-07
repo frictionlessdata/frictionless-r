@@ -6,6 +6,8 @@ Authors@R: c(
            role = c("aut", "cre"), comment = c(ORCID = "0000-0002-8442-8025")),
     person("Damiano", "Oldoni", email = "damiano.oldoni@inbo.be",
            role = "aut", comment = c(ORCID = "0000-0003-3445-7562")),
+    person("Pieter", "Huybrechts", email = "pieter.huybrechts@inbo.be",
+           role = "aut", comment = c(ORCID = "0000-0002-6658-6062")),
     person("Research Institute for Nature and Forest (INBO)",
            role = "cph", comment = "https://www.vlaanderen.be/inbo/en-gb/"),
     person("LifeWatch Belgium",
@@ -16,9 +18,9 @@ Authors@R: c(
            role = "rev", comment = c(ORCID = "0000-0001-7961-4280"))
   )
 Description: Read and write Frictionless Data Packages. A 'Data Package'
-    (<https://specs.frictionlessdata.io/data-package/>) is a simple container
-    format and standard to describe and package a collection of (tabular) data. 
-    It is typically used to publish FAIR 
+    (<https://specs.frictionlessdata.io/data-package/>) is a simple
+    container format and standard to describe and package a collection of
+    (tabular) data. It is typically used to publish FAIR
     (<https://www.go-fair.org/fair-principles/>) and open datasets.
 License: MIT + file LICENSE
 URL: https://github.com/frictionlessdata/frictionless-r,
@@ -26,6 +28,7 @@ URL: https://github.com/frictionlessdata/frictionless-r,
 BugReports: https://github.com/frictionlessdata/frictionless-r/issues
 Imports:
     assertthat,
+    cli,
     dplyr,
     glue,
     httr,
@@ -43,8 +46,11 @@ Suggests:
     testthat (>= 3.0.0)
 VignetteBuilder: 
     knitr
+Config/checklist/communities: inbo
+Config/checklist/keywords: R package; frictionlessdata
 Config/testthat/edition: 3
 Encoding: UTF-8
+Language: en-GB
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3

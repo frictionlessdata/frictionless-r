@@ -1,35 +1,37 @@
 test_that("remove_resource() returns a valid Data Package", {
-  testthat::skip_if_offline()
+  skip_if_offline()
   p <- example_package
   expect_true(check_package(remove_resource(p, "deployments")))
 })
 
-test_that("remove_resource() returns error on incorrect Data Package", {
+test_that("remove_resource() returns error on invalid Data Package", {
   expect_error(
     remove_resource(list(), "deployments"),
-    paste(
-      "`package` must be a list describing a Data Package,",
-      "created with `read_package()` or `create_package()`."
-    ),
-    fixed = TRUE
+    class = "frictionless_error_package_invalid"
   )
 })
 
 test_that("remove_resource() returns error when resource not found", {
-  testthat::skip_if_offline()
+  skip_if_offline()
   p <- example_package
   expect_error(
     remove_resource(p, "no_such_resource"),
-    paste(
-      "Can't find resource `no_such_resource` in `deployments`,",
-      "`observations`, `media`."
-    ),
+    class = "frictionless_error_resource_not_found"
+  )
+  expect_error(
+    remove_resource(p, "no_such_resource"),
+    regexp = "Can't find resource \"no_such_resource\" in `package`",
+    fixed = TRUE
+  )
+  expect_error(
+    remove_resource(p, "no_such_resource"),
+    regexp = "Available resources: \"deployments\", \"observations\", and \"media\".",
     fixed = TRUE
   )
 })
 
 test_that("remove_resource() removes resource", {
-  testthat::skip_if_offline()
+  skip_if_offline()
   p <- example_package
 
   # Remove "deployments", keep "observations" and "media

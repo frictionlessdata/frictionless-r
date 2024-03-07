@@ -1,5 +1,18 @@
 # frictionless (development version)
 
+- `add_resource()` now supports adding additional resource properties via the 
+  `...` argument.
+- `read_resource()` now supports column selection via the `col_select` argument
+  from `readr::read_delim()`.
+  This can vastly improve reading speed (#123).
+- Add `readr::problems()` to NAMESPACE so users don't have to load readr to
+  inspect parsing issues.
+  The function is mentioned in the documentation of `read_resource()` (#129).
+- Adhere to the requirements of [checklist](https://github.com/inbo/checklist),
+  so that `.zenodo.json` can be created with `checklist::update_citation()`.
+- Add [Pieter Huybrechts](https://orcid.org/0000-0002-6658-6062) as author.
+  Welcome Pieter!
+
 # frictionless 1.0.3
 
 - Add [stringi](https://cran.r-project.org/package=stringi) to `Suggests`.
@@ -9,7 +22,7 @@
 
 # frictionless 1.0.2
 
-- Add `testthat::skip_if_offline()` to selected tests and verbosely include 
+- Add `skip_if_offline()` to selected tests and verbosely include 
   output in vignette examples, to avoid CRAN errors caused by timeouts (#116).
 
 # frictionless 1.0.1
@@ -53,7 +66,7 @@
 - `create_schema()` interprets empty columns as `string` not `boolean` (#79).
 - `read_package()` can now read from a `datapackage.yaml` file.
 - `read_resource()` now accepts YAML Table Schemas and CSV dialects.
-- `add_resource()`/`create_schema()`'s `df` parameter is renamed to `data`.
+- `add_resource()`/`create_schema()`'s `df` argument is renamed to `data`.
 - `example_package`'s `observations` resource now has URLs as `path` to serve 
   as an example for that.
 

@@ -34,7 +34,7 @@ read_package <- function(file = "datapackage.json") {
   # Check resources
   # https://specs.frictionlessdata.io/data-package/#metadata
   assertthat::assert_that(
-    length(descriptor$resources) != 0 & # Null or empty list
+    length(descriptor$resources) != 0 && # Null or empty list
       purrr::every(descriptor$resources, ~ !is.null(.x$name)),
     msg = glue::glue(
       "Descriptor `{file}` must have property `resources` containing at least",

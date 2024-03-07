@@ -18,7 +18,7 @@ library(dplyr) # For %>%
 
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/frictionless)](https://CRAN.R-project.org/package=frictionless)
-[![CRAN checks](https://cranchecks.info/badges/worst/frictionless)](https://cran.r-project.org/web/checks/check_results_frictionless.html)
+[![CRAN checks](https://badges.cranchecks.info/worst/frictionless.svg)](https://cran.r-project.org/web/checks/check_results_frictionless.html)
 [![R-CMD-check](https://github.com/frictionlessdata/frictionless-r/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/frictionlessdata/frictionless-r/actions/workflows/R-CMD-check.yaml)
 [![codecov](https://codecov.io/gh/frictionlessdata/frictionless-r/branch/main/graph/badge.svg)](https://app.codecov.io/gh/frictionlessdata/frictionless-r/)
 [![repo status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
@@ -93,7 +93,7 @@ For more functionality, see [get started](https://docs.ropensci.org/frictionless
 
 ## frictionless vs datapackage.r
 
-[datapackage.r](https://CRAN.R-project.org/package=datapackage.r) is an alternative R package to work with Data Packages. It has an object-oriented design (using a `Package` class) and offers validation. frictionless on the other hand allows you to quickly read and write Data Packages to and from data frames, getting out of the way for the rest of your analysis. It is designed to be lightweight, follows [tidyverse](https://www.tidyverse.org/) principles and supports piping.
+[datapackage.r](https://github.com/frictionlessdata/datapackage-r) is an alternative R package to work with Data Packages. It has an object-oriented design (using a `Package` class) and offers validation. frictionless on the other hand allows you to quickly read and write Data Packages to and from data frames, getting out of the way for the rest of your analysis. It is designed to be lightweight, follows [tidyverse](https://www.tidyverse.org/) principles and supports piping.
 
 ## Meta
 

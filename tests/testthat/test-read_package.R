@@ -20,7 +20,7 @@ test_that("read_package() returns a valid Data Package reading from path", {
 })
 
 test_that("read_package() returns a valid Data Package reading from url", {
-  testthat::skip_if_offline()
+  skip_if_offline()
   # Load example package remotely
   p_url <- file.path("https://raw.githubusercontent.com/frictionlessdata/",
                      "frictionless-r/main/inst/extdata/datapackage.json")
@@ -66,7 +66,7 @@ test_that("read_package() shows message about usage norms", {
 })
 
 test_that("read_package() returns error on missing file and properties", {
-  testthat::skip_if_offline()
+  skip_if_offline()
   # Incorrect type
   expect_error(
     read_package(list()),
@@ -77,8 +77,7 @@ test_that("read_package() returns error on missing file and properties", {
   # No file locally
   expect_error(
     read_package("nofile.json"),
-    "Can't find file at `nofile.json`",
-    fixed = TRUE
+    class = "frictionless_error_path_not_found"
   )
 
   # Not a json file
@@ -122,8 +121,7 @@ test_that("read_package() returns error on missing file and properties", {
   # No file remotely
   expect_error(
     read_package("http://example.com/nofile.json"),
-    "Can't find file at `http://example.com/nofile.json`.",
-    fixed = TRUE
+    class = "frictionless_error_url_not_found"
   )
 })
 
