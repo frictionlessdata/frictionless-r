@@ -70,7 +70,11 @@ test_that("read_package() returns error on missing file and properties", {
   # Incorrect type
   expect_error(
     read_package(list()),
-    "`file` must be a path or URL to a `datapackage.json` file.",
+    class = "frictionless_error_file_invalid"
+  )
+  expect_error(
+    read_package(list()),
+    regexp = "`file` must be a path or URL to a 'datapackage.json' file.",
     fixed = TRUE
   )
 

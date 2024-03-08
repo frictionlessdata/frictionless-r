@@ -25,10 +25,12 @@
 #' resources(package)
 read_package <- function(file = "datapackage.json") {
   # Read file
-  assertthat::assert_that(
-    is.character(file),
-    msg = "`file` must be a path or URL to a `datapackage.json` file."
-  )
+  if (!is.character(file)) {
+    cli::cli_abort(
+      "{.arg file} must be a path or URL to a {.file datapackage.json} file.",
+      class = "frictionless_error_file_invalid"
+    )
+  }
   descriptor <- read_descriptor(file, safe = FALSE)
 
   # Check resources
