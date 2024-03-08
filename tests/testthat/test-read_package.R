@@ -93,34 +93,24 @@ test_that("read_package() returns error on missing file and properties", {
     fixed = FALSE
   )
 
-  # No resources
+  # No resources property
   expect_error(
     read_package(test_path("data/resources_missing.json")),
-    paste(
-      "`data/resources_missing.json` must have property `resources`",
-      "containing at least one resource. All resources must have a `name`."
+    class = "frictionless_error_descriptor_without_resources"
+  )
+  expect_error(
+    read_package(test_path("data/resources_missing.json")),
+    regexp = paste(
+      "`file` 'data/resources_missing.json' must have a resources property",
+      "containing at least one resource."
     ),
     fixed = TRUE
   )
 
-  # Empty resources
+  # Resources is empty list
   expect_error(
     read_package(test_path("data/resources_empty.json")),
-    paste(
-      "`data/resources_empty.json` must have property `resources`",
-      "containing at least one resource. All resources must have a `name`."
-    ),
-    fixed = TRUE
-  )
-
-  # No resource name
-  expect_error(
-    read_package(test_path("data/resources_no_name.json")),
-    paste(
-      "`data/resources_no_name.json` must have property `resources`",
-      "containing at least one resource. All resources must have a `name`."
-    ),
-    fixed = TRUE
+    class = "frictionless_error_descriptor_without_resources"
   )
 
   # No file remotely
