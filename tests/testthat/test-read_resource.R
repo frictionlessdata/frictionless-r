@@ -245,7 +245,7 @@ test_that("read_resource() can read inline data (ignoring schema)", {
   p$resources[[3]]$data <- "not_a_list" # Media resource
   expect_error(
     read_resource(p, "media"),
-    "second argument must be a list",
+    regexp = "second argument must be a list",
     fixed = TRUE
   )
 })
@@ -545,7 +545,7 @@ test_that("read_resource() can read compressed files", {
   # https://github.com/tidyverse/readr/issues/1042#issuecomment-545103047
   expect_error(
     read_resource(p_remote_zip, "deployments"),
-    paste(
+    regexp = paste(
       "Reading from remote `zip` compressed files is not supported,",
       "  download the files locally first.",
       sep = "\n"

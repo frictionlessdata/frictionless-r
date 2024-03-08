@@ -89,7 +89,8 @@ test_that("read_package() returns error on missing file and properties", {
     read_package(
       system.file("extdata", "deployments.csv", package = "frictionless")
     ),
-    "lexical error: invalid char in json text."
+    regexp = "lexical error: invalid char in json text.",
+    fixed = FALSE
   )
 
   # No resources
