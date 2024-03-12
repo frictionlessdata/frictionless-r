@@ -20,6 +20,13 @@ Reads information from a \code{datapackage.json} file, i.e. the
 \href{https://specs.frictionlessdata.io/data-package/#descriptor}{descriptor} file
 that describes the Data Package metadata and its Data Resources.
 }
+\details{
+The function will display a message regarding rights and citation.
+This message can be silenced with
+\code{rlang::local_options(rlib_message_verbosity = "quiet")}.
+See \href{https://ropensci.org/blog/2024/02/06/verbosity-control-packages/}{this blog post} for
+details.
+}
 \examples{
 # Read a datapackage.json file
 package <- read_package(

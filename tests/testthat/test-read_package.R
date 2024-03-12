@@ -37,30 +37,24 @@ test_that("read_package() returns a valid Data Package reading from url", {
   expect_identical(p_remote$directory, gsub("/datapackage.json", "", p_url))
 })
 
-test_that("read_package() shows message about usage norms", {
+test_that("read_package() shows message about rights and citation", {
   # Load example package and a minimal valid one a URL in "id"
   p_path <- system.file("extdata", "datapackage.json", package = "frictionless")
   minimal_extra_path <- test_path("data/valid_minimal_extra.json")
 
-  expected_message <- glue::glue(
-    "Please make sure you have the right to access data from this",
-    "Data Package for your intended use.\n",
-    "Follow applicable norms or requirements to credit the dataset",
-    "and its authors.",
-    .sep = " "
+  expected_message <- paste(
+    "Please make sure you have the right to access data from this Data Package",
+    "for your intended use.\nFollow applicable norms or requirements to credit",
+    "the dataset and its authors."
   )
   expect_message(
     read_package(p_path),
-    expected_message,
+    regexp = expected_message,
     fixed = TRUE
   )
   expect_message(
     read_package(minimal_extra_path),
-    paste(
-      expected_message,
-      "For more information, see https://example.com",
-      sep = "\n"
-    ),
+    regexp = "For more information, see <https://example.com>.",
     fixed = TRUE
   )
 })

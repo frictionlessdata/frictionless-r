@@ -4,6 +4,13 @@
 #' [descriptor](https://specs.frictionlessdata.io/data-package/#descriptor) file
 #' that describes the Data Package metadata and its Data Resources.
 #'
+#' The function will display a message regarding rights and citation.
+#' This message can be silenced with
+#' `rlang::local_options(rlib_message_verbosity = "quiet")`.
+#' See [this blog post](
+#' https://ropensci.org/blog/2024/02/06/verbosity-control-packages/) for
+#' details.
+#'
 #' @param file Path or URL to a `datapackage.json` file.
 #' @return List describing a Data Package.
 #'   The function will add a custom property `directory` with the directory the
@@ -47,22 +54,22 @@ read_package <- function(file = "datapackage.json") {
   # Add directory
   descriptor$directory <- dirname(file) # Also works for URLs
 
-  # Inform user regarding rights/citations
-  msg <- glue::glue(
-    "Please make sure you have the right to access data from this Data Package",
-    "for your intended use.\nFollow applicable norms or requirements to credit",
-    "the dataset and its authors.",
-    .sep = " "
+  # Inform user regarding rights and citation
+  message <- c(
+    "Please make sure you have the right to access data from this Data Package
+     for your intended use.",
+    "Follow applicable norms or requirements to credit the dataset and its
+     authors."
   )
   if (!is.null(descriptor$id)) {
     if (startsWith(descriptor$id, "http")) {
-      msg <- glue::glue(
-        "{msg}", "For more information, see {descriptor$id}",
-        .sep = "\n"
+      message <- c(
+        message,
+        "i" = "For more information, see {.url {descriptor$id}}."
       )
     }
   }
-  message(msg)
+  cli::cli_inform(message)
 
   descriptor
 }
