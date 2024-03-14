@@ -427,10 +427,14 @@ test_that("read_resource() understands encoding", {
   # Create package with unknown encoding
   p_unknown <- p
   p_unknown$resources[[1]]$encoding <- "utf-8-sig"
-  warnings <- capture_warnings(read_resource(p_unknown, "deployments"))
-  expect_identical(
-    warnings[1],
-    "Unknown encoding `utf-8-sig`. Reading file(s) with UTF-8 encoding."
+  expect_warning(
+    read_resource(p_unknown, "deployments"),
+    class = "frictionless_warning_resource_encoding_unknown"
+  )
+  expect_warning(
+    read_resource(p_unknown, "deployments"),
+    regexp = "Unknown encoding utf-8-sig. Reading file(s) with UTF-8 encoding.",
+    fixed = TRUE
   )
   expect_identical(
     suppressWarnings(read_resource(p_unknown, "deployments")),
@@ -448,37 +452,41 @@ test_that("read_resource() handles decimalChar/groupChar properties", {
   expect_identical(resource$num_undefined, expected_value) # 3000000.30
 
   # Non-default decimalChar, default groupChar (which should not conflict)
-  warnings <- capture_warnings(read_resource(p, "mark_decimal"))
-  expect_identical(
-    warnings[1],
-    paste(
-      "Some fields define a non-default `decimalChar`.",
-      "Parsing all number fields with `,` as decimal mark."
-    )
+  expect_warning(
+    read_resource(p, "mark_decimal"),
+    class = "frictionless_warning_fields_decimalchar_different"
+  )
+  expect_warning(
+    read_resource(p, "mark_decimal"),
+    regexp = paste(
+      "Some fields define a non-default decimalChar.",
+      "Parsing all number fields with \",\" as decimal mark."
+    ),
+    fixed = TRUE
   )
 
   resource <- suppressWarnings(read_resource(p, "mark_decimal"))
   expect_identical(resource$num, expected_value) # 3000000.30
   expect_identical(resource$num_undefined, expected_value) # 3000000.30
 
-  # Non-default decimalChar/groupChar
-  warnings <- capture_warnings(read_resource(p, "mark_decimal_group"))
-  expect_true(length(warnings) == 3) # 2 warnings + 1 parsing failure last field
-  expect_identical(
-    warnings[1],
-    paste(
-      "Some fields define a non-default `decimalChar`.",
-      "Parsing all number fields with `,` as decimal mark."
-    )
-  )
-  expect_identical(
-    warnings[2],
-    paste(
-      "Some fields define a non-default `groupChar`.",
-      "Parsing all number fields with `.` as grouping mark."
-    )
-  )
-
+  # Non-default decimalChar and groupChar
+  # Results in 3 warnings: decimalchar, groupchar, parsing failure last field
+  suppressWarnings(expect_warning(
+    read_resource(p, "mark_decimal_group"),
+    class = "frictionless_warning_fields_decimalchar_different"
+  ))
+  suppressWarnings(expect_warning(
+    read_resource(p, "mark_decimal_group"),
+    class = "frictionless_warning_fields_groupchar_different"
+  ))
+  suppressWarnings(expect_warning(
+    read_resource(p, "mark_decimal_group"),
+    regexp = paste(
+      "Some fields define a non-default groupChar.",
+      "Parsing all number fields with \".\" as grouping mark."
+    ),
+    fixed = TRUE
+  ))
   resource <- suppressWarnings(read_resource(p, "mark_decimal_group"))
   expect_identical(resource$num, expected_value) # 3.000.000,30
   # Field without decimalChar is still parsed with non-default decimalChar
