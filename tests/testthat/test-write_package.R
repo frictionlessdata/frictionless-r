@@ -28,7 +28,16 @@ test_that("write_package() returns error if Data Package has no resource(s)", {
   on.exit(unlink(dir, recursive = TRUE))
   expect_error(
     write_package(p_empty, dir),
-    "`package` must have resources. Use `add_resource()` to add resources.",
+    class = "frictionless_error_package_without_resources"
+  )
+  expect_error(
+    write_package(p_empty, dir),
+    regexp = "`package` must have resources.",
+    fixed = TRUE
+  )
+  expect_error(
+    write_package(p_empty, dir),
+    regexp = "Use `add_resource()` to add resources.",
     fixed = TRUE
   )
 
