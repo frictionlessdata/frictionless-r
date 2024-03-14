@@ -4,13 +4,6 @@
 #' [descriptor](https://specs.frictionlessdata.io/data-package/#descriptor) file
 #' that describes the Data Package metadata and its Data Resources.
 #'
-#' The function will display a message regarding rights and citation.
-#' This message can be silenced with
-#' `rlang::local_options(rlib_message_verbosity = "quiet")`.
-#' See [this blog post](
-#' https://ropensci.org/blog/2024/02/06/verbosity-control-packages/) for
-#' details.
-#'
 #' @param file Path or URL to a `datapackage.json` file.
 #' @return List describing a Data Package.
 #'   The function will add a custom property `directory` with the directory the
