@@ -41,15 +41,17 @@ test_that("read_package() shows message about rights and citation", {
   # Load example package and a minimal valid one a URL in "id"
   p_path <- system.file("extdata", "datapackage.json", package = "frictionless")
   minimal_extra_path <- test_path("data/valid_minimal_extra.json")
-
-  expected_message <- paste(
-    "Please make sure you have the right to access data from this Data Package",
-    "for your intended use.\nFollow applicable norms or requirements to credit",
-    "the dataset and its authors."
+  expect_message(
+    read_package(p_path),
+    class = "frictionless_message_usage_rights"
   )
   expect_message(
     read_package(p_path),
-    regexp = expected_message,
+    regexp = paste(
+      "Please make sure you have the right to access data from this Data",
+      "Package for your intended use.\nFollow applicable norms or requirements",
+      "to credit the dataset and its authors."
+    ),
     fixed = TRUE
   )
   expect_message(
@@ -90,7 +92,7 @@ test_that("read_package() returns error on missing file and properties", {
   # No resources property
   expect_error(
     read_package(test_path("data/resources_missing.json")),
-    class = "frictionless_error_descriptor_without_resources"
+    class = "frictionless_error_file_without_resources"
   )
   expect_error(
     read_package(test_path("data/resources_missing.json")),
@@ -104,7 +106,7 @@ test_that("read_package() returns error on missing file and properties", {
   # Resources is empty list
   expect_error(
     read_package(test_path("data/resources_empty.json")),
-    class = "frictionless_error_descriptor_without_resources"
+    class = "frictionless_error_file_without_resources"
   )
 
   # No file remotely

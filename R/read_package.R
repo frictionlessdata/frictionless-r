@@ -47,7 +47,7 @@ read_package <- function(file = "datapackage.json") {
     cli::cli_abort(
       "{.arg file} {.file {file}} must have a {.field resources} property
        containing at least one resource.",
-      class = "frictionless_error_descriptor_without_resources"
+      class = "frictionless_error_file_without_resources"
     )
   }
 
@@ -69,7 +69,7 @@ read_package <- function(file = "datapackage.json") {
       )
     }
   }
-  cli::cli_inform(message)
+  cli::cli_inform(message, class = "frictionless_message_usage_rights")
 
   descriptor
 }
