@@ -7,10 +7,12 @@
 create_package()
 }
 \value{
-List describing a Data Package.
+Data Package object.
 }
 \description{
-Initiates a list describing a \href{https://specs.frictionlessdata.io/data-package/}{Data Package}.
+Initiates a \link{Data Package}
+(https://specs.frictionlessdata.io/data-package/), a list with a
+\code{datapackage} class.
 This empty Data Package can be extended with metadata and resources (see
 \code{\link[=add_resource]{add_resource()}}).
 Added resources will make the Data Package meet \href{https://specs.frictionlessdata.io/tabular-data-package/}{Tabular Data Package}

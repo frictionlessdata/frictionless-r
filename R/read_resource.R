@@ -10,8 +10,8 @@
 #' Column names are taken from the provided Table Schema (`schema`), not from
 #' the header in the CSV file(s).
 #'
-#' @param package List describing a Data Package, created with [read_package()]
-#'   or [create_package()].
+#' @param package Data Package object, created with [read_package()] or
+#'   [create_package()].
 #' @param resource_name Name of the Data Resource.
 #' @param col_select Character vector of the columns to include in the result,
 #'   in the order provided.

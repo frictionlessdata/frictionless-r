@@ -3,7 +3,7 @@
 #' Check if an object is a list describing a Data Package, i.e. it has the
 #' required properties `resources` and `directory`.
 #'
-#' @param package List describing a Data Package.
+#' @inheritParams read_package
 #' @return `TRUE` or error.
 #' @family check functions
 #' @noRd
