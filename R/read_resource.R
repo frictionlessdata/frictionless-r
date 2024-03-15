@@ -269,16 +269,6 @@ read_resource <- function(package, resource_name, col_select = NULL) {
     grouping_mark = grouping_mark
   )
 
-  # Create col_names: c("name1", "name2", ...)
-  col_names <- purrr::map_chr(fields, ~ replace_null(.x$name, NA_character_))
-  assertthat::assert_that(all(!is.na(col_names)),
-    msg = glue::glue(
-      "Field {which(is.na(col_names))} of resource `{resource_name}` must",
-      "have the property `name`.",
-      .sep = " "
-    )
-  )
-
   # Create col_types: list(<collector_character>, <collector_logical>, ...)
   col_types <- purrr::map(fields, function(x) {
     type <- replace_null(x$type, NA_character_)
@@ -345,7 +335,7 @@ read_resource <- function(package, resource_name, col_select = NULL) {
   })
 
   # Assign names: list("name1" = <collector_character>, "name2" = ...)
-  names(col_types) <- col_names
+  names(col_types) <- field_names
 
   # Select CSV dialect, see https://specs.frictionlessdata.io/csv-dialect/
   # Note that dialect can be NULL
@@ -376,7 +366,7 @@ read_resource <- function(package, resource_name, col_select = NULL) {
           FALSE,
           replace_null(dialect$doubleQuote, TRUE)
         ),
-        col_names = col_names,
+        col_names = field_names,
         col_types = col_types,
         # Use rlang {{}} to avoid `col_select` to be interpreted as the name of
         # a column, see https://rlang.r-lib.org/reference/topic-data-mask.html
