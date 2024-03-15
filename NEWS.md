@@ -5,9 +5,22 @@
 - `read_resource()` now supports column selection via the `col_select` argument
   from `readr::read_delim()`.
   This can vastly improve reading speed (#123).
-- Add `readr::problems()` to NAMESPACE so users don't have to load readr to
-  inspect parsing issues.
+- `readr::problems()` is included in NAMESPACE so users don't have to load readr 
+  to inspect parsing issues.
   The function is mentioned in the documentation of `read_resource()` (#129).
+- `cli::cli_abort()`, `cli::cli_warn()` and `cli::cli_inform()` are used for 
+  all errors, warnings, and messages (#163).
+  This has several advantages:
+  - Messages use semantic colours for variables, parameters, fields, etc.
+  - Messages and warnings can be silenced with a global or local option, see
+    [this blog post](https://ropensci.org/blog/2024/02/06/verbosity-control-packages/).
+  - Each call has an [rlang](https://cran.r-project.org/package=cli) class, e.g.
+    `frictionless_error_fields_without_name`, making it easier to test for 
+    specific errors.
+- The dependencies [glue](https://cran.r-project.org/package=cli) and
+  [assertthat](https://cran.r-project.org/package=cli) are removed (#163).
+  The functionality of glue is replaced by cli, `assertthat::assert()` calls
+  are now `if()` functions.
 - Adhere to the requirements of [checklist](https://github.com/inbo/checklist),
   so that `.zenodo.json` can be created with `checklist::update_citation()`.
 - Add [Pieter Huybrechts](https://orcid.org/0000-0002-6658-6062) as author.
