@@ -71,14 +71,31 @@ test_that("read_resource() allows column selection", {
 test_that("read_resource() returns error on column selection not in schema", {
   skip_if_offline()
   p <- example_package
+
+  # One column
   expect_error(
     read_resource(p, "deployments", col_select = "no_such_column"),
-    paste(
-      "Can't find column(s) `no_such_column` in field names.",
-      "ℹ Field names: `deployment_id`, `longitude`, `latitude`, `start`, `comments`",
-      sep = "\n"
-    ),
+    class = "frictionless_error_colselect_mismatch"
+  )
+  expect_error(
+    read_resource(p, "deployments", col_select = "no_such_column"),
+    regexp = "Can't find column \"no_such_column\" in field names.",
     fixed = TRUE
+  )
+  expect_error(
+    read_resource(p, "deployments", col_select = "no_such_column"),
+    regexp = "Field names: \"deployment_id\", \"longitude\", \"latitude\", \"start\", and \"comments\".",
+    fixed = TRUE
+  )
+
+  # Partial match, multiple columns
+  expect_error(
+    read_resource(
+      p,
+      "deployments",
+      col_select = c("no_such_column", "start", "no_such_column_either")
+    ),
+    class = "frictionless_error_colselect_mismatch"
   )
   expect_error(
     read_resource(
@@ -86,11 +103,7 @@ test_that("read_resource() returns error on column selection not in schema", {
       "deployments",
       col_select = c("no_such_column", "start", "no_such_column_either")
     ),
-    paste(
-      "Can't find column(s) `no_such_column`, `no_such_column_either` in field names.",
-      "ℹ Field names: `deployment_id`, `longitude`, `latitude`, `start`, `comments`",
-      sep = "\n"
-    ),
+    regexp = "Can't find columns \"no_such_column\" and \"no_such_column_either\" in field names.",
     fixed = TRUE
   )
 })

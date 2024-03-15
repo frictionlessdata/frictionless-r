@@ -210,22 +210,16 @@ read_resource <- function(package, resource_name, col_select = NULL) {
   field_names <- purrr::map_chr(fields, ~ purrr::pluck(.x, "name"))
 
   # Check all selected columns appear in schema
-  assertthat::assert_that(
-    all(col_select %in% field_names),
-    msg = glue::glue(
-      "Can't find column(s) {missing_col_select_collapse} in field names.",
-      "\u2139 Field names: {field_names_collapse}",
-      missing_col_select_collapse = glue::glue_collapse(
-        glue::backtick(col_select[!col_select %in% field_names]),
-        sep = ", "
+  if (!all(col_select %in% field_names)) {
+    col_select_missing <- col_select[!col_select %in% field_names]
+    cli::cli_abort(
+      c(
+        "Can't find column{?s} {.val {col_select_missing}} in field names.",
+        "i" = "Field name{?s}: {.val {field_names}}."
       ),
-      field_names_collapse = glue::glue_collapse(
-        glue::backtick(field_names),
-        sep = ", "
-      ),
-      .sep = "\n"
+      class = "frictionless_error_colselect_mismatch"
     )
-  )
+  }
 
   # Create locale with encoding, decimal_mark and grouping_mark
   encoding <- replace_null(resource$encoding, "UTF-8") # Set default to UTF-8
