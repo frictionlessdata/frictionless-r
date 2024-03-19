@@ -12,7 +12,7 @@ If \code{NULL}, an empty Data Package object will be created from scratch.}
 }
 \value{
 Data Package object.
-Use \code{\link[=check_package]{check_package()}} to check if the output is a valid Data Package
+Use \code{\link[=check_package]{check_package()}} to check if it is a valid Data Package
 object.
 }
 \description{
@@ -22,15 +22,12 @@ This Data Package object is a list with a \code{datapackage} class and the
 following properties:
 \itemize{
 \item All properties of the original \code{descriptor}.
-\item \href{https://specs.frictionlessdata.io/data-package/#required-properties}{\code{resources}}, if
-not provided.
-\item \href{https://specs.frictionlessdata.io/data-package/#profile}{\code{profile}}, if
-not provided.
-This property is set to \code{"tabular-data-package"}, since added resources
-will make the Data Package meet \href{https://specs.frictionlessdata.io/tabular-data-package/}{Tabular Data Package} requirements.
-\item \code{directory}, if not provided.
-It is used as the base path to read resources with \code{\link[=read_resource]{read_resource()}}, with
-the current directory (\code{"."}) by default.
+\item \href{https://specs.frictionlessdata.io/data-package/#required-properties}{\code{resources}} (an
+empty list) if not present.
+\item \href{https://specs.frictionlessdata.io/data-package/#profile}{\code{profile}} (set
+to \code{"tabular-data-package"}) if not present.
+\item \code{directory} (set to \code{"."} for the current directory) if not present.
+It is used as the base path to access resources with \code{\link[=read_resource]{read_resource()}}.
 }
 }
 \examples{

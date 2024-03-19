@@ -6,21 +6,17 @@
 #' following properties:
 #' - All properties of the original `descriptor`.
 #' - [`resources`](
-#'   https://specs.frictionlessdata.io/data-package/#required-properties), if
-#'   not provided.
-#' - [`profile`](https://specs.frictionlessdata.io/data-package/#profile), if
-#'   not provided.
-#'   This property is set to `"tabular-data-package"`, since added resources
-#'   will make the Data Package meet [Tabular Data Package](
-#'   https://specs.frictionlessdata.io/tabular-data-package/) requirements.
-#' - `directory`, if not provided.
-#'   It is used as the base path to read resources with [read_resource()], with
-#'   the current directory (`"."`) by default.
+#'   https://specs.frictionlessdata.io/data-package/#required-properties) (an
+#'   empty list) if not present.
+#' - [`profile`](https://specs.frictionlessdata.io/data-package/#profile) (set
+#'   to `"tabular-data-package"`) if not present.
+#' - `directory` (set to `"."` for the current directory) if not present.
+#'   It is used as the base path to access resources with [read_resource()].
 #'
 #' @param descriptor List to be made into a Data Package object.
 #'   If `NULL`, an empty Data Package object will be created from scratch.
 #' @return Data Package object.
-#'   Use [check_package()] to check if the output is a valid Data Package
+#'   Use [check_package()] to check if it is a valid Data Package
 #'   object.
 #' @family create functions
 #' @export
