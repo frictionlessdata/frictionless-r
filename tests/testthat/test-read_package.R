@@ -37,30 +37,26 @@ test_that("read_package() returns a valid Data Package reading from url", {
   expect_identical(p_remote$directory, gsub("/datapackage.json", "", p_url))
 })
 
-test_that("read_package() shows message about usage norms", {
+test_that("read_package() shows message about rights and citation", {
   # Load example package and a minimal valid one a URL in "id"
   p_path <- system.file("extdata", "datapackage.json", package = "frictionless")
   minimal_extra_path <- test_path("data/valid_minimal_extra.json")
-
-  expected_message <- glue::glue(
-    "Please make sure you have the right to access data from this",
-    "Data Package for your intended use.\n",
-    "Follow applicable norms or requirements to credit the dataset",
-    "and its authors.",
-    .sep = " "
+  expect_message(
+    read_package(p_path),
+    class = "frictionless_message_usage_rights"
   )
   expect_message(
     read_package(p_path),
-    expected_message,
+    regexp = paste(
+      "Please make sure you have the right to access data from this Data",
+      "Package for your intended use.\nFollow applicable norms or requirements",
+      "to credit the dataset and its authors."
+    ),
     fixed = TRUE
   )
   expect_message(
     read_package(minimal_extra_path),
-    paste(
-      expected_message,
-      "For more information, see https://example.com",
-      sep = "\n"
-    ),
+    regexp = "For more information, see <https://example.com>.",
     fixed = TRUE
   )
 })
@@ -70,7 +66,11 @@ test_that("read_package() returns error on missing file and properties", {
   # Incorrect type
   expect_error(
     read_package(list()),
-    "`file` must be a path or URL to a `datapackage.json` file.",
+    class = "frictionless_error_file_invalid"
+  )
+  expect_error(
+    read_package(list()),
+    regexp = "`file` must be a path or URL to a 'datapackage.json' file.",
     fixed = TRUE
   )
 
@@ -85,37 +85,28 @@ test_that("read_package() returns error on missing file and properties", {
     read_package(
       system.file("extdata", "deployments.csv", package = "frictionless")
     ),
-    "lexical error: invalid char in json text."
+    regexp = "lexical error: invalid char in json text.",
+    fixed = FALSE
   )
 
-  # No resources
+  # No resources property
   expect_error(
     read_package(test_path("data/resources_missing.json")),
-    paste(
-      "`data/resources_missing.json` must have property `resources`",
-      "containing at least one resource. All resources must have a `name`."
+    class = "frictionless_error_file_without_resources"
+  )
+  expect_error(
+    read_package(test_path("data/resources_missing.json")),
+    regexp = paste(
+      "`file` 'data/resources_missing.json' must have a resources property",
+      "containing at least one resource."
     ),
     fixed = TRUE
   )
 
-  # Empty resources
+  # Resources is empty list
   expect_error(
     read_package(test_path("data/resources_empty.json")),
-    paste(
-      "`data/resources_empty.json` must have property `resources`",
-      "containing at least one resource. All resources must have a `name`."
-    ),
-    fixed = TRUE
-  )
-
-  # No resource name
-  expect_error(
-    read_package(test_path("data/resources_no_name.json")),
-    paste(
-      "`data/resources_no_name.json` must have property `resources`",
-      "containing at least one resource. All resources must have a `name`."
-    ),
-    fixed = TRUE
+    class = "frictionless_error_file_without_resources"
   )
 
   # No file remotely

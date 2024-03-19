@@ -28,7 +28,16 @@ test_that("write_package() returns error if Data Package has no resource(s)", {
   on.exit(unlink(dir, recursive = TRUE))
   expect_error(
     write_package(p_empty, dir),
-    "`package` must have resources. Use `add_resource()` to add resources.",
+    class = "frictionless_error_package_without_resources"
+  )
+  expect_error(
+    write_package(p_empty, dir),
+    regexp = "`package` must have resources.",
+    fixed = TRUE
+  )
+  expect_error(
+    write_package(p_empty, dir),
+    regexp = "Use `add_resource()` to add resources.",
     fixed = TRUE
   )
 
@@ -244,12 +253,18 @@ test_that("write_package() shows message when downloading file", {
   skip_if_offline()
   p <- example_package
   dir <- file.path(tempdir(), "package")
+  dir_1 <- file.path(dir, "1")
+  dir_2 <- file.path(dir, "2")
   on.exit(unlink(dir, recursive = TRUE))
   expect_message(
-    write_package(p, dir),
-    paste0(
-      "Downloading file from https://raw.githubusercontent.com/",
-      "frictionlessdata/frictionless-r/main/inst/extdata/deployments.csv"
+    write_package(p, dir_1),
+    class = "frictionless_message_file_downloading"
+  )
+  expect_message(
+    write_package(p, dir_2),
+    regexp = paste0(
+      "Downloading file from 'https://raw.githubusercontent.com/",
+      "frictionlessdata/frictionless-r/main/inst/extdata/deployments.csv'"
     ),
     fixed = TRUE
   )
