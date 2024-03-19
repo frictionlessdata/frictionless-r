@@ -1,4 +1,4 @@
-#' Check Data Package object
+#' Check a Data Package object
 #'
 #' Check if an object is a Data Package object (see [create_package()]) with
 #' the required properties.
@@ -6,7 +6,7 @@
 #' @inheritParams read_package
 #' @return `TRUE` or error.
 #' @family check functions
-#' @noRd
+#' @export
 check_package <- function(package) {
   general_message <- "{.arg package} must be a Data Package object."
   tip_message <- paste(
