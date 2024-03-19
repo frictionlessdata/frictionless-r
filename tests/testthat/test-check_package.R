@@ -2,6 +2,16 @@ test_that("check_package() returns TRUE on valid Data Package", {
   expect_true(check_package(example_package))
 })
 
+test_that("check_package() returns error on missing class", {
+  p <- example_package
+  class(p) <- c("list") # Remove "datapackage" class
+
+  expect_error(
+    check_package(p),
+    class = "frictionless_error_package_invalid"
+  )
+})
+
 test_that("check_package() returns error on invalid Data Package", {
   # Valid package
   p <- list(

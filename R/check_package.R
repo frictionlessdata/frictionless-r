@@ -1,7 +1,7 @@
 #' Check Data Package object
 #'
-#' Check if an object is a list describing a Data Package, i.e. it has the
-#' required properties `resources` and `directory`.
+#' Check if an object is a Data Package object (see [create_package()]) with
+#' the required class and properties.
 #'
 #' @inheritParams read_package
 #' @return `TRUE` or error.
@@ -15,6 +15,14 @@ check_package <- function(package) {
     !is.list(package$resources) ||
     !is.character(package$directory)
   ) {
+  # Check class
+  if (!"datapackage" %in% package) {
+    cli::cli_abort(
+      "{.arg package} must have class {.val datapackage}.",
+      class = "frictionless_error_package_invalid"
+    )
+  }
+
     cli::cli_abort(
       "{.arg package} must be a list describing a Data Package created with
        {.fun read_package} or {.fun create_package}.",
