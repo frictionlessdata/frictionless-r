@@ -17,7 +17,7 @@ in the order provided.
 Selecting columns can improve read speed.}
 }
 \value{
-A \code{\link[=tibble]{tibble()}} data frame with the Data Resource's tabular data.
+\code{\link[=tibble]{tibble()}} data frame with the Data Resource's tabular data.
 If there are parsing problems, a warning will alert you.
 You can retrieve the full details by calling \code{\link[=problems]{problems()}} on your data
 frame.
@@ -198,7 +198,7 @@ Can be parsed afterwards with \code{\link[lubridate:duration]{lubridate::duratio
 \code{character}.
 \item \href{https://specs.frictionlessdata.io/table-schema/#any}{any} as \code{character}.
 \item Any other value is not allowed.
-\item Type is guessed when not provided.
+\item Type is guessed if not provided.
 }
 }
 }

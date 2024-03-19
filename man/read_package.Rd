@@ -10,10 +10,7 @@ read_package(file = "datapackage.json")
 \item{file}{Path or URL to a \code{datapackage.json} file.}
 }
 \value{
-List describing a Data Package.
-The function will add a custom property \code{directory} with the directory the
-descriptor was read from.
-It is used as a base path to access resources.
+Data Package object (see \code{\link[=create_package]{create_package()}}).
 }
 \description{
 Reads information from a \code{datapackage.json} file, i.e. the
