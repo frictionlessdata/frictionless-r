@@ -31,7 +31,7 @@
 create_package <- function(descriptor = NULL) {
   if (!is.null(descriptor) && !is.list(descriptor)) {
     cli::cli_abort(
-      "{.arg x} must be a list.",
+      "{.arg descriptor} must be a list if provided.",
       class = "frictionless_error_descriptor_invalid"
     )
   }
