@@ -55,7 +55,10 @@ write_resource <- function(package, resource_name, directory = ".",
       destination <- file.path(directory, file_name)
       if (is_url(path)) {
         if (!file.exists(destination)) {
-          message(glue::glue("Downloading file from {path}"))
+          cli::cli_inform(
+            "Downloading file from {.path {path}}.",
+            class = "frictionless_message_file_downloading"
+          )
           utils::download.file(path, destination, quiet = TRUE)
         }
       } else {

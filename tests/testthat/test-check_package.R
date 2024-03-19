@@ -23,6 +23,7 @@ test_that("check_package() returns error on invalid Data Package", {
     check_package("not_a_list"),
     class = "frictionless_error_package_invalid"
   )
+
   # Must have resources as list
   p_invalid <- p
   p_invalid$resources <- NULL

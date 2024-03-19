@@ -137,7 +137,7 @@ add_resource <- function(package, resource_name, data, schema = NULL,
   if (...length() != length(...names())) {
     cli::cli_abort(
       "All arguments in {.arg ...} must be named.",
-      class = "frictionless_error_unnamed_argument"
+      class = "frictionless_error_argument_unnamed"
     )
   }
   properties <- ...names()

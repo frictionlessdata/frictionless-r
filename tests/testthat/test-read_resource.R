@@ -71,14 +71,31 @@ test_that("read_resource() allows column selection", {
 test_that("read_resource() returns error on column selection not in schema", {
   skip_if_offline()
   p <- example_package
+
+  # One column
   expect_error(
     read_resource(p, "deployments", col_select = "no_such_column"),
-    paste(
-      "Can't find column(s) `no_such_column` in field names.",
-      "ℹ Field names: `deployment_id`, `longitude`, `latitude`, `start`, `comments`",
-      sep = "\n"
-    ),
+    class = "frictionless_error_colselect_mismatch"
+  )
+  expect_error(
+    read_resource(p, "deployments", col_select = "no_such_column"),
+    regexp = "Can't find column \"no_such_column\" in field names.",
     fixed = TRUE
+  )
+  expect_error(
+    read_resource(p, "deployments", col_select = "no_such_column"),
+    regexp = "Field names: \"deployment_id\", \"longitude\", \"latitude\", \"start\", and \"comments\".",
+    fixed = TRUE
+  )
+
+  # Partial match, multiple columns
+  expect_error(
+    read_resource(
+      p,
+      "deployments",
+      col_select = c("no_such_column", "start", "no_such_column_either")
+    ),
+    class = "frictionless_error_colselect_mismatch"
   )
   expect_error(
     read_resource(
@@ -86,11 +103,7 @@ test_that("read_resource() returns error on column selection not in schema", {
       "deployments",
       col_select = c("no_such_column", "start", "no_such_column_either")
     ),
-    paste(
-      "Can't find column(s) `no_such_column`, `no_such_column_either` in field names.",
-      "ℹ Field names: `deployment_id`, `longitude`, `latitude`, `start`, `comments`",
-      sep = "\n"
-    ),
+    regexp = "Can't find columns \"no_such_column\" and \"no_such_column_either\" in field names.",
     fixed = TRUE
   )
 })
@@ -245,7 +258,7 @@ test_that("read_resource() can read inline data (ignoring schema)", {
   p$resources[[3]]$data <- "not_a_list" # Media resource
   expect_error(
     read_resource(p, "media"),
-    "second argument must be a list",
+    regexp = "second argument must be a list",
     fixed = TRUE
   )
 })
@@ -427,10 +440,14 @@ test_that("read_resource() understands encoding", {
   # Create package with unknown encoding
   p_unknown <- p
   p_unknown$resources[[1]]$encoding <- "utf-8-sig"
-  warnings <- capture_warnings(read_resource(p_unknown, "deployments"))
-  expect_identical(
-    warnings[1],
-    "Unknown encoding `utf-8-sig`. Reading file(s) with UTF-8 encoding."
+  expect_warning(
+    read_resource(p_unknown, "deployments"),
+    class = "frictionless_warning_resource_encoding_unknown"
+  )
+  expect_warning(
+    read_resource(p_unknown, "deployments"),
+    regexp = "Unknown encoding utf-8-sig. Reading file(s) with UTF-8 encoding.",
+    fixed = TRUE
   )
   expect_identical(
     suppressWarnings(read_resource(p_unknown, "deployments")),
@@ -448,37 +465,41 @@ test_that("read_resource() handles decimalChar/groupChar properties", {
   expect_identical(resource$num_undefined, expected_value) # 3000000.30
 
   # Non-default decimalChar, default groupChar (which should not conflict)
-  warnings <- capture_warnings(read_resource(p, "mark_decimal"))
-  expect_identical(
-    warnings[1],
-    paste(
-      "Some fields define a non-default `decimalChar`.",
-      "Parsing all number fields with `,` as decimal mark."
-    )
+  expect_warning(
+    read_resource(p, "mark_decimal"),
+    class = "frictionless_warning_fields_decimalchar_different"
+  )
+  expect_warning(
+    read_resource(p, "mark_decimal"),
+    regexp = paste(
+      "Some fields define a non-default decimalChar.",
+      "Parsing all number fields with \",\" as decimal mark."
+    ),
+    fixed = TRUE
   )
 
   resource <- suppressWarnings(read_resource(p, "mark_decimal"))
   expect_identical(resource$num, expected_value) # 3000000.30
   expect_identical(resource$num_undefined, expected_value) # 3000000.30
 
-  # Non-default decimalChar/groupChar
-  warnings <- capture_warnings(read_resource(p, "mark_decimal_group"))
-  expect_true(length(warnings) == 3) # 2 warnings + 1 parsing failure last field
-  expect_identical(
-    warnings[1],
-    paste(
-      "Some fields define a non-default `decimalChar`.",
-      "Parsing all number fields with `,` as decimal mark."
-    )
-  )
-  expect_identical(
-    warnings[2],
-    paste(
-      "Some fields define a non-default `groupChar`.",
-      "Parsing all number fields with `.` as grouping mark."
-    )
-  )
-
+  # Non-default decimalChar and groupChar
+  # Results in 3 warnings: decimalchar, groupchar, parsing failure last field
+  suppressWarnings(expect_warning(
+    read_resource(p, "mark_decimal_group"),
+    class = "frictionless_warning_fields_decimalchar_different"
+  ))
+  suppressWarnings(expect_warning(
+    read_resource(p, "mark_decimal_group"),
+    class = "frictionless_warning_fields_groupchar_different"
+  ))
+  suppressWarnings(expect_warning(
+    read_resource(p, "mark_decimal_group"),
+    regexp = paste(
+      "Some fields define a non-default groupChar.",
+      "Parsing all number fields with \".\" as grouping mark."
+    ),
+    fixed = TRUE
+  ))
   resource <- suppressWarnings(read_resource(p, "mark_decimal_group"))
   expect_identical(resource$num, expected_value) # 3.000.000,30
   # Field without decimalChar is still parsed with non-default decimalChar
@@ -545,7 +566,7 @@ test_that("read_resource() can read compressed files", {
   # https://github.com/tidyverse/readr/issues/1042#issuecomment-545103047
   expect_error(
     read_resource(p_remote_zip, "deployments"),
-    paste(
+    regexp = paste(
       "Reading from remote `zip` compressed files is not supported,",
       "  download the files locally first.",
       sep = "\n"

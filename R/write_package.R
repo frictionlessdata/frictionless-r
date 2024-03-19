@@ -47,13 +47,15 @@ write_package <- function(package, directory = ".", compress = FALSE) {
   check_package(package)
 
   # Check resources
-  assertthat::assert_that(
-    length(package$resources) != 0, # Null or empty list
-    msg = glue::glue(
-      "`package` must have resources. Use `add_resource()` to add resources.",
-      .sep = " "
+  if (length(package$resources) == 0) {
+    cli::cli_abort(
+      c(
+        "{.arg package} must have resources.",
+        "i" = "Use {.fun add_resource} to add resources."
+      ),
+      class = "frictionless_error_package_without_resources"
     )
-  )
+  }
 
   # Create directory if it doesn't exists yet
   if (!dir.exists(directory)) {
