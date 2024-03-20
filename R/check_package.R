@@ -1,9 +1,8 @@
 #' Check a Data Package object
 #'
-#' Check if an object is a Data Package object (see [create_package()]) with
-#' the required properties.
+#' Check if an object is a Data Package object with the required properties.
 #'
-#' @inheritParams read_package
+#' @inheritParams read_resource
 #' @return `TRUE` or error.
 #' @family check functions
 #' @export

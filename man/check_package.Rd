@@ -6,11 +6,14 @@
 \usage{
 check_package(package)
 }
+\arguments{
+\item{package}{Data Package object, created with \code{\link[=read_package]{read_package()}} or
+\code{\link[=create_package]{create_package()}}.}
+}
 \value{
 \code{TRUE} or error.
 }
 \description{
-Check if an object is a Data Package object (see \code{\link[=create_package]{create_package()}}) with
-the required properties.
+Check if an object is a Data Package object with the required properties.
 }
 \concept{check functions}

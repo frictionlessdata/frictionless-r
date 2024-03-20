@@ -10,7 +10,7 @@ read_package(file = "datapackage.json")
 \item{file}{Path or URL to a \code{datapackage.json} file.}
 }
 \value{
-Data Package object (see \code{\link[=create_package]{create_package()}}).
+Data Package object, see \code{\link[=create_package]{create_package()}}.
 }
 \description{
 Reads information from a \code{datapackage.json} file, i.e. the

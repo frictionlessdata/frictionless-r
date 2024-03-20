@@ -5,7 +5,7 @@
 #' that describes the Data Package metadata and its Data Resources.
 #'
 #' @param file Path or URL to a `datapackage.json` file.
-#' @return Data Package object (see [create_package()]).
+#' @return Data Package object, see [create_package()].
 #' @family read functions
 #' @export
 #' @examples
