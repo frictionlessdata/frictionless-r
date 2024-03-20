@@ -13,15 +13,6 @@ test_that("create_package() returns error on invalid descriptor", {
   )
 })
 
-test_that("create_package() sets profile to 'tabular-data-package' if not
-           provided", {
-  new <- create_package()
-  expect_identical(new$profile, "tabular-data-package")
-
-  existing <- create_package(list(profile = "not_default"))
-  expect_identical(existing$profile, "not_default")
-})
-
 test_that("create_package() sets resources if not provided", {
   new <- create_package()
   expect_identical(new$resources, list())

@@ -8,8 +8,6 @@
 #' - [`resources`](
 #'   https://specs.frictionlessdata.io/data-package/#required-properties) (an
 #'   empty list) if not present.
-#' - [`profile`](https://specs.frictionlessdata.io/data-package/#profile) (set
-#'   to `"tabular-data-package"`) if not present.
 #' - `directory` (set to `"."` for the current directory) if not present.
 #'   It is used as the base path to access resources with [read_resource()].
 #'
@@ -33,7 +31,6 @@ create_package <- function(descriptor = NULL) {
   }
 
   # Add properties
-  descriptor$profile <- replace_null(descriptor$profile, "tabular-data-package")
   descriptor$resources <- replace_null(descriptor$resources, list())
   descriptor$directory <- replace_null(descriptor$directory, ".") # Current dir
 
