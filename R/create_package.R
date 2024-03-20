@@ -11,11 +11,12 @@
 #' - `directory` (set to `"."` for the current directory) if not present.
 #'   It is used as the base path to access resources with [read_resource()].
 #'
+#' The function will run [check_package()] on the created package to make sure
+#' it is valid.
+#'
 #' @param descriptor List to be made into a Data Package object.
 #'   If `NULL`, an empty Data Package object will be created from scratch.
 #' @return Data Package object.
-#'   Use [check_package()] to check if it is a valid Data Package
-#'   object.
 #' @family create functions
 #' @export
 #' @examples
@@ -38,5 +39,8 @@ create_package <- function(descriptor = NULL) {
   if (!"datapackage" %in% class(descriptor)) {
     class(descriptor) <- c("datapackage", class(descriptor))
   }
-  descriptor
+
+  # Check that created package is valid
+  check_package(descriptor)
+  return(descriptor)
 }

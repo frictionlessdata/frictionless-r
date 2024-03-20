@@ -12,8 +12,6 @@ If \code{NULL}, an empty Data Package object will be created from scratch.}
 }
 \value{
 Data Package object.
-Use \code{\link[=check_package]{check_package()}} to check if it is a valid Data Package
-object.
 }
 \description{
 Initiates a \href{https://specs.frictionlessdata.io/data-package/}{Data Package}
@@ -27,6 +25,10 @@ empty list) if not present.
 \item \code{directory} (set to \code{"."} for the current directory) if not present.
 It is used as the base path to access resources with \code{\link[=read_resource]{read_resource()}}.
 }
+}
+\details{
+The function will run \code{\link[=check_package]{check_package()}} on the created package to make sure
+it is valid.
 }
 \examples{
 # Create a Data Package
