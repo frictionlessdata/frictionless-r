@@ -24,8 +24,6 @@ following properties:
 \item All properties of the original \code{descriptor}.
 \item \href{https://specs.frictionlessdata.io/data-package/#required-properties}{\code{resources}} (an
 empty list) if not present.
-\item \href{https://specs.frictionlessdata.io/data-package/#profile}{\code{profile}} (set
-to \code{"tabular-data-package"}) if not present.
 \item \code{directory} (set to \code{"."} for the current directory) if not present.
 It is used as the base path to access resources with \code{\link[=read_resource]{read_resource()}}.
 }
