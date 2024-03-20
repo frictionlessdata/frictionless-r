@@ -42,5 +42,6 @@ create_package <- function(descriptor = NULL) {
 
   # Check that created package is valid
   check_package(descriptor)
+  
   return(descriptor)
 }
