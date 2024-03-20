@@ -16,6 +16,10 @@
 #' @param col_select Character vector of the columns to include in the result,
 #'   in the order provided.
 #'   Selecting columns can improve read speed.
+#' @param channels A character vector representing the data channels to load.
+#'   Available channels are `"values"` and `"missing"`. Use named vectors to
+#'   control column suffixes, e.g.
+#'   `c(values = "__values", missing = "__missing")`.
 #' @return A [tibble()] data frame with the Data Resource's tabular data.
 #'   If there are parsing problems, a warning will alert you.
 #'   You can retrieve the full details by calling [problems()] on your data
@@ -199,7 +203,8 @@
 #'
 #' # Read data from the resource "deployments" with column selection
 #' read_resource(package, "deployments", col_select = c("latitude", "longitude"))
-read_resource <- function(package, resource_name, col_select = NULL) {
+read_resource <- function(package, resource_name, col_select = NULL,
+                          channels = c("values")) {
   # Get resource, includes check_package()
   resource <- get_resource(package, resource_name)
 
@@ -347,10 +352,11 @@ read_resource <- function(package, resource_name, col_select = NULL) {
   } else if (resource$read_from == "path" || resource$read_from == "url") {
     dataframes <- list()
     for (i in seq_along(paths)) {
-      data <- readr::read_delim(
+      data <- read_delim_ext(
         file = paths[i],
         delim = replace_null(dialect$delimiter, ","),
         quote = replace_null(dialect$quoteChar, "\""),
+        channels = channels,
         escape_backslash = ifelse(
           replace_null(dialect$escapeChar, "not set") == "\\", TRUE, FALSE
         ),
@@ -371,7 +377,7 @@ read_resource <- function(package, resource_name, col_select = NULL) {
         trim_ws = replace_null(dialect$skipInitialSpace, FALSE),
         # Skip header row when present
         skip = ifelse(replace_null(dialect$header, TRUE), 1, 0),
-        skip_empty_rows = TRUE
+        skip_empty_rows = TRUE,
       )
       dataframes[[i]] <- data
     }

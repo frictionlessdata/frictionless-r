@@ -4,7 +4,12 @@
 \alias{read_resource}
 \title{Read data from a Data Resource into a tibble data frame}
 \usage{
-read_resource(package, resource_name, col_select = NULL)
+read_resource(
+  package,
+  resource_name,
+  col_select = NULL,
+  channels = c("values")
+)
 }
 \arguments{
 \item{package}{List describing a Data Package, created with \code{\link[=read_package]{read_package()}}
@@ -15,6 +20,11 @@ or \code{\link[=create_package]{create_package()}}.}
 \item{col_select}{Character vector of the columns to include in the result,
 in the order provided.
 Selecting columns can improve read speed.}
+
+\item{channels}{A character vector representing the data channels to load.
+Available channels are \code{"values"} and \code{"missing"}. Use named vectors to
+control column suffixes, e.g.
+\code{c(values = "__values", missing = "__missing")}.}
 }
 \value{
 A \code{\link[=tibble]{tibble()}} data frame with the Data Resource's tabular data.
