@@ -21,6 +21,10 @@ package <- read_package(
 )
 
 # Print a summary of the Data Package
-print(package)
+package # Or print(package)
+}
+\seealso{
+Other print functions: 
+\code{\link{as.list.datapackage}()}
 }
 \concept{print functions}

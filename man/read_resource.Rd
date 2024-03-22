@@ -209,8 +209,7 @@ package <- read_package(
   system.file("extdata", "datapackage.json", package = "frictionless")
 )
 
-# List resources
-resources(package)
+package
 
 # Read data from the resource "observations"
 read_resource(package, "observations")

@@ -22,6 +22,10 @@
 #' @examples
 #' # Create a Data Package
 #' package <- create_package()
+#'
+#' package
+#'
+#' # See the structure of the (empty) Data Package
 #' str(package)
 create_package <- function(descriptor = NULL) {
   if (!is.null(descriptor) && !is.list(descriptor)) {

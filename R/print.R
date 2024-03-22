@@ -13,7 +13,7 @@
 #' )
 #'
 #' # Print a summary of the Data Package
-#' print(package)
+#' package # Or print(package)
 print.datapackage <- function(package) {
   # List resources
   resources <- resources(package)
