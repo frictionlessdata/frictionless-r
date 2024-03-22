@@ -20,9 +20,7 @@ print.datapackage <- function(package) {
   cli::cli_text(
     "A Data Package with {length(resources)} resource{?s}{?./: /: }"
   )
-  resource_bullets <- purrr::map_chr(resources, ~ paste0("{.val ", .x, "}"))
-  names(resource_bullets) <- rep("*", length(resource_bullets))
-  cli::cli_bullets(resource_bullets)
+  cli::cli_bullets(cli::cat_bullet(resources, bullet = "bullet"))
 
   # Include link (DOI) if available in package$id
   if (startsWith(replace_null(package$id, ""), "http")) {
