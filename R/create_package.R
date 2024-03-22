@@ -15,7 +15,7 @@
 #' it is valid.
 #'
 #' @param descriptor List to be made into a Data Package object.
-#'   If `NULL`, an empty Data Package object without resources will be created.
+#'   If undefined, an empty Data Package will be created from scratch.
 #' @return Data Package object.
 #' @family create functions
 #' @export

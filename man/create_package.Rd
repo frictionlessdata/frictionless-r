@@ -8,7 +8,7 @@ create_package(descriptor = NULL)
 }
 \arguments{
 \item{descriptor}{List to be made into a Data Package object.
-If \code{NULL}, an empty Data Package object without resources will be created.}
+If undefined, an empty Data Package will be created from scratch.}
 }
 \value{
 Data Package object.
