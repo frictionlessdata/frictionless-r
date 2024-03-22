@@ -28,5 +28,5 @@ remove_resource <- function(package, resource_name) {
     (x$name == resource_name)
   })
 
-  package
+  return(package)
 }

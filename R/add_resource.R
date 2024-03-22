@@ -192,5 +192,5 @@ add_resource <- function(package, resource_name, data, schema = NULL,
   # Add resource (needs to be wrapped in its own list)
   package$resources <- append(package$resources, list(resource))
 
-  package
+  return(package)
 }

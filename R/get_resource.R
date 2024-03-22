@@ -65,5 +65,5 @@ get_resource <- function(package, resource_name) {
     resource$read_from <- "data"
   }
 
-  resource
+  return(resource)
 }
