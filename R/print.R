@@ -15,33 +15,27 @@
 #' # Print a summary of the Data Package
 #' print(package)
 print.datapackage <- function(package) {
-  name <- replace_null(package$name, "(Unnamed)")
+  # List resources
+  resources <- resources(package)
+  cli::cli_text(
+    "A Data Package with {length(resources)} resource{?s}{?./: /: }"
+  )
+  resource_bullets <- purrr::map_chr(resources, ~ paste0("{.val ", .x, "}"))
+  names(resource_bullets) <- rep("*", length(resource_bullets))
+  cli::cli_bullets(resource_bullets)
 
-  tbl_resources <- purrr::keep(package$resources, \(r) r$profile == "tabular-data-resource")
-
-  n_resources <- length(tbl_resources)
-
-  cat(glue::glue("# A frictionless data package: '{name}'\n\n"))
-
-  if (n_resources > 0) {
-    cat(glue::glue("# {n_resources} available tabular data resource(s): \n\n\n"))
-
-    rtable <- purrr::map(tbl_resources, function(r) {
-      tibble::tibble(
-        name = r$name,
-        fields = length(r$schema$fields),
-        description = stringr::str_trunc(replace_null(r$description, "~"), 20),
-      )
-    }) |>
-      dplyr::bind_rows()
-
-    print.data.frame(rtable)
-
-    cat("\n")
-    cat(
-      glue::glue("# i Use `read_resource()` to load tabular data resource\n")
+  # Include link (DOI) if available in package$id
+  if (startsWith(replace_null(package$id, ""), "http")) {
+    cli::cli_text(
+      "For more information, see {.url {package$id}}."
     )
-  } else {
-    cat("# No available tabular resources\n")
   }
+
+  # Provide help
+  cli::cli_text(
+    cli::col_silver(
+      "Use {.fun as.list} to see the metadata and
+       {.fun read_resource} to load data from a resource."
+    )
+  )
 }
