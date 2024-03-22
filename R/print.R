@@ -4,13 +4,12 @@
 #' and a link to more information (if provided in `package$id`).
 #'
 #' @inheritParams read_resource
+#' @return [print()] with a summary of the Data Package object.
 #' @family print functions
 #' @export
 #' @examples
-#' # Read a datapackage.json file
-#' package <- read_package(
-#'   system.file("extdata", "datapackage.json", package = "frictionless")
-#' )
+#' # Load the example Data Package
+#' package <- example_package
 #'
 #' # Print a summary of the Data Package
 #' package # Or print(package)

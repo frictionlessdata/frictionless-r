@@ -10,15 +10,16 @@
 \item{package}{Data Package object, created with \code{\link[=read_package]{read_package()}} or
 \code{\link[=create_package]{create_package()}}.}
 }
+\value{
+\code{\link[=print]{print()}} with a summary of the Data Package object.
+}
 \description{
 Prints a human-readable summary of a Data Package, including its resources
 and a link to more information (if provided in \code{package$id}).
 }
 \examples{
-# Read a datapackage.json file
-package <- read_package(
-  system.file("extdata", "datapackage.json", package = "frictionless")
-)
+# Load the example Data Package
+package <- example_package
 
 # Print a summary of the Data Package
 package # Or print(package)
