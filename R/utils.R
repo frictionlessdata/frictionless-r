@@ -1,16 +1,5 @@
 # HELPER FUNCTIONS
 
-#' Convert a data package to a bare list
-#'
-#' @param x Data package to convert.
-#' @return The data package converted to a bare list
-#' @family helper functions
-#' @export
-as.list.datapackage <- function(x) {
-  class(x) <- "list"
-  x
-}
-
 #' Replace value when NULL
 #'
 #' @param x Value to test.
