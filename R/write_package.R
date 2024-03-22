@@ -14,8 +14,7 @@
 #'   data are written to a CSV file using [readr::write_csv()], `path` points to
 #'   location of file, `data` property is removed.
 #'   Use `compress = TRUE` to gzip those CSV files.
-#' @param package List describing a Data Package, created with [read_package()]
-#'   or [create_package()].
+#' @inheritParams read_resource
 #' @param directory Path to local directory to write files to.
 #' @param compress If `TRUE`, data of added resources will be gzip compressed
 #'   before being written to disk (e.g. `deployments.csv.gz`).

@@ -1,4 +1,4 @@
-#' Check path or URL
+#' Check a path or URL
 #'
 #' Check if a [path or
 #' URL](https://specs.frictionlessdata.io/data-resource/#url-or-path) is valid

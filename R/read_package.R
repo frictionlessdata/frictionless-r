@@ -5,10 +5,7 @@
 #' that describes the Data Package metadata and its Data Resources.
 #'
 #' @param file Path or URL to a `datapackage.json` file.
-#' @return List describing a Data Package.
-#'   The function will add a custom property `directory` with the directory the
-#'   descriptor was read from.
-#'   It is used as a base path to access resources.
+#' @return Data Package object, see [create_package()].
 #' @family read functions
 #' @export
 #' @examples
@@ -64,5 +61,5 @@ read_package <- function(file = "datapackage.json") {
   }
   cli::cli_inform(message, class = "frictionless_message_usage_rights")
 
-  descriptor
+  create_package(descriptor)
 }

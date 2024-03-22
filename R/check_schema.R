@@ -1,4 +1,4 @@
-#' Check Table Schema object
+#' Check a Table Schema object
 #'
 #' Check if an object is a list describing a Table Schema and (optionally)
 #' compare against a provided data frame.
