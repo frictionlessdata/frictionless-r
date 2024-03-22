@@ -22,28 +22,28 @@ get_resource <- function(package, resource_name) {
 
   # Check resource
   resource_names <- resources(package)
-  assertthat::assert_that(
-    resource_name %in% resource_names,
-    msg = glue::glue(
-      "Can't find resource `{resource_name}` in {resource_names_collapse}.",
-      resource_names_collapse = glue::glue_collapse(
-        glue::backtick(resource_names),
-        sep = ", "
-      )
+  if (!resource_name %in% resources(package)) {
+    cli::cli_abort(
+      c(
+        "Can't find resource {.val {resource_name}} in {.arg package}.",
+        "i" = "Available resource{?s}: {.val {resources(package)}}."
+      ),
+      class = "frictionless_error_resource_not_found"
     )
-  )
+  }
 
   # Get resource
   resource <- purrr::keep(package$resources, ~ .x$name == resource_name)[[1]]
 
   # Check path(s) to file(s)
   # https://specs.frictionlessdata.io/data-resource/#data-location
-  assertthat::assert_that(
-    !is.null(resource$path) | !is.null(resource$data),
-    msg = glue::glue(
-      "Resource `{resource_name}` must have property `path` or `data`."
+  if (is.null(resource$path) && is.null(resource$data)) {
+    cli::cli_abort(
+      "Resource {.val {resource_name}} must have a {.field path} or
+      {.field data} property.",
+      class = "frictionless_error_resource_without_path_data"
     )
-  )
+  }
 
   # Assign read_from property (based on path, then df, then data)
   if (length(resource$path) != 0) {

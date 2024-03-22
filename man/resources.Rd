@@ -7,7 +7,8 @@
 resources(package)
 }
 \arguments{
-\item{package}{List describing a Data Package.}
+\item{package}{Data Package object, created with \code{\link[=read_package]{read_package()}} or
+\code{\link[=create_package]{create_package()}}.}
 }
 \value{
 Character vector with the Data Resource names.

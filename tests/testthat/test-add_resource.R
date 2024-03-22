@@ -11,15 +11,11 @@ test_that("add_resource() returns a valid Data Package", {
   ))
 })
 
-test_that("add_resource() returns error on incorrect Data Package", {
+test_that("add_resource() returns error on invalid Data Package", {
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   expect_error(
     add_resource(list(), "new", df),
-    paste(
-      "`package` must be a list describing a Data Package,",
-      "created with `read_package()` or `create_package()`."
-    ),
-    fixed = TRUE
+    class = "frictionless_error_package_invalid"
   )
 })
 
@@ -27,20 +23,47 @@ test_that("add_resource() returns error when resource name contains invalid
            characters", {
   p <- example_package
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
+
+  # Invalid names
   expect_error(
     add_resource(p, "New", df),
-    paste(
-      "`New` must only contain lowercase alphanumeric characters plus",
-      "`.`, `-` and `_`."
+    class = "frictionless_error_resource_name_invalid"
+  )
+  expect_error(
+    add_resource(p, "New", df),
+    regexp = paste(
+      "`resource_name` must only consist of lowercase alphanumeric characters,",
+      "\".\", \"-\" and \"_\"."
     ),
     fixed = TRUE
   )
-  expect_error(add_resource(p, "nëw", df), "only contain lowercase")
-  expect_error(add_resource(p, " new", df), "only contain lowercase")
-  expect_error(add_resource(p, "new ", df), "only contain lowercase")
-  expect_error(add_resource(p, "n ew", df), "only contain lowercase")
-  expect_error(add_resource(p, "n/ew", df), "only contain lowercase")
+  expect_error(
+    add_resource(p, "New", df),
+    regexp = "\"New\" does not meet those criteria.",
+    fixed = TRUE
+  )
+  expect_error(
+    add_resource(p, "nëw", df),
+    class = "frictionless_error_resource_name_invalid"
+  )
+  expect_error(
+    add_resource(p, " new", df),
+    class = "frictionless_error_resource_name_invalid"
+  )
+  expect_error(
+    add_resource(p, "new ", df),
+    class = "frictionless_error_resource_name_invalid"
+  )
+  expect_error(
+    add_resource(p, "n ew", df),
+    class = "frictionless_error_resource_name_invalid"
+  )
+  expect_error(
+    add_resource(p, "n/ew", df),
+    class = "frictionless_error_resource_name_invalid"
+  )
 
+  # Valid names
   expect_true(check_package(add_resource(p, "n.ew", df)))
   expect_true(check_package(add_resource(p, "n-ew", df)))
   expect_true(check_package(add_resource(p, "n_ew", df)))
@@ -54,7 +77,11 @@ test_that("add_resource() returns error when resource of that name already
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   expect_error(
     add_resource(p, "deployments", df),
-    "`package` already contains a resource named `deployments`.",
+    class = "frictionless_error_resource_already_exists"
+  )
+  expect_error(
+    add_resource(p, "deployments", df),
+    regexp = "`package` already contains a resource named \"deployments\".",
     fixed = TRUE
   )
 })
@@ -64,7 +91,11 @@ test_that("add_resource() returns error when data is not data frame or
   p <- example_package
   expect_error(
     add_resource(p, "new", list()),
-    "`data` must be a data frame or path(s) to CSV file(s).",
+    class = "frictionless_error_data_type_invalid"
+  )
+  expect_error(
+    add_resource(p, "new", list()),
+    regexp = "`data` must either be a data frame or path(s) to CSV file(s).",
     fixed = TRUE
   )
 })
@@ -75,13 +106,11 @@ test_that("add_resource() returns error on invalid or empty data frame", {
   schema <- create_schema(df)
   expect_error(
     add_resource(p, "new", data.frame("col_1" = character(0))),
-    "`data` must be a data frame containing data.",
-    fixed = TRUE
+    class = "frictionless_error_data_invalid"
   )
   expect_error(
     add_resource(p, "new", data.frame("col_1" = character(0)), schema),
-    "`data` must be a data frame containing data.",
-    fixed = TRUE
+    class = "frictionless_error_data_invalid"
   )
 
   # For more tests see test-check_schema.R
@@ -94,33 +123,27 @@ test_that("add_resource() returns error if CSV file cannot be found", {
   schema <- create_schema(data.frame("col_1" = c(1, 2), "col_2" = c("a", "b")))
   expect_error(
     add_resource(p, "new", "no_such_file.csv"),
-    "Can't find file at `no_such_file.csv`.",
-    fixed = TRUE
+    class = "frictionless_error_path_not_found"
   )
   expect_error(
     add_resource(p, "new", "no_such_file.csv", schema),
-    "Can't find file at `no_such_file.csv`.",
-    fixed = TRUE
+    class = "frictionless_error_path_not_found"
   )
   expect_error(
     add_resource(p, "new", c(df_csv, "no_such_file.csv")),
-    "Can't find file at `no_such_file.csv`.",
-    fixed = TRUE
+    class = "frictionless_error_path_not_found"
   )
   expect_error(
     add_resource(p, "new", c("no_such_file.csv", df_csv)),
-    "Can't find file at `no_such_file.csv`.",
-    fixed = TRUE
+    class = "frictionless_error_path_not_found"
   )
   expect_error(
     add_resource(p, "new", c("no_such_file_1.csv", "no_such_file_2.csv")),
-    "Can't find file at `no_such_file_1.csv`.",
-    fixed = TRUE
+    class = "frictionless_error_path_not_found"
   )
   expect_error(
     add_resource(p, "new", "http://example.com/no_such_file.csv"),
-    "Can't find file at `http://example.com/no_such_file.csv`.",
-    fixed = TRUE
+    class = "frictionless_error_url_not_found"
   )
 })
 
@@ -134,25 +157,13 @@ test_that("add_resource() returns error on mismatching schema and data", {
   # df
   expect_error(
     add_resource(p, "new", df, schema_invalid),
-    paste(
-      "Field names in `schema` must match column names in data:",
-      "ℹ Field names: `no_such_col`, `col_2`",
-      "ℹ Column names: `col_1`, `col_2`",
-      sep = "\n"
-    ),
-    fixed = TRUE
+    class = "frictionless_error_fields_colnames_mismatch"
   )
 
   # csv
   expect_error(
     add_resource(p, "new", df_csv, schema_invalid),
-    paste(
-      "Field names in `schema` must match column names in data:",
-      "ℹ Field names: `no_such_col`, `col_2`",
-      "ℹ Column names: `col_1`, `col_2`",
-      sep = "\n"
-    ),
-    fixed = TRUE
+    class = "frictionless_error_fields_colnames_mismatch"
   )
 
   # For more tests see test-check_schema.R
@@ -162,6 +173,10 @@ test_that("add_resource() returns error if ... arguments are unnamed", {
   p <- create_package()
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   schema <- create_schema(df)
+  expect_error(
+    add_resource(p, "new", df, schema, delim = ",", "unnamed_value"),
+    class = "frictionless_error_argument_unnamed"
+  )
   expect_error(
     add_resource(p, "new", df, schema, delim = ",", "unnamed_value"),
     "All arguments in `...` must be named.",
@@ -174,18 +189,31 @@ test_that("add_resource() returns error if ... arguments are reserved", {
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   expect_error(
     add_resource(p, "new", df, name = "custom_name"),
-    paste(
-      "`name` must be removed as an argument.",
-      "It is automatically added as a resource property by the function."
-    ),
+    class = "frictionless_error_resource_properties_reserved"
+  )
+  expect_error(
+    add_resource(p, "new", df, name = "custom_name", format = "custom_format"),
+    class = "frictionless_error_resource_properties_reserved"
+  )
+
+  expect_error(
+    add_resource(p, "new", df, name = "custom_name"),
+    regexp = "`name` must be removed as argument.",
     fixed = TRUE
   )
   expect_error(
-    add_resource(p, "new", df, path = "custom_path", encoding = "utf8"),
-    paste(
-      "`path` must be removed as an argument.", # First conflicting argument
-      "It is automatically added as a resource property by the function."
-    ),
+    add_resource(p, "new", df, name = "custom_name"),
+    regexp = "name is automatically added as resource property.",
+    fixed = TRUE
+  )
+  expect_error(
+    add_resource(p, "new", df, name = "custom_name", format = "custom_format"),
+    regexp = "`name` and `format` must be removed as arguments.",
+    fixed = TRUE
+  )
+  expect_error(
+    add_resource(p, "new", df, name = "custom_name", format = "custom_format"),
+    regexp = "name and format are automatically added as resource properties.",
     fixed = TRUE
   )
 })

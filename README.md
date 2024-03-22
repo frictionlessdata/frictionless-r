@@ -67,9 +67,10 @@ library(frictionless)
 # This gives you access to all Data Resources of the Data Package without 
 # reading them, which is convenient and fast.
 package <- read_package("https://zenodo.org/record/5879096/files/datapackage.json")
-#> Please make sure you have the right to access data from this Data Package for your intended use.
+#> Please make sure you have the right to access data from this Data Package for
+#> your intended use.
 #> Follow applicable norms or requirements to credit the dataset and its authors.
-#> For more information, see https://doi.org/10.5281/zenodo.5879096
+#> ℹ For more information, see <https://doi.org/10.5281/zenodo.5879096>.
 
 # List resources
 resources(package)
@@ -124,10 +125,10 @@ reference](https://docs.ropensci.org/frictionless/reference/index.html).
 
 [datapackage.r](https://github.com/frictionlessdata/datapackage-r) is an
 alternative R package to work with Data Packages. It has an
-object-oriented design (using a `Package` class) and offers validation.
-frictionless on the other hand allows you to quickly read and write Data
-Packages to and from data frames, getting out of the way for the rest of
-your analysis. It is designed to be lightweight, follows
+object-oriented design and offers validation. frictionless on the other
+hand allows you to quickly read and write Data Packages to and from data
+frames, getting out of the way for the rest of your analysis. It is
+designed to be lightweight, follows
 [tidyverse](https://www.tidyverse.org/) principles and supports piping.
 
 ## Meta

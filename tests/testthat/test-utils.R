@@ -1,19 +1,19 @@
 test_that("replace_null() replaces NULL or returns value", {
-  expect_identical(frictionless:::replace_null(NULL, "y"), "y")
-  expect_identical(frictionless:::replace_null(NA, "y"), NA)
-  expect_identical(frictionless:::replace_null(1, "y"), 1)
-  expect_identical(frictionless:::replace_null("x", "y"), "x")
+  expect_identical(replace_null(NULL, "y"), "y")
+  expect_identical(replace_null(NA, "y"), NA)
+  expect_identical(replace_null(1, "y"), 1)
+  expect_identical(replace_null("x", "y"), "x")
 })
 
 test_that("unique_sorted() returns unique values sorted by descending count", {
   x <- c("a", "b", "b", "b", "c", "a")
-  expect_identical(frictionless:::unique_sorted(x), c("b", "a", "c"))
+  expect_identical(unique_sorted(x), c("b", "a", "c"))
 
   x_na <- c(NA_character_, NA_character_)
-  expect_identical(frictionless:::unique_sorted(x_na), character(0))
+  expect_identical(unique_sorted(x_na), character(0))
 
   x_part_na <- c(NA_character_, NA_character_, "a")
-  expect_identical(frictionless:::unique_sorted(x_part_na), "a")
+  expect_identical(unique_sorted(x_part_na), "a")
 })
 
 test_that("clean_list() removes elements from list that match condition", {
@@ -24,7 +24,7 @@ test_that("clean_list() removes elements from list that match condition", {
 
   # Default (non recursive remove NULL): b removed
   expect_identical(
-    frictionless:::clean_list(x),
+    clean_list(x),
     list(
       a = list(list(x = "value", y = NULL, z = list(v = NULL)))
     )
@@ -36,13 +36,13 @@ test_that("clean_list() removes elements from list that match condition", {
   )
   names(expected_list$a[[1]]$z) <- character(0) # named list()
   expect_identical(
-    frictionless:::clean_list(x, recursive = TRUE),
+    clean_list(x, recursive = TRUE),
     expected_list
   )
 
   # Remove recursive + empty elements: a[[1]]$z removed
   expect_identical(
-    frictionless:::clean_list(
+    clean_list(
       x,
       function(x) is.null(x) | length(x) == 0L,
       recursive = TRUE

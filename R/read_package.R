@@ -5,10 +5,7 @@
 #' that describes the Data Package metadata and its Data Resources.
 #'
 #' @param file Path or URL to a `datapackage.json` file.
-#' @return List describing a Data Package.
-#'   The function will add a custom property `directory` with the directory the
-#'   descriptor was read from.
-#'   It is used as a base path to access resources.
+#' @return Data Package object, see [create_package()].
 #' @family read functions
 #' @export
 #' @examples
@@ -25,43 +22,44 @@
 #' resources(package)
 read_package <- function(file = "datapackage.json") {
   # Read file
-  assertthat::assert_that(
-    is.character(file),
-    msg = "`file` must be a path or URL to a `datapackage.json` file."
-  )
+  if (!is.character(file)) {
+    cli::cli_abort(
+      "{.arg file} must be a path or URL to a {.file datapackage.json} file.",
+      class = "frictionless_error_file_invalid"
+    )
+  }
   descriptor <- read_descriptor(file, safe = FALSE)
 
-  # Check resources
+  # Check resources are present
+  # Checking that they have a name is done when accessing, see check_package()
   # https://specs.frictionlessdata.io/data-package/#metadata
-  assertthat::assert_that(
-    length(descriptor$resources) != 0 & # Null or empty list
-      purrr::every(descriptor$resources, ~ !is.null(.x$name)),
-    msg = glue::glue(
-      "Descriptor `{file}` must have property `resources` containing at least",
-      "one resource. All resources must have a `name`.",
-      .sep = " "
+  if (length(descriptor$resources) == 0) {
+    cli::cli_abort(
+      "{.arg file} {.file {file}} must have a {.field resources} property
+       containing at least one resource.",
+      class = "frictionless_error_file_without_resources"
     )
-  )
+  }
 
   # Add directory
   descriptor$directory <- dirname(file) # Also works for URLs
 
-  # Inform user regarding rights/citations
-  msg <- glue::glue(
-    "Please make sure you have the right to access data from this Data Package",
-    "for your intended use.\nFollow applicable norms or requirements to credit",
-    "the dataset and its authors.",
-    .sep = " "
+  # Inform user regarding rights and citation
+  message <- c(
+    "Please make sure you have the right to access data from this Data Package
+     for your intended use.",
+    "Follow applicable norms or requirements to credit the dataset and its
+     authors."
   )
   if (!is.null(descriptor$id)) {
     if (startsWith(descriptor$id, "http")) {
-      msg <- glue::glue(
-        "{msg}", "For more information, see {descriptor$id}",
-        .sep = "\n"
+      message <- c(
+        message,
+        "i" = "For more information, see {.url {descriptor$id}}."
       )
     }
   }
-  message(msg)
+  cli::cli_inform(message, class = "frictionless_message_usage_rights")
 
   create_package(descriptor)
 }

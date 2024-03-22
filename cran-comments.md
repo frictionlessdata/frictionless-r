@@ -2,5 +2,6 @@
 
 0 errors | 0 warnings | 0 notes
 
-Network timeouts in tests/vignette caused the previous version to be removed 
-from the CRAN repository. This version addresses those issues.
+Latest version of rmarkdown (2.26) removed stringr -> stringi dependency, 
+causing build errors for this package. This patch version explicitly includes 
+stringi in Suggests.

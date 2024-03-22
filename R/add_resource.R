@@ -81,28 +81,33 @@ add_resource <- function(package, resource_name, data, schema = NULL,
   check_package(package)
 
   # Check resource name
-  assertthat::assert_that(
-    grepl(resource_name, pattern = "^[a-z0-9\\._-]+$"),
-    msg = glue::glue(
-      "`resource_name` `{resource_name}` must only contain lowercase",
-      "alphanumeric characters plus `.`, `-` and `_`.",
-      .sep = " "
+  if (!grepl(resource_name, pattern = "^[a-z0-9\\._-]+$")) {
+    cli::cli_abort(
+      c(
+        "{.arg resource_name} must only consist of lowercase alphanumeric
+         characters, {.val .}, {.val -} and {.val _}.",
+        "x" = "{.val {resource_name}} does not meet those criteria."
+      ),
+      class = "frictionless_error_resource_name_invalid"
     )
-  )
+  }
 
   # Check resource is absent
-  assertthat::assert_that(
-    !resource_name %in% resources(package),
-    msg = glue::glue(
-      "`package` already contains a resource named `{resource_name}`."
+  if (resource_name %in% resources(package)) {
+    cli::cli_abort(
+      "{.arg package} already contains a resource named {.val {resource_name}}.",
+      class = "frictionless_error_resource_already_exists"
     )
-  )
+  }
 
-  # Check data (df or path)
-  assertthat::assert_that(
-    is.data.frame(data) | is.character(data),
-    msg = "`data` must be a data frame or path(s) to CSV file(s)."
-  )
+  # Check data (data frame or path), content of data frame is checked later
+  if (!is.data.frame(data) && !is.character(data)) {
+    cli::cli_abort(
+      "{.arg data} must either be a data frame or path(s) to CSV file(s).",
+      class = "frictionless_error_data_type_invalid"
+    )
+  }
+
   if (is.data.frame(data)) {
     df <- data
   } else {
@@ -129,22 +134,27 @@ add_resource <- function(package, resource_name, data, schema = NULL,
   check_schema(schema, df)
 
   # Check ellipsis
-  assertthat::assert_that(
-    ...length() == length(...names()),
-    msg = "All arguments in `...` must be named."
-  )
+  if (...length() != length(...names())) {
+    cli::cli_abort(
+      "All arguments in {.arg ...} must be named.",
+      class = "frictionless_error_argument_unnamed"
+    )
+  }
   properties <- ...names()
   reserved_properties <- c(
     "name", "path", "profile", "format", "mediatype", "encoding", "dialect"
   ) # data and schema are also reserved, but are named arguments
   conflicting_properties <- properties[properties %in% reserved_properties]
-  assertthat::assert_that(
-    length(conflicting_properties) == 0,
-    msg = glue::glue(
-      "`{conflicting_properties[1]}` must be removed as an argument. ",
-      "It is automatically added as a resource property by the function."
+  if (length(conflicting_properties) != 0) {
+    cli::cli_abort(
+      c(
+        "{.arg {conflicting_properties}} must be removed as argument{?s}.",
+        "i" = "{.field {conflicting_properties}} {?is/are} automatically added
+               as resource propert{?y/ies}."
+      ),
+      class = "frictionless_error_resource_properties_reserved"
     )
-  )
+  }
 
   # Create resource, with properties in specific order
   if (is.data.frame(data)) {

@@ -15,14 +15,10 @@ test_that("write_package() returns output Data Package (invisibly)", {
   expect_identical(p_written, p_from_file)
 })
 
-test_that("write_package() returns error on incorrect Data Package", {
+test_that("write_package() returns error on invalid Data Package", {
   expect_error(
     write_package(list()),
-    paste(
-      "`package` must be a list describing a Data Package,",
-      "created with `read_package()` or `create_package()`."
-    ),
-    fixed = TRUE
+    class = "frictionless_error_package_invalid"
   )
 })
 
@@ -32,7 +28,16 @@ test_that("write_package() returns error if Data Package has no resource(s)", {
   on.exit(unlink(dir, recursive = TRUE))
   expect_error(
     write_package(p_empty, dir),
-    "`package` must have resources. Use `add_resource()` to add resources.",
+    class = "frictionless_error_package_without_resources"
+  )
+  expect_error(
+    write_package(p_empty, dir),
+    regexp = "`package` must have resources.",
+    fixed = TRUE
+  )
+  expect_error(
+    write_package(p_empty, dir),
+    regexp = "Use `add_resource()` to add resources.",
     fixed = TRUE
   )
 
@@ -68,18 +73,15 @@ test_that("write_package() does not overwrite existing data files", {
   # Create files in directory
   files <- c(
     datapackage = file.path(dir, "datapackage.json"),
-    deployments = file.path(dir, "deployments.csv"),
-    observations_1 = file.path(dir, "observations_1.csv"),
-    observations_2 = file.path(dir, "observations_2.csv")
+    deployments = file.path(dir, "deployments.csv") # Local path
+    # observations_1, observations_2 have remote path and would not be written
   )
   file.create(files) # Size for these files will be 0
 
   # Write package to directory, expect only datapackage.json is overwritten
   suppressMessages(write_package(p, dir))
   expect_gt(file.info(files["datapackage"])$size, 0) # Overwitten
-  expect_identical(file.info(files["deployments"])$size, 0)
-  expect_identical(file.info(files["observations_1"])$size, 0)
-  expect_identical(file.info(files["observations_2"])$size, 0)
+  expect_identical(file.info(files["deployments"])$size, 0) # Remains the same
 })
 
 test_that("write_package() copies file(s) for path = local in local package", {
@@ -251,12 +253,18 @@ test_that("write_package() shows message when downloading file", {
   skip_if_offline()
   p <- example_package
   dir <- file.path(tempdir(), "package")
+  dir_1 <- file.path(dir, "1")
+  dir_2 <- file.path(dir, "2")
   on.exit(unlink(dir, recursive = TRUE))
   expect_message(
-    write_package(p, dir),
-    paste0(
-      "Downloading file from https://raw.githubusercontent.com/",
-      "frictionlessdata/frictionless-r/main/inst/extdata/deployments.csv"
+    write_package(p, dir_1),
+    class = "frictionless_message_file_downloading"
+  )
+  expect_message(
+    write_package(p, dir_2),
+    regexp = paste0(
+      "Downloading file from 'https://raw.githubusercontent.com/",
+      "frictionlessdata/frictionless-r/main/inst/extdata/deployments.csv'"
     ),
     fixed = TRUE
   )

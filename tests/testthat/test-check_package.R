@@ -2,34 +2,68 @@ test_that("check_package() returns TRUE on valid Data Package", {
   expect_true(check_package(example_package))
 })
 
-test_that("check_package() returns error on incorrect Data Package", {
-  # Valid package
-  p <- list(
-    resources = list(),
-    directory = "."
+test_that("check_package() returns error on invalid Data Package", {
+  expect_error(
+    check_package("not_valid"),
+    class = "frictionless_error_package_invalid"
   )
-  expect_true(check_package(p))
-
-  error_message <- paste(
-    "`package` must be a list describing a Data Package,",
-    "created with `read_package()` or `create_package()`."
+  expect_error(
+    check_package("not_valid"),
+    regexp = "`package` must be a Data Package object.",
+    fixed = TRUE
   )
-  # Must be a list
-  expect_error(check_package("not_a_list"), error_message, fixed = TRUE)
+  expect_error(
+    check_package("not_valid"),
+    regexp = paste(
+      "Create a valid Data Package object with `read_package()` or",
+      "`create_package()`."
+    ),
+    fixed = TRUE
+  )
+})
 
-  # Must have resources as list
-  p_invalid <- p
-  p_invalid$resources <- NULL
-  expect_error(check_package(p_invalid), error_message, fixed = TRUE)
-  p_invalid$resources <- vector(mode = "character")
-  expect_error(check_package(p_invalid), error_message, fixed = TRUE)
+test_that("check_package() returns error if package is not a list", {
+  expect_error(
+    check_package("not_a_list"),
+    class = "frictionless_error_package_invalid"
+  )
+  expect_error(
+    check_package("not_a_list"),
+    regexp = "`package` is not a list.",
+    fixed = TRUE
+  )
+})
 
-  # Must have directory as character
-  p_invalid <- p
-  p_invalid$directory <- NULL
-  expect_error(check_package(p_invalid), error_message, fixed = TRUE)
-  p_invalid$directory <- logical()
-  expect_error(check_package(p_invalid), error_message, fixed = TRUE)
+test_that("check_package() returns error on missing or incorrect resources", {
+  expect_error(
+    check_package(list()),
+    class = "frictionless_error_package_invalid"
+  )
+  expect_error(
+    check_package(list(resources = "not_a_list")),
+    regexp = "`package` is missing a resources property or it is not a list.",
+    fixed = TRUE
+  )
+  expect_error(
+    check_package(list(resources = "not_a_list")),
+    class = "frictionless_error_package_invalid"
+  )
+})
+
+test_that("check_package() returns error on missing or incorrect directory", {
+  expect_error(
+    check_package(list(resources = list())),
+    class = "frictionless_error_package_invalid"
+  )
+  expect_error(
+    check_package(list(resources = list())),
+    regexp = "`package` is missing a directory property or it is not a character.",
+    fixed = TRUE
+  )
+  expect_error(
+    check_package(list(resources = list(), directory = 5)),
+    class = "frictionless_error_package_invalid"
+  )
 })
 
 test_that("check_package() returns error if resources have no name", {
@@ -37,7 +71,27 @@ test_that("check_package() returns error if resources have no name", {
   p$resources[[2]]$name <- NULL
   expect_error(
     check_package(p),
-    "All resources in `package` must have property `name`",
+    class = "frictionless_error_resources_without_name"
+  )
+  expect_error(
+    check_package(p),
+    regexp = "All resources in `package` must have a name property.",
+    fixed = TRUE
+  )
+
+  # Expect no error on empty resources
+  p$resources <- list()
+  expect_no_error(check_package(p))
+})
+
+test_that("check_package() returns warning on missing 'datapackage' class", {
+  expect_warning(
+    check_package(list(resources = list(), directory = ".")),
+    class = "frictionless_warning_package_without_class"
+  )
+  expect_warning(
+    check_package(list(resources = list(), directory = ".")),
+    regexp = "`package` is missing a \"datapackage\" class",
     fixed = TRUE
   )
 })

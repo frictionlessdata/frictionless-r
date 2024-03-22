@@ -2,23 +2,33 @@
 % Please edit documentation in R/create_package.R
 \name{create_package}
 \alias{create_package}
-\title{Create an empty Data Package}
+\title{Create a Data Package}
 \usage{
 create_package(descriptor = NULL)
 }
 \arguments{
-\item{descriptor}{List describing a data package. If unspecified, it
-will create an unnamed tabular data package with no resources}
+\item{descriptor}{List to be made into a Data Package object.
+If \code{NULL}, an empty Data Package object without resources will be created.}
 }
 \value{
-A data package
+Data Package object.
 }
 \description{
-Initiates a list describing a \href{https://specs.frictionlessdata.io/data-package/}{Data Package}.
-This empty Data Package can be extended with metadata and resources (see
-\code{\link[=add_resource]{add_resource()}}).
-Added resources will make the Data Package meet \href{https://specs.frictionlessdata.io/tabular-data-package/}{Tabular Data Package}
-requirements, so \code{profile} is set to \code{tabular-data-package}.
+Initiates a \href{https://specs.frictionlessdata.io/data-package/}{Data Package}
+object, either from scratch or from an existing list.
+This Data Package object is a list with a \code{datapackage} class and the
+following properties:
+\itemize{
+\item All properties of the original \code{descriptor}.
+\item \href{https://specs.frictionlessdata.io/data-package/#required-properties}{\code{resources}} (an
+empty list) if not present.
+\item \code{directory} (set to \code{"."} for the current directory) if not present.
+It is used as the base path to access resources with \code{\link[=read_resource]{read_resource()}}.
+}
+}
+\details{
+The function will run \code{\link[=check_package]{check_package()}} on the created package to make sure
+it is valid.
 }
 \examples{
 # Create a Data Package

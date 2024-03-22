@@ -23,20 +23,21 @@ get_schema <- function(package, resource_name) {
   resource <- get_resource(package, resource_name)
 
   # Check resource is tabular-data-resource (expected for resources with schema)
-  assertthat::assert_that(
-    replace_null(resource$profile, "") == "tabular-data-resource",
-    msg = glue::glue(
-      "Resource `{resource_name}` must have property `profile` with value",
-      "`tabular-data-resource`.",
-      .sep = " "
+  if (replace_null(resource$profile, "") != "tabular-data-resource") {
+    cli::cli_abort(
+      "Resource {.val {resource_name}} must have a {.field profile} property
+       with value {.val tabular-data-resource}.",
+      class = "frictionless_error_resource_not_tabular"
     )
-  )
+  }
 
   # Get schema
-  assertthat::assert_that(
-    !is.null(resource$schema),
-    msg = glue::glue("Resource `{resource_name}` must have property `schema`.")
-  )
+  if (is.null(resource$schema)) {
+    cli::cli_abort(
+      "Resource {.val {resource_name}} must have a {.field schema} property.",
+      class = "frictionless_error_resource_without_schema"
+    )
+  }
   schema <- read_descriptor(resource$schema, package$directory, safe = TRUE)
 
   # Check schema

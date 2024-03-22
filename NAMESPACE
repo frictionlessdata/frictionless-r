@@ -3,6 +3,7 @@
 S3method(as.list,datapackage)
 S3method(print,datapackage)
 export(add_resource)
+export(check_package)
 export(create_package)
 export(create_schema)
 export(get_schema)
