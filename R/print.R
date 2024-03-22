@@ -19,7 +19,9 @@ print.datapackage <- function(package) {
   cli::cli_text(
     "A Data Package with {length(resources)} resource{?s}{?./: /: }"
   )
-  cli::cli_bullets(cli::cat_bullet(resources, bullet = "bullet"))
+  if (length(resources) > 0) {
+    cli::cli_bullets(cli::cat_bullet(resources, bullet = "bullet"))
+  }
 
   # Include link (DOI) if available in package$id
   if (startsWith(replace_null(package$id, ""), "http")) {
