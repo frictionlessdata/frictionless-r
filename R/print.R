@@ -5,7 +5,7 @@
 #'
 #' @inheritParams read_resource
 #' @return [print()] with a summary of the Data Package object.
-#' @family print functions
+#' @family datapackage functions
 #' @export
 #' @examples
 #' # Load the example Data Package

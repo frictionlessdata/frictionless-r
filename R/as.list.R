@@ -6,7 +6,7 @@
 #'
 #' @inheritParams read_package
 #' @return Data Package object converted to a list.
-#' @family coercion functions
+#' @family datapackage functions
 #' @export
 #' @examples
 #' # Load the example Data Package

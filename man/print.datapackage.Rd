@@ -25,7 +25,7 @@ package <- example_package
 package # Or print(package)
 }
 \seealso{
-Other print functions: 
+Other datapackage functions: 
 \code{\link{as.list.datapackage}()}
 }
-\concept{print functions}
+\concept{datapackage functions}
