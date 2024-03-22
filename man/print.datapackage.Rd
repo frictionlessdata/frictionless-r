@@ -2,15 +2,17 @@
 % Please edit documentation in R/print.R
 \name{print.datapackage}
 \alias{print.datapackage}
-\title{Print a data package}
+\title{Print a Data Package}
 \usage{
-\method{print}{datapackage}(x)
+\method{print}{datapackage}(package)
 }
 \arguments{
-\item{x}{Data package to print}
+\item{package}{Data Package object, created with \code{\link[=read_package]{read_package()}} or
+\code{\link[=create_package]{create_package()}}.}
 }
 \description{
-Print a data package
+Prints a human-readable summary of a Data Package, including its resources
+and a link to more information (if provided in \code{package$id}).
 }
 \examples{
 # Read a datapackage.json file
@@ -18,7 +20,7 @@ package <- read_package(
   system.file("extdata", "datapackage.json", package = "frictionless")
 )
 
-# Print out a summary of the data package
+# Print a summary of the Data Package
 print(package)
 }
 \concept{print functions}

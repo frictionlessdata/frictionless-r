@@ -1,6 +1,9 @@
-#' Print a data package
+#' Print a Data Package
 #'
-#' @param x Data package to print
+#' Prints a human-readable summary of a Data Package, including its resources
+#' and a link to more information (if provided in `package$id`).
+#'
+#' @inheritParams read_resource
 #' @family print functions
 #' @export
 #' @examples
@@ -9,12 +12,12 @@
 #'   system.file("extdata", "datapackage.json", package = "frictionless")
 #' )
 #'
-#' # Print out a summary of the data package
+#' # Print a summary of the Data Package
 #' print(package)
-print.datapackage <- function(x) {
-  name <- replace_null(x$name, "(Unnamed)")
+print.datapackage <- function(package) {
+  name <- replace_null(package$name, "(Unnamed)")
 
-  tbl_resources <- purrr::keep(x$resources, \(r) r$profile == "tabular-data-resource")
+  tbl_resources <- purrr::keep(package$resources, \(r) r$profile == "tabular-data-resource")
 
   n_resources <- length(tbl_resources)
 
