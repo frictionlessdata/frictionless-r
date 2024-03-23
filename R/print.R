@@ -3,7 +3,9 @@
 #' Prints a human-readable summary of a Data Package, including its resources
 #' and a link to more information (if provided in `package$id`).
 #'
-#' @inheritParams read_resource
+#' @param x Data Package object, created with [read_package()] or
+#'   [create_package()].
+#' @param ... Further arguments, they are ignored by this function.
 #' @return [print()] with a summary of the Data Package object.
 #' @family datapackage functions
 #' @export
@@ -13,9 +15,9 @@
 #'
 #' # Print a summary of the Data Package
 #' package # Or print(package)
-print.datapackage <- function(package) {
+print.datapackage <- function(x, ...) {
   # List resources
-  resources <- resources(package)
+  resources <- resources(x)
   cli::cli_text(
     "A Data Package with {length(resources)} resource{?s}{?./: /: }"
   )
@@ -24,9 +26,9 @@ print.datapackage <- function(package) {
   }
 
   # Include link (DOI) if available in package$id
-  if (startsWith(replace_null(package$id, ""), "http")) {
+  if (startsWith(replace_null(x$id, ""), "http")) {
     cli::cli_text(
-      "For more information, see {.url {package$id}}."
+      "For more information, see {.url {x$id}}."
     )
   }
 
@@ -37,4 +39,6 @@ print.datapackage <- function(package) {
        {.fun read_resource} to load data from a resource."
     )
   )
+
+  invisible(x)
 }
