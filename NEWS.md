@@ -1,8 +1,7 @@
 # frictionless (development version)
 
 * A Data Package object (`package`) now has a `datapackage` class (#184). As a result:
-  * New function `print()` prints a a human-readable summary of the Data Package (##155).
-  * New function `as.list()` converts a Data Package back to a list.
+  * New function `print()` prints a a human-readable summary of the Data Package (#155).
   * `check_package()` will warn if the class is missing.
 * `read_resource()` no longer sends a message regarding rights and credit (#121).
 * `read_resource()` now supports column selection via the `col_select` argument from `readr::read_delim()`. This can vastly improve reading speed (#123).
