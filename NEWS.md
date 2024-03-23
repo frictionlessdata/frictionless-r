@@ -3,7 +3,7 @@
 * A Data Package object (`package`) now has a `datapackage` class (#184). As a result:
   * New function `print()` prints a a human-readable summary of the Data Package (#155).
   * `check_package()` will warn if the class is missing.
-* `read_resource()` no longer sends a message regarding rights and credit (#121).
+* `read_resource()` no longer returns a message regarding rights and credit (#121). If `package$id` is a URL (e.g. a DOI) it will be mentioned in `print()`.
 * `read_resource()` now supports column selection via the `col_select` argument from `readr::read_delim()`. This can vastly improve reading speed (#123).
 * `add_resource()` now supports adding additional resource properties via the `...` argument.
 * `create_package()` now accepts a `descriptor` argument so that a Data Package object can be created from an existing object (#184). It will always validate the created object with `create_package()`.
