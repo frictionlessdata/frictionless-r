@@ -12,9 +12,9 @@ test_that("print() informs about the resources and unclass()", {
     print(p),
     regexp = paste(
       "A Data Package with 3 resources:",
-      "• deployments",
-      "• observations",
-      "• media",
+      "* deployments",
+      "* observations",
+      "* media",
       unclass_message,
       sep = "\n"
     ),
@@ -29,7 +29,7 @@ test_that("print() informs about the resources and unclass()", {
     print(p1),
     regexp = paste(
       "A Data Package with 1 resource:",
-      "• new",
+      "* new",
       unclass_message,
       sep = "\n"
     ),
@@ -49,7 +49,7 @@ test_that("print() informs about the resources and unclass()", {
   )
 })
 
-testthat("print() informs about more information in package$id", {
+test_that("print() informs about information in package$id", {
   unclass_message <- "Use `unclass()` to print the Data Package as a list."
 
   # package$id is a URL, inform
