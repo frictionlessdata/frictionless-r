@@ -268,9 +268,9 @@ test_that("read_resource() can read local files", {
   p <- example_package
   resource <- read_resource(p, "deployments") # local resource, remote package
 
-  p_local <- suppressMessages(read_package(
+  p_local <- read_package(
     system.file("extdata", "datapackage.json", package = "frictionless")
-  ))
+  )
   expect_identical(read_resource(p_local, "deployments"), resource)
 })
 
@@ -457,7 +457,7 @@ test_that("read_resource() understands encoding", {
 
 test_that("read_resource() handles decimalChar/groupChar properties", {
   expected_value <- 3000000.3
-  p <- suppressMessages(read_package(test_path("data/mark.json")))
+  p <- read_package(test_path("data/mark.json"))
 
   # Default decimalChar/groupChar
   resource <- read_resource(p, "mark_default")
@@ -578,7 +578,7 @@ test_that("read_resource() can read compressed files", {
 })
 
 test_that("read_resource() handles strings", {
-  p <- suppressMessages(read_package(test_path("data/types.json")))
+  p <- read_package(test_path("data/types.json"))
   resource <- read_resource(p, "string")
   expect_type(resource$str, "character")
 
@@ -589,7 +589,7 @@ test_that("read_resource() handles strings", {
 })
 
 test_that("read_resource() handles numbers", {
-  p <- suppressMessages(read_package(test_path("data/types.json")))
+  p <- read_package(test_path("data/types.json"))
   resource <- read_resource(p, "number")
 
   # Leading/trailing zeros are optional, + is assumed
@@ -622,7 +622,7 @@ test_that("read_resource() handles numbers", {
 })
 
 test_that("read_resource() handles integers (as doubles)", {
-  p <- suppressMessages(read_package(test_path("data/types.json")))
+  p <- read_package(test_path("data/types.json"))
   resource <- read_resource(p, "integer")
 
   # Leading/trailing zeros are optional, + is assumed
@@ -644,7 +644,7 @@ test_that("read_resource() handles integers (as doubles)", {
 })
 
 test_that("read_resource() handles booleans", {
-  p <- suppressMessages(read_package(test_path("data/types.json")))
+  p <- read_package(test_path("data/types.json"))
   resource <- read_resource(p, "boolean")
 
   # Default trueValues/falseValues are cast to logical
@@ -656,7 +656,7 @@ test_that("read_resource() handles booleans", {
 
 test_that("read_resource() handles dates", {
   expected_value <- as.Date("2013-11-23")
-  p <- suppressMessages(read_package(test_path("data/types.json")))
+  p <- read_package(test_path("data/types.json"))
   resource <- read_resource(p, "date")
   # This test covers:
   # - year: %Y %y
@@ -677,7 +677,7 @@ test_that("read_resource() handles dates", {
 
 test_that("read_resource() handles times", {
   expected_value <- hms::hms(0, 30, 8) # "08:30:00"
-  p <- suppressMessages(read_package(test_path("data/types.json")))
+  p <- read_package(test_path("data/types.json"))
   resource <- read_resource(p, "time")
   # This test covers:
   # - hour: %H (including 1 digit) %I + %p
@@ -701,7 +701,7 @@ test_that("read_resource() handles times", {
 
 test_that("read_resource() handles datetimes", {
   expected_value <- as.POSIXct("2013-11-23 08:30:00", tz = "UTC")
-  p <- suppressMessages(read_package(test_path("data/types.json")))
+  p <- read_package(test_path("data/types.json"))
   resource <- read_resource(p, "datetime")
 
   expect_identical(resource$dttm_undefined, resource$dttm_default)
@@ -716,7 +716,7 @@ test_that("read_resource() handles datetimes", {
 })
 
 test_that("read_resource() handles other types", {
-  p <- suppressMessages(read_package(test_path("data/types.json")))
+  p <- read_package(test_path("data/types.json"))
   resource <- read_resource(p, "other")
 
   # Interpret year, yearmonth as dates
