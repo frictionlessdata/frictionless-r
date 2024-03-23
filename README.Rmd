@@ -63,6 +63,8 @@ library(frictionless)
 # reading them, which is convenient and fast.
 package <- read_package("https://zenodo.org/record/5879096/files/datapackage.json")
 
+package
+
 # List resources
 resources(package)
 
@@ -79,6 +81,8 @@ You can also create your own Data Package, add data and **write** it to disk:
 my_package <-
   create_package() %>%
   add_resource(resource_name = "iris", data = iris)
+
+my_package
 
 # Write the Data Package to disk
 my_package %>%
