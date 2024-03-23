@@ -4,11 +4,13 @@
 \alias{print.datapackage}
 \title{Print a Data Package}
 \usage{
-\method{print}{datapackage}(package)
+\method{print}{datapackage}(x, ...)
 }
 \arguments{
-\item{package}{Data Package object, created with \code{\link[=read_package]{read_package()}} or
+\item{x}{Data Package object, created with \code{\link[=read_package]{read_package()}} or
 \code{\link[=create_package]{create_package()}}.}
+
+\item{...}{Further arguments, they are ignored by this function.}
 }
 \value{
 \code{\link[=print]{print()}} with a summary of the Data Package object.
@@ -23,9 +25,5 @@ package <- example_package
 
 # Print a summary of the Data Package
 package # Or print(package)
-}
-\seealso{
-Other datapackage functions: 
-\code{\link{as.list.datapackage}()}
 }
 \concept{datapackage functions}
