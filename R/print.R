@@ -16,27 +16,32 @@
 #' # Print a summary of the Data Package
 #' package # Or print(package)
 print.datapackage <- function(x, ...) {
+  # All prints should use cat (= cli::cat() helpers)
+
   # List resources
   resources <- resources(x)
-  cli::cli_text(
-    "A Data Package with {length(resources)} resource{?s}{?./: /: }"
+  cli::cat_line(
+    cli::format_inline(
+      "A Data Package with {length(resources)} resource{?s}{?./:/:}"
+    )
   )
   if (length(resources) > 0) {
-    cli::cli_bullets(cli::cat_bullet(resources, bullet = "bullet"))
+    cli::cat_bullet(resources, bullet = "bullet")
   }
 
   # Include link (DOI) if available in package$id
   if (startsWith(replace_null(x$id, ""), "http")) {
-    cli::cli_text(
-      "For more information, see {.url {x$id}}."
+    cli::cat_line(
+      cli::format_inline("For more information, see {.url {x$id}}.")
     )
   }
 
   # Provide help
-  cli::cli_text(
-    cli::col_silver(
+  cli::cat_line(
+    cli::format_inline(
       "Use {.fun unclass} to print the Data Package as a list."
-    )
+    ),
+    col = "silver"
   )
 
   invisible(x)
