@@ -20,7 +20,7 @@ Check if an object is a Data Package object with the required properties.
 # Load the example Data Package
 package <- example_package
 
-# Check if the Data Package is valid
+# Check if the Data Package is valid (invisible return)
 check_package(package)
 }
 \concept{check functions}
