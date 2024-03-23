@@ -74,8 +74,7 @@ package
 #> • gps
 #> • acceleration
 #> For more information, see <https://doi.org/10.5281/zenodo.5879096>.
-#> Use `as.list()` to see the metadata and `read_resource()` to load data from a
-#> resource.
+#> Use `unclass()` to print the Data Package as a list.
 
 # List resources
 resources(package)
@@ -119,8 +118,7 @@ my_package <-
 my_package
 #> A Data Package with 1 resource:
 #> • iris
-#> Use `as.list()` to see the metadata and `read_resource()` to load data from a
-#> resource.
+#> Use `unclass()` to print the Data Package as a list.
 
 # Write the Data Package to disk
 my_package %>%

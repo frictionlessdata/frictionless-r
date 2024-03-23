@@ -35,8 +35,7 @@ print.datapackage <- function(x, ...) {
   # Provide help
   cli::cli_text(
     cli::col_silver(
-      "Use {.fun as.list} to see the metadata and
-       {.fun read_resource} to load data from a resource."
+      "Use {.fun unclass} to print the Data Package as a list."
     )
   )
 

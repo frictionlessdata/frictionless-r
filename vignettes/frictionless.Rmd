@@ -45,8 +45,7 @@ package
 #> • gps
 #> • acceleration
 #> For more information, see <https://doi.org/10.5281/zenodo.5879096>.
-#> Use `as.list()` to see the metadata and `read_resource()` to load data from a
-#> resource.
+#> Use `unclass()` to print the Data Package as a list.
 ```
 
 Since a Data Package is a list, you can pass it to functions that work on lists, such as `str()`:
@@ -124,8 +123,7 @@ local_package
 #> • deployments
 #> • observations
 #> • media
-#> Use `as.list()` to see the metadata and `read_resource()` to load data from a
-#> resource.
+#> Use `unclass()` to print the Data Package as a list.
 
 read_resource(local_package, "media")
 #> # A tibble: 3 × 5
