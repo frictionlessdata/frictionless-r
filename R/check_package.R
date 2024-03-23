@@ -72,5 +72,5 @@ check_package <- function(package) {
     )
   }
 
-  return(TRUE)
+  invisible(package)
 }

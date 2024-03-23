@@ -18,5 +18,5 @@ check_data <- function(data) {
     )
   }
 
-  return(TRUE)
+  invisible(data)
 }

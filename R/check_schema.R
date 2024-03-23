@@ -71,5 +71,5 @@ check_schema <- function(schema, data = NULL) {
     }
   }
 
-  return(TRUE)
+  invisible(schema)
 }

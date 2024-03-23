@@ -1,5 +1,8 @@
-test_that("check_package() returns TRUE on valid Data Package", {
-  expect_true(check_package(example_package))
+test_that("check_package() returns package invisibly on valid Data Package", {
+  skip_if_offline()
+  p <- example_package
+  expect_identical(check_package(p), p)
+  expect_invisible(check_package(p))
 })
 
 test_that("check_package() returns error on invalid Data Package", {

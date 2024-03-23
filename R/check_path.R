@@ -62,5 +62,6 @@ check_path <- function(path, directory = NULL, safe = FALSE) {
       )
     }
   }
+
   return(path)
 }
