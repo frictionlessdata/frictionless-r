@@ -3,7 +3,7 @@
 #' Check if an object is a non-empty data frame.
 #'
 #' @param data A data frame.
-#' @return `TRUE` or error.
+#' @return `data` invisibly or error.
 #' @family check functions
 #' @noRd
 check_data <- function(data) {
