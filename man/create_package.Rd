@@ -16,13 +16,14 @@ Data Package object.
 \description{
 Initiates a \href{https://specs.frictionlessdata.io/data-package/}{Data Package}
 object, either from scratch or from an existing list.
-This Data Package object is a list with a \code{datapackage} class and the
-following properties:
+This Data Package object is a list with the following characteristics:
 \itemize{
+\item A \code{datapackage} subclass.
 \item All properties of the original \code{descriptor}.
-\item \href{https://specs.frictionlessdata.io/data-package/#required-properties}{\code{resources}} (an
-empty list) if not present.
-\item \code{directory} (set to \code{"."} for the current directory) if not present.
+\item A \href{https://specs.frictionlessdata.io/data-package/#required-properties}{\code{resources}}
+property, set to an empty list if undefined.
+\item A \code{directory} property, set to \code{"."} for the current directory if
+undefined.
 It is used as the base path to access resources with \code{\link[=read_resource]{read_resource()}}.
 }
 }
