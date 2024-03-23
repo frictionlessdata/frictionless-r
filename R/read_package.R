@@ -46,22 +46,6 @@ read_package <- function(file = "datapackage.json") {
   # Add directory
   descriptor$directory <- dirname(file) # Also works for URLs
 
-  # Inform user regarding rights and citation
-  message <- c(
-    "Please make sure you have the right to access data from this Data Package
-     for your intended use.",
-    "Follow applicable norms or requirements to credit the dataset and its
-     authors."
-  )
-  if (!is.null(descriptor$id)) {
-    if (startsWith(descriptor$id, "http")) {
-      message <- c(
-        message,
-        "i" = "For more information, see {.url {descriptor$id}}."
-      )
-    }
-  }
-  cli::cli_inform(message, class = "frictionless_message_usage_rights")
-
+  # Create package
   create_package(descriptor)
 }

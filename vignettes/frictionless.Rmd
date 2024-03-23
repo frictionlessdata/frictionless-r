@@ -32,7 +32,7 @@ library(frictionless)
 
 To read a Data Package, you need to know the path or URL to its descriptor file, named `datapackage.json`. That file describes the Data Package, provides access points to its Data Resources and can contain dataset-level metadata. Let's read a Data Package descriptor file published on [Zenodo](https://doi.org/10.5281/zenodo.5879096):
 
-``` r
+```r
 package <- read_package("https://zenodo.org/record/5879096/files/datapackage.json")
 #> Please make sure you have the right to access data from this Data Package for your intended use.
 #> Follow applicable norms or requirements to credit the dataset and its authors.
