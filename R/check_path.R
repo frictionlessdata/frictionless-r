@@ -10,15 +10,11 @@
 #' @param directory Directory to prepend to path.
 #' @param safe Require `path` to be safe, i.e. no absolute or relative parent
 #'   paths.
-#' @param file_candidates A list of filenames to try when `path` is a directory.
 #' @return Absolute path or URL.
 #' @family helper functions
 #' @noRd
-check_path <- function(path, directory = NULL, safe = FALSE,
-                       file_candidates = NULL) {
+check_path <- function(path, directory = NULL, safe = FALSE) {
   # Process path
-
-
   if (!is_url(path)) {
     # Check absolute path
     if (safe && startsWith(path, "/")) {
@@ -65,22 +61,7 @@ check_path <- function(path, directory = NULL, safe = FALSE,
         class = "frictionless_error_path_not_found"
       )
     }
-
-    if (file.info(path)$isdir && !is.null(file_candidates)) {
-      # If the path is a directory, return the path of the first file candidate
-      # that exists
-      for (fc in file_candidates) {
-        path_candidate <- paste(path, fc, sep = "/")
-        if (file.exists(path_candidate)) {
-          return(path_candidate)
-        }
-      }
-      # If we got here, none of the file candidates exist in the dir
-      candidates_str <- paste(file_candidates, collapse=", ")
-      assertthat::assert_that(FALSE, msg = glue::glue(
-        "Can't find candidate file {candidates_str} in directory `{path}`."
-      ))
-    }
   }
+
   return(path)
 }

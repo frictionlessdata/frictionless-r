@@ -76,15 +76,19 @@ is_url <- function(path) {
 #' @return `x` (unchanged) or loaded JSON/YAML at path or URL.
 #' @family helper functions
 #' @noRd
-read_descriptor <- function(x, directory = NULL, safe = FALSE, file_candidates) {
-  if (is.character(x)) {
-    x <- check_path(x, directory = directory, safe = safe, file_candidates)
-    if (grepl(".yaml$", x) || grepl(".yml$", x)) {
-      x <- yaml::yaml.load_file(x)
-    } else {
-      # Default to jsonlite: better error messages for non .json files
-      x <- jsonlite::fromJSON(x, simplifyDataFrame = FALSE, simplifyVector = TRUE)
-    }
+read_descriptor <- function(x, directory = NULL, safe = FALSE) {
+  # Return object
+  if (!is.character(x)) {
+    return(x)
+  }
+
+  # Read file
+  x <- check_path(x, directory = directory, safe = safe)
+  if (grepl("\\.yaml$", x) || grepl("\\.yml$", x)) {
+    x <- yaml::yaml.load_file(x)
+  } else {
+    # Default to jsonlite: better error messages for non .json files
+    x <- jsonlite::fromJSON(x, simplifyDataFrame = FALSE, simplifyVector = TRUE)
   }
   return(x)
 }
