@@ -307,12 +307,12 @@ read_resource <- function(package, resource_name, col_select = NULL) {
         "default" = "%AT", # H(MS)
         "any" = "%AT", # H(MS)
         "%X" = "%H:%M:%S", # HMS
-        gsub("%S.%f", "%OS", format) # Default, use %OS for milli/microseconds
+        sub("%S.%f", "%OS", format) # Default, use %OS for milli/microseconds
       )),
       "datetime" = readr::col_datetime(format = switch(format,
         "default" = "", # ISO (lenient)
         "any" = "", # ISO (lenient)
-        gsub("%S.%f", "%OS", format) # Default, use %OS for milli/microseconds
+        sub("%S.%f", "%OS", format) # Default, use %OS for milli/microseconds
       )),
       "year" = readr::col_date(format = "%Y"),
       "yearmonth" = readr::col_date(format = "%Y-%m"),

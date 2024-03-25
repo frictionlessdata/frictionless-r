@@ -15,14 +15,17 @@ test_that("read_package() returns a valid Data Package reading from path", {
   expect_identical(resources(p_minimal), resource_names)
 
   # Package has correct "directory", containing root dir of datapackage.json
-  expect_identical(p_local$directory, gsub("/datapackage.json", "", p_path))
+  expect_identical(
+    p_local$directory,
+    sub("/datapackage.json", "", p_path, fixed = TRUE)
+  )
   expect_identical(p_minimal$directory, "data")
 })
 
 test_that("read_package() returns a valid Data Package reading from url", {
   skip_if_offline()
   # Load example package remotely
-  p_url <- file.path("https://raw.githubusercontent.com/frictionlessdata/",
+  p_url <- file.path("https://raw.githubusercontent.com/frictionlessdata",
                      "frictionless-r/main/inst/extdata/datapackage.json")
   p_remote <- suppressMessages(read_package(p_url))
 
@@ -34,7 +37,10 @@ test_that("read_package() returns a valid Data Package reading from url", {
   expect_identical(resources(p_remote), resource_names)
 
   # Package has correct "directory", containing root dir of datapackage.json
-  expect_identical(p_remote$directory, gsub("/datapackage.json", "", p_url))
+  expect_identical(
+    p_remote$directory,
+    sub("/datapackage.json", "", p_url, fixed = TRUE)
+  )
 })
 
 test_that("read_package() shows message about rights and citation", {
