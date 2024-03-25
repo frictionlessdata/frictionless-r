@@ -25,6 +25,7 @@ reference:
   contents:
   - has_concept("create functions")
   - has_concept("edit functions")
+  - has_concept("check functions")
 - title: "Write a Data Package"
   desc: "Write a Data Package and its associated Data Resources to disk."
   contents:

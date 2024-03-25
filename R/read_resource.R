@@ -10,13 +10,13 @@
 #' Column names are taken from the provided Table Schema (`schema`), not from
 #' the header in the CSV file(s).
 #'
-#' @param package List describing a Data Package, created with [read_package()]
-#'   or [create_package()].
+#' @param package Data Package object, created with [read_package()] or
+#'   [create_package()].
 #' @param resource_name Name of the Data Resource.
 #' @param col_select Character vector of the columns to include in the result,
 #'   in the order provided.
 #'   Selecting columns can improve read speed.
-#' @return A [tibble()] data frame with the Data Resource's tabular data.
+#' @return [tibble()] data frame with the Data Resource's tabular data.
 #'   If there are parsing problems, a warning will alert you.
 #'   You can retrieve the full details by calling [problems()] on your data
 #'   frame.
@@ -177,7 +177,7 @@
 #'   `character`.
 #' - [any](https://specs.frictionlessdata.io/table-schema/#any) as `character`.
 #' - Any other value is not allowed.
-#' - Type is guessed when not provided.
+#' - Type is guessed if not provided.
 #' @examples
 #' # Read a datapackage.json file
 #' package <- read_package(
@@ -210,29 +210,25 @@ read_resource <- function(package, resource_name, col_select = NULL) {
   field_names <- purrr::map_chr(fields, ~ purrr::pluck(.x, "name"))
 
   # Check all selected columns appear in schema
-  assertthat::assert_that(
-    all(col_select %in% field_names),
-    msg = glue::glue(
-      "Can't find column(s) {missing_col_select_collapse} in field names.",
-      "\u2139 Field names: {field_names_collapse}",
-      missing_col_select_collapse = glue::glue_collapse(
-        glue::backtick(col_select[!col_select %in% field_names]),
-        sep = ", "
+  if (!all(col_select %in% field_names)) {
+    col_select_missing <- col_select[!col_select %in% field_names]
+    cli::cli_abort(
+      c(
+        "Can't find column{?s} {.val {col_select_missing}} in field names.",
+        "i" = "Field name{?s}: {.val {field_names}}."
       ),
-      field_names_collapse = glue::glue_collapse(
-        glue::backtick(field_names),
-        sep = ", "
-      ),
-      .sep = "\n"
+      class = "frictionless_error_colselect_mismatch"
     )
-  )
+  }
 
   # Create locale with encoding, decimal_mark and grouping_mark
   encoding <- replace_null(resource$encoding, "UTF-8") # Set default to UTF-8
   if (!tolower(encoding) %in% tolower(iconvlist())) {
-    warning(glue::glue(
-      "Unknown encoding `{encoding}`. Reading file(s) with UTF-8 encoding."
-    ))
+    cli::cli_warn(
+      "Unknown encoding {.field {encoding}}. Reading file(s) with UTF-8
+       encoding.",
+      class = "frictionless_warning_resource_encoding_unknown"
+    )
     encoding <- "UTF-8"
   }
   d_chars <- purrr::map_chr(
@@ -243,11 +239,11 @@ read_resource <- function(package, resource_name, col_select = NULL) {
     decimal_mark <- "." # Set default to "." if undefined or all set to "."
   } else {
     decimal_mark <- d_chars[1]
-    warning(glue::glue(
-      "Some fields define a non-default `decimalChar`.",
-      "Parsing all number fields with `{d_chars[1]}` as decimal mark.",
-      .sep = " "
-    ))
+    cli::cli_warn(
+      "Some fields define a non-default {.field decimalChar}. Parsing all number
+       fields with {.val {d_chars[1]}} as decimal mark.",
+      class = "frictionless_warning_fields_decimalchar_different"
+    )
   }
   g_chars <- purrr::map_chr(fields, ~ replace_null(.x$groupChar, NA_character_))
   g_chars <- unique_sorted(g_chars)
@@ -255,26 +251,16 @@ read_resource <- function(package, resource_name, col_select = NULL) {
     grouping_mark <- "" # Set default to "" if undefined or all set to ""
   } else {
     grouping_mark <- g_chars[1]
-    warning(glue::glue(
-      "Some fields define a non-default `groupChar`.",
-      "Parsing all number fields with `{g_chars[1]}` as grouping mark.",
-      .sep = " "
-    ))
+    cli::cli_warn(
+      "Some fields define a non-default {.field groupChar}. Parsing all number
+       fields with {.val {g_chars[1]}} as grouping mark.",
+      class = "frictionless_warning_fields_groupchar_different"
+    )
   }
   locale <- readr::locale(
     encoding = encoding,
     decimal_mark = decimal_mark,
     grouping_mark = grouping_mark
-  )
-
-  # Create col_names: c("name1", "name2", ...)
-  col_names <- purrr::map_chr(fields, ~ replace_null(.x$name, NA_character_))
-  assertthat::assert_that(all(!is.na(col_names)),
-    msg = glue::glue(
-      "Field {which(is.na(col_names))} of resource `{resource_name}` must",
-      "have the property `name`.",
-      .sep = " "
-    )
   )
 
   # Create col_types: list(<collector_character>, <collector_logical>, ...)
@@ -343,7 +329,7 @@ read_resource <- function(package, resource_name, col_select = NULL) {
   })
 
   # Assign names: list("name1" = <collector_character>, "name2" = ...)
-  names(col_types) <- col_names
+  names(col_types) <- field_names
 
   # Select CSV dialect, see https://specs.frictionlessdata.io/csv-dialect/
   # Note that dialect can be NULL
@@ -374,7 +360,7 @@ read_resource <- function(package, resource_name, col_select = NULL) {
           FALSE,
           replace_null(dialect$doubleQuote, TRUE)
         ),
-        col_names = col_names,
+        col_names = field_names,
         col_types = col_types,
         # Use rlang {{}} to avoid `col_select` to be interpreted as the name of
         # a column, see https://rlang.r-lib.org/reference/topic-data-mask.html

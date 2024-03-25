@@ -7,8 +7,8 @@
 add_resource(package, resource_name, data, schema = NULL, delim = ",", ...)
 }
 \arguments{
-\item{package}{List describing a Data Package, created with \code{\link[=read_package]{read_package()}}
-or \code{\link[=create_package]{create_package()}}.}
+\item{package}{Data Package object, created with \code{\link[=read_package]{read_package()}} or
+\code{\link[=create_package]{create_package()}}.}
 
 \item{resource_name}{Name of the Data Resource.}
 

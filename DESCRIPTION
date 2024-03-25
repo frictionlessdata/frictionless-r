@@ -1,6 +1,6 @@
 Package: frictionless
 Title: Read and Write Frictionless Data Packages
-Version: 1.0.2.9000
+Version: 1.0.3.9000
 Authors@R: c(
     person("Peter", "Desmet", email = "peter.desmet.work@gmail.com",
            role = c("aut", "cre"), comment = c(ORCID = "0000-0002-8442-8025")),
@@ -27,9 +27,8 @@ URL: https://github.com/frictionlessdata/frictionless-r,
     https://docs.ropensci.org/frictionless/
 BugReports: https://github.com/frictionlessdata/frictionless-r/issues
 Imports:
-    assertthat,
+    cli,
     dplyr,
-    glue,
     httr,
     jsonlite,
     purrr,
@@ -41,6 +40,7 @@ Suggests:
     knitr,
     lubridate,
     rmarkdown,
+    stringi,
     testthat (>= 3.0.0)
 VignetteBuilder: 
     knitr
@@ -51,4 +51,4 @@ Encoding: UTF-8
 Language: en-GB
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.0

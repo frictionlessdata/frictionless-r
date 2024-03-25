@@ -71,14 +71,31 @@ test_that("read_resource() allows column selection", {
 test_that("read_resource() returns error on column selection not in schema", {
   skip_if_offline()
   p <- example_package
+
+  # One column
   expect_error(
     read_resource(p, "deployments", col_select = "no_such_column"),
-    paste(
-      "Can't find column(s) `no_such_column` in field names.",
-      "ℹ Field names: `deployment_id`, `longitude`, `latitude`, `start`, `comments`",
-      sep = "\n"
-    ),
+    class = "frictionless_error_colselect_mismatch"
+  )
+  expect_error(
+    read_resource(p, "deployments", col_select = "no_such_column"),
+    regexp = "Can't find column \"no_such_column\" in field names.",
     fixed = TRUE
+  )
+  expect_error(
+    read_resource(p, "deployments", col_select = "no_such_column"),
+    regexp = "Field names: \"deployment_id\", \"longitude\", \"latitude\", \"start\", and \"comments\".",
+    fixed = TRUE
+  )
+
+  # Partial match, multiple columns
+  expect_error(
+    read_resource(
+      p,
+      "deployments",
+      col_select = c("no_such_column", "start", "no_such_column_either")
+    ),
+    class = "frictionless_error_colselect_mismatch"
   )
   expect_error(
     read_resource(
@@ -86,38 +103,26 @@ test_that("read_resource() returns error on column selection not in schema", {
       "deployments",
       col_select = c("no_such_column", "start", "no_such_column_either")
     ),
-    paste(
-      "Can't find column(s) `no_such_column`, `no_such_column_either` in field names.",
-      "ℹ Field names: `deployment_id`, `longitude`, `latitude`, `start`, `comments`",
-      sep = "\n"
-    ),
+    regexp = "Can't find columns \"no_such_column\" and \"no_such_column_either\" in field names.",
     fixed = TRUE
   )
 })
 
-test_that("read_resource() returns error on incorrect Data Package", {
+test_that("read_resource() returns error on invalid Data Package", {
   expect_error(
     read_resource(list(), "deployments"),
-    paste(
-      "`package` must be a list describing a Data Package,",
-      "created with `read_package()` or `create_package()`."
-    ),
-    fixed = TRUE
+    class = "frictionless_error_package_invalid"
   )
 })
 
-test_that("read_resource() returns error on incorrect resource", {
+test_that("read_resource() returns error on invalid resource", {
   skip_if_offline()
   p <- example_package
 
   # No such resource
   expect_error(
     read_resource(p, "no_such_resource"),
-    paste(
-      "Can't find resource `no_such_resource` in `deployments`,",
-      "`observations`, `media`."
-    ),
-    fixed = TRUE
+    class = "frictionless_error_resource_not_found"
   )
 
   # Create invalid package and add properties one by one to pass errors
@@ -127,7 +132,11 @@ test_that("read_resource() returns error on incorrect resource", {
   # No path or data
   expect_error(
     read_resource(p_invalid, "deployments"),
-    "Resource `deployments` must have property `path` or `data`.",
+    class = "frictionless_error_resource_without_path_data"
+  )
+  expect_error(
+    read_resource(p_invalid, "deployments"),
+    regexp = "Resource \"deployments\" must have a path or data property.",
     fixed = TRUE
   )
 
@@ -135,46 +144,35 @@ test_that("read_resource() returns error on incorrect resource", {
   p_invalid$resources[[1]]$path <- "http://example.com/no_such_file.csv"
   expect_error(
     read_resource(p_invalid, "deployments"),
-    "Can't find file at `http://example.com/no_such_file.csv`.",
-    fixed = TRUE
+    class = "frictionless_error_url_not_found"
   )
 
   # No file at path
   p_invalid$resources[[1]]$path <- "no_such_file.csv"
   expect_error(
     read_resource(p_invalid, "deployments"),
-    "Can't find file at `./no_such_file.csv`.",
-    fixed = TRUE
+    class = "frictionless_error_path_not_found"
   )
 
   # No file at paths
   p_invalid$resources[[1]]$path <- c("deployments.csv", "no_such_file.csv")
   expect_error(
     read_resource(p_invalid, "deployments"),
-    "Can't find file at `./deployments.csv`.",
-    fixed = TRUE
+    class = "frictionless_error_path_not_found"
   )
 
   # Path is absolute path
   p_invalid$resources[[1]]$path <- "/inst/extdata/deployments.csv"
   expect_error(
     read_resource(p_invalid, "deployments"),
-    paste(
-      "`/inst/extdata/deployments.csv` is an absolute path (`/`)",
-      "which is unsafe."
-    ),
-    fixed = TRUE
+    class = "frictionless_error_path_unsafe_absolute"
   )
 
   # Path is relative parent path
   p_invalid$resources[[1]]$path <- "../../inst/extdata/deployments.csv"
   expect_error(
     read_resource(p_invalid, "deployments"),
-    paste(
-      "`../../inst/extdata/deployments.csv` is a relative parent path (`../`)",
-      "which is unsafe."
-    ),
-    fixed = TRUE
+    class = "frictionless_error_path_unsafe_relative"
   )
 
   # Add valid path
@@ -186,9 +184,13 @@ test_that("read_resource() returns error on incorrect resource", {
   # Not a tabular-data-resource
   expect_error(
     read_resource(p_invalid, "deployments"),
-    paste(
-      "Resource `deployments` must have property `profile` with value",
-      "`tabular-data-resource`."
+    class = "frictionless_error_resource_not_tabular"
+  )
+  expect_error(
+    read_resource(p_invalid, "deployments"),
+    regexp = paste(
+      "Resource \"deployments\" must have a profile property with value",
+      "\"tabular-data-resource\"."
     ),
     fixed = TRUE
   )
@@ -197,7 +199,11 @@ test_that("read_resource() returns error on incorrect resource", {
   p_invalid$resources[[1]]$profile <- "tabular-data-resource"
   expect_error(
     read_resource(p_invalid, "deployments"),
-    "Resource `deployments` must have property `schema`.",
+    class = "frictionless_error_resource_without_schema"
+  )
+  expect_error(
+    read_resource(p_invalid, "deployments"),
+    regexp = "Resource \"deployments\" must have a schema property.",
     fixed = TRUE
   )
 
@@ -205,24 +211,21 @@ test_that("read_resource() returns error on incorrect resource", {
   p_invalid$resources[[1]]$schema <- "http://example.com/no_schema.json"
   expect_error(
     read_resource(p_invalid, "deployments"),
-    "Can't find file at `http://example.com/no_schema.json`.",
-    fixed = TRUE
+    class = "frictionless_error_url_not_found"
   )
 
   # No file at schema
   p_invalid$resources[[1]]$schema <- "no_schema.json"
   expect_error(
     read_resource(p_invalid, "deployments"),
-    "Can't find file at `.*no_schema.json`",
-    # no fixed = TRUE, since full returned path depends on system
+    class = "frictionless_error_path_not_found"
   )
 
   # No fields
   p_invalid$resources[[1]]$schema <- list()
   expect_error(
     read_resource(p_invalid, "deployments"),
-    "`schema` must be a list with property `fields`.",
-    fixed = TRUE
+    class = "frictionless_error_schema_invalid"
   )
 
   # No field name
@@ -233,12 +236,7 @@ test_that("read_resource() returns error on incorrect resource", {
   )
   expect_error(
     read_resource(p_invalid, "deployments"),
-    paste(
-      "All fields in `schema` must have property `name`.",
-      "ℹ Field(s) `2` don't have a name.",
-      sep = "\n"
-    ),
-    fixed = TRUE
+    class = "frictionless_error_fields_without_name"
   )
 })
 
@@ -260,7 +258,7 @@ test_that("read_resource() can read inline data (ignoring schema)", {
   p$resources[[3]]$data <- "not_a_list" # Media resource
   expect_error(
     read_resource(p, "media"),
-    "second argument must be a list",
+    regexp = "second argument must be a list",
     fixed = TRUE
   )
 })
@@ -307,22 +305,14 @@ test_that("read_resource() can read safe local and remote Table Schema,
     "/tests/testthat/data/deployments_schema.json"
   expect_error(
     read_resource(p_unsafe, "deployments"),
-    paste(
-      "`/tests/testthat/data/deployments_schema.json` is an absolute path",
-      "(`/`) which is unsafe."
-    ),
-    fixed = TRUE
+    class = "frictionless_error_path_unsafe_absolute"
   )
 
   # Schema is relative parent path
   p_unsafe$resources[[1]]$schema <- "../testthat/data/deployments_schema.json"
   expect_error(
     read_resource(p_unsafe, "deployments"),
-    paste(
-      "`../testthat/data/deployments_schema.json` is a relative parent path",
-      "(`../`) which is unsafe."
-    ),
-    fixed = TRUE
+    class = "frictionless_error_path_unsafe_relative"
   )
 
   # Schema is local path
@@ -361,22 +351,14 @@ test_that("read_resource() can read safe local and remote CSV dialect", {
   p_unsafe$resources[[1]]$dialect <- "/tests/testthat/data/dialect.json"
   expect_error(
     read_resource(p_unsafe, "deployments"),
-    paste(
-      "`/tests/testthat/data/dialect.json` is an absolute path",
-      "(`/`) which is unsafe."
-    ),
-    fixed = TRUE
+    class = "frictionless_error_path_unsafe_absolute"
   )
 
   # Dialect is relative parent path
   p_unsafe$resources[[1]]$dialect <- "../testthat/data/dialect.json"
   expect_error(
     read_resource(p_unsafe, "deployments"),
-    paste(
-      "`../testthat/data/dialect.json` is a relative parent path",
-      "(`../`) which is unsafe."
-    ),
-    fixed = TRUE
+    class = "frictionless_error_path_unsafe_relative"
   )
 
   # Dialect is local path
@@ -458,10 +440,14 @@ test_that("read_resource() understands encoding", {
   # Create package with unknown encoding
   p_unknown <- p
   p_unknown$resources[[1]]$encoding <- "utf-8-sig"
-  warnings <- capture_warnings(read_resource(p_unknown, "deployments"))
-  expect_identical(
-    warnings[1],
-    "Unknown encoding `utf-8-sig`. Reading file(s) with UTF-8 encoding."
+  expect_warning(
+    read_resource(p_unknown, "deployments"),
+    class = "frictionless_warning_resource_encoding_unknown"
+  )
+  expect_warning(
+    read_resource(p_unknown, "deployments"),
+    regexp = "Unknown encoding utf-8-sig. Reading file(s) with UTF-8 encoding.",
+    fixed = TRUE
   )
   expect_identical(
     suppressWarnings(read_resource(p_unknown, "deployments")),
@@ -479,37 +465,41 @@ test_that("read_resource() handles decimalChar/groupChar properties", {
   expect_identical(resource$num_undefined, expected_value) # 3000000.30
 
   # Non-default decimalChar, default groupChar (which should not conflict)
-  warnings <- capture_warnings(read_resource(p, "mark_decimal"))
-  expect_identical(
-    warnings[1],
-    paste(
-      "Some fields define a non-default `decimalChar`.",
-      "Parsing all number fields with `,` as decimal mark."
-    )
+  expect_warning(
+    read_resource(p, "mark_decimal"),
+    class = "frictionless_warning_fields_decimalchar_different"
+  )
+  expect_warning(
+    read_resource(p, "mark_decimal"),
+    regexp = paste(
+      "Some fields define a non-default decimalChar.",
+      "Parsing all number fields with \",\" as decimal mark."
+    ),
+    fixed = TRUE
   )
 
   resource <- suppressWarnings(read_resource(p, "mark_decimal"))
   expect_identical(resource$num, expected_value) # 3000000.30
   expect_identical(resource$num_undefined, expected_value) # 3000000.30
 
-  # Non-default decimalChar/groupChar
-  warnings <- capture_warnings(read_resource(p, "mark_decimal_group"))
-  expect_true(length(warnings) == 3) # 2 warnings + 1 parsing failure last field
-  expect_identical(
-    warnings[1],
-    paste(
-      "Some fields define a non-default `decimalChar`.",
-      "Parsing all number fields with `,` as decimal mark."
-    )
-  )
-  expect_identical(
-    warnings[2],
-    paste(
-      "Some fields define a non-default `groupChar`.",
-      "Parsing all number fields with `.` as grouping mark."
-    )
-  )
-
+  # Non-default decimalChar and groupChar
+  # Results in 3 warnings: decimalchar, groupchar, parsing failure last field
+  suppressWarnings(expect_warning(
+    read_resource(p, "mark_decimal_group"),
+    class = "frictionless_warning_fields_decimalchar_different"
+  ))
+  suppressWarnings(expect_warning(
+    read_resource(p, "mark_decimal_group"),
+    class = "frictionless_warning_fields_groupchar_different"
+  ))
+  suppressWarnings(expect_warning(
+    read_resource(p, "mark_decimal_group"),
+    regexp = paste(
+      "Some fields define a non-default groupChar.",
+      "Parsing all number fields with \".\" as grouping mark."
+    ),
+    fixed = TRUE
+  ))
   resource <- suppressWarnings(read_resource(p, "mark_decimal_group"))
   expect_identical(resource$num, expected_value) # 3.000.000,30
   # Field without decimalChar is still parsed with non-default decimalChar
@@ -576,7 +566,7 @@ test_that("read_resource() can read compressed files", {
   # https://github.com/tidyverse/readr/issues/1042#issuecomment-545103047
   expect_error(
     read_resource(p_remote_zip, "deployments"),
-    paste(
+    regexp = paste(
       "Reading from remote `zip` compressed files is not supported,",
       "  download the files locally first.",
       sep = "\n"
