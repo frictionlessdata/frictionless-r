@@ -81,7 +81,7 @@ add_resource <- function(package, resource_name, data, schema = NULL,
   check_package(package)
 
   # Check resource name
-  if (!grepl(resource_name, pattern = "^[a-z0-9\\._-]+$")) {
+  if (!grepl("^[a-z0-9\\._-]+$", resource_name)) {
     cli::cli_abort(
       c(
         "{.arg resource_name} must only consist of lowercase alphanumeric

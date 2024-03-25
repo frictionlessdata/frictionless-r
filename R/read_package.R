@@ -28,6 +28,10 @@ read_package <- function(file = "datapackage.json") {
       class = "frictionless_error_file_invalid"
     )
   }
+  if (grepl("\\/$", file)) {
+    # If file ends with /, append datapackage.json
+    file <- paste0(file, "datapackage.json")
+  }
   descriptor <- read_descriptor(file, safe = FALSE)
 
   # Check resources are present

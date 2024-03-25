@@ -15,14 +15,17 @@ test_that("read_package() returns a valid Data Package reading from path", {
   expect_identical(resources(p_minimal), resource_names)
 
   # Package has correct "directory", containing root dir of datapackage.json
-  expect_identical(p_local$directory, gsub("/datapackage.json", "", p_path))
+  expect_identical(
+    p_local$directory,
+    sub("/datapackage.json", "", p_path, fixed = TRUE)
+  )
   expect_identical(p_minimal$directory, "data")
 })
 
 test_that("read_package() returns a valid Data Package reading from url", {
   skip_if_offline()
   # Load example package remotely
-  p_url <- file.path("https://raw.githubusercontent.com/frictionlessdata/",
+  p_url <- file.path("https://raw.githubusercontent.com/frictionlessdata",
                      "frictionless-r/main/inst/extdata/datapackage.json")
   p_remote <- suppressMessages(read_package(p_url))
 
@@ -34,7 +37,10 @@ test_that("read_package() returns a valid Data Package reading from url", {
   expect_identical(resources(p_remote), resource_names)
 
   # Package has correct "directory", containing root dir of datapackage.json
-  expect_identical(p_remote$directory, gsub("/datapackage.json", "", p_url))
+  expect_identical(
+    p_remote$directory,
+    sub("/datapackage.json", "", p_url, fixed = TRUE)
+  )
 })
 
 test_that("read_package() shows message about rights and citation", {
@@ -57,6 +63,48 @@ test_that("read_package() shows message about rights and citation", {
   expect_message(
     read_package(minimal_extra_path),
     regexp = "For more information, see <https://example.com>.",
+    fixed = TRUE
+  )
+})
+
+test_that("read_package() assumes `datapackage.json` if file is directory", {
+  skip_if_offline()
+  # Add datapackage.json if file ends with /
+  expect_error(
+    read_package("dir/"),
+    regexp = "Can't find file at 'dir/datapackage.json'.",
+    fixed = TRUE
+  )
+  expect_error(
+    read_package("https://example.com/"),
+    regexp = "Can't find file at <https://example.com/datapackage.json>.",
+    fixed = TRUE
+  )
+
+  # Don't add datapackage.json otherwise
+  expect_error(
+    read_package("dir/datapackage.json"),
+    regexp = "Can't find file at 'dir/datapackage.json'.",
+    fixed = TRUE
+  )
+  expect_error(
+    read_package("dir/other_name.json"),
+    regexp = "Can't find file at 'dir/other_name.json'.",
+    fixed = TRUE
+  )
+  expect_error(
+    read_package("dir/other_extension.csv"),
+    regexp = "Can't find file at 'dir/other_extension.csv'.",
+    fixed = TRUE
+  )
+  expect_error(
+    read_package("dir_without_slash"),
+    regexp = "Can't find file at 'dir_without_slash'.",
+    fixed = TRUE
+  )
+  expect_error(
+    read_package("https://example.com/datapackage.json"),
+    regexp = "Can't find file at <https://example.com/datapackage.json>.",
     fixed = TRUE
   )
 })
