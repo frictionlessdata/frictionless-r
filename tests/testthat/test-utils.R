@@ -1,10 +1,3 @@
-test_that("replace_null() replaces NULL or returns value", {
-  expect_identical(replace_null(NULL, "y"), "y")
-  expect_identical(replace_null(NA, "y"), NA)
-  expect_identical(replace_null(1, "y"), 1)
-  expect_identical(replace_null("x", "y"), "x")
-})
-
 test_that("unique_sorted() returns unique values sorted by descending count", {
   x <- c("a", "b", "b", "b", "c", "a")
   expect_identical(unique_sorted(x), c("b", "a", "c"))

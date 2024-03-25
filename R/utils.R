@@ -1,20 +1,5 @@
 # HELPER FUNCTIONS
 
-#' Replace value when NULL
-#'
-#' @param x Value to test.
-#' @param replacement Replacement value when `value` is `NULL`.
-#' @return `value` when not `NULL`, otherwise `replacement`.
-#' @family helper functions
-#' @noRd
-replace_null <- function(x, replacement) {
-  if (!is.null(x)) {
-    x
-  } else {
-    replacement
-  }
-}
-
 #' Get unique vector values sorted by how often they occur
 #'
 #' @param x Vector, e.g. `c("a", "b", "b", "b", "c", "a")`.
@@ -28,7 +13,7 @@ unique_sorted <- function(x) {
   # 1 2 3
   values <- names(sort(table(x), decreasing = TRUE))
   # Return empty char vector if all values in x where NA, resulting in NULL
-  replace_null(values, character(0))
+  values %||% character(0)
 }
 
 #' Clean list

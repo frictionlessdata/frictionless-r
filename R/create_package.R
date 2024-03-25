@@ -36,8 +36,8 @@ create_package <- function(descriptor = NULL) {
   }
 
   # Add properties
-  descriptor$resources <- replace_null(descriptor$resources, list())
-  descriptor$directory <- replace_null(descriptor$directory, ".") # Current dir
+  descriptor$resources <- descriptor$resources %||% list()
+  descriptor$directory <- descriptor$directory %||% "." # Current directory
 
   # Add datapackage class
   if (!"datapackage" %in% class(descriptor)) {
