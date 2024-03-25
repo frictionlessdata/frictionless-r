@@ -67,6 +67,47 @@ test_that("read_package() shows message about rights and citation", {
   )
 })
 
+test_that("read_package() assumes `datapackage.json` if file is directory", {
+  # Add datapackage.json if file ends with /
+  expect_error(
+    read_package("dir/"),
+    regexp = "Can't find file at 'dir/datapackage.json'.",
+    fixed = TRUE
+  )
+  expect_error(
+    read_package("https://example.com/"),
+    regexp = "Can't find file at <https://example.com/datapackage.json>.",
+    fixed = TRUE
+  )
+
+  # Don't add datapackage.json otherwise
+  expect_error(
+    read_package("dir/datapackage.json"),
+    regexp = "Can't find file at 'dir/datapackage.json'.",
+    fixed = TRUE
+  )
+  expect_error(
+    read_package("dir/other_name.json"),
+    regexp = "Can't find file at 'dir/other_name.json'.",
+    fixed = TRUE
+  )
+  expect_error(
+    read_package("dir/other_extension.csv"),
+    regexp = "Can't find file at 'dir/other_extension.csv'.",
+    fixed = TRUE
+  )
+  expect_error(
+    read_package("dir_without_slash"),
+    regexp = "Can't find file at 'dir_without_slash'.",
+    fixed = TRUE
+  )
+  expect_error(
+    read_package("https://example.com/datapackage.json"),
+    regexp = "Can't find file at <https://example.com/datapackage.json>.",
+    fixed = TRUE
+  )
+})
+
 test_that("read_package() returns error on missing file and properties", {
   skip_if_offline()
   # Incorrect type
