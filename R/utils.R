@@ -68,73 +68,6 @@ is_url <- function(path) {
   grepl("^(http|https|ftp|ftps|sftp):\\/\\/", path)
 }
 
-#' Check path or URL
-#'
-#' Check if a [path or
-#' URL](https://specs.frictionlessdata.io/data-resource/#url-or-path) is valid
-#' (and optionally safe) and prepend with directory to create an absolute path
-#' or URL.
-#' Returns error when no file can be found.
-#'
-#' @param path Path or URL to a file.
-#' @param directory Directory to prepend to path.
-#' @param safe Require `path` to be safe, i.e. no absolute or relative parent
-#'   paths.
-#' @param file_candidates A list of filenames to try when `path` is a directory.
-#' @return Absolute path or URL.
-#' @family helper functions
-#' @noRd
-check_path <- function(path, directory = NULL, safe = FALSE,
-                       file_candidates = NULL) {
-  # Check that (non-URL) path is safe and prepend with directory to make
-  # absolute path (both optional)
-  if (!is_url(path)) {
-    assertthat::assert_that(
-      !safe | !startsWith(path, "/"),
-      msg = glue::glue("`{path}` is an absolute path (`/`) which is unsafe.")
-    )
-    assertthat::assert_that(
-      !safe | !startsWith(path, "../"),
-      msg = glue::glue(
-        "`{path}` is a relative parent path (`../`) which is unsafe."
-      )
-    )
-    if (!is.null(directory)) {
-      path <- paste(directory, path, sep = "/")
-    }
-  }
-
-  # Check existence of file at path
-  if (is_url(path)) {
-    assertthat::assert_that(
-      !httr::http_error(path),
-      msg = glue::glue("Can't find file at `{path}`.")
-    )
-  } else {
-    assertthat::assert_that(
-      file.exists(path),
-      msg = glue::glue("Can't find file at `{path}`.")
-    )
-
-    if (file.info(path)$isdir && !is.null(file_candidates)) {
-      # If the path is a directory, return the path of the first file candidate
-      # that exists
-      for (fc in file_candidates) {
-        path_candidate <- paste(path, fc, sep = "/")
-        if (file.exists(path_candidate)) {
-          return(path_candidate)
-        }
-      }
-      # If we got here, none of the file candidates exist in the dir
-      candidates_str <- paste(file_candidates, collapse=", ")
-      assertthat::assert_that(FALSE, msg = glue::glue(
-        "Can't find candidate file {candidates_str} in directory `{path}`."
-      ))
-    }
-  }
-  return(path)
-}
-
 #' Read descriptor
 #'
 #' Returns descriptor `x` as is, or attempts to read JSON/YAML from path or URL.
@@ -143,8 +76,7 @@ check_path <- function(path, directory = NULL, safe = FALSE,
 #' @return `x` (unchanged) or loaded JSON/YAML at path or URL.
 #' @family helper functions
 #' @noRd
-read_descriptor <- function(x, directory = NULL, safe = FALSE,
-                            file_candidates = NULL) {
+read_descriptor <- function(x, directory = NULL, safe = FALSE, file_candidates) {
   if (is.character(x)) {
     x <- check_path(x, directory = directory, safe = safe, file_candidates)
     if (grepl(".yaml$", x) || grepl(".yml$", x)) {
