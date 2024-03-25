@@ -68,6 +68,7 @@ test_that("read_package() shows message about rights and citation", {
 })
 
 test_that("read_package() assumes `datapackage.json` if file is directory", {
+  skip_if_offline()
   # Add datapackage.json if file ends with /
   expect_error(
     read_package("dir/"),
