@@ -2,8 +2,8 @@ test_that("read_package() returns a valid Data Package reading from path", {
   # Load example package locally and a valid minimal one
   p_path <- system.file("extdata", "datapackage.json", package = "frictionless")
   minimal_path <- test_path("data/valid_minimal.json")
-  p_local <- suppressMessages(read_package(p_path))
-  p_minimal <- suppressMessages(read_package(minimal_path))
+  p_local <- read_package(p_path)
+  p_minimal <- read_package(minimal_path)
 
   # Returns a list with required properties
   expect_true(check_package(p_local))
@@ -24,7 +24,7 @@ test_that("read_package() returns a valid Data Package reading from url", {
   # Load example package remotely
   p_url <- file.path("https://raw.githubusercontent.com/frictionlessdata/",
                      "frictionless-r/main/inst/extdata/datapackage.json")
-  p_remote <- suppressMessages(read_package(p_url))
+  p_remote <- read_package(p_url)
 
   # Returns a list with required properties
   expect_true(check_package(p_remote))
@@ -35,30 +35,6 @@ test_that("read_package() returns a valid Data Package reading from url", {
 
   # Package has correct "directory", containing root dir of datapackage.json
   expect_identical(p_remote$directory, gsub("/datapackage.json", "", p_url))
-})
-
-test_that("read_package() shows message about rights and citation", {
-  # Load example package and a minimal valid one a URL in "id"
-  p_path <- system.file("extdata", "datapackage.json", package = "frictionless")
-  minimal_extra_path <- test_path("data/valid_minimal_extra.json")
-  expect_message(
-    read_package(p_path),
-    class = "frictionless_message_usage_rights"
-  )
-  expect_message(
-    read_package(p_path),
-    regexp = paste(
-      "Please make sure you have the right to access data from this Data",
-      "Package for your intended use.\nFollow applicable norms or requirements",
-      "to credit the dataset and its authors."
-    ),
-    fixed = TRUE
-  )
-  expect_message(
-    read_package(minimal_extra_path),
-    regexp = "For more information, see <https://example.com>.",
-    fixed = TRUE
-  )
 })
 
 test_that("read_package() returns error on missing file and properties", {
@@ -120,18 +96,14 @@ test_that("read_package() allows descriptor at absolute or relative parent
            path", {
   relative_path <- "../testthat/data/valid_minimal.json"
   expect_true(
-    check_package(suppressMessages(read_package(relative_path)))
+    check_package(read_package(relative_path))
   )
   absolute_path <- normalizePath("data/valid_minimal.json")
   expect_true(
-    check_package(suppressMessages(read_package(absolute_path)))
+    check_package(read_package(absolute_path))
   )
 })
 
 test_that("read_package() allows YAML descriptor", {
-  expect_true(
-    check_package(
-      suppressMessages(read_package(test_path("data/valid_minimal.yml")))
-    )
-  )
+  expect_true(check_package(read_package(test_path("data/valid_minimal.yml"))))
 })

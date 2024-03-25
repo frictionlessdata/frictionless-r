@@ -32,14 +32,23 @@ library(frictionless)
 
 To read a Data Package, you need to know the path or URL to its descriptor file, named `datapackage.json`. That file describes the Data Package, provides access points to its Data Resources and can contain dataset-level metadata. Let's read a Data Package descriptor file published on [Zenodo](https://doi.org/10.5281/zenodo.5879096):
 
-``` r
+```r
 package <- read_package("https://zenodo.org/record/5879096/files/datapackage.json")
-#> Please make sure you have the right to access data from this Data Package for your intended use.
-#> Follow applicable norms or requirements to credit the dataset and its authors.
-#> For more information, see https://doi.org/10.5281/zenodo.5879096
 ```
 
-`read_package()` returns the content of `datapackage.json` as a list, printed here with `str()` to improve readability:
+`read_package()` returns the content of `datapackage.json` as a list with class `datapackage`. When printing a Data Package, you get a summary of its contents:
+
+```r
+package
+#> A Data Package with 3 resources:
+#> • reference-data
+#> • gps
+#> • acceleration
+#> For more information, see <https://doi.org/10.5281/zenodo.5879096>.
+#> Use `unclass()` to print the Data Package as a list.
+```
+
+Since a Data Package is a list, you can pass it to functions that work on lists, such as `str()`:
 
 ```r
 str(package, list.len = 3)
@@ -75,48 +84,54 @@ resources(package)
 This Data Package has 3 resources. Let's read the data from the `gps` resource into a data frame:
 
 ```r
+package <- read_package("https://zenodo.org/record/5879096/files/datapackage.json")
 gps <- read_resource(package, "gps")
 gps
 #> # A tibble: 73,047 × 21
-#>    event-i…¹ visible timestamp           locat…² locat…³ bar:b…⁴ exter…⁵ gps:d…⁶
-#>        <dbl> <lgl>   <dttm>                <dbl>   <dbl>   <dbl>   <dbl>   <dbl>
-#>  1   1.43e10 TRUE    2018-05-25 16:11:37    4.25    51.3      NA    32.5     2  
-#>  2   1.43e10 TRUE    2018-05-25 16:16:41    4.25    51.3      NA    32.8     2.1
-#>  3   1.43e10 TRUE    2018-05-25 16:21:29    4.25    51.3      NA    34.1     2.1
-#>  4   1.43e10 TRUE    2018-05-25 16:26:28    4.25    51.3      NA    34.5     2.2
-#>  5   1.43e10 TRUE    2018-05-25 16:31:21    4.25    51.3      NA    34.1     2.2
-#>  6   1.43e10 TRUE    2018-05-25 16:36:09    4.25    51.3      NA    32.5     2.2
-#>  7   1.43e10 TRUE    2018-05-25 16:40:57    4.25    51.3      NA    32.1     2.2
-#>  8   1.43e10 TRUE    2018-05-25 16:45:55    4.25    51.3      NA    33.3     2.1
-#>  9   1.43e10 TRUE    2018-05-25 16:50:49    4.25    51.3      NA    32.6     2.1
-#> 10   1.43e10 TRUE    2018-05-25 16:55:36    4.25    51.3      NA    31.7     2  
-#> # … with 73,037 more rows, 13 more variables: `gps:satellite-count` <dbl>,
+#>     `event-id` visible timestamp           `location-long` `location-lat`
+#>          <dbl> <lgl>   <dttm>                        <dbl>          <dbl>
+#>  1 14256075762 TRUE    2018-05-25 16:11:37            4.25           51.3
+#>  2 14256075763 TRUE    2018-05-25 16:16:41            4.25           51.3
+#>  3 14256075764 TRUE    2018-05-25 16:21:29            4.25           51.3
+#>  4 14256075765 TRUE    2018-05-25 16:26:28            4.25           51.3
+#>  5 14256075766 TRUE    2018-05-25 16:31:21            4.25           51.3
+#>  6 14256075767 TRUE    2018-05-25 16:36:09            4.25           51.3
+#>  7 14256075768 TRUE    2018-05-25 16:40:57            4.25           51.3
+#>  8 14256075769 TRUE    2018-05-25 16:45:55            4.25           51.3
+#>  9 14256075770 TRUE    2018-05-25 16:50:49            4.25           51.3
+#> 10 14256075771 TRUE    2018-05-25 16:55:36            4.25           51.3
+#> # ℹ 73,037 more rows
+#> # ℹ 16 more variables: `bar:barometric-pressure` <dbl>,
+#> #   `external-temperature` <dbl>, `gps:dop` <dbl>, `gps:satellite-count` <dbl>,
 #> #   `gps-time-to-fix` <dbl>, `ground-speed` <dbl>, heading <dbl>,
 #> #   `height-above-msl` <dbl>, `location-error-numerical` <dbl>,
 #> #   `manually-marked-outlier` <lgl>, `vertical-error-numerical` <dbl>,
-#> #   `sensor-type` <chr>, `individual-taxon-canonical-name` <chr>,
-#> #   `tag-local-identifier` <chr>, `individual-local-identifier` <chr>,
-#> #   `study-name` <chr>, and abbreviated variable names ¹​`event-id`, …
+#> #   `sensor-type` <chr>, `individual-taxon-canonical-name` <chr>, …
 ```
 
 The data frame contains all GPS records, even though the actual data were split over [multiple CSV zipped files](https://zenodo.org/record/5879096#files). `read_resource()` assigned the column names and types based on the Table Schema that was defined for that resource, not the headers of the CSV file.
 
 You can also read data from a local (e.g. downloaded) Data Package. In fact, there is one included in the frictionless pkg, let's read that one from disk:
 
-```r
+``` r
 local_package <- read_package(
   system.file("extdata", "datapackage.json", package = "frictionless")
 )
-#> Please make sure you have the right to access data from this Data Package for your intended use.
-#> Follow applicable norms or requirements to credit the dataset and its authors.
+
+local_package
+#> A Data Package with 3 resources:
+#> • deployments
+#> • observations
+#> • media
+#> Use `unclass()` to print the Data Package as a list.
+
 read_resource(local_package, "media")
 #> # A tibble: 3 × 5
-#>   media_id                             deployment_id observati…¹ times…² file_…³
-#>   <chr>                                <chr>         <chr>       <chr>   <chr>  
-#> 1 aed5fa71-3ed4-4284-a6ba-3550d1a4de8d 1             1-1         2020-0… https:…
-#> 2 da81a501-8236-4cbd-aa95-4bc4b10a05df 1             1-1         2020-0… https:…
-#> 3 0ba57608-3cf1-49d6-a5a2-fe680851024d 1             1-1         2020-0… https:…
-#> # … with abbreviated variable names ¹​observation_id, ²​timestamp, ³​file_path
+#>   media_id                      deployment_id observation_id timestamp file_path
+#>   <chr>                         <chr>         <chr>          <chr>     <chr>    
+#> 1 aed5fa71-3ed4-4284-a6ba-3550… 1             1-1            2020-09-… https://…
+#> 2 da81a501-8236-4cbd-aa95-4bc4… 1             1-1            2020-09-… https://…
+#> 3 0ba57608-3cf1-49d6-a5a2-fe68… 1             1-1            2020-09-… https://…
 ```
 
 Data from the `media` was not stored in a CSV file, but directly in the `data` property of that resource in `datapackage.json`. `read_resource()` will automatically detect where to read data from.

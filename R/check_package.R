@@ -6,6 +6,12 @@
 #' @return `TRUE` or error.
 #' @family check functions
 #' @export
+#' @examples
+#' # Load the example Data Package
+#' package <- example_package
+#'
+#' # Check if the Data Package is valid (invisible return)
+#' check_package(package)
 check_package <- function(package) {
   general_message <- "{.arg package} must be a Data Package object."
   tip_message <- paste(

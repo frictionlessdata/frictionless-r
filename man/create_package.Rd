@@ -8,7 +8,7 @@ create_package(descriptor = NULL)
 }
 \arguments{
 \item{descriptor}{List to be made into a Data Package object.
-If \code{NULL}, an empty Data Package object will be created from scratch.}
+If undefined, an empty Data Package will be created from scratch.}
 }
 \value{
 Data Package object.
@@ -33,6 +33,10 @@ it is valid.
 \examples{
 # Create a Data Package
 package <- create_package()
+
+package
+
+# See the structure of the (empty) Data Package
 str(package)
 }
 \seealso{

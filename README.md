@@ -67,10 +67,14 @@ library(frictionless)
 # This gives you access to all Data Resources of the Data Package without 
 # reading them, which is convenient and fast.
 package <- read_package("https://zenodo.org/record/5879096/files/datapackage.json")
-#> Please make sure you have the right to access data from this Data Package for
-#> your intended use.
-#> Follow applicable norms or requirements to credit the dataset and its authors.
-#> ℹ For more information, see <https://doi.org/10.5281/zenodo.5879096>.
+
+package
+#> A Data Package with 3 resources:
+#> • reference-data
+#> • gps
+#> • acceleration
+#> For more information, see <https://doi.org/10.5281/zenodo.5879096>.
+#> Use `unclass()` to print the Data Package as a list.
 
 # List resources
 resources(package)
@@ -110,6 +114,11 @@ disk:
 my_package <-
   create_package() %>%
   add_resource(resource_name = "iris", data = iris)
+
+my_package
+#> A Data Package with 1 resource:
+#> • iris
+#> Use `unclass()` to print the Data Package as a list.
 
 # Write the Data Package to disk
 my_package %>%

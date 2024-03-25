@@ -16,4 +16,11 @@ check_package(package)
 \description{
 Check if an object is a Data Package object with the required properties.
 }
+\examples{
+# Load the example Data Package
+package <- example_package
+
+# Check if the Data Package is valid (invisible return)
+check_package(package)
+}
 \concept{check functions}

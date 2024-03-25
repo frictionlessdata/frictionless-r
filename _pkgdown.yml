@@ -30,4 +30,5 @@ reference:
   - has_concept("write functions")
 - title: "Miscellaneous"
   contents:
+  - has_concept("datapackage functions")
   - example_package

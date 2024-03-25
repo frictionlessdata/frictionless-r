@@ -86,5 +86,6 @@ read_descriptor <- function(x, directory = NULL, safe = FALSE) {
       x <- jsonlite::fromJSON(x, simplifyDataFrame = FALSE, simplifyVector = TRUE)
     }
   }
+
   return(x)
 }

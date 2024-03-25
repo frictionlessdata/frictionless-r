@@ -43,5 +43,5 @@ get_schema <- function(package, resource_name) {
   # Check schema
   check_schema(schema)
 
-  schema
+  return(schema)
 }
