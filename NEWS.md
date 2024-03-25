@@ -1,7 +1,7 @@
 # frictionless (development version)
 
 * A Data Package object (`package`) now has a `datapackage` class (#184). As a result:
-  * New function `print()` prints a a human-readable summary of the Data Package (#155).
+  * New function `print()` prints a human-readable summary of the Data Package (#155).
   * `check_package()` will warn if the class is missing.
 * `read_resource()` no longer returns a message regarding rights and credit (#121). If `package$id` is a URL (e.g. a DOI) it will be mentioned in `print()`.
 * `read_resource()` now supports column selection via the `col_select` argument from `readr::read_delim()`. This can vastly improve reading speed (#123).
@@ -13,9 +13,9 @@
   * Messages use semantic colours for variables, parameters, fields, etc.
   * Messages and warnings can be silenced with a global or local option, see [this blog post](https://ropensci.org/blog/2024/02/06/verbosity-control-packages/).
   * Each call has an [rlang](https://cran.r-project.org/package=rlang) class, e.g. `frictionless_error_fields_without_name`, making it easier to test for specific errors.
-* The dependencies [glue](https://cran.r-project.org/package=glue) and [assertthat](https://cran.r-project.org/package=assertthat) are removed (#163). The functionality of glue is replaced by cli, `assertthat::assert()` calls are now `if()` functions.
-* Adhere to the requirements of [checklist](https://github.com/inbo/checklist), so that `.zenodo.json` can be created with `checklist::update_citation()`.
-* Add [Pieter Huybrechts](https://orcid.org/0000-0002-6658-6062) as author. Welcome Pieter!
+* The dependencies [glue](https://cran.r-project.org/package=glue) and [assertthat](https://cran.r-project.org/package=assertthat) are removed (#163). The functionality of glue is replaced by cli, while `assertthat::assert()` calls are now `if ()` statements.
+* The package now adheres to the requirements of [checklist](https://github.com/inbo/checklist), so that `.zenodo.json` can be created with `checklist::update_citation()`.
+* Add [Pieter Huybrechts](https://orcid.org/0000-0002-6658-6062) as author and [Kyle Husmann](0000-0001-9875-8976) as contributor. Welcome both!
 
 # frictionless 1.0.3
 
