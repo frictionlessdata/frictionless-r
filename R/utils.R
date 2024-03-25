@@ -77,15 +77,17 @@ is_url <- function(path) {
 #' @family helper functions
 #' @noRd
 read_descriptor <- function(x, directory = NULL, safe = FALSE) {
-  if (is.character(x)) {
-    x <- check_path(x, directory = directory, safe = safe)
-    if (grepl(".yaml$", x) || grepl(".yml$", x)) {
-      x <- yaml::yaml.load_file(x)
-    } else {
-      # Default to jsonlite: better error messages for non .json files
-      x <- jsonlite::fromJSON(x, simplifyDataFrame = FALSE, simplifyVector = TRUE)
-    }
+  # Return object
+  if (!is.character(x)) {
+    return(x)
   }
 
-  return(x)
+  # Read file
+  x <- check_path(x, directory = directory, safe = safe)
+  if (grepl("\\.yaml$", x) || grepl("\\.yml$", x)) {
+    yaml::yaml.load_file(x)
+  } else {
+    # Default to jsonlite: better error messages for non .json files
+    jsonlite::fromJSON(x, simplifyDataFrame = FALSE, simplifyVector = TRUE)
+  }
 }
