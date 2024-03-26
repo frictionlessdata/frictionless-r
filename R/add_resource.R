@@ -163,19 +163,19 @@ add_resource <- function(package, resource_name, data, schema = NULL,
       data = df,
       profile = "tabular-data-resource", # Necessary for read_resource()
       # other properties are set by write_resource()
-      schema = schema,
-      ...
+      ...,
+      schema = schema
     )
   } else {
     resource <- list(
       name = resource_name,
       path = paths,
       profile = "tabular-data-resource", # Necessary for read_resource()
-      schema = schema,
-      ...
       format = if (delim == "\t") "tsv" else "csv",
       mediatype = if (delim == "\t") "text/tab-separated-values" else "text/csv",
       encoding = if (encoding == "ASCII") "UTF-8" else encoding, # UTF-8 = safer
+      ...,
+      schema = schema
     )
     # Add CSV dialect for non-default delimiter
     if (delim != ",") {
