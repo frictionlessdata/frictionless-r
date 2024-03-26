@@ -171,15 +171,11 @@ add_resource <- function(package, resource_name, data, schema = NULL,
       name = resource_name,
       path = paths,
       profile = "tabular-data-resource", # Necessary for read_resource()
-      format = ifelse(delim == "\t", "tsv", "csv"),
-      mediatype = ifelse(
-        delim == "\t",
-        "text/tab-separated-values",
-        "text/csv"
-      ),
-      encoding = ifelse(encoding == "ASCII", "UTF-8", encoding), # UTF-8 is safer
       schema = schema,
       ...
+      format = if (delim == "\t") "tsv" else "csv",
+      mediatype = if (delim == "\t") "text/tab-separated-values" else "text/csv",
+      encoding = if (encoding == "ASCII") "UTF-8" else encoding, # UTF-8 = safer
     )
     # Add CSV dialect for non-default delimiter
     if (delim != ",") {
