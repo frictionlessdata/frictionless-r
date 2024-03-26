@@ -162,7 +162,10 @@ add_resource <- function(package, resource_name, data, schema = NULL,
       name = resource_name,
       data = df,
       profile = "tabular-data-resource", # Necessary for read_resource()
-      # other properties are set by write_resource()
+      format = NULL, # Will be set with write_resource()
+      mediatype = NULL,
+      encoding = NULL,
+      dialect = NULL,
       ...,
       schema = schema
     )
@@ -174,13 +177,13 @@ add_resource <- function(package, resource_name, data, schema = NULL,
       format = if (delim == "\t") "tsv" else "csv",
       mediatype = if (delim == "\t") "text/tab-separated-values" else "text/csv",
       encoding = if (encoding == "ASCII") "UTF-8" else encoding, # UTF-8 = safer
+      dialect = NULL,
       ...,
       schema = schema
     )
-    # Add CSV dialect for non-default delimiter
-    if (delim != ",") {
-      resource$dialect <- list(delimiter = delim)
-    }
+    # Add CSV dialect for non-default delimiter or remove it
+    resource$dialect <- if (delim != ",") list(delimiter = delim) else NULL
+
     # Set attribute for get_resource()
     attr(resource, "path") <- "added"
   }
