@@ -53,7 +53,7 @@ install.packages("frictionless", repos = "https://ropensci.r-universe.dev")
 
 ## Usage
 
-With frictionless you can **read** data from a Data Package (local or remote) into your R environment. Here we read bird GPS tracking data from a Data Package published on [Zenodo](https://doi.org/10.5281/zenodo.5879096):
+With frictionless you can **read** data from a Data Package (local or remote) into your R environment. Here we read bird GPS tracking data from a Data Package published on [Zenodo](https://doi.org/10.5281/zenodo.10053702):
 
 ```{r read_example}
 library(frictionless)
@@ -61,7 +61,7 @@ library(frictionless)
 # Read the datapackage.json file
 # This gives you access to all Data Resources of the Data Package without 
 # reading them, which is convenient and fast.
-package <- read_package("https://zenodo.org/record/5879096/files/datapackage.json")
+package <- read_package("https://zenodo.org/records/10053702/files/datapackage.json")
 
 package
 
