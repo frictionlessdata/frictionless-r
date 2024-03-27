@@ -6,8 +6,8 @@ test_that("read_package() returns a valid Data Package reading from path", {
   p_minimal <- read_package(minimal_path)
 
   # Returns a list with required properties
-  expect_true(check_package(p_local))
-  expect_true(check_package(p_minimal))
+  expect_no_error(check_package(p_local))
+  expect_no_error(check_package(p_minimal))
 
   # Package has correct resources
   resource_names <- c("deployments", "observations", "media")
@@ -30,7 +30,7 @@ test_that("read_package() returns a valid Data Package reading from url", {
   p_remote <- read_package(p_url)
 
   # Returns a list with required properties
-  expect_true(check_package(p_remote))
+  expect_no_error(check_package(p_remote))
 
   # Package has correct resources
   resource_names <- c("deployments", "observations", "media")
@@ -101,15 +101,17 @@ test_that("read_package() returns error on missing file and properties", {
 test_that("read_package() allows descriptor at absolute or relative parent
            path", {
   relative_path <- "../testthat/data/valid_minimal.json"
-  expect_true(
+  expect_no_error(
     check_package(read_package(relative_path))
   )
   absolute_path <- normalizePath("data/valid_minimal.json")
-  expect_true(
+  expect_no_error(
     check_package(read_package(absolute_path))
   )
 })
 
 test_that("read_package() allows YAML descriptor", {
-  expect_true(check_package(read_package(test_path("data/valid_minimal.yml"))))
+  expect_no_error(
+    check_package(read_package(test_path("data/valid_minimal.yml")))
+  )
 })

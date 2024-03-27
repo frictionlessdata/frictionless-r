@@ -3,7 +3,7 @@
 #' Check if an object is a Data Package object with the required properties.
 #'
 #' @inheritParams read_resource
-#' @return `TRUE` or error.
+#' @return `package` invisibly or error.
 #' @family check functions
 #' @export
 #' @examples
@@ -78,5 +78,5 @@ check_package <- function(package) {
     )
   }
 
-  return(TRUE)
+  invisible(package)
 }

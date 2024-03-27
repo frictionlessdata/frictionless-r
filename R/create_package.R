@@ -2,13 +2,14 @@
 #'
 #' Initiates a [Data Package](https://specs.frictionlessdata.io/data-package/)
 #' object, either from scratch or from an existing list.
-#' This Data Package object is a list with a `datapackage` class and the
-#' following properties:
+#' This Data Package object is a list with the following characteristics:
+#' - A `datapackage` subclass.
 #' - All properties of the original `descriptor`.
-#' - [`resources`](
-#'   https://specs.frictionlessdata.io/data-package/#required-properties) (an
-#'   empty list) if not present.
-#' - `directory` (set to `"."` for the current directory) if not present.
+#' - A [`resources`](
+#'   https://specs.frictionlessdata.io/data-package/#required-properties)
+#'   property, set to an empty list if undefined.
+#' - A `directory` property, set to `"."` for the current directory if
+#'   undefined.
 #'   It is used as the base path to access resources with [read_resource()].
 #'
 #' The function will run [check_package()] on the created package to make sure
@@ -36,8 +37,8 @@ create_package <- function(descriptor = NULL) {
   }
 
   # Add properties
-  descriptor$resources <- replace_null(descriptor$resources, list())
-  descriptor$directory <- replace_null(descriptor$directory, ".") # Current dir
+  descriptor$resources <- descriptor$resources %||% list()
+  descriptor$directory <- descriptor$directory %||% "." # Current directory
 
   # Add datapackage class
   if (!"datapackage" %in% class(descriptor)) {

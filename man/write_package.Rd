@@ -16,7 +16,7 @@ write_package(package, directory = ".", compress = FALSE)
 before being written to disk (e.g. \code{deployments.csv.gz}).}
 }
 \value{
-\code{package} as written to file (invisibly).
+\code{package} invisibly, as written to file.
 }
 \description{
 Writes a Data Package and its related Data Resources to disk as a
