@@ -12,7 +12,7 @@ unique_sorted <- function(x) {
   # c a b
   # 1 2 3
   values <- names(sort(table(x), decreasing = TRUE))
-  # Return empty char vector if all values in x where NA, resulting in NULL
+  # Return empty char vector if all values in x are NA, resulting in NULL
   values %||% character(0)
 }
 
