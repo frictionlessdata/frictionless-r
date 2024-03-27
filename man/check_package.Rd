@@ -11,7 +11,7 @@ check_package(package)
 \code{\link[=create_package]{create_package()}}.}
 }
 \value{
-\code{TRUE} or error.
+\code{package} invisibly or error.
 }
 \description{
 Check if an object is a Data Package object with the required properties.

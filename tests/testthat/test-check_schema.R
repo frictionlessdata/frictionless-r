@@ -1,4 +1,4 @@
-test_that("check_schema() returns TRUE on valid Table Schema", {
+test_that("check_schema() returns schema invisibly on valid Table Schema", {
   skip_if_offline()
   p <- example_package
   # Can't obtain df using read_resource(), because that function uses
@@ -6,12 +6,20 @@ test_that("check_schema() returns TRUE on valid Table Schema", {
   df <- suppressMessages(
     readr::read_csv(file.path(p$directory, p$resources[[1]]$path))
   )
+
+  # Using get_schema()
   schema_get <- get_schema(p, "deployments")
+  expect_identical(check_schema(schema_get), schema_get)
+  expect_invisible(check_schema(schema_get))
+  expect_identical(check_schema(schema_get, df), schema_get)
+  expect_invisible(check_schema(schema_get, df))
+
+  # Using create_schema()
   schema_create <- create_schema(df)
-  expect_true(check_schema(schema_get))
-  expect_true(check_schema(schema_create))
-  expect_true(check_schema(schema_get, df))
-  expect_true(check_schema(schema_create, df))
+  expect_identical(check_schema(schema_create), schema_create)
+  expect_invisible(check_schema(schema_create))
+  expect_identical(check_schema(schema_create, df), schema_create)
+  expect_invisible(check_schema(schema_create, df))
 })
 
 test_that("check_schema() returns error on invalid or empty Table Schema", {
@@ -109,12 +117,12 @@ test_that("check_schema() allows Table Schema fields to not (all) have type", {
     list(name = "col_1"),
     list(name = "col_2")
   ))
-  expect_true(check_schema(schema))
+  expect_no_error(check_schema(schema))
   schema <- list(fields = list(
     list(name = "col_1", type = "string"),
     list(name = "col_2")
   ))
-  expect_true(check_schema(schema))
+  expect_no_error(check_schema(schema))
 })
 
 test_that("check_schema() returns error on invalid or empty data frame", {
