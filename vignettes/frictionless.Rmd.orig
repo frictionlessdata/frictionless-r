@@ -91,7 +91,7 @@ Create a Data Package with `create_package()` and add your data frame as a resou
 
 ```{r}
 # Load dplyr or magrittr to support %>% pipes
-library(dplyr) # or library(magrittr)
+library(dplyr, warn.conflicts = FALSE) # or library(magrittr)
 
 my_package <-
   create_package() %>%
