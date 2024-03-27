@@ -30,7 +30,7 @@ print.datapackage <- function(x, ...) {
   }
 
   # Include link (DOI) if available in package$id
-  if (startsWith(replace_null(x$id, ""), "http")) {
+  if (startsWith(x$id %||% "", "http")) {
     cli::cat_line(
       cli::format_inline("For more information, see {.url {x$id}}.")
     )
