@@ -30,10 +30,10 @@ Load the frictionless pkg with:
 library(frictionless)
 ```
 
-To read a Data Package, you need to know the path or URL to its descriptor file, named `datapackage.json`. That file describes the Data Package, provides access points to its Data Resources and can contain dataset-level metadata. Let's read a Data Package descriptor file published on [Zenodo](https://doi.org/10.5281/zenodo.5879096):
+To read a Data Package, you need to know the path or URL to its descriptor file, named `datapackage.json`. That file describes the Data Package, provides access points to its Data Resources and can contain dataset-level metadata. Let's read a Data Package descriptor file published on [Zenodo](https://doi.org/10.5281/zenodo.10053702):
 
 ```r
-package <- read_package("https://zenodo.org/record/5879096/files/datapackage.json")
+package <- read_package("https://zenodo.org/records/10053702/files/datapackage.json")
 ```
 
 `read_package()` returns the content of `datapackage.json` as a list with class `datapackage`. When printing a Data Package, you get a summary of its contents:
@@ -109,7 +109,7 @@ gps
 #> #   `sensor-type` <chr>, `individual-taxon-canonical-name` <chr>, …
 ```
 
-The data frame contains all GPS records, even though the actual data were split over [multiple CSV zipped files](https://zenodo.org/record/5879096#files). `read_resource()` assigned the column names and types based on the Table Schema that was defined for that resource, not the headers of the CSV file.
+The data frame contains all GPS records, even though the actual data were split over [multiple CSV zipped files](https://zenodo.org/records/10053702#files-heading). `read_resource()` assigned the column names and types based on the Table Schema that was defined for that resource, not the headers of the CSV file.
 
 You can also read data from a local (e.g. downloaded) Data Package. In fact, there is one included in the frictionless pkg, let's read that one from disk:
 
@@ -275,5 +275,5 @@ unlink("my_directory", recursive = TRUE)
 The frictionless pkg does not provide functionality to deposit your Data Package on a research repository such as [Zenodo](https://zenodo.org), but here are some tips:
 
 1. Validate your Data Package before depositing. You can do this in Python with the [Frictionless Framework](https://github.com/frictionlessdata/frictionless-py) using `frictionless validate datapackage.json`.
-2. Zip the individual CSV files (and update their paths in `datapackage.json`) to reduce size, not the entire Data Package. That way, users still have direct access to the `datapackage.json` file. See [this example](https://zenodo.org/record/5061303#files).
+2. Use `compress = TRUE` in `write_package()` to reduce the size of the deposit. It will zip the individual CSV files, not the entire Data Package. That way, users still have direct access to the `datapackage.json` file. See [this example](https://zenodo.org/records/10053702#files-heading).
 3. Only describe the technical aspects of your dataset in `datapackage.json` (fields, units, the dataset identifier in `id`). Authors, methodology, license, etc. are better described in the metadata fields the research repository provides.
