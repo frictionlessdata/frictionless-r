@@ -344,7 +344,7 @@ my_package <- append(my_package, c(title = "My package"), after = 1)
 
 # Warning: append() drops the custom datapackage class.
 # It can be added again by running my_package through create_package()
-my_package <- create_package()
+my_package <- create_package(my_package)
 ```
 
 Note that in the above steps you started a Data Package from scratch with `create_package()`, but you can use the same functionality to edit an existing Data Package read with `read_package()`.
@@ -356,9 +356,6 @@ Now that you have created your Data Package, you can write it to a directory of 
 
 ```r
 write_package(my_package, "my_directory")
-#> Error in `write_package()`:
-#> ! `package` must have resources.
-#> ℹ Use `add_resource()` to add resources.
 ```
 
 The directory will contain four files: the descriptor `datapackage.json`, one CSV file containing the data for the resource `iris` and two CSV files containing the data for the resource `observations`.
