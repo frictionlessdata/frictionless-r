@@ -134,11 +134,16 @@ reference](https://docs.ropensci.org/frictionless/reference/index.html).
 
 [datapackage.r](https://github.com/frictionlessdata/datapackage-r) is an
 alternative R package to work with Data Packages. It has an
-object-oriented design and offers validation. frictionless on the other
-hand allows you to quickly read and write Data Packages to and from data
-frames, getting out of the way for the rest of your analysis. It is
-designed to be lightweight, follows
+object-oriented design and offers validation.
+
+frictionless on the other hand allows you to quickly read and write Data
+Packages to and from data frames, getting out of the way for the rest of
+your analysis. It is designed to be lightweight, follows
 [tidyverse](https://www.tidyverse.org/) principles and supports piping.
+Its validation functionality is limited to what is needed for reading
+and writing, see
+[frictionless-py](https://github.com/frictionlessdata/frictionless-py)
+for extensive validation.
 
 ## Meta
 
