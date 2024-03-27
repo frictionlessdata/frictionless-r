@@ -82,7 +82,7 @@ create_schema <- function(data) {
   # Create fields (a list of lists)
   fields <- purrr::imap(data_as_list, function(x, name) {
     # Name
-    name <- ifelse(is.na(name), "", name)
+    name <- if (is.na(name)) "" else name
 
     # Type
     type <- paste(class(x), collapse = ",") # When data type is a vector

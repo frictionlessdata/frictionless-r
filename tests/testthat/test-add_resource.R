@@ -239,7 +239,7 @@ test_that("add_resource() adds resource", {
   expect_length(p$resources, 5) # Remains a list, now of length 5
   expect_identical(p$resources[[5]][["name"]], "new_csv")
   expect_identical(p$resources[[5]][["profile"]], "tabular-data-resource")
-  expect_identical(p$resources[[5]][["data"]], NULL)
+  expect_null(p$resources[[5]][["data"]])
   expect_identical(
     resources(p),
     c("deployments", "observations", "media", "new_df", "new_csv")
@@ -334,7 +334,7 @@ test_that("add_resource() can add resource from CSV file with other delimiter,
            readable by read_resource()", {
   p <- create_package()
   p <- add_resource(p, "df", test_path("data/df.csv"))
-  expect_identical(p$resources[[1]]$dialect$delimiter, NULL)
+  expect_null(p$resources[[1]]$dialect$delimiter)
   p <- add_resource(p, "df_delim_1", test_path("data/df_delim_1.txt"),
                     delim = ";")
   expect_identical(p$resources[[2]]$dialect$delimiter, ";")

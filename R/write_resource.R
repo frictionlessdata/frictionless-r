@@ -22,25 +22,15 @@ write_resource <- function(package, resource_name, directory = ".",
     }
     readr::write_csv(resource$data, file.path(directory, file_name), na = "")
 
-    # Save schema and reassign all resource properties (in correct order)
-    # This also removes $data and $read_from
-    schema <- resource$schema
-    resource <- list(
-      name = resource_name,
-      path = file_name,
-      profile = "tabular-data-resource",
-      # title: not set
-      # description: not set
-      format = "csv",
-      mediatype = "text/csv",
-      encoding = "utf-8", # Enforced by readr::write_csv()
-      # dialect: not set, default
-      # bytes: not set
-      # hash: not set
-      # sources: not set
-      # licenses: not set
-      schema = schema
-    )
+    # Set properties
+    resource <- append(resource, c(path = file_name), after = 1) # After "name"
+    resource$format <- "csv"
+    resource$mediatype <- "text/csv"
+    resource$encoding <- "utf-8" # Enforced by readr::write_csv()
+    resource$dialect <- NULL
+    resource$read_from <- NULL
+    resource$data <- NULL
+
   # Resource originally had data property
   } else if (resource$read_from == "data") {
     resource$read_from <- NULL
