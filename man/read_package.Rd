@@ -23,6 +23,8 @@ package <- read_package(
   system.file("extdata", "datapackage.json", package = "frictionless")
 )
 
+package
+
 # Access the Data Package properties
 package$name
 package$created

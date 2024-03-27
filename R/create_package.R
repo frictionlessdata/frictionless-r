@@ -16,13 +16,17 @@
 #' it is valid.
 #'
 #' @param descriptor List to be made into a Data Package object.
-#'   If `NULL`, an empty Data Package object will be created from scratch.
+#'   If undefined, an empty Data Package will be created from scratch.
 #' @return Data Package object.
 #' @family create functions
 #' @export
 #' @examples
 #' # Create a Data Package
 #' package <- create_package()
+#'
+#' package
+#'
+#' # See the structure of the (empty) Data Package
 #' str(package)
 create_package <- function(descriptor = NULL) {
   if (!is.null(descriptor) && !is.list(descriptor)) {
@@ -33,8 +37,8 @@ create_package <- function(descriptor = NULL) {
   }
 
   # Add properties
-  descriptor$resources <- replace_null(descriptor$resources, list())
-  descriptor$directory <- replace_null(descriptor$directory, ".") # Current dir
+  descriptor$resources <- descriptor$resources %||% list()
+  descriptor$directory <- descriptor$directory %||% "." # Current directory
 
   # Add datapackage class
   if (!"datapackage" %in% class(descriptor)) {

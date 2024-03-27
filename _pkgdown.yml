@@ -8,9 +8,7 @@ navbar:
 
 authors:
   Peter Desmet:
-    href: https://twitter.com/peterdesmet
-  Damiano Oldoni:
-    href: https://twitter.com/damianozingaro
+    href: https://mastodon.social/@peterdesmet
   LifeWatch Belgium:
     href: https://lifewatch.be
     html: "<img src='https://www.lifewatch.be/sites/lifewatch.be/themes/lifewatchportal/images/header_lw_logo.png' width=72>"
@@ -32,4 +30,5 @@ reference:
   - has_concept("write functions")
 - title: "Miscellaneous"
   contents:
+  - has_concept("datapackage functions")
   - example_package

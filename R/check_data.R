@@ -9,8 +9,8 @@
 check_data <- function(data) {
   if (
     !is.data.frame(data) ||
-    replace_null(dim(data)[1], 0) == 0 ||
-    replace_null(dim(data)[2], 0) == 0
+    dim(data)[1] %||% 0 == 0 ||
+    dim(data)[2] %||% 0 == 0
   ) {
     cli::cli_abort(
       "{.arg data} must be a data frame containing data.",

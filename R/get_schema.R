@@ -23,7 +23,7 @@ get_schema <- function(package, resource_name) {
   resource <- get_resource(package, resource_name)
 
   # Check resource is tabular-data-resource (expected for resources with schema)
-  if (replace_null(resource$profile, "") != "tabular-data-resource") {
+  if (resource$profile %||% "" != "tabular-data-resource") {
     cli::cli_abort(
       "Resource {.val {resource_name}} must have a {.field profile} property
        with value {.val tabular-data-resource}.",
@@ -43,5 +43,5 @@ get_schema <- function(package, resource_name) {
   # Check schema
   check_schema(schema)
 
-  schema
+  return(schema)
 }

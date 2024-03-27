@@ -54,7 +54,7 @@ get_resource <- function(package, resource_name) {
     }
     # Expand paths to full paths, check if file exists and check path safety,
     # unless those paths were willingly added by user in add_resource()
-    if (replace_null(attributes(resource)$path, "") != "added") {
+    if (attr(resource, "path") %||% "" != "added") {
       resource$path <- purrr::map_chr(
         resource$path, ~ check_path(.x, package$directory, safe = TRUE)
       )
@@ -65,5 +65,5 @@ get_resource <- function(package, resource_name) {
     resource$read_from <- "data"
   }
 
-  resource
+  return(resource)
 }

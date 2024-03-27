@@ -124,5 +124,5 @@ create_schema <- function(data) {
     recursive = TRUE
   )
 
-  schema
+  return(schema)
 }

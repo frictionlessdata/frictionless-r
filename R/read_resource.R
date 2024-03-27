@@ -184,8 +184,7 @@
 #'   system.file("extdata", "datapackage.json", package = "frictionless")
 #' )
 #'
-#' # List resources
-#' resources(package)
+#' package
 #'
 #' # Read data from the resource "observations"
 #' read_resource(package, "observations")
@@ -222,7 +221,7 @@ read_resource <- function(package, resource_name, col_select = NULL) {
   }
 
   # Create locale with encoding, decimal_mark and grouping_mark
-  encoding <- replace_null(resource$encoding, "UTF-8") # Set default to UTF-8
+  encoding <- resource$encoding %||% "UTF-8" # Set default to UTF-8
   if (!tolower(encoding) %in% tolower(iconvlist())) {
     cli::cli_warn(
       "Unknown encoding {.field {encoding}}. Reading file(s) with UTF-8
@@ -231,9 +230,7 @@ read_resource <- function(package, resource_name, col_select = NULL) {
     )
     encoding <- "UTF-8"
   }
-  d_chars <- purrr::map_chr(
-    fields, ~ replace_null(.x$decimalChar, NA_character_)
-  )
+  d_chars <- purrr::map_chr(fields, ~ .x$decimalChar %||% NA_character_)
   d_chars <- unique_sorted(d_chars)
   if (length(d_chars) == 0 || (length(d_chars) == 1 && d_chars[1] == ".")) {
     decimal_mark <- "." # Set default to "." if undefined or all set to "."
@@ -245,7 +242,7 @@ read_resource <- function(package, resource_name, col_select = NULL) {
       class = "frictionless_warning_fields_decimalchar_different"
     )
   }
-  g_chars <- purrr::map_chr(fields, ~ replace_null(.x$groupChar, NA_character_))
+  g_chars <- purrr::map_chr(fields, ~ .x$groupChar %||% NA_character_)
   g_chars <- unique_sorted(g_chars)
   if (length(g_chars) == 0 || (length(g_chars) == 1 && g_chars[1] == "")) {
     grouping_mark <- "" # Set default to "" if undefined or all set to ""
@@ -265,11 +262,11 @@ read_resource <- function(package, resource_name, col_select = NULL) {
 
   # Create col_types: list(<collector_character>, <collector_logical>, ...)
   col_types <- purrr::map(fields, function(x) {
-    type <- replace_null(x$type, NA_character_)
+    type <- x$type %||% NA_character_
     enum <- x$constraints$enum
-    group_char <- ifelse(replace_null(x$groupChar, "") != "", TRUE, FALSE)
-    bare_number <- ifelse(replace_null(x$bareNumber, "") != FALSE, TRUE, FALSE)
-    format <- replace_null(x$format, "default") # Undefined => default
+    group_char <- ifelse(x$groupChar %||% "" != "", TRUE, FALSE)
+    bare_number <- ifelse(x$bareNumber %||% "" != FALSE, TRUE, FALSE)
+    format <- x$format %||% "default" # Undefined => default
 
     # Assign types and formats
     col_type <- switch(type,
@@ -307,12 +304,12 @@ read_resource <- function(package, resource_name, col_select = NULL) {
         "default" = "%AT", # H(MS)
         "any" = "%AT", # H(MS)
         "%X" = "%H:%M:%S", # HMS
-        gsub("%S.%f", "%OS", format) # Default, use %OS for milli/microseconds
+        sub("%S.%f", "%OS", format) # Default, use %OS for milli/microseconds
       )),
       "datetime" = readr::col_datetime(format = switch(format,
         "default" = "", # ISO (lenient)
         "any" = "", # ISO (lenient)
-        gsub("%S.%f", "%OS", format) # Default, use %OS for milli/microseconds
+        sub("%S.%f", "%OS", format) # Default, use %OS for milli/microseconds
       )),
       "year" = readr::col_date(format = "%Y"),
       "yearmonth" = readr::col_date(format = "%Y-%m"),
@@ -324,7 +321,7 @@ read_resource <- function(package, resource_name, col_select = NULL) {
     # col_type will be NULL when type is undefined (NA_character_) or an
     # unrecognized value (e.g. "datum", but will be blocked by check_schema()).
     # Set those to col_guess().
-    col_type <- replace_null(col_type, readr::col_guess())
+    col_type <- col_type %||% readr::col_guess()
     col_type
   })
 
@@ -349,16 +346,16 @@ read_resource <- function(package, resource_name, col_select = NULL) {
     for (i in seq_along(paths)) {
       data <- readr::read_delim(
         file = paths[i],
-        delim = replace_null(dialect$delimiter, ","),
-        quote = replace_null(dialect$quoteChar, "\""),
+        delim = dialect$delimiter %||% ",",
+        quote = dialect$quoteChar %||% "\"",
         escape_backslash = ifelse(
-          replace_null(dialect$escapeChar, "not set") == "\\", TRUE, FALSE
+          dialect$escapeChar %||% "not set" == "\\", TRUE, FALSE
         ),
         escape_double = ifelse(
           # If escapeChar is set, set doubleQuote to FALSE (mutually exclusive)
-          replace_null(dialect$escapeChar, "not set") == "\\",
+          dialect$escapeChar %||% "not set" == "\\",
           FALSE,
-          replace_null(dialect$doubleQuote, TRUE)
+          dialect$doubleQuote %||% TRUE
         ),
         col_names = field_names,
         col_types = col_types,
@@ -366,11 +363,11 @@ read_resource <- function(package, resource_name, col_select = NULL) {
         # a column, see https://rlang.r-lib.org/reference/topic-data-mask.html
         col_select = {{col_select}},
         locale = locale,
-        na = replace_null(schema$missingValues, ""),
-        comment = replace_null(dialect$commentChar, ""),
-        trim_ws = replace_null(dialect$skipInitialSpace, FALSE),
+        na = schema$missingValues %||% "",
+        comment = dialect$commentChar %||% "",
+        trim_ws = dialect$skipInitialSpace %||% FALSE,
         # Skip header row when present
-        skip = ifelse(replace_null(dialect$header, TRUE), 1, 0),
+        skip = ifelse(dialect$header %||% TRUE, 1, 0),
         skip_empty_rows = TRUE
       )
       dataframes[[i]] <- data

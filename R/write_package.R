@@ -27,8 +27,7 @@
 #'   system.file("extdata", "datapackage.json", package = "frictionless")
 #' )
 #'
-#' # List resources
-#' resources(package)
+#' package
 #'
 #' # Write the (unchanged) Data Package to disk
 #' write_package(package, directory = "my_directory")

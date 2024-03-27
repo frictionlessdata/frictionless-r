@@ -23,7 +23,7 @@ check_schema <- function(schema, data = NULL) {
   fields <- schema$fields
 
   # Check fields have names
-  field_names <- purrr::map_chr(fields, ~ replace_null(.x$name, NA_character_))
+  field_names <- purrr::map_chr(fields, ~ .x$name %||% NA_character_)
   fields_without_name <- as.character(which(is.na(field_names)))
   if (any(is.na(field_names))) {
     cli::cli_abort(
@@ -37,7 +37,7 @@ check_schema <- function(schema, data = NULL) {
   }
 
   # Check fields have valid types (a mix of valid types and undefined is ok)
-  field_types <- purrr::map_chr(fields, ~ replace_null(.x$type, NA_character_))
+  field_types <- purrr::map_chr(fields, ~ .x$type %||% NA_character_)
   valid_types <- c(
     "string", "number", "integer", "boolean", "object", "array", "date", "time",
     "datetime", "year", "yearmonth", "duration", "geopoint", "geojson", "any",
