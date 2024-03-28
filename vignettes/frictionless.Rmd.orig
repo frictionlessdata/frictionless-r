@@ -8,7 +8,12 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
 
 ## What is a Data Package?
 
@@ -20,119 +25,53 @@ A [Data Package](https://specs.frictionlessdata.io/data-package/) is a simple co
 
 Load the frictionless pkg with:
 
-
-```r
+```{r setup}
 library(frictionless)
 ```
 
 To read a Data Package, you need to know the path or URL to its descriptor file, named `datapackage.json`. That file describes the Data Package, provides access points to its Data Resources and can contain dataset-level metadata. Let's read a Data Package descriptor file published on [Zenodo](https://doi.org/10.5281/zenodo.10053702):
 
-
-```r
+```{r}
 package <- read_package("https://zenodo.org/records/10053702/files/datapackage.json")
 ```
 
 `read_package()` returns the content of `datapackage.json` as a list with class `datapackage`. When printing a Data Package, you get a summary of its contents:
 
-
-```r
+```{r}
 package
-#> A Data Package with 3 resources:
-#> • reference-data
-#> • gps
-#> • acceleration
-#> For more information, see <https://doi.org/10.5281/zenodo.10053702>.
-#> Use `unclass()` to print the Data Package as a list.
 ```
 
 Since a Data Package is a list, you can pass it to functions that work on lists, such as `str()`:
 
-
-```r
+```{r}
 str(package, list.len = 3)
-#> List of 4
-#>  $ id       : chr "https://doi.org/10.5281/zenodo.10053702"
-#>  $ profile  : chr "tabular-data-package"
-#>  $ resources:List of 3
-#>   ..$ :List of 7
-#>   .. ..$ name     : chr "reference-data"
-#>   .. ..$ path     : chr "O_WESTERSCHELDE-reference-data.csv"
-#>   .. ..$ profile  : chr "tabular-data-resource"
-#>   .. .. [list output truncated]
-#>   ..$ :List of 7
-#>   .. ..$ name     : chr "gps"
-#>   .. ..$ path     : chr [1:3] "O_WESTERSCHELDE-gps-2018.csv.gz" "O_WESTERSCHELDE-gps-2019.csv.gz" "O_WESTERSCHELDE-gps-2020.csv.gz"
-#>   .. ..$ profile  : chr "tabular-data-resource"
-#>   .. .. [list output truncated]
-#>   ..$ :List of 7
-#>   .. ..$ name     : chr "acceleration"
-#>   .. ..$ path     : chr [1:3] "O_WESTERSCHELDE-acceleration-2018.csv.gz" "O_WESTERSCHELDE-acceleration-2019.csv.gz" "O_WESTERSCHELDE-acceleration-2020.csv.gz"
-#>   .. ..$ profile  : chr "tabular-data-resource"
-#>   .. .. [list output truncated]
-#>   [list output truncated]
-#>  - attr(*, "class")= chr [1:2] "datapackage" "list"
 ```
 
 The most important aspect of a Data Package are its **Data Resources**, which describe and point to the data. You can list all included resources with `resources()`:
 
-
-```r
+```{r}
 resources(package)
-#> [1] "reference-data" "gps"            "acceleration"
 ```
 
 This Data Package has 3 resources. Let's read the data from the `gps` resource into a data frame:
 
-
-```r
+```{r}
 gps <- read_resource(package, "gps")
 gps
-#> # A tibble: 73,047 × 21
-#>     `event-id` visible timestamp           `location-long` `location-lat`
-#>          <dbl> <lgl>   <dttm>                        <dbl>          <dbl>
-#>  1 14256075762 TRUE    2018-05-25 16:11:37            4.25           51.3
-#>  2 14256075763 TRUE    2018-05-25 16:16:41            4.25           51.3
-#>  3 14256075764 TRUE    2018-05-25 16:21:29            4.25           51.3
-#>  4 14256075765 TRUE    2018-05-25 16:26:28            4.25           51.3
-#>  5 14256075766 TRUE    2018-05-25 16:31:21            4.25           51.3
-#>  6 14256075767 TRUE    2018-05-25 16:36:09            4.25           51.3
-#>  7 14256075768 TRUE    2018-05-25 16:40:57            4.25           51.3
-#>  8 14256075769 TRUE    2018-05-25 16:45:55            4.25           51.3
-#>  9 14256075770 TRUE    2018-05-25 16:50:49            4.25           51.3
-#> 10 14256075771 TRUE    2018-05-25 16:55:36            4.25           51.3
-#> # ℹ 73,037 more rows
-#> # ℹ 16 more variables: `bar:barometric-pressure` <dbl>,
-#> #   `external-temperature` <dbl>, `gps:dop` <dbl>, `gps:satellite-count` <dbl>,
-#> #   `gps-time-to-fix` <dbl>, `ground-speed` <dbl>, heading <dbl>,
-#> #   `height-above-msl` <dbl>, `location-error-numerical` <dbl>,
-#> #   `manually-marked-outlier` <lgl>, `vertical-error-numerical` <dbl>,
-#> #   `sensor-type` <chr>, `individual-taxon-canonical-name` <chr>, …
 ```
 
 The data frame contains all GPS records, even though the actual data were split over [multiple CSV zipped files](https://zenodo.org/records/10053702#files-heading). `read_resource()` assigned the column names and types based on the Table Schema that was defined for that resource, not the headers of the CSV file.
 
 You can also read data from a local (e.g. downloaded) Data Package. In fact, there is one included in the frictionless pkg, let's read that one from disk:
 
-
-```r
+```{r}
 local_package <- read_package(
   system.file("extdata", "datapackage.json", package = "frictionless")
 )
 
 local_package
-#> A Data Package with 3 resources:
-#> • deployments
-#> • observations
-#> • media
-#> Use `unclass()` to print the Data Package as a list.
 
 read_resource(local_package, "media")
-#> # A tibble: 3 × 5
-#>   media_id                      deployment_id observation_id timestamp file_path
-#>   <chr>                         <chr>         <chr>          <chr>     <chr>    
-#> 1 aed5fa71-3ed4-4284-a6ba-3550… 1             1-1            2020-09-… https://…
-#> 2 da81a501-8236-4cbd-aa95-4bc4… 1             1-1            2020-09-… https://…
-#> 3 0ba57608-3cf1-49d6-a5a2-fe68… 1             1-1            2020-09-… https://…
 ```
 
 Data from the `media` was not stored in a CSV file, but directly in the `data` property of that resource in `datapackage.json`. `read_resource()` will automatically detect where to read data from.
@@ -143,30 +82,14 @@ Data Package is a good format to technically describe your data, e.g. if you are
 
 The frictionless pkg assumes your data are stored as a data frame or CSV files. Let's use the built-in dataset `iris` as your data frame:
 
-
-```r
+```{r}
 # Show content of the data frame "iris"
 dplyr::as_tibble(iris)
-#> # A tibble: 150 × 5
-#>    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-#>           <dbl>       <dbl>        <dbl>       <dbl> <fct>  
-#>  1          5.1         3.5          1.4         0.2 setosa 
-#>  2          4.9         3            1.4         0.2 setosa 
-#>  3          4.7         3.2          1.3         0.2 setosa 
-#>  4          4.6         3.1          1.5         0.2 setosa 
-#>  5          5           3.6          1.4         0.2 setosa 
-#>  6          5.4         3.9          1.7         0.4 setosa 
-#>  7          4.6         3.4          1.4         0.3 setosa 
-#>  8          5           3.4          1.5         0.2 setosa 
-#>  9          4.4         2.9          1.4         0.2 setosa 
-#> 10          4.9         3.1          1.5         0.1 setosa 
-#> # ℹ 140 more rows
 ```
 
 Create a Data Package with `create_package()` and add your data frame as a resource with the name `iris`:
 
-
-```r
+```{r}
 # Load dplyr or magrittr to support %>% pipes
 library(dplyr, warn.conflicts = FALSE) # or library(magrittr)
 
@@ -179,89 +102,39 @@ Note that you can chain most frictionless functions together using pipes (`%>%` 
 
 `my_package` now contains one resource:
 
-
-```r
+```{r}
 my_package
-#> A Data Package with 1 resource:
-#> • iris
-#> Use `unclass()` to print the Data Package as a list.
 ```
 
 By default, `add_resource()` will create a **Table Schema** for your data frame, describing its field names, field types and (for factors) constraints. You can retrieve the schema of a resource with `get_schema()`. It is a list, which we print here using `str()`:
 
-
-```r
+```{r}
 iris_schema <-
   my_package %>%
   get_schema("iris")
 
 str(iris_schema)
-#> List of 1
-#>  $ fields:List of 5
-#>   ..$ :List of 2
-#>   .. ..$ name: chr "Sepal.Length"
-#>   .. ..$ type: chr "number"
-#>   ..$ :List of 2
-#>   .. ..$ name: chr "Sepal.Width"
-#>   .. ..$ type: chr "number"
-#>   ..$ :List of 2
-#>   .. ..$ name: chr "Petal.Length"
-#>   .. ..$ type: chr "number"
-#>   ..$ :List of 2
-#>   .. ..$ name: chr "Petal.Width"
-#>   .. ..$ type: chr "number"
-#>   ..$ :List of 3
-#>   .. ..$ name       : chr "Species"
-#>   .. ..$ type       : chr "string"
-#>   .. ..$ constraints:List of 1
-#>   .. .. ..$ enum: chr [1:3] "setosa" "versicolor" "virginica"
 ```
 
 You can also create a schema from a data frame, using `create_schema()`:
 
-
-```r
+```{r}
 iris_schema <- create_schema(iris)
 
 str(iris_schema)
-#> List of 1
-#>  $ fields:List of 5
-#>   ..$ :List of 2
-#>   .. ..$ name: chr "Sepal.Length"
-#>   .. ..$ type: chr "number"
-#>   ..$ :List of 2
-#>   .. ..$ name: chr "Sepal.Width"
-#>   .. ..$ type: chr "number"
-#>   ..$ :List of 2
-#>   .. ..$ name: chr "Petal.Length"
-#>   .. ..$ type: chr "number"
-#>   ..$ :List of 2
-#>   .. ..$ name: chr "Petal.Width"
-#>   .. ..$ type: chr "number"
-#>   ..$ :List of 3
-#>   .. ..$ name       : chr "Species"
-#>   .. ..$ type       : chr "string"
-#>   .. ..$ constraints:List of 1
-#>   .. .. ..$ enum: chr [1:3] "setosa" "versicolor" "virginica"
 ```
 
 Doing so allows you to customize the schema before adding the resource. E.g. let's add a description for `Sepal.Length`:
 
-
-```r
+```{r}
 iris_schema$fields[[1]]$description <- "Sepal length in cm."
 # Show result
 str(iris_schema$fields[[1]])
-#> List of 3
-#>  $ name       : chr "Sepal.Length"
-#>  $ type       : chr "number"
-#>  $ description: chr "Sepal length in cm."
 ```
 
 Since schema is a list, you can use the `purrr` pkg to edit multiple elements at once:
 
-
-```r
+```{r}
 # Remove description for first field
 iris_schema$fields[[1]]$description <- NULL
 
@@ -279,36 +152,11 @@ iris_schema$fields <- purrr::imap(
 )
 
 str(iris_schema)
-#> List of 1
-#>  $ fields:List of 5
-#>   ..$ :List of 3
-#>   .. ..$ name       : chr "Sepal.Length"
-#>   .. ..$ type       : chr "number"
-#>   .. ..$ description: chr "Sepal length in cm."
-#>   ..$ :List of 3
-#>   .. ..$ name       : chr "Sepal.Width"
-#>   .. ..$ type       : chr "number"
-#>   .. ..$ description: chr "Sepal width in cm."
-#>   ..$ :List of 3
-#>   .. ..$ name       : chr "Petal.Length"
-#>   .. ..$ type       : chr "number"
-#>   .. ..$ description: chr "Pedal length in cm."
-#>   ..$ :List of 3
-#>   .. ..$ name       : chr "Petal.Width"
-#>   .. ..$ type       : chr "number"
-#>   .. ..$ description: chr "Pedal width in cm."
-#>   ..$ :List of 4
-#>   .. ..$ name       : chr "Species"
-#>   .. ..$ type       : chr "string"
-#>   .. ..$ constraints:List of 1
-#>   .. .. ..$ enum: chr [1:3] "setosa" "versicolor" "virginica"
-#>   .. ..$ description: chr "Iris species."
 ```
 
 Let's add `iris` as a resource to your Data Package again, but this time with the customized schema. Let's also add `title` and `description` as a metadata properties. Note that you have to remove the originally added resource `iris` with `remove_resource()` first, since Data Packages can only contain uniquely named resources:
 
-
-```r
+```{r}
 my_package <-
   my_package %>%
   remove_resource("iris") %>% # Remove originally added resource
@@ -323,8 +171,7 @@ my_package <-
 
 If you already have your data stored as CSV files and you want to include them _as is_ as a Data Resource, you can do so as well. As with data frames, you can opt to create a Table Schema automatically or provide your own.
 
-
-```r
+```{r}
 # Two CSV files with the same structure
 path_1 <- system.file("extdata", "observations_1.csv", package = "frictionless")
 path_2 <- system.file("extdata", "observations_2.csv", package = "frictionless")
@@ -337,8 +184,7 @@ my_package <-
 
 Your Data Package now contains 2 resources, but you can add metadata properties as well (see the [Data Package documentation](https://specs.frictionlessdata.io/data-package/#metadata) for an overview). Since it is a list, you can use `append()` to insert properties at the desired place. Let's add `name` as first and `title` as second property:
 
-
-```r
+```{r}
 my_package <- append(my_package, c(name = "my_package"), after = 0)
 my_package <- append(my_package, c(title = "My package"), after = 1)
 
@@ -353,20 +199,19 @@ Note that in the above steps you started a Data Package from scratch with `creat
 
 Now that you have created your Data Package, you can write it to a directory of your choice with `write_package()`:
 
-
-```r
+```{r}
 write_package(my_package, "my_directory")
 ```
 
 The directory will contain four files: the descriptor `datapackage.json`, one CSV file containing the data for the resource `iris` and two CSV files containing the data for the resource `observations`.
 
-
-```r
+```{r}
 list.files("my_directory")
-#> [1] "datapackage.json"   "iris.csv"           "observations_1.csv" "observations_2.csv"
 ```
 
-
+```{r, include = FALSE}
+unlink("my_directory", recursive = TRUE)
+```
 
 The frictionless pkg does not provide functionality to deposit your Data Package on a research repository such as [Zenodo](https://zenodo.org), but here are some tips:
 

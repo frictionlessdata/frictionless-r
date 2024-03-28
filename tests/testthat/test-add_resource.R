@@ -3,10 +3,10 @@ test_that("add_resource() returns a valid Data Package", {
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   df_csv <- test_path("data/df.csv")
   schema <- create_schema(df)
-  expect_true(check_package(add_resource(p, "new", df)))
-  expect_true(check_package(add_resource(p, "new", df, schema)))
-  expect_true(check_package(add_resource(p, "new", df_csv)))
-  expect_true(check_package(
+  expect_no_error(check_package(add_resource(p, "new", df)))
+  expect_no_error(check_package(add_resource(p, "new", df, schema)))
+  expect_no_error(check_package(add_resource(p, "new", df_csv)))
+  expect_no_error(check_package(
     add_resource(p, "new", df, title = "New", foo = "bar")
   ))
 })
@@ -64,11 +64,11 @@ test_that("add_resource() returns error when resource name contains invalid
   )
 
   # Valid names
-  expect_true(check_package(add_resource(p, "n.ew", df)))
-  expect_true(check_package(add_resource(p, "n-ew", df)))
-  expect_true(check_package(add_resource(p, "n_ew", df)))
-  expect_true(check_package(add_resource(p, "n3w", df)))
-  expect_true(check_package(add_resource(p, "n.3-w_10", df)))
+  expect_no_error(check_package(add_resource(p, "n.ew", df)))
+  expect_no_error(check_package(add_resource(p, "n-ew", df)))
+  expect_no_error(check_package(add_resource(p, "n_ew", df)))
+  expect_no_error(check_package(add_resource(p, "n3w", df)))
+  expect_no_error(check_package(add_resource(p, "n.3-w_10", df)))
 })
 
 test_that("add_resource() returns error when resource of that name already

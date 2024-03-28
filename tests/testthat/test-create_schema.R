@@ -20,7 +20,7 @@ test_that("create_schema() returns a valid Table Schema", {
     )
   )
   expect_identical(create_schema(df), expected_schema)
-  expect_true(check_schema(create_schema(df)))
+  expect_no_error(check_schema(create_schema(df)))
 })
 
 test_that("create_schema() returns error on invalid or empty data frame", {

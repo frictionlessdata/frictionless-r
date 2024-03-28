@@ -1,7 +1,7 @@
 test_that("remove_resource() returns a valid Data Package", {
   skip_if_offline()
   p <- example_package
-  expect_true(check_package(remove_resource(p, "deployments")))
+  expect_no_error(check_package(remove_resource(p, "deployments")))
 })
 
 test_that("remove_resource() returns error on invalid Data Package", {

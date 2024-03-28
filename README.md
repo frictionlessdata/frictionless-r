@@ -58,7 +58,7 @@ install.packages("frictionless", repos = "https://ropensci.r-universe.dev")
 With frictionless you can **read** data from a Data Package (local or
 remote) into your R environment. Here we read bird GPS tracking data
 from a Data Package published on
-[Zenodo](https://doi.org/10.5281/zenodo.5879096):
+[Zenodo](https://doi.org/10.5281/zenodo.10053702):
 
 ``` r
 library(frictionless)
@@ -66,14 +66,14 @@ library(frictionless)
 # Read the datapackage.json file
 # This gives you access to all Data Resources of the Data Package without 
 # reading them, which is convenient and fast.
-package <- read_package("https://zenodo.org/record/5879096/files/datapackage.json")
+package <- read_package("https://zenodo.org/records/10053702/files/datapackage.json")
 
 package
 #> A Data Package with 3 resources:
 #> • reference-data
 #> • gps
 #> • acceleration
-#> For more information, see <https://doi.org/10.5281/zenodo.5879096>.
+#> For more information, see <https://doi.org/10.5281/zenodo.10053702>.
 #> Use `unclass()` to print the Data Package as a list.
 
 # List resources
@@ -134,11 +134,16 @@ reference](https://docs.ropensci.org/frictionless/reference/index.html).
 
 [datapackage.r](https://github.com/frictionlessdata/datapackage-r) is an
 alternative R package to work with Data Packages. It has an
-object-oriented design and offers validation. frictionless on the other
-hand allows you to quickly read and write Data Packages to and from data
-frames, getting out of the way for the rest of your analysis. It is
-designed to be lightweight, follows
+object-oriented design and offers validation.
+
+frictionless on the other hand allows you to quickly read and write Data
+Packages to and from data frames, getting out of the way for the rest of
+your analysis. It is designed to be lightweight, follows
 [tidyverse](https://www.tidyverse.org/) principles and supports piping.
+Its validation functionality is limited to what is needed for reading
+and writing, see
+[frictionless-py](https://github.com/frictionlessdata/frictionless-py)
+for extensive validation.
 
 ## Meta
 
