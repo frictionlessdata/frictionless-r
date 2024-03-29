@@ -374,4 +374,4 @@ The frictionless pkg does not provide functionality to deposit your Data Package
 2. Use `compress = TRUE` in `write_package()` to reduce the size of the deposit. It will zip the individual CSV files, not the entire Data Package. That way, users still have direct access to the `datapackage.json` file. See [this example](https://zenodo.org/records/10053702#files-heading).
 3. Only describe the technical aspects of your dataset in `datapackage.json` (fields, units, the dataset identifier in `id`). Authors, methodology, license, etc. are better described in the metadata fields the research repository provides.
 
-We also recommend having a look at the rOpenSci [`deposits`](https://docs.ropensci.org/deposits/) pkg, which provides a universal inferface to deposit and access data in a research repository. It uses the frictionless pkg under the hood.
+We also recommend having a look at the rOpenSci [`deposits`](https://docs.ropensci.org/deposits/) pkg, which provides a universal interface to deposit and access data in a research repository. It uses the frictionless pkg under the hood.
