@@ -28,6 +28,8 @@ License: MIT + file LICENSE
 URL: https://github.com/frictionlessdata/frictionless-r,
     https://docs.ropensci.org/frictionless/
 BugReports: https://github.com/frictionlessdata/frictionless-r/issues
+Depends:
+    R (>= 3.5.0)
 Imports:
     cli,
     dplyr,
