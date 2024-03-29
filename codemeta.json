@@ -8,7 +8,7 @@
   "codeRepository": "https://github.com/frictionlessdata/frictionless-r",
   "issueTracker": "https://github.com/frictionlessdata/frictionless-r/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -35,6 +35,22 @@
       "familyName": "Oldoni",
       "email": "damiano.oldoni@inbo.be",
       "@id": "https://orcid.org/0000-0003-3445-7562"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Pieter",
+      "familyName": "Huybrechts",
+      "email": "pieter.huybrechts@inbo.be",
+      "@id": "https://orcid.org/0000-0002-6658-6062"
+    }
+  ],
+  "contributor": [
+    {
+      "@type": "Person",
+      "givenName": "Kyle",
+      "familyName": "Husmann",
+      "email": "kdh38@psu.edu",
+      "@id": "https://orcid.org/0000-0001-9875-8976"
     }
   ],
   "copyrightHolder": [
@@ -136,17 +152,23 @@
   "softwareRequirements": {
     "1": {
       "@type": "SoftwareApplication",
-      "identifier": "assertthat",
-      "name": "assertthat",
+      "identifier": "R",
+      "name": "R",
+      "version": ">= 3.5.0"
+    },
+    "2": {
+      "@type": "SoftwareApplication",
+      "identifier": "cli",
+      "name": "cli",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://CRAN.R-project.org/package=assertthat"
+      "sameAs": "https://CRAN.R-project.org/package=cli"
     },
-    "2": {
+    "3": {
       "@type": "SoftwareApplication",
       "identifier": "dplyr",
       "name": "dplyr",
@@ -157,18 +179,6 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=dplyr"
-    },
-    "3": {
-      "@type": "SoftwareApplication",
-      "identifier": "glue",
-      "name": "glue",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=glue"
     },
     "4": {
       "@type": "SoftwareApplication",
@@ -221,10 +231,22 @@
     },
     "8": {
       "@type": "SoftwareApplication",
+      "identifier": "rlang",
+      "name": "rlang",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=rlang"
+    },
+    "9": {
+      "@type": "SoftwareApplication",
       "identifier": "utils",
       "name": "utils"
     },
-    "9": {
+    "10": {
       "@type": "SoftwareApplication",
       "identifier": "yaml",
       "name": "yaml",
@@ -238,7 +260,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "183.522KB",
+  "fileSize": "221.038KB",
   "citation": [
     {
       "@type": "SoftwareSourceCode",
@@ -257,12 +279,19 @@
           "familyName": "Oldoni",
           "email": "damiano.oldoni@inbo.be",
           "@id": "https://orcid.org/0000-0003-3445-7562"
+        },
+        {
+          "@type": "Person",
+          "givenName": "Pieter",
+          "familyName": "Huybrechts",
+          "email": "pieter.huybrechts@inbo.be",
+          "@id": "https://orcid.org/0000-0002-6658-6062"
         }
       ],
-      "name": "Read and Write Frictionless Data Packages",
+      "name": "frictionless: Read and Write Frictionless Data Packages",
       "identifier": "10.5281/zenodo.5815355",
       "url": "https://cran.r-project.org/package=frictionless",
-      "description": "R package version 1.0.3",
+      "description": "R package version 1.1.0",
       "@id": "https://doi.org/10.5281/zenodo.5815355",
       "sameAs": "https://doi.org/10.5281/zenodo.5815355"
     }

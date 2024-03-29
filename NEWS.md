@@ -18,12 +18,14 @@
   * Messages use semantic colours for variables, parameters, fields, etc.
   * Messages and warnings can be silenced with a global or local option, see [this blog post](https://ropensci.org/blog/2024/02/06/verbosity-control-packages/).
   * Each call has an [rlang](https://cran.r-project.org/package=rlang) class, e.g. `frictionless_error_fields_without_name`, making it easier to test for specific errors.
-* The dependencies [glue](https://cran.r-project.org/package=glue) and [assertthat](https://cran.r-project.org/package=assertthat) are removed (#163). The functionality of glue is replaced by cli, while `assertthat::assert()` calls are now `if ()` statements.
+* [glue](https://cran.r-project.org/package=glue) and [assertthat](https://cran.r-project.org/package=assertthat) are removed as dependencies (#163). The functionality of glue is replaced by cli, while `assertthat::assert()` calls are now `if ()` statements.
+* [rlang](https://cran.r-project.org/package=rlang) is added as dependency (#192). It is already used by other dependencies.
+* frictionless now depends on R >= 3.5.0.
 
 ## Other changes
 
 * The package now adheres to the requirements of [checklist](https://github.com/inbo/checklist), so that `.zenodo.json` can be created with `checklist::update_citation()`.
-* Add [Pieter Huybrechts](https://orcid.org/0000-0002-6658-6062) as author and [Kyle Husmann](0000-0001-9875-8976) as contributor. Welcome both!
+* Add [Pieter Huybrechts](https://orcid.org/0000-0002-6658-6062) as author and [Kyle Husmann](https://orcid.org/0000-0001-9875-8976) as contributor. Welcome both!
 
 # frictionless 1.0.3
 

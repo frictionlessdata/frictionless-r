@@ -20,3 +20,4 @@
 ^frictionless\.Rproj$
 ^man-roxygen$
 ^pkgdown$
+^revdep$
