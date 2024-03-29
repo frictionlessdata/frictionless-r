@@ -264,8 +264,8 @@ read_resource <- function(package, resource_name, col_select = NULL) {
   col_types <- purrr::map(fields, function(x) {
     type <- x$type %||% NA_character_
     enum <- x$constraints$enum
-    group_char <- ifelse(x$groupChar %||% "" != "", TRUE, FALSE)
-    bare_number <- ifelse(x$bareNumber %||% "" != FALSE, TRUE, FALSE)
+    group_char <- if (x$groupChar %||% "" != "") TRUE else FALSE
+    bare_number <- if (x$bareNumber %||% "" != FALSE) TRUE else FALSE
     format <- x$format %||% "default" # Undefined => default
 
     # Assign types and formats
@@ -348,15 +348,17 @@ read_resource <- function(package, resource_name, col_select = NULL) {
         file = paths[i],
         delim = dialect$delimiter %||% ",",
         quote = dialect$quoteChar %||% "\"",
-        escape_backslash = ifelse(
-          dialect$escapeChar %||% "not set" == "\\", TRUE, FALSE
-        ),
-        escape_double = ifelse(
+        escape_backslash = if (dialect$escapeChar %||% "not set" == "\\") {
+          TRUE
+        } else {
+          FALSE
+        },
+        escape_double = if (dialect$escapeChar %||% "not set" == "\\") {
           # If escapeChar is set, set doubleQuote to FALSE (mutually exclusive)
-          dialect$escapeChar %||% "not set" == "\\",
-          FALSE,
+          FALSE
+        } else {
           dialect$doubleQuote %||% TRUE
-        ),
+        },
         col_names = field_names,
         col_types = col_types,
         # Use rlang {{}} to avoid `col_select` to be interpreted as the name of
@@ -367,7 +369,7 @@ read_resource <- function(package, resource_name, col_select = NULL) {
         comment = dialect$commentChar %||% "",
         trim_ws = dialect$skipInitialSpace %||% FALSE,
         # Skip header row when present
-        skip = ifelse(dialect$header %||% TRUE, 1, 0),
+        skip = if (dialect$header %||% TRUE) 1 else 0,
         skip_empty_rows = TRUE
       )
       dataframes[[i]] <- data
