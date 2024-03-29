@@ -8,6 +8,9 @@ authors:
 - given-names: Damiano
   family-names: Oldoni
   orcid: 0000-0003-3445-7562
+- given-names: Pieter
+  family-names: Huybrechts
+  orcid: 0000-0002-6658-6062
 keywords:
 - R package
 - frictionlessdata
@@ -17,12 +20,13 @@ contact:
   orcid: 0000-0002-8442-8025
 doi: ~
 license: MIT
-repository-code: https://github.com/frictionlessdata/frictionless-r
+repository-code: https://github.com/frictionlessdata/frictionless-r/
 type: software
-abstract: Read and write Frictionless Data Packages. A 'Data Package' () is a simple
-  container format and standard to describe and package a collection of (tabular)
-  data. It is typically used to publish FAIR () and open datasets.
+abstract: Read and write Frictionless Data Packages. A 'Data Package' (https://specs.frictionlessdata.io/data-package/)
+  is a simple container format and standard to describe and package a collection of
+  (tabular) data. It is typically used to publish FAIR (https://www.go-fair.org/fair-principles/)
+  and open datasets.
 identifiers:
 - type: url
   value: https://docs.ropensci.org/frictionless/
-version: 1.0.2
+version: 1.1.0
