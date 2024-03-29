@@ -1,6 +1,6 @@
 Package: frictionless
 Title: Read and Write Frictionless Data Packages
-Version: 1.1.0
+Version: 1.1.0.9000
 Authors@R: c(
     person("Peter", "Desmet", email = "peter.desmet.work@gmail.com",
            role = c("aut", "cre"), comment = c(ORCID = "0000-0002-8442-8025")),

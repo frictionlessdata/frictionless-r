@@ -1,3 +1,5 @@
+# frictionless (development version)
+
 # frictionless 1.1.0
 
 ## Changes for users
