@@ -39,7 +39,7 @@ Install the latest released version from CRAN:
 
 ```R
 install.packages("frictionless")
-````
+```
 
 Or the development version from [GitHub](https://github.com/frictionlessdata/frictionless-r) or [R-universe](https://ropensci.r-universe.dev):
 
