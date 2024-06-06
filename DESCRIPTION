@@ -2,8 +2,8 @@ Package: frictionless
 Title: Read and Write Frictionless Data Packages
 Version: 1.1.0.9000
 Authors@R: c(
-    person("Peter", "Desmet", , "peter.desmet.work@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-8442-8025")),
+    person("Peter", "Desmet", , "peter.desmet@inbo.be", role = c("aut", "cre"),
     person("Damiano", "Oldoni", , "damiano.oldoni@inbo.be", role = "aut",
            comment = c(ORCID = "0000-0003-3445-7562")),
     person("Pieter", "Huybrechts", , "pieter.huybrechts@inbo.be", role = "aut",
