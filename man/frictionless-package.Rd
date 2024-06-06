@@ -18,17 +18,17 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Peter Desmet \email{peter.desmet.work@gmail.com} (\href{https://orcid.org/0000-0002-8442-8025}{ORCID})
+\strong{Maintainer}: Peter Desmet \email{peter.desmet@inbo.be} (\href{https://orcid.org/0000-0002-8442-8025}{ORCID}) (Research Institute for Nature and Forest (INBO))
 
 Authors:
 \itemize{
-  \item Damiano Oldoni \email{damiano.oldoni@inbo.be} (\href{https://orcid.org/0000-0003-3445-7562}{ORCID})
-  \item Pieter Huybrechts \email{pieter.huybrechts@inbo.be} (\href{https://orcid.org/0000-0002-6658-6062}{ORCID})
+  \item Damiano Oldoni \email{damiano.oldoni@inbo.be} (\href{https://orcid.org/0000-0003-3445-7562}{ORCID}) (Research Institute for Nature and Forest (INBO))
+  \item Pieter Huybrechts \email{pieter.huybrechts@inbo.be} (\href{https://orcid.org/0000-0002-6658-6062}{ORCID}) (Research Institute for Nature and Forest (INBO))
 }
 
 Other contributors:
 \itemize{
-  \item Kyle Husmann \email{kdh38@psu.edu} (\href{https://orcid.org/0000-0001-9875-8976}{ORCID}) [contributor]
+  \item Kyle Husmann \email{kdh38@psu.edu} (\href{https://orcid.org/0000-0001-9875-8976}{ORCID}) (Pennsylvania State University) [contributor]
   \item Research Institute for Nature and Forest (INBO) (https://www.vlaanderen.be/inbo/en-gb/) [copyright holder]
   \item LifeWatch Belgium (https://lifewatch.be) [funder]
   \item Beatriz Milz \email{milz.bea@gmail.com} (\href{https://orcid.org/0000-0002-3064-4486}{ORCID}) [reviewer]
