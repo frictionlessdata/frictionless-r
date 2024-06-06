@@ -1,32 +1,343 @@
+# -----------------------------------------------------------
+# CITATION file created with {cffr} R package, v0.5.0
+# See also: https://docs.ropensci.org/cffr/
+# -----------------------------------------------------------
+ 
 cff-version: 1.2.0
-message: If you use this software, please cite it using these metadata.
-title: 'frictionless: Read and Write Frictionless Data Packages'
-authors:
-- given-names: Peter
-  family-names: Desmet
-  orcid: 0000-0002-8442-8025
-- given-names: Damiano
-  family-names: Oldoni
-  orcid: 0000-0003-3445-7562
-- given-names: Pieter
-  family-names: Huybrechts
-  orcid: 0000-0002-6658-6062
-keywords:
-- R package
-- frictionlessdata
-contact:
-- given-names: Peter
-  family-names: Desmet
-  orcid: 0000-0002-8442-8025
-doi: ~
-license: MIT
-repository-code: https://github.com/frictionlessdata/frictionless-r/
+message: 'To cite package "frictionless" in publications use:'
 type: software
-abstract: Read and write Frictionless Data Packages. A 'Data Package' (https://specs.frictionlessdata.io/data-package/)
+license: MIT
+title: 'frictionless: Read and Write Frictionless Data Packages'
+version: 1.1.0.9000
+doi: 10.5281/zenodo.5815355
+abstract: Read and write Frictionless Data Packages. A 'Data Package' (<https://specs.frictionlessdata.io/data-package/>)
   is a simple container format and standard to describe and package a collection of
-  (tabular) data. It is typically used to publish FAIR (https://www.go-fair.org/fair-principles/)
+  (tabular) data. It is typically used to publish FAIR (<https://www.go-fair.org/fair-principles/>)
   and open datasets.
-identifiers:
-- type: url
-  value: https://docs.ropensci.org/frictionless/
-version: 1.1.0
+authors:
+- family-names: Desmet
+  given-names: Peter
+  email: peter.desmet@inbo.be
+  orcid: https://orcid.org/0000-0002-8442-8025
+  affiliation: Research Institute for Nature and Forest (INBO)
+- family-names: Oldoni
+  given-names: Damiano
+  email: damiano.oldoni@inbo.be
+  orcid: https://orcid.org/0000-0003-3445-7562
+  affiliation: Research Institute for Nature and Forest (INBO)
+- family-names: Huybrechts
+  given-names: Pieter
+  email: pieter.huybrechts@inbo.be
+  orcid: https://orcid.org/0000-0002-6658-6062
+  affiliation: Research Institute for Nature and Forest (INBO)
+preferred-citation:
+  type: manual
+  title: 'frictionless: Read and Write Frictionless Data Packages'
+  authors:
+  - family-names: Desmet
+    given-names: Peter
+    email: peter.desmet@inbo.be
+    orcid: https://orcid.org/0000-0002-8442-8025
+    affiliation: Research Institute for Nature and Forest (INBO)
+  - family-names: Oldoni
+    given-names: Damiano
+    email: damiano.oldoni@inbo.be
+    orcid: https://orcid.org/0000-0003-3445-7562
+    affiliation: Research Institute for Nature and Forest (INBO)
+  - family-names: Huybrechts
+    given-names: Pieter
+    email: pieter.huybrechts@inbo.be
+    orcid: https://orcid.org/0000-0002-6658-6062
+    affiliation: Research Institute for Nature and Forest (INBO)
+  year: '2024'
+  notes: R package version 1.1.0.9000
+  url: https://cran.r-project.org/package=frictionless
+  doi: 10.5281/zenodo.5815355
+repository: https://CRAN.R-project.org/package=frictionless
+repository-code: https://github.com/frictionlessdata/frictionless-r
+url: https://docs.ropensci.org/frictionless/
+date-released: '2024-03-29'
+contact:
+- family-names: Desmet
+  given-names: Peter
+  email: peter.desmet@inbo.be
+  orcid: https://orcid.org/0000-0002-8442-8025
+  affiliation: Research Institute for Nature and Forest (INBO)
+keywords:
+- frictionlessdata
+- oscibio
+- r
+- r-package
+- rstats
+references:
+- type: software
+  title: 'R: A Language and Environment for Statistical Computing'
+  notes: Depends
+  url: https://www.R-project.org/
+  authors:
+  - name: R Core Team
+  location:
+    name: Vienna, Austria
+  year: '2024'
+  institution:
+    name: R Foundation for Statistical Computing
+  version: '>= 3.5.0'
+- type: software
+  title: cli
+  abstract: 'cli: Helpers for Developing Command Line Interfaces'
+  notes: Imports
+  url: https://cli.r-lib.org
+  repository: https://CRAN.R-project.org/package=cli
+  authors:
+  - family-names: Csárdi
+    given-names: Gábor
+    email: csardi.gabor@gmail.com
+  year: '2024'
+- type: software
+  title: dplyr
+  abstract: 'dplyr: A Grammar of Data Manipulation'
+  notes: Imports
+  url: https://dplyr.tidyverse.org
+  repository: https://CRAN.R-project.org/package=dplyr
+  authors:
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@posit.co
+    orcid: https://orcid.org/0000-0003-4757-117X
+  - family-names: François
+    given-names: Romain
+    orcid: https://orcid.org/0000-0002-2444-4226
+  - family-names: Henry
+    given-names: Lionel
+  - family-names: Müller
+    given-names: Kirill
+    orcid: https://orcid.org/0000-0002-1416-3412
+  - family-names: Vaughan
+    given-names: Davis
+    email: davis@posit.co
+    orcid: https://orcid.org/0000-0003-4777-038X
+  year: '2024'
+- type: software
+  title: httr
+  abstract: 'httr: Tools for Working with URLs and HTTP'
+  notes: Imports
+  url: https://httr.r-lib.org/
+  repository: https://CRAN.R-project.org/package=httr
+  authors:
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@posit.co
+  year: '2024'
+- type: software
+  title: jsonlite
+  abstract: 'jsonlite: A Simple and Robust JSON Parser and Generator for R'
+  notes: Imports
+  url: https://jeroen.r-universe.dev/jsonlite
+  repository: https://CRAN.R-project.org/package=jsonlite
+  authors:
+  - family-names: Ooms
+    given-names: Jeroen
+    email: jeroen@berkeley.edu
+    orcid: https://orcid.org/0000-0002-4035-0289
+  year: '2024'
+- type: software
+  title: purrr
+  abstract: 'purrr: Functional Programming Tools'
+  notes: Imports
+  url: https://purrr.tidyverse.org/
+  repository: https://CRAN.R-project.org/package=purrr
+  authors:
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@rstudio.com
+    orcid: https://orcid.org/0000-0003-4757-117X
+  - family-names: Henry
+    given-names: Lionel
+    email: lionel@rstudio.com
+  year: '2024'
+- type: software
+  title: readr
+  abstract: 'readr: Read Rectangular Text Data'
+  notes: Imports
+  url: https://readr.tidyverse.org
+  repository: https://CRAN.R-project.org/package=readr
+  authors:
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@posit.co
+  - family-names: Hester
+    given-names: Jim
+  - family-names: Bryan
+    given-names: Jennifer
+    email: jenny@posit.co
+    orcid: https://orcid.org/0000-0002-6983-2759
+  year: '2024'
+  version: '>= 2.1.0'
+- type: software
+  title: rlang
+  abstract: 'rlang: Functions for Base Types and Core R and ''Tidyverse'' Features'
+  notes: Imports
+  url: https://rlang.r-lib.org
+  repository: https://CRAN.R-project.org/package=rlang
+  authors:
+  - family-names: Henry
+    given-names: Lionel
+    email: lionel@posit.co
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@posit.co
+  year: '2024'
+- type: software
+  title: utils
+  abstract: 'R: A Language and Environment for Statistical Computing'
+  notes: Imports
+  authors:
+  - name: R Core Team
+  location:
+    name: Vienna, Austria
+  year: '2024'
+  institution:
+    name: R Foundation for Statistical Computing
+- type: software
+  title: yaml
+  abstract: 'yaml: Methods to Convert R Data to YAML and Back'
+  notes: Imports
+  url: https://github.com/vubiostat/r-yaml/
+  repository: https://CRAN.R-project.org/package=yaml
+  authors:
+  - family-names: Garbett
+    given-names: Shawn P
+  - family-names: Stephens
+    given-names: Jeremy
+  - family-names: Simonov
+    given-names: Kirill
+  - family-names: Xie
+    given-names: Yihui
+  - family-names: Dong
+    given-names: Zhuoer
+  - family-names: Wickham
+    given-names: Hadley
+  - family-names: Horner
+    given-names: Jeffrey
+  - name: reikoch
+  - family-names: Beasley
+    given-names: Will
+  - family-names: O'Connor
+    given-names: Brendan
+  - family-names: Warnes
+    given-names: Gregory R.
+  - family-names: Quinn
+    given-names: Michael
+  - family-names: Kamvar
+    given-names: Zhian N.
+  year: '2024'
+- type: software
+  title: hms
+  abstract: 'hms: Pretty Time of Day'
+  notes: Suggests
+  url: https://hms.tidyverse.org/
+  repository: https://CRAN.R-project.org/package=hms
+  authors:
+  - family-names: Müller
+    given-names: Kirill
+    email: kirill@cynkra.com
+    orcid: https://orcid.org/0000-0002-1416-3412
+  year: '2024'
+- type: software
+  title: knitr
+  abstract: 'knitr: A General-Purpose Package for Dynamic Report Generation in R'
+  notes: Suggests
+  url: https://yihui.org/knitr/
+  repository: https://CRAN.R-project.org/package=knitr
+  authors:
+  - family-names: Xie
+    given-names: Yihui
+    email: xie@yihui.name
+    orcid: https://orcid.org/0000-0003-0645-5666
+  year: '2024'
+- type: software
+  title: lubridate
+  abstract: 'lubridate: Make Dealing with Dates a Little Easier'
+  notes: Suggests
+  url: https://lubridate.tidyverse.org
+  repository: https://CRAN.R-project.org/package=lubridate
+  authors:
+  - family-names: Spinu
+    given-names: Vitalie
+    email: spinuvit@gmail.com
+  - family-names: Grolemund
+    given-names: Garrett
+  - family-names: Wickham
+    given-names: Hadley
+  year: '2024'
+- type: software
+  title: rmarkdown
+  abstract: 'rmarkdown: Dynamic Documents for R'
+  notes: Suggests
+  url: https://pkgs.rstudio.com/rmarkdown/
+  repository: https://CRAN.R-project.org/package=rmarkdown
+  authors:
+  - family-names: Allaire
+    given-names: JJ
+    email: jj@posit.co
+  - family-names: Xie
+    given-names: Yihui
+    email: xie@yihui.name
+    orcid: https://orcid.org/0000-0003-0645-5666
+  - family-names: Dervieux
+    given-names: Christophe
+    email: cderv@posit.co
+    orcid: https://orcid.org/0000-0003-4474-2498
+  - family-names: McPherson
+    given-names: Jonathan
+    email: jonathan@posit.co
+  - family-names: Luraschi
+    given-names: Javier
+  - family-names: Ushey
+    given-names: Kevin
+    email: kevin@posit.co
+  - family-names: Atkins
+    given-names: Aron
+    email: aron@posit.co
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@posit.co
+  - family-names: Cheng
+    given-names: Joe
+    email: joe@posit.co
+  - family-names: Chang
+    given-names: Winston
+    email: winston@posit.co
+  - family-names: Iannone
+    given-names: Richard
+    email: rich@posit.co
+    orcid: https://orcid.org/0000-0003-3925-190X
+  year: '2024'
+- type: software
+  title: stringi
+  abstract: 'stringi: Fast and Portable Character String Processing Facilities'
+  notes: Suggests
+  url: https://stringi.gagolewski.com/
+  repository: https://CRAN.R-project.org/package=stringi
+  authors:
+  - family-names: Gagolewski
+    given-names: Marek
+  - family-names: Tartanus
+    given-names: Bartek
+  - family-names: Unicode
+    given-names: others;
+  - name: Inc.
+  - name: others
+  year: '2024'
+- type: software
+  title: testthat
+  abstract: 'testthat: Unit Testing for R'
+  notes: Suggests
+  url: https://testthat.r-lib.org
+  repository: https://CRAN.R-project.org/package=testthat
+  authors:
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@posit.co
+  year: '2024'
+  version: '>= 3.0.0'
