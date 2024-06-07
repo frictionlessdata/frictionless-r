@@ -37,13 +37,13 @@ To get started, see:
 
 Install the latest released version from CRAN:
 
-```R
+```{r, eval = FALSE}
 install.packages("frictionless")
 ```
 
 Or the development version from [GitHub](https://github.com/frictionlessdata/frictionless-r) or [R-universe](https://ropensci.r-universe.dev):
 
-```R
+```{r, eval = FALSE}
 # install.packages("devtools")
 devtools::install_github("frictionlessdata/frictionless-r")
 
