@@ -1,7 +1,7 @@
-# -----------------------------------------------------------
-# CITATION file created with {cffr} R package, v0.5.0
+# --------------------------------------------
+# CITATION file created with {cffr} R package
 # See also: https://docs.ropensci.org/cffr/
-# -----------------------------------------------------------
+# --------------------------------------------
  
 cff-version: 1.2.0
 message: 'To cite package "frictionless" in publications use:'
@@ -9,7 +9,6 @@ type: software
 license: MIT
 title: 'frictionless: Read and Write Frictionless Data Packages'
 version: 1.1.0.9000
-doi: 10.5281/zenodo.5815355
 abstract: Read and write Frictionless Data Packages. A 'Data Package' (<https://specs.frictionlessdata.io/data-package/>)
   is a simple container format and standard to describe and package a collection of
   (tabular) data. It is typically used to publish FAIR (<https://www.go-fair.org/fair-principles/>)
@@ -30,29 +29,6 @@ authors:
   email: pieter.huybrechts@inbo.be
   orcid: https://orcid.org/0000-0002-6658-6062
   affiliation: Research Institute for Nature and Forest (INBO)
-preferred-citation:
-  type: manual
-  title: 'frictionless: Read and Write Frictionless Data Packages'
-  authors:
-  - family-names: Desmet
-    given-names: Peter
-    email: peter.desmet@inbo.be
-    orcid: https://orcid.org/0000-0002-8442-8025
-    affiliation: Research Institute for Nature and Forest (INBO)
-  - family-names: Oldoni
-    given-names: Damiano
-    email: damiano.oldoni@inbo.be
-    orcid: https://orcid.org/0000-0003-3445-7562
-    affiliation: Research Institute for Nature and Forest (INBO)
-  - family-names: Huybrechts
-    given-names: Pieter
-    email: pieter.huybrechts@inbo.be
-    orcid: https://orcid.org/0000-0002-6658-6062
-    affiliation: Research Institute for Nature and Forest (INBO)
-  year: '2024'
-  notes: R package version 1.1.0.9000
-  url: https://cran.r-project.org/package=frictionless
-  doi: 10.5281/zenodo.5815355
 repository: https://CRAN.R-project.org/package=frictionless
 repository-code: https://github.com/frictionlessdata/frictionless-r
 url: https://docs.ropensci.org/frictionless/
@@ -76,11 +52,10 @@ references:
   url: https://www.R-project.org/
   authors:
   - name: R Core Team
-  location:
-    name: Vienna, Austria
-  year: '2024'
   institution:
     name: R Foundation for Statistical Computing
+    address: Vienna, Austria
+  year: '2024'
   version: '>= 3.5.0'
 - type: software
   title: cli
@@ -193,11 +168,10 @@ references:
   notes: Imports
   authors:
   - name: R Core Team
-  location:
-    name: Vienna, Austria
-  year: '2024'
   institution:
     name: R Foundation for Statistical Computing
+    address: Vienna, Austria
+  year: '2024'
 - type: software
   title: yaml
   abstract: 'yaml: Methods to Convert R Data to YAML and Back'
@@ -322,6 +296,7 @@ references:
   authors:
   - family-names: Gagolewski
     given-names: Marek
+    orcid: https://orcid.org/0000-0003-0637-6028
   - family-names: Tartanus
     given-names: Bartek
   - family-names: Unicode
@@ -341,3 +316,4 @@ references:
     email: hadley@posit.co
   year: '2024'
   version: '>= 3.0.0'
+
