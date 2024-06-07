@@ -1,5 +1,7 @@
 # frictionless (development version)
 
+* [checklist](https://github.com/inbo/checklist) tooling was removed, in favour of `CITATION.cff` for citation and Zenodo deposit.
+
 # frictionless 1.1.0
 
 ## Changes for users

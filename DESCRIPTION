@@ -1,15 +1,16 @@
 Package: frictionless
 Title: Read and Write Frictionless Data Packages
 Version: 1.1.0.9000
+Date: 2024-03-29
 Authors@R: c(
-    person("Peter", "Desmet", , "peter.desmet.work@gmail.com", role = c("aut", "cre"),
-           comment = c(ORCID = "0000-0002-8442-8025")),
+    person("Peter", "Desmet", , "peter.desmet@inbo.be", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-8442-8025", affiliation = "Research Institute for Nature and Forest (INBO)")),
     person("Damiano", "Oldoni", , "damiano.oldoni@inbo.be", role = "aut",
-           comment = c(ORCID = "0000-0003-3445-7562")),
+           comment = c(ORCID = "0000-0003-3445-7562", affiliation = "Research Institute for Nature and Forest (INBO)")),
     person("Pieter", "Huybrechts", , "pieter.huybrechts@inbo.be", role = "aut",
-           comment = c(ORCID = "0000-0002-6658-6062")),
+           comment = c(ORCID = "0000-0002-6658-6062", affiliation = "Research Institute for Nature and Forest (INBO)")),
     person("Kyle", "Husmann", , "kdh38@psu.edu", role = "ctb",
-           comment = c(ORCID = "0000-0001-9875-8976")),
+           comment = c(ORCID = "0000-0001-9875-8976", affiliation = "Pennsylvania State University")),
     person("Research Institute for Nature and Forest (INBO)", role = "cph",
            comment = "https://www.vlaanderen.be/inbo/en-gb/"),
     person("LifeWatch Belgium", role = "fnd",
@@ -49,11 +50,8 @@ Suggests:
     testthat (>= 3.0.0)
 VignetteBuilder: 
     knitr
-Config/checklist/communities: inbo
-Config/checklist/keywords: R package; frictionlessdata
 Config/testthat/edition: 3
 Encoding: UTF-8
-Language: en-GB
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
