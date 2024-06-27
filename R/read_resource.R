@@ -16,6 +16,9 @@
 #' @param col_select Character vector of the columns to include in the result,
 #'   in the order provided.
 #'   Selecting columns can improve read speed.
+#' @param interlaced Boolean value indicating if interlaced columns should
+#' be loaded using the interlacer package.
+#' @param ... arguments to pass to `read_resource()``
 #' @return [tibble()] data frame with the Data Resource's tabular data.
 #'   If there are parsing problems, a warning will alert you.
 #'   You can retrieve the full details by calling [problems()] on your data
@@ -198,7 +201,8 @@
 #'
 #' # Read data from the resource "deployments" with column selection
 #' read_resource(package, "deployments", col_select = c("latitude", "longitude"))
-read_resource <- function(package, resource_name, col_select = NULL) {
+read_resource <- function(package, resource_name, col_select = NULL,
+                          interlaced = FALSE) {
   # Get resource, includes check_package()
   resource <- get_resource(package, resource_name)
 
@@ -261,76 +265,26 @@ read_resource <- function(package, resource_name, col_select = NULL) {
   )
 
   # Create col_types: list(<collector_character>, <collector_logical>, ...)
-  col_types <- purrr::map(fields, function(x) {
-    type <- x$type %||% NA_character_
-    enum <- x$constraints$enum
-    group_char <- if (x$groupChar %||% "" != "") TRUE else FALSE
-    bare_number <- if (x$bareNumber %||% "" != FALSE) TRUE else FALSE
-    format <- x$format %||% "default" # Undefined => default
-
-    # Assign types and formats
-    col_type <- switch(type,
-      "string" = if (length(enum) > 0) {
-        readr::col_factor(levels = enum)
-      } else {
-        readr::col_character()
-      },
-      "number" = if (length(enum) > 0) {
-        readr::col_factor(levels = as.character(enum))
-      } else if (group_char) {
-        readr::col_number() # Supports grouping_mark
-      } else if (bare_number) {
-        readr::col_double() # Allows NaN, INF, -INF
-      } else {
-        readr::col_number() # Strips non-num. chars, uses default grouping_mark
-      },
-      "integer" = if (length(enum) > 0) {
-        readr::col_factor(levels = as.character(enum))
-      } else if (bare_number) {
-        readr::col_double() # Not col_integer() to avoid big integers issues
-      } else {
-        readr::col_number() # Strips non-numeric chars
-      },
-      "boolean" = readr::col_logical(),
-      "object" = readr::col_character(),
-      "array" = readr::col_character(),
-      "date" = readr::col_date(format = switch(format,
-        "default" = "%Y-%m-%d", # ISO
-        "any" = "%AD", # YMD
-        "%x" = "%m/%d/%y", # Python strptime for %x
-        format # Default
-      )),
-      "time" = readr::col_time(format = switch(format,
-        "default" = "%AT", # H(MS)
-        "any" = "%AT", # H(MS)
-        "%X" = "%H:%M:%S", # HMS
-        sub("%S.%f", "%OS", format) # Default, use %OS for milli/microseconds
-      )),
-      "datetime" = readr::col_datetime(format = switch(format,
-        "default" = "", # ISO (lenient)
-        "any" = "", # ISO (lenient)
-        sub("%S.%f", "%OS", format) # Default, use %OS for milli/microseconds
-      )),
-      "year" = readr::col_date(format = "%Y"),
-      "yearmonth" = readr::col_date(format = "%Y-%m"),
-      "duration" = readr::col_character(),
-      "geopoint" = readr::col_character(),
-      "geojson" = readr::col_character(),
-      "any" = readr::col_character()
-    )
-    # col_type will be NULL when type is undefined (NA_character_) or an
-    # unrecognized value (e.g. "datum", but will be blocked by check_schema()).
-    # Set those to col_guess().
-    col_type <- col_type %||% readr::col_guess()
-    col_type
-  })
-
-  # Assign names: list("name1" = <collector_character>, "name2" = ...)
-  names(col_types) <- field_names
+  col_types <- interlacer::as.x_col_spec(
+    purrr::map(set_names(fields, field_names), field_to_x_col)
+  )
 
   # Select CSV dialect, see https://specs.frictionlessdata.io/csv-dialect/
   # Note that dialect can be NULL
   dialect <- read_descriptor(resource$dialect, package$directory, safe = TRUE)
+
+  na_col <- missing_values_to_na_col(
+    schema$missingValues %||% "",
+    .name = "default"
+  )
+
+  if (interlaced) {
+    read_fn = interlacer::read_interlaced_delim
+    na <- na_col
+  } else {
+    read_fn = readr::read_delim
+    na <- na_col$chr_values
+  }
 
   # Read data directly
   if (resource$read_from == "df") {
@@ -344,7 +298,7 @@ read_resource <- function(package, resource_name, col_select = NULL) {
   } else if (resource$read_from == "path" || resource$read_from == "url") {
     dataframes <- list()
     for (i in seq_along(paths)) {
-      data <- readr::read_delim(
+      data <- read_fn(
         file = paths[i],
         delim = dialect$delimiter %||% ",",
         quote = dialect$quoteChar %||% "\"",
@@ -365,7 +319,7 @@ read_resource <- function(package, resource_name, col_select = NULL) {
         # a column, see https://rlang.r-lib.org/reference/topic-data-mask.html
         col_select = {{col_select}},
         locale = locale,
-        na = schema$missingValues %||% "",
+        na = na,
         comment = dialect$commentChar %||% "",
         trim_ws = dialect$skipInitialSpace %||% FALSE,
         # Skip header row when present
@@ -379,4 +333,171 @@ read_resource <- function(package, resource_name, col_select = NULL) {
   }
 
   return(df)
+}
+
+#' @rdname read_resource
+#' @export
+read_interlaced_resource <- function(...) {
+  read_resource(..., interlaced = TRUE)
+}
+
+field_to_x_col <- function(x) {
+  interlacer::x_col(
+    field_to_v_col(x),
+    missing_values_to_na_col(x$missingValues, .name = x$name)
+  )
+}
+
+field_to_v_col <- function(x) {
+  type <- x$type %||% NA_character_
+  categories <- x$categories
+  categoriesOrdered <- x$categoriesOrdered %||% FALSE
+  group_char <- if (x$groupChar %||% "" != "") TRUE else FALSE
+  bare_number <- if (x$bareNumber %||% "" != FALSE) TRUE else FALSE
+  format <- x$format %||% "default" # Undefined => default
+
+  # Assign types and formats
+  col_type <- switch(type,
+    "string" = if (!is.null(categories)) {
+      categories_to_v_col(categories, categoriesOrdered, .name = x$name)
+    } else {
+      readr::col_character()
+    },
+    "number" = if (group_char) {
+      readr::col_number() # Supports grouping_mark
+    } else if (bare_number) {
+      readr::col_double() # Allows NaN, INF, -INF
+    } else {
+      readr::col_number() # Strips non-num. chars, uses default grouping_mark
+    },
+    "integer" = if (!is.null(categories)) {
+      categories_to_v_col(categories, categoriesOrdered, .name = x$name)
+    } else if (bare_number) {
+      readr::col_double() # Not col_integer() to avoid big integers issues
+    } else {
+      readr::col_number() # Strips non-numeric chars
+    },
+    "boolean" = readr::col_logical(),
+    "object" = readr::col_character(),
+    "array" = readr::col_character(),
+    "date" = readr::col_date(format = switch(format,
+      "default" = "%Y-%m-%d", # ISO
+      "any" = "%AD", # YMD
+      "%x" = "%m/%d/%y", # Python strptime for %x
+      format # Default
+    )),
+    "time" = readr::col_time(format = switch(format,
+      "default" = "%AT", # H(MS)
+      "any" = "%AT", # H(MS)
+      "%X" = "%H:%M:%S", # HMS
+      sub("%S.%f", "%OS", format) # Default, use %OS for milli/microseconds
+    )),
+    "datetime" = readr::col_datetime(format = switch(format,
+      "default" = "", # ISO (lenient)
+      "any" = "", # ISO (lenient)
+      sub("%S.%f", "%OS", format) # Default, use %OS for milli/microseconds
+    )),
+    "year" = readr::col_date(format = "%Y"),
+    "yearmonth" = readr::col_date(format = "%Y-%m"),
+    "duration" = readr::col_character(),
+    "geopoint" = readr::col_character(),
+    "geojson" = readr::col_character(),
+    "any" = readr::col_character()
+  )
+  # col_type will be NULL when type is undefined (NA_character_) or an
+  # unrecognized value (e.g. "datum", but will be blocked by check_schema()).
+  # Set those to col_guess().
+  col_type <- col_type %||% readr::col_guess()
+  col_type
+}
+
+categories_to_v_col <- function(categories, categoriesOrdered, .name) {
+  if (is.character(categories) || is.numeric(categories)) {
+    readr::col_factor(
+      levels = as.character(categories),
+      ordered = categoriesOrdered
+    )
+  } else if (is.list(categories)) {
+    have_value_prop <- purrr::map_lgl(categories, \(v) !is.null(v$value))
+
+    if (!all(have_value_prop)) {
+      cli::cli_abort(
+        "categories for {.name} is missing a `value` property"
+      )
+    }
+
+    values <- purrr::map_vec(categories, \(v) v$value)
+
+    labels <- purrr::map_chr(
+      seq_along(categories),
+      \(i) categories[[i]]$label %||% categories[[i]]$value
+    )
+
+    if (all(values == labels)) {
+      readr::col_factor(
+        levels = as.character(values),
+        ordered = categoriesOrdered
+      )
+    } else {
+      interlacer::v_col_cfactor(
+        codes = set_names(values, labels),
+        ordered = categoriesOrdered
+      )
+    }
+  }
+}
+
+missing_values_to_na_col <- function(missing_values, .name) {
+  if (is.null(missing_values)) {
+    interlacer::na_col_default()
+  } else if (is_numeric_coercible(missing_values)) {
+    inject(interlacer::na_col_integer(!!!as.integer(missing_values)))
+  } else if (is.character(missing_values)) {
+    inject(interlacer::na_col_factor(!!!missing_values))
+  } else if (is.list(missing_values)) {
+    if (length(missing_values) == 0) {
+      interlacer::na_col_none()
+    } else {
+      have_value_prop <- purrr::map_lgl(missing_values, \(v) !is.null(v$value))
+
+      if (!all(have_value_prop)) {
+        cli::cli_abort(
+          "missingValues for {.name} is missing a `value` property"
+        )
+      }
+
+      values <- purrr::map_chr(missing_values, \(v) v$value)
+
+      if (is_numeric_coercible(values)) {
+        values <- as.numeric(values)
+      }
+
+      labels <- purrr::map_chr(
+        seq_along(missing_values),
+        \(i) missing_values[[i]]$label %||% missing_values[[i]]$value
+      )
+
+      if (all(values == labels)) {
+        readr::col_factor(levels = values)
+      } else {
+        inject(interlacer::na_col_cfactor(!!!set_names(values, labels)))
+      }
+    }
+  } else {
+    cli::cli_abort(
+      "Cannot process missingValues for {.name}; expected list of strings or objects"
+    )
+  }
+}
+
+is_numeric_coercible <- function(x) {
+  if (is.numeric(x)) {
+    TRUE
+  } else if (is.character(x)) {
+    n_na <- sum(is.na(x))
+    conv <- suppressWarnings(as.numeric(x))
+    n_na == sum(is.na(conv))
+  } else {
+    FALSE
+  }
 }

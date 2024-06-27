@@ -2,9 +2,12 @@
 % Please edit documentation in R/read_resource.R
 \name{read_resource}
 \alias{read_resource}
+\alias{read_interlaced_resource}
 \title{Read data from a Data Resource into a tibble data frame}
 \usage{
-read_resource(package, resource_name, col_select = NULL)
+read_resource(package, resource_name, col_select = NULL, interlaced = FALSE)
+
+read_interlaced_resource(...)
 }
 \arguments{
 \item{package}{Data Package object, created with \code{\link[=read_package]{read_package()}} or
@@ -15,6 +18,11 @@ read_resource(package, resource_name, col_select = NULL)
 \item{col_select}{Character vector of the columns to include in the result,
 in the order provided.
 Selecting columns can improve read speed.}
+
+\item{interlaced}{Boolean value indicating if interlaced columns should
+be loaded using the interlacer package.}
+
+\item{...}{arguments to pass to `read_resource()``}
 }
 \value{
 \code{\link[=tibble]{tibble()}} data frame with the Data Resource's tabular data.

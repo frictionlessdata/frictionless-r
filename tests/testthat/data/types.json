@@ -13,12 +13,7 @@
           {
             "name": "str_factor",
             "type": "string",
-            "constraints": {
-              "enum": [
-                "foo",
-                "bar"
-              ]
-            }
+            "categories": ["foo", "bar"]
           }
         ]
       }
@@ -40,13 +35,7 @@
           {
             "name": "num_factor",
             "type": "number",
-            "constraints": {
-              "enum": [
-                3.1,
-                3.2,
-                3.3
-              ]
-            }
+            "notes": "This is deprecated; factors should only be int and string"
           },
           {
             "name": "num_nan",
@@ -94,13 +83,7 @@
           {
             "name": "int_factor",
             "type": "integer",
-            "constraints": {
-              "enum": [
-                3,
-                4,
-                -1
-              ]
-            }
+            "categories": [3, 4, -1]
           },
           {
             "name": "int_ws",
@@ -291,6 +274,61 @@
           },
           {
             "name": "no_type"
+          }
+        ]
+      }
+    },
+    {
+      "name": "interlaced",
+      "path": "type_interlaced.csv",
+      "profile": "tabular-data-resource",
+      "schema": {
+        "missingValues": ["OMITTED"],
+        "fields": [
+          {
+            "name": "na_fct",
+            "type": "number",
+            "missingValues": ["OMITTED", "REFUSED"]
+          },
+          {
+            "name": "na_int",
+            "type": "number",
+            "missingValues": ["-99", "-98"]
+          },
+          {
+            "name": "na_cfct",
+            "type": "number",
+            "missingValues": [
+              { "value": "-99", "label": "OMITTED" },
+              { "value": "-98", "label": "REFUSED" }
+            ]
+          },
+          {
+            "name": "na_none",
+            "type": "integer",
+            "missingValues": []
+          },
+          {
+            "name": "na_default",
+            "type": "number"
+          },
+          {
+            "name": "cfct_chr",
+            "type": "string",
+            "categories": [
+              { "value": "a", "label": "APPLE" },
+              { "value": "b", "label": "BANANA" }
+            ],
+            "missingValues": []
+          },
+          {
+            "name": "cfct_int",
+            "type": "integer",
+            "categories": [
+              { "value": 10, "label": "APPLE" },
+              { "value": 20, "label": "BANANA" }
+            ],
+            "missingValues": []
           }
         ]
       }

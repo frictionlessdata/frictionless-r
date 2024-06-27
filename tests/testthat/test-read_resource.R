@@ -582,10 +582,10 @@ test_that("read_resource() handles strings", {
   resource <- read_resource(p, "string")
   expect_type(resource$str, "character")
 
-  # Use factor when enum is present
-  enum <- p$resources[[1]]$schema$fields[[2]]$constraints$enum
+  # Use factor when categories are present
+  categories <- p$resources[[1]]$schema$fields[[2]]$categories
   expect_s3_class(resource$str_factor, "factor")
-  expect_identical(levels(resource$str_factor), enum)
+  expect_identical(levels(resource$str_factor), categories)
 })
 
 test_that("read_resource() handles numbers", {
@@ -598,10 +598,8 @@ test_that("read_resource() handles numbers", {
   expect_type(resource$num_neg, "double")
   expect_true(all(resource$num_neg == -3))
 
-  # Use factor when enum is present
-  enum <- p$resources[[2]]$schema$fields[[3]]$constraints$enum
-  expect_s3_class(resource$num_factor, "factor")
-  expect_identical(levels(resource$num_factor), as.character(enum))
+  # Use factor when enum is present (deprecated)
+  # TODO: remove num_factor from test file
 
   # NaN, INF, -INF are supported, case-insensitive
   expect_type(resource$num_nan, "double")
@@ -631,10 +629,10 @@ test_that("read_resource() handles integers (as doubles)", {
   expect_type(resource$int_neg, "double")
   expect_true(all(resource$int_neg == -3))
 
-  # Use factor when enum is present
-  enum <- p$resources[[3]]$schema$fields[[3]]$constraints$enum
+  # Use factor when categories are present
+  categories <- p$resources[[3]]$schema$fields[[3]]$categories
   expect_s3_class(resource$int_factor, "factor")
-  expect_identical(levels(resource$int_factor), as.character(enum))
+  expect_identical(levels(resource$int_factor), as.character(categories))
 
   # bareNumber = false allows whitespace and non-numeric characters
   expect_type(resource$int_ws, "double")
@@ -737,4 +735,38 @@ test_that("read_resource() handles other types", {
 
   # Guess undefined types, unknown types are blocked by check_schema()
   expect_type(resource$no_type, "logical")
+})
+
+test_that("read_resource() handles interlaced types", {
+  p <- read_package(test_path("data/types.json"))
+  resource <- read_interlaced_resource(p, "interlaced")
+
+  # Interpret fct missing reasons
+  expect_s3_class(interlacer::na_channel(resource$na_fct), "factor")
+  expect_true(resource$na_fct[[3]] == interlacer::na("OMITTED"))
+
+  # Interpret int missing reasons
+  expect_type(interlacer::na_channel(resource$na_fct), "integer")
+  expect_true(resource$na_int[[3]] == interlacer::na(-99))
+
+  # Interpret cfct missing reasons
+  expect_s3_class(interlacer::na_channel(resource$na_cfct), "interlacer_cfactor")
+  expect_true(resource$na_cfct[[3]] == interlacer::na("OMITTED"))
+
+  # Interpret none missing reasons
+  expect_s3_class(resource$na_none, NA)
+
+  # Interpret default missing reasons
+  expect_s3_class(interlacer::na_channel(resource$na_default), "factor")
+  expect_true(resource$na_default[[3]] == interlacer::na("OMITTED"))
+
+  # Interpret cfct_chr
+  expect_s3_class(resource$cfct_chr, "interlacer_cfactor")
+  expect_true(resource$cfct_chr[[3]] == "APPLE")
+  expect_true(interlacer::as.codes(resource$cfct_chr[[3]]) == "a")
+
+  # Interpret cfct_int
+  expect_s3_class(resource$cfct_int, "interlacer_cfactor")
+  expect_true(resource$cfct_int[[3]] == "APPLE")
+  expect_true(interlacer::as.codes(resource$cfct_int[[3]]) == 10)
 })

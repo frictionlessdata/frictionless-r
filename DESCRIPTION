@@ -35,6 +35,7 @@ Imports:
     cli,
     dplyr,
     httr,
+    interlacer (>= 0.3.2),
     jsonlite,
     purrr,
     readr (>= 2.1.0),
