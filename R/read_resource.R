@@ -418,7 +418,7 @@ categories_to_v_col <- function(categories, categoriesOrdered, .name) {
     have_value_prop <- purrr::map_lgl(categories, \(v) !is.null(v$value))
 
     if (!all(have_value_prop)) {
-      cli_abort(
+      cli::cli_abort(
         "categories for {.name} is missing a `value` property"
       )
     }
@@ -458,7 +458,7 @@ missing_values_to_na_col <- function(missing_values, .name) {
       have_value_prop <- purrr::map_lgl(missing_values, \(v) !is.null(v$value))
 
       if (!all(have_value_prop)) {
-        cli_abort(
+        cli::cli_abort(
           "missingValues for {.name} is missing a `value` property"
         )
       }
@@ -481,7 +481,7 @@ missing_values_to_na_col <- function(missing_values, .name) {
       }
     }
   } else {
-    cli_abort(
+    cli::cli_abort(
       "Cannot process missingValues for {.name}; expected list of strings or objects"
     )
   }
