@@ -18,6 +18,11 @@ read_interlaced_resource(...)
 \item{col_select}{Character vector of the columns to include in the result,
 in the order provided.
 Selecting columns can improve read speed.}
+
+\item{interlaced}{Boolean value indicating if interlaced columns should
+be loaded using the interlacer package.}
+
+\item{...}{arguments to pass to `read_resource()``}
 }
 \value{
 \code{\link[=tibble]{tibble()}} data frame with the Data Resource's tabular data.

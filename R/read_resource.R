@@ -16,6 +16,9 @@
 #' @param col_select Character vector of the columns to include in the result,
 #'   in the order provided.
 #'   Selecting columns can improve read speed.
+#' @param interlaced Boolean value indicating if interlaced columns should
+#' be loaded using the interlacer package.
+#' @param ... arguments to pass to `read_resource()``
 #' @return [tibble()] data frame with the Data Resource's tabular data.
 #'   If there are parsing problems, a warning will alert you.
 #'   You can retrieve the full details by calling [problems()] on your data
