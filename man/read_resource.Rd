@@ -2,9 +2,12 @@
 % Please edit documentation in R/read_resource.R
 \name{read_resource}
 \alias{read_resource}
+\alias{read_interlaced_resource}
 \title{Read data from a Data Resource into a tibble data frame}
 \usage{
-read_resource(package, resource_name, col_select = NULL)
+read_resource(package, resource_name, col_select = NULL, interlaced = FALSE)
+
+read_interlaced_resource(...)
 }
 \arguments{
 \item{package}{Data Package object, created with \code{\link[=read_package]{read_package()}} or

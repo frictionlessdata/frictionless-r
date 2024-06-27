@@ -1,0 +1,6 @@
+na_fct,na_int,na_cfct,na_none,na_default,cfct_chr,cfct_int
+1.1,1.1,1.1,1,1,a,10
+2.2,2.2,2.2,2,2,b,20
+OMITTED,-99,-99,3,OMITTED,a,10
+REFUSED,-98,-98,3,3,b,20
+5.5,5.5,5.5,4,4,a,10
