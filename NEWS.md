@@ -10,6 +10,7 @@
 * `read_package()` no longer returns a message regarding rights and credit (#121). If `package$id` is a URL (e.g. a DOI) it will be mentioned in `print()`.
 * `add_resource()` accepts additional arguments via `...`. These are added as (custom) properties to the resource and are retained in `write_package()` (#195).
 * `read_resource()` now supports column selection via the `col_select` argument from `readr::read_delim()`. This can vastly improve reading speed (#123). [Tidy selection](https://dplyr.tidyverse.org/reference/dplyr_tidy_select.html) is not supported.
+* `write_package()` no longer adds `"profile": "tabular-data-package"` to `datapackage.json`. It is also removed from the example dataset (#188).
 * Error and warning messages use semantic colours for variables, parameters, fields, etc.
 * `readr::problems()` is included in NAMESPACE so you don't have to load readr to inspect parsing issues. The function is mentioned in the documentation of `read_resource()` (#129).
 
