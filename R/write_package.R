@@ -74,7 +74,13 @@ write_package <- function(package, directory = ".", compress = FALSE) {
 
   # Write datapackage.json
   package$directory <- NULL
-  package_json <- jsonlite::toJSON(package, pretty = TRUE, auto_unbox = TRUE)
+  package_json <- jsonlite::toJSON(
+    package,
+    pretty = TRUE,
+    null = "null",
+    na = "string",
+    auto_unbox = TRUE
+  )
   write(package_json, file.path(directory, "datapackage.json"))
 
   # Return (updated) package invisibly
