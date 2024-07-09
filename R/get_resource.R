@@ -45,6 +45,16 @@ get_resource <- function(package, resource_name) {
     )
   }
 
+  # Check if that either data or path is set, not both.
+  if (all(c("data", "path") %in% names(resource))) {
+    cli::cli_abort(
+      "Resource {.val {resource_name}} is invalid:
+        It has both properties {.field path} and {.field data} while they
+        are mutually exclusive",
+      class = "frictionless_error_resource_both_path_and_data"
+    )
+  }
+
   # Assign read_from property (based on path, then df, then data)
   if (length(resource$path) != 0) {
     if (all(is_url(resource$path))) {
