@@ -1,0 +1,59 @@
+---
+title: "Data Resource"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{data-resource}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+The [Data Resource properties](https://specs.frictionlessdata.io/data-resource/) are handled as follows:
+
+## Path
+
+[`path`](https://specs.frictionlessdata.io/data-resource/#data-location) is required. It can be a local path or URL, which must resolve. Absolute path (`/`) and relative parent path (`../`) are forbidden to avoid security vulnerabilities.
+
+When multiple paths are provided (`"path": [ "myfile1.csv", "myfile2.csv"]`) then data are merged into a single data frame, in the order in which the paths are listed.
+
+## Data
+
+If `path` is not present, the function will attempt to read data from the `data` property.
+**`schema` will be ignored**.
+
+## Name
+
+`name` is [required](https://specs.frictionlessdata.io/data-resource/#name). It is used to find the resource with `name` = `resource_name`.
+
+## Profile
+
+`profile` is [required](https://specs.frictionlessdata.io/tabular-data-resource/#specification) to have the value `tabular-data-resource`.
+
+## File encoding
+
+`encoding` (e.g. `windows-1252`) is [required](https://specs.frictionlessdata.io/data-resource/#optional-properties) if the resource file(s) is not encoded as UTF-8. The returned data frame will always be UTF-8.
+
+## CSV Dialect
+
+See `vignette("table-dialect")`.
+
+## File compression
+
+Resource file(s) with `path` ending in `.gz`, `.bz2`, `.xz`, or `.zip` are automatically decompressed using default `readr::read_delim()` functionality. Only `.gz` files can be read directly from URL `path`s. Only the extension in `path` can be used to indicate compression type, the `compression` property is [ignored](https://specs.frictionlessdata.io/patterns/#specification-3).
+
+## Ignored resource properties
+
+- `title`
+- `description`
+- `format`
+- `mediatype`
+- `bytes`
+- `hash`
+- `sources`
+- `licenses`

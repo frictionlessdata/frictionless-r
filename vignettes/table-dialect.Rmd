@@ -1,0 +1,37 @@
+---
+title: "Table Dialect"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{table-dialect}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+`dialect` properties are [required](https://specs.frictionlessdata.io/csv-dialect/#specification) if
+the resource file(s) deviate from the default CSV settings (see below). It can either be a JSON object or a path or URL referencing a JSON object. Only deviating properties need to be specified, e.g. a tab delimited file
+without a header row needs:
+
+```json
+"dialect": {"delimiter": "\t", "header": "false"}
+```
+
+These are the CSV dialect properties. Some are ignored by the function:
+
+- `delimiter`: default `,`.
+- `lineTerminator`: ignored, line terminator characters `LF` and `CRLF` are interpreted automatically by `readr::read_delim()`, while `CR` (used by Classic Mac OS, final release 2001) is not supported.
+- `doubleQuote`: default `true`.
+- `quoteChar`: default `"`.
+- `escapeChar`: anything but `\` is ignored and it will set `doubleQuote` to `false` as these fields are mutually exclusive. You can thus not escape with `\"` and `""` in the same file.
+- `nullSequence`: ignored, use `missingValues`.
+- `skipInitialSpace`: default `false`.
+- `header`: default `true`.
+- `commentChar`: not set by default.
+- `caseSensitiveHeader`: ignored, header is not used for column names, see Schema.
+- `csvddfVersion`: ignored.

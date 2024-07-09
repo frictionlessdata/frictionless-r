@@ -33,174 +33,18 @@ the header in the CSV file(s).
 }
 \section{Resource properties}{
 
-The \href{https://specs.frictionlessdata.io/data-resource/}{Data Resource properties} are handled as
-follows:
-\subsection{Path}{
 
-\href{https://specs.frictionlessdata.io/data-resource/#data-location}{\code{path}} is
-required.
-It can be a local path or URL, which must resolve.
-Absolute path (\code{/}) and relative parent path (\verb{../}) are forbidden to avoid
-security vulnerabilities.
-
-When multiple paths are provided (\verb{"path": [ "myfile1.csv", "myfile2.csv"]})
-then data are merged into a single data frame, in the order in which the
-paths are listed.
-}
-
-\subsection{Data}{
-
-If \code{path} is not present, the function will attempt to read data from the
-\code{data} property.
-\strong{\code{schema} will be ignored}.
-}
-
-\subsection{Name}{
-
-\code{name} is \href{https://specs.frictionlessdata.io/data-resource/#name}{required}.
-It is used to find the resource with \code{name} = \code{resource_name}.
-}
-
-\subsection{Profile}{
-
-\code{profile} is
-\href{https://specs.frictionlessdata.io/tabular-data-resource/#specification}{required}
-to have the value \code{tabular-data-resource}.
-}
-
-\subsection{File encoding}{
-
-\code{encoding} (e.g. \code{windows-1252}) is
-\href{https://specs.frictionlessdata.io/data-resource/#optional-properties}{required}
-if the resource file(s) is not encoded as UTF-8.
-The returned data frame will always be UTF-8.
-}
-
+See \code{vignette("data-resource")}.
 \subsection{CSV Dialect}{
 
-\code{dialect} properties are
-\href{https://specs.frictionlessdata.io/csv-dialect/#specification}{required} if
-the resource file(s) deviate from the default CSV settings (see below).
-It can either be a JSON object or a path or URL referencing a JSON object.
-Only deviating properties need to be specified, e.g. a tab delimited file
-without a header row needs:
-
-\if{html}{\out{<div class="sourceCode json">}}\preformatted{"dialect": \{"delimiter": "\\t", "header": "false"\}
-}\if{html}{\out{</div>}}
-
-These are the CSV dialect properties.
-Some are ignored by the function:
-\itemize{
-\item \code{delimiter}: default \verb{,}.
-\item \code{lineTerminator}: ignored, line terminator characters \code{LF} and \code{CRLF} are
-interpreted automatically by \code{\link[readr:read_delim]{readr::read_delim()}}, while \code{CR} (used by
-Classic Mac OS, final release 2001) is not supported.
-\item \code{doubleQuote}: default \code{true}.
-\item \code{quoteChar}: default \verb{"}.
-\item \code{escapeChar}: anything but \verb{\\} is ignored and it will set \code{doubleQuote} to
-\code{false} as these fields are mutually exclusive.
-You can thus not escape with \verb{\\"} and \code{""} in the same file.
-\item \code{nullSequence}: ignored, use \code{missingValues}.
-\item \code{skipInitialSpace}: default \code{false}.
-\item \code{header}: default \code{true}.
-\item \code{commentChar}: not set by default.
-\item \code{caseSensitiveHeader}: ignored, header is not used for column names, see
-Schema.
-\item \code{csvddfVersion}: ignored.
-}
-}
-
-\subsection{File compression}{
-
-Resource file(s) with \code{path} ending in \code{.gz}, \code{.bz2}, \code{.xz}, or \code{.zip} are
-automatically decompressed using default \code{\link[readr:read_delim]{readr::read_delim()}}
-functionality.
-Only \code{.gz} files can be read directly from URL \code{path}s.
-Only the extension in \code{path} can be used to indicate compression type,
-the \code{compression} property is
-\href{https://specs.frictionlessdata.io/patterns/#specification-3}{ignored}.
-}
-
-\subsection{Ignored resource properties}{
-\itemize{
-\item \code{title}
-\item \code{description}
-\item \code{format}
-\item \code{mediatype}
-\item \code{bytes}
-\item \code{hash}
-\item \code{sources}
-\item \code{licenses}
-}
+See \code{vignette("table-dialect")}.
 }
 }
 
 \section{Table schema properties}{
 
-\code{schema} is required and must follow the \href{https://specs.frictionlessdata.io/table-schema/}{Table Schema} specification.
-It can either be a JSON object or a path or URL referencing a JSON object.
-\itemize{
-\item Field \code{name}s are used as column headers.
-\item Field \code{type}s are use as column types (see further).
-\item \href{https://specs.frictionlessdata.io/table-schema/#missing-values}{\code{missingValues}}
-are used to interpret as \code{NA}, with \code{""} as default.
-}
-\subsection{Field types}{
 
-Field \code{type} is used to set the column type, as follows:
-\itemize{
-\item \href{https://specs.frictionlessdata.io/table-schema/#string}{string} as
-\code{character}; or \code{factor} when \code{enum} is present.
-\code{format} is ignored.
-\item \href{https://specs.frictionlessdata.io/table-schema/#number}{number} as
-\code{double}; or \code{factor} when \code{enum} is present.
-Use \code{bareNumber: false} to ignore whitespace and non-numeric characters.
-\code{decimalChar} (\code{.} by default) and \code{groupChar} (undefined by default) can
-be defined, but the most occurring value will be used as a global value for
-all number fields of that resource.
-\item \href{https://specs.frictionlessdata.io/table-schema/#integer}{integer} as
-\code{double} (not integer, to avoid issues with big numbers); or \code{factor} when
-\code{enum} is present.
-Use \code{bareNumber: false} to ignore whitespace and non-numeric characters.
-\item \href{https://specs.frictionlessdata.io/table-schema/#boolean}{boolean} as
-\code{logical}.
-Non-default \code{trueValues/falseValues} are not supported.
-\item \href{https://specs.frictionlessdata.io/table-schema/#object}{object} as
-\code{character}.
-\item \href{https://specs.frictionlessdata.io/table-schema/#array}{array} as
-\code{character}.
-\item \href{https://specs.frictionlessdata.io/table-schema/#date}{date} as \code{date}.
-Supports \code{format}, with values \code{default} (ISO date), \code{any} (guess \code{ymd})
-and \href{https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior}{Python/C strptime}
-patterns, such as \verb{\%a, \%d \%B \%Y} for \verb{Sat, 23 November 2013}.
-\verb{\%x} is \verb{\%m/\%d/\%y}.
-\verb{\%j}, \verb{\%U}, \verb{\%w} and \verb{\%W} are not supported.
-\item \href{https://specs.frictionlessdata.io/table-schema/#time}{time} as
-\code{\link[hms:hms]{hms::hms()}}.
-Supports \code{format}, with values \code{default} (ISO time), \code{any} (guess \code{hms})
-and \href{https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior}{Python/C strptime}
-patterns, such as \verb{\%I\%p\%M:\%S.\%f\%z} for \verb{8AM30:00.300+0200}.
-\item \href{https://specs.frictionlessdata.io/table-schema/#datetime}{datetime} as
-\code{POSIXct}.
-Supports \code{format}, with values \code{default} (ISO datetime), \code{any}
-(ISO datetime) and the same patterns as for \code{date} and \code{time}.
-\verb{\%c} is not supported.
-\item \href{https://specs.frictionlessdata.io/table-schema/#year}{year} as \code{date},
-with \code{01} for month and day.
-\item \href{https://specs.frictionlessdata.io/table-schema/#yearmonth}{yearmonth} as
-\code{date}, with \code{01} for day.
-\item \href{https://specs.frictionlessdata.io/table-schema/#duration}{duration} as
-\code{character}.
-Can be parsed afterwards with \code{\link[lubridate:duration]{lubridate::duration()}}.
-\item \href{https://specs.frictionlessdata.io/table-schema/#geopoint}{geopoint} as
-\code{character}.
-\item \href{https://specs.frictionlessdata.io/table-schema/#geojson}{geojson} as
-\code{character}.
-\item \href{https://specs.frictionlessdata.io/table-schema/#any}{any} as \code{character}.
-\item Any other value is not allowed.
-\item Type is guessed if not provided.
-}
-}
+See \code{vignette("table-schema")}.
 }
 
 \examples{
