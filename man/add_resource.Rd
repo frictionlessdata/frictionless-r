@@ -36,8 +36,8 @@ and properties.
 Schema for the \code{data}.
 If not provided, one will be created using \code{\link[=create_schema]{create_schema()}}.}
 
-\item{replace}{Logical. If TRUE and a resource with the same name as
-\code{resource_name}exists, then the original resource is replaced.}
+\item{replace}{If \code{TRUE}, the added resource will replace an existing
+resource with the same name.}
 
 \item{delim}{Single character used to separate the fields in the CSV file(s),
 e.g. \verb{\\t} for tab delimited file.
@@ -79,26 +79,30 @@ df <- data.frame(
   y = c(860, 900)
 )
 
-# Add resource "positions" to the Data Package, from the data frame
+# Add the resource "positions" from the data frame
 package <- add_resource(package, "positions", data = df)
 
-# Add resource "positions_2" to the Data Package, with user-defined schema
-# and title
+# Add the resource "positions_with_schema", with a user-defined schema and title
 my_schema <- create_schema(df)
 package <- add_resource(
   package,
-  "positions_with_schema",
+  resource_name = "positions_with_schema",
   data = df,
   schema = my_schema,
-  title = "Positions"
+  title = "Positions with schema"
 )
 
-# Add resource "observations_combined" to the Data Package, from 2 CSV file paths
+# Replace the resource "observations" with a file-based resource (2 CSV files)
 path_1 <- system.file("extdata", "observations_1.csv", package = "frictionless")
 path_2 <- system.file("extdata", "observations_2.csv", package = "frictionless")
-package <- add_resource(package, "observations_combined", data = c(path_1, path_2))
+package <- add_resource(
+  package,
+  resource_name = "observations",
+  data = c(path_1, path_2),
+  replace = TRUE
+)
 
-# List resources ("positions", "positions_with_schema", "observations_combined" added)
+# List the resources ("positions" and "positions_with_schema" added)
 resources(package)
 }
 \seealso{
