@@ -76,3 +76,22 @@ read_descriptor <- function(x, directory = NULL, safe = FALSE) {
     jsonlite::fromJSON(x, simplifyDataFrame = FALSE, simplifyVector = TRUE)
   }
 }
+
+
+#' Get the field names from a schema
+#'
+#' @param schema
+#'
+#' @return A character vector of the values for `name` in `schema$fields`
+#' @family helper functions
+#' @noRd
+#' @examples
+#' df <- data.frame("space" = c("the", "final", "frontier"),
+#'                  "enterprise" = c("c", "d", "e"))
+#' create_schema(df) %>% get_fields_names()
+get_fields_names <- function(schema) {
+  # For every list element within `$fields`
+  purrr::chuck(schema, "fields") %>%
+    # Get the value for `name`
+    purrr::map_chr(~purrr::pluck(.x, "name"))
+}

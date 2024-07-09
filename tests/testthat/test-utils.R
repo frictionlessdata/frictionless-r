@@ -58,3 +58,22 @@ test_that("is_url() tests whether path is URL", {
   expect_false(is_url("http:/example.com"))
   expect_true(is_url("ftps://example.com")) # Not a correct protocol
 })
+
+test_that("fields_names() returns the fields from a schema", {
+  # Create a schema to get fields from
+  st_series_schema <- tibble::tibble(
+    title = c(
+      "Deep Space Nine",
+      "Enterprise",
+      "The Animated Series",
+      "The Next Generation",
+      "The Original Series"
+    ),
+    abb = c("DS9", "ENT", "TAS", "TNG", "TOS"),
+  ) %>% create_schema()
+
+  expect_identical(
+    get_fields_names(st_series_schema),
+    c("title", "abb")
+  )
+})
