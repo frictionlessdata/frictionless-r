@@ -47,7 +47,7 @@ Suggests:
     lubridate,
     rmarkdown,
     stringi,
-    testthat (>= 3.0.0),
+    testthat,
     tibble
 VignetteBuilder: 
     knitr
