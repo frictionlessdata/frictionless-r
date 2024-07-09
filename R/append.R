@@ -6,7 +6,6 @@
 #' @inheritParams base::append
 #'
 #' @return Data Package
-#' @method append datapackage
 #' @export
 #'
 #' @examples
@@ -27,4 +26,15 @@ append.datapackage <- function(x, values, after = length(x)){
 
   # Return the datapackage with the correct class
   return(datapackage_appended)
+}
+
+#' Append Method for Custom S3 Classes
+#'
+#' @param x The original object.
+#' @param values The values to append to the object.
+#' @param after A position after which to append the values.
+#' @return An object of the same class as x with values appended.
+#' @export
+append <- function(x, values, after = length(x)) {
+  UseMethod("append")
 }
