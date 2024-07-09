@@ -347,6 +347,17 @@ test_that("add_resource() can add resource from local, relative, absolute,
   expect_s3_class(read_resource(p, "compressed"), "tbl")
 })
 
+test_that("add_resource() can replace an existing resource", {
+  p <- example_package
+  df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
+  existing_resource_name <- resources(package = p)[1]
+  expect_no_error(
+    add_resource(p, existing_resource_name, df, replace = TRUE)
+  )
+  updated_p <- add_resource(p, existing_resource_name, df, replace = TRUE)
+  expect_equal(resources(p), resources(updated_p))
+})
+
 test_that("add_resource() can add resource from CSV file with other delimiter,
            readable by read_resource()", {
   p <- create_package()
