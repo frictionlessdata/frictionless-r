@@ -22,7 +22,8 @@ append.datapackage <- function(x, values, after = length(x)){
   datapackage_appended <- append(x, values, after = after)
 
   # Reset the class back to how we found it
-  class(datapackage_appended) <- datapackage_class
+  datapackage_appended <-
+    structure(datapackage_appended, class = datapackage_class)
 
   # Return the datapackage with the correct class
   return(datapackage_appended)
