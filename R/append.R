@@ -6,8 +6,8 @@
 #' @inheritParams base::append
 #'
 #' @return Data Package
-#' @export
 #' @method append datapackage
+#' @export
 #' @examples
 #' p <- create_package()
 #' class(p)
