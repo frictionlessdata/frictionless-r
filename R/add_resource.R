@@ -62,18 +62,18 @@
 #' my_schema <- create_schema(df)
 #' package <- add_resource(
 #'   package,
-#'   "positions_2",
+#'   "positions_with_schema",
 #'   data = df,
 #'   schema = my_schema,
 #'   title = "Positions"
 #' )
 #'
-#' # Add resource "observations_2" to the Data Package, from CSV file paths
+#' # Add resource "observations_combined" to the Data Package, from 2 CSV file paths
 #' path_1 <- system.file("extdata", "observations_1.csv", package = "frictionless")
 #' path_2 <- system.file("extdata", "observations_2.csv", package = "frictionless")
-#' package <- add_resource(package, "observations_2", data = c(path_1, path_2))
+#' package <- add_resource(package, "observations_combined", data = c(path_1, path_2))
 #'
-#' # List resources ("positions", "positions_2", "observations_2" added)
+#' # List resources ("positions", "positions_with_schema", "observations_combined" added)
 #' resources(package)
 add_resource <- function(package, resource_name, data, schema = NULL,
                          delim = ",", ...) {
