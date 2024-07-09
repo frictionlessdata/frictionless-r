@@ -71,7 +71,22 @@ test_that("add_resource() returns error when resource name contains invalid
   expect_no_error(check_package(add_resource(p, "n.3-w_10", df)))
 })
 
-test_that("add_resource() returns error when replace == FALSE and resource of
+test_that("add_resource() returns error when replace is not a logical value", {
+  p <- example_package
+  df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
+  expect_error(
+    add_resource(p, "new_resource", df, replace = "blah"),
+    class = "frictionless_error_replace_not_logical"
+    )
+  expect_no_error(
+    check_package(add_resource(p, "new_resource", df, replace = TRUE))
+    )
+  expect_no_error(
+    check_package(add_resource(p, "new_resource", df, replace = FALSE))
+    )
+})
+
+test_that("add_resource() returns error when replace == FALSE and resource with
           that name already exists", {
   p <- example_package
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
