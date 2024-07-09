@@ -5,7 +5,7 @@ test_that("datapackages can be appended without losing their class", {
   datapackage_appended <- append(datapackage_to_append, c(ten = "forward"))
   # Check for class
   expect_s3_class(
-    append(datapackage_to_append, c(ten = "forward")),
+    append(datapackage_appended, c(ten = "forward")),
     "datapackage"
   )
 })
