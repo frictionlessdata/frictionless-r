@@ -76,3 +76,23 @@ read_descriptor <- function(x, directory = NULL, safe = FALSE) {
     jsonlite::fromJSON(x, simplifyDataFrame = FALSE, simplifyVector = TRUE)
   }
 }
+
+
+#' Get the names of arguments passed to ...
+#'
+#' This function replicates the base R function ...names() available in R4.1.0
+#' and above. It returns a character vector of names that has the same length as
+#' list(...), if all arguments are named, or a shorter vector, if one of the
+#' arguments is unnamed.
+#'
+#'
+#' @param ... objects, possibly named
+#' @noRd
+#'
+#' @return A character vector of the names of the ... arguments
+get_dot_names <- function(...) {
+  # Get all the names from
+  dot_names <- names(list(...))
+  # Return the names that are not an empty string (no name set)
+  return(dot_names[dot_names != ""])
+}
