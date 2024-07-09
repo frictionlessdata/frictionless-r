@@ -4,7 +4,15 @@
 \alias{add_resource}
 \title{Add a Data Resource}
 \usage{
-add_resource(package, resource_name, data, schema = NULL, delim = ",", ...)
+add_resource(
+  package,
+  resource_name,
+  data,
+  schema = NULL,
+  replace = FALSE,
+  delim = ",",
+  ...
+)
 }
 \arguments{
 \item{package}{Data Package object, created with \code{\link[=read_package]{read_package()}} or
@@ -27,6 +35,9 @@ and properties.
 \item{schema}{Either a list, or path or URL to a JSON file describing a Table
 Schema for the \code{data}.
 If not provided, one will be created using \code{\link[=create_schema]{create_schema()}}.}
+
+\item{replace}{Logical. If TRUE and a resource with the same name as
+\code{resource_name}exists, then the original resource is replaced.}
 
 \item{delim}{Single character used to separate the fields in the CSV file(s),
 e.g. \verb{\\t} for tab delimited file.
