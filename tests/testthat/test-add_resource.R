@@ -71,8 +71,23 @@ test_that("add_resource() returns error when resource name contains invalid
   expect_no_error(check_package(add_resource(p, "n.3-w_10", df)))
 })
 
+test_that("add_resource() returns error when replace is not a logical value", {
+  p <- example_package
+  df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
+  expect_error(
+    add_resource(p, "new_resource", df, replace = "not_a_logical"),
+    class = "frictionless_error_replace_invalid"
+  )
+  expect_no_error(
+    check_package(add_resource(p, "new_resource", df, replace = TRUE))
+  )
+  expect_no_error(
+    check_package(add_resource(p, "new_resource", df, replace = FALSE))
+  )
+})
+
 test_that("add_resource() returns error when resource of that name already
-           exists", {
+           exists (for default replace = FALSE)", {
   p <- example_package
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   expect_error(
@@ -82,6 +97,11 @@ test_that("add_resource() returns error when resource of that name already
   expect_error(
     add_resource(p, "deployments", df),
     regexp = "`package` already contains a resource named \"deployments\".",
+    fixed = TRUE
+  )
+  expect_error(
+    add_resource(p, "deployments", df),
+    regexp = "Use `replace = TRUE` to replace an existing resource.",
     fixed = TRUE
   )
 })
@@ -174,11 +194,11 @@ test_that("add_resource() returns error if ... arguments are unnamed", {
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   schema <- create_schema(df)
   expect_error(
-    add_resource(p, "new", df, schema, delim = ",", "unnamed_value"),
+    add_resource(p, "new", df, schema, replace = FALSE, delim = ",", "unnamed"),
     class = "frictionless_error_argument_unnamed"
   )
   expect_error(
-    add_resource(p, "new", df, schema, delim = ",", "unnamed_value"),
+    add_resource(p, "new", df, schema, replace = FALSE, delim = ",", "unnamed"),
     "All arguments in `...` must be named.",
     fixed = TRUE
   )
@@ -244,6 +264,16 @@ test_that("add_resource() adds resource", {
     resources(p),
     c("deployments", "observations", "media", "new_df", "new_csv")
   )
+})
+
+test_that("add_resource() can replace an existing resource", {
+  p <- example_package
+  df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
+  expect_no_error(
+    add_resource(p, "deployments", df, replace = TRUE)
+  )
+  p_replaced <- add_resource(p, "deployments", df, replace = TRUE)
+  expect_equal(resources(p), resources(p_replaced))
 })
 
 test_that("add_resource() uses provided schema (list or path) or creates one", {
