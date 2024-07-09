@@ -94,7 +94,7 @@ add_resource <- function(package, resource_name, data, schema = NULL,
     )
   }
 
-  # If replace == FALSE, check if resource is present
+  # Check if replace == FALSE and resource name exists
   if (!replace && resource_name %in% resources(package)) {
     cli::cli_abort(
       "{.arg package} already contains a resource named {.val {resource_name}}.",
