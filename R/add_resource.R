@@ -102,7 +102,7 @@ add_resource <- function(package, resource_name, data, schema = NULL,
   if (!is.logical(replace)) {
     cli::cli_abort(
       "{.arg replace} must be a logical value.",
-      class = "frictionless_error_replace_not_logical"
+      class = "frictionless_error_replace_invalid"
     )
   }
 
