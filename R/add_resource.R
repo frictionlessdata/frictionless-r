@@ -198,8 +198,13 @@ add_resource <- function(package, resource_name, data, schema = NULL,
     attr(resource, "path") <- "added"
   }
 
-  # Add resource (needs to be wrapped in its own list)
-  package$resources <- append(package$resources, list(resource))
+  # Replace or add resource (needs to be wrapped in its own list)
+  if (replace) {
+    index <- which(purrr::map(package$resources, "name") == resource_name)
+    package$resources[index] <- list(resource)
+  } else {
+    package$resources <- append(package$resources, list(resource))
+  }
 
   return(package)
 }
