@@ -71,8 +71,8 @@ test_that("add_resource() returns error when resource name contains invalid
   expect_no_error(check_package(add_resource(p, "n.3-w_10", df)))
 })
 
-test_that("add_resource() returns error when resource of that name already
-           exists", {
+test_that("add_resource() returns error when replace == FALSE and resource of
+          that name already exists", {
   p <- example_package
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   expect_error(
@@ -174,11 +174,13 @@ test_that("add_resource() returns error if ... arguments are unnamed", {
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   schema <- create_schema(df)
   expect_error(
-    add_resource(p, "new", df, schema, delim = ",", "unnamed_value"),
+    add_resource(p, "new", df, schema, replace = FALSE, delim = ",",
+                 "unnamed_value"),
     class = "frictionless_error_argument_unnamed"
   )
   expect_error(
-    add_resource(p, "new", df, schema, delim = ",", "unnamed_value"),
+    add_resource(p, "new", df, schema, replace = FALSE, delim = ",",
+                 "unnamed_value"),
     "All arguments in `...` must be named.",
     fixed = TRUE
   )

@@ -21,6 +21,8 @@
 #' @param schema Either a list, or path or URL to a JSON file describing a Table
 #'   Schema for the `data`.
 #'   If not provided, one will be created using [create_schema()].
+#' @param replace Logical. If TRUE and a resource with the same name as
+#' `resource_name`exists, then the original resource is replaced.
 #' @param delim Single character used to separate the fields in the CSV file(s),
 #'   e.g. `\t` for tab delimited file.
 #'   Will be set as `delimiter` in the resource [CSV
@@ -76,7 +78,7 @@
 #' # List resources ("positions", "positions_with_schema", "observations_combined" added)
 #' resources(package)
 add_resource <- function(package, resource_name, data, schema = NULL,
-                         delim = ",", ...) {
+                         replace = FALSE, delim = ",", ...) {
   # Check package
   check_package(package)
 
@@ -92,8 +94,8 @@ add_resource <- function(package, resource_name, data, schema = NULL,
     )
   }
 
-  # Check resource is absent
-  if (resource_name %in% resources(package)) {
+  # If replace == FALSE, check if resource is present
+  if (!replace && resource_name %in% resources(package)) {
     cli::cli_abort(
       "{.arg package} already contains a resource named {.val {resource_name}}.",
       class = "frictionless_error_resource_already_exists"
