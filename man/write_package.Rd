@@ -4,7 +4,7 @@
 \alias{write_package}
 \title{Write a Data Package to disk}
 \usage{
-write_package(package, directory = ".", compress = FALSE)
+write_package(package, directory, compress = FALSE)
 }
 \arguments{
 \item{package}{Data Package object, created with \code{\link[=read_package]{read_package()}} or
