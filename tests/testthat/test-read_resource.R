@@ -9,6 +9,24 @@ test_that("read_resource() returns a tibble", {
   expect_s3_class(read_resource(p, "new"), "tbl")         # via df
 })
 
+test_that("read_resource() doesn't allow both path and data in one resource", {
+  skip_if_offline()
+  p_invalid <- example_package
+  # Assign the data from media to observations, so it has both path and data
+  p_invalid$resources[[2]]$data <- p_invalid$resources[[3]]$data
+
+  # Test for correct error class
+  expect_error(
+    read_resource(p_invalid, "observations"),
+    class = "frictionless_error_resource_both_path_and_data"
+  )
+  # Test for substring of error message
+  expect_error(
+    read_resource(p_invalid, "observations"),
+    regexp = 'mutually exclusive'
+  )
+})
+
 test_that("read_resource() allows column selection", {
   skip_if_offline()
   p <- example_package
