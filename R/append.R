@@ -19,7 +19,7 @@ append.datapackage <- function(x, values, after = length(x)){
   datapackage_class <- class(x)
 
   # Append the object
-  datapackage_appended <- append(x, values, after = after)
+  datapackage_appended <- base::append(x, values, after)
 
   # Reset the class back to how we found it
   datapackage_appended <-
