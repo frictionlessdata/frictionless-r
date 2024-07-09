@@ -281,8 +281,8 @@ test_that("read_resource() can read remote files", {
 
   p_remote_resource <- p
   p_remote_resource$resources[[1]]$path <- file.path(
-    "https://github.com/frictionlessdata/frictionless-r",
-    "raw/main/inst/extdata/deployments.csv"
+    "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
+    "main/inst/extdata/deployments.csv"
   )
   expect_identical(read_resource(p_remote_resource, "deployments"), resource)
 })
@@ -295,8 +295,8 @@ test_that("read_resource() can read safe local and remote Table Schema,
   p$directory <- "."
   # Use a remote path, otherwise schema and path need to share same directory
   p$resources[[1]]$path <- file.path(
-    "https://github.com/frictionlessdata/frictionless-r",
-    "raw/main/inst/extdata/deployments.csv"
+    "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
+    "main/inst/extdata/deployments.csv"
   )
 
   # Schema is absolute path
@@ -324,8 +324,8 @@ test_that("read_resource() can read safe local and remote Table Schema,
   # Schema is remote path
   p_remote_schema <- p
   p_remote_schema$resources[[1]]$schema <- file.path(
-    "https://github.com/frictionlessdata/frictionless-r",
-    "raw/main/tests/testthat/data/deployments_schema.json"
+    "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
+    "main/tests/testthat/data/deployments_schema.json"
   )
   expect_identical(read_resource(p_remote_schema, "deployments"), resource)
 
@@ -342,8 +342,8 @@ test_that("read_resource() can read safe local and remote CSV dialect", {
   p$directory <- "."
   # Use a remote path, otherwise dialect and path need to share same directory
   p$resources[[1]]$path <- file.path(
-    "https://github.com/frictionlessdata/frictionless-r",
-    "raw/main/inst/extdata/deployments.csv"
+    "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
+    "main/inst/extdata/deployments.csv"
   )
 
   # Dialect is absolute path
@@ -369,8 +369,8 @@ test_that("read_resource() can read safe local and remote CSV dialect", {
   # Dialect is remote path
   p_remote_dialect <- p
   p_remote_dialect$resources[[1]]$dialect <- file.path(
-    "https://github.com/frictionlessdata/frictionless-r",
-    "raw/main/tests/testthat/data/dialect.json"
+    "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
+    "main/tests/testthat/data/dialect.json"
   )
   expect_identical(read_resource(p_remote_dialect, "deployments"), resource)
 
@@ -546,8 +546,8 @@ test_that("read_resource() can read compressed files", {
   p_local_zip$resources[[1]]$path <- test_path("data/deployments.csv.zip")
   p_remote_zip <- p
   p_remote_zip$resources[[1]]$path <- file.path(
-    "https://github.com/frictionlessdata/frictionless-r",
-    "raw/main/tests/testthat/data/deployments.csv.zip"
+    "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
+    "main/tests/testthat/data/deployments.csv.zip"
   )
 
   # File created in terminal with:
@@ -557,8 +557,8 @@ test_that("read_resource() can read compressed files", {
   p_local_gz$resources[[1]]$path <- test_path("data/deployments.csv.gz")
   p_remote_gz <- p
   p_remote_gz$resources[[1]]$path <- file.path(
-    "https://github.com/frictionlessdata/frictionless-r",
-    "raw/main/tests/testthat/data/deployments.csv.gz"
+    "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
+    "main/tests/testthat/data/deployments.csv.gz"
   )
 
   expect_identical(read_resource(p_local_zip, "deployments"), resource)
