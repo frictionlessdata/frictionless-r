@@ -40,7 +40,7 @@
 #'
 #' # Clean up (don't do this if you want to keep your files)
 #' unlink("my_directory", recursive = TRUE)
-write_package <- function(package, directory = ".", compress = FALSE) {
+write_package <- function(package, directory, compress = FALSE) {
   # Check package
   check_package(package)
 
