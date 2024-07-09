@@ -17,7 +17,7 @@ in the order provided.
 Selecting columns can improve read speed.}
 }
 \value{
-\code{\link[=tibble]{tibble()}} data frame with the Data Resource's tabular data.
+\code{\link[tibble:tibble]{tibble::tibble()}} data frame with the Data Resource's tabular data.
 If there are parsing problems, a warning will alert you.
 You can retrieve the full details by calling \code{\link[=problems]{problems()}} on your data
 frame.
