@@ -29,14 +29,3 @@ append.datapackage <- function(x, values, after = length(x)){
   return(datapackage_appended)
 }
 
-#' Append Method for Custom S3 Classes
-#'
-#' @param x The original object.
-#' @param values The values to append to the object.
-#' @param after A position after which to append the values.
-#' @return An object of the same class as x with values appended.
-#' @method append default
-#' @export
-append <- function(x, values, after = length(x)) {
-  UseMethod("append")
-}
