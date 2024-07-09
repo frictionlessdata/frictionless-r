@@ -13,8 +13,8 @@ test_that("read_resource() doesn't allow both path and data in one resource", {
   skip_if_offline()
   p_invalid <- example_package
   # Assign the data from media to observations, so it has both path and data
-  p_invalid$resources[[2]]$data <- p_invalid$resources[[3]]$data
-
+  purrr::pluck(p_invalid, "resources", 2, "data") <-
+    purrr::pluck(p_invalid, "resources", 3, "data")
   # Test for correct error class
   expect_error(
     read_resource(p_invalid, "observations"),
