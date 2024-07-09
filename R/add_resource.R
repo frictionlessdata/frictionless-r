@@ -43,7 +43,7 @@
 #' # Load the example Data Package
 #' package <- example_package
 #'
-#' # List resources
+#' # List the resources
 #' resources(package)
 #'
 #' # Create a data frame
