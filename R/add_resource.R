@@ -101,15 +101,19 @@ add_resource <- function(package, resource_name, data, schema = NULL,
   # Check if replace is a logical value
   if (!is.logical(replace)) {
     cli::cli_abort(
-      "{.arg replace} should be a logical value.",
+      "{.arg replace} must be a logical value.",
       class = "frictionless_error_replace_not_logical"
     )
   }
 
-  # Check if replace == FALSE and resource name exists
+  # Check resource does not exist yet for replace = FALSE
   if (!replace && resource_name %in% resources(package)) {
     cli::cli_abort(
-      "{.arg package} already contains a resource named {.val {resource_name}}.",
+      c(
+        "{.arg package} already contains a resource named
+        {.val {resource_name}}.",
+        "i" = "Use {.arg replace = TRUE} to replace an existing resource."
+      ),
       class = "frictionless_error_resource_already_exists"
     )
   }
@@ -202,7 +206,7 @@ add_resource <- function(package, resource_name, data, schema = NULL,
     attr(resource, "path") <- "added"
   }
 
-  # Replace or add resource (needs to be wrapped in its own list)
+  # Add or replace resource (needs to be wrapped in its own list)
   if (replace) {
     index <- which(purrr::map(package$resources, "name") == resource_name)
     package$resources[index] <- list(resource)
