@@ -134,13 +134,13 @@ add_resource <- function(package, resource_name, data, schema = NULL,
   check_schema(schema, df)
 
   # Check ellipsis
-  if (...length() != length(...names())) {
+  if (length(list(...)) != length(get_dot_names(...))) {
     cli::cli_abort(
       "All arguments in {.arg ...} must be named.",
       class = "frictionless_error_argument_unnamed"
     )
   }
-  properties <- ...names()
+  properties <- get_dot_names(...)
   reserved_properties <- c(
     "name", "path", "profile", "format", "mediatype", "encoding", "dialect"
   ) # data and schema are also reserved, but are named arguments
