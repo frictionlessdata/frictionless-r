@@ -91,7 +91,7 @@ read_descriptor <- function(x, directory = NULL, safe = FALSE) {
 #' create_schema(df) %>% get_fields_names()
 get_fields_names <- function(schema) {
   # For every list element within `$fields`
-  purrr::chuck(schema, "fields") %>%
-    # Get the value for `name`
-    purrr::map_chr(~purrr::pluck(.x, "name"))
+  schema_fields <- purrr::chuck(schema, "fields")
+  # Get the value for `name`
+  purrr::map_chr(schema_fields, ~purrr::pluck(.x, "name"))
 }
