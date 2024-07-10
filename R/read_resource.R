@@ -240,15 +240,13 @@ read_resource <- function(package, resource_name, col_select = NULL) {
 
   # Read data from path(s)
   } else if (resource$read_from == "path" || resource$read_from == "url") {
-    df <- read_from_paths(paths,
-                          dialect,
-                          field_names,
-                          col_types,
-                          col_select,
-                          schema,
-                          locale
-    )
+    df <- purrr::map_df(paths, read_from_path,
+                        dialect = dialect,
+                        field_names = field_names,
+                        col_types = col_types,
+                        col_select = col_select,
+                        schema = schema,
+                        locale = locale)
   }
-
   return(df)
 }
