@@ -3,6 +3,7 @@
 * [checklist](https://github.com/inbo/checklist) tooling was removed, in favour of `CITATION.cff` for citation and Zenodo deposit.
 * `write_package()` no longer writes to "." by default, since this is not allowed by CRAN policies. The user needs to explicitly define a directory (#205).
 * **frictionless now relies on R version 3.6.0 or higher**. Originally it stated version 3.5.0 or higher, but this was not tested and likely not true (#238).
+* `add_resource()` now allows to replace an existing resource (#227).
 
 # frictionless 1.1.0
 

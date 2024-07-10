@@ -28,9 +28,6 @@ package
 # Access the Data Package properties
 package$name
 package$created
-
-# List resources
-resources(package)
 }
 \seealso{
 Other read functions: 
