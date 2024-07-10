@@ -30,7 +30,7 @@ x <- example_package
 resources(x)
 ```
 
-You can also remove any of those resources with `remove_resource()`:
+You can remove any of those resources with `remove_resource()`:
 
 ```{r}
 # Remove resource (but don't assign to x)
@@ -46,7 +46,7 @@ read_resource(x, "deployments")
 
 ### Writing
 
-When creating a resource, `add_resource()` also only supports Tabular Data Resources. The provided data must therefore be a data frame or a tabular file (e.g. CSV):
+When creating a resource, `add_resource()` only supports Tabular Data Resources. The provided data must therefore be a data frame or a tabular file (e.g. CSV):
 
 ```{r}
 # Add (tabular) resource from a data frame (but don't assign to x)
