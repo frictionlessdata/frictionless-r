@@ -162,7 +162,7 @@ test_that("add_resource() returns error if CSV file cannot be found", {
     class = "frictionless_error_path_not_found"
   )
   expect_error(
-    add_resource(p, "new", "http://example.com/no_such_file.csv"),
+    add_resource(p, "new", "https://example.com/no_such_file.csv"),
     class = "frictionless_error_url_not_found"
   )
 })

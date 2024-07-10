@@ -158,7 +158,7 @@ test_that("read_resource() returns error on invalid resource", {
 
   # No file at path url
   p_invalid$resources[[1]]$data <- NULL
-  p_invalid$resources[[1]]$path <- "http://example.com/no_such_file.csv"
+  p_invalid$resources[[1]]$path <- "https://example.com/no_such_file.csv"
   expect_error(
     read_resource(p_invalid, "deployments"),
     class = "frictionless_error_url_not_found"
@@ -225,7 +225,7 @@ test_that("read_resource() returns error on invalid resource", {
   )
 
   # No file at schema url
-  p_invalid$resources[[1]]$schema <- "http://example.com/no_schema.json"
+  p_invalid$resources[[1]]$schema <- "https://example.com/no_schema.json"
   expect_error(
     read_resource(p_invalid, "deployments"),
     class = "frictionless_error_url_not_found"

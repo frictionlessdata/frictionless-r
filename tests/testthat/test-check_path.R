@@ -66,12 +66,12 @@ test_that("check_path() returns error when local file cannot be found", {
 
 test_that("check_path() returns error when remote file cannot be found", {
   expect_error(
-    check_path("http://example.com/no_such_file.csv"),
+    check_path("https://example.com/no_such_file.csv"),
     class = "frictionless_error_url_not_found"
   )
   expect_error(
-    check_path("http://example.com/no_such_file.csv"),
-    regexp = "Can't find file at <http://example.com/no_such_file.csv>.",
+    check_path("https://example.com/no_such_file.csv"),
+    regexp = "Can't find file at <https://example.com/no_such_file.csv>.",
     fixed = TRUE
   )
 })

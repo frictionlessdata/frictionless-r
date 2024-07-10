@@ -95,7 +95,7 @@ test_that("read_package() returns error on missing file and properties", {
 
   # No file remotely
   expect_error(
-    read_package("http://example.com/nofile.json"),
+    read_package("https://example.com/nofile.json"),
     class = "frictionless_error_url_not_found"
   )
 })
