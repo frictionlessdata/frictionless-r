@@ -29,6 +29,11 @@ authors:
   email: pieter.huybrechts@inbo.be
   orcid: https://orcid.org/0000-0002-6658-6062
   affiliation: Research Institute for Nature and Forest (INBO)
+- family-names: Govaert
+  given-names: Sanne
+  email: sanne.govaert@inbo.be
+  orcid: https://orcid.org/0000-0002-8939-1305
+  affiliation: Research Institute for Nature and Forest (INBO)
 repository: https://CRAN.R-project.org/package=frictionless
 repository-code: https://github.com/frictionlessdata/frictionless-r
 url: https://docs.ropensci.org/frictionless/

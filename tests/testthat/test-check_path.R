@@ -11,8 +11,10 @@ test_that("check_path() returns path prepended with directory", {
   )
 
   # Directory is ignored for URL
-  url <- file.path("https://github.com/frictionlessdata/frictionless-r/",
-                   "raw/main/tests/testthat/data/deployments_schema.json")
+  url <- file.path(
+    "https://raw.githubusercontent.com/frictionlessdata/frictionless-r/",
+    "main/tests/testthat/data/deployments_schema.json"
+  )
   expect_identical(check_path(url, directory = "data"), url)
 })
 

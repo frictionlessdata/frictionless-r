@@ -24,6 +24,7 @@ Authors:
 \itemize{
   \item Damiano Oldoni \email{damiano.oldoni@inbo.be} (\href{https://orcid.org/0000-0003-3445-7562}{ORCID}) (Research Institute for Nature and Forest (INBO))
   \item Pieter Huybrechts \email{pieter.huybrechts@inbo.be} (\href{https://orcid.org/0000-0002-6658-6062}{ORCID}) (Research Institute for Nature and Forest (INBO))
+  \item Sanne Govaert \email{sanne.govaert@inbo.be} (\href{https://orcid.org/0000-0002-8939-1305}{ORCID}) (Research Institute for Nature and Forest (INBO))
 }
 
 Other contributors:

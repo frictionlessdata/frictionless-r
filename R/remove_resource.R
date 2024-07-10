@@ -11,13 +11,13 @@
 #' # Load the example Data Package
 #' package <- example_package
 #'
-#' # List resources
+#' # List the resources
 #' resources(package)
 #'
 #' # Remove the resource "observations"
 #' package <- remove_resource(package, "observations")
 #'
-#' # List resources ("observations" removed)
+#' # List the resources ("observations" removed)
 #' resources(package)
 remove_resource <- function(package, resource_name) {
   # Check resource is present, includes check_package()
