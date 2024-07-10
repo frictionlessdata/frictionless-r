@@ -8,7 +8,7 @@
 #' @export
 #' @examples
 #' # Load the example Data Package
-#' package <- example_package
+#' package <- example_package()
 #'
 #' # Check if the Data Package is valid (invisible return)
 #' check_package(package)

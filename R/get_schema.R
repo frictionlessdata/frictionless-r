@@ -13,7 +13,7 @@
 #' @export
 #' @examples
 #' # Load the example Data Package
-#' package <- example_package
+#' package <- example_package()
 #'
 #' # Get the Table Schema for the resource "observations"
 #' schema <- get_schema(package, "observations")
