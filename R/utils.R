@@ -209,6 +209,8 @@ create_col_type <- function(x) {
 #'
 #' @param enum Enumerated values, if any.
 #' @return A [readr::col_factor()] or a [readr::col_character()] object.
+#' @family helper functions
+#' @noRd
 col_string <- function(enum) {
   if (length(enum) > 0) {
     readr::col_factor(levels = enum)
