@@ -140,7 +140,24 @@ test_that("read_resource() returns error on invalid resource", {
     fixed = TRUE
   )
 
+  # Both path or data
+  p_invalid$resources[[1]]$path <- "value"
+  p_invalid$resources[[1]]$data <- "value"
+  expect_error(
+    read_resource(p_invalid, "deployments"),
+    class = "frictionless_error_resource_both_path_data"
+  )
+  expect_error(
+    read_resource(p_invalid, "deployments"),
+    regexp = paste(
+      "Resource \"deployments\" must have a path or data property,",
+      "not both."
+    ),
+    fixed = TRUE
+  )
+
   # No file at path url
+  p_invalid$resources[[1]]$data <- NULL
   p_invalid$resources[[1]]$path <- "http://example.com/no_such_file.csv"
   expect_error(
     read_resource(p_invalid, "deployments"),

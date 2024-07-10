@@ -45,6 +45,15 @@ get_resource <- function(package, resource_name) {
     )
   }
 
+  # Check that either data or path is set, not both
+  if (all(c("data", "path") %in% names(resource))) {
+    cli::cli_abort(
+      "Resource {.val {resource_name}} must have a {.field path} or
+       {.field data} property, not both.",
+      class = "frictionless_error_resource_both_path_data"
+    )
+  }
+
   # Assign read_from property (based on path, then df, then data)
   if (length(resource$path) != 0) {
     if (all(is_url(resource$path))) {
