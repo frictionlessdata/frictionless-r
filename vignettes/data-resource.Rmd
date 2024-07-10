@@ -59,7 +59,7 @@ add_resource(x, "deployments", data = path, replace = TRUE)
 
 ### Writing
 
-`write_package()` will leave originally included resources as is and write newly added resources as Tabular Data Resources.
+`write_package()` leaves originally included resources as is and write newly added resources as Tabular Data Resources.
 
 ## Properties
 
@@ -73,7 +73,7 @@ The following sections describe how frictionless supports the Data Package prope
 deployments <- read_resource(x, resource_name = "deployments")
 ```
 
-When creating a resource, `add_resource()` will set `name` to the provided `resource_name`.
+When creating a resource, `add_resource()` sets `name` to the provided `resource_name`.
 
 ### path or data
 
@@ -83,7 +83,7 @@ When creating a resource, `add_resource()` will set `name` to the provided `reso
 
 `path` is for data in files (e.g. a CSV file). It can be a local path or URL, as long as it resolves. Supported protocols are `http`, `https`, `ftp`, `sftp` and `sftp`. Absolute paths (`/`) or relative parent paths (`../`) are not allowed to avoid security vulnerabilities.
 
-When multiple paths are provided (`"path": ["myfile1.csv", "myfile2.csv"]`), the files are expected to have the same structure. `read_resource()` will merge these into a single data frame in the order the paths are provided (using `dplyr::bind_rows()`):
+When multiple paths are provided (`"path": ["myfile1.csv", "myfile2.csv"]`), the files are expected to have the same structure. `read_resource()` merges these into a single data frame in the order the paths are provided (using `dplyr::bind_rows()`):
 
 ```{r}
 # The "observations" resource has multiple files in path
@@ -92,13 +92,13 @@ x$resources[[2]]$path
 read_resource(x, "observations")
 ```
 
-When creating a resource from a file, `add_resource()` will add the provided path(s) to `path`.
+When creating a resource from a file, `add_resource()` adds the provided path(s) to `path`.
 
 #### data
 
 _Note: Support for inline `data` is currently limited, e.g. JSON object and string are not supported. `schema`, `mediatype` and `format` are also ignored._
 
-`data` is for inline data (included in the `datapackage.json`). `read_resource()` will attempt to read `data` if it is provided as a JSON array:
+`data` is for inline data (included in the `datapackage.json`). `read_resource()` attempts to read `data` if it is provided as a JSON array:
 
 ```{r}
 # The "media" resource has inline data
@@ -106,7 +106,7 @@ str(x$resources[[3]]$data)
 read_resource(x, "media")
 ```
 
-When creating a resource from a data frame, `add_resource()` will (temporarily) add the data frame to `data`:
+When creating a resource from a data frame, `add_resource()` (temporarily) adds the data frame to `data`:
 
 ```{r}
 df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
@@ -114,7 +114,7 @@ x <- add_resource(x, "df", df)
 x$resources[[4]]$data
 ```
 
-`write_package()` will write the data frame to a CSV file, add its `path` and remove `data`.
+`write_package()` writes the data frame to a CSV file, add its `path` and remove `data`.
 
 <!-- ### type -->
 
@@ -124,7 +124,7 @@ x$resources[[4]]$data
 
 [`profile`](https://specs.frictionlessdata.io/data-resource/#profile) is required to have the value `"tabular-data-resource"`.
 
-When creating a resource, `add_resource()` will automatically set `profile` to `"tabular-data-resource"`.
+When creating a resource, `add_resource()` automatically sets `profile` to `"tabular-data-resource"`.
 
 ### schema
 
@@ -162,15 +162,15 @@ When creating a resource from a data frame, `format` remains undefined until `wr
 
 [`mediatype`](https://specs.frictionlessdata.io/data-resource/#optional-properties) is ignored by `read_resource()`.
 
-When creating a resource from a file, `add_resource()` will set `mediatype` based on the provided `delim` (`","` (default) = `"text/csv"`, `"\t"` = `"text/tab-separated-values"`, any other value = `"text/csv"`).
+When creating a resource from a file, `add_resource()` sets `mediatype` based on the provided `delim` (`","` (default) = `"text/csv"`, `"\t"` = `"text/tab-separated-values"`, any other value = `"text/csv"`).
 
 When creating a resource from a data frame, `mediatype` remains undefined until `write_package()` sets it to `"text/csv"`.
 
 ### encoding
 
-[`encoding`](https://specs.frictionlessdata.io/data-resource/#optional-properties) (e.g. `"windows-1252"`) is used by `read_resource()` to parse the file. It will default to UTF-8 if no `encoding` is provided or if it cannot be recognized. The returned data frame will always be UTF-8.
+[`encoding`](https://specs.frictionlessdata.io/data-resource/#optional-properties) (e.g. `"windows-1252"`) is used by `read_resource()` to parse the file. It defaults to UTF-8 if no `encoding` is provided or if it cannot be recognized. The returned data frame will always be UTF-8.
 
-When creating a resource from a file, `add_resource()` will guess the `encoding` (using `readr::guess_encoding()`).
+When creating a resource from a file, `add_resource()` guesses the `encoding` (using `readr::guess_encoding()`).
 
 When creating a resource from a data frame, `encoding` remains undefined until `write_package()` sets it to `"utf-8"`.
 
