@@ -10,6 +10,30 @@
 #' @return Data frame.
 #' @family helper functions
 #' @noRd
+#' @examples
+#' # Load the example Data Package
+#' package <- example_package
+#'
+#' # Get the path to a Resource
+#' path <- frictionless:::get_resource(package, "observations")$path[1]
+#' dialect <- NULL
+#' schema <- get_schema(package, "observations")
+#' # From https://github.com/frictionlessdata/frictionless-r/pull/237/files
+#' # To be replaced with get_fields_names().
+#' fields <- purrr::chuck(schema, "fields")
+#' field_names <- purrr::map_chr(fields, ~ purrr::pluck(.x, "name"))
+#' col_types <- frictionless:::create_col_types(package, "observations")
+#' col_select <- NULL
+#' locale <- frictionless:::create_locale(package, "observations")
+#' frictionless:::read_from_path(
+#'   path,
+#'   dialect,
+#'   field_names,
+#'   col_types,
+#'   col_select,
+#'   schema,
+#'   locale
+#' )
 read_from_path <- function(x,
                            dialect,
                            field_names,
