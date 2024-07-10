@@ -205,7 +205,11 @@ read_resource <- function(package, resource_name, col_select = NULL) {
   # Get paths, schema and fields
   paths <- resource$path
   schema <- get_schema(package, resource_name)
-  fields <- schema$fields
+
+  # From https://github.com/frictionlessdata/frictionless-r/pull/237/files
+  # To be replaced with get_fields_names().
+
+  fields <- purrr::chuck(schema, "fields")
   field_names <- purrr::map_chr(fields, ~ purrr::pluck(.x, "name"))
 
   # Check all selected columns appear in schema
