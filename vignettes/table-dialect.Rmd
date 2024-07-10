@@ -2,7 +2,7 @@
 title: "Table Dialect"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{table-dialect}
+  %\VignetteIndexEntry{Table Dialect}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -14,24 +14,75 @@ knitr::opts_chunk$set(
 )
 ```
 
-`dialect` properties are [required](https://specs.frictionlessdata.io/csv-dialect/#specification) if
-the resource file(s) deviate from the default CSV settings (see below). It can either be a JSON object or a path or URL referencing a JSON object. Only deviating properties need to be specified, e.g. a tab delimited file
-without a header row needs:
+[Table Dialect](https://specs.frictionlessdata.io/csv-dialect/) (previously called CSV dialect and further referred to as "dialect") is a simple format to describe the dialect of a tabular data file, including its delimiter, header rows, escape characters, etc.
+
+## Support
+
+### Reading
+
+frictionless uses Table Dialect to correctly read [Tabular Data Resources](https://specs.frictionlessdata.io/tabular-data-resource/) with `read_resource()`.
+
+Only properties that deviate from the default need to be specified. E.g. a tab delimited file without header rows needs to define the `dialect` property in its Data Resource, with:
 
 ```json
-"dialect": {"delimiter": "\t", "header": "false"}
+"dialect": {
+  "delimiter": "\t",
+  "header": "false"
+}
 ```
 
-These are the CSV dialect properties. Some are ignored by the function:
+### Writing
 
-- `delimiter`: default `,`.
-- `lineTerminator`: ignored, line terminator characters `LF` and `CRLF` are interpreted automatically by `readr::read_delim()`, while `CR` (used by Classic Mac OS, final release 2001) is not supported.
-- `doubleQuote`: default `true`.
-- `quoteChar`: default `"`.
-- `escapeChar`: anything but `\` is ignored and it will set `doubleQuote` to `false` as these fields are mutually exclusive. You can thus not escape with `\"` and `""` in the same file.
-- `nullSequence`: ignored, use `missingValues`.
-- `skipInitialSpace`: default `false`.
-- `header`: default `true`.
-- `commentChar`: not set by default.
-- `caseSensitiveHeader`: ignored, header is not used for column names, see Schema.
-- `csvddfVersion`: ignored.
+When creating a resource from a file, `add_resource()` only sets one Table Dialect property: `delimiter` and only if it deviates from the default `","`.
+
+When creating a resource from a data frame, `add_resource()` does not set any Table Dialect properties. `write_package()` will write this data frame to a CSV file, but does not set any Table Dialect properties either, since only the defaults are used.
+
+## Properties
+
+The following sections describe how frictionless supports the Table Dialect properties.
+
+### delimiter
+
+[`delimiter`](https://specs.frictionlessdata.io/csv-dialect/#specification) is supported by `read_resource()` and defaults to `","`. It is passed to `delim` in `readr::read_delim()`.
+
+When creating a resource from a file, `add_resource()` will set `delimiter` based on the provided `delim` (e.g. `","` (default), `"\t"`, etc.).
+
+### lineTerminator
+
+[`lineTerminator`](https://specs.frictionlessdata.io/csv-dialect/#specification) is ignored by `read_resource()`. It relies on `readr::read_delim()`, which interprets line terminator `LF` and `CRLF` automatically and does not support `CR` (used by Classic Mac OS, final release 2001).
+
+### quoteChar
+
+[`quoteChar`](https://specs.frictionlessdata.io/csv-dialect/#specification) is supported by `read_resource()` and defaults to `"`. It is passed to `quote` in `readr::read_delim()`.
+
+### doubleQuote
+
+[`doubleQuote`](https://specs.frictionlessdata.io/csv-dialect/#specification) is supported by `read_resource()` and defaults to `true`, but can be overruled by `escapeChar`. It is passed to `escape_double` in `readr::read_delim()`.
+
+### escapeChar
+
+[`escapeChar`](https://specs.frictionlessdata.io/csv-dialect/#specification) is ignored by `read_resource()` unless it is `"\\"`. It is then passed as `escape_backslash = TRUE` and `escape_double = FALSE` in `readr::read_delim()`. Note that `escapeChar` and `doubleQuote` are mutually exclusive, so you cannot escape with `\"` and `""` in the same file.
+
+### nullSequence
+
+[`nullSequence`](https://specs.frictionlessdata.io/csv-dialect/#specification) is ignored by `read_resource()`. Provide as `missingValues` in `vignette("table-schema")` instead.
+
+### skipInitialSpace
+
+[`skipInitialSpace`](https://specs.frictionlessdata.io/csv-dialect/#specification) is supported by `read_resource()` and defaults to `false`. It is passed to `trim_ws` in `readr::read_delim()`.
+
+### header
+
+[`header`](https://specs.frictionlessdata.io/csv-dialect/#specification) is supported by `read_resource()` and defaults to `true`. It is passed as `trim_ws = 1` (or `0`) in `readr::read_delim()`.
+
+### commentChar
+
+[`commentChar`](https://specs.frictionlessdata.io/csv-dialect/#specification) is supported by `read_resource()` and defaults to undefined. It is passed to `comment` in `readr::read_delim()`.
+
+### caseSensitiveHeader
+
+[`caseSensitiveHeader`](https://specs.frictionlessdata.io/csv-dialect/#specification) is ignored by `read_resource()`.
+
+### csvddfVersion
+
+[`csvddfVersion`](https://specs.frictionlessdata.io/csv-dialect/#specification) is ignored by `read_resource()`.
