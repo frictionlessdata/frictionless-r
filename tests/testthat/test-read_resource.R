@@ -9,24 +9,6 @@ test_that("read_resource() returns a tibble", {
   expect_s3_class(read_resource(p, "new"), "tbl")         # via df
 })
 
-test_that("read_resource() doesn't allow both path and data in one resource", {
-  skip_if_offline()
-  p_invalid <- example_package
-  # Assign the data from media to observations, so it has both path and data
-  purrr::pluck(p_invalid, "resources", 2, "data") <-
-    purrr::pluck(p_invalid, "resources", 3, "data")
-  # Test for correct error class
-  expect_error(
-    read_resource(p_invalid, "observations"),
-    class = "frictionless_error_resource_both_path_and_data"
-  )
-  # Test for substring of error message
-  expect_error(
-    read_resource(p_invalid, "observations"),
-    regexp = 'mutually exclusive'
-  )
-})
-
 test_that("read_resource() allows column selection", {
   skip_if_offline()
   p <- example_package
@@ -158,7 +140,24 @@ test_that("read_resource() returns error on invalid resource", {
     fixed = TRUE
   )
 
+  # Both path or data
+  p_invalid$resources[[1]]$path <- "value"
+  p_invalid$resources[[1]]$data <- "value"
+  expect_error(
+    read_resource(p_invalid, "deployments"),
+    class = "frictionless_error_resource_both_path_data"
+  )
+  expect_error(
+    read_resource(p_invalid, "deployments"),
+    regexp = paste(
+      "Resource \"deployments\" must have a path or data property,",
+      "not both."
+    ),
+    fixed = TRUE
+  )
+
   # No file at path url
+  p_invalid$resources[[1]]$data <- NULL
   p_invalid$resources[[1]]$path <- "http://example.com/no_such_file.csv"
   expect_error(
     read_resource(p_invalid, "deployments"),

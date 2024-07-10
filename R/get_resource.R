@@ -45,13 +45,12 @@ get_resource <- function(package, resource_name) {
     )
   }
 
-  # Check if that either data or path is set, not both.
+  # Check that either data or path is set, not both
   if (all(c("data", "path") %in% names(resource))) {
     cli::cli_abort(
-      "Resource {.val {resource_name}} is invalid:
-        It has both properties {.field path} and {.field data} while they
-        are mutually exclusive",
-      class = "frictionless_error_resource_both_path_and_data"
+      "Resource {.val {resource_name}} must have a {.field path} or
+       {.field data} property, not both.",
+      class = "frictionless_error_resource_both_path_data"
     )
   }
 
