@@ -240,40 +240,14 @@ read_resource <- function(package, resource_name, col_select = NULL) {
 
   # Read data from path(s)
   } else if (resource$read_from == "path" || resource$read_from == "url") {
-    dataframes <- list()
-    for (i in seq_along(paths)) {
-      data <- readr::read_delim(
-        file = paths[i],
-        delim = dialect$delimiter %||% ",",
-        quote = dialect$quoteChar %||% "\"",
-        escape_backslash = if (dialect$escapeChar %||% "not set" == "\\") {
-          TRUE
-        } else {
-          FALSE
-        },
-        escape_double = if (dialect$escapeChar %||% "not set" == "\\") {
-          # If escapeChar is set, set doubleQuote to FALSE (mutually exclusive)
-          FALSE
-        } else {
-          dialect$doubleQuote %||% TRUE
-        },
-        col_names = field_names,
-        col_types = col_types,
-        # Use rlang {{}} to avoid `col_select` to be interpreted as the name of
-        # a column, see https://rlang.r-lib.org/reference/topic-data-mask.html
-        col_select = {{col_select}},
-        locale = locale,
-        na = schema$missingValues %||% "",
-        comment = dialect$commentChar %||% "",
-        trim_ws = dialect$skipInitialSpace %||% FALSE,
-        # Skip header row when present
-        skip = if (dialect$header %||% TRUE) 1 else 0,
-        skip_empty_rows = TRUE
-      )
-      dataframes[[i]] <- data
-    }
-    # Merge data frames for all paths
-    df <- dplyr::bind_rows(dataframes)
+    df <- read_from_paths(paths,
+                          dialect,
+                          field_names,
+                          col_types,
+                          col_select,
+                          schema,
+                          locale
+    )
   }
 
   return(df)
