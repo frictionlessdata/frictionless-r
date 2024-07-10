@@ -136,7 +136,7 @@ See `vignette("table-dialect")`.
 
 ### title
 
-[`title`](https://specs.frictionlessdata.io/data-resource/#title) is ignored by `read_resource()`.
+[`title`](https://specs.frictionlessdata.io/data-resource/#optional-properties) is ignored by `read_resource()`.
 
 When creating a resource, you can set `title` with `add_resource()`:
 
@@ -146,13 +146,13 @@ x <- add_resource(x, "iris", iris, title = "Edgar Anderson's Iris Data")
 
 ### description
 
-[`description`](https://specs.frictionlessdata.io/data-resource/#description) is ignored by `read_resource()`.
+[`description`](https://specs.frictionlessdata.io/data-resource/#optional-properties) is ignored by `read_resource()`.
 
 When creating a resource, you can set `description` with `add_resource()` (cf. `title`).
 
 ### format
 
-[`format`](https://specs.frictionlessdata.io/data-resource/#format) is ignored by `read_resource()`.
+[`format`](https://specs.frictionlessdata.io/data-resource/#optional-properties) is ignored by `read_resource()`.
 
 When creating a resource from a file, `add_resource()` sets `format` based on the provided `delim` (`","` (default) = `"csv"`, `"\t"` = `"tsv"`, any other value = `"csv"`).
 
@@ -160,7 +160,7 @@ When creating a resource from a data frame, `format` remains undefined until `wr
 
 ### mediatype
 
-[`mediatype`](https://specs.frictionlessdata.io/data-resource/#mediatype) is ignored by `read_resource()`.
+[`mediatype`](https://specs.frictionlessdata.io/data-resource/#optional-properties) is ignored by `read_resource()`.
 
 When creating a resource from a file, `add_resource()` will set `mediatype` based on the provided `delim` (`","` (default) = `"text/csv"`, `"\t"` = `"text/tab-separated-values"`, any other value = `"text/csv"`).
 
@@ -168,7 +168,7 @@ When creating a resource from a data frame, `mediatype` remains undefined until 
 
 ### encoding
 
-[`encoding`](https://specs.frictionlessdata.io/data-resource/#encoding) (e.g. `"windows-1252"`) is used by `read_resource()` to parse the file. It will default to UTF-8 if no `encoding` is provided or if it cannot be recognized. The returned data frame will always be UTF-8.
+[`encoding`](https://specs.frictionlessdata.io/data-resource/#optional-properties) (e.g. `"windows-1252"`) is used by `read_resource()` to parse the file. It will default to UTF-8 if no `encoding` is provided or if it cannot be recognized. The returned data frame will always be UTF-8.
 
 When creating a resource from a file, `add_resource()` will guess the `encoding` (using `readr::guess_encoding()`).
 
@@ -176,25 +176,25 @@ When creating a resource from a data frame, `encoding` remains undefined until `
 
 ### bytes
 
-[`bytes`](https://specs.frictionlessdata.io/data-resource/#bytes) is ignored by `read_resource()`.
+[`bytes`](https://specs.frictionlessdata.io/data-resource/#optional-properties) is ignored by `read_resource()`.
 
 When creating a resource, you can set `bytes` with `add_resource()` (cf. `title`).
 
 ### hash
 
-[`hash`](https://specs.frictionlessdata.io/data-resource/#hash) is ignored by `read_resource()`.
+[`hash`](https://specs.frictionlessdata.io/data-resource/#optional-properties) is ignored by `read_resource()`.
 
 When creating a resource, you can set `hash` with `add_resource()` (cf. `title`).
 
 ### sources
 
-[`sources`](https://specs.frictionlessdata.io/data-resource/#sources) is ignored by `read_resource()`.
+[`sources`](https://specs.frictionlessdata.io/data-resource/#optional-properties) is ignored by `read_resource()`.
 
 When creating a resource, you can set `sources` with `add_resource()` (cf. `title`).
 
 ### licenses
 
-[`licenses`](https://specs.frictionlessdata.io/data-resource/#licenses) is ignored by `read_resource()`.
+[`licenses`](https://specs.frictionlessdata.io/data-resource/#optional-properties) is ignored by `read_resource()`.
 
 When creating a resource, you can set `licenses` with `add_resource()` (cf. `title`).
 
