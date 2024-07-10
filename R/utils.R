@@ -70,9 +70,9 @@ read_descriptor <- function(x, directory = NULL, safe = FALSE) {
   # Read file
   x <- check_path(x, directory = directory, safe = safe)
   if (grepl("\\.yaml$", x) || grepl("\\.yml$", x)) {
-    yaml::yaml.load_file(x)
+    yaml.load_file_cache(x)
   } else {
     # Default to jsonlite: better error messages for non .json files
-    jsonlite::fromJSON(x, simplifyDataFrame = FALSE, simplifyVector = TRUE)
+    fromJSON_cache(x, simplifyDataFrame = FALSE, simplifyVector = TRUE)
   }
 }
