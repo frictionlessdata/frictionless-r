@@ -10,7 +10,7 @@
 #' # Load the example Data Package
 #' package <- example_package
 #'
-#' # List resources
+#' # List the resources
 #' resources(package)
 resources <- function(package) {
   # Check package (and that all resource have a name)

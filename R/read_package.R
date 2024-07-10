@@ -19,9 +19,6 @@
 #' # Access the Data Package properties
 #' package$name
 #' package$created
-#'
-#' # List resources
-#' resources(package)
 read_package <- function(file = "datapackage.json") {
   # Read file
   if (!is.character(file)) {

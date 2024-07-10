@@ -21,6 +21,8 @@
 #' @param schema Either a list, or path or URL to a JSON file describing a Table
 #'   Schema for the `data`.
 #'   If not provided, one will be created using [create_schema()].
+#' @param replace If `TRUE`, the added resource will replace an existing
+#'   resource with the same name.
 #' @param delim Single character used to separate the fields in the CSV file(s),
 #'   e.g. `\t` for tab delimited file.
 #'   Will be set as `delimiter` in the resource [CSV
@@ -41,7 +43,7 @@
 #' # Load the example Data Package
 #' package <- example_package
 #'
-#' # List resources
+#' # List the resources
 #' resources(package)
 #'
 #' # Create a data frame
@@ -54,29 +56,33 @@
 #'   y = c(860, 900)
 #' )
 #'
-#' # Add resource "positions" to the Data Package, from the data frame
+#' # Add the resource "positions" from the data frame
 #' package <- add_resource(package, "positions", data = df)
 #'
-#' # Add resource "positions_2" to the Data Package, with user-defined schema
-#' # and title
+#' # Add the resource "positions_with_schema", with a user-defined schema and title
 #' my_schema <- create_schema(df)
 #' package <- add_resource(
 #'   package,
-#'   "positions_2",
+#'   resource_name = "positions_with_schema",
 #'   data = df,
 #'   schema = my_schema,
-#'   title = "Positions"
+#'   title = "Positions with schema"
 #' )
 #'
-#' # Add resource "observations_2" to the Data Package, from CSV file paths
+#' # Replace the resource "observations" with a file-based resource (2 CSV files)
 #' path_1 <- system.file("extdata", "observations_1.csv", package = "frictionless")
 #' path_2 <- system.file("extdata", "observations_2.csv", package = "frictionless")
-#' package <- add_resource(package, "observations_2", data = c(path_1, path_2))
+#' package <- add_resource(
+#'   package,
+#'   resource_name = "observations",
+#'   data = c(path_1, path_2),
+#'   replace = TRUE
+#' )
 #'
-#' # List resources ("positions", "positions_2", "observations_2" added)
+#' # List the resources ("positions" and "positions_with_schema" added)
 #' resources(package)
 add_resource <- function(package, resource_name, data, schema = NULL,
-                         delim = ",", ...) {
+                         replace = FALSE, delim = ",", ...) {
   # Check package
   check_package(package)
 
@@ -92,10 +98,22 @@ add_resource <- function(package, resource_name, data, schema = NULL,
     )
   }
 
-  # Check resource is absent
-  if (resource_name %in% resources(package)) {
+  # Check if replace is a logical value
+  if (!is.logical(replace)) {
     cli::cli_abort(
-      "{.arg package} already contains a resource named {.val {resource_name}}.",
+      "{.arg replace} must be a logical value.",
+      class = "frictionless_error_replace_invalid"
+    )
+  }
+
+  # Check resource does not exist yet for replace = FALSE
+  if (!replace && resource_name %in% resources(package)) {
+    cli::cli_abort(
+      c(
+        "{.arg package} already contains a resource named
+        {.val {resource_name}}.",
+        "i" = "Use {.arg replace = TRUE} to replace an existing resource."
+      ),
       class = "frictionless_error_resource_already_exists"
     )
   }
@@ -188,8 +206,13 @@ add_resource <- function(package, resource_name, data, schema = NULL,
     attr(resource, "path") <- "added"
   }
 
-  # Add resource (needs to be wrapped in its own list)
-  package$resources <- append(package$resources, list(resource))
+  # Add or replace resource (needs to be wrapped in its own list)
+  if (replace) {
+    index <- which(purrr::map(package$resources, "name") == resource_name)
+    package$resources[index] <- list(resource)
+  } else {
+    package$resources <- append(package$resources, list(resource))
+  }
 
   return(package)
 }
