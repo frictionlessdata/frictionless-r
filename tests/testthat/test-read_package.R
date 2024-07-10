@@ -117,3 +117,10 @@ test_that("read_package() allows YAML descriptor", {
     check_package(read_package(test_path("data/valid_minimal.yml")))
   )
 })
+
+test_that("read_package() correctly converts a JSON `null` to an R NULL", {
+  p_path <- system.file("extdata", "datapackage.json", package = "frictionless")
+  p <- read_package(p_path)
+  # purrr::chuck() so an error is returned if `image` does not exist
+  expect_null(purrr::chuck(p, "image"))
+})

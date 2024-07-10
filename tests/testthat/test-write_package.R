@@ -327,3 +327,35 @@ test_that("write_package() will gzip file for compress = TRUE", {
   p_reread <- read_package(file.path(dir, "datapackage.json"))
   expect_identical(read_resource(p_reread, "new"), dplyr::as_tibble(df))
 })
+
+test_that("write_package() encodes null and NA as null", {
+  p <-
+    example_package %>%
+    add_resource(
+      resource_name = "new",
+      data = data.frame("col_1" = c(1, 2), "col_2" = c("a", "b")),
+      title = NA
+    )
+  # Set a custom property as NA, to see if it gets written as `null` in JSON
+  p$my_property <- NA
+
+  # Image is set as `NULL` in the JSON and that should still be the case here.
+  expect_null(purrr::chuck(p, "image"))
+
+  ## Use purrr::chuck() so an error is returned if image doesn't exist
+  expect_null(purrr::chuck(p, "image"))
+  expect_identical(p$resources[[4]]$title, NA)
+  expect_identical(p$my_property, NA)
+
+  dir <- file.path(tempdir(), "package")
+  on.exit(unlink(dir, recursive = TRUE))
+  write_package(p, dir)
+
+  p_loaded <- read_package(file.path(dir, "datapackage.json"))
+  # Use purrr::chuck() so an error is returned if the requested index doesn't
+  # exist
+  expect_null(purrr::chuck(p_loaded, "image"))
+  expect_null(purrr::chuck(p_loaded, "resources", 4, "title"))
+  ## my_property was set to NA, when writing this becomes NULL
+  expect_null(purrr::chuck(p_loaded, "my_property"))
+})
