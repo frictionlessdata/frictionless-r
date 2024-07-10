@@ -19,10 +19,10 @@
 #' # read_package(
 #' #   system.file("extdata", "datapackage.json", package = "frictionless")
 #' # )
-#' example_package <- read_package(file.path(
+#' example_package_remote <- read_package(file.path(
 #'   "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
 #'   "main/inst/extdata/datapackage.json"
 #' ))
-#' save(example_package, file = "data/example_package.rda")
+#' save(example_package_remote, file = "data/example_package_remote.rda")
 #' }
-"example_package"
+"example_package_remote"
