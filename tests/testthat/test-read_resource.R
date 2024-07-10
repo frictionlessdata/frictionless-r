@@ -1,6 +1,5 @@
 test_that("read_resource() returns a tibble", {
-  skip_if_offline()
-  p <- example_package
+  p <- example_package()
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   p <- add_resource(p, "new", df)
 
@@ -10,8 +9,7 @@ test_that("read_resource() returns a tibble", {
 })
 
 test_that("read_resource() allows column selection", {
-  skip_if_offline()
-  p <- example_package
+  p <- example_package()
 
   # Single column
   expect_named(
@@ -69,8 +67,7 @@ test_that("read_resource() allows column selection", {
 })
 
 test_that("read_resource() returns error on column selection not in schema", {
-  skip_if_offline()
-  p <- example_package
+  p <- example_package()
 
   # One column
   expect_error(
@@ -117,7 +114,7 @@ test_that("read_resource() returns error on invalid Data Package", {
 
 test_that("read_resource() returns error on invalid resource", {
   skip_if_offline()
-  p <- example_package
+  p <- example_package()
 
   # No such resource
   expect_error(
@@ -258,14 +255,14 @@ test_that("read_resource() returns error on invalid resource", {
 })
 
 test_that("read_resource() can read newly added data (ignoring schema)", {
-  p <- example_package
+  p <- example_package()
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   p <- add_resource(p, "new", df)
   expect_identical(read_resource(p, "new"), dplyr::as_tibble(df))
 })
 
 test_that("read_resource() can read inline data (ignoring schema)", {
-  p <- example_package
+  p <- example_package()
   expected_resource <- readr::read_csv(
     test_path("data/media.csv"),
     col_types = "ccccc"
@@ -281,9 +278,8 @@ test_that("read_resource() can read inline data (ignoring schema)", {
 })
 
 test_that("read_resource() can read local files", {
-  skip_if_offline()
-  p <- example_package
-  resource <- read_resource(p, "deployments") # local resource, remote package
+  p <- example_package()
+  resource <- read_resource(p, "deployments")
 
   p_local <- read_package(
     system.file("extdata", "datapackage.json", package = "frictionless")
@@ -293,8 +289,8 @@ test_that("read_resource() can read local files", {
 
 test_that("read_resource() can read remote files", {
   skip_if_offline()
-  p <- example_package
-  resource <- read_resource(p, "deployments") # local resource, remote package
+  p <- example_package()
+  resource <- read_resource(p, "deployments")
 
   p_remote_resource <- p
   p_remote_resource$resources[[1]]$path <- file.path(
@@ -307,7 +303,7 @@ test_that("read_resource() can read remote files", {
 test_that("read_resource() can read safe local and remote Table Schema,
            including YAML", {
   skip_if_offline()
-  p <- example_package
+  p <- example_package()
   resource <- read_resource(p, "deployments")
   p$directory <- "."
   # Use a remote path, otherwise schema and path need to share same directory
@@ -354,7 +350,7 @@ test_that("read_resource() can read safe local and remote Table Schema,
 
 test_that("read_resource() can read safe local and remote CSV dialect", {
   skip_if_offline()
-  p <- example_package
+  p <- example_package()
   resource <- read_resource(p, "deployments")
   p$directory <- "."
   # Use a remote path, otherwise dialect and path need to share same directory
@@ -398,8 +394,7 @@ test_that("read_resource() can read safe local and remote CSV dialect", {
 })
 
 test_that("read_resource() understands CSV dialect", {
-  skip_if_offline()
-  p <- example_package
+  p <- example_package()
   resource <- read_resource(p, "deployments")
 
   # Create package with non-default dialect properties
@@ -428,8 +423,7 @@ test_that("read_resource() understands CSV dialect", {
 })
 
 test_that("read_resource() understands missing values", {
-  skip_if_offline()
-  p <- example_package
+  p <- example_package()
   resource <- read_resource(p, "deployments")
 
   # Create package with non-default missing values
@@ -443,8 +437,7 @@ test_that("read_resource() understands missing values", {
 })
 
 test_that("read_resource() understands encoding", {
-  skip_if_offline()
-  p <- example_package
+  p <- example_package()
   resource <- read_resource(p, "deployments")
 
   # Create package with non-default encoding
@@ -540,8 +533,7 @@ test_that("read_resource() handles LF and CRLF line terminator characters", {
   #
   # read_delim() however only handles 2 line terminator characters (LF and CRLF)
   # without explicitly indicating them, so dialect$lineTerminator is ignored
-  skip_if_offline()
-  p <- example_package
+  p <- example_package()
   resource <- read_resource(p, "deployments") # This file has LF
 
   p_crlf <- p
@@ -553,7 +545,7 @@ test_that("read_resource() handles LF and CRLF line terminator characters", {
 
 test_that("read_resource() can read compressed files", {
   skip_if_offline()
-  p <- example_package
+  p <- example_package()
   resource <- read_resource(p, "deployments")
 
   # File created in terminal with:

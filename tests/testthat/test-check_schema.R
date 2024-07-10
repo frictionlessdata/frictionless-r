@@ -1,6 +1,5 @@
 test_that("check_schema() returns schema invisibly on valid Table Schema", {
-  skip_if_offline()
-  p <- example_package
+  p <- example_package()
   # Can't obtain df using read_resource(), because that function uses
   # check_schema() (in get_schema()) internally, which is what we want to test
   df <- suppressMessages(

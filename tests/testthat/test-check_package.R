@@ -1,5 +1,5 @@
 test_that("check_package() returns package invisibly on valid Data Package", {
-  p <- example_package
+  p <- example_package()
   expect_identical(check_package(p), p)
   expect_invisible(check_package(p))
 })
@@ -69,7 +69,7 @@ test_that("check_package() returns error on missing or incorrect directory", {
 })
 
 test_that("check_package() returns error if resources have no name", {
-  p <- example_package
+  p <- example_package()
   p$resources[[2]]$name <- NULL
   expect_error(
     check_package(p),
