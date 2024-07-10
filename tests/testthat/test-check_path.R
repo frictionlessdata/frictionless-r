@@ -1,4 +1,5 @@
 test_that("check_path() returns path prepended with directory", {
+  skip_if_offline()
   expect_identical(
     check_path("deployments_schema.json", directory = "data"),
     "data/deployments_schema.json"
@@ -65,6 +66,7 @@ test_that("check_path() returns error when local file cannot be found", {
 })
 
 test_that("check_path() returns error when remote file cannot be found", {
+  skip_if_offline()
   expect_error(
     check_path("https://example.com/no_such_file.csv"),
     class = "frictionless_error_url_not_found"

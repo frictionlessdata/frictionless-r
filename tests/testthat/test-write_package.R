@@ -330,6 +330,7 @@ test_that("write_package() will gzip file for compress = TRUE", {
 
 test_that("write_package() writes NULL and NA as null", {
   p <- example_package
+  skip_if_offline()
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
 
   # Set some properties to NULL and NA (p$image is already read as NULL)
