@@ -250,6 +250,7 @@ test_that("write_package() creates file for data = df in remote package", {
 test_that("write_package() shows message when downloading file", {
   skip_if_offline()
   p <- example_package()
+  p$resources[[2]]$path[[2]] <- "observations_2.csv" # Make one URL a local path
   dir <- file.path(tempdir(), "package")
   dir_1 <- file.path(dir, "1")
   dir_2 <- file.path(dir, "2")
@@ -262,7 +263,7 @@ test_that("write_package() shows message when downloading file", {
     write_package(p, dir_2),
     regexp = paste0(
       "Downloading file from 'https://raw.githubusercontent.com/",
-      "frictionlessdata/frictionless-r/main/inst/extdata/deployments.csv'"
+      "frictionlessdata/frictionless-r/main/inst/extdata/observations_1.csv'"
     ),
     fixed = TRUE
   )
