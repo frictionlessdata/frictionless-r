@@ -2,6 +2,7 @@
 
 * [checklist](https://github.com/inbo/checklist) tooling was removed, in favour of `CITATION.cff` for citation and Zenodo deposit.
 * `write_package()` no longer writes to "." by default, since this is not allowed by CRAN policies. The user needs to explicitly define a directory (#205).
+* Starting with this version, frictionless will require a minimum version of R of 4.0.0 or higher, before this minimum version was set to R3.5.0. This change enables us to make use of new features of R, and is in line with changes coming to the tidyverse packages, a number of which frictionless is dependent on.
 
 # frictionless 1.1.0
 
