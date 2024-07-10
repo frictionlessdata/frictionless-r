@@ -34,6 +34,15 @@ create_col_types <- function(package, resource_name) {
 #' @return A readr column type.
 #' @family helper functions
 #' @noRd
+#' @examples
+#' # Load the example Data Package
+#' package <- example_package
+#' schema <- get_schema(package, "observations")
+#' fields <- schema$fields
+#' # Create col type for first field (string)
+#' frictionless:::create_col_type(fields[[1]])
+#' # Create col type for third field (datetime)
+#' frictionless:::create_col_type(fields[[3]])
 create_col_type <- function(x) {
   type <- x$type %||% NA_character_
   enum <- x$constraints$enum
