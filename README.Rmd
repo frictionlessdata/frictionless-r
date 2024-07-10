@@ -11,7 +11,6 @@ knitr::opts_chunk$set(
   fig.path = "man/figures/README-",
   out.width = "100%"
 )
-library(dplyr) # For %>%
 ```
 
 # frictionless
@@ -79,13 +78,13 @@ You can also create your own Data Package, add data and **write** it to disk:
 ```{r write_example}
 # Create a Data Package and add the "iris" data frame as a resource
 my_package <-
-  create_package() %>%
+  create_package() |>
   add_resource(resource_name = "iris", data = iris)
 
 my_package
 
 # Write the Data Package to disk
-my_package %>%
+my_package |>
   write_package("my_directory")
 ```
 

@@ -75,10 +75,16 @@ package
 #> • acceleration
 #> For more information, see <https://doi.org/10.5281/zenodo.10053702>.
 #> Use `unclass()` to print the Data Package as a list.
+```
+
+``` r
 
 # List resources
 resources(package)
 #> [1] "reference-data" "gps"            "acceleration"
+```
+
+``` r
 
 # Read data from the resource "gps"
 # This will return a single data frame, even though the data are split over 
@@ -112,16 +118,19 @@ disk:
 ``` r
 # Create a Data Package and add the "iris" data frame as a resource
 my_package <-
-  create_package() %>%
+  create_package() |>
   add_resource(resource_name = "iris", data = iris)
 
 my_package
 #> A Data Package with 1 resource:
 #> • iris
 #> Use `unclass()` to print the Data Package as a list.
+```
+
+``` r
 
 # Write the Data Package to disk
-my_package %>%
+my_package |>
   write_package("my_directory")
 ```
 
