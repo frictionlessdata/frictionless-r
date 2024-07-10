@@ -36,6 +36,7 @@ Imports:
     dplyr,
     httr,
     jsonlite,
+    memoise,
     purrr,
     readr (>= 2.1.0),
     rlang,
