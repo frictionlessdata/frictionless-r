@@ -46,13 +46,13 @@ read_resource(x, "deployments")
 
 ### Writing
 
-When creating a resource, `add_resource()` only supports Tabular Data Resources. The provided data must therefore be a data frame or a tabular file (e.g. CSV):
+When creating or replacing a resource, `add_resource()` only supports Tabular Data Resources. The provided data must therefore be a data frame or a tabular file (e.g. CSV):
 
 ```{r}
 # Add (tabular) resource from a data frame (but don't assign to x)
 add_resource(x, "iris", data = iris)
 
-# Add (tabular) resource from a file (but don't assign to x)
+# Replace a (tabular) resource from a file (but don't assign to x)
 path <- system.file("extdata", "deployments.csv", package = "frictionless")
 add_resource(x, "deployments", data = path, replace = TRUE)
 ```
