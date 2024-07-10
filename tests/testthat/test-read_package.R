@@ -118,9 +118,9 @@ test_that("read_package() allows YAML descriptor", {
   )
 })
 
-test_that("read_package() correctly converts a JSON `null` to an R NULL", {
+test_that("read_package() converts JSON null to NULL", {
   p_path <- system.file("extdata", "datapackage.json", package = "frictionless")
   p <- read_package(p_path)
-  # purrr::chuck() so an error is returned if `image` does not exist
+  # { "image": null } is read as NULL (use chuck() to force error if missing)
   expect_null(purrr::chuck(p, "image"))
 })
