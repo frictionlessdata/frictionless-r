@@ -221,15 +221,7 @@ read_resource <- function(package, resource_name, col_select = NULL) {
   }
 
   # Create locale with encoding, decimal_mark and grouping_mark
-  encoding <- resource$encoding %||% "UTF-8" # Set default to UTF-8
-  if (!tolower(encoding) %in% tolower(iconvlist())) {
-    cli::cli_warn(
-      "Unknown encoding {.field {encoding}}. Reading file(s) with UTF-8
-       encoding.",
-      class = "frictionless_warning_resource_encoding_unknown"
-    )
-    encoding <- "UTF-8"
-  }
+  encoding <- get_encoding(resource)
   d_chars <- purrr::map_chr(fields, ~ .x$decimalChar %||% NA_character_)
   d_chars <- unique_sorted(d_chars)
   if (length(d_chars) == 0 || (length(d_chars) == 1 && d_chars[1] == ".")) {
