@@ -2,7 +2,7 @@
 title: "Table Schema"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{table-schema}
+  %\VignetteIndexEntry{Table Schema}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
