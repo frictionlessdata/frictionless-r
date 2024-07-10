@@ -143,3 +143,172 @@ get_encoding <- function(resource) {
       grouping_mark = grouping_mark
     )
 }
+
+#' Create column types for reading a Data Resource.
+#'
+#' Create a list of readr column types for reading a [Data
+#' Resource](https://specs.frictionlessdata.io/data-resource/) (in a Data
+#' Package) based on the schema's fields of the resource.
+#' @param fields Fields from schema of the resource.
+#' @param field_names Names of the fields.
+#' @return A [readr::cols()] object.
+#' @family helper functions
+#' @noRd
+create_col_types <- function(fields, field_names) {
+  col_types <- purrr::map(fields, create_col_type)
+  # Assign names: list("name1" = <collector_character>, "name2" = ...)
+  names(col_types) <- field_names
+  col_types
+}
+
+#' Create column type for reading a specific field of a Data Resource.
+#'
+#' Create a readr column type for reading a [Data
+#' Resource](https://specs.frictionlessdata.io/data-resource/) (in a Data
+#' Package) based on the schema's field.
+#'
+#' @param x Field from schema of the resource.
+#' @return A readr column type.
+#' @family helper functions
+#' @noRd
+create_col_type <- function(x) {
+  type <- x$type %||% NA_character_
+  enum <- x$constraints$enum
+  group_char <- if (x$groupChar %||% "" != "") TRUE else FALSE
+  bare_number <- if (x$bareNumber %||% "" != FALSE) TRUE else FALSE
+  format <- x$format %||% "default" # Undefined => default
+
+  # Assign types and formats
+  col_type <- switch(type,
+                     "string" = col_string(enum),
+                     "number" = col_number(enum, group_char, bare_number),
+                     "integer" = col_integer(enum, bare_number),
+                     "boolean" = readr::col_logical(),
+                     "object" = readr::col_character(),
+                     "array" = readr::col_character(),
+                     "date" = col_date(format),
+                     "time" = col_time(format),
+                     "datetime" = col_datetime(format),
+                     "year" = readr::col_date(format = "%Y"),
+                     "yearmonth" = readr::col_date(format = "%Y-%m"),
+                     "duration" = readr::col_character(),
+                     "geopoint" = readr::col_character(),
+                     "geojson" = readr::col_character(),
+                     "any" = readr::col_character()
+  )
+  # col_type will be NULL when type is undefined (NA_character_) or an
+  # unrecognized value (e.g. "datum", but will be blocked by check_schema()).
+  # Set those to col_guess().
+  col_type <- col_type %||% readr::col_guess()
+  col_type
+}
+
+#' Create column type for reading a string field of a Data Resource.
+#'
+#' Create a readr column type for reading a string field.
+#'
+#' @param enum Enumerated values, if any.
+#' @return A [readr::col_factor()] or a [readr::col_character()] object.
+col_string <- function(enum) {
+  if (length(enum) > 0) {
+    readr::col_factor(levels = enum)
+  } else {
+    readr::col_character()
+  }
+}
+
+#' Create column type for reading a number field of a Data Resource.
+#'
+#' Create a readr column type for reading a number field.
+#'
+#' @param enum Enumerated values, if any.
+#' @param group_char Whether to use [readr::col_number()], which supports
+#'   grouping marks.
+#' @param bare_number Whether to use [readr::col_double()], which allows NaN,
+#'   INF and -INF.
+#' @return A [readr::col_factor()], a [readr::col_number()], or a
+#'   [readr::col_double] object.
+#' @family helper functions
+#' @noRd
+col_number <- function(enum, group_char, bare_number) {
+  if (length(enum) > 0) {
+    readr::col_factor(levels = as.character(enum))
+  } else if (group_char) {
+    readr::col_number() # Supports grouping_mark
+  } else if (bare_number) {
+    readr::col_double() # Allows NaN, INF, -INF
+  } else {
+    readr::col_number() # Strips non-num. chars, uses default grouping_mark
+  }
+}
+
+#' Create column type for reading an integer field of a Data Resource.
+#'
+#' Create a readr column type for reading an integer field.
+#'
+#' @param enum Enumerated values, if any.
+#' @param bare_number Whether to use [readr::col_double()]. This is done to
+#'  avoid issues with big integers.
+#' @return A [readr::col_factor()], a [readr::col_double] object or a
+#'   [readr::col_number()] object.
+#' @family helper functions
+#' @noRd
+col_integer <- function(enum, bare_number) {
+  if (length(enum) > 0) {
+    readr::col_factor(levels = as.character(enum))
+  } else if (bare_number) {
+    readr::col_double() # Not col_integer() to avoid big integers issues
+  } else {
+    readr::col_number() # Strips non-numeric chars
+  }
+}
+
+#' Create column type for reading a date field of a Data Resource.
+#'
+#' Create a readr column type for reading a date field.
+#'
+#' @param format Datetime format.
+#' @return A [readr::col_date()] object.
+#' @family helper functions
+#' @noRd
+col_date <- function(format) {
+  readr::col_date(format = switch(format,
+                                  "default" = "%Y-%m-%d", # ISO
+                                  "any" = "%AD", # YMD
+                                  "%x" = "%m/%d/%y", # Python strptime for %x
+                                  format # Default
+  ))
+}
+
+#' Create column type for reading a time field of a Data Resource.
+#'
+#' Create a readr column type for reading a time field.
+#'
+#' @param format Datetime format.
+#' @return A [readr::col_time()] object.
+#' @family helper functions
+#' @noRd
+col_time <- function(format) {
+  readr::col_time(format = switch(format,
+                                  "default" = "%AT", # H(MS)
+                                  "any" = "%AT", # H(MS)
+                                  "%X" = "%H:%M:%S", # HMS
+                                  sub("%S.%f", "%OS", format) # Default, use %OS for milli/microseconds
+  ))
+}
+
+#' Create column type for reading a datetime field of a Data Resource.
+#'
+#' Create a readr column type for reading a datetime field.
+#'
+#' @param format Datetime format.
+#' @return A [readr::col_datetime()] object.
+#' @family helper functions
+#' @noRd
+col_datetime <- function(format) {
+  readr::col_datetime(format = switch(format,
+                                      "default" = "", # ISO (lenient)
+                                      "any" = "", # ISO (lenient)
+                                      sub("%S.%f", "%OS", format) # Default, use %OS for milli/microseconds
+  ))
+}

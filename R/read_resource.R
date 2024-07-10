@@ -224,72 +224,7 @@ read_resource <- function(package, resource_name, col_select = NULL) {
   locale <- create_locale(resource, fields)
 
   # Create col_types: list(<collector_character>, <collector_logical>, ...)
-  col_types <- purrr::map(fields, function(x) {
-    type <- x$type %||% NA_character_
-    enum <- x$constraints$enum
-    group_char <- if (x$groupChar %||% "" != "") TRUE else FALSE
-    bare_number <- if (x$bareNumber %||% "" != FALSE) TRUE else FALSE
-    format <- x$format %||% "default" # Undefined => default
-
-    # Assign types and formats
-    col_type <- switch(type,
-      "string" = if (length(enum) > 0) {
-        readr::col_factor(levels = enum)
-      } else {
-        readr::col_character()
-      },
-      "number" = if (length(enum) > 0) {
-        readr::col_factor(levels = as.character(enum))
-      } else if (group_char) {
-        readr::col_number() # Supports grouping_mark
-      } else if (bare_number) {
-        readr::col_double() # Allows NaN, INF, -INF
-      } else {
-        readr::col_number() # Strips non-num. chars, uses default grouping_mark
-      },
-      "integer" = if (length(enum) > 0) {
-        readr::col_factor(levels = as.character(enum))
-      } else if (bare_number) {
-        readr::col_double() # Not col_integer() to avoid big integers issues
-      } else {
-        readr::col_number() # Strips non-numeric chars
-      },
-      "boolean" = readr::col_logical(),
-      "object" = readr::col_character(),
-      "array" = readr::col_character(),
-      "date" = readr::col_date(format = switch(format,
-        "default" = "%Y-%m-%d", # ISO
-        "any" = "%AD", # YMD
-        "%x" = "%m/%d/%y", # Python strptime for %x
-        format # Default
-      )),
-      "time" = readr::col_time(format = switch(format,
-        "default" = "%AT", # H(MS)
-        "any" = "%AT", # H(MS)
-        "%X" = "%H:%M:%S", # HMS
-        sub("%S.%f", "%OS", format) # Default, use %OS for milli/microseconds
-      )),
-      "datetime" = readr::col_datetime(format = switch(format,
-        "default" = "", # ISO (lenient)
-        "any" = "", # ISO (lenient)
-        sub("%S.%f", "%OS", format) # Default, use %OS for milli/microseconds
-      )),
-      "year" = readr::col_date(format = "%Y"),
-      "yearmonth" = readr::col_date(format = "%Y-%m"),
-      "duration" = readr::col_character(),
-      "geopoint" = readr::col_character(),
-      "geojson" = readr::col_character(),
-      "any" = readr::col_character()
-    )
-    # col_type will be NULL when type is undefined (NA_character_) or an
-    # unrecognized value (e.g. "datum", but will be blocked by check_schema()).
-    # Set those to col_guess().
-    col_type <- col_type %||% readr::col_guess()
-    col_type
-  })
-
-  # Assign names: list("name1" = <collector_character>, "name2" = ...)
-  names(col_types) <- field_names
+  col_types <- create_col_types(fields, field_names)
 
   # Select CSV dialect, see https://specs.frictionlessdata.io/csv-dialect/
   # Note that dialect can be NULL
