@@ -1,5 +1,6 @@
 # frictionless (development version)
 
+* `read_resource()` now returns error if both `path` and `data` are provided (#143).
 * [checklist](https://github.com/inbo/checklist) tooling was removed, in favour of `CITATION.cff` for citation and Zenodo deposit.
 
 # frictionless 1.1.0
