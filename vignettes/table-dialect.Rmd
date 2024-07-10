@@ -35,7 +35,7 @@ Only properties that deviate from the default need to be specified. E.g. a tab d
 
 When creating a resource from a file, `add_resource()` only sets one Table Dialect property: `delimiter` and only if it deviates from the default `","`.
 
-When creating a resource from a data frame, `add_resource()` does not set any Table Dialect properties. `write_package()` will write this data frame to a CSV file, but does not set any Table Dialect properties either, since only the defaults are used.
+When creating a resource from a data frame, `add_resource()` does not set any Table Dialect properties. `write_package()` writes this data frame to a CSV file, but does not set any Table Dialect properties either, since only the defaults are used.
 
 ## Properties
 
@@ -45,7 +45,7 @@ The following sections describe how frictionless supports the Table Dialect prop
 
 [`delimiter`](https://specs.frictionlessdata.io/csv-dialect/#specification) is supported by `read_resource()` and defaults to `","`. It is passed to `delim` in `readr::read_delim()`.
 
-When creating a resource from a file, `add_resource()` will set `delimiter` based on the provided `delim` (e.g. `","` (default), `"\t"`, etc.).
+When creating a resource from a file, `add_resource()` sets `delimiter` based on the provided `delim` (e.g. `","` (default), `"\t"`, etc.).
 
 ### lineTerminator
 
