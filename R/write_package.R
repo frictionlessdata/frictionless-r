@@ -78,7 +78,7 @@ write_package <- function(package, directory, compress = FALSE) {
     package,
     pretty = TRUE,
     null = "null",
-    na = "string",
+    na = "null",
     auto_unbox = TRUE
   )
   write(package_json, file.path(directory, "datapackage.json"))
