@@ -57,7 +57,7 @@ path <- system.file("extdata", "deployments.csv", package = "frictionless")
 add_resource(x, "deployments", data = path, replace = TRUE)
 ```
 
-`write_package()` will leave originally included resources as is and write newly added as Tabular Data Resources.
+`write_package()` will leave originally included resources as is and write newly added resources as Tabular Data Resources.
 
 ## Properties
 
