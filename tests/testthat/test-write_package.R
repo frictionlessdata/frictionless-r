@@ -328,9 +328,16 @@ test_that("write_package() will gzip file for compress = TRUE", {
   expect_identical(read_resource(p_reread, "new"), dplyr::as_tibble(df))
 })
 
-test_that("write_package() encodes null as null", {
-  p <- example_package
+test_that("write_package() encodes null and NA as null", {
+  p <-
+    example_package %>%
+    add_resource(
+      resource_name = "new",
+      data = data.frame("col_1" = c(1, 2), "col_2" = c("a", "b")),
+      title = NA
+    )
   expect_null(p$image)
+  expect_equal(p$resources[[4]]$title, NA)
 
   dir <- file.path(tempdir(), "package")
   on.exit(unlink(dir, recursive = TRUE))
@@ -338,4 +345,5 @@ test_that("write_package() encodes null as null", {
 
   p_loaded <- read_package(file.path(dir, "datapackage.json"))
   expect_null(p_loaded$image)
+  expect_null(p_loaded$resources[[4]]$title)
 })
