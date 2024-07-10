@@ -30,13 +30,6 @@ x <- example_package
 resources(x)
 ```
 
-You can remove any of those resources with `remove_resource()`:
-
-```{r}
-# Remove resource (but don't assign to x)
-remove_resource(x, "deployments")
-```
-
 Reading the data from a resource with `read_resource()` is limited to [Tabular Data Resources](https://specs.frictionlessdata.io/tabular-data-resource/):
 
 ```{r}
@@ -44,7 +37,14 @@ Reading the data from a resource with `read_resource()` is limited to [Tabular D
 read_resource(x, "deployments")
 ```
 
-### Writing
+### Mutating
+
+You can remove any of those resources with `remove_resource()`:
+
+```{r}
+# Remove resource (but don't assign to x)
+remove_resource(x, "deployments")
+```
 
 When creating or replacing a resource, `add_resource()` only supports Tabular Data Resources. The provided data must therefore be a data frame or a tabular file (e.g. CSV):
 
@@ -56,6 +56,8 @@ add_resource(x, "iris", data = iris)
 path <- system.file("extdata", "deployments.csv", package = "frictionless")
 add_resource(x, "deployments", data = path, replace = TRUE)
 ```
+
+### Writing
 
 `write_package()` will leave originally included resources as is and write newly added resources as Tabular Data Resources.
 
