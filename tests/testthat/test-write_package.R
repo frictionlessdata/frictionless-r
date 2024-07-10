@@ -313,7 +313,10 @@ test_that("write_package() will gzip file for compress = TRUE", {
   p <- example_package
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   p <- add_resource(p, "new", df)
-  dir <- file.path(tempdir(), "package")
+  # If the same path as above is used again, no new argument values will be
+  # passed to the memoised functions within read_resource, and thus, the old
+  # value, wihtout our changes, will be returned.
+  dir <- file.path(tempdir(), "package_new_path")
   on.exit(unlink(dir, recursive = TRUE))
   p_written <- suppressMessages(write_package(p, dir, compress = TRUE))
   resource_written <- p_written$resources[[4]]
@@ -322,8 +325,11 @@ test_that("write_package() will gzip file for compress = TRUE", {
   expect_identical(resource_written$path, "new.csv.gz")
   expect_true(file.exists(file.path(dir, "new.csv.gz")))
   expect_false(file.exists(file.path(dir, "new.csv")))
+  expect_identical(list.files(dir),
+                   c("datapackage.json", "deployments.csv", "new.csv.gz"))
 
   # Written file can be read by read_resource()
   p_reread <- read_package(file.path(dir, "datapackage.json"))
+  expect_length(p_reread$resources, 4)
   expect_identical(read_resource(p_reread, "new"), dplyr::as_tibble(df))
 })
