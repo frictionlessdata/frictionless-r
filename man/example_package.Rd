@@ -5,7 +5,7 @@
 \alias{example_package}
 \title{Example Data Package}
 \format{
-An object of class \code{datapackage} (inherits from \code{list}) of length 7.
+An object of class \code{datapackage} (inherits from \code{list}) of length 8.
 }
 \source{
 \url{https://github.com/frictionlessdata/frictionless-r/tree/main/inst/extdata}
