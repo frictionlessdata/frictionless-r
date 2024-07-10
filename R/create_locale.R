@@ -17,9 +17,6 @@
 create_locale <- function(package, resource_name) {
   encoding <- get_encoding(package, resource_name)
   schema <- get_schema(package, resource_name)
-  # From https://github.com/frictionlessdata/frictionless-r/pull/237/files
-  # To be replaced with get_fields_names().
-  # For every list element within `$fields`
   fields <- purrr::chuck(schema, "fields")
 
   d_chars <- purrr::map_chr(fields, ~ .x$decimalChar %||% NA_character_)
