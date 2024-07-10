@@ -154,7 +154,7 @@ When creating a resource, you can set `description` with `add_resource()` (cf. `
 
 [`format`](https://specs.frictionlessdata.io/data-resource/#format) is ignored by `read_resource()`.
 
-When creating a resource from a file, `add_resource()` will set `format` based on the provided `delim` (`","` (default) = `"csv"`, `"\t"` = `"tsv"`, any other value = `"csv"`).
+When creating a resource from a file, `add_resource()` sets `format` based on the provided `delim` (`","` (default) = `"csv"`, `"\t"` = `"tsv"`, any other value = `"csv"`).
 
 When creating a resource from a data frame, `format` remains undefined until `write_package()` sets it to `"csv"`.
 
