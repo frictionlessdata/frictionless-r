@@ -329,19 +329,13 @@ test_that("write_package() will gzip file for compress = TRUE", {
 })
 
 test_that("write_package() encodes null as null", {
-  p_null <-
-    read_package(
-      system.file(
-        "extdata",
-        "datapackage_with_null.json",
-        package = "frictionless")
-    )
-  expect_null(p_null$resources[[3]]$data$file_path)
+  p <- example_package
+  expect_null(p$image)
 
   dir <- file.path(tempdir(), "package")
   on.exit(unlink(dir, recursive = TRUE))
-  write_package(p_null, dir)
+  write_package(p, dir)
 
   p_loaded <- read_package(file.path(dir, "datapackage.json"))
-  expect_null(p_loaded$resources[[3]]$data$file_path)
+  expect_null(p_loaded$image)
 })
