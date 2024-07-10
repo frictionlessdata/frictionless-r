@@ -25,8 +25,10 @@ test_that("read_package() returns a valid Data Package reading from path", {
 test_that("read_package() returns a valid Data Package reading from url", {
   skip_if_offline()
   # Load example package remotely
-  p_url <- file.path("https://raw.githubusercontent.com/frictionlessdata",
-                     "frictionless-r/main/inst/extdata/datapackage.json")
+  p_url <- file.path(
+    "https://raw.githubusercontent.com/frictionlessdata/frictionless-r/",
+    "main/inst/extdata/datapackage.json"
+  )
   p_remote <- read_package(p_url)
 
   # Returns a list with required properties
