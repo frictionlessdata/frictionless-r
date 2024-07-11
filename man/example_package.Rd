@@ -14,11 +14,10 @@ Reads the example Data Package included in \code{frictionless}.
 This dataset is used in examples, vignettes, and tests and contains dummy
 camera trap data organized in 3 Data Resources:
 \enumerate{
-\item \code{deployments}: local data file referenced in
+\item \code{deployments}: one local data file referenced in
 \code{"path": "deployments.csv"}.
-\item \code{observations}: two remote data files referenced in
-\verb{"path": ["url/to/observations_1.csv", "url/to/observations_2.csv"]}.
-This resource requires an internet connection to be read.
+\item \code{observations}: two local data files referenced in
+\verb{"path": ["observations_1.csv", "observations_2.csv"]}.
 \item \code{media}: inline data stored in \code{data}.
 }
 }
