@@ -59,7 +59,9 @@ test_that("check_package() returns error on missing or incorrect directory", {
   )
   expect_error(
     check_package(list(resources = list())),
-    regexp = "`package` is missing a directory property or it is not a character.",
+    regexp = paste(
+      "`package` is missing a directory property or it is not a character."
+    ),
     fixed = TRUE
   )
   expect_error(

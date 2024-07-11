@@ -23,7 +23,9 @@ test_that("remove_resource() returns error when resource not found", {
   )
   expect_error(
     remove_resource(p, "no_such_resource"),
-    regexp = "Available resources: \"deployments\", \"observations\", and \"media\".",
+    regexp = paste(
+      "Available resources: \"deployments\", \"observations\", and \"media\"."
+    ),
     fixed = TRUE
   )
 })

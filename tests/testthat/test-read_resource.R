@@ -81,7 +81,10 @@ test_that("read_resource() returns error on column selection not in schema", {
   )
   expect_error(
     read_resource(p, "deployments", col_select = "no_such_column"),
-    regexp = "Field names: \"deployment_id\", \"longitude\", \"latitude\", \"start\", and \"comments\".",
+    regexp = paste(
+      "Field names: \"deployment_id\", \"longitude\", \"latitude\", \"start\",",
+      "and \"comments\"."
+    ),
     fixed = TRUE
   )
 
@@ -100,7 +103,10 @@ test_that("read_resource() returns error on column selection not in schema", {
       "deployments",
       col_select = c("no_such_column", "start", "no_such_column_either")
     ),
-    regexp = "Can't find columns \"no_such_column\" and \"no_such_column_either\" in field names.",
+    regexp = paste(
+      "Can't find columns \"no_such_column\" and \"no_such_column_either\" in",
+      "field names."
+    ),
     fixed = TRUE
   )
 })
@@ -269,7 +275,7 @@ test_that("read_resource() can read inline data (ignoring schema)", {
   )
   expect_identical(read_resource(p, "media"), expected_resource)
 
-  p$resources[[3]]$data <- "not_a_list" # Media resource
+  p$resources[[3]]$data <- "not_a_list"
   expect_error(
     read_resource(p, "media"),
     regexp = "second argument must be a list",
@@ -306,6 +312,7 @@ test_that("read_resource() can read safe local and remote Table Schema,
   p <- example_package()
   resource <- read_resource(p, "deployments")
   p$directory <- "."
+
   # Use a remote path, otherwise schema and path need to share same directory
   p$resources[[1]]$path <- file.path(
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
@@ -353,6 +360,7 @@ test_that("read_resource() can read safe local and remote CSV dialect", {
   p <- example_package()
   resource <- read_resource(p, "deployments")
   p$directory <- "."
+
   # Use a remote path, otherwise dialect and path need to share same directory
   p$resources[[1]]$path <- file.path(
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",

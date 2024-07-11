@@ -1,5 +1,6 @@
 test_that("check_schema() returns schema invisibly on valid Table Schema", {
   p <- example_package()
+
   # Can't obtain df using read_resource(), because that function uses
   # check_schema() (in get_schema()) internally, which is what we want to test
   df <- suppressMessages(
@@ -38,7 +39,8 @@ test_that("check_schema() returns error on invalid or empty Table Schema", {
   )
 })
 
-test_that("check_schema() returns error when Table Schema fields don't have names", {
+test_that("check_schema() returns error when Table Schema fields don't have
+           names", {
   # One missing name
   invalid_schema <- list(fields = list(
     list(name = "col_1", type = "number"),
@@ -75,7 +77,8 @@ test_that("check_schema() returns error when Table Schema fields don't have name
   )
 })
 
-test_that("check_schema() returns error when Table Schema fields have invalid types", {
+test_that("check_schema() returns error when Table Schema fields have invalid
+           types", {
   # One invalid types
   invalid_schema <- list(fields = list(
     list(name = "col_1", type = "number"),

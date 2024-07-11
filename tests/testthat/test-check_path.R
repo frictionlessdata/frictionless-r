@@ -31,12 +31,15 @@ test_that("check_path() returns error on absolute path when safe = TRUE", {
   )
   expect_error(
     frictionless:::check_path("/dir/file.txt", safe = TRUE),
-    regexp = "'/dir/file.txt' is an absolute path starting with \"/\" which is unsafe.",
+    regexp = paste(
+      "'/dir/file.txt' is an absolute path starting with \"/\" which is unsafe."
+    ),
     fixed = TRUE
   )
 })
 
-test_that("check_path() returns error on relative parent path when safe = TRUE", {
+test_that("check_path() returns error on relative parent path when safe =
+           TRUE", {
   expect_error(
     check_path("../dir/file.txt", safe = TRUE),
     class = "frictionless_error_path_unsafe_relative"
@@ -48,7 +51,10 @@ test_that("check_path() returns error on relative parent path when safe = TRUE",
   )
   expect_error(
     check_path("../dir/file.txt", safe = TRUE),
-    regexp = "'../dir/file.txt' is a relative parent path starting with \"../\" which is unsafe.",
+    regexp = paste(
+      "'../dir/file.txt' is a relative parent path starting with \"../\" which",
+      "is unsafe."
+    ),
     fixed = TRUE
   )
 })
