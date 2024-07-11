@@ -1,5 +1,4 @@
 test_that("write_package() returns output Data Package (invisibly)", {
-  skip_if_offline()
   p <- example_package()
 
   # Note write_package() is expected to create directory without warning
@@ -46,7 +45,6 @@ test_that("write_package() returns error if Data Package has no resource(s)", {
 })
 
 test_that("write_package() writes unaltered datapackage.json as is", {
-  skip_if_offline()
   p_file <- system.file("extdata", "datapackage.json", package = "frictionless")
   json_original <- readr::read_lines(p_file) # Will use line endings of system
   p <- read_package(p_file)
@@ -216,7 +214,6 @@ test_that("write_package() leaves as is for path = URL in remote package", {
 })
 
 test_that("write_package() leaves as is for data = json in local package", {
-  skip_if_offline()
   p <- example_package()
   dir <- file.path(tempdir(), "package")
   on.exit(unlink(dir, recursive = TRUE))
@@ -250,7 +247,6 @@ test_that("write_package() leaves as is for data = json in remote package", {
 })
 
 test_that("write_package() creates file for data = df in local package", {
-  skip_if_offline()
   p <- example_package()
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   p <- add_resource(p, "new", df)
@@ -317,7 +313,6 @@ test_that("write_package() shows message when downloading file", {
 })
 
 test_that("write_package() sets correct properties for data frame resources", {
-  skip_if_offline()
   p <- example_package()
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   schema <- create_schema(df)
@@ -357,7 +352,6 @@ test_that("write_package() retains custom properties set in add_resource()", {
 })
 
 test_that("write_package() will gzip file for compress = TRUE", {
-  skip_if_offline()
   p <- example_package()
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   p <- add_resource(p, "new", df)
@@ -377,7 +371,6 @@ test_that("write_package() will gzip file for compress = TRUE", {
 })
 
 test_that("write_package() writes NULL and NA as null", {
-  skip_if_offline()
   p <- example_package()
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
 
