@@ -1,11 +1,10 @@
 test_that("resources() returns a character vector of resource names", {
-  skip_if_offline()
   p <- example_package()
   expect_identical(resources(p), c("deployments", "observations", "media"))
 
   # 1 resource
   p <- remove_resource(p, "media")
-  p <- remove_resource(p, "observations") # get_resource() requires connection
+  p <- remove_resource(p, "observations")
   expect_identical(resources(p), c("deployments"))
 
   # 0 resources
