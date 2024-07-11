@@ -1,10 +1,10 @@
 # frictionless (development version)
 
-* `read_resource()` now returns error if both `path` and `data` are provided (#143).
-* [checklist](https://github.com/inbo/checklist) tooling was removed, in favour of `CITATION.cff` for citation and Zenodo deposit.
-* `write_package()` no longer writes to "." by default, since this is not allowed by CRAN policies. The user needs to explicitly define a directory (#205).
-* `write_package()` writes incoming `null` values back to `NULL` in `datapackage.json` (previously empty list). Unchanged: assigned `NA` and `NULL` values are respectively set to `null` and removed (#203).
 * `add_resource()` now allows to replace an existing resource (#227).
+* `read_resource()` now returns error if both `path` and `data` are provided (#143).
+* `write_package()` no longer writes to `"."` by default, since this is not allowed by CRAN policies. The user needs to explicitly define a directory (#205).
+* `write_package()` now writes incoming `null` values back to `NULL` in `datapackage.json`, rather than empty an empty lists. Properties that are assigned `NA` and `NULL` by the user, remain being written as `null` and removed respectively (#203).
+* [checklist](https://github.com/inbo/checklist) tooling was removed, in favour of `CITATION.cff` for citation and Zenodo deposit (#206).
 
 # frictionless 1.1.0
 
