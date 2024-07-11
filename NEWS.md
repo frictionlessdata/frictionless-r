@@ -4,6 +4,7 @@
 * `read_resource()` now returns error if both `path` and `data` are provided (#143).
 * `write_package()` no longer writes to `"."` by default, since this is not allowed by CRAN policies. The user needs to explicitly define a directory (#205).
 * `write_package()` now writes incoming `null` values back to `NULL` in `datapackage.json`, rather than empty an empty lists. Properties that are assigned `NA` and `NULL` by the user, remain being written as `null` and removed respectively (#203).
+* The included dataset `example_package` is removed in favour of the function `example_package()`. This function allows to reproducibly provide a _local Data Package_, while before it needed to be a remote package. The `observations` resource was also changed from a remote to a local resource, allowing the entire example Data Package to be read locally. Examples and tests were updated (#114).
 * [checklist](https://github.com/inbo/checklist) tooling was removed, in favour of `CITATION.cff` for citation and Zenodo deposit (#206).
 
 # frictionless 1.1.0
