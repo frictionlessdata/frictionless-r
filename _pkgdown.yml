@@ -31,4 +31,4 @@ reference:
 - title: "Miscellaneous"
   contents:
   - has_concept("datapackage functions")
-  - example_package
+  - has_concept("sample data")

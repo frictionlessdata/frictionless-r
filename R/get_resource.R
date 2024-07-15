@@ -11,7 +11,7 @@
 #' @noRd
 #' @examples
 #' # Load the example Data Package
-#' package <- example_package
+#' package <- example_package()
 #'
 #' # Get the resource "observations"
 #' resource <- frictionless:::get_resource(package, "observations")

@@ -11,7 +11,7 @@
 #' @export
 #' @examples
 #' # Load the example Data Package
-#' package <- example_package
+#' package <- example_package()
 #'
 #' # Print a summary of the Data Package
 #' package # Or print(package)

@@ -1,5 +1,5 @@
 test_that("read_package() returns a valid Data Package reading from path", {
-  # Load example package locally and a valid minimal one
+  # Load example package and a valid minimal one
   p_path <- system.file("extdata", "datapackage.json", package = "frictionless")
   minimal_path <- test_path("data/valid_minimal.json")
   p_local <- read_package(p_path)
@@ -95,7 +95,7 @@ test_that("read_package() returns error on missing file and properties", {
 
   # No file remotely
   expect_error(
-    read_package("http://example.com/nofile.json"),
+    read_package("https://example.com/nofile.json"),
     class = "frictionless_error_url_not_found"
   )
 })

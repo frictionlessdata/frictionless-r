@@ -1,4 +1,5 @@
-test_that("check_data() returns data invisibly on valid, non-empty data frame", {
+test_that("check_data() returns data invisibly on valid, non-empty data
+           frame", {
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   expect_identical(check_data(df), df)
   expect_invisible(check_data(df))
