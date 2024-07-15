@@ -14,107 +14,108 @@ knitr::opts_chunk$set(
 )
 ```
 
-[Data Resource](https://specs.frictionlessdata.io/data-resource/) (further referred to as "resource") is a simple format to describe a data resource such as a individual table or file, including its name, format, path, etc.
+[Data Resource](https://specs.frictionlessdata.io/data-resource/) (further referred to as "resource") is a simple format to describe a data resource such as an individual table or file, including its name, format, path, etc.
 
 ## Support
 
-### Reading
+frictionless supports reading, manipulating and writing resources, but much of its functionality is restricted to [Tabular Data Resources](https://specs.frictionlessdata.io/tabular-data-resource/).
 
-frictionless can read a Data Package with resources of any type. You can list those with `resources()`:
+### Read
+
+You can list all resources in a Data Package with `resources()`:
 
 ```{r}
 library(frictionless)
-x <- example_package
+package <- example_package()
 
-# List resources
-resources(x)
+# List the resources
+resources(package)
 ```
 
-Reading the data from a resource with `read_resource()` is limited to [Tabular Data Resources](https://specs.frictionlessdata.io/tabular-data-resource/):
+`read_resource()` allows you to read data from a tabular resource to a data frame:
 
 ```{r}
-# Read (tabular) resource
-read_resource(x, "deployments")
+read_resource(package, "deployments")
 ```
 
-### Mutating
+frictionless does not support reading data from non-tabular resources.
 
-You can remove any of those resources with `remove_resource()`:
+### Manipulate
+
+You can remove a resource (of any type) with `remove_resource()`:
 
 ```{r}
-# Remove resource (but don't assign to x)
-remove_resource(x, "deployments")
+# To update package, use package <- remove_resource(package, "deployments")
+remove_resource(package, "deployments")
 ```
 
-When creating or replacing a resource, `add_resource()` only supports Tabular Data Resources. The provided data must therefore be a data frame or a tabular file (e.g. CSV):
+Using `add_resource()`, you can add or replace a resource as long as it is tabular. The provided data must therefore be a data frame or a tabular data file (e.g. CSV):
 
 ```{r}
-# Add (tabular) resource from a data frame (but don't assign to x)
-add_resource(x, "iris", data = iris)
+# Add a resource with data from a data frame
+package <- add_resource(package, "iris", data = iris)
 
-# Replace a (tabular) resource from a file (but don't assign to x)
+# Replace a resource with one where data is stored in a tabular file
 path <- system.file("extdata", "deployments.csv", package = "frictionless")
-add_resource(x, "deployments", data = path, replace = TRUE)
+package <- add_resource(package, "deployments", data = path, replace = TRUE)
 ```
 
-### Writing
+### Write
 
-`write_package()` leaves originally included resources as is and write newly added resources as Tabular Data Resources.
+You can write a Data Package to disk with `write_package()`. This function will create a `datapackage.json` file and CSV files for any newly created resources.
 
 ## Properties
 
-The following sections describe how frictionless supports the Data Package properties.
+The sections below describe how frictionless supports resource properties.
 
 ### name
 
 [`name`](https://specs.frictionlessdata.io/data-resource/#name) is required. It is used to identify a resource in `read_resource()`, `add_resource()` and `remove_resource()` (always as the second argument):
 
 ```{r}
-deployments <- read_resource(x, resource_name = "deployments")
+deployments <- read_resource(package, resource_name = "deployments")
 ```
 
 When creating a resource, `add_resource()` sets `name` to the provided `resource_name`.
 
-### path or data
+### path
 
-[`path`](https://specs.frictionlessdata.io/data-resource/#data-location) or `data` is required. Providing both is not allowed.
+[`path`](https://specs.frictionlessdata.io/data-resource/#data-location) or `data` (see further) is required. Providing both is not allowed.
 
-#### path
-
-`path` is for data in files (e.g. a CSV file). It can be a local path or URL, as long as it resolves. Supported protocols are `http`, `https`, `ftp`, `sftp` and `sftp`. Absolute paths (`/`) or relative parent paths (`../`) are not allowed to avoid security vulnerabilities.
+`path` is for data in files (e.g. a CSV file). It can be a local path or URL. Supported protocols are `http`, `https`, `ftp`, `sftp` and `sftp`. Absolute paths (`/`) or relative parent paths (`../`) are not allowed to avoid security vulnerabilities.
 
 When multiple paths are provided (`"path": ["myfile1.csv", "myfile2.csv"]`), the files are expected to have the same structure. `read_resource()` merges these into a single data frame in the order the paths are provided (using `dplyr::bind_rows()`):
 
 ```{r}
 # The "observations" resource has multiple files in path
-x$resources[[2]]$path
+package$resources[[2]]$path
 # These are combined into a single data frame when reading
-read_resource(x, "observations")
+read_resource(package, "observations")
 ```
 
 When creating a resource from a file, `add_resource()` adds the provided path(s) to `path`.
 
-#### data
+### data
 
-_Note: Support for inline `data` is currently limited, e.g. JSON object and string are not supported. `schema`, `mediatype` and `format` are also ignored._
+_Note: Support for inline `data` is currently limited, e.g. JSON object and string are not supported and `schema`, `mediatype` and `format` are ignored._
 
 `data` is for inline data (included in the `datapackage.json`). `read_resource()` attempts to read `data` if it is provided as a JSON array:
 
 ```{r}
 # The "media" resource has inline data
-str(x$resources[[3]]$data)
-read_resource(x, "media")
+str(package$resources[[3]]$data)
+read_resource(package, "media")
 ```
 
 When creating a resource from a data frame, `add_resource()` (temporarily) adds the data frame to `data`:
 
 ```{r}
 df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
-x <- add_resource(x, "df", df)
-x$resources[[4]]$data
+package <- add_resource(package, "df", df)
+package$resources[[5]]$data
 ```
 
-`write_package()` writes the data frame to a CSV file, add its `path` and remove `data`.
+`write_package()` writes the data frame to a CSV file, adds its `path` and removes `data`.
 
 <!-- ### type -->
 
@@ -138,10 +139,16 @@ See `vignette("table-dialect")`.
 
 [`title`](https://specs.frictionlessdata.io/data-resource/#optional-properties) is ignored by `read_resource()`.
 
-When creating a resource, you can set `title` with `add_resource()`:
+When creating or replacing a resource, you can set `title` with `add_resource()`:
 
 ```{r}
-x <- add_resource(x, "iris", iris, title = "Edgar Anderson's Iris Data")
+package <- add_resource(
+  package,
+  "iris",
+  iris,
+  title = "Edgar Anderson's Iris Data",
+  replace = TRUE
+)
 ```
 
 ### description

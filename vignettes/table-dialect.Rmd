@@ -18,28 +18,32 @@ knitr::opts_chunk$set(
 
 ## Support
 
-### Reading
+frictionless supports dialect to correctly interpret [Tabular Data Resources](https://specs.frictionlessdata.io/tabular-data-resource/).
 
-frictionless uses Table Dialect to correctly read [Tabular Data Resources](https://specs.frictionlessdata.io/tabular-data-resource/) with `read_resource()`.
+### Read
 
-Only properties that deviate from the default need to be specified. E.g. a tab delimited file without header rows needs to define the `dialect` property in its Data Resource, with:
+`read_resource()` uses the `dialect` property of a resource (see `vignette("data-resource")`) to correctly interpret a tabular data file. Only properties that deviate from the default need to be specified. E.g. a tab-delimited file without header rows should have the following dialect:
 
 ```json
 "dialect": {
   "delimiter": "\t",
-  "header": "false"
+  "header": false
 }
 ```
 
-### Writing
+### Manipulate
 
-When creating a resource from a file, `add_resource()` only sets one Table Dialect property: `delimiter` and only if it deviates from the default `","`.
+frictionless does not support direct manipulation of the dialect. Its properties are set when writing.
 
-When creating a resource from a data frame, `add_resource()` does not set any Table Dialect properties. `write_package()` writes this data frame to a CSV file, but does not set any Table Dialect properties either, since only the defaults are used.
+### Write
+
+When creating a resource from a file, `add_resource()` only sets one dialect property: `delimiter` and only if it deviates from the default `","`.
+
+When creating a resource from a data frame, `add_resource()` does not set any dialect properties. `write_package()` writes this data frame to a CSV file, but does not set any dialect properties either, since only the defaults are used.
 
 ## Properties
 
-The following sections describe how frictionless supports the Table Dialect properties.
+The sections below describe how frictionless supports dialect properties.
 
 ### delimiter
 
