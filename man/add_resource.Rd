@@ -64,7 +64,7 @@ The resource name can only contain lowercase alphanumeric characters plus
 }
 \examples{
 # Load the example Data Package
-package <- example_package
+package <- example_package()
 
 # List the resources
 resources(package)

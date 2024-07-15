@@ -11,7 +11,7 @@
 #' @noRd
 #' @examples
 #' # Load the example Data Package
-#' package <- example_package
+#' package <- example_package()
 #'
 #' # Get the resource "observations"
 #' resource <- frictionless:::get_resource(package, "observations")
@@ -42,6 +42,15 @@ get_resource <- function(package, resource_name) {
       "Resource {.val {resource_name}} must have a {.field path} or
       {.field data} property.",
       class = "frictionless_error_resource_without_path_data"
+    )
+  }
+
+  # Check that either data or path is set, not both
+  if (all(c("data", "path") %in% names(resource))) {
+    cli::cli_abort(
+      "Resource {.val {resource_name}} must have a {.field path} or
+       {.field data} property, not both.",
+      class = "frictionless_error_resource_both_path_data"
     )
   }
 

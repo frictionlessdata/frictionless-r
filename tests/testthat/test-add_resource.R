@@ -1,5 +1,5 @@
 test_that("add_resource() returns a valid Data Package", {
-  p <- example_package
+  p <- example_package()
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   df_csv <- test_path("data/df.csv")
   schema <- create_schema(df)
@@ -21,7 +21,7 @@ test_that("add_resource() returns error on invalid Data Package", {
 
 test_that("add_resource() returns error when resource name contains invalid
            characters", {
-  p <- example_package
+  p <- example_package()
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
 
   # Invalid names
@@ -72,7 +72,7 @@ test_that("add_resource() returns error when resource name contains invalid
 })
 
 test_that("add_resource() returns error when replace is not a logical value", {
-  p <- example_package
+  p <- example_package()
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   expect_error(
     add_resource(p, "new_resource", df, replace = "not_a_logical"),
@@ -88,7 +88,7 @@ test_that("add_resource() returns error when replace is not a logical value", {
 
 test_that("add_resource() returns error when resource of that name already
            exists (for default replace = FALSE)", {
-  p <- example_package
+  p <- example_package()
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   expect_error(
     add_resource(p, "deployments", df),
@@ -108,7 +108,7 @@ test_that("add_resource() returns error when resource of that name already
 
 test_that("add_resource() returns error when data is not data frame or
            character", {
-  p <- example_package
+  p <- example_package()
   expect_error(
     add_resource(p, "new", list()),
     class = "frictionless_error_data_type_invalid"
@@ -121,7 +121,7 @@ test_that("add_resource() returns error when data is not data frame or
 })
 
 test_that("add_resource() returns error on invalid or empty data frame", {
-  p <- example_package
+  p <- example_package()
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   schema <- create_schema(df)
   expect_error(
@@ -138,7 +138,7 @@ test_that("add_resource() returns error on invalid or empty data frame", {
 
 test_that("add_resource() returns error if CSV file cannot be found", {
   skip_if_offline()
-  p <- example_package
+  p <- example_package()
   df_csv <- test_path("data/df.csv")
   schema <- create_schema(data.frame("col_1" = c(1, 2), "col_2" = c("a", "b")))
   expect_error(
@@ -162,13 +162,13 @@ test_that("add_resource() returns error if CSV file cannot be found", {
     class = "frictionless_error_path_not_found"
   )
   expect_error(
-    add_resource(p, "new", "http://example.com/no_such_file.csv"),
+    add_resource(p, "new", "https://example.com/no_such_file.csv"),
     class = "frictionless_error_url_not_found"
   )
 })
 
 test_that("add_resource() returns error on mismatching schema and data", {
-  p <- example_package
+  p <- example_package()
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   df_csv <- test_path("data/df.csv")
   schema_invalid <- create_schema(df) # Not yet invalid
@@ -239,7 +239,7 @@ test_that("add_resource() returns error if ... arguments are reserved", {
 })
 
 test_that("add_resource() adds resource", {
-  p <- example_package
+  p <- example_package()
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   df_csv <- test_path("data/df.csv")
 
@@ -267,7 +267,7 @@ test_that("add_resource() adds resource", {
 })
 
 test_that("add_resource() can replace an existing resource", {
-  p <- example_package
+  p <- example_package()
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   expect_no_error(
     add_resource(p, "deployments", df, replace = TRUE)
@@ -312,7 +312,7 @@ test_that("add_resource() uses provided schema (list or path) or creates one", {
 
 test_that("add_resource() can add resource from data frame, readable by
            read_resource()", {
-  p <- example_package
+  p <- example_package()
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   p <- add_resource(p, "new", df)
   expect_identical(read_resource(p, "new"), dplyr::as_tibble(df))
@@ -321,7 +321,7 @@ test_that("add_resource() can add resource from data frame, readable by
 test_that("add_resource() can add resource from local, relative, absolute,
            remote or compressed CSV file, readable by read_resource()", {
   skip_if_offline()
-  p <- example_package
+  p <- example_package()
   schema <- get_schema(p, "deployments")
 
   # Local
