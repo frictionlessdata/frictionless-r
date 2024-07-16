@@ -34,6 +34,18 @@
 #'   schema,
 #'   locale
 #' )
+#'
+#' # Select only some columns
+#' colselect <- c("observation_id", "deployment_id")
+#' frictionless:::read_from_path(
+#'   path,
+#'   dialect,
+#'   field_names,
+#'   col_types,
+#'   col_select,
+#'   schema,
+#'   locale
+#' )
 read_from_path <- function(x,
                            dialect,
                            field_names,
