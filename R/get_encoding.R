@@ -11,7 +11,7 @@
 #' @noRd
 #' @examples
 #' # Load the example Data Package
-#' package <- example_package
+#' package <- example_package()
 #'
 #' # Get encoding of resource "observations"
 #' frictionless:::get_encoding(package, resource_name = "observations")

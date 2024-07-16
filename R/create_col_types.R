@@ -10,7 +10,7 @@
 #' @noRd
 #' @examples
 #' # Load the example Data Package
-#' package <- example_package
+#' package <- example_package()
 #'
 #' # Create col types for the resource "observations"
 #' frictionless:::create_col_types(package, "observations")
@@ -36,7 +36,7 @@ create_col_types <- function(package, resource_name) {
 #' @noRd
 #' @examples
 #' # Load the example Data Package
-#' package <- example_package
+#' package <- example_package()
 #' schema <- get_schema(package, "observations")
 #' fields <- schema$fields
 #' # Create col type for first field (string)

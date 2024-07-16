@@ -10,7 +10,7 @@
 #' @noRd
 #' @examples
 #' # Load the example Data Package
-#' package <- example_package
+#' package <- example_package()
 #'
 #' # Create locale of resource "observations"
 #' frictionless:::create_locale(package, resource_name = "observations")

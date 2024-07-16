@@ -12,7 +12,7 @@
 #' @noRd
 #' @examples
 #' # Load the example Data Package
-#' package <- example_package
+#' package <- example_package()
 #'
 #' # Get the path to a Resource
 #' path <- frictionless:::get_resource(package, "observations")$path[1]
