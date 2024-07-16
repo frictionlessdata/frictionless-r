@@ -1,5 +1,5 @@
 test_that("print() returns output invisibly", {
-  expect_output(output <- withVisible(print(example_package)))
+  expect_output(output <- withVisible(print(example_package())))
   expect_false(output$visible)
 })
 
@@ -7,7 +7,7 @@ test_that("print() informs about the resources and unclass()", {
   unclass_message <- "Use `unclass()` to print the Data Package as a list."
 
   # 3 resources (example package)
-  p <- example_package
+  p <- example_package()
   expect_output(
     print(p),
     regexp = paste(

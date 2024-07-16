@@ -21,7 +21,7 @@ from a Data Package, i.e. it removes one of the described \code{resources}.
 }
 \examples{
 # Load the example Data Package
-package <- example_package
+package <- example_package()
 
 # List the resources
 resources(package)

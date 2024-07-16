@@ -18,7 +18,7 @@ Lists the names of the Data Resources included in a Data Package.
 }
 \examples{
 # Load the example Data Package
-package <- example_package
+package <- example_package()
 
 # List the resources
 resources(package)
