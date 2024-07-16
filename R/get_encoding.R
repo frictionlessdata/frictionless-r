@@ -16,6 +16,8 @@
 #' # Get encoding of resource "observations"
 #' frictionless:::get_encoding(package, resource_name = "observations")
 get_encoding <- function(package, resource_name) {
+  # Get resource
+  resource <- get_resource(package, resource_name)
   encoding <- resource$encoding %||% "UTF-8" # Set default to UTF-8
   if (!tolower(encoding) %in% tolower(iconvlist())) {
     cli::cli_warn(
