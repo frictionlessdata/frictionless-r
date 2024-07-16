@@ -63,7 +63,7 @@ read_from_path <- function(x,
     col_types = col_types,
     # Use rlang {{}} to avoid `col_select` to be interpreted as the name of
     # a column, see https://rlang.r-lib.org/reference/topic-data-mask.html
-    col_select = if (is.null(col_select)) NULL else {{ col_select }},
+    col_select = {{ col_select }},
     locale = locale,
     na = schema$missingValues %||% "",
     comment = dialect$commentChar %||% "",
