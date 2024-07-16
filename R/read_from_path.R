@@ -53,6 +53,7 @@ read_from_path <- function(x,
     dialect$doubleQuote %||% TRUE
   }
   skip <- if (dialect$header %||% TRUE) 1 else 0
+  col_select <- col_select
   readr::read_delim(
     file = x,
     delim = dialect$delimiter %||% ",",
