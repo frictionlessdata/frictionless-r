@@ -8,10 +8,11 @@
 #' @family read functions
 #' @noRd
 locale <- function(package, resource_name) {
+  resource <- get_resource(package, resource_name)
   schema <- get_schema(package, resource_name)
   fields <- schema$fields
 
-  # Decimal mark
+  # Set decimal mark
   d_chars <- purrr::map_chr(fields, ~ .x$decimalChar %||% NA_character_)
   d_chars <- unique_sorted(d_chars)
   if (length(d_chars) == 0 || (length(d_chars) == 1 && d_chars[1] == ".")) {
@@ -25,7 +26,7 @@ locale <- function(package, resource_name) {
     )
   }
 
-  # Grouping mark
+  # Set grouping mark
   g_chars <- purrr::map_chr(fields, ~ .x$groupChar %||% NA_character_)
   g_chars <- unique_sorted(g_chars)
   if (length(g_chars) == 0 || (length(g_chars) == 1 && g_chars[1] == "")) {
@@ -39,8 +40,16 @@ locale <- function(package, resource_name) {
     )
   }
 
-  # Encoding
-  encoding <- get_encoding(package, resource_name)
+  # Set encoding
+  encoding <- resource$encoding %||% "UTF-8" # Set default to UTF-8
+  if (!tolower(encoding) %in% tolower(iconvlist())) {
+    cli::cli_warn(
+      "Unknown encoding {.field {encoding}}. Reading file(s) with UTF-8
+       encoding.",
+      class = "frictionless_warning_resource_encoding_unknown"
+    )
+    encoding <- "UTF-8"
+  }
 
   readr::locale(
     decimal_mark = decimal_mark,

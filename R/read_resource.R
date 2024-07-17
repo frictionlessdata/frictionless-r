@@ -222,7 +222,7 @@ read_resource <- function(package, resource_name, col_select = NULL) {
     )
   }
 
-  # Create locale with encoding, decimal_mark and grouping_mark
+  # Create locale with decimal_mark, grouping_mark and encoding
   locale <- locale(package, resource_name)
 
   # Create col_types: list(<collector_character>, <collector_logical>, ...)
