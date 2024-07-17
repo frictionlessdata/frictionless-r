@@ -5,7 +5,7 @@
 #'
 #' @inheritParams read_resource
 #' @return A [readr::locale()] object.
-#' @family read functions
+#' @family parse functions
 #' @noRd
 locale <- function(package, resource_name) {
   resource <- get_resource(package, resource_name)

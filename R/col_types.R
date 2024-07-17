@@ -1,6 +1,7 @@
 #' Create a column specification for a Table Schema
 #'
 #' Creates a [readr::cols()] for all fields in a Table Schema.
+#'
 #' @inheritParams check_schema
 #' @return A [readr::cols()] object.
 #' @family parse functions
@@ -24,49 +25,40 @@ cols <- function(schema) {
   )
 }
 
-#' Create column type for reading a specific field of a Data Resource.
+#' Create a column specification for a field in Table Schema
 #'
-#' Create a readr column type for reading a [Data
-#' Resource](https://specs.frictionlessdata.io/data-resource/) (in a Data
-#' Package) based on the schema's field.
+#' Creates a column specification for a specific field in a Table Schema.
 #'
-#' @param x Field from resource's schema.
-#' @return A readr column type.
-#' @family helper functions
+#' @param field Field in a Table schema.
+#' @return A readr collector.
+#' @family parse functions
 #' @noRd
-#' @examples
-#' # Load the example Data Package
-#' package <- example_package()
-#' schema <- get_schema(package, "observations")
-#' fields <- schema$fields
-#' # Create col type for first field (string)
-#' frictionless:::field_to_col(fields[[1]])
-#' # Create col type for third field (datetime)
-#' frictionless:::field_to_col(fields[[3]])
-field_to_col <- function(x) {
-  type <- x$type %||% NA_character_
-  enum <- x$constraints$enum
-  group_char <- if (x$groupChar %||% "" != "") TRUE else FALSE
-  bare_number <- if (x$bareNumber %||% "" != FALSE) TRUE else FALSE
-  format <- x$format %||% "default" # Undefined => default
+field_to_col <- function(field) {
+  # Get field properties
+  type <- field$type %||% NA_character_
+  enum <- field$constraints$enum
+  group_char <- if (field$groupChar %||% "" != "") TRUE else FALSE
+  bare_number <- if (field$bareNumber %||% "" != FALSE) TRUE else FALSE
+  format <- field$format %||% "default" # Undefined => default
 
   # Assign types and formats
-  col_type <- switch(type,
-                     "string" = col_string(enum),
-                     "number" = col_number(enum, group_char, bare_number),
-                     "integer" = col_integer(enum, bare_number),
-                     "boolean" = readr::col_logical(),
-                     "object" = readr::col_character(),
-                     "array" = readr::col_character(),
-                     "date" = col_date(format),
-                     "time" = col_time(format),
-                     "datetime" = col_datetime(format),
-                     "year" = readr::col_date(format = "%Y"),
-                     "yearmonth" = readr::col_date(format = "%Y-%m"),
-                     "duration" = readr::col_character(),
-                     "geopoint" = readr::col_character(),
-                     "geojson" = readr::col_character(),
-                     "any" = readr::col_character()
+  col_type <- switch(
+    type,
+    "string" = col_string(enum),
+    "number" = col_number(enum, group_char, bare_number),
+    "integer" = col_integer(enum, bare_number),
+    "boolean" = readr::col_logical(),
+    "object" = readr::col_character(),
+    "array" = readr::col_character(),
+    "date" = col_date(format),
+    "time" = col_time(format),
+    "datetime" = col_datetime(format),
+    "year" = readr::col_date(format = "%Y"),
+    "yearmonth" = readr::col_date(format = "%Y-%m"),
+    "duration" = readr::col_character(),
+    "geopoint" = readr::col_character(),
+    "geojson" = readr::col_character(),
+    "any" = readr::col_character()
   )
   # col_type will be NULL when type is undefined (NA_character_) or an
   # unrecognized value (e.g. "datum", but will be blocked by check_schema()).
