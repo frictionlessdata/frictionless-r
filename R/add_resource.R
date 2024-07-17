@@ -1,10 +1,9 @@
 #' Add a Data Resource
 #'
-#' Adds a Tabular [Data
-#' Resource](https://specs.frictionlessdata.io/data-resource/) to a Data
-#' Package.
-#' The resource will be a [Tabular Data
-#' Resource](https://specs.frictionlessdata.io/tabular-data-resource/).
+#' Adds a [Data Resource](https://specs.frictionlessdata.io/data-resource/) to a
+#' Data Package.
+#' The resource will be a [Tabular Data Resource](
+#' https://specs.frictionlessdata.io/tabular-data-resource/).
 #' The resource name can only contain lowercase alphanumeric characters plus
 #' `.`, `-` and `_`.
 #'

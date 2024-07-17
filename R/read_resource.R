@@ -1,10 +1,10 @@
 #' Read data from a Data Resource into a tibble data frame
 #'
-#' Reads data from a [Data
-#' Resource](https://specs.frictionlessdata.io/data-resource/) (in a Data
-#' Package) into a tibble (a Tidyverse data frame).
-#' The resource must be a [Tabular Data
-#' Resource](https://specs.frictionlessdata.io/tabular-data-resource/).
+#' Reads data from a [Data Resource](
+#' https://specs.frictionlessdata.io/data-resource/) (in a Data Package) into a
+#' tibble (a Tidyverse data frame).
+#' The resource must be a [Tabular Data Resource](
+#' https://specs.frictionlessdata.io/tabular-data-resource/).
 #' The function uses [readr::read_delim()] to read CSV files, passing the
 #' resource properties `path`, CSV dialect, column names, data types, etc.
 #' Column names are taken from the provided Table Schema (`schema`), not from
@@ -23,9 +23,8 @@
 #' @family read functions
 #' @export
 #' @section Resource properties:
-#' The [Data Resource
-#' properties](https://specs.frictionlessdata.io/data-resource/) are handled as
-#' follows:
+#' The [Data Resource properties](
+#' https://specs.frictionlessdata.io/data-resource/) are handled as follows:
 #'
 #' ## Path
 #'
@@ -52,22 +51,22 @@
 #'
 #' ## Profile
 #'
-#' `profile` is
-#' [required](https://specs.frictionlessdata.io/tabular-data-resource/#specification)
-#' to have the value `tabular-data-resource`.
+#' `profile` is [required](
+#' https://specs.frictionlessdata.io/tabular-data-resource/#specification) to
+#' have the value `tabular-data-resource`.
 #'
 #' ## File encoding
 #'
-#' `encoding` (e.g. `windows-1252`) is
-#' [required](https://specs.frictionlessdata.io/data-resource/#optional-properties)
-#' if the resource file(s) is not encoded as UTF-8.
+#' `encoding` (e.g. `windows-1252`) is [required](
+#' https://specs.frictionlessdata.io/data-resource/#optional-properties) if the
+#' resource file(s) is not encoded as UTF-8.
 #' The returned data frame will always be UTF-8.
 #'
 #' ## CSV Dialect
 #'
-#' `dialect` properties are
-#' [required](https://specs.frictionlessdata.io/csv-dialect/#specification) if
-#' the resource file(s) deviate from the default CSV settings (see below).
+#' `dialect` properties are [required](
+#' https://specs.frictionlessdata.io/csv-dialect/#specification) if the resource
+#' file(s) deviate from the default CSV settings (see below).
 #' It can either be a JSON object or a path or URL referencing a JSON object.
 #' Only deviating properties need to be specified, e.g. a tab delimited file
 #' without a header row needs:
@@ -101,8 +100,8 @@
 #' functionality.
 #' Only `.gz` files can be read directly from URL `path`s.
 #' Only the extension in `path` can be used to indicate compression type,
-#' the `compression` property is
-#' [ignored](https://specs.frictionlessdata.io/patterns/#specification-3).
+#' the `compression` property is [ignored](
+#' https://specs.frictionlessdata.io/patterns/#specification-3).
 #'
 #' ## Ignored resource properties
 #'
@@ -115,14 +114,15 @@
 #' - `sources`
 #' - `licenses`
 #' @section Table schema properties:
-#' `schema` is required and must follow the [Table
-#' Schema](https://specs.frictionlessdata.io/table-schema/) specification.
+#' `schema` is required and must follow the [Table Schema](
+#' https://specs.frictionlessdata.io/table-schema/) specification.
 #' It can either be a JSON object or a path or URL referencing a JSON object.
 #'
 #' - Field `name`s are used as column headers.
 #' - Field `type`s are use as column types (see further).
-#' - [`missingValues`](https://specs.frictionlessdata.io/table-schema/#missing-values)
-#'   are used to interpret as `NA`, with `""` as default.
+#' - [`missingValues`](
+#'   https://specs.frictionlessdata.io/table-schema/#missing-values) are used to
+#'   interpret as `NA`, with `""` as default.
 #'
 #' ## Field types
 #'
@@ -150,14 +150,16 @@
 #'   `character`.
 #' - [date](https://specs.frictionlessdata.io/table-schema/#date) as `date`.
 #'   Supports `format`, with values `default` (ISO date), `any` (guess `ymd`)
-#'   and [Python/C strptime](https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior)
+#'   and [Python/C strptime](
+#'   https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior)
 #'   patterns, such as `%a, %d %B %Y` for `Sat, 23 November 2013`.
 #'   `%x` is `%m/%d/%y`.
 #'   `%j`, `%U`, `%w` and `%W` are not supported.
 #' - [time](https://specs.frictionlessdata.io/table-schema/#time) as
 #'   [hms::hms()].
 #'   Supports `format`, with values `default` (ISO time), `any` (guess `hms`)
-#'   and [Python/C strptime](https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior)
+#'   and [Python/C strptime](
+#'   https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior)
 #'   patterns, such as `%I%p%M:%S.%f%z` for `8AM30:00.300+0200`.
 #' - [datetime](https://specs.frictionlessdata.io/table-schema/#datetime) as
 #'   `POSIXct`.

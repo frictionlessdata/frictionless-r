@@ -56,8 +56,8 @@ The following properties are automatically set and can't be provided with
 Provided \code{package} with one additional resource.
 }
 \description{
-Adds a Tabular \href{https://specs.frictionlessdata.io/data-resource/}{Data Resource} to a Data
-Package.
+Adds a \href{https://specs.frictionlessdata.io/data-resource/}{Data Resource} to a
+Data Package.
 The resource will be a \href{https://specs.frictionlessdata.io/tabular-data-resource/}{Tabular Data Resource}.
 The resource name can only contain lowercase alphanumeric characters plus
 \code{.}, \code{-} and \verb{_}.

@@ -1,7 +1,7 @@
 #' Get a Data Resource
 #'
-#' Returns a [Data Resource](https://specs.frictionlessdata.io/data-resource/)
-#' from a Data Package, i.e. the content of one of the described `resources`.
+#' Returns a Data Resource from a Data Package, i.e. the content of one of the
+#' described `resources`.
 #'
 #' @inheritParams read_resource
 #' @return List describing a Data Resource, with new property `read_from` to

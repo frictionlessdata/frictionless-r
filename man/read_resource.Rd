@@ -23,8 +23,8 @@ You can retrieve the full details by calling \code{\link[=problems]{problems()}}
 frame.
 }
 \description{
-Reads data from a \href{https://specs.frictionlessdata.io/data-resource/}{Data Resource} (in a Data
-Package) into a tibble (a Tidyverse data frame).
+Reads data from a \href{https://specs.frictionlessdata.io/data-resource/}{Data Resource} (in a Data Package) into a
+tibble (a Tidyverse data frame).
 The resource must be a \href{https://specs.frictionlessdata.io/tabular-data-resource/}{Tabular Data Resource}.
 The function uses \code{\link[readr:read_delim]{readr::read_delim()}} to read CSV files, passing the
 resource properties \code{path}, CSV dialect, column names, data types, etc.
@@ -33,8 +33,7 @@ the header in the CSV file(s).
 }
 \section{Resource properties}{
 
-The \href{https://specs.frictionlessdata.io/data-resource/}{Data Resource properties} are handled as
-follows:
+The \href{https://specs.frictionlessdata.io/data-resource/}{Data Resource properties} are handled as follows:
 \subsection{Path}{
 
 \href{https://specs.frictionlessdata.io/data-resource/#data-location}{\code{path}} is
@@ -63,24 +62,21 @@ It is used to find the resource with \code{name} = \code{resource_name}.
 
 \subsection{Profile}{
 
-\code{profile} is
-\href{https://specs.frictionlessdata.io/tabular-data-resource/#specification}{required}
-to have the value \code{tabular-data-resource}.
+\code{profile} is \href{https://specs.frictionlessdata.io/tabular-data-resource/#specification}{required} to
+have the value \code{tabular-data-resource}.
 }
 
 \subsection{File encoding}{
 
-\code{encoding} (e.g. \code{windows-1252}) is
-\href{https://specs.frictionlessdata.io/data-resource/#optional-properties}{required}
-if the resource file(s) is not encoded as UTF-8.
+\code{encoding} (e.g. \code{windows-1252}) is \href{https://specs.frictionlessdata.io/data-resource/#optional-properties}{required} if the
+resource file(s) is not encoded as UTF-8.
 The returned data frame will always be UTF-8.
 }
 
 \subsection{CSV Dialect}{
 
-\code{dialect} properties are
-\href{https://specs.frictionlessdata.io/csv-dialect/#specification}{required} if
-the resource file(s) deviate from the default CSV settings (see below).
+\code{dialect} properties are \href{https://specs.frictionlessdata.io/csv-dialect/#specification}{required} if the resource
+file(s) deviate from the default CSV settings (see below).
 It can either be a JSON object or a path or URL referencing a JSON object.
 Only deviating properties need to be specified, e.g. a tab delimited file
 without a header row needs:
@@ -117,8 +113,7 @@ automatically decompressed using default \code{\link[readr:read_delim]{readr::re
 functionality.
 Only \code{.gz} files can be read directly from URL \code{path}s.
 Only the extension in \code{path} can be used to indicate compression type,
-the \code{compression} property is
-\href{https://specs.frictionlessdata.io/patterns/#specification-3}{ignored}.
+the \code{compression} property is \href{https://specs.frictionlessdata.io/patterns/#specification-3}{ignored}.
 }
 
 \subsection{Ignored resource properties}{
@@ -142,8 +137,8 @@ It can either be a JSON object or a path or URL referencing a JSON object.
 \itemize{
 \item Field \code{name}s are used as column headers.
 \item Field \code{type}s are use as column types (see further).
-\item \href{https://specs.frictionlessdata.io/table-schema/#missing-values}{\code{missingValues}}
-are used to interpret as \code{NA}, with \code{""} as default.
+\item \href{https://specs.frictionlessdata.io/table-schema/#missing-values}{\code{missingValues}} are used to
+interpret as \code{NA}, with \code{""} as default.
 }
 \subsection{Field types}{
 
