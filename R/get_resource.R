@@ -15,11 +15,11 @@ get_resource <- function(package, resource_name) {
 
   # Check resource
   resource_names <- resources(package)
-  if (!resource_name %in% resources(package)) {
+  if (!resource_name %in% resource_names) {
     cli::cli_abort(
       c(
         "Can't find resource {.val {resource_name}} in {.arg package}.",
-        "i" = "Available resource{?s}: {.val {resources(package)}}."
+        "i" = "Available resource{?s}: {.val {resource_names}}."
       ),
       class = "frictionless_error_resource_not_found"
     )
