@@ -1,24 +1,17 @@
-#' Create locale for reading a Data Resource
+#' Create locale for a Data Resource
 #'
-#' Create a [readr::locale()] object for reading a [Data
-#' Resource](https://specs.frictionlessdata.io/data-resource/) (in a Data
-#' Package) with the correct encoding, decimal and grouping mark.
+#' Creates a [readr::locale()] object for a Data Resource, with the specified
+#' `decimal_mark`, `grouping_mark` and `encoding`.
 #'
-#' @param resource Resource.
-#' @param fields Fields from schema of the resource.
-#' @family helper functions
+#' @inheritParams read_resource
+#' @return A [readr::locale()] object.
+#' @family read functions
 #' @noRd
-#' @examples
-#' # Load the example Data Package
-#' package <- example_package()
-#'
-#' # Create locale of resource "observations"
-#' frictionless:::locale(package, resource_name = "observations")
 locale <- function(package, resource_name) {
-  encoding <- get_encoding(package, resource_name)
   schema <- get_schema(package, resource_name)
-  fields <- purrr::chuck(schema, "fields")
+  fields <- schema$fields
 
+  # Decimal mark
   d_chars <- purrr::map_chr(fields, ~ .x$decimalChar %||% NA_character_)
   d_chars <- unique_sorted(d_chars)
   if (length(d_chars) == 0 || (length(d_chars) == 1 && d_chars[1] == ".")) {
@@ -27,10 +20,12 @@ locale <- function(package, resource_name) {
     decimal_mark <- d_chars[1]
     cli::cli_warn(
       "Some fields define a non-default {.field decimalChar}. Parsing all number
-           fields with {.val {d_chars[1]}} as decimal mark.",
+       fields with {.val {d_chars[1]}} as decimal mark.",
       class = "frictionless_warning_fields_decimalchar_different"
     )
   }
+
+  # Grouping mark
   g_chars <- purrr::map_chr(fields, ~ .x$groupChar %||% NA_character_)
   g_chars <- unique_sorted(g_chars)
   if (length(g_chars) == 0 || (length(g_chars) == 1 && g_chars[1] == "")) {
@@ -39,13 +34,17 @@ locale <- function(package, resource_name) {
     grouping_mark <- g_chars[1]
     cli::cli_warn(
       "Some fields define a non-default {.field groupChar}. Parsing all number
-           fields with {.val {g_chars[1]}} as grouping mark.",
+       fields with {.val {g_chars[1]}} as grouping mark.",
       class = "frictionless_warning_fields_groupchar_different"
     )
   }
+
+  # Encoding
+  encoding <- get_encoding(package, resource_name)
+
   readr::locale(
-    encoding = encoding,
     decimal_mark = decimal_mark,
-    grouping_mark = grouping_mark
+    grouping_mark = grouping_mark,
+    encoding = encoding
   )
 }
