@@ -7,7 +7,7 @@
 #'   [create_package()].
 #' @param ... Further arguments, they are ignored by this function.
 #' @return [print()] with a summary of the Data Package object.
-#' @family datapackage functions
+#' @family print functions
 #' @export
 #' @examples
 #' # Load the example Data Package

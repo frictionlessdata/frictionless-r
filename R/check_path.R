@@ -11,7 +11,7 @@
 #' @param safe Require `path` to be safe, i.e. no absolute or relative parent
 #'   paths.
 #' @return Absolute path or URL.
-#' @family helper functions
+#' @family check functions
 #' @noRd
 check_path <- function(path, directory = NULL, safe = FALSE) {
   # Process path
