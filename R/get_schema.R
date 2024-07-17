@@ -9,7 +9,7 @@
 #'
 #' @inheritParams read_resource
 #' @return List describing a Table Schema.
-#' @family edit functions
+#' @family accessor functions
 #' @export
 #' @examples
 #' # Load the example Data Package

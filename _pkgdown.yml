@@ -31,4 +31,5 @@ reference:
 - title: "Miscellaneous"
   contents:
   - has_concept("datapackage functions")
+  - has_concept("accessor functions")
   - has_concept("sample data")

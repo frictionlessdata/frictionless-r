@@ -34,7 +34,6 @@ resources(package)
 }
 \seealso{
 Other edit functions: 
-\code{\link{add_resource}()},
-\code{\link{get_schema}()}
+\code{\link{add_resource}()}
 }
 \concept{edit functions}

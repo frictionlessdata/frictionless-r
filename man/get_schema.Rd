@@ -30,9 +30,4 @@ package <- example_package()
 schema <- get_schema(package, "observations")
 str(schema)
 }
-\seealso{
-Other edit functions: 
-\code{\link{add_resource}()},
-\code{\link{remove_resource}()}
-}
-\concept{edit functions}
+\concept{accessor functions}

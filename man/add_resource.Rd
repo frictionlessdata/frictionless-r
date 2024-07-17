@@ -107,7 +107,6 @@ resources(package)
 }
 \seealso{
 Other edit functions: 
-\code{\link{get_schema}()},
 \code{\link{remove_resource}()}
 }
 \concept{edit functions}
