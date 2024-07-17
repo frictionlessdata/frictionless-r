@@ -10,13 +10,13 @@
 #' Column names are taken from the provided Table Schema (`schema`), not from
 #' the header in the CSV file(s).
 #'
-#' @param package Data Package object, created with [read_package()] or
+#' @param package Data Package object, as returned by [read_package()] or
 #'   [create_package()].
 #' @param resource_name Name of the Data Resource.
 #' @param col_select Character vector of the columns to include in the result,
 #'   in the order provided.
 #'   Selecting columns can improve read speed.
-#' @return [tibble::tibble()] data frame with the Data Resource's tabular data.
+#' @return A [tibble::tibble()] with the Data Resource's tabular data.
 #'   If there are parsing problems, a warning will alert you.
 #'   You can retrieve the full details by calling [problems()] on your data
 #'   frame.

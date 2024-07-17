@@ -1,7 +1,7 @@
 #' Read data from the path of a Data Resource
 #'
 #' @inheritParams read_resource
-#' @return [tibble::tibble()] data frame
+#' @return A [tibble::tibble()].
 #' @family read functions
 #' @noRd
 read_from_path <- function(package, resource_name, col_select) {

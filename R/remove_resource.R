@@ -4,7 +4,7 @@
 #' from a Data Package, i.e. it removes one of the described `resources`.
 #'
 #' @inheritParams read_resource
-#' @return Provided `package` with one fewer resource.
+#' @return `package` with one fewer resource.
 #' @family edit functions
 #' @export
 #' @examples

@@ -35,7 +35,7 @@
 #'   The following properties are automatically set and can't be provided with
 #'   `...`: `name`, `data`, `path`, `schema`, `profile`, `format`, `mediatype`,
 #'   `encoding` and `dialect`.
-#' @return Provided `package` with one additional resource.
+#' @return `package` with one additional resource.
 #' @family edit functions
 #' @export
 #' @examples

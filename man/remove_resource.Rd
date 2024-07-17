@@ -7,13 +7,13 @@
 remove_resource(package, resource_name)
 }
 \arguments{
-\item{package}{Data Package object, created with \code{\link[=read_package]{read_package()}} or
+\item{package}{Data Package object, as returned by \code{\link[=read_package]{read_package()}} or
 \code{\link[=create_package]{create_package()}}.}
 
 \item{resource_name}{Name of the Data Resource.}
 }
 \value{
-Provided \code{package} with one fewer resource.
+\code{package} with one fewer resource.
 }
 \description{
 Removes a \href{https://specs.frictionlessdata.io/data-resource/}{Data Resource}

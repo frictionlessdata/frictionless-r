@@ -7,7 +7,7 @@
 write_package(package, directory, compress = FALSE)
 }
 \arguments{
-\item{package}{Data Package object, created with \code{\link[=read_package]{read_package()}} or
+\item{package}{Data Package object, as returned by \code{\link[=read_package]{read_package()}} or
 \code{\link[=create_package]{create_package()}}.}
 
 \item{directory}{Path to local directory to write files to.}

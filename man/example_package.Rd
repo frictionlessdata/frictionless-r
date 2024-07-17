@@ -7,7 +7,7 @@
 example_package()
 }
 \value{
-Data Package object, see \code{\link[=create_package]{create_package()}}.
+A Data Package object, see \code{\link[=create_package]{create_package()}}.
 }
 \description{
 Reads the example Data Package included in \code{frictionless}.

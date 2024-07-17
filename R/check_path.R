@@ -10,7 +10,7 @@
 #' @param directory Directory to prepend to path.
 #' @param safe Require `path` to be safe, i.e. no absolute or relative parent
 #'   paths.
-#' @return Absolute path or URL.
+#' @return Absolute path or URL or an error.
 #' @family check functions
 #' @noRd
 check_path <- function(path, directory = NULL, safe = FALSE) {

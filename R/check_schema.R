@@ -5,7 +5,7 @@
 #'
 #' @param schema List describing a Table Schema.
 #' @param data A data frame against which the Table Schema must be compared.
-#' @return `schema` invisibly or error.
+#' @return `schema` invisibly or an error.
 #' @family check functions
 #' @noRd
 check_schema <- function(schema, data = NULL) {
