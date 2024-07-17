@@ -223,7 +223,7 @@ read_resource <- function(package, resource_name, col_select = NULL) {
   }
 
   # Create locale with encoding, decimal_mark and grouping_mark
-  locale <- create_locale(package, resource_name)
+  locale <- locale(package, resource_name)
 
   # Create col_types: list(<collector_character>, <collector_logical>, ...)
   col_types <- fields_to_cols(package, resource_name)

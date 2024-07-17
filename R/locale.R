@@ -13,8 +13,8 @@
 #' package <- example_package()
 #'
 #' # Create locale of resource "observations"
-#' frictionless:::create_locale(package, resource_name = "observations")
-create_locale <- function(package, resource_name) {
+#' frictionless:::locale(package, resource_name = "observations")
+locale <- function(package, resource_name) {
   encoding <- get_encoding(package, resource_name)
   schema <- get_schema(package, resource_name)
   fields <- purrr::chuck(schema, "fields")
