@@ -226,7 +226,7 @@ read_resource <- function(package, resource_name, col_select = NULL) {
   locale <- create_locale(package, resource_name)
 
   # Create col_types: list(<collector_character>, <collector_logical>, ...)
-  col_types <- create_col_types(package, resource_name)
+  col_types <- fields_to_cols(package, resource_name)
 
   # Select CSV dialect, see https://specs.frictionlessdata.io/csv-dialect/
   # Note that dialect can be NULL

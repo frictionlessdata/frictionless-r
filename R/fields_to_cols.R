@@ -13,12 +13,12 @@
 #' package <- example_package()
 #'
 #' # Create col types for the resource "observations"
-#' frictionless:::create_col_types(package, "observations")
-create_col_types <- function(package, resource_name) {
+#' frictionless:::fields_to_cols(package, "observations")
+fields_to_cols <- function(package, resource_name) {
   schema <- get_schema(package, resource_name)
   fields <- schema$fields
   field_names <- purrr::map_chr(fields, ~ purrr::pluck(.x, "name"))
-  col_types <- purrr::map(fields, create_col_type)
+  col_types <- purrr::map(fields, field_to_col)
   # Assign names: list("name1" = <collector_character>, "name2" = ...)
   names(col_types) <- field_names
   col_types
@@ -40,10 +40,10 @@ create_col_types <- function(package, resource_name) {
 #' schema <- get_schema(package, "observations")
 #' fields <- schema$fields
 #' # Create col type for first field (string)
-#' frictionless:::create_col_type(fields[[1]])
+#' frictionless:::field_to_col(fields[[1]])
 #' # Create col type for third field (datetime)
-#' frictionless:::create_col_type(fields[[3]])
-create_col_type <- function(x) {
+#' frictionless:::field_to_col(fields[[3]])
+field_to_col <- function(x) {
   type <- x$type %||% NA_character_
   enum <- x$constraints$enum
   group_char <- if (x$groupChar %||% "" != "") TRUE else FALSE
