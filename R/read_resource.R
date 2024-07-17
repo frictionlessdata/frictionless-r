@@ -204,34 +204,6 @@ read_resource <- function(package, resource_name, col_select = NULL) {
   # Get resource, includes check_package()
   resource <- get_resource(package, resource_name)
 
-  # Get paths, schema and fields
-  paths <- resource$path
-  schema <- get_schema(package, resource_name)
-  fields <- schema$fields
-  field_names <- purrr::map_chr(fields, ~ purrr::pluck(.x, "name"))
-
-  # Check all selected columns appear in schema
-  if (!all(col_select %in% field_names)) {
-    col_select_missing <- col_select[!col_select %in% field_names]
-    cli::cli_abort(
-      c(
-        "Can't find column{?s} {.val {col_select_missing}} in field names.",
-        "i" = "Field name{?s}: {.val {field_names}}."
-      ),
-      class = "frictionless_error_colselect_mismatch"
-    )
-  }
-
-  # Get locale with decimal_mark, grouping_mark and encoding
-  locale <- locale(package, resource_name)
-
-  # Get col_types
-  col_types <- cols(schema)
-
-  # Select CSV dialect, see https://specs.frictionlessdata.io/csv-dialect/
-  # Note that dialect can be NULL
-  dialect <- read_descriptor(resource$dialect, package$directory, safe = TRUE)
-
   # Read data directly
   if (resource$read_from == "df") {
     df <- dplyr::as_tibble(resource$data)
@@ -242,16 +214,7 @@ read_resource <- function(package, resource_name, col_select = NULL) {
 
   # Read data from path(s)
   } else if (resource$read_from == "path" || resource$read_from == "url") {
-    df <- purrr::map_df(
-      paths, # Loop over paths
-      read_from_path,
-      dialect = dialect,
-      field_names = field_names,
-      col_types = col_types,
-      col_select = col_select,
-      schema = schema,
-      locale = locale
-    )
+    df <- read_from_path(package, resource_name, col_select)
   }
   return(df)
 }
