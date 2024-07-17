@@ -1,6 +1,6 @@
 #' Parse a string field
 #'
-#' @param enum A field's `constraints.enum`.
+#' @inheritParams col_number
 #' @return A readr collector.
 #' @family parse functions
 #' @noRd
@@ -34,8 +34,7 @@ col_number <- function(enum, group_char, bare_number) {
 
 #' Parse an integer field
 #'
-#' @param enum A field's `constraints.enum`.
-#' @param bare_number A field's `bareNumber`.
+#' @inheritParams col_number
 #' @return A readr collector.
 #' @family parse functions
 #' @noRd
@@ -51,7 +50,7 @@ col_integer <- function(enum, bare_number) {
 
 #' Parse a date field
 #'
-#' @param format A field's `format`.
+#' @inheritParams col_datetime
 #' @return A readr collector.
 #' @family parse functions
 #' @noRd
@@ -69,7 +68,7 @@ col_date <- function(format) {
 
 #' Parse a time field
 #'
-#' @param format A field's `format`.
+#' @inheritParams col_datetime
 #' @return A readr collector.
 #' @family parse functions
 #' @noRd
