@@ -1,27 +1,27 @@
-#' Create column types for reading a Data Resource.
+#' Create a column specification for a Table Schema
 #'
-#' Create a list of readr column types for reading a [Data
-#' Resource](https://specs.frictionlessdata.io/data-resource/) (in a Data
-#' Package) based on the schema's fields of the resource.
-#' @param package Data Package.
-#' @param resource_name Name of the resource.
+#' Creates a [readr::cols()] for all fields in a Table Schema.
+#' @inheritParams check_schema
 #' @return A [readr::cols()] object.
-#' @family helper functions
+#' @family parse functions
 #' @noRd
-#' @examples
-#' # Load the example Data Package
-#' package <- example_package()
-#'
-#' # Create col types for the resource "observations"
-#' frictionless:::fields_to_cols(package, "observations")
-cols <- function(package, resource_name) {
-  schema <- get_schema(package, resource_name)
+cols <- function(schema) {
+  check_schema(schema)
   fields <- schema$fields
   field_names <- purrr::map_chr(fields, ~ purrr::pluck(.x, "name"))
+
+  # Create col_types
   col_types <- purrr::map(fields, field_to_col)
   # Assign names: list("name1" = <collector_character>, "name2" = ...)
   names(col_types) <- field_names
-  col_types
+
+  # Replicate structure of readr::col_spec
+  structure(
+    list(
+      cols = col_types
+    ),
+    class = "col_spec"
+  )
 }
 
 #' Create column type for reading a specific field of a Data Resource.
