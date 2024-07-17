@@ -14,7 +14,7 @@
 #'
 #' # Create col types for the resource "observations"
 #' frictionless:::fields_to_cols(package, "observations")
-fields_to_cols <- function(package, resource_name) {
+cols <- function(package, resource_name) {
   schema <- get_schema(package, resource_name)
   fields <- schema$fields
   field_names <- purrr::map_chr(fields, ~ purrr::pluck(.x, "name"))
