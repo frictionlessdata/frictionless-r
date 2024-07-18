@@ -9,7 +9,7 @@
 #'    `"path": ["observations_1.csv", "observations_2.csv"]`.
 #' 3. `media`: inline data stored in `data`.
 #'
-#' @return Data Package object, see [create_package()].
+#' @return A Data Package object, see [create_package()].
 #' @family sample data
 #' @export
 #' @examples

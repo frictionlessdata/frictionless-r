@@ -7,7 +7,7 @@
 #'   [create_package()].
 #' @param ... Further arguments, they are ignored by this function.
 #' @return [print()] with a summary of the Data Package object.
-#' @family datapackage functions
+#' @family print functions
 #' @export
 #' @examples
 #' # Load the example Data Package
@@ -19,14 +19,14 @@ print.datapackage <- function(x, ...) {
   # All prints should use cat (= cli::cat() helpers)
 
   # List resources
-  resources <- resources(x)
+  resource_names <- resources(x)
   cli::cat_line(
     cli::format_inline(
-      "A Data Package with {length(resources)} resource{?s}{?./:/:}"
+      "A Data Package with {length(resource_names)} resource{?s}{?./:/:}"
     )
   )
-  if (length(resources) > 0) {
-    cli::cat_bullet(resources, bullet = "bullet")
+  if (length(resource_names) > 0) {
+    cli::cat_bullet(resource_names, bullet = "bullet")
   }
 
   # Include link (DOI) if available in package$id

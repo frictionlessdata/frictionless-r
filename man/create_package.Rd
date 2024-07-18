@@ -11,7 +11,7 @@ create_package(descriptor = NULL)
 If undefined, an empty Data Package will be created from scratch.}
 }
 \value{
-Data Package object.
+A Data Package object.
 }
 \description{
 Initiates a \href{https://specs.frictionlessdata.io/data-package/}{Data Package}

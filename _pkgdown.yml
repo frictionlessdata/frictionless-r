@@ -23,12 +23,13 @@ reference:
   contents:
   - has_concept("create functions")
   - has_concept("edit functions")
-  - has_concept("check functions")
 - title: "Write a Data Package"
   desc: "Write a Data Package and its associated Data Resources to disk."
   contents:
   - has_concept("write functions")
 - title: "Miscellaneous"
   contents:
-  - has_concept("datapackage functions")
+  - has_concept("accessor functions")
+  - has_concept("print functions")
+  - has_concept("check functions")
   - has_concept("sample data")

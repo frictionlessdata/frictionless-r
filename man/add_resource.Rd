@@ -15,7 +15,7 @@ add_resource(
 )
 }
 \arguments{
-\item{package}{Data Package object, created with \code{\link[=read_package]{read_package()}} or
+\item{package}{Data Package object, as returned by \code{\link[=read_package]{read_package()}} or
 \code{\link[=create_package]{create_package()}}.}
 
 \item{resource_name}{Name of the Data Resource.}
@@ -53,11 +53,11 @@ The following properties are automatically set and can't be provided with
 \code{encoding} and \code{dialect}.}
 }
 \value{
-Provided \code{package} with one additional resource.
+\code{package} with one additional resource.
 }
 \description{
-Adds a Tabular \href{https://specs.frictionlessdata.io/data-resource/}{Data Resource} to a Data
-Package.
+Adds a \href{https://specs.frictionlessdata.io/data-resource/}{Data Resource} to a
+Data Package.
 The resource will be a \href{https://specs.frictionlessdata.io/tabular-data-resource/}{Tabular Data Resource}.
 The resource name can only contain lowercase alphanumeric characters plus
 \code{.}, \code{-} and \verb{_}.
@@ -107,7 +107,6 @@ resources(package)
 }
 \seealso{
 Other edit functions: 
-\code{\link{get_schema}()},
 \code{\link{remove_resource}()}
 }
 \concept{edit functions}

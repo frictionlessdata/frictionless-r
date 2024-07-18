@@ -26,4 +26,4 @@ package <- example_package()
 # Print a summary of the Data Package
 package # Or print(package)
 }
-\concept{datapackage functions}
+\concept{print functions}

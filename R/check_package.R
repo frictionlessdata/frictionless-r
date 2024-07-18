@@ -3,7 +3,7 @@
 #' Check if an object is a Data Package object with the required properties.
 #'
 #' @inheritParams read_resource
-#' @return `package` invisibly or error.
+#' @return `package` invisibly or an error.
 #' @family check functions
 #' @export
 #' @examples
