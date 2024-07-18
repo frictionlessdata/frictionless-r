@@ -14,9 +14,6 @@ read_from_path <- function(package, resource_name, col_select) {
   fields <- schema$fields
   field_names <- purrr::map_chr(fields, ~ purrr::pluck(.x, "name"))
 
-  # Reassign col_select to avoid lazy eval
-  col_select <- col_select
-
   # Check all selected columns appear in schema
   if (!all(col_select %in% field_names)) {
     col_select_missing <- col_select[!col_select %in% field_names]
@@ -62,8 +59,9 @@ read_from_path <- function(package, resource_name, col_select) {
         escape_double = escape_double,
         col_names = field_names,
         col_types = col_types,
-        # Use rlang {{}} to avoid `col_select` to be interpreted as the name of
+        # Use rlang {{}} to avoid "col_select" to be interpreted as the name of
         # a column, see https://rlang.r-lib.org/reference/topic-data-mask.html
+        # col_select needs to be assigned/used above to avoid lazy eval error
         col_select = {{ col_select }},
         locale = locale,
         na = schema$missingValues %||% "",
