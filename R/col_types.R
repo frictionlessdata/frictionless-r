@@ -7,7 +7,10 @@
 #' @family parse functions
 #' @noRd
 cols <- function(schema) {
+  # Check schema
   check_schema(schema)
+
+  # Get fields
   fields <- schema$fields
   field_names <- purrr::map_chr(fields, ~ purrr::pluck(.x, "name"))
 
