@@ -17,7 +17,7 @@ camera trap data organized in 3 Data Resources:
 \item \code{deployments}: one local data file referenced in
 \code{"path": "deployments.csv"}.
 \item \code{observations}: two local data files referenced in
-\verb{"path": ["observations_1.csv", "observations_2.csv"]}.
+\verb{"path": ["observations_1.tsv", "observations_2.tsv"]}.
 \item \code{media}: inline data stored in \code{data}.
 }
 }
