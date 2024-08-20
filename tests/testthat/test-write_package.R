@@ -100,6 +100,7 @@ test_that("write_package() copies file(s) for path = local in local package", {
   on.exit(unlink(dir, recursive = TRUE))
   p_written <- suppressMessages(write_package(p, dir))
 
+  # Original resource "deployments" with local path
   expect_identical(p_written$resources[[1]]$path, "deployments.csv")
   expect_true(file.exists(file.path(dir, "deployments.csv")))
 
