@@ -92,14 +92,15 @@ package <- add_resource(
   title = "Positions with schema"
 )
 
-# Replace the resource "observations" with a file-based resource (2 CSV files)
-path_1 <- system.file("extdata", "observations_1.csv", package = "frictionless")
-path_2 <- system.file("extdata", "observations_2.csv", package = "frictionless")
+# Replace the resource "observations" with a file-based resource (2 TSV files)
+path_1 <- system.file("extdata", "observations_1.tsv", package = "frictionless")
+path_2 <- system.file("extdata", "observations_2.tsv", package = "frictionless")
 package <- add_resource(
   package,
   resource_name = "observations",
   data = c(path_1, path_2),
-  replace = TRUE
+  replace = TRUE,
+  delim = "\t"
 )
 
 # List the resources ("positions" and "positions_with_schema" added)

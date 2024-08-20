@@ -6,7 +6,7 @@
 #' 1. `deployments`: one local data file referenced in
 #'    `"path": "deployments.csv"`.
 #' 2. `observations`: two local data files referenced in
-#'    `"path": ["observations_1.csv", "observations_2.csv"]`.
+#'    `"path": ["observations_1.tsv", "observations_2.tsv"]`.
 #' 3. `media`: inline data stored in `data`.
 #'
 #' @return A Data Package object, see [create_package()].

@@ -169,17 +169,21 @@ my_package <-
   )
 ```
 
-If you already have your data stored as CSV files and you want to include them _as is_ as a Data Resource, you can do so as well. As with data frames, you can opt to create a Table Schema automatically or provide your own.
+If you already have your data stored as CSV or TSV files and you want to include them _as is_ as a Data Resource, you can do so as well. As with data frames, you can opt to create a Table Schema automatically or provide your own.
 
 ```{r}
-# Two CSV files with the same structure
-path_1 <- system.file("extdata", "observations_1.csv", package = "frictionless")
-path_2 <- system.file("extdata", "observations_2.csv", package = "frictionless")
+# Two TSV files with the same structure
+path_1 <- system.file("extdata", "observations_1.tsv", package = "frictionless")
+path_2 <- system.file("extdata", "observations_2.tsv", package = "frictionless")
 
-# Add both CSV files as a single resource
+# Add both TSV files as a single resource
 my_package <-
   my_package %>%
-  add_resource(resource_name = "observations", data = c(path_1, path_2))
+  add_resource(
+    resource_name = "observations",
+    data = c(path_1, path_2),
+    delim = "\t"
+  )
 ```
 
 Your Data Package now contains 2 resources, but you can add metadata properties as well (see the [Data Package documentation](https://specs.frictionlessdata.io/data-package/#metadata) for an overview). Since it is a list, you can use `append()` to insert properties at the desired place. Let's add `name` as first and `title` as second property:
