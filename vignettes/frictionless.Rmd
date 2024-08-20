@@ -86,13 +86,6 @@ This Data Package has 3 resources. Let's read the data from the `gps` resource i
 
 ``` r
 gps <- read_resource(package, "gps")
-#> Error in `purrr::map_chr()` at frictionless-r/R/get_resource.R:60:7:
-#> ℹ In index: 1.
-#> Caused by error in `check_path()`:
-#> ! Can't find file at <https://zenodo.org/records/10053702/files/O_WESTERSCHELDE-gps-2018.csv.gz>.
-```
-
-``` r
 gps
 #> # A tibble: 73,047 × 21
 #>     `event-id` visible timestamp           `location-long` `location-lat`
@@ -342,7 +335,15 @@ path_2 <- system.file("extdata", "observations_2.tsv", package = "frictionless")
 # Add both TSV files as a single resource
 my_package <-
   my_package %>%
-  add_resource(resource_name = "observations", data = c(path_1, path_2), delim = "\t")
+  add_resource(
+    resource_name = "observations",
+    data = c(path_1, path_2),
+    delim = "\t"
+  )
+#> Error in `purrr::map_chr()` at frictionless-r/R/add_resource.R:132:5:
+#> ℹ In index: 1.
+#> Caused by error in `check_path()`:
+#> ! Can't find file at ''.
 ```
 
 Your Data Package now contains 2 resources, but you can add metadata properties as well (see the [Data Package documentation](https://specs.frictionlessdata.io/data-package/#metadata) for an overview). Since it is a list, you can use `append()` to insert properties at the desired place. Let's add `name` as first and `title` as second property:
@@ -373,7 +374,7 @@ The directory will contain four files: the descriptor `datapackage.json`, one CS
 
 ``` r
 list.files("my_directory")
-#> [1] "datapackage.json"   "iris.csv"           "observations_1.tsv" "observations_2.tsv"
+#> [1] "datapackage.json" "iris.csv"
 ```
 
 

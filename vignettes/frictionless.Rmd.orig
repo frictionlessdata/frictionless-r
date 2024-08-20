@@ -179,7 +179,11 @@ path_2 <- system.file("extdata", "observations_2.tsv", package = "frictionless")
 # Add both TSV files as a single resource
 my_package <-
   my_package %>%
-  add_resource(resource_name = "observations", data = c(path_1, path_2), delim = "\t")
+  add_resource(
+    resource_name = "observations",
+    data = c(path_1, path_2),
+    delim = "\t"
+  )
 ```
 
 Your Data Package now contains 2 resources, but you can add metadata properties as well (see the [Data Package documentation](https://specs.frictionlessdata.io/data-package/#metadata) for an overview). Since it is a list, you can use `append()` to insert properties at the desired place. Let's add `name` as first and `title` as second property:
