@@ -1,5 +1,5 @@
 ---
-title: "Table Dialect"
+title: "Table Dialect support"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Table Dialect}
@@ -59,7 +59,7 @@ package$resources[[1]]$dialect$delimiter
 
 ### lineTerminator
 
-[`lineTerminator`](https://specs.frictionlessdata.io/csv-dialect/#specification) is ignored by `read_resource()`. It relies instead on `readr::read_delim()`, which interprets line terminator `LF` and `CRLF` automatically and does not support `CR` (used by Classic Mac OS, final release 2001).
+[`lineTerminator`](https://specs.frictionlessdata.io/csv-dialect/#specification) is ignored by `read_resource()`. It relies on `readr::read_delim()` instead, which interprets line terminator `LF` and `CRLF` automatically and does not support `CR` (used by Classic Mac OS, final release 2001).
 
 ### quoteChar
 
@@ -75,7 +75,7 @@ package$resources[[1]]$dialect$delimiter
 
 ### nullSequence
 
-[`nullSequence`](https://specs.frictionlessdata.io/csv-dialect/#specification) is ignored by `read_resource()`. Provide instead as `missingValues` in the schema (see `vignette("table-schema")`).
+[`nullSequence`](https://specs.frictionlessdata.io/csv-dialect/#specification) is ignored by `read_resource()`. Provide as `missingValues` in the schema instead (see `vignette("table-schema")`).
 
 ### skipInitialSpace
 
