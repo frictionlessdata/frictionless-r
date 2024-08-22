@@ -66,7 +66,7 @@ add_resource(package, "deployments", data = path, replace = TRUE)
 
 ### Write
 
-`write_package()` writes a package to disk as a `datapackage.json` file. It also writes the resources to CSV files, if those are tabular, referring to an local file or newly created from a data frame. See the function documentation for details.
+`write_package()` writes a package to disk as a `datapackage.json` file. This file will include the metadata of all the resources. `write_package()` also writes resource _data_ to CSV files, unless the referred data are referred to be URL or inline. See the function documentation for details.
 
 ## Data Resource properties
 
@@ -232,4 +232,4 @@ package$resources[[1]]$encoding
 
 [`compression`](https://specs.frictionlessdata.io/patterns/#specification-3) (a recipe) is ignored by `read_resource()` and not set by `add_resource()`.
 
-Compression is derived from the provided `path`. If the `path` ends in `.gz`, `.bz2`, `.xz`, or `.zip`, the files are automatically decompressed by `read_resource()` (using default `readr::read_delim()` functionality). Only `.gz` files can be read directly from URL `path`s.
+Compression is instead derived from the provided `path`. If the `path` ends in `.gz`, `.bz2`, `.xz`, or `.zip`, the files are automatically decompressed by `read_resource()` (using default `readr::read_delim()` functionality). Only `.gz` files can be read directly from URL `path`s.

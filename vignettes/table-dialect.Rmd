@@ -14,15 +14,17 @@ knitr::opts_chunk$set(
 )
 ```
 
-[Table Dialect](https://specs.frictionlessdata.io/csv-dialect/) (previously called CSV dialect and further referred to as "dialect") is a simple format to describe the dialect of a tabular data file, including its delimiter, header rows, escape characters, etc.
+[Table Dialect](https://specs.frictionlessdata.io/csv-dialect/) (previously called CSV dialect) is a simple format to describe the dialect of a tabular data file, including its delimiter, header rows, escape characters, etc.
+
+_In this document we use the terms "package" for Data Package, "resource" for Data Resource, "dialect" for Table Dialect, and "schema" for Table Schema._
 
 ## Support
 
-frictionless supports dialect to correctly interpret [Tabular Data Resources](https://specs.frictionlessdata.io/tabular-data-resource/).
+frictionless supports dialect to parse [Tabular Data Resources](https://specs.frictionlessdata.io/tabular-data-resource/). `dialect` can either be a JSON object or a path or URL referencing a JSON object.
 
 ### Read
 
-`read_resource()` uses the `dialect` property of a resource (see `vignette("data-resource")`) to correctly interpret a tabular data file. Only properties that deviate from the default need to be specified. E.g. a tab-delimited file without header rows should have the following dialect:
+`read_resource()` uses the `dialect` property of a resource to parse a tabular data file. Only properties that deviate from the default need to be specified. E.g. a tab-delimited file without header rows must have the following dialect:
 
 ```json
 "dialect": {
@@ -33,27 +35,31 @@ frictionless supports dialect to correctly interpret [Tabular Data Resources](ht
 
 ### Manipulate
 
-frictionless does not support direct manipulation of the dialect. Its properties are set when writing.
+Frictionless does not support direct manipulation of the dialect. `add_resource()` allows to set one property (`dialect$delimiter`) when data are provided as a file, all other properties are assumed to be the default.
 
 ### Write
 
-When creating a resource from a file, `add_resource()` only sets one dialect property: `delimiter` and only if it deviates from the default `","`.
+`write_package()` writes a package to disk as a `datapackage.json` file. This file will include the metadata of all the resources, including the dialect (if defined). `write_resource()` writes resources created from a data frame to CSV files, but no `dialect` property is set for those, since only defaults are used.
 
-When creating a resource from a data frame, `add_resource()` does not set any dialect properties. `write_package()` writes this data frame to a CSV file, but does not set any dialect properties either, since only the defaults are used.
-
-## Properties
-
-The sections below describe how frictionless supports dialect properties.
+## Dialect properties
 
 ### delimiter
 
-[`delimiter`](https://specs.frictionlessdata.io/csv-dialect/#specification) is supported by `read_resource()` and defaults to `","`. It is passed to `delim` in `readr::read_delim()`.
+[`delimiter`](https://specs.frictionlessdata.io/csv-dialect/#specification) is supported by `read_resource()` and defaults to `","`. It is passed to `delim` in `readr::read_delim()`. `add_resource()` does not set `delimiter`, unless provided in `delim` and different from the default `","`:
 
-When creating a resource from a file, `add_resource()` sets `delimiter` based on the provided `delim` (e.g. `","` (default), `"\t"`, etc.).
+```{r}
+library(frictionless)
+package <- example_package()
+
+path <- system.file("extdata", "deployments.csv", package = "frictionless")
+package <- add_resource(package, "deployments", data = path, delim = ",", replace = TRUE)
+package$resources[[1]]$dialect$delimiter
+# TODO: update to observations_1.tsv
+```
 
 ### lineTerminator
 
-[`lineTerminator`](https://specs.frictionlessdata.io/csv-dialect/#specification) is ignored by `read_resource()`. It relies on `readr::read_delim()`, which interprets line terminator `LF` and `CRLF` automatically and does not support `CR` (used by Classic Mac OS, final release 2001).
+[`lineTerminator`](https://specs.frictionlessdata.io/csv-dialect/#specification) is ignored by `read_resource()`. It relies instead on `readr::read_delim()`, which interprets line terminator `LF` and `CRLF` automatically and does not support `CR` (used by Classic Mac OS, final release 2001).
 
 ### quoteChar
 
@@ -65,11 +71,11 @@ When creating a resource from a file, `add_resource()` sets `delimiter` based on
 
 ### escapeChar
 
-[`escapeChar`](https://specs.frictionlessdata.io/csv-dialect/#specification) is ignored by `read_resource()` unless it is `"\\"`. It is then passed as `escape_backslash = TRUE` and `escape_double = FALSE` in `readr::read_delim()`. Note that `escapeChar` and `doubleQuote` are mutually exclusive, so you cannot escape with `\"` and `""` in the same file.
+[`escapeChar`](https://specs.frictionlessdata.io/csv-dialect/#specification) is ignored by `read_resource()` unless it is `"\\"`. It is passed as `escape_backslash = TRUE` and `escape_double = FALSE` in `readr::read_delim()`. Note that `escapeChar` and `doubleQuote` are mutually exclusive, so you cannot escape with `\"` and `""` in the same file.
 
 ### nullSequence
 
-[`nullSequence`](https://specs.frictionlessdata.io/csv-dialect/#specification) is ignored by `read_resource()`. Provide as `missingValues` in `vignette("table-schema")` instead.
+[`nullSequence`](https://specs.frictionlessdata.io/csv-dialect/#specification) is ignored by `read_resource()`. Provide instead as `missingValues` in the schema (see `vignette("table-schema")`).
 
 ### skipInitialSpace
 
