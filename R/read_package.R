@@ -4,6 +4,9 @@
 #' https://specs.frictionlessdata.io/data-package/#descriptor) file that
 #' describes the Data Package metadata and its Data Resources.
 #'
+#' See `vignette("data-package")` to learn how this function implements the
+#' Data Package standard.
+#'
 #' @param file Path or URL to a `datapackage.json` file.
 #' @return A Data Package object, see [create_package()].
 #' @family read functions

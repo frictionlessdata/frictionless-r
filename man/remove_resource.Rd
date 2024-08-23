@@ -16,8 +16,8 @@ remove_resource(package, resource_name)
 \code{package} with one fewer resource.
 }
 \description{
-Removes a \href{https://specs.frictionlessdata.io/data-resource/}{Data Resource}
-from a Data Package, i.e. it removes one of the described \code{resources}.
+Removes a Data Resource from a Data Package, i.e. it removes one of the
+described \code{resources}.
 }
 \examples{
 # Load the example Data Package

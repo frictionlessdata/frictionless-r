@@ -1,7 +1,7 @@
 #' Remove a Data Resource
 #'
-#' Removes a [Data Resource](https://specs.frictionlessdata.io/data-resource/)
-#' from a Data Package, i.e. it removes one of the described `resources`.
+#' Removes a Data Resource from a Data Package, i.e. it removes one of the
+#' described `resources`.
 #'
 #' @inheritParams read_resource
 #' @return `package` with one fewer resource.

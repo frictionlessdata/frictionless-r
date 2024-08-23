@@ -23,30 +23,19 @@ You can retrieve the full details by calling \code{\link[=problems]{problems()}}
 frame.
 }
 \description{
-Reads data from a \href{https://specs.frictionlessdata.io/data-resource/}{Data Resource} (in a Data Package) into a
-tibble (a Tidyverse data frame).
+Reads data from a Data Resource (in a Data Package) into a tibble (a
+Tidyverse data frame).
 The resource must be a \href{https://specs.frictionlessdata.io/tabular-data-resource/}{Tabular Data Resource}.
 The function uses \code{\link[readr:read_delim]{readr::read_delim()}} to read CSV files, passing the
 resource properties \code{path}, CSV dialect, column names, data types, etc.
 Column names are taken from the provided Table Schema (\code{schema}), not from
 the header in the CSV file(s).
 }
-\section{Resource properties}{
-
-
-See \code{vignette("data-resource")}.
-\subsection{CSV Dialect}{
-
-See \code{vignette("table-dialect")}.
+\details{
+See \code{vignette("data-resource")}, \code{vignette("table-dialect")} and
+\code{vignette("table-schema")} to learn how this function implements the
+Data Package standard.
 }
-}
-
-\section{Table schema properties}{
-
-
-See \code{vignette("table-schema")}.
-}
-
 \examples{
 # Read a datapackage.json file
 package <- read_package(

@@ -1,14 +1,17 @@
 #' Read data from a Data Resource into a tibble data frame
 #'
-#' Reads data from a [Data Resource](
-#' https://specs.frictionlessdata.io/data-resource/) (in a Data Package) into a
-#' tibble (a Tidyverse data frame).
+#' Reads data from a Data Resource (in a Data Package) into a tibble (a
+#' Tidyverse data frame).
 #' The resource must be a [Tabular Data Resource](
 #' https://specs.frictionlessdata.io/tabular-data-resource/).
 #' The function uses [readr::read_delim()] to read CSV files, passing the
 #' resource properties `path`, CSV dialect, column names, data types, etc.
 #' Column names are taken from the provided Table Schema (`schema`), not from
 #' the header in the CSV file(s).
+#'
+#' See `vignette("data-resource")`, `vignette("table-dialect")` and
+#' `vignette("table-schema")` to learn how this function implements the
+#' Data Package standard.
 #'
 #' @param package Data Package object, as returned by [read_package()] or
 #'   [create_package()].
@@ -22,18 +25,6 @@
 #'   frame.
 #' @family read functions
 #' @export
-#' @section Resource properties:
-#'
-#' See `vignette("data-resource")`.
-#'
-#' ## CSV Dialect
-#'
-#' See `vignette("table-dialect")`.
-#'
-#' @section Table schema properties:
-#'
-#' See `vignette("table-schema")`.
-#'
 #' @examples
 #' # Read a datapackage.json file
 #' package <- read_package(
