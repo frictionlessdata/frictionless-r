@@ -32,6 +32,9 @@ To get started, see:
 - [Function
   reference](https://docs.ropensci.org/frictionless/reference/index.html):
   overview of all functions.
+- [Standard
+  implementation](https://docs.ropensci.org/frictionless/articles/index.html):
+  how frictionless implements the Data Package standard.
 
 ## Installation
 
