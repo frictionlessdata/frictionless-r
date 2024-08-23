@@ -121,7 +121,7 @@ package <- add_resource(
 
 ### type and format
 
-[`type`](https://specs.frictionlessdata.io/table-schema/#types-and-formats) and (for some types) [`format`](https://specs.frictionlessdata.io/table-schema/#types-and-formats) is used by `read_resource()` to understand the column type. The vector of types is passed as `col_types` to `readr::read_delim()`, which returns parsing issues if it encounters them. `create_schema()` uses the data frame column type to set `type`. See [Field types implementation](#field-types-implementation) for details.
+[`type`](https://specs.frictionlessdata.io/table-schema/#types-and-formats) and (for some types) [`format`](https://specs.frictionlessdata.io/table-schema/#types-and-formats) is used by `read_resource()` to understand the column type. The vector of types is passed as `col_types` to `readr::read_delim()`, which warns if there are parsing issues (inspect with `problems()`). `create_schema()` uses the data frame column type to set `type`. See [Field types implementation](#field-types-implementation) for details.
 
 `read_resource()` interprets `type` as follows:
 
