@@ -15,7 +15,7 @@ add_resource(
 )
 }
 \arguments{
-\item{package}{Data Package object, created with \code{\link[=read_package]{read_package()}} or
+\item{package}{Data Package object, as returned by \code{\link[=read_package]{read_package()}} or
 \code{\link[=create_package]{create_package()}}.}
 
 \item{resource_name}{Name of the Data Resource.}
@@ -53,11 +53,11 @@ The following properties are automatically set and can't be provided with
 \code{encoding} and \code{dialect}.}
 }
 \value{
-Provided \code{package} with one additional resource.
+\code{package} with one additional resource.
 }
 \description{
-Adds a Tabular \href{https://specs.frictionlessdata.io/data-resource/}{Data Resource} to a Data
-Package.
+Adds a \href{https://specs.frictionlessdata.io/data-resource/}{Data Resource} to a
+Data Package.
 The resource will be a \href{https://specs.frictionlessdata.io/tabular-data-resource/}{Tabular Data Resource}.
 The resource name can only contain lowercase alphanumeric characters plus
 \code{.}, \code{-} and \verb{_}.
@@ -92,14 +92,15 @@ package <- add_resource(
   title = "Positions with schema"
 )
 
-# Replace the resource "observations" with a file-based resource (2 CSV files)
-path_1 <- system.file("extdata", "observations_1.csv", package = "frictionless")
-path_2 <- system.file("extdata", "observations_2.csv", package = "frictionless")
+# Replace the resource "observations" with a file-based resource (2 TSV files)
+path_1 <- system.file("extdata", "observations_1.tsv", package = "frictionless")
+path_2 <- system.file("extdata", "observations_2.tsv", package = "frictionless")
 package <- add_resource(
   package,
   resource_name = "observations",
   data = c(path_1, path_2),
-  replace = TRUE
+  replace = TRUE,
+  delim = "\t"
 )
 
 # List the resources ("positions" and "positions_with_schema" added)
@@ -107,7 +108,6 @@ resources(package)
 }
 \seealso{
 Other edit functions: 
-\code{\link{get_schema}()},
 \code{\link{remove_resource}()}
 }
 \concept{edit functions}

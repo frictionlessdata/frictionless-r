@@ -7,7 +7,7 @@
 read_resource(package, resource_name, col_select = NULL)
 }
 \arguments{
-\item{package}{Data Package object, created with \code{\link[=read_package]{read_package()}} or
+\item{package}{Data Package object, as returned by \code{\link[=read_package]{read_package()}} or
 \code{\link[=create_package]{create_package()}}.}
 
 \item{resource_name}{Name of the Data Resource.}
@@ -17,14 +17,14 @@ in the order provided.
 Selecting columns can improve read speed.}
 }
 \value{
-\code{\link[tibble:tibble]{tibble::tibble()}} data frame with the Data Resource's tabular data.
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the Data Resource's tabular data.
 If there are parsing problems, a warning will alert you.
 You can retrieve the full details by calling \code{\link[=problems]{problems()}} on your data
 frame.
 }
 \description{
-Reads data from a \href{https://specs.frictionlessdata.io/data-resource/}{Data Resource} (in a Data
-Package) into a tibble (a Tidyverse data frame).
+Reads data from a \href{https://specs.frictionlessdata.io/data-resource/}{Data Resource} (in a Data Package) into a
+tibble (a Tidyverse data frame).
 The resource must be a \href{https://specs.frictionlessdata.io/tabular-data-resource/}{Tabular Data Resource}.
 The function uses \code{\link[readr:read_delim]{readr::read_delim()}} to read CSV files, passing the
 resource properties \code{path}, CSV dialect, column names, data types, etc.

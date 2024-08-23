@@ -70,12 +70,15 @@
     },
     {
       "name": "observations",
-      "path": ["observations_1.csv", "observations_2.csv"],
+      "path": ["observations_1.tsv", "observations_2.tsv"],
       "profile": "tabular-data-resource",
       "title": "Camera trap observations",
       "format": "csv",
       "mediatype": "text/csv",
       "encoding": "utf-8",
+      "dialect": {
+        "delimiter": "\t"
+      },
       "schema": {
         "fields": [
           {

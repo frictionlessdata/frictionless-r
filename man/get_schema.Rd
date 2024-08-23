@@ -7,7 +7,7 @@
 get_schema(package, resource_name)
 }
 \arguments{
-\item{package}{Data Package object, created with \code{\link[=read_package]{read_package()}} or
+\item{package}{Data Package object, as returned by \code{\link[=read_package]{read_package()}} or
 \code{\link[=create_package]{create_package()}}.}
 
 \item{resource_name}{Name of the Data Resource.}
@@ -30,9 +30,4 @@ package <- example_package()
 schema <- get_schema(package, "observations")
 str(schema)
 }
-\seealso{
-Other edit functions: 
-\code{\link{add_resource}()},
-\code{\link{remove_resource}()}
-}
-\concept{edit functions}
+\concept{accessor functions}

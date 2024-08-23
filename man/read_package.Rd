@@ -10,12 +10,11 @@ read_package(file = "datapackage.json")
 \item{file}{Path or URL to a \code{datapackage.json} file.}
 }
 \value{
-Data Package object, see \code{\link[=create_package]{create_package()}}.
+A Data Package object, see \code{\link[=create_package]{create_package()}}.
 }
 \description{
-Reads information from a \code{datapackage.json} file, i.e. the
-\href{https://specs.frictionlessdata.io/data-package/#descriptor}{descriptor} file
-that describes the Data Package metadata and its Data Resources.
+Reads information from a \code{datapackage.json} file, i.e. the \href{https://specs.frictionlessdata.io/data-package/#descriptor}{descriptor} file that
+describes the Data Package metadata and its Data Resources.
 }
 \examples{
 # Read a datapackage.json file

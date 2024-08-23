@@ -1,10 +1,9 @@
 #' Add a Data Resource
 #'
-#' Adds a Tabular [Data
-#' Resource](https://specs.frictionlessdata.io/data-resource/) to a Data
-#' Package.
-#' The resource will be a [Tabular Data
-#' Resource](https://specs.frictionlessdata.io/tabular-data-resource/).
+#' Adds a [Data Resource](https://specs.frictionlessdata.io/data-resource/) to a
+#' Data Package.
+#' The resource will be a [Tabular Data Resource](
+#' https://specs.frictionlessdata.io/tabular-data-resource/).
 #' The resource name can only contain lowercase alphanumeric characters plus
 #' `.`, `-` and `_`.
 #'
@@ -36,7 +35,7 @@
 #'   The following properties are automatically set and can't be provided with
 #'   `...`: `name`, `data`, `path`, `schema`, `profile`, `format`, `mediatype`,
 #'   `encoding` and `dialect`.
-#' @return Provided `package` with one additional resource.
+#' @return `package` with one additional resource.
 #' @family edit functions
 #' @export
 #' @examples
@@ -69,14 +68,15 @@
 #'   title = "Positions with schema"
 #' )
 #'
-#' # Replace the resource "observations" with a file-based resource (2 CSV files)
-#' path_1 <- system.file("extdata", "observations_1.csv", package = "frictionless")
-#' path_2 <- system.file("extdata", "observations_2.csv", package = "frictionless")
+#' # Replace the resource "observations" with a file-based resource (2 TSV files)
+#' path_1 <- system.file("extdata", "observations_1.tsv", package = "frictionless")
+#' path_2 <- system.file("extdata", "observations_2.tsv", package = "frictionless")
 #' package <- add_resource(
 #'   package,
 #'   resource_name = "observations",
 #'   data = c(path_1, path_2),
-#'   replace = TRUE
+#'   replace = TRUE,
+#'   delim = "\t"
 #' )
 #'
 #' # List the resources ("positions" and "positions_with_schema" added)
