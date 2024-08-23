@@ -1,9 +1,9 @@
 ---
-title: "Data Resource support"
+title: "Data Resource implementation"
 author: "Peter Desmet"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Data Resource support}
+  %\VignetteIndexEntry{Data Resource implementation}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 
 _In this document we use the terms "package" for Data Package, "resource" for Data Resource, "dialect" for Table Dialect, and "schema" for Table Schema._
 
-## Support
+## General implementation
 
 Frictionless supports reading, manipulating and writing resources, but much of its functionality is limited to [Tabular Data Resources](https://specs.frictionlessdata.io/tabular-data-resource/).
 
@@ -69,7 +69,7 @@ add_resource(package, "deployments", data = path, replace = TRUE)
 
 `write_package()` writes a package to disk as a `datapackage.json` file. This file will include the metadata of all the resources. `write_package()` also writes resource _data_ to CSV files, unless the referred data are referred to be URL or inline. See the function documentation for details.
 
-## Data Resource properties
+## Properties implementation
 
 ### name
 

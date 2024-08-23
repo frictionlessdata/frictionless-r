@@ -1,9 +1,9 @@
 ---
-title: "Table Schema support"
+title: "Table Schema implementation"
 author: "Peter Desmet"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Table Schema support}
+  %\VignetteIndexEntry{Table Schema implementation}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 
 _In this document we use the terms "package" for Data Package, "resource" for Data Resource, "dialect" for Table Dialect, and "schema" for Table Schema._
 
-## Support
+## General implementation
 
 Frictionless supports `schema$fields` and `schema$missingValues` to parse data types and missing values when reading [Tabular Data Resources](https://specs.frictionlessdata.io/tabular-data-resource/). Schema manipulation is limited to extracting a schema from a resource, creating one from a data frame, and providing one back to a resource. Schema metadata is including when writing a package.
 
@@ -89,11 +89,11 @@ package <- add_resource(
 
 `write_package()` writes a package to disk as a `datapackage.json` file. This file will include the metadata of all the resources, including the schema. To directly write a schema to disk, use `jsonlite::write_json()`.
 
-## Schema properties
+## Schema properties implementation
 
 ### fields
 
-[`fields`](https://specs.frictionlessdata.io/table-schema/#field-descriptors) is required. It is used by `read_resource()` to parse the names and data types of the columns in a tabular data file. `create_schema()` sets `fields` based on information in a data frame. See [Field properties](#field-properties) for details.
+[`fields`](https://specs.frictionlessdata.io/table-schema/#field-descriptors) is required. It is used by `read_resource()` to parse the names and data types of the columns in a tabular data file. `create_schema()` sets `fields` based on information in a data frame. See [Field properties implementation](#field-properties-implementation) for details.
 
 <!-- ### $schema -->
 
@@ -113,7 +113,7 @@ package <- add_resource(
 
 [`foreignKeys`](https://specs.frictionlessdata.io/table-schema/#foreign-keys) is ignored by `read_resource()` and not set by `create_schema()`.
 
-## Field properties
+## Field properties implementation
 
 ### name
 
@@ -121,7 +121,7 @@ package <- add_resource(
 
 ### type and format
 
-[`type`](https://specs.frictionlessdata.io/table-schema/#types-and-formats) and (for some types) [`format`](https://specs.frictionlessdata.io/table-schema/#types-and-formats) is used by `read_resource()` to understand the column type. The vector of types is passed as `col_types` to `readr::read_delim()`, which will return parsing issues if it encounters them. `create_schema()` uses the data frame column type to set `type`. See [Field types](#field-types) for details.
+[`type`](https://specs.frictionlessdata.io/table-schema/#types-and-formats) and (for some types) [`format`](https://specs.frictionlessdata.io/table-schema/#types-and-formats) is used by `read_resource()` to understand the column type. The vector of types is passed as `col_types` to `readr::read_delim()`, which will return parsing issues if it encounters them. `create_schema()` uses the data frame column type to set `type`. See [Field types implementation](#field-types-implementation) for details.
 
 `read_resource()` interprets `type` as follows:
 
@@ -188,7 +188,7 @@ any other type | `any`
 
 [`rdfType`](https://specs.frictionlessdata.io/table-schema/#rich-types) is ignored by `read_resource()` and not set by `create_schema()`.
 
-## Field types
+## Field types implementation
 
 ### string
 

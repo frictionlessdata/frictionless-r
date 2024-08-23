@@ -1,9 +1,9 @@
 ---
-title: "Data Package support"
+title: "Data Package implementation"
 author: "Peter Desmet"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Data Package support}
+  %\VignetteIndexEntry{Data Package implementation}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 
 _In this document we use the terms "package" for Data Package, "resource" for Data Resource, "dialect" for Table Dialect, and "schema" for Table Schema._
 
-## Support
+## General implementation
 
 ### Read
 
@@ -27,7 +27,7 @@ _In this document we use the terms "package" for Data Package, "resource" for Da
 
 ### Write
 
-## Package properties
+## Properties implementation
 
 ### resources
 

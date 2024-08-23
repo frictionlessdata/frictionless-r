@@ -1,9 +1,9 @@
 ---
-title: "Table Dialect support"
+title: "Table Dialect implementation"
 author: "Peter Desmet"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Table Dialect support}
+  %\VignetteIndexEntry{Table Dialect implementation}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 
 _In this document we use the terms "package" for Data Package, "resource" for Data Resource, "dialect" for Table Dialect, and "schema" for Table Schema._
 
-## Support
+## General implementation
 
 Frictionless supports most dialect properties to read [Tabular Data Resources](https://specs.frictionlessdata.io/tabular-data-resource/). Dialect manipulation is limited to setting a `delimiter`. When writing resources, it (mainly) makes uses of default dialect properties, removing the necessity to define them.
 
@@ -42,7 +42,7 @@ Frictionless does not support direct manipulation of the dialect. `add_resource(
 
 `write_package()` writes a package to disk as a `datapackage.json` file. This file will include the metadata of all the resources, including the dialect (if defined). `write_package()` writes resources created from a data frame to CSV files, but no `dialect` property is set for those, since only defaults are used.
 
-## Dialect properties
+## Properties implementation
 
 ### delimiter
 
