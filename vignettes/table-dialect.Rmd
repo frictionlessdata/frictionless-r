@@ -1,8 +1,9 @@
 ---
 title: "Table Dialect support"
+author: "Peter Desmet"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Table Dialect}
+  %\VignetteIndexEntry{Table Dialect support}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -20,7 +21,7 @@ _In this document we use the terms "package" for Data Package, "resource" for Da
 
 ## Support
 
-frictionless supports dialect to parse [Tabular Data Resources](https://specs.frictionlessdata.io/tabular-data-resource/). `dialect` can either be a JSON object or a path or URL referencing a JSON object.
+Frictionless supports most dialect properties to read [Tabular Data Resources](https://specs.frictionlessdata.io/tabular-data-resource/). Dialect manipulation is limited to setting a `delimiter`. When writing resources, it (mainly) makes uses of default dialect properties, removing the necessity to define them.
 
 ### Read
 
@@ -39,13 +40,13 @@ Frictionless does not support direct manipulation of the dialect. `add_resource(
 
 ### Write
 
-`write_package()` writes a package to disk as a `datapackage.json` file. This file will include the metadata of all the resources, including the dialect (if defined). `write_resource()` writes resources created from a data frame to CSV files, but no `dialect` property is set for those, since only defaults are used.
+`write_package()` writes a package to disk as a `datapackage.json` file. This file will include the metadata of all the resources, including the dialect (if defined). `write_package()` writes resources created from a data frame to CSV files, but no `dialect` property is set for those, since only defaults are used.
 
 ## Dialect properties
 
 ### delimiter
 
-[`delimiter`](https://specs.frictionlessdata.io/csv-dialect/#specification) is supported by `read_resource()` and defaults to `","`. It is passed to `delim` in `readr::read_delim()`. `add_resource()` does not set `delimiter`, unless provided in `delim` and different from the default `","`:
+[`delimiter`](https://specs.frictionlessdata.io/csv-dialect/#specification) is used by `read_resource()` and defaults to `","`. It is passed to `delim` in `readr::read_delim()`. `add_resource()` does not set `delimiter`, unless provided in `delim` and different from the default `","`:
 
 ```{r}
 library(frictionless)
@@ -63,11 +64,11 @@ package$resources[[1]]$dialect$delimiter
 
 ### quoteChar
 
-[`quoteChar`](https://specs.frictionlessdata.io/csv-dialect/#specification) is supported by `read_resource()` and defaults to `"`. It is passed to `quote` in `readr::read_delim()`.
+[`quoteChar`](https://specs.frictionlessdata.io/csv-dialect/#specification) is used by `read_resource()` and defaults to `"`. It is passed to `quote` in `readr::read_delim()`.
 
 ### doubleQuote
 
-[`doubleQuote`](https://specs.frictionlessdata.io/csv-dialect/#specification) is supported by `read_resource()` and defaults to `true`, but can be overruled by `escapeChar`. It is passed to `escape_double` in `readr::read_delim()`.
+[`doubleQuote`](https://specs.frictionlessdata.io/csv-dialect/#specification) is used by `read_resource()` and defaults to `true`, but can be overruled by `escapeChar`. It is passed to `escape_double` in `readr::read_delim()`.
 
 ### escapeChar
 
@@ -79,15 +80,15 @@ package$resources[[1]]$dialect$delimiter
 
 ### skipInitialSpace
 
-[`skipInitialSpace`](https://specs.frictionlessdata.io/csv-dialect/#specification) is supported by `read_resource()` and defaults to `false`. It is passed to `trim_ws` in `readr::read_delim()`.
+[`skipInitialSpace`](https://specs.frictionlessdata.io/csv-dialect/#specification) is used by `read_resource()` and defaults to `false`. It is passed to `trim_ws` in `readr::read_delim()`.
 
 ### header
 
-[`header`](https://specs.frictionlessdata.io/csv-dialect/#specification) is supported by `read_resource()` and defaults to `true`. It is passed as `trim_ws = 1` (or `0`) in `readr::read_delim()`.
+[`header`](https://specs.frictionlessdata.io/csv-dialect/#specification) is used by `read_resource()` and defaults to `true`. It is passed as `trim_ws = 1` (or `0`) in `readr::read_delim()`.
 
 ### commentChar
 
-[`commentChar`](https://specs.frictionlessdata.io/csv-dialect/#specification) is supported by `read_resource()` and defaults to undefined. It is passed to `comment` in `readr::read_delim()`.
+[`commentChar`](https://specs.frictionlessdata.io/csv-dialect/#specification) is used by `read_resource()` and defaults to undefined. It is passed to `comment` in `readr::read_delim()`.
 
 ### caseSensitiveHeader
 

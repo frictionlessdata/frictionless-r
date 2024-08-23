@@ -1,8 +1,9 @@
 ---
 title: "Data Resource support"
+author: "Peter Desmet"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Data Resource}
+  %\VignetteIndexEntry{Data Resource support}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -138,11 +139,11 @@ package$resources[[4]]$data
 
 ### schema
 
-See `vignette("table-schema")`.
+[`schema`](https://specs.frictionlessdata.io/data-resource/#schema) is required. It is used by `read_resource()` to parse data types and missing values. It can either be a JSON object or a path or URL referencing a JSON object. See `vignette("table-schema")` for details.
 
 ### dialect
 
-See `vignette("table-dialect")`.
+[`dialect`](https://specs.frictionlessdata.io/data-resource/#dialect) is used by `read_resource()` to parse a tabular data file. It can either be a JSON object or a path or URL referencing a JSON object. See `vignette("table-dialect")` for details.
 
 ### title
 
