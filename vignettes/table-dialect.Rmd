@@ -52,10 +52,9 @@ Frictionless does not support direct manipulation of the dialect. `add_resource(
 library(frictionless)
 package <- example_package()
 
-path <- system.file("extdata", "deployments.csv", package = "frictionless")
-package <- add_resource(package, "deployments", data = path, delim = ",", replace = TRUE)
-package$resources[[1]]$dialect$delimiter
-# TODO: update to observations_1.tsv
+path <- system.file("extdata", "observations_1.tsv", package = "frictionless")
+package <- add_resource(package, "observations", data = path, delim = "\t", replace = TRUE)
+package$resources[[2]]$dialect$delimiter
 ```
 
 ### lineTerminator
