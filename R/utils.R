@@ -19,7 +19,7 @@ unique_sorted <- function(x) {
 #' Clean list
 #'
 #' Removes all elements from a list that meet a criterion function, e.g.
-#' `is.null(x)` for empty elements.
+#' [is.null()] for empty elements.
 #' Removal can be recursive to guarantee elements are removed at any level.
 #' Function is copied and adapted from `rlist::list.clean()` (MIT licensed), to
 #' avoid requiring full `rlist` dependency.
