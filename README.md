@@ -36,6 +36,11 @@ To get started, see:
   implementation](https://docs.ropensci.org/frictionless/articles/index.html):
   how frictionless implements the Data Package standard.
 
+**Frictionless currently implements [Data Package
+v1](https://specs.frictionlessdata.io/).** Our
+[aim](https://github.com/frictionlessdata/frictionless-r/issues?q=is%3Aissue+is%3Aopen+label%3Adatapackage%3Av2)
+is to support [Data Package v2](https://datapackage.org/) as well.
+
 ## Installation
 
 Install the latest released version from CRAN:
