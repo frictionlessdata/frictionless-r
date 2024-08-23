@@ -40,7 +40,7 @@ Frictionless does not support direct manipulation of the dialect. `add_resource(
 
 ### Write
 
-`write_package()` writes a package to disk as a `datapackage.json` file. This file will include the metadata of all the resources, including the dialect (if defined). `write_package()` writes resources created from a data frame to CSV files, but no `dialect` property is set for those, since only defaults are used.
+`write_package()` writes a package to disk as a `datapackage.json` file. This file includes the metadata of all the resources, including the dialect (if defined). `write_package()` writes resources created from a data frame to CSV files, but no `dialect` property is set for those, since only defaults are used.
 
 ## Properties implementation
 

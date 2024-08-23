@@ -64,7 +64,7 @@ levels(observations$life_stage)
 
 ### Manipulate
 
-Schemas are lists which you can manipulate, but frictionless does not provide functions to do that. Use [purrr](https://purrr.tidyverse.org/) or base R instead (see `vignette("frictionless")`). You do not have to start a schema from scratch though: use `get_schema()` (see above) or `create_schema()` instead.
+A schema is a list which you can manipulate, but frictionless does not provide functions to do that. Use [purrr](https://purrr.tidyverse.org/) or base R instead (see `vignette("frictionless")`). You do not have to start a schema from scratch though: use `get_schema()` (see above) or `create_schema()` instead.
 
 `create_schema()` creates a schema from a data frame and defines the `name`, `type` (and if a factor `constraints$enum`) for each field:
 
@@ -74,7 +74,7 @@ iris_schema <- create_schema(iris)
 str(iris_schema)
 ```
 
-`add_resource()` allows to include the schema with a resource. If no schema is provided, one will be created with `create_schema()`:
+`add_resource()` allows to include the schema with a resource. If no schema is provided, one is created with `create_schema()`:
 
 ```{r}
 package <- add_resource(
@@ -87,7 +87,7 @@ package <- add_resource(
 
 ### Write
 
-`write_package()` writes a package to disk as a `datapackage.json` file. This file will include the metadata of all the resources, including the schema. To directly write a schema to disk, use `jsonlite::write_json()`.
+`write_package()` writes a package to disk as a `datapackage.json` file. This file includes the metadata of all the resources, including the schema. To directly write a schema to disk, use `jsonlite::write_json()`.
 
 ## Schema properties implementation
 
@@ -121,7 +121,7 @@ package <- add_resource(
 
 ### type and format
 
-[`type`](https://specs.frictionlessdata.io/table-schema/#types-and-formats) and (for some types) [`format`](https://specs.frictionlessdata.io/table-schema/#types-and-formats) is used by `read_resource()` to understand the column type. The vector of types is passed as `col_types` to `readr::read_delim()`, which will return parsing issues if it encounters them. `create_schema()` uses the data frame column type to set `type`. See [Field types implementation](#field-types-implementation) for details.
+[`type`](https://specs.frictionlessdata.io/table-schema/#types-and-formats) and (for some types) [`format`](https://specs.frictionlessdata.io/table-schema/#types-and-formats) is used by `read_resource()` to understand the column type. The vector of types is passed as `col_types` to `readr::read_delim()`, which returns parsing issues if it encounters them. `create_schema()` uses the data frame column type to set `type`. See [Field types implementation](#field-types-implementation) for details.
 
 `read_resource()` interprets `type` as follows:
 

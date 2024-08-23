@@ -65,9 +65,11 @@ path <- system.file("extdata", "deployments.csv", package = "frictionless")
 add_resource(package, "deployments", data = path, replace = TRUE)
 ```
 
+Note that you can pipe most functions (see `vignette("data-package")`).
+
 ### Write
 
-`write_package()` writes a package to disk as a `datapackage.json` file. This file will include the metadata of all the resources. `write_package()` also writes resource _data_ to CSV files, unless the referred data are referred to be URL or inline. See the function documentation for details.
+`write_package()` writes a package to disk as a `datapackage.json` file. This file includes the metadata of all the resources. `write_package()` also writes resource _data_ to CSV files, unless the referred data are referred to be URL or inline. See the function documentation for details.
 
 ## Properties implementation
 
@@ -201,7 +203,7 @@ package$resources[[2]]$mediatype
 
 ### encoding
 
-[`encoding`](https://specs.frictionlessdata.io/data-resource/#optional-properties) (e.g. `"windows-1252"`) is used by `read_resource()` to parse the file. It defaults to UTF-8 if no `encoding` is provided or if it cannot be recognized. The returned data frame will always be UTF-8.
+[`encoding`](https://specs.frictionlessdata.io/data-resource/#optional-properties) (e.g. `"windows-1252"`) is used by `read_resource()` to parse the file. It defaults to UTF-8 if no `encoding` is provided or if it cannot be recognized. The returned data frame is always UTF-8.
 
 `add_resource()` guesses the `encoding` (using `readr::guess_encoding()`) when data are provided as file. It leaves the `encoding` undefined when data are provided as a data frame. `write_package()` sets it to `"utf-8"` when writing to disk.
 
