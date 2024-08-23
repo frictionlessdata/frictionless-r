@@ -1,9 +1,9 @@
 ---
-title: "Data Package implementation"
+title: "Data Package"
 author: "Peter Desmet"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Data Package implementation}
+  %\VignetteIndexEntry{Data Package}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

@@ -1,9 +1,9 @@
 ---
-title: "Table Schema implementation"
+title: "Table Schema"
 author: "Peter Desmet"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Table Schema implementation}
+  %\VignetteIndexEntry{Table Schema}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

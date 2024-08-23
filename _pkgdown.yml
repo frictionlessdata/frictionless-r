@@ -5,6 +5,19 @@ template:
 
 navbar:
   bg: dark
+  components:
+    articles:
+      text: "Articles"
+      menu:
+      - text: "Standard implementation"
+      - text: "Data Package"
+        href: articles/data-package.html
+      - text: "Data Resource"
+        href: articles/data-resource.html
+      - text: "Table Dialect"
+        href: articles/table-dialect.html
+      - text: "Table Schema"
+        href: articles/table-schema.html
 
 authors:
   LifeWatch Belgium:

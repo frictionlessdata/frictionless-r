@@ -1,9 +1,9 @@
 ---
-title: "Data Resource implementation"
+title: "Data Resource"
 author: "Peter Desmet"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Data Resource implementation}
+  %\VignetteIndexEntry{Data Resource}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

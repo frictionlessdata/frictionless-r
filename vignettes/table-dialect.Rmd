@@ -1,9 +1,9 @@
 ---
-title: "Table Dialect implementation"
+title: "Table Dialect"
 author: "Peter Desmet"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Table Dialect implementation}
+  %\VignetteIndexEntry{Table Dialect}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
