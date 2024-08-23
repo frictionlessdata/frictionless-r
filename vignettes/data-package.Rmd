@@ -1,0 +1,58 @@
+---
+title: "Data Package support"
+author: "Peter Desmet"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Data Package support}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+[Data Package](https://specs.frictionlessdata.io/data-package/) is a simple container format to describe a coherent collection of data (a dataset), including its contributors, licenses, etc.
+
+_In this document we use the terms "package" for Data Package, "resource" for Data Resource, "dialect" for Table Dialect, and "schema" for Table Schema._
+
+## Support
+
+### Read
+
+### Manipulate
+
+### Write
+
+## Package properties
+
+### resources
+
+<!-- ### $schema -->
+
+### name
+
+### id
+
+### licenses
+
+### title
+
+### description
+
+### homepage
+
+### image
+
+### version
+
+### created
+
+### keywords
+
+### contributors
+
+### sources
