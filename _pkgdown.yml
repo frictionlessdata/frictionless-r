@@ -5,19 +5,16 @@ template:
 
 navbar:
   bg: dark
-  components:
-    articles:
-      text: "Articles"
-      menu:
-      - text: "Standard implementation"
-      - text: "Data Package"
-        href: articles/data-package.html
-      - text: "Data Resource"
-        href: articles/data-resource.html
-      - text: "Table Dialect"
-        href: articles/table-dialect.html
-      - text: "Table Schema"
-        href: articles/table-schema.html
+
+articles:
+- title: "Standard implementation"
+  desc: "These articles describe how frictionless implements the Data Package standard."
+  navbar: ~
+  contents:
+  - data-package
+  - data-resource
+  - table-dialect
+  - table-schema
 
 authors:
   LifeWatch Belgium:
