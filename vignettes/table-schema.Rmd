@@ -64,7 +64,7 @@ levels(observations$life_stage)
 
 ### Manipulate
 
-A schema is a list which you can manipulate, but frictionless does not provide functions to do that. Use [purrr](https://purrr.tidyverse.org/) or base R instead (see `vignette("frictionless")`). You do not have to start a schema from scratch though: use `get_schema()` (see above) or `create_schema()` instead.
+A schema is a list which you can manipulate, but frictionless does not provide functions to do that. Use `{purrr}` or base R instead (see `vignette("frictionless")`). You do not have to start a schema from scratch though: use `get_schema()` (see above) or `create_schema()` instead.
 
 `create_schema()` creates a schema from a data frame and defines the `name`, `type` (and if a factor `constraints$enum`) for each field:
 

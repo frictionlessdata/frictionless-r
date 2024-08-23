@@ -65,7 +65,7 @@ invalid_package$resources <- NULL
 check_package(invalid_package)
 ```
 
-You can manipulate the package list, but frictionless does not provide functions to do that. Use [purrr](https://purrr.tidyverse.org/) or base R instead (see `vignette("frictionless")`). Note however that some functions (e.g. `unclass()` or `append()`) removes the custom class, creating an invalid package. You can fix this by calling `create_package()` on your package.
+You can manipulate the package list, but frictionless does not provide functions to do that. Use `{purrr}` or base R instead (see `vignette("frictionless")`). Note however that some functions (e.g. `unclass()` or `append()`) removes the custom class, creating an invalid package. You can fix this by calling `create_package()` on your package.
 
 Most functions have `package` as their first argument and return package. This allows you to **pipe the functions**:
 
