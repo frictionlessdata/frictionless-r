@@ -141,7 +141,7 @@ package$resources[[4]]$data
 
 ### schema
 
-[`schema`](https://specs.frictionlessdata.io/data-resource/#schema) is required. It is used by `read_resource()` to parse data types and missing values. It can either be a JSON object or a path or URL referencing a JSON object. See `vignette("table-schema")` for details.
+[`schema`](https://specs.frictionlessdata.io/data-resource/#resource-schemas) is required. It is used by `read_resource()` to parse data types and missing values. It can either be a JSON object or a path or URL referencing a JSON object. See `vignette("table-schema")` for details.
 
 ### dialect
 
