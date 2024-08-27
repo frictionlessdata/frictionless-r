@@ -37,9 +37,8 @@ To get started, see:
   how frictionless implements the Data Package standard.
 
 **Frictionless currently implements [Data Package
-v1](https://specs.frictionlessdata.io/).** Our
-[aim](https://github.com/frictionlessdata/frictionless-r/issues?q=is%3Aissue+is%3Aopen+label%3Adatapackage%3Av2)
-is to support [Data Package v2](https://datapackage.org/) as well.
+v1](https://specs.frictionlessdata.io/).** Our goal is to support [Data
+Package v2](https://datapackage.org/) as well.
 
 ## Installation
 
