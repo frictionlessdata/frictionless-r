@@ -44,8 +44,8 @@ e.g. \verb{\\t} for tab delimited file.
 Will be set as \code{delimiter} in the resource Table Dialect, so read functions
 .  know how to read the file(s).}
 
-\item{...}{Additional \href{https://docs.ropensci.org/frictionless/articles/data-resource.html#properties-implementation}{metadata properties}
-to add to the resource, e.g. \verb{title = "My title", validated = FALSE}.
+\item{...}{Additional metadata properties to add to the resource, e.g.
+\verb{title = "My title", validated = FALSE}.
 These are not verified against specifications and are ignored by
 \code{\link[=read_resource]{read_resource()}}.
 The following properties are automatically set and can't be provided with
