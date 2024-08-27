@@ -69,8 +69,10 @@
 #' )
 #'
 #' # Replace the resource "observations" with a file-based resource (2 TSV files)
-#' path_1 <- system.file("extdata", "observations_1.tsv", package = "frictionless")
-#' path_2 <- system.file("extdata", "observations_2.tsv", package = "frictionless")
+#' path_1 <-
+#' system.file("extdata", "v1", "observations_1.tsv", package = "frictionless")
+#' path_2 <-
+#' system.file("extdata", "v1", "observations_2.tsv", package = "frictionless")
 #' package <- add_resource(
 #'   package,
 #'   resource_name = "observations",

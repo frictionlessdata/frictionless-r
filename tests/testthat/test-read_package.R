@@ -1,6 +1,6 @@
 test_that("read_package() returns a valid Data Package reading from path", {
   # Load example package and a valid minimal one
-  p_path <- system.file("extdata", "datapackage.json", package = "frictionless")
+  p_path <- system.file("extdata", "v1", "datapackage.json", package = "frictionless")
   minimal_path <- test_path("data/valid_minimal.json")
   p_local <- read_package(p_path)
   p_minimal <- read_package(minimal_path)
@@ -67,7 +67,7 @@ test_that("read_package() returns error on missing file and properties", {
   # Not a json file
   expect_error(
     read_package(
-      system.file("extdata", "deployments.csv", package = "frictionless")
+      system.file("extdata", "v1", "deployments.csv", package = "frictionless")
     ),
     regexp = "lexical error: invalid char in json text.",
     fixed = FALSE
@@ -119,7 +119,7 @@ test_that("read_package() allows YAML descriptor", {
 })
 
 test_that("read_package() converts JSON null to NULL", {
-  p_path <- system.file("extdata", "datapackage.json", package = "frictionless")
+  p_path <- system.file("extdata", "v1", "datapackage.json", package = "frictionless")
   p <- read_package(p_path)
   # { "image": null } is read as NULL (use chuck() to force error if missing)
   expect_null(purrr::chuck(p, "image"))

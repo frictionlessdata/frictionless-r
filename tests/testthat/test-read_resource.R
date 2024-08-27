@@ -198,7 +198,7 @@ test_that("read_resource() returns error on invalid resource", {
   # Add valid path
   p_invalid$resources[[1]]$path <- "deployments.csv"
   p_invalid$directory <- dirname(
-    system.file("extdata", "datapackage.json", package = "frictionless")
+    system.file("extdata", "v1", "datapackage.json", package = "frictionless")
   )
 
   # Not a tabular-data-resource
@@ -288,7 +288,7 @@ test_that("read_resource() can read local files", {
   resource <- read_resource(p, "deployments")
 
   p_local <- read_package(
-    system.file("extdata", "datapackage.json", package = "frictionless")
+    system.file("extdata", "v1", "datapackage.json", package = "frictionless")
   )
   expect_identical(read_resource(p_local, "deployments"), resource)
 })

@@ -15,6 +15,8 @@
 #' @examples
 #' example_package()
 example_package <- function() {
-  path <- system.file("extdata", "datapackage.json", package = "frictionless")
+  path <- system.file(
+    "extdata", "v1", "datapackage.json", package = "frictionless"
+    )
   read_package(path)
 }
