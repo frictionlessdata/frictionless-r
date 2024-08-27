@@ -4,11 +4,11 @@
 \alias{example_package}
 \title{Read the example Data Package}
 \usage{
-example_package(version = 1)
+example_package(version = "1.0")
 }
 \arguments{
 \item{version}{Version of the \href{https://datapackage.org/blog/2024-06-26-v2-release/}{Data Package} standard that this
-example Data Package uses. Currently only version 1 is supported.}
+example Data Package uses. Currently only version 1.0 is supported.}
 }
 \value{
 A Data Package object, see \code{\link[=create_package]{create_package()}}.

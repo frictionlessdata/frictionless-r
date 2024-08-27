@@ -11,17 +11,21 @@
 #'
 #' @param version Version of the [Data Package](
 #' https://datapackage.org/blog/2024-06-26-v2-release/) standard that this
-#' example Data Package uses. Currently only version 1 is supported.
+#' example Data Package uses. Currently only version 1.0 is supported.
 #' @return A Data Package object, see [create_package()].
 #' @family sample data
 #' @export
 #' @examples
 #' example_package()
-example_package <- function(version = 1) {
-  if (!version %in% c(1, "1", 1.0, "1.0")) {
+example_package <- function(version = "1.0") {
+  supported_versions <- c("1.0")
+  if (version  %in% supported_versions) {
     cli::cli_abort(
-      "Currently only version 1 (`version = 1`) is supported.",
-      class = "frictionless_error_example_package_version_invalid"
+      c(
+        "{.val {version}} is not a supported Data Package version.",
+        "i" = "Supported version{?s}: {.val {supported_versions}}."
+      ),
+      class = "frictionless_error_unsupported_version"
     )
   } else {
     path <- system.file(
