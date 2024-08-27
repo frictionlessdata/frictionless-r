@@ -9,14 +9,23 @@
 #'    `"path": ["observations_1.tsv", "observations_2.tsv"]`.
 #' 3. `media`: inline data stored in `data`.
 #'
+#' @param version Version of the [Data Package](
+#' https://datapackage.org/blog/2024-06-26-v2-release/) standard that this
+#' example Data Package uses. Currently only version 1 is supported.
 #' @return A Data Package object, see [create_package()].
 #' @family sample data
 #' @export
 #' @examples
 #' example_package()
-example_package <- function() {
-  path <- system.file(
-    "extdata", "v1", "datapackage.json", package = "frictionless"
+example_package <- function(version = 1) {
+  if (!version %in% c(1, "1", 1.0, "1.0")) {
+    cli::cli_abort(
+      "Currently only version 1 is supported."
     )
+  } else {
+    path <- system.file(
+      "extdata", "v1", "datapackage.json", package = "frictionless"
+    )
+  }
   read_package(path)
 }
