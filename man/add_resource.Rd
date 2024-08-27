@@ -26,7 +26,7 @@ add_resource(
 when using \code{\link[=write_package]{write_package()}}.
 \item One or more paths to CSV file(s) as a character (vector): added to the
 resource as \code{path}.
-The \strong{last file will be read} with \code{\link[readr:read_delim]{readr::read_delim()}} to create or
+The last file will be read with \code{\link[readr:read_delim]{readr::read_delim()}} to create or
 compare with \code{schema} and to set \code{format}, \code{mediatype} and \code{encoding}.
 The other files are ignored, but are expected to have the same structure
 and properties.
@@ -41,11 +41,11 @@ resource with the same name.}
 
 \item{delim}{Single character used to separate the fields in the CSV file(s),
 e.g. \verb{\\t} for tab delimited file.
-Will be set as \code{delimiter} in the resource \href{https://specs.frictionlessdata.io/csv-dialect/#specification}{CSV dialect}, so
-read functions know how to read the file(s).}
+Will be set as \code{delimiter} in the resource Table Dialect, so read functions
+.  know how to read the file(s).}
 
-\item{...}{Additional \href{https://specs.frictionlessdata.io/data-resource/#metadata-properties}{metadata properties}
-to add to the resource, e.g. \verb{title = "My title", validated = FALSE}.
+\item{...}{Additional metadata properties to add to the resource, e.g.
+\verb{title = "My title", validated = FALSE}.
 These are not verified against specifications and are ignored by
 \code{\link[=read_resource]{read_resource()}}.
 The following properties are automatically set and can't be provided with
@@ -56,11 +56,15 @@ The following properties are automatically set and can't be provided with
 \code{package} with one additional resource.
 }
 \description{
-Adds a \href{https://specs.frictionlessdata.io/data-resource/}{Data Resource} to a
-Data Package.
+Adds a Data Resource to a Data Package.
 The resource will be a \href{https://specs.frictionlessdata.io/tabular-data-resource/}{Tabular Data Resource}.
 The resource name can only contain lowercase alphanumeric characters plus
 \code{.}, \code{-} and \verb{_}.
+}
+\details{
+See \code{vignette("data-resource")} (and to a lesser extend
+\code{vignette("table-dialect")}) to learn how this function implements the
+Data Package standard.
 }
 \examples{
 # Load the example Data Package

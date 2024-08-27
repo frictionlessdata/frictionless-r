@@ -8,7 +8,7 @@
   "codeRepository": "https://github.com/frictionlessdata/frictionless-r",
   "issueTracker": "https://github.com/frictionlessdata/frictionless-r/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "1.1.0.9000",
+  "version": "1.2.0",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -42,6 +42,13 @@
       "familyName": "Huybrechts",
       "email": "pieter.huybrechts@inbo.be",
       "@id": "https://orcid.org/0000-0002-6658-6062"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Sanne",
+      "familyName": "Govaert",
+      "email": "sanne.govaert@inbo.be",
+      "@id": "https://orcid.org/0000-0002-8939-1305"
     }
   ],
   "contributor": [
@@ -147,6 +154,18 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=testthat"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "tibble",
+      "name": "tibble",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=tibble"
     }
   ],
   "softwareRequirements": {
@@ -260,42 +279,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "221.508KB",
-  "citation": [
-    {
-      "@type": "SoftwareSourceCode",
-      "datePublished": "2024",
-      "author": [
-        {
-          "@type": "Person",
-          "givenName": "Peter",
-          "familyName": "Desmet",
-          "email": "peter.desmet@inbo.be",
-          "@id": "https://orcid.org/0000-0002-8442-8025"
-        },
-        {
-          "@type": "Person",
-          "givenName": "Damiano",
-          "familyName": "Oldoni",
-          "email": "damiano.oldoni@inbo.be",
-          "@id": "https://orcid.org/0000-0003-3445-7562"
-        },
-        {
-          "@type": "Person",
-          "givenName": "Pieter",
-          "familyName": "Huybrechts",
-          "email": "pieter.huybrechts@inbo.be",
-          "@id": "https://orcid.org/0000-0002-6658-6062"
-        }
-      ],
-      "name": "frictionless: Read and Write Frictionless Data Packages",
-      "identifier": "10.5281/zenodo.5815355",
-      "url": "https://cran.r-project.org/package=frictionless",
-      "description": "R package version 1.1.0.9000",
-      "@id": "https://doi.org/10.5281/zenodo.5815355",
-      "sameAs": "https://doi.org/10.5281/zenodo.5815355"
-    }
-  ],
+  "fileSize": "240.797KB",
   "releaseNotes": "https://github.com/frictionlessdata/frictionless-r/blob/master/NEWS.md",
   "readme": "https://github.com/frictionlessdata/frictionless-r/blob/main/README.md",
   "contIntegration": ["https://github.com/frictionlessdata/frictionless-r/actions/workflows/R-CMD-check.yaml", "https://app.codecov.io/gh/frictionlessdata/frictionless-r/"],

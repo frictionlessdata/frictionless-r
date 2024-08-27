@@ -1,11 +1,14 @@
 #' Add a Data Resource
 #'
-#' Adds a [Data Resource](https://specs.frictionlessdata.io/data-resource/) to a
-#' Data Package.
+#' Adds a Data Resource to a Data Package.
 #' The resource will be a [Tabular Data Resource](
 #' https://specs.frictionlessdata.io/tabular-data-resource/).
 #' The resource name can only contain lowercase alphanumeric characters plus
 #' `.`, `-` and `_`.
+#'
+#' See `vignette("data-resource")` (and to a lesser extend
+#' `vignette("table-dialect")`) to learn how this function implements the
+#' Data Package standard.
 #'
 #' @inheritParams read_resource
 #' @param data Data to attach, either a data frame or path(s) to CSV file(s):
@@ -13,7 +16,7 @@
 #'     when using [write_package()].
 #'   - One or more paths to CSV file(s) as a character (vector): added to the
 #'     resource as `path`.
-#'     The **last file will be read** with [readr::read_delim()] to create or
+#'     The last file will be read with [readr::read_delim()] to create or
 #'     compare with `schema` and to set `format`, `mediatype` and `encoding`.
 #'     The other files are ignored, but are expected to have the same structure
 #'     and properties.
@@ -24,12 +27,10 @@
 #'   resource with the same name.
 #' @param delim Single character used to separate the fields in the CSV file(s),
 #'   e.g. `\t` for tab delimited file.
-#'   Will be set as `delimiter` in the resource [CSV
-#'   dialect](https://specs.frictionlessdata.io/csv-dialect/#specification), so
-#'   read functions know how to read the file(s).
-#' @param ... Additional [metadata
-#'   properties](https://specs.frictionlessdata.io/data-resource/#metadata-properties)
-#'   to add to the resource, e.g. `title = "My title", validated = FALSE`.
+#'   Will be set as `delimiter` in the resource Table Dialect, so read functions
+#'.  know how to read the file(s).
+#' @param ... Additional metadata properties to add to the resource, e.g.
+#'   `title = "My title", validated = FALSE`.
 #'   These are not verified against specifications and are ignored by
 #'   [read_resource()].
 #'   The following properties are automatically set and can't be provided with

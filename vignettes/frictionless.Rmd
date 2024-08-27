@@ -12,13 +12,11 @@ vignette: >
 
 ## What is a Data Package?
 
-A [Data Package](https://specs.frictionlessdata.io/data-package/) is a simple container format to describe and package a collection of (tabular) data. It is typically used to publish FAIR and open datasets. In this tutorial we will show you how to read, create, edit and write Data Packages with the **R pkg frictionless**.
-
-**package** vs **pkg**: in the Frictionless Data community `package` refers to a Data Package, while in R that is a software package. In this tutorial we will use `pkg` to refer to the latter.
+A [Data Package](https://specs.frictionlessdata.io/data-package/) is a simple container format to describe and package a collection of (tabular) data. It is typically used to publish FAIR and open datasets. In this tutorial we will show you how to read, create, edit and write Data Packages with the **frictionless**.
 
 ## Read a Data Package
 
-Load the frictionless pkg with:
+Load frictionless with:
 
 
 ``` r
@@ -111,7 +109,7 @@ gps
 
 The data frame contains all GPS records, even though the actual data were split over [multiple CSV zipped files](https://zenodo.org/records/10053702#files-heading). `read_resource()` assigned the column names and types based on the Table Schema that was defined for that resource, not the headers of the CSV file.
 
-You can also read data from a local (e.g. downloaded) Data Package. In fact, there is one included in the frictionless pkg, let's read that one from disk:
+You can also read data from a local (e.g. downloaded) Data Package. In fact, there is one included in frictionless, let's read that one from disk:
 
 
 ``` r
@@ -144,7 +142,7 @@ Data from the `media` was not stored in a CSV file, but directly in the `data` p
 
 Data Package is a good format to technically describe your data, e.g. if you are planning to deposit it on research repository. It also goes a long way meeting [FAIR principles](https://www.go-fair.org/fair-principles/).
 
-The frictionless pkg assumes your data are stored as a data frame or CSV files. Let's use the built-in dataset `iris` as your data frame:
+Frictionless assumes your data are stored as a data frame or CSV files. Let's use the built-in dataset `iris` as your data frame:
 
 
 ``` r
@@ -261,7 +259,7 @@ str(iris_schema$fields[[1]])
 #>  $ description: chr "Sepal length in cm."
 ```
 
-Since schema is a list, you can use the `purrr` pkg to edit multiple elements at once:
+Since schema is a list, you can use `{purrr}` to edit multiple elements at once:
 
 
 ``` r
@@ -365,7 +363,7 @@ Now that you have created your Data Package, you can write it to a directory of 
 write_package(my_package, "my_directory")
 ```
 
-The directory will contain four files: the descriptor `datapackage.json`, one CSV file containing the data for the resource `iris` and two CSV files containing the data for the resource `observations`.
+The directory will contain four files: the descriptor `datapackage.json`, one CSV file containing the data for the resource `iris` and two TSV files containing the data for the resource `observations`.
 
 
 ``` r
@@ -375,10 +373,10 @@ list.files("my_directory")
 
 
 
-The frictionless pkg does not provide functionality to deposit your Data Package on a research repository such as [Zenodo](https://zenodo.org), but here are some tips:
+Frictionless does not provide functionality to deposit your Data Package on a research repository such as [Zenodo](https://zenodo.org), but here are some tips:
 
 1. Validate your Data Package before depositing. You can do this in Python with the [Frictionless Framework](https://github.com/frictionlessdata/frictionless-py) using `frictionless validate datapackage.json`.
 2. Use `compress = TRUE` in `write_package()` to reduce the size of the deposit. It will zip the individual CSV files, not the entire Data Package. That way, users still have direct access to the `datapackage.json` file. See [this example](https://zenodo.org/records/10053702#files-heading).
 3. Only describe the technical aspects of your dataset in `datapackage.json` (fields, units, the dataset identifier in `id`). Authors, methodology, license, etc. are better described in the metadata fields the research repository provides.
 
-We also recommend having a look at the rOpenSci [`deposits`](https://docs.ropensci.org/deposits/) pkg, which provides a universal interface to deposit and access data in a research repository. It uses the frictionless pkg under the hood.
+We also recommend having a look at `{deposits}`, which provides a universal interface to deposit and access data in a research repository. It uses frictionless under the hood.

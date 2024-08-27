@@ -10,7 +10,7 @@
 #'   location of file(s).
 #' - Resource `path` has only URL(s): resource stays as is.
 #' - Resource has inline `data` originally: resource stays as is.
-#' - Resource has inline `data` as result of adding data with `add_resource()`:
+#' - Resource has inline `data` as result of adding data with [add_resource()]:
 #'   data are written to a CSV file using [readr::write_csv()], `path` points to
 #'   location of file, `data` property is removed.
 #'   Use `compress = TRUE` to gzip those CSV files.

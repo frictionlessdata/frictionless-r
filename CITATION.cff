@@ -8,7 +8,8 @@ message: 'To cite package "frictionless" in publications use:'
 type: software
 license: MIT
 title: 'frictionless: Read and Write Frictionless Data Packages'
-version: 1.1.0.9000
+version: 1.2.0
+doi: 10.32614/CRAN.package.frictionless
 abstract: Read and write Frictionless Data Packages. A 'Data Package' (<https://specs.frictionlessdata.io/data-package/>)
   is a simple container format and standard to describe and package a collection of
   (tabular) data. It is typically used to publish FAIR (<https://www.go-fair.org/fair-principles/>)
@@ -37,7 +38,7 @@ authors:
 repository: https://CRAN.R-project.org/package=frictionless
 repository-code: https://github.com/frictionlessdata/frictionless-r
 url: https://docs.ropensci.org/frictionless/
-date-released: '2024-03-29'
+date-released: '2024-08-27'
 contact:
 - family-names: Desmet
   given-names: Peter
@@ -73,6 +74,7 @@ references:
     given-names: Gábor
     email: csardi.gabor@gmail.com
   year: '2024'
+  doi: 10.32614/CRAN.package.cli
 - type: software
   title: dplyr
   abstract: 'dplyr: A Grammar of Data Manipulation'
@@ -97,6 +99,7 @@ references:
     email: davis@posit.co
     orcid: https://orcid.org/0000-0003-4777-038X
   year: '2024'
+  doi: 10.32614/CRAN.package.dplyr
 - type: software
   title: httr
   abstract: 'httr: Tools for Working with URLs and HTTP'
@@ -108,6 +111,7 @@ references:
     given-names: Hadley
     email: hadley@posit.co
   year: '2024'
+  doi: 10.32614/CRAN.package.httr
 - type: software
   title: jsonlite
   abstract: 'jsonlite: A Simple and Robust JSON Parser and Generator for R'
@@ -120,6 +124,7 @@ references:
     email: jeroen@berkeley.edu
     orcid: https://orcid.org/0000-0002-4035-0289
   year: '2024'
+  doi: 10.32614/CRAN.package.jsonlite
 - type: software
   title: purrr
   abstract: 'purrr: Functional Programming Tools'
@@ -135,6 +140,7 @@ references:
     given-names: Lionel
     email: lionel@rstudio.com
   year: '2024'
+  doi: 10.32614/CRAN.package.purrr
 - type: software
   title: readr
   abstract: 'readr: Read Rectangular Text Data'
@@ -152,6 +158,7 @@ references:
     email: jenny@posit.co
     orcid: https://orcid.org/0000-0002-6983-2759
   year: '2024'
+  doi: 10.32614/CRAN.package.readr
   version: '>= 2.1.0'
 - type: software
   title: rlang
@@ -167,6 +174,7 @@ references:
     given-names: Hadley
     email: hadley@posit.co
   year: '2024'
+  doi: 10.32614/CRAN.package.rlang
 - type: software
   title: utils
   abstract: 'R: A Language and Environment for Statistical Computing'
@@ -212,6 +220,7 @@ references:
   - family-names: Gao
     given-names: Charlie
   year: '2024'
+  doi: 10.32614/CRAN.package.yaml
 - type: software
   title: hms
   abstract: 'hms: Pretty Time of Day'
@@ -224,6 +233,7 @@ references:
     email: kirill@cynkra.com
     orcid: https://orcid.org/0000-0002-1416-3412
   year: '2024'
+  doi: 10.32614/CRAN.package.hms
 - type: software
   title: knitr
   abstract: 'knitr: A General-Purpose Package for Dynamic Report Generation in R'
@@ -236,6 +246,7 @@ references:
     email: xie@yihui.name
     orcid: https://orcid.org/0000-0003-0645-5666
   year: '2024'
+  doi: 10.32614/CRAN.package.knitr
 - type: software
   title: lubridate
   abstract: 'lubridate: Make Dealing with Dates a Little Easier'
@@ -251,6 +262,7 @@ references:
   - family-names: Wickham
     given-names: Hadley
   year: '2024'
+  doi: 10.32614/CRAN.package.lubridate
 - type: software
   title: rmarkdown
   abstract: 'rmarkdown: Dynamic Documents for R'
@@ -294,6 +306,7 @@ references:
     email: rich@posit.co
     orcid: https://orcid.org/0000-0003-3925-190X
   year: '2024'
+  doi: 10.32614/CRAN.package.rmarkdown
 - type: software
   title: stringi
   abstract: 'stringi: Fast and Portable Character String Processing Facilities'
@@ -311,6 +324,7 @@ references:
   - name: Inc.
   - name: others
   year: '2024'
+  doi: 10.32614/CRAN.package.stringi
 - type: software
   title: testthat
   abstract: 'testthat: Unit Testing for R'
@@ -322,6 +336,7 @@ references:
     given-names: Hadley
     email: hadley@posit.co
   year: '2024'
+  doi: 10.32614/CRAN.package.testthat
   version: '>= 3.0.0'
 - type: software
   title: tibble
@@ -338,4 +353,5 @@ references:
     given-names: Hadley
     email: hadley@rstudio.com
   year: '2024'
+  doi: 10.32614/CRAN.package.tibble
 

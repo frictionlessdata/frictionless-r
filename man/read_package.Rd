@@ -16,6 +16,10 @@ A Data Package object, see \code{\link[=create_package]{create_package()}}.
 Reads information from a \code{datapackage.json} file, i.e. the \href{https://specs.frictionlessdata.io/data-package/#descriptor}{descriptor} file that
 describes the Data Package metadata and its Data Resources.
 }
+\details{
+See \code{vignette("data-package")} to learn how this function implements the
+Data Package standard.
+}
 \examples{
 # Read a datapackage.json file
 package <- read_package(
