@@ -29,7 +29,7 @@ Frictionless supports reading, manipulating and writing packages. Much of its fu
 
 ```{r}
 library(frictionless)
-file <- system.file("extdata", "datapackage.json", package = "frictionless")
+file <- system.file("extdata", "v1", "datapackage.json", package = "frictionless")
 package <- read_package(file)
 ```
 
