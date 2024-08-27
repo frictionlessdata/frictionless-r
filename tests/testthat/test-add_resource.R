@@ -338,7 +338,7 @@ test_that("add_resource() can add resource from local, relative, absolute,
 
   # Absolute (doesn't throw unsafe error)
   absolute_path <- system.file(
-    "extdata", "deployments.csv", package = "frictionless" # Will start with /
+    "extdata", "v1", "deployments.csv", package = "frictionless" # Will start with /
   )
   p <- add_resource(p, "absolute", absolute_path, schema)
   expect_identical(p$resources[[6]]$path, absolute_path)
