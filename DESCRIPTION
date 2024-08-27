@@ -1,7 +1,7 @@
 Package: frictionless
 Title: Read and Write Frictionless Data Packages
 Version: 1.1.0.9000
-Date: 2024-03-29
+Date: 2024-08-27
 Authors@R: c(
     person("Peter", "Desmet", , "peter.desmet@inbo.be", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-8442-8025", affiliation = "Research Institute for Nature and Forest (INBO)")),
