@@ -116,7 +116,7 @@ You can also read data from a local (e.g. downloaded) Data Package. In fact, the
 
 ``` r
 local_package <- read_package(
-  system.file("extdata", "datapackage.json", package = "frictionless")
+  system.file("extdata", "v1", "datapackage.json", package = "frictionless")
 )
 
 local_package
@@ -329,8 +329,8 @@ If you already have your data stored as CSV or TSV files and you want to include
 
 ``` r
 # Two TSV files with the same structure
-path_1 <- system.file("extdata", "observations_1.tsv", package = "frictionless")
-path_2 <- system.file("extdata", "observations_2.tsv", package = "frictionless")
+path_1 <- system.file("extdata", "v1", "observations_1.tsv", package = "frictionless")
+path_2 <- system.file("extdata", "v1", "observations_2.tsv", package = "frictionless")
 
 # Add both TSV files as a single resource
 my_package <-
@@ -340,10 +340,6 @@ my_package <-
     data = c(path_1, path_2),
     delim = "\t"
   )
-#> Error in `purrr::map_chr()` at frictionless-r/R/add_resource.R:132:5:
-#> ℹ In index: 1.
-#> Caused by error in `check_path()`:
-#> ! Can't find file at ''.
 ```
 
 Your Data Package now contains 2 resources, but you can add metadata properties as well (see the [Data Package documentation](https://specs.frictionlessdata.io/data-package/#metadata) for an overview). Since it is a list, you can use `append()` to insert properties at the desired place. Let's add `name` as first and `title` as second property:
@@ -374,7 +370,7 @@ The directory will contain four files: the descriptor `datapackage.json`, one CS
 
 ``` r
 list.files("my_directory")
-#> [1] "datapackage.json" "iris.csv"
+#> [1] "datapackage.json"   "iris.csv"           "observations_1.tsv" "observations_2.tsv"
 ```
 
 
