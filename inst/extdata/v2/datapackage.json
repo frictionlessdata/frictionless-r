@@ -19,7 +19,7 @@
     {
       "name": "deployments",
       "path": "deployments.csv",
-      "profile": "tabular-data-resource",
+      "type": "table",
       "title": "Camera trap deployments",
       "format": "csv",
       "mediatype": "text/csv",
@@ -72,7 +72,7 @@
     {
       "name": "observations",
       "path": ["observations_1.tsv", "observations_2.tsv"],
-      "profile": "tabular-data-resource",
+      "type": "table",
       "title": "Camera trap observations",
       "format": "csv",
       "mediatype": "text/csv",
@@ -174,7 +174,7 @@
           "file_path": "https://multimedia.agouti.eu/assets/0ba57608-3cf1-49d6-a5a2-fe680851024d/file"
         }
       ],
-      "profile": "tabular-data-resource",
+      "type": "table",
       "title": "Camera trap media files",
       "schema": {
         "fields": [
