@@ -1,4 +1,5 @@
 {
+  "$schema": "https://datapackage.org/profiles/2.0/datapackage.json"
   "name": "example_package",
   "id": "115f49c1-8603-463e-a908-68de98327266",
   "created": "2021-03-02T17:22:33Z",
