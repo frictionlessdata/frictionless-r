@@ -19,7 +19,7 @@
 #' example_package()
 example_package <- function(version = "1.0") {
   supported_versions <- c("1.0")
-  if (version  %in% supported_versions) {
+  if (!version  %in% supported_versions) {
     cli::cli_abort(
       c(
         "{.val {version}} is not a supported Data Package version.",
