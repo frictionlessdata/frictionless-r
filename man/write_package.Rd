@@ -39,7 +39,7 @@ Use \code{compress = TRUE} to gzip those CSV files.
 \examples{
 # Load the example Data Package from disk
 package <- read_package(
-  system.file("extdata", "datapackage.json", package = "frictionless")
+  system.file("extdata", "v1", "datapackage.json", package = "frictionless")
 )
 
 package
