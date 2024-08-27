@@ -20,7 +20,8 @@
 example_package <- function(version = 1) {
   if (!version %in% c(1, "1", 1.0, "1.0")) {
     cli::cli_abort(
-      "Currently only version 1 is supported."
+      "Currently only version 1 (`version = 1`) is supported.",
+      class = "frictionless_error_example_package_version_invalid"
     )
   } else {
     path <- system.file(
