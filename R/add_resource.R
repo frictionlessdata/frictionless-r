@@ -29,8 +29,9 @@
 #'   e.g. `\t` for tab delimited file.
 #'   Will be set as `delimiter` in the resource Table Dialect, so read functions
 #'.  know how to read the file(s).
-#' @param ... Additional metadata properties to add to the resource, e.g.
-#'   `title = "My title", validated = FALSE`.
+#' @param ... Additional [metadata properties](
+#'   https://docs.ropensci.org/frictionless/articles/data-resource.html#properties-implementation)
+#'   to add to the resource, e.g. `title = "My title", validated = FALSE`.
 #'   These are not verified against specifications and are ignored by
 #'   [read_resource()].
 #'   The following properties are automatically set and can't be provided with
