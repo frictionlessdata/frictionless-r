@@ -68,7 +68,7 @@
           }
         ],
         "missingValues": ["", "NA", "NaN"],
-        "primaryKey": "deployment_id"
+        "primaryKey": ["deployment_id"]
       }
     },
     {
@@ -140,13 +140,13 @@
           }
         ],
         "missingValues": ["", "NA", "NaN"],
-        "primaryKey": "observation_id",
+        "primaryKey": ["observation_id"],
         "foreignKeys": [
           {
-            "fields": "deployment_id",
+            "fields": ["deployment_id"],
             "reference": {
               "resource": "deployments",
-              "fields": "deployment_id"
+              "fields": ["deployment_id"]
             }
           }
         ]
@@ -204,20 +204,20 @@
             "type": "string"
           }
         ],
-        "primaryKey": "media_id",
+        "primaryKey": ["media_id"],
         "foreignKeys": [
           {
-            "fields": "deployment_id",
+            "fields": ["deployment_id"],
             "reference": {
               "resource": "deployments",
-              "fields": "deployment_id"
+              "fields": ["deployment_id"]
             }
           },
           {
-            "fields": "observation_id",
+            "fields": ["observation_id"],
             "reference": {
               "resource": "observations",
-              "fields": "observation_id"
+              "fields": ["observation_id"]
             }
           }
         ]
