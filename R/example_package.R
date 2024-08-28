@@ -11,14 +11,14 @@
 #'
 #' @param version Version of the [Data Package](
 #' https://datapackage.org/blog/2024-06-26-v2-release/) standard that this
-#' example Data Package uses. Currently only version 1.0 is supported.
+#' example Data Package uses.
 #' @return A Data Package object, see [create_package()].
 #' @family sample data
 #' @export
 #' @examples
 #' example_package()
 example_package <- function(version = "1.0") {
-  supported_versions <- c("1.0")
+  supported_versions <- c("1.0", "2.0")
   if (!version  %in% supported_versions) {
     cli::cli_abort(
       c(
@@ -27,9 +27,14 @@ example_package <- function(version = "1.0") {
       ),
       class = "frictionless_error_unsupported_version"
     )
-  } else {
+  }
+  if (version == "1.0") {
     path <- system.file(
       "extdata", "v1", "datapackage.json", package = "frictionless"
+    )
+  } else {
+    path <- system.file(
+      "extdata", "v2", "datapackage.json", package = "frictionless"
     )
   }
   read_package(path)
