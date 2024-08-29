@@ -301,7 +301,7 @@ test_that("read_resource() can read remote files", {
   p_remote_resource <- p
   p_remote_resource$resources[[1]]$path <- file.path(
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
-    "main/inst/extdata/deployments.csv"
+    "main/inst/extdata/v1/deployments.csv"
   )
   expect_identical(read_resource(p_remote_resource, "deployments"), resource)
 })
@@ -316,7 +316,7 @@ test_that("read_resource() can read safe local and remote Table Schema,
   # Use a remote path, otherwise schema and path need to share same directory
   p$resources[[1]]$path <- file.path(
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
-    "main/inst/extdata/deployments.csv"
+    "main/inst/extdata/v1/deployments.csv"
   )
 
   # Schema is absolute path
@@ -364,7 +364,7 @@ test_that("read_resource() can read safe local and remote CSV dialect", {
   # Use a remote path, otherwise dialect and path need to share same directory
   p$resources[[1]]$path <- file.path(
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
-    "main/inst/extdata/deployments.csv"
+    "main/inst/extdata/v1/deployments.csv"
   )
 
   # Dialect is absolute path

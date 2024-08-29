@@ -347,7 +347,7 @@ test_that("add_resource() can add resource from local, relative, absolute,
   # Remote
   remote_path <- file.path(
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
-    "main/inst/extdata/deployments.csv"
+    "main/inst/extdata/v1/deployments.csv"
   )
   p <- add_resource(p, "remote", remote_path, schema)
   expect_identical(p$resources[[7]]$path, remote_path)

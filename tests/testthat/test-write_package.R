@@ -66,7 +66,7 @@ test_that("write_package() does not overwrite existing data files", {
   # Change local path to URL
   p$resources[[1]]$path <- file.path(
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
-    "main/inst/extdata/deployments.csv"
+    "main/inst/extdata/v1/deployments.csv"
   )
   dir <- file.path(tempdir(), "package")
   on.exit(unlink(dir, recursive = TRUE))
@@ -94,7 +94,7 @@ test_that("write_package() copies file(s) for path = local in local package", {
   # Change one local path to URL
   p$resources[[2]]$path[[1]] <- file.path(
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
-    "main/inst/extdata/observations_1.tsv"
+    "main/inst/extdata/v1/observations_1.tsv"
   )
   p <- add_resource(p, "new", test_path("data/df.csv"))
   dir <- file.path(tempdir(), "package")
@@ -126,13 +126,13 @@ test_that("write_package() downloads file(s) for path = local in remote
   # Make remote
   p$directory <- file.path(
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r/",
-    "main/inst/extdata"
+    "main/inst/extdata/v1"
   )
 
   # Change one local path to URL
   p$resources[[2]]$path[[1]] <- file.path(
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
-    "main/inst/extdata/observations_1.tsv"
+    "main/inst/extdata/v1/observations_1.tsv"
   )
   p <- add_resource(p, "new", test_path("data/df.csv"))
   dir <- file.path(tempdir(), "package")
@@ -163,7 +163,7 @@ test_that("write_package() leaves as is for path = URL in local package", {
   # Change local path to URL
   p$resources[[1]]$path <- file.path(
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
-    "main/inst/extdata/deployments.csv"
+    "main/inst/extdata/v1/deployments.csv"
   )
   p <- add_resource(p, "new", file.path(
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
@@ -189,13 +189,13 @@ test_that("write_package() leaves as is for path = URL in remote package", {
   # Make remote
   p$directory <- file.path(
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r/",
-    "main/inst/extdata"
+    "main/inst/extdata/v1"
   )
 
   # Change local path to URL
   p$resources[[1]]$path <- file.path(
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
-    "main/inst/extdata/deployments.csv"
+    "main/inst/extdata/v1/deployments.csv"
   )
   p <- add_resource(p, "new", file.path(
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
@@ -234,7 +234,7 @@ test_that("write_package() leaves as is for data = json in remote package", {
   # Make remote
   p$directory <- file.path(
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r/",
-    "main/inst/extdata"
+    "main/inst/extdata/v1"
   )
   dir <- file.path(tempdir(), "package")
   on.exit(unlink(dir, recursive = TRUE))
@@ -270,7 +270,7 @@ test_that("write_package() creates file for data = df in remote package", {
   # Make remote
   p$directory <- file.path(
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r/",
-    "main/inst/extdata"
+    "main/inst/extdata/v1"
   )
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   p <- add_resource(p, "new", df)
@@ -293,7 +293,7 @@ test_that("write_package() shows message when downloading file", {
   # Change one local path to URL
   p$resources[[2]]$path[[1]] <- file.path(
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
-    "main/inst/extdata/observations_1.tsv"
+    "main/inst/extdata/v1/observations_1.tsv"
   )
   dir <- file.path(tempdir(), "package")
   dir_1 <- file.path(dir, "1")
@@ -307,7 +307,7 @@ test_that("write_package() shows message when downloading file", {
     write_package(p, dir_2),
     regexp = paste0(
       "Downloading file from 'https://raw.githubusercontent.com/",
-      "frictionlessdata/frictionless-r/main/inst/extdata/observations_1.tsv'"
+      "frictionlessdata/frictionless-r/main/inst/v1/extdata/observations_1.tsv'"
     ),
     fixed = TRUE
   )
