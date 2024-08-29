@@ -59,7 +59,7 @@ create_package(package)
 
 `check_package()` checks if a package contains the required properties and class:
 
-```{r, error = TRUE}
+```{r, error = TRUE, purl = FALSE}
 invalid_package <- example_package()
 invalid_package$resources <- NULL
 check_package(invalid_package)
