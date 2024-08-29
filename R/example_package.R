@@ -25,24 +25,14 @@
 #' # Version 2
 #' example_package(version = "2.0")
 example_package <- function(version = "1.0") {
-  supported_versions <- c("1.0", "2.0")
-  if (!version  %in% supported_versions) {
-    cli::cli_abort(
-      c(
-        "{.val {version}} is not a supported Data Package version.",
-        "i" = "Supported version{?s}: {.val {supported_versions}}."
-      ),
-      class = "frictionless_error_unsupported_version"
-    )
-  }
-  if (version == "1.0") {
-    path <- system.file(
-      "extdata", "v1", "datapackage.json", package = "frictionless"
-    )
-  } else {
-    path <- system.file(
-      "extdata", "v2", "datapackage.json", package = "frictionless"
-    )
-  }
+  version_dir <- switch(
+    version %||% "1.0",
+    "2.0" = "v2",
+    "1.0" = "v1",
+    "v1" # Use v1 for any other value
+  )
+  path <- system.file(
+    "extdata", version_dir, "datapackage.json", package = "frictionless"
+  )
   read_package(path)
 }
