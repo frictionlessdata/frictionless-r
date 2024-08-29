@@ -123,9 +123,6 @@ local_package
 #> • observations
 #> • media
 #> Use `unclass()` to print the Data Package as a list.
-```
-
-``` r
 
 read_resource(local_package, "media")
 #> # A tibble: 3 × 5
