@@ -29,7 +29,7 @@ example_package <- function(version = "1.0") {
     version %||% "1.0",
     "2.0" = "v2",
     "1.0" = "v1",
-    "v1" # Use v1 for any other value
+    "v1" # Default v1 for any other value
   )
   path <- system.file(
     "extdata", version_dir, "datapackage.json", package = "frictionless"
