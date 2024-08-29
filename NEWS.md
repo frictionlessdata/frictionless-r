@@ -1,5 +1,7 @@
 # frictionless 1.2.0
 
+* `example_package()` now has a `version` parameter, allowing to load the example Data Package following the Data Package [v1](https://specs.frictionlessdata.io/) or [v2](https://datapackage.org/) specification (#249).
+
 ## Changes for users
 
 * `add_resource()` now allows to replace an existing resource (#227).
