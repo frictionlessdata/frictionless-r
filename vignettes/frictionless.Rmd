@@ -114,7 +114,7 @@ You can also read data from a local (e.g. downloaded) Data Package. In fact, the
 
 ``` r
 local_package <- read_package(
-  system.file("extdata", "datapackage.json", package = "frictionless")
+  system.file("extdata", "v1", "datapackage.json", package = "frictionless")
 )
 
 local_package
@@ -327,8 +327,8 @@ If you already have your data stored as CSV or TSV files and you want to include
 
 ``` r
 # Two TSV files with the same structure
-path_1 <- system.file("extdata", "observations_1.tsv", package = "frictionless")
-path_2 <- system.file("extdata", "observations_2.tsv", package = "frictionless")
+path_1 <- system.file("extdata", "v1", "observations_1.tsv", package = "frictionless")
+path_2 <- system.file("extdata", "v1", "observations_2.tsv", package = "frictionless")
 
 # Add both TSV files as a single resource
 my_package <-

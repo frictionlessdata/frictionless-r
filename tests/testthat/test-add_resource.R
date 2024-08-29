@@ -338,7 +338,7 @@ test_that("add_resource() can add resource from local, relative, absolute,
 
   # Absolute (doesn't throw unsafe error)
   absolute_path <- system.file(
-    "extdata", "deployments.csv", package = "frictionless" # Will start with /
+    "extdata", "v1", "deployments.csv", package = "frictionless" # Will start with /
   )
   p <- add_resource(p, "absolute", absolute_path, schema)
   expect_identical(p$resources[[6]]$path, absolute_path)
@@ -377,7 +377,7 @@ test_that("add_resource() can add resource from CSV file with other delimiter,
 
 test_that("add_resource() sets correct properties for CSV resources", {
   p <- create_package()
-  path <- system.file("extdata", "deployments.csv", package = "frictionless")
+  path <- system.file("extdata", "v1", "deployments.csv", package = "frictionless")
 
   # Encoding UTF-8 (0.8), ISO-8859-1 (0.59), ISO-8859-2 (0.26)
   p <- add_resource(p, "deployments", path)

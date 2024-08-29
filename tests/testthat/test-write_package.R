@@ -45,7 +45,8 @@ test_that("write_package() returns error if Data Package has no resource(s)", {
 })
 
 test_that("write_package() writes unaltered datapackage.json as is", {
-  p_file <- system.file("extdata", "datapackage.json", package = "frictionless")
+  p_file <-
+    system.file("extdata", "v1", "datapackage.json", package = "frictionless")
   json_original <- readr::read_lines(p_file) # Will use line endings of system
   p <- read_package(p_file)
   dir <- file.path(tempdir(), "package")

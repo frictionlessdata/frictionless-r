@@ -61,7 +61,7 @@ remove_resource(package, "deployments")
 add_resource(package, "iris", data = iris)
 
 # Replace a resource with one where data is stored in a tabular file
-path <- system.file("extdata", "deployments.csv", package = "frictionless")
+path <- system.file("extdata", "v1", "deployments.csv", package = "frictionless")
 add_resource(package, "deployments", data = path, replace = TRUE)
 ```
 
@@ -105,7 +105,7 @@ read_resource(package, "observations")
 `add_resource()` sets `path` to the path(s) provided in `data`:
 
 ```{r}
-path <- system.file("extdata", "deployments.csv", package = "frictionless")
+path <- system.file("extdata", "v1", "deployments.csv", package = "frictionless")
 add_resource(package, "deployments", data = path, replace = TRUE)
 ```
 
@@ -176,7 +176,7 @@ delim | format
 any other value | `"csv"`
 
 ```{r}
-path <- system.file("extdata", "observations_1.tsv", package = "frictionless")
+path <- system.file("extdata", "v1", "observations_1.tsv", package = "frictionless")
 package <- add_resource(package, "observations", data = path, delim = "\t", replace = TRUE)
 package$resources[[2]]$format
 ```
@@ -194,7 +194,7 @@ delim | mediatype
 any other value | `"text/csv"`
 
 ```{r}
-path <- system.file("extdata", "observations_1.tsv", package = "frictionless")
+path <- system.file("extdata", "v1", "observations_1.tsv", package = "frictionless")
 package <- add_resource(package, "observations", data = path, delim = "\t", replace = TRUE)
 package$resources[[2]]$mediatype
 ```
@@ -208,7 +208,7 @@ package$resources[[2]]$mediatype
 `add_resource()` guesses the `encoding` (using `readr::guess_encoding()`) when data are provided as file. It leaves the `encoding` undefined when data are provided as a data frame. `write_package()` sets it to `"utf-8"` when writing to disk.
 
 ```{r}
-path <- system.file("extdata", "deployments.csv", package = "frictionless")
+path <- system.file("extdata", "v1", "deployments.csv", package = "frictionless")
 package <- add_resource(package, "deployments", data = path, delim = ",", replace = TRUE)
 package$resources[[2]]$encoding
 ```

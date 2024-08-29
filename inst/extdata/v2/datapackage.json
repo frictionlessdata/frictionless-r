@@ -1,0 +1,245 @@
+{
+  "$schema": "https://datapackage.org/profiles/2.0/datapackage.json",
+  "name": "example_package",
+  "id": "115f49c1-8603-463e-a908-68de98327266",
+  "licenses": [
+    {
+      "name": "CC0-1.0",
+      "path": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "title": "CC0 1.0"
+    }
+  ],
+  "image": null,
+  "version": "2.0",
+  "created": "2024-08-27T12:45:21Z",
+  "temporal": {
+    "start": "2020-01-01",
+    "end": "2021-01-10"
+  },
+  "resources": [
+    {
+      "name": "deployments",
+      "path": "deployments.csv",
+      "type": "table",
+      "$schema": "https://datapackage.org/profiles/2.0/dataresource.json",
+      "title": "Camera trap deployments",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "schema": {
+        "fields": [
+          {
+            "name": "deployment_id",
+            "type": "string",
+            "constraints": {
+              "required": true,
+              "unique": true
+            }
+          },
+          {
+            "name": "longitude",
+            "type": "number",
+            "constraints": {
+              "required": true,
+              "minimum": -180,
+              "maximum": 180
+            }
+          },
+          {
+            "name": "latitude",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "start",
+            "type": "date",
+            "format": "%x",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "comments",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          }
+        ],
+        "$schema": "https://datapackage.org/profiles/2.0/tableschema.json",
+        "missingValues": ["", "NA", "NaN"],
+        "primaryKey": ["deployment_id"]
+      }
+    },
+    {
+      "name": "observations",
+      "path": ["observations_1.tsv", "observations_2.tsv"],
+      "type": "table",
+      "$schema": "https://datapackage.org/profiles/2.0/dataresource.json",
+      "title": "Camera trap observations",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "dialect": {
+        "$schema": "https://datapackage.org/profiles/2.0/tabledialect.json",
+        "delimiter": "\t"
+      },
+      "schema": {
+        "fields": [
+          {
+            "name": "observation_id",
+            "type": "string",
+            "constraints": {
+              "required": true,
+              "unique": true
+            }
+          },
+          {
+            "name": "deployment_id",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "timestamp",
+            "type": "datetime",
+            "format": "%Y-%m-%dT%H:%M:%S%z",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "scientific_name",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "count",
+            "type": "integer",
+            "constraints": {
+              "required": false,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "life_stage",
+            "type": "string",
+            "categories": ["adult", "subadult", "juvenile", "offspring", "unknown"],
+            "categoriesOrdered": false,
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "comments",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          }
+        ],
+        "$schema": "https://datapackage.org/profiles/2.0/tableschema.json",
+        "missingValues": [
+          {
+            "value": "",
+            "label": "missing"
+          },
+          {
+            "value": "NA",
+            "label": "not applicable"
+          },
+          {
+            "value": "NaN",
+            "label": "not a number"
+          }
+        ],
+        "primaryKey": ["observation_id"],
+        "foreignKeys": [
+          {
+            "fields": ["deployment_id"],
+            "reference": {
+              "resource": "deployments",
+              "fields": ["deployment_id"]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "media",
+      "data": [
+        {
+          "media_id": "aed5fa71-3ed4-4284-a6ba-3550d1a4de8d",
+          "deployment_id": "1",
+          "observation_id": "1-1",
+          "timestamp": "2020-09-28 02:14:59+02:00",
+          "file_path": "https://multimedia.agouti.eu/assets/aed5fa71-3ed4-4284-a6ba-3550d1a4de8d/file"
+        },
+        {
+          "media_id": "da81a501-8236-4cbd-aa95-4bc4b10a05df",
+          "deployment_id": "1",
+          "observation_id": "1-1",
+          "timestamp": "2020-09-28 02:15:00+02:00",
+          "file_path": "https://multimedia.agouti.eu/assets/da81a501-8236-4cbd-aa95-4bc4b10a05df/file"
+        },
+        {
+          "media_id": "0ba57608-3cf1-49d6-a5a2-fe680851024d",
+          "deployment_id": "1",
+          "observation_id": "1-1",
+          "timestamp": "2020-09-28 02:15:01+02:00",
+          "file_path": "https://multimedia.agouti.eu/assets/0ba57608-3cf1-49d6-a5a2-fe680851024d/file"
+        }
+      ],
+      "type": "table",
+      "$schema": "https://datapackage.org/profiles/2.0/dataresource.json",
+      "title": "Camera trap media files",
+      "schema": {
+        "fields": [
+          {
+            "name": "media_id",
+            "type": "string"
+          },
+          {
+            "name": "deployment_id",
+            "type": "string"
+          },
+          {
+            "name": "observation_id",
+            "type": "string"
+          },
+          {
+            "name": "timestamp",
+            "type": "datetime",
+            "format": "%Y-%m-%d %H:%M:%S%z"
+          },
+          {
+            "name": "file_path",
+            "type": "string"
+          }
+        ],
+        "$schema": "https://datapackage.org/profiles/2.0/tableschema.json",
+        "primaryKey": ["media_id"],
+        "foreignKeys": [
+          {
+            "fields": ["deployment_id"],
+            "reference": {
+              "resource": "deployments",
+              "fields": ["deployment_id"]
+            }
+          },
+          {
+            "fields": ["observation_id"],
+            "reference": {
+              "resource": "observations",
+              "fields": ["observation_id"]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

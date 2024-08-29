@@ -39,7 +39,7 @@ Data Package standard.
 \examples{
 # Read a datapackage.json file
 package <- read_package(
-  system.file("extdata", "datapackage.json", package = "frictionless")
+  system.file("extdata", "v1", "datapackage.json", package = "frictionless")
 )
 
 package
