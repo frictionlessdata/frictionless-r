@@ -307,7 +307,7 @@ test_that("write_package() shows message when downloading file", {
     write_package(p, dir_2),
     regexp = paste0(
       "Downloading file from 'https://raw.githubusercontent.com/",
-      "frictionlessdata/frictionless-r/main/inst/v1/extdata/observations_1.tsv'"
+      "frictionlessdata/frictionless-r/main/inst/extdata/v1/observations_1.tsv'"
     ),
     fixed = TRUE
   )
