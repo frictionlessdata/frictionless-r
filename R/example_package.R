@@ -9,14 +9,21 @@
 #'    `"path": ["observations_1.tsv", "observations_2.tsv"]`.
 #' 3. `media`: inline data stored in `data`.
 #'
-#' @param version Version of the [Data Package](
-#' https://datapackage.org/blog/2024-06-26-v2-release/) standard that this
-#' example Data Package uses.
+#' The example Data Package is available in two versions:
+#' - `1.0`: specified as a [Data Package v1](
+#'   https://specs.frictionlessdata.io/).
+#' - `2.0`: specified as a [Data Package v2](https://datapackage.org/).
+#'
+#' @param version Data Package standard version.
 #' @return A Data Package object, see [create_package()].
 #' @family sample data
 #' @export
 #' @examples
+#' # Version 1
 #' example_package()
+#'
+#' # Version 2
+#' example_package(version = "2.0")
 example_package <- function(version = "1.0") {
   supported_versions <- c("1.0", "2.0")
   if (!version  %in% supported_versions) {
