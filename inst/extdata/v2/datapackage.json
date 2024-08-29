@@ -67,6 +67,7 @@
             }
           }
         ],
+        "$schema": "https://datapackage.org/profiles/2.0/tableschema.json",
         "missingValues": ["", "NA", "NaN"],
         "primaryKey": ["deployment_id"]
       }
@@ -81,6 +82,7 @@
       "mediatype": "text/csv",
       "encoding": "utf-8",
       "dialect": {
+        "$schema": "https://datapackage.org/profiles/2.0/tabledialect.json",
         "delimiter": "\t"
       },
       "schema": {
@@ -140,6 +142,7 @@
           }
         ],
         "missingValues": ["", "NA", "NaN"],
+        "$schema": "https://datapackage.org/profiles/2.0/tableschema.json",
         "primaryKey": ["observation_id"],
         "foreignKeys": [
           {
@@ -204,6 +207,7 @@
             "type": "string"
           }
         ],
+        "$schema": "https://datapackage.org/profiles/2.0/tableschema.json",
         "primaryKey": ["media_id"],
         "foreignKeys": [
           {
