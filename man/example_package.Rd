@@ -7,8 +7,7 @@
 example_package(version = "1.0")
 }
 \arguments{
-\item{version}{Version of the \href{https://datapackage.org/blog/2024-06-26-v2-release/}{Data Package} standard that this
-example Data Package uses.}
+\item{version}{Data Package standard version.}
 }
 \value{
 A Data Package object, see \code{\link[=create_package]{create_package()}}.
@@ -25,7 +24,18 @@ camera trap data organized in 3 Data Resources:
 \item \code{media}: inline data stored in \code{data}.
 }
 }
+\details{
+The example Data Package is available in two versions:
+\itemize{
+\item \code{v1}: specified with \href{https://specs.frictionlessdata.io/}{Data Package v1}.
+\item \code{v2}: specified with \href{https://datapackage.org/}{Data Package v2}.
+}
+}
 \examples{
+# Version 1
 example_package()
+
+# Version 2
+example_package(version = "2.0")
 }
 \concept{sample data}
