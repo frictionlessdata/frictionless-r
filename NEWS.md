@@ -1,5 +1,7 @@
 # frictionless (development version)
 
+* Add `purl = FALSE` to vignette code chunk with intentional error, to avoid CRAN error on r-oldrel-macos (#261).
+
 # frictionless 1.2.0
 
 ## Changes for users
