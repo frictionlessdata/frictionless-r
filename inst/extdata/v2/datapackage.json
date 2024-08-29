@@ -128,9 +128,10 @@
           {
             "name": "life_stage",
             "type": "string",
+            "categories": ["adult", "subadult", "juvenile", "offspring", "unknown"],
+            "categoriesOrdered": false,
             "constraints": {
-              "required": false,
-              "enum": ["adult", "subadult", "juvenile", "offspring", "unknown"]
+              "required": false
             }
           },
           {
