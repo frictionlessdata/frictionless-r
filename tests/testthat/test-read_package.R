@@ -89,14 +89,14 @@ test_that("read_package() warns if resources are missing", {
   expect_warning(
     read_package(test_path("data/resources_missing.json")),
     regexp = paste(
-      "`file` 'data/resources_missing.json' must have a resources property",
+      "`file` 'data/resources_missing.json' should have a resources property",
       "containing at least one resource."
     ),
     fixed = TRUE
   )
   expect_warning(
     read_package(test_path("data/resources_missing.json")),
-    regexp = "Use {.fun add_resource} to add resources.",
+    regexp = "Use `add_resource()` to add resources.",
     fixed = TRUE
   )
 
