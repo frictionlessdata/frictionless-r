@@ -32,14 +32,15 @@ read_package <- function(file = "datapackage.json") {
   }
   descriptor <- read_descriptor(file, safe = FALSE)
 
-  # Check resources are present
-  # Checking that they have a name is done when accessing, see check_package()
-  # https://specs.frictionlessdata.io/data-package/#metadata
+  # Warn if resources is absent
   if (length(descriptor$resources) == 0) {
-    cli::cli_abort(
-      "{.arg file} {.file {file}} must have a {.field resources} property
-       containing at least one resource.",
-      class = "frictionless_error_file_without_resources"
+    cli::cli_warn(
+      c(
+        "{.arg file} {.file {file}} should have a {.field resources} property
+         containing at least one resource.",
+        "i" = "Use {.fun add_resource} to add resources."
+      ),
+      class = "frictionless_warning_file_without_resources"
     )
   }
 

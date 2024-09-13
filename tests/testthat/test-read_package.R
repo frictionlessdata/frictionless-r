@@ -45,7 +45,7 @@ test_that("read_package() returns a valid Data Package reading from url", {
   )
 })
 
-test_that("read_package() returns error on missing file and properties", {
+test_that("read_package() returns error on missing or invalid file", {
   skip_if_offline()
   # Incorrect type
   expect_error(
@@ -73,12 +73,20 @@ test_that("read_package() returns error on missing file and properties", {
     fixed = FALSE
   )
 
-  # No resources property
+  # No file remotely
   expect_error(
-    read_package(test_path("data/resources_missing.json")),
-    class = "frictionless_error_file_without_resources"
+    read_package("https://example.com/nofile.json"),
+    class = "frictionless_error_url_not_found"
   )
-  expect_error(
+})
+
+test_that("read_package() warns if resources are missing", {
+  # No resources property
+  expect_warning(
+    read_package(test_path("data/resources_missing.json")),
+    class = "frictionless_warning_file_without_resources"
+  )
+  expect_warning(
     read_package(test_path("data/resources_missing.json")),
     regexp = paste(
       "`file` 'data/resources_missing.json' must have a resources property",
@@ -86,17 +94,16 @@ test_that("read_package() returns error on missing file and properties", {
     ),
     fixed = TRUE
   )
-
-  # Resources is empty list
-  expect_error(
-    read_package(test_path("data/resources_empty.json")),
-    class = "frictionless_error_file_without_resources"
+  expect_warning(
+    read_package(test_path("data/resources_missing.json")),
+    regexp = "Use {.fun add_resource} to add resources.",
+    fixed = TRUE
   )
 
-  # No file remotely
-  expect_error(
-    read_package("https://example.com/nofile.json"),
-    class = "frictionless_error_url_not_found"
+  # Resources is empty list
+  expect_warning(
+    read_package(test_path("data/resources_empty.json")),
+    class = "frictionless_warning_file_without_resources"
   )
 })
 
