@@ -1,8 +1,9 @@
 # frictionless (development version)
 
-# frictionless 1.2.0
-
+* `read_package()` now returns a warning rather than an error when a `datapackage.json` contains no resources. This allows use to create the JSON and then add resources with frictionless (#265).
 * `example_package()` now has a `version` parameter, allowing to load the example Data Package following the Data Package [v1](https://specs.frictionlessdata.io/) or [v2](https://datapackage.org/) specification (#249).
+
+# frictionless 1.2.0
 
 ## Changes for users
 
