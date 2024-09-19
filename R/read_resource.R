@@ -55,7 +55,11 @@ read_resource <- function(package, resource_name, col_select = NULL) {
 
   # Read data from data
   } else if (resource$read_from == "data") {
-    df <- dplyr::bind_rows(resource$data)
+    df <- do.call(
+      function(...) rbind.data.frame(..., stringsAsFactors = FALSE),
+      resource$data
+    )
+    df <- dplyr::as_tibble(df)
 
   # Read data from path(s)
   } else if (resource$read_from == "path" || resource$read_from == "url") {
