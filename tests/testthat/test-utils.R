@@ -60,7 +60,7 @@ test_that("is_url() tests whether path is URL", {
 })
 
 test_that("get_dot_names() returns the names passed via ...", {
-  test_fn <- function(...){
+  test_fn <- function(...) {
     get_dot_names(...)
   }
   expect_identical(test_fn(a = "1", b = "2"), c("a", "b"))
@@ -68,7 +68,7 @@ test_that("get_dot_names() returns the names passed via ...", {
 
 test_that("get_dot_names() does not return empty strings for unnamed args passed
            to ellipsis", {
-  test_fn <- function(...){
+  test_fn <- function(...) {
     get_dot_names(...)
   }
   expect_identical(test_fn(a = "1", "2", b = "3", c = "4"), c("a", "b", "c"))
