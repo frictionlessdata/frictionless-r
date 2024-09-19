@@ -76,3 +76,17 @@ read_descriptor <- function(x, directory = NULL, safe = FALSE) {
     jsonlite::fromJSON(x, simplifyDataFrame = FALSE, simplifyVector = TRUE)
   }
 }
+
+#' Get names of arguments passed to ellipsis
+#'
+#' Replicates the base function [...names()] available in R >= 4.0.0.
+#'
+#' @param ... objects, possibly named
+#' @return A character vector of the names of the ... arguments
+#' @noRd
+get_dot_names <- function(...) {
+  # Get all the names from ...
+  dot_names <- names(list(...))
+  # Return the names that are not an empty string (no name set)
+  return(dot_names[dot_names != ""])
+}
