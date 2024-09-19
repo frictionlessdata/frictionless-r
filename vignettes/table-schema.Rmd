@@ -1,0 +1,270 @@
+---
+title: "Table Schema"
+author: "Peter Desmet"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Table Schema}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+[Table Schema](https://specs.frictionlessdata.io/table-schema/) is a simple format to describe tabular data, including field names, types, constraints, missing values, foreign keys, etc.
+
+_In this document we use the terms "package" for Data Package, "resource" for Data Resource, "dialect" for Table Dialect, and "schema" for Table Schema._
+
+## General implementation
+
+Frictionless supports `schema$fields` and `schema$missingValues` to parse data types and missing values when reading [Tabular Data Resources](https://specs.frictionlessdata.io/tabular-data-resource/). Schema manipulation is limited to extracting a schema from a resource, creating one from a data frame, and providing one back to a resource. Schema metadata is including when writing a package.
+
+### Read
+
+`get_schema()` extracts the schema from a resource:
+
+```{r}
+library(frictionless)
+package <- example_package()
+
+# Get the Table Schema for the resource "observations"
+schema <- get_schema(package, "observations")
+str(schema)
+```
+
+`read_resource()` uses `schema$fields` to parse the names and data types of the columns in a tabular data file. For example, the third field in the schema (`timestamp`) is defined as a datetime `type` with a specific `format`:
+
+```{r}
+str(schema$fields[[3]])
+```
+
+`read_resource()` uses that information to correctly parse the data type and to assign the name `timestamp` to the column:
+
+```{r}
+observations <- read_resource(package, "observations")
+observations$timestamp
+```
+
+The sixth field `life_stage` has an `enum` defined as one of its `constraints`:
+
+```{r}
+str(schema$fields[[6]])
+```
+
+`read_resource()` uses that information to parse the column as a factor, using `enum` as the factor levels:
+
+```{r}
+class(observations$life_stage)
+levels(observations$life_stage)
+```
+
+### Manipulate
+
+A schema is a list which you can manipulate, but frictionless does not provide functions to do that. Use `{purrr}` or base R instead (see `vignette("frictionless")`). You do not have to start a schema from scratch though: use `get_schema()` (see above) or `create_schema()` instead.
+
+`create_schema()` creates a schema from a data frame and defines the `name`, `type` (and if a factor `constraints$enum`) for each field:
+
+```{r}
+# Create a schema from the built-in dataset "iris"
+iris_schema <- create_schema(iris)
+str(iris_schema)
+```
+
+`add_resource()` allows to include the schema with a resource. If no schema is provided, one is created with `create_schema()`:
+
+```{r}
+package <- add_resource(
+  package,
+  resource_name = "iris",
+  data = iris,
+  schema = iris_schema
+)
+```
+
+### Write
+
+`write_package()` writes a package to disk as a `datapackage.json` file. This file includes the metadata of all the resources, including the schema. To directly write a schema to disk, use `jsonlite::write_json()`.
+
+## Schema properties implementation
+
+### fields
+
+[`fields`](https://specs.frictionlessdata.io/table-schema/#field-descriptors) is required. It is used by `read_resource()` to parse the names and data types of the columns in a tabular data file. `create_schema()` sets `fields` based on information in a data frame. See [Field properties implementation](#field-properties-implementation) for details.
+
+<!-- ### $schema -->
+
+<!-- ### fieldMatch -->
+
+### missingValues
+
+[`missingValues`](https://specs.frictionlessdata.io/table-schema/#missing-values) is used by `read_resource()` and defaults to `""`. It is passed to `na` in `readr::read_delim()`. `create_schema()` does not set `missingValues`. `write_package()` converts `NA` values to `""` when writing a data frame to a CSV file. Since this is the default, no `missingValues` property is set.
+
+### primaryKey
+
+[`primaryKey`](https://specs.frictionlessdata.io/table-schema/#primary-key) is ignored by `read_resource()` and not set by `create_schema()`.
+
+<!-- ### uniqueKeys -->
+
+### foreignKeys
+
+[`foreignKeys`](https://specs.frictionlessdata.io/table-schema/#foreign-keys) is ignored by `read_resource()` and not set by `create_schema()`.
+
+## Field properties implementation
+
+### name
+
+[`name`](https://specs.frictionlessdata.io/table-schema/#name) is used by `read_resource()` to assign a column name. The vector of names is passed as `col_names` to `readr::read_delim()`, ignoring names provided in the header of the data file. `create_schema()` uses the data frame column name to set `name`.
+
+### type and format
+
+[`type`](https://specs.frictionlessdata.io/table-schema/#types-and-formats) and (for some types) [`format`](https://specs.frictionlessdata.io/table-schema/#types-and-formats) is used by `read_resource()` to understand the column type. The vector of types is passed as `col_types` to `readr::read_delim()`, which warns if there are parsing issues (inspect with `problems()`). `create_schema()` uses the data frame column type to set `type`. See [Field types implementation](#field-types-implementation) for details.
+
+`read_resource()` interprets `type` as follows:
+
+field type | column type
+--- | ---
+[`string`](#string) | `character` or `factor`
+[`number`](#number) | `double` or `factor`
+[`integer`](#integer) | `double` or `factor`
+[`boolean`](#boolean) | `logical`
+[`object`](#object) | `character`
+[`array`](#array) | `character`
+[`datetime`](#datetime) | `POSIXct`
+[`date`](#date) | `Date`
+[`time`](#time) | `hms::hms()`
+[`year`](#year) | `Date`
+[`yearmonth`](#yearmonth) | `Date`
+[`duration`](#duration) | `character`
+[`geopoint`](#geopoint) | `character` 
+[`geojson`](#geojson) | `character`
+[`any`](#any) | `character`
+other value | error
+undefined | guessed
+
+`create_schema()` sets `type` as follows:
+
+column type | field type
+--- | ---
+`character` | `string`
+`Date` | `date`
+`difftime` | `number`
+`factor` | `string` with factor levels as `constraints$enum`
+`hms::hms()` | `time`
+`integer` | `integer`
+`logical` | `boolean`
+`numeric` | `number`
+`POSIXct`/`POSIXlt` | `datetime`
+any other type | `any`
+
+`create_schema()` does not set a `format`, since defaults are used for all types. This is also the case for datetimes, dates and times, since `readr::write_csv()` used by `write_package()` formats those to ISO8601, which is considered the default.
+
+### title
+
+[`title`](https://specs.frictionlessdata.io/table-schema/#title) is ignored by `read_resource()` and not set by `create_schema()`.
+
+### description
+
+[`description`](https://specs.frictionlessdata.io/table-schema/#description) is ignored by `read_resource()` and not set by `create_schema()`.
+
+### example
+
+[`example`](https://specs.frictionlessdata.io/table-schema/#example) is ignored by `read_resource()` and not set by `create_schema()`.
+
+### constraints
+
+[`constraints`](https://specs.frictionlessdata.io/table-schema/#constraints) is ignored by `read_resource()` and not set by `create_schema()`, except for `constraints$enum`. `read_resource()` uses it set the column type to `factor`, with `enum` values as factor levels. `create_schema()` does the reverse.
+
+<!-- ### categories -->
+
+<!-- ### categoriesOrdered -->
+
+<!-- ### missingValues -->
+
+### rdfType
+
+[`rdfType`](https://specs.frictionlessdata.io/table-schema/#rich-types) is ignored by `read_resource()` and not set by `create_schema()`.
+
+## Field types implementation
+
+### string
+
+[`string`](https://specs.frictionlessdata.io/table-schema/#string) is interpreted as `character`. Or `factor` when `constraints$enum` is defined.
+
+- `format` is ignored.
+
+### number
+
+[`number`](https://specs.frictionlessdata.io/table-schema/#number) is interpreted as `double`. Or `factor` when `constraints$enum` is defined.
+
+- `bareNumber` is supported. If `false`, whitespace and non-numeric characters are ignored.
+- `decimalChar` (`.` by default) is supported, but as a single value for all number fields. If different values are defined, the most occurring one is selected.
+- `groupChar` (undefined by default) is supported, but as a single value for all number fields. If different values are defined, the most occurring one is selected.
+
+### integer
+
+[`integer`](https://specs.frictionlessdata.io/table-schema/#integer) is interpreted as `double` (to avoid issues with big numbers). Or `factor` when `constraints$enum` is defined.
+
+- `bareNumber` is supported. If `false`, whitespace and non-numeric characters are ignored.
+
+### boolean
+
+[`boolean`](https://specs.frictionlessdata.io/table-schema/#boolean) is interpreted as `logical`.
+
+- `trueValues` that are not defaults are not supported.
+- `falseValues` that are not defaults are not supported.
+
+### object
+
+[`object`](https://specs.frictionlessdata.io/table-schema/#object) is interpreted as `character`
+
+### array
+
+[`array`](https://specs.frictionlessdata.io/table-schema/#array) is interpreted as `character`.
+
+<!-- ### list -->
+
+### datetime
+
+[`datetime`](https://specs.frictionlessdata.io/table-schema/#datetime) is interpreted as `POSIXct`.
+
+- `format` is supported for the values `default` (ISO datetime), `any` (ISO datetime) and the same patterns as for `date` and `time`. The value `%c` is not supported.
+
+### date
+
+[`date`](https://specs.frictionlessdata.io/table-schema/#date) is interpreted as `Date`.
+
+- `format` is supported for the values `default` (ISO date), `any` (guess `ymd`) and [Python/C strptime](https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior) patterns, such as `%a, %d %B %Y` for `Sat, 23 November 2013`. `%x` is interpreted as `%m/%d/%y`. The values `%j`, `%U`, `%w` and `%W` are not supported.
+
+### time
+
+[`time`](https://specs.frictionlessdata.io/table-schema/#time) is interpreted as `hms::hms()`.
+
+- `format` is supported for the values `default` (ISO time), `any` (guess `hms`) and [Python/C strptime](https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior) patterns, such as `%I%p%M:%S.%f%z` for `8AM30:00.300+0200`.
+
+### year
+
+[`year`](https://specs.frictionlessdata.io/table-schema/#year) is interpreted as `Date` with month and day set to `01`.
+
+### yearmonth
+
+[`yearmonth`](https://specs.frictionlessdata.io/table-schema/#yearmonth) is interpreted as `Date` with day set to `01`.
+
+### duration
+
+[`duration`](https://specs.frictionlessdata.io/table-schema/#duration) is interpreted as `character`. You can parse these values with `lubridate::duration()`.
+
+### geopoint
+
+[`geopoint`](https://specs.frictionlessdata.io/table-schema/#geopoint) is interpreted as `character`.
+
+### geojson
+
+[`geojson`](https://specs.frictionlessdata.io/table-schema/#geojson) is interpreted as `character`.
+
+### any
+
+[`any`](https://specs.frictionlessdata.io/table-schema/#any) is interpreted as `character`

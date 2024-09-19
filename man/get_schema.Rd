@@ -7,7 +7,7 @@
 get_schema(package, resource_name)
 }
 \arguments{
-\item{package}{Data Package object, created with \code{\link[=read_package]{read_package()}} or
+\item{package}{Data Package object, as returned by \code{\link[=read_package]{read_package()}} or
 \code{\link[=create_package]{create_package()}}.}
 
 \item{resource_name}{Name of the Data Resource.}
@@ -16,23 +16,20 @@ get_schema(package, resource_name)
 List describing a Table Schema.
 }
 \description{
-Returns the \href{https://specs.frictionlessdata.io/table-schema/}{Table Schema}
-of a Data Resource (in a Data Package), i.e. the content of its \code{schema}
-property, describing the resource's fields, data types, relationships, and
-missing values.
+Returns the Table Schema of a Data Resource (in a Data Package), i.e. the
+content of its \code{schema} property, describing the resource's fields, data
+types, relationships, and missing values.
 The resource must be a \href{https://specs.frictionlessdata.io/tabular-data-resource/}{Tabular Data Resource}.
+}
+\details{
+See \code{vignette("table-schema")} to learn more about Table Schema.
 }
 \examples{
 # Load the example Data Package
-package <- example_package
+package <- example_package()
 
 # Get the Table Schema for the resource "observations"
 schema <- get_schema(package, "observations")
 str(schema)
 }
-\seealso{
-Other edit functions: 
-\code{\link{add_resource}()},
-\code{\link{remove_resource}()}
-}
-\concept{edit functions}
+\concept{accessor functions}

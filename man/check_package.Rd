@@ -7,18 +7,18 @@
 check_package(package)
 }
 \arguments{
-\item{package}{Data Package object, created with \code{\link[=read_package]{read_package()}} or
+\item{package}{Data Package object, as returned by \code{\link[=read_package]{read_package()}} or
 \code{\link[=create_package]{create_package()}}.}
 }
 \value{
-\code{package} invisibly or error.
+\code{package} invisibly or an error.
 }
 \description{
 Check if an object is a Data Package object with the required properties.
 }
 \examples{
 # Load the example Data Package
-package <- example_package
+package <- example_package()
 
 # Check if the Data Package is valid (invisible return)
 check_package(package)

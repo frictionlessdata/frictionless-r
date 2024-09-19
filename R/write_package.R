@@ -10,7 +10,7 @@
 #'   location of file(s).
 #' - Resource `path` has only URL(s): resource stays as is.
 #' - Resource has inline `data` originally: resource stays as is.
-#' - Resource has inline `data` as result of adding data with `add_resource()`:
+#' - Resource has inline `data` as result of adding data with [add_resource()]:
 #'   data are written to a CSV file using [readr::write_csv()], `path` points to
 #'   location of file, `data` property is removed.
 #'   Use `compress = TRUE` to gzip those CSV files.
@@ -24,7 +24,7 @@
 #' @examples
 #' # Load the example Data Package from disk
 #' package <- read_package(
-#'   system.file("extdata", "datapackage.json", package = "frictionless")
+#'   system.file("extdata", "v1", "datapackage.json", package = "frictionless")
 #' )
 #'
 #' package
@@ -74,7 +74,13 @@ write_package <- function(package, directory, compress = FALSE) {
 
   # Write datapackage.json
   package$directory <- NULL
-  package_json <- jsonlite::toJSON(package, pretty = TRUE, auto_unbox = TRUE)
+  package_json <- jsonlite::toJSON(
+    package,
+    pretty = TRUE,
+    null = "null",
+    na = "null",
+    auto_unbox = TRUE
+  )
   write(package_json, file.path(directory, "datapackage.json"))
 
   # Return (updated) package invisibly

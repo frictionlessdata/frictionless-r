@@ -2,7 +2,9 @@ test_that("create_package() creates a valid data package or returns error", {
   new <- create_package()
   expect_no_error(check_package(new))
 
-  existing <- create_package(list(resources = list(), directory = "not_default"))
+  existing <- create_package(
+    list(resources = list(), directory = "not_default")
+  )
   expect_no_error(check_package(existing))
 
   expect_error(

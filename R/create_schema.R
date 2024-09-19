@@ -1,56 +1,15 @@
 #' Create a Table Schema for a data frame
 #'
-#' Creates a [Table Schema](https://specs.frictionlessdata.io/table-schema/) for
-#' a data frame, listing all column names and types as field names and
-#' (converted) types.
+#' Creates a Table Schema for a data frame, listing all column names and types
+#' as field names and (converted) types.
+#'
+#' See `vignette("table-schema")` to learn how this function implements the
+#' Data Package standard.
 #'
 #' @param data A data frame.
 #' @return List describing a Table Schema.
 #' @family create functions
 #' @export
-#' @section Table schema properties:
-#' The Table Schema will be created from the data frame columns:
-#'
-#' - `name`: contains the column name.
-#' - `title`: not set.
-#' - `description`: not set.
-#' - `type`: contains the converted column type (see further).
-#' - `format`: not set and can thus be considered `default`.
-#'   This is also the case for dates, times and datetimes, since
-#'   [readr::write_csv()] used by [write_package()] will format those to ISO8601
-#'   which is considered the default.
-#'   Datetimes in local or non-UTC timezones will be converted to UTC before
-#'   writing.
-#' - `constraints`: not set, except for factors (see further).
-#' - `missingValues`: not set.
-#'   [write_package()] will use the default `""` for missing values.
-#' - `primaryKey`: not set.
-#' - `foreignKeys`: not set.
-#'
-#' ## Field types
-#'
-#' The column type will determine the field `type`, as follows:
-#'
-#' - `character` as
-#'   [string](https://specs.frictionlessdata.io/table-schema/#string).
-#' - `Date` as [date](https://specs.frictionlessdata.io/table-schema/#date).
-#' - `difftime` as
-#'   [number](https://specs.frictionlessdata.io/table-schema/#number).
-#' - `factor` as
-#'   [string](https://specs.frictionlessdata.io/table-schema/#string) with
-#'   factor levels as `enum`.
-#' - [hms::hms()] as
-#'   [time](https://specs.frictionlessdata.io/table-schema/#time).
-#' - `integer` as
-#'   [integer](https://specs.frictionlessdata.io/table-schema/#integer).
-#' - `logical` as.
-#'   [boolean](https://specs.frictionlessdata.io/table-schema/#boolean).
-#' - `numeric` as
-#'   [number](https://specs.frictionlessdata.io/table-schema/#number).
-#' - `POSIXct`/`POSIXlt` as
-#'   [datetime](https://specs.frictionlessdata.io/table-schema/#datetime).
-#' - Any other type as
-#'   [any](https://specs.frictionlessdata.io/table-schema/#any).
 #' @examples
 #' # Create a data frame
 #' df <- data.frame(

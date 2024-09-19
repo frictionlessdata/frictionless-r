@@ -1,32 +1,25 @@
 #' Get a Data Resource
 #'
-#' Returns a [Data Resource](https://specs.frictionlessdata.io/data-resource/)
-#' from a Data Package, i.e. the content of one of the described `resources`.
+#' Returns a Data Resource from a Data Package, i.e. the content of one of the
+#' described `resources`.
 #'
 #' @inheritParams read_resource
 #' @return List describing a Data Resource, with new property `read_from` to
 #'   indicate how data should be read.
 #'   If present, `path` will be updated to contain the full path(s).
-#' @family edit functions
+#' @family accessor functions
 #' @noRd
-#' @examples
-#' # Load the example Data Package
-#' package <- example_package
-#'
-#' # Get the resource "observations"
-#' resource <- frictionless:::get_resource(package, "observations")
-#' str(resource)
 get_resource <- function(package, resource_name) {
   # Check package
   check_package(package)
 
   # Check resource
   resource_names <- resources(package)
-  if (!resource_name %in% resources(package)) {
+  if (!resource_name %in% resource_names) {
     cli::cli_abort(
       c(
         "Can't find resource {.val {resource_name}} in {.arg package}.",
-        "i" = "Available resource{?s}: {.val {resources(package)}}."
+        "i" = "Available resource{?s}: {.val {resource_names}}."
       ),
       class = "frictionless_error_resource_not_found"
     )
@@ -42,6 +35,15 @@ get_resource <- function(package, resource_name) {
       "Resource {.val {resource_name}} must have a {.field path} or
       {.field data} property.",
       class = "frictionless_error_resource_without_path_data"
+    )
+  }
+
+  # Check that either data or path is set, not both
+  if (all(c("data", "path") %in% names(resource))) {
+    cli::cli_abort(
+      "Resource {.val {resource_name}} must have a {.field path} or
+       {.field data} property, not both.",
+      class = "frictionless_error_resource_both_path_data"
     )
   }
 

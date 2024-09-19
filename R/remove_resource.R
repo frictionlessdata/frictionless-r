@@ -1,15 +1,15 @@
 #' Remove a Data Resource
 #'
-#' Removes a [Data Resource](https://specs.frictionlessdata.io/data-resource/)
-#' from a Data Package, i.e. it removes one of the described `resources`.
+#' Removes a Data Resource from a Data Package, i.e. it removes one of the
+#' described `resources`.
 #'
 #' @inheritParams read_resource
-#' @return Provided `package` with one fewer resource.
+#' @return `package` with one fewer resource.
 #' @family edit functions
 #' @export
 #' @examples
 #' # Load the example Data Package
-#' package <- example_package
+#' package <- example_package()
 #'
 #' # List the resources
 #' resources(package)

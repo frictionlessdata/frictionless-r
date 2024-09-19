@@ -1,5 +1,5 @@
 test_that("check_package() returns package invisibly on valid Data Package", {
-  p <- example_package
+  p <- example_package()
   expect_identical(check_package(p), p)
   expect_invisible(check_package(p))
 })
@@ -59,7 +59,9 @@ test_that("check_package() returns error on missing or incorrect directory", {
   )
   expect_error(
     check_package(list(resources = list())),
-    regexp = "`package` is missing a directory property or it is not a character.",
+    regexp = paste(
+      "`package` is missing a directory property or it is not a character."
+    ),
     fixed = TRUE
   )
   expect_error(
@@ -69,7 +71,7 @@ test_that("check_package() returns error on missing or incorrect directory", {
 })
 
 test_that("check_package() returns error if resources have no name", {
-  p <- example_package
+  p <- example_package()
   p$resources[[2]]$name <- NULL
   expect_error(
     check_package(p),

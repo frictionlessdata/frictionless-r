@@ -1,0 +1,150 @@
+---
+title: "Data Package"
+author: "Peter Desmet"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Data Package}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+[Data Package](https://specs.frictionlessdata.io/data-package/) is a simple container format to describe a coherent collection of data (a dataset), including its contributors, licenses, etc.
+
+_In this document we use the terms "package" for Data Package, "resource" for Data Resource, "dialect" for Table Dialect, and "schema" for Table Schema._
+
+## General implementation
+
+Frictionless supports reading, manipulating and writing packages. Much of its functionality is focused on manipulating resources (see `vignette("data-resource")`).
+
+### Read
+
+`read_package()` reads a package from `datapackage.json` file (path or URL):
+
+```{r}
+library(frictionless)
+file <- system.file("extdata", "v1", "datapackage.json", package = "frictionless")
+package <- read_package(file)
+```
+
+`print.datapackage()` prints a human-readable summary of a package:
+
+```{r}
+package
+```
+
+### Manipulate
+
+A package is a list, with all the properties that were present in the `datapackage.json` file (e.g. `name`, `id`, etc.). Frictionless adds the custom property `"directory"` to support reading data (which is removed when writing to disk) and extends the class with `"datapackage"` to support printing and checking:
+
+```{r}
+attributes(package)
+```
+
+`create_package()` creates a package from scratch or from an existing package. It adds the required properties and class if those are missing:
+
+```{r}
+# From scratch
+create_package()
+
+# From an existing package
+create_package(package)
+```
+
+`check_package()` checks if a package contains the required properties and class:
+
+```{r, error = TRUE, purl = FALSE}
+invalid_package <- example_package()
+invalid_package$resources <- NULL
+check_package(invalid_package)
+```
+
+You can manipulate the package list, but frictionless does not provide functions to do that. Use `{purrr}` or base R instead (see `vignette("frictionless")`). Note however that some functions (e.g. `unclass()` or `append()`) removes the custom class, creating an invalid package. You can fix this by calling `create_package()` on your package.
+
+Most functions have `package` as their first argument and return package. This allows you to **pipe the functions**:
+
+```{r, message = FALSE}
+library(dplyr) # Or library(magrittr)
+my_package <-
+  create_package() %>%
+  add_resource(resource_name = "iris", data = iris) %>%
+  append(c("title" = "my_package"), after = 0) %>%
+  create_package() # To add the datapackage class again
+my_package
+```
+
+### Write
+
+`write_package()` writes a package to disk as a `datapackage.json` file. For some resources, it also writes the data files. See the function documentation and `vignette("data-resource")` for details.
+
+## Properties implementation
+
+### resources
+
+[`resources`](https://specs.frictionlessdata.io/data-package/#resource-information) is required. It is used by `resources()` and many other functions. `check_package()` returns an error if it is missing.
+
+<!-- ### $schema -->
+
+### profile
+
+[`profile`](https://specs.frictionlessdata.io/data-package/#profile) is ignored by `read_package()` and not set (to e.g. `"tabular-data-package"`) by `create_package()`.
+
+### name
+
+[`name`](https://specs.frictionlessdata.io/data-package/#name) is ignored by `read_package()` and not set by `create_package()`.
+
+### id
+
+[`id`](https://specs.frictionlessdata.io/data-package/#id) is ignored by `read_package()` and not set by `create_package()`. `print.datapackage()` adds an extra sentence when `id` is a URL (like a DOI):
+
+```{r}
+package <- example_package()
+package$id <- "https://doi.org/10.5281/zenodo.10053702/"
+package
+```
+
+### licenses
+
+[`licenses`](https://specs.frictionlessdata.io/data-package/#licenses) is ignored by `read_package()` and not set by `create_package()`.
+
+### title
+
+[`title`](https://specs.frictionlessdata.io/data-package/#title) is ignored by `read_package()` and not set by `create_package()`.
+
+### description
+
+[`description`](https://specs.frictionlessdata.io/data-package/#description) is ignored by `read_package()` and not set by `create_package()`.
+
+### homepage
+
+[`homepage`](https://specs.frictionlessdata.io/data-package/#homepage) is ignored by `read_package()` and not set by `create_package()`.
+
+### image
+
+[`image`](https://specs.frictionlessdata.io/data-package/#image) is ignored by `read_package()` and not set by `create_package()`.
+
+### version
+
+[`version`](https://specs.frictionlessdata.io/data-package/#version) is ignored by `read_package()` and not set by `create_package()`.
+
+### created
+
+[`created`](https://specs.frictionlessdata.io/data-package/#created) is ignored by `read_package()` and not set by `create_package()`.
+
+### keywords
+
+[`keywords`](https://specs.frictionlessdata.io/data-package/#keywords) is ignored by `read_package()` and not set by `create_package()`.
+
+### contributors
+
+[`contributors`](https://specs.frictionlessdata.io/data-package/#contributors) is ignored by `read_package()` and not set by `create_package()`.
+
+### sources
+
+[`sources`](https://specs.frictionlessdata.io/data-package/#sources) is ignored by `read_package()` and not set by `create_package()`.

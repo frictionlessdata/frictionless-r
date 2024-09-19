@@ -1,6 +1,0 @@
-observation_id,deployment_id,timestamp,scientific_name,count,life_stage,comments
-1-4,1,2020-09-28T18:04:04+01:00,Lepus europaeus,1,adult,
-1-5,1,2020-09-28T20:19:54+01:00,Sus scrofa,2,unknown,
-2-1,2,2021-10-01T02:25:06+01:00,Sus scrofa,1,unknown,Duplicate
-2-2,2,2021-10-01T02:25:06+01:00,Sus scrofa,1,unknown,Duplicate
-2-3,2,2021-10-01T05:47:30+01:00,Sus scrofa,1,unknown,

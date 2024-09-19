@@ -1,19 +1,20 @@
 #' Get the Table Schema of a Data Resource
 #'
-#' Returns the [Table Schema](https://specs.frictionlessdata.io/table-schema/)
-#' of a Data Resource (in a Data Package), i.e. the content of its `schema`
-#' property, describing the resource's fields, data types, relationships, and
-#' missing values.
-#' The resource must be a [Tabular Data
-#' Resource](https://specs.frictionlessdata.io/tabular-data-resource/).
+#' Returns the Table Schema of a Data Resource (in a Data Package), i.e. the
+#' content of its `schema` property, describing the resource's fields, data
+#' types, relationships, and missing values.
+#' The resource must be a [Tabular Data Resource](
+#' https://specs.frictionlessdata.io/tabular-data-resource/).
+#'
+#' See `vignette("table-schema")` to learn more about Table Schema.
 #'
 #' @inheritParams read_resource
 #' @return List describing a Table Schema.
-#' @family edit functions
+#' @family accessor functions
 #' @export
 #' @examples
 #' # Load the example Data Package
-#' package <- example_package
+#' package <- example_package()
 #'
 #' # Get the Table Schema for the resource "observations"
 #' schema <- get_schema(package, "observations")

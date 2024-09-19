@@ -1,23 +1,23 @@
 #' Create a Data Package
 #'
-#' Initiates a [Data Package](https://specs.frictionlessdata.io/data-package/)
-#' object, either from scratch or from an existing list.
+#' Initiates a Data Package object, either from scratch or from an existing
+#' list.
 #' This Data Package object is a list with the following characteristics:
 #' - A `datapackage` subclass.
 #' - All properties of the original `descriptor`.
-#' - A [`resources`](
-#'   https://specs.frictionlessdata.io/data-package/#required-properties)
-#'   property, set to an empty list if undefined.
+#' - A `resources` property, set to an empty list if undefined.
 #' - A `directory` property, set to `"."` for the current directory if
 #'   undefined.
 #'   It is used as the base path to access resources with [read_resource()].
 #'
-#' The function will run [check_package()] on the created package to make sure
+#' See `vignette("data-package")` to learn how this function implements the
+#' Data Package standard.
+#' [check_package()] is automatically called on the created package to make sure
 #' it is valid.
 #'
 #' @param descriptor List to be made into a Data Package object.
 #'   If undefined, an empty Data Package will be created from scratch.
-#' @return Data Package object.
+#' @return A Data Package object.
 #' @family create functions
 #' @export
 #' @examples

@@ -7,21 +7,21 @@
 remove_resource(package, resource_name)
 }
 \arguments{
-\item{package}{Data Package object, created with \code{\link[=read_package]{read_package()}} or
+\item{package}{Data Package object, as returned by \code{\link[=read_package]{read_package()}} or
 \code{\link[=create_package]{create_package()}}.}
 
 \item{resource_name}{Name of the Data Resource.}
 }
 \value{
-Provided \code{package} with one fewer resource.
+\code{package} with one fewer resource.
 }
 \description{
-Removes a \href{https://specs.frictionlessdata.io/data-resource/}{Data Resource}
-from a Data Package, i.e. it removes one of the described \code{resources}.
+Removes a Data Resource from a Data Package, i.e. it removes one of the
+described \code{resources}.
 }
 \examples{
 # Load the example Data Package
-package <- example_package
+package <- example_package()
 
 # List the resources
 resources(package)
@@ -34,7 +34,6 @@ resources(package)
 }
 \seealso{
 Other edit functions: 
-\code{\link{add_resource}()},
-\code{\link{get_schema}()}
+\code{\link{add_resource}()}
 }
 \concept{edit functions}

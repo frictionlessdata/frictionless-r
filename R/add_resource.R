@@ -1,12 +1,14 @@
 #' Add a Data Resource
 #'
-#' Adds a Tabular [Data
-#' Resource](https://specs.frictionlessdata.io/data-resource/) to a Data
-#' Package.
-#' The resource will be a [Tabular Data
-#' Resource](https://specs.frictionlessdata.io/tabular-data-resource/).
+#' Adds a Data Resource to a Data Package.
+#' The resource will be a [Tabular Data Resource](
+#' https://specs.frictionlessdata.io/tabular-data-resource/).
 #' The resource name can only contain lowercase alphanumeric characters plus
 #' `.`, `-` and `_`.
+#'
+#' See `vignette("data-resource")` (and to a lesser extend
+#' `vignette("table-dialect")`) to learn how this function implements the
+#' Data Package standard.
 #'
 #' @inheritParams read_resource
 #' @param data Data to attach, either a data frame or path(s) to CSV file(s):
@@ -14,7 +16,7 @@
 #'     when using [write_package()].
 #'   - One or more paths to CSV file(s) as a character (vector): added to the
 #'     resource as `path`.
-#'     The **last file will be read** with [readr::read_delim()] to create or
+#'     The last file will be read with [readr::read_delim()] to create or
 #'     compare with `schema` and to set `format`, `mediatype` and `encoding`.
 #'     The other files are ignored, but are expected to have the same structure
 #'     and properties.
@@ -25,23 +27,22 @@
 #'   resource with the same name.
 #' @param delim Single character used to separate the fields in the CSV file(s),
 #'   e.g. `\t` for tab delimited file.
-#'   Will be set as `delimiter` in the resource [CSV
-#'   dialect](https://specs.frictionlessdata.io/csv-dialect/#specification), so
-#'   read functions know how to read the file(s).
-#' @param ... Additional [metadata
-#'   properties](https://specs.frictionlessdata.io/data-resource/#metadata-properties)
+#'   Will be set as `delimiter` in the resource Table Dialect, so read functions
+#'.  know how to read the file(s).
+#' @param ... Additional [metadata properties](
+#'   https://docs.ropensci.org/frictionless/articles/data-resource.html#properties-implementation)
 #'   to add to the resource, e.g. `title = "My title", validated = FALSE`.
 #'   These are not verified against specifications and are ignored by
 #'   [read_resource()].
 #'   The following properties are automatically set and can't be provided with
 #'   `...`: `name`, `data`, `path`, `schema`, `profile`, `format`, `mediatype`,
 #'   `encoding` and `dialect`.
-#' @return Provided `package` with one additional resource.
+#' @return `package` with one additional resource.
 #' @family edit functions
 #' @export
 #' @examples
 #' # Load the example Data Package
-#' package <- example_package
+#' package <- example_package()
 #'
 #' # List the resources
 #' resources(package)
@@ -69,14 +70,17 @@
 #'   title = "Positions with schema"
 #' )
 #'
-#' # Replace the resource "observations" with a file-based resource (2 CSV files)
-#' path_1 <- system.file("extdata", "observations_1.csv", package = "frictionless")
-#' path_2 <- system.file("extdata", "observations_2.csv", package = "frictionless")
+#' # Replace the resource "observations" with a file-based resource (2 TSV files)
+#' path_1 <-
+#' system.file("extdata", "v1", "observations_1.tsv", package = "frictionless")
+#' path_2 <-
+#' system.file("extdata", "v1", "observations_2.tsv", package = "frictionless")
 #' package <- add_resource(
 #'   package,
 #'   resource_name = "observations",
 #'   data = c(path_1, path_2),
-#'   replace = TRUE
+#'   replace = TRUE,
+#'   delim = "\t"
 #' )
 #'
 #' # List the resources ("positions" and "positions_with_schema" added)

@@ -1,9 +1,28 @@
 # frictionless (development version)
 
-* [checklist](https://github.com/inbo/checklist) tooling was removed, in favour of `CITATION.cff` for citation and Zenodo deposit.
-* `write_package()` no longer writes to "." by default, since this is not allowed by CRAN policies. The user needs to explicitly define a directory (#205).
-* **frictionless now relies on R version 3.6.0 or higher**. Originally it stated version 3.5.0 or higher, but this was not tested and likely not true (#238).
+* `read_package()` now returns a warning rather than an error when a `datapackage.json` contains no resources. This allows use to create the JSON and then add resources with frictionless (#265).
+* `example_package()` now has a `version` parameter, allowing to load the example Data Package following the Data Package [v1](https://specs.frictionlessdata.io/) or [v2](https://datapackage.org/) specification (#249).
+* * **frictionless now relies on R version 3.6.0 or higher**. Originally it stated version 3.5.0 or higher, but this was not tested and likely not true (#238).
+
+# frictionless 1.2.0
+
+## Changes for users
+
 * `add_resource()` now allows to replace an existing resource (#227).
+* `read_resource()` now returns an error if both `path` and `data` are provided (#143).
+* `write_package()` no longer writes to `"."` by default, since this is not allowed by CRAN policies. The user needs to explicitly define a directory (#205).
+* `null` values in a read `datapackage.json` are now retained by `write_package()`, rather than being changed to empty lists. Properties assigned by the user to `NA` and `NULL` remain being written as `null` and removed respectively (#203).
+* New vignettes `vignette("data-package")`, `vignette("data-resource")`, `vignette("table-dialect")` and `vignette("table-schema")` describe how frictionless implements the Data Package standard. The (verbose) function documentation of `read_resource()` and `create_schema()` has been moved to these vignettes, improving readability and maintenance (#208, #246).
+* The included dataset `example_package` is removed in favour of the function `example_package()`. This function allows to reproducibly provide a local Data Package, without the need for an internet connection. The `observations` resource was also changed from a remote to a local resource and from CSV to TSV. **This change affects the use of `example_package` in older versions of frictionless.** We recommend to update frictionless to the latest version (#114, #253).
+
+## Changes for developers
+
+* `read_resource()` is now more modular under the hood, which should make it easier to extend (#210).
+* [checklist](https://github.com/inbo/checklist) tooling was removed, in favour of `CITATION.cff` for citation and Zenodo deposit (#206).
+
+## Other changes
+
+* Add [Sanne Govaert](https://orcid.org/0000-0002-8939-1305) as author. Welcome Sanne!
 
 # frictionless 1.1.0
 

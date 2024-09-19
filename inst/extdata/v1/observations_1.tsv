@@ -1,0 +1,4 @@
+observation_id	deployment_id	timestamp	scientific_name	count	life_stage	comments
+1-1	1	2020-09-28T00:13:07Z	Capreolus capreolus	1	juvenile	Comment 1
+1-2	1	2020-09-28T15:59:17Z	Capreolus capreolus	1	adult	Comment 2
+1-3	1	2020-09-28T16:35:23Z	Lepus europaeus	1	adult	Comment 3

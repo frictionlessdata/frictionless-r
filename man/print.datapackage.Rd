@@ -21,9 +21,9 @@ and a link to more information (if provided in \code{package$id}).
 }
 \examples{
 # Load the example Data Package
-package <- example_package
+package <- example_package()
 
 # Print a summary of the Data Package
 package # Or print(package)
 }
-\concept{datapackage functions}
+\concept{print functions}

@@ -1,6 +1,6 @@
 test_that("read_package() returns a valid Data Package reading from path", {
-  # Load example package locally and a valid minimal one
-  p_path <- system.file("extdata", "datapackage.json", package = "frictionless")
+  # Load example package and a valid minimal one
+  p_path <- system.file("extdata", "v1", "datapackage.json", package = "frictionless")
   minimal_path <- test_path("data/valid_minimal.json")
   p_local <- read_package(p_path)
   p_minimal <- read_package(minimal_path)
@@ -27,7 +27,7 @@ test_that("read_package() returns a valid Data Package reading from url", {
   # Load example package remotely
   p_url <- file.path(
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r/",
-    "main/inst/extdata/datapackage.json"
+    "main/inst/extdata/v1/datapackage.json"
   )
   p_remote <- read_package(p_url)
 
@@ -45,7 +45,7 @@ test_that("read_package() returns a valid Data Package reading from url", {
   )
 })
 
-test_that("read_package() returns error on missing file and properties", {
+test_that("read_package() returns error on missing or invalid file", {
   skip_if_offline()
   # Incorrect type
   expect_error(
@@ -67,36 +67,43 @@ test_that("read_package() returns error on missing file and properties", {
   # Not a json file
   expect_error(
     read_package(
-      system.file("extdata", "deployments.csv", package = "frictionless")
+      system.file("extdata", "v1", "deployments.csv", package = "frictionless")
     ),
     regexp = "lexical error: invalid char in json text.",
     fixed = FALSE
   )
 
-  # No resources property
+  # No file remotely
   expect_error(
-    read_package(test_path("data/resources_missing.json")),
-    class = "frictionless_error_file_without_resources"
+    read_package("https://example.com/nofile.json"),
+    class = "frictionless_error_url_not_found"
   )
-  expect_error(
+})
+
+test_that("read_package() warns if resources are missing", {
+  # No resources property
+  expect_warning(
+    read_package(test_path("data/resources_missing.json")),
+    class = "frictionless_warning_file_without_resources"
+  )
+  expect_warning(
     read_package(test_path("data/resources_missing.json")),
     regexp = paste(
-      "`file` 'data/resources_missing.json' must have a resources property",
+      "`file` 'data/resources_missing.json' should have a resources property",
       "containing at least one resource."
     ),
     fixed = TRUE
   )
-
-  # Resources is empty list
-  expect_error(
-    read_package(test_path("data/resources_empty.json")),
-    class = "frictionless_error_file_without_resources"
+  expect_warning(
+    read_package(test_path("data/resources_missing.json")),
+    regexp = "Use `add_resource()` to add resources.",
+    fixed = TRUE
   )
 
-  # No file remotely
-  expect_error(
-    read_package("http://example.com/nofile.json"),
-    class = "frictionless_error_url_not_found"
+  # Resources is empty list
+  expect_warning(
+    read_package(test_path("data/resources_empty.json")),
+    class = "frictionless_warning_file_without_resources"
   )
 })
 
@@ -116,4 +123,11 @@ test_that("read_package() allows YAML descriptor", {
   expect_no_error(
     check_package(read_package(test_path("data/valid_minimal.yml")))
   )
+})
+
+test_that("read_package() converts JSON null to NULL", {
+  p_path <- system.file("extdata", "v1", "datapackage.json", package = "frictionless")
+  p <- read_package(p_path)
+  # { "image": null } is read as NULL (use chuck() to force error if missing)
+  expect_null(purrr::chuck(p, "image"))
 })

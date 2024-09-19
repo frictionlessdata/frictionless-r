@@ -3,12 +3,12 @@
 #' Check if an object is a Data Package object with the required properties.
 #'
 #' @inheritParams read_resource
-#' @return `package` invisibly or error.
+#' @return `package` invisibly or an error.
 #' @family check functions
 #' @export
 #' @examples
 #' # Load the example Data Package
-#' package <- example_package
+#' package <- example_package()
 #'
 #' # Check if the Data Package is valid (invisible return)
 #' check_package(package)
