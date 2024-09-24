@@ -31,7 +31,7 @@ Other contributors:
 \itemize{
   \item Kyle Husmann \email{kdh38@psu.edu} (\href{https://orcid.org/0000-0001-9875-8976}{ORCID}) (Pennsylvania State University) [contributor]
   \item Research Institute for Nature and Forest (INBO) (https://www.vlaanderen.be/inbo/en-gb/) [copyright holder]
-  \item LifeWatch Belgium (https://lifewatch.be) [funder]
+  \item Research Foundation - Flanders (https://lifewatch.be) [funder]
   \item Beatriz Milz \email{milz.bea@gmail.com} (\href{https://orcid.org/0000-0002-3064-4486}{ORCID}) [reviewer]
   \item João Martins \email{joao.martins@gmx.net} (\href{https://orcid.org/0000-0001-7961-4280}{ORCID}) [reviewer]
 }

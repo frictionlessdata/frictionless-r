@@ -15,7 +15,7 @@ Authors@R: c(
            comment = c(ORCID = "0000-0001-9875-8976", affiliation = "Pennsylvania State University")),
     person("Research Institute for Nature and Forest (INBO)", role = "cph",
            comment = "https://www.vlaanderen.be/inbo/en-gb/"),
-    person("LifeWatch Belgium", role = "fnd",
+    person("Research Foundation - Flanders", role = "fnd",
            comment = "https://lifewatch.be"),
     person("Beatriz", "Milz", , "milz.bea@gmail.com", role = "rev",
            comment = c(ORCID = "0000-0002-3064-4486")),

@@ -16,11 +16,6 @@ articles:
   - table-dialect
   - table-schema
 
-authors:
-  LifeWatch Belgium:
-    href: https://lifewatch.be
-    html: "<img src='https://oscibio.inbo.be/assets/logos/lifewatch-belgium.svg' width=72 alt='LifeWatch Belgium logo'>"
-
 reference:
 - title: "Read a Data Package"
   desc: "Read a `datapackage.json` file and its associated Data Resources from path or URL."
