@@ -3,7 +3,7 @@
 #' Prints a human-readable summary of a Data Package, including its resources
 #' and a link to more information (if provided in `package$id`).
 #'
-#' @param x Data Package object, created with [read_package()] or
+#' @param x Data Package object, as returned by [read_package()] or
 #'   [create_package()].
 #' @param ... Further arguments, they are ignored by this function.
 #' @return [print()] with a summary of the Data Package object.

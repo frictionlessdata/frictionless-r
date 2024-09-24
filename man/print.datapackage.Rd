@@ -7,7 +7,7 @@
 \method{print}{datapackage}(x, ...)
 }
 \arguments{
-\item{x}{Data Package object, created with \code{\link[=read_package]{read_package()}} or
+\item{x}{Data Package object, as returned by \code{\link[=read_package]{read_package()}} or
 \code{\link[=create_package]{create_package()}}.}
 
 \item{...}{Further arguments, they are ignored by this function.}
