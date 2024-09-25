@@ -303,19 +303,19 @@ str(iris_schema)
 #>   .. ..$ description: chr "Iris species."
 ```
 
-Let's add `iris` as a resource to your Data Package again, but this time with the customized schema. Let's also add `title` and `description` as a metadata properties. Note that you have to remove the originally added resource `iris` with `remove_resource()` first, since Data Packages can only contain uniquely named resources:
+Let's add `iris` as a resource to your Data Package again, but this time with the customized schema. You can replace a resource with `replace = TRUE`. Let's also add `title` and `description` as a metadata properties:
 
 
 ``` r
 my_package <-
   my_package %>%
-  remove_resource("iris") %>% # Remove originally added resource
   add_resource(
     resource_name = "iris",
     data = iris,
     schema = iris_schema, # Your customized schema
     title = "Iris dataset", # Your additional metadata
-    description = "The built-in dataset in R."
+    description = "The built-in dataset in R.",
+    replace = TRUE
   )
 ```
 
