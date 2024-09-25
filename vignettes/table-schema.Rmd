@@ -17,7 +17,9 @@ knitr::opts_chunk$set(
 
 [Table Schema](https://specs.frictionlessdata.io/table-schema/) is a simple format to describe tabular data, including field names, types, constraints, missing values, foreign keys, etc.
 
-_In this document we use the terms "package" for Data Package, "resource" for Data Resource, "dialect" for Table Dialect, and "schema" for Table Schema._
+::: {.callout-info}
+In this document we use the terms "package" for Data Package, "resource" for Data Resource, "dialect" for Table Dialect, and "schema" for Table Schema.
+:::
 
 ## General implementation
 

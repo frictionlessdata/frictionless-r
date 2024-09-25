@@ -17,7 +17,9 @@ knitr::opts_chunk$set(
 
 [Table Dialect](https://specs.frictionlessdata.io/csv-dialect/) (previously called CSV dialect) is a simple format to describe the dialect of a tabular data file, including its delimiter, header rows, escape characters, etc.
 
-_In this document we use the terms "package" for Data Package, "resource" for Data Resource, "dialect" for Table Dialect, and "schema" for Table Schema._
+::: {.callout-info}
+In this document we use the terms "package" for Data Package, "resource" for Data Resource, "dialect" for Table Dialect, and "schema" for Table Schema.
+:::
 
 ## General implementation
 
@@ -71,7 +73,11 @@ package$resources[[2]]$dialect$delimiter
 
 ### escapeChar
 
-[`escapeChar`](https://specs.frictionlessdata.io/csv-dialect/#specification) is ignored by `read_resource()` unless it is `"\\"`. It is passed as `escape_backslash = TRUE` and `escape_double = FALSE` in `readr::read_delim()`. Note that `escapeChar` and `doubleQuote` are mutually exclusive, so you cannot escape with `\"` and `""` in the same file.
+[`escapeChar`](https://specs.frictionlessdata.io/csv-dialect/#specification) is ignored by `read_resource()` unless it is `"\\"`. It is passed as `escape_backslash = TRUE` and `escape_double = FALSE` in `readr::read_delim()`.
+
+::: {.callout-warning}
+`escapeChar` and `doubleQuote` are mutually exclusive, so you cannot escape with `\"` and `""` in the same file.
+:::
 
 ### nullSequence
 

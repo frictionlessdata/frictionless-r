@@ -173,7 +173,9 @@ my_package <-
   add_resource(resource_name = "iris", data = iris)
 ```
 
-Note that you can chain most frictionless functions together using pipes (`%>%` or `|>`), which improves readability.
+::: {.callout-info}
+You can chain most frictionless functions together using pipes (`%>%` or `|>`), which improves readability.
+:::
 
 `my_package` now contains one resource:
 
@@ -349,7 +351,9 @@ my_package <- append(my_package, c(title = "My package"), after = 1)
 my_package <- create_package(my_package)
 ```
 
-Note that in the above steps you started a Data Package from scratch with `create_package()`, but you can use the same functionality to edit an existing Data Package read with `read_package()`.
+::: {.callout-info}
+In the steps above you started a Data Package from scratch with `create_package()`, but you can use the same functionality to edit an existing Data Package read with `read_package()`.
+:::
 
 ## Write a Data Package
 

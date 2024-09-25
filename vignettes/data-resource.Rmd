@@ -17,7 +17,9 @@ knitr::opts_chunk$set(
 
 [Data Resource](https://specs.frictionlessdata.io/data-resource/) is a simple format to describe a data resource such as an individual table or file, including its name, format, path, etc.
 
-_In this document we use the terms "package" for Data Package, "resource" for Data Resource, "dialect" for Table Dialect, and "schema" for Table Schema._
+::: {.callout-info}
+In this document we use the terms "package" for Data Package, "resource" for Data Resource, "dialect" for Table Dialect, and "schema" for Table Schema.
+:::
 
 ## General implementation
 
@@ -65,7 +67,9 @@ path <- system.file("extdata", "v1", "deployments.csv", package = "frictionless"
 add_resource(package, "deployments", data = path, replace = TRUE)
 ```
 
-Note that you can pipe most functions (see `vignette("data-package")`).
+::: {.callout-info}
+You can pipe most functions (see `vignette("data-package")`).
+:::
 
 ### Write
 
@@ -111,7 +115,9 @@ add_resource(package, "deployments", data = path, replace = TRUE)
 
 ### data
 
-_Note: Support for inline `data` is currently limited, e.g. JSON object and string are not supported and `schema`, `mediatype` and `format` are ignored._
+::: {.callout-warning}
+Support for inline `data` is currently limited, e.g. JSON object and string are not supported and `schema`, `mediatype` and `format` are ignored.
+:::
 
 `data` is for inline data (included in the `datapackage.json`). `read_resource()` attempts to read `data` if it is provided as a JSON array:
 
