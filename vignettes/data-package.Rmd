@@ -17,7 +17,9 @@ knitr::opts_chunk$set(
 
 [Data Package](https://specs.frictionlessdata.io/data-package/) is a simple container format to describe a coherent collection of data (a dataset), including its contributors, licenses, etc.
 
-_In this document we use the terms "package" for Data Package, "resource" for Data Resource, "dialect" for Table Dialect, and "schema" for Table Schema._
+::: {.callout-info}
+In this document we use the terms "package" for Data Package, "resource" for Data Resource, "dialect" for Table Dialect, and "schema" for Table Schema.
+:::
 
 ## General implementation
 
@@ -65,7 +67,11 @@ invalid_package$resources <- NULL
 check_package(invalid_package)
 ```
 
-You can manipulate the package list, but frictionless does not provide functions to do that. Use `{purrr}` or base R instead (see `vignette("frictionless")`). Note however that some functions (e.g. `unclass()` or `append()`) removes the custom class, creating an invalid package. You can fix this by calling `create_package()` on your package.
+You can manipulate the package list, but frictionless does not provide functions to do that. Use `{purrr}` or base R instead (see `vignette("frictionless")`).
+
+::: {.callout-warning}
+Some functions (e.g. `unclass()` or `append()`) remove the custom class, creating an invalid package. You can fix this by calling `create_package()` on your package.
+:::
 
 Most functions have `package` as their first argument and return package. This allows you to **pipe the functions**:
 
