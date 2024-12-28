@@ -8,6 +8,8 @@
 #' Data Package standard.
 #'
 #' @param file Path or URL to a `datapackage.json` file.
+#' @param attach Attach the resources' data to the package object rather than keeping the path. See
+#' [data location](https://specs.frictionlessdata.io/data-resource/#data-location).
 #' @return A Data Package object, see [create_package()].
 #' @family read functions
 #' @export
@@ -22,7 +24,7 @@
 #' # Access the Data Package properties
 #' package$name
 #' package$created
-read_package <- function(file = "datapackage.json") {
+read_package <- function(file = "datapackage.json", attach = FALSE) {
   # Read file
   if (!is.character(file)) {
     cli::cli_abort(
@@ -48,5 +50,20 @@ read_package <- function(file = "datapackage.json") {
   descriptor$directory <- dirname(file) # Also works for URLs
 
   # Create package
-  create_package(descriptor)
+  package <- create_package(descriptor)
+
+  # Attach path and url to package
+  if (attach) {
+    package$resources <- purrr::map(package$resources, ~ {
+      resource <- get_resource(package, .x$name)
+      if (resource$read_from == "path" || resource$read_from == "url") {
+        df <- read_from_path(package, .x$name, col_select = NULL)
+        .x$data <- df
+        .x$path <- NULL
+      }
+      return(.x)
+    })
+  }
+
+  return(package)
 }
