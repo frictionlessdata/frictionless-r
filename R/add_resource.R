@@ -120,6 +120,8 @@ add_resource <- function(package, resource_name, data, schema = NULL,
       ),
       class = "frictionless_error_resource_already_exists"
     )
+  } else if (replace && !(resource_name %in% resources(package))) {
+    replace <- FALSE
   }
 
   # Check data (data frame or path), content of data frame is checked later
