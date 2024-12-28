@@ -131,3 +131,17 @@ test_that("read_package() converts JSON null to NULL", {
   # { "image": null } is read as NULL (use chuck() to force error if missing)
   expect_null(purrr::chuck(p, "image"))
 })
+
+
+test_that("read_package() with `attach=TRUE`", {
+  p_path <- system.file("extdata", "v1", "datapackage.json", package = "frictionless")
+  p <- read_package(p_path, attach = TRUE)
+  expect_s3_class(p$resources[[1]]$data, "data.frame")
+
+  p_url <- file.path(
+    "https://raw.githubusercontent.com/frictionlessdata/frictionless-r/",
+    "main/inst/extdata/v1/datapackage.json"
+  )
+  p_remote <- read_package(p_url, attach = TRUE)
+  expect_s3_class(p_remote$resources[[1]]$data, "data.frame")
+})
