@@ -56,12 +56,11 @@ read_package <- function(file = "datapackage.json", attach = FALSE) {
   if (attach) {
     package$resources <- purrr::map(package$resources, ~ {
       resource <- get_resource(package, .x$name)
-      if (resource$read_from == "path" || resource$read_from == "url") {
-        df <- read_from_path(package, .x$name, col_select = NULL)
-        .x$data <- df
+      if (resource$read_from %in% c("path", "url")) {
+        .x$data <- read_from_path(package, .x$name, col_select = NULL)
         .x$path <- NULL
       }
-      return(.x)
+      .x
     })
   }
 
