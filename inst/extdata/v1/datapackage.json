@@ -65,13 +65,20 @@
             }
           }
         ],
-        "missingValues": ["", "NA", "NaN"],
+        "missingValues": [
+          "",
+          "NA",
+          "NaN"
+        ],
         "primaryKey": "deployment_id"
       }
     },
     {
       "name": "observations",
-      "path": ["observations_1.tsv", "observations_2.tsv"],
+      "path": [
+        "observations_1.tsv",
+        "observations_2.tsv"
+      ],
       "profile": "tabular-data-resource",
       "title": "Camera trap observations",
       "format": "csv",
@@ -125,7 +132,13 @@
             "type": "string",
             "constraints": {
               "required": false,
-              "enum": ["adult", "subadult", "juvenile", "offspring", "unknown"]
+              "enum": [
+                "adult",
+                "subadult",
+                "juvenile",
+                "offspring",
+                "unknown"
+              ]
             }
           },
           {
@@ -136,7 +149,11 @@
             }
           }
         ],
-        "missingValues": ["", "NA", "NaN"],
+        "missingValues": [
+          "",
+          "NA",
+          "NaN"
+        ],
         "primaryKey": "observation_id",
         "foreignKeys": [
           {

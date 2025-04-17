@@ -68,13 +68,22 @@
           }
         ],
         "$schema": "https://datapackage.org/profiles/2.0/tableschema.json",
-        "missingValues": ["", "NA", "NaN"],
-        "primaryKey": ["deployment_id"]
+        "missingValues": [
+          "",
+          "NA",
+          "NaN"
+        ],
+        "primaryKey": [
+          "deployment_id"
+        ]
       }
     },
     {
       "name": "observations",
-      "path": ["observations_1.tsv", "observations_2.tsv"],
+      "path": [
+        "observations_1.tsv",
+        "observations_2.tsv"
+      ],
       "type": "table",
       "$schema": "https://datapackage.org/profiles/2.0/dataresource.json",
       "title": "Camera trap observations",
@@ -128,7 +137,13 @@
           {
             "name": "life_stage",
             "type": "string",
-            "categories": ["adult", "subadult", "juvenile", "offspring", "unknown"],
+            "categories": [
+              "adult",
+              "subadult",
+              "juvenile",
+              "offspring",
+              "unknown"
+            ],
             "categoriesOrdered": false,
             "constraints": {
               "required": false
@@ -157,13 +172,19 @@
             "label": "not a number"
           }
         ],
-        "primaryKey": ["observation_id"],
+        "primaryKey": [
+          "observation_id"
+        ],
         "foreignKeys": [
           {
-            "fields": ["deployment_id"],
+            "fields": [
+              "deployment_id"
+            ],
             "reference": {
               "resource": "deployments",
-              "fields": ["deployment_id"]
+              "fields": [
+                "deployment_id"
+              ]
             }
           }
         ]
@@ -222,20 +243,30 @@
           }
         ],
         "$schema": "https://datapackage.org/profiles/2.0/tableschema.json",
-        "primaryKey": ["media_id"],
+        "primaryKey": [
+          "media_id"
+        ],
         "foreignKeys": [
           {
-            "fields": ["deployment_id"],
+            "fields": [
+              "deployment_id"
+            ],
             "reference": {
               "resource": "deployments",
-              "fields": ["deployment_id"]
+              "fields": [
+                "deployment_id"
+              ]
             }
           },
           {
-            "fields": ["observation_id"],
+            "fields": [
+              "observation_id"
+            ],
             "reference": {
               "resource": "observations",
-              "fields": ["observation_id"]
+              "fields": [
+                "observation_id"
+              ]
             }
           }
         ]
