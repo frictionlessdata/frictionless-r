@@ -50,7 +50,7 @@ install.packages("frictionless")
 
 Or the development version from
 [GitHub](https://github.com/frictionlessdata/frictionless-r) or
-[R-universe](https://ropensci.r-universe.dev):
+[R-universe](https://ropensci.r-universe.dev/frictionless):
 
 ``` r
 # install.packages("devtools")

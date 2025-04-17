@@ -44,7 +44,7 @@ Install the latest released version from CRAN:
 install.packages("frictionless")
 ```
 
-Or the development version from [GitHub](https://github.com/frictionlessdata/frictionless-r) or [R-universe](https://ropensci.r-universe.dev):
+Or the development version from [GitHub](https://github.com/frictionlessdata/frictionless-r) or [R-universe](https://ropensci.r-universe.dev/frictionless):
 
 ```{r, eval = FALSE}
 # install.packages("devtools")
