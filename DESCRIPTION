@@ -14,7 +14,7 @@ Authors@R: c(
     person("Kyle", "Husmann", , "kdh38@psu.edu", role = "ctb",
            comment = c(ORCID = "0000-0001-9875-8976", affiliation = "Pennsylvania State University")),
     person("Research Institute for Nature and Forest (INBO)", role = "cph",
-           comment = "https://www.vlaanderen.be/inbo/en-gb/"),
+           comment = c(ROR = "00j54wy13")),
     person("Research Foundation - Flanders", role = "fnd",
            comment = "https://lifewatch.be"),
     person("Beatriz", "Milz", , "milz.bea@gmail.com", role = "rev",
