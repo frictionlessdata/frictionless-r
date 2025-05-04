@@ -276,6 +276,16 @@ test_that("add_resource() can replace an existing resource", {
   expect_equal(resources(p), resources(p_replaced))
 })
 
+test_that("add_resource() can add a new resource even with replace=TRUE", {
+  p <- example_package()
+  df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
+  expect_no_error(
+    add_resource(p, "new_resource", df, replace = TRUE)
+  )
+  p_replaced <- add_resource(p, "new_resource", df, replace = TRUE)
+  expect_equal(c(resources(p), "new_resource"), resources(p_replaced))
+})
+
 test_that("add_resource() uses provided schema (list or path) or creates one", {
   p <- create_package()
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
