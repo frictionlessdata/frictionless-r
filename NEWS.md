@@ -1,3 +1,5 @@
+# frictionless (development version)
+
 # frictionless 1.2.1
 
 * **frictionless now relies on R version 3.6.0 or higher**. Originally it stated version 3.5.0 or higher, but this was not tested and likely not true (#238).
