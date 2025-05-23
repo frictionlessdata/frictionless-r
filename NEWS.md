@@ -1,4 +1,4 @@
-# frictionless (development version)
+# frictionless 1.2.1
 
 * **frictionless now relies on R version 3.6.0 or higher**. Originally it stated version 3.5.0 or higher, but this was not tested and likely not true (#238).
 * `read_package()` now returns a warning rather than an error when a `datapackage.json` contains no resources. This allows use to create the JSON and then add resources with frictionless (#265).
