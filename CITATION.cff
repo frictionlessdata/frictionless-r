@@ -38,7 +38,7 @@ authors:
 repository: https://CRAN.R-project.org/package=frictionless
 repository-code: https://github.com/frictionlessdata/frictionless-r
 url: https://docs.ropensci.org/frictionless/
-date-released: '2024-08-27'
+date-released: '2025-05-23'
 contact:
 - family-names: Desmet
   given-names: Peter
