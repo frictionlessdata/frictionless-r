@@ -47,30 +47,25 @@ read_from_path <- function(package, resource_name, col_select) {
   }
   skip <- if (dialect$header %||% TRUE) 1 else 0
 
-  # Read data with read_delim for each path (returns tibble)
-  purrr::map_df(
-    paths,
-    function(path) {
-      readr::read_delim(
-        file = path,
-        delim = dialect$delimiter %||% ",",
-        quote = dialect$quoteChar %||% "\"",
-        escape_backslash = escape_backslash,
-        escape_double = escape_double,
-        col_names = field_names,
-        col_types = col_types,
-        # Use rlang {{}} to avoid "col_select" to be interpreted as the name of
-        # a column, see https://rlang.r-lib.org/reference/topic-data-mask.html
-        # col_select needs to be assigned/used above to avoid lazy eval error
-        col_select = {{ col_select }},
-        locale = locale,
-        na = schema$missingValues %||% "",
-        comment = dialect$commentChar %||% "",
-        trim_ws = dialect$skipInitialSpace %||% FALSE,
-        # Skip header row when present
-        skip = skip,
-        skip_empty_rows = TRUE
-      )
-    }
+  # Read data (one or more paths) with read_delim (returns tibble)
+  readr::read_delim(
+    file = paths,
+    delim = dialect$delimiter %||% ",",
+    quote = dialect$quoteChar %||% "\"",
+    escape_backslash = escape_backslash,
+    escape_double = escape_double,
+    col_names = field_names,
+    col_types = col_types,
+    # Use rlang {{}} to avoid "col_select" to be interpreted as the name of
+    # a column, see https://rlang.r-lib.org/reference/topic-data-mask.html
+    # col_select needs to be assigned/used above to avoid lazy eval error
+    col_select = {{ col_select }},
+    locale = locale,
+    na = schema$missingValues %||% "",
+    comment = dialect$commentChar %||% "",
+    trim_ws = dialect$skipInitialSpace %||% FALSE,
+    # Skip header row when present
+    skip = skip,
+    skip_empty_rows = TRUE
   )
 }
