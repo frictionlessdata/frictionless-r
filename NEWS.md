@@ -15,7 +15,7 @@
 * `write_package()` no longer writes to `"."` by default, since this is not allowed by CRAN policies. The user needs to explicitly define a directory (#205).
 * `null` values in a read `datapackage.json` are now retained by `write_package()`, rather than being changed to empty lists. Properties assigned by the user to `NA` and `NULL` remain being written as `null` and removed respectively (#203).
 * New vignettes `vignette("data-package")`, `vignette("data-resource")`, `vignette("table-dialect")` and `vignette("table-schema")` describe how frictionless implements the Data Package standard. The (verbose) function documentation of `read_resource()` and `create_schema()` has been moved to these vignettes, improving readability and maintenance (#208, #246).
-* The included dataset `example_package` is removed in favour of the function `example_package()`. This function allows to reproducibly provide a local Data Package, without the need for an internet connection. The `observations` resource was also changed from a remote to a local resource and from CSV to TSV. **This change affects the use of `example_package` in older versions of frictionless.** We recommend to update frictionless to the latest version (#114, #253).
+* The included dataset `example_package` is removed in favour of `example_package()`. This function allows to reproducibly provide a local Data Package, without the need for an internet connection. The `observations` resource was also changed from a remote to a local resource and from CSV to TSV. **This change affects the use of `example_package` in older versions of frictionless.** We recommend to update frictionless to the latest version (#114, #253).
 
 ## Changes for developers
 
@@ -30,7 +30,7 @@
 
 ## Changes for users
 
-* New function `print()` prints a human-readable summary of the Data Package, rather than a (long) list (#155).
+* New `print()` prints a human-readable summary of the Data Package, rather than a (long) list (#155).
 * `read_package()` no longer returns a message regarding rights and credit (#121). If `package$id` is a URL (e.g. a DOI) it will be mentioned in `print()`.
 * `add_resource()` accepts additional arguments via `...`. These are added as (custom) properties to the resource and are retained in `write_package()` (#195).
 * `read_resource()` now supports column selection via the `col_select` argument from `readr::read_delim()`. This can vastly improve reading speed (#123). [Tidy selection](https://dplyr.tidyverse.org/reference/dplyr_tidy_select.html) is not supported.
@@ -81,7 +81,7 @@
 * `add_resource()` now supports adding `schema` via path or URL.
 * `write_package()` now supports added data to be gzip compressed before being written to disk (#98).
 * `read_resource()` will now warn rather than error on unknown encoding (#86).
-* `package` objects no longer have or require the custom attribute `resource_names`, use new function `resources()` instead (#97).
+* `package` objects no longer have or require the custom attribute `resource_names`, use the new `resources()` instead (#97).
 * `package` objects no longer have or require the custom attribute `datapackage`, making it easier to edit them as lists (with e.g. `append()`).
 
 # frictionless 0.10.0
