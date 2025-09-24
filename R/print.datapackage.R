@@ -19,7 +19,7 @@ print.datapackage <- function(x, ...) {
   # All prints should use cat (= cli::cat() helpers)
 
   # List resources
-  resource_names <- resources(x)
+  resource_names <- resource_names(x)
   cli::cat_line(
     cli::format_inline(
       "A Data Package with {length(resource_names)} resource{?s}{?./:/:}"

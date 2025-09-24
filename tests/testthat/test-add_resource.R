@@ -250,7 +250,7 @@ test_that("add_resource() adds resource", {
   expect_identical(p$resources[[4]][["profile"]], "tabular-data-resource")
   expect_identical(p$resources[[4]][["data"]], df)
   expect_identical(
-    resources(p),
+    resource_names(p),
     c("deployments", "observations", "media", "new_df")
   )
 
@@ -261,7 +261,7 @@ test_that("add_resource() adds resource", {
   expect_identical(p$resources[[5]][["profile"]], "tabular-data-resource")
   expect_null(p$resources[[5]][["data"]])
   expect_identical(
-    resources(p),
+    resource_names(p),
     c("deployments", "observations", "media", "new_df", "new_csv")
   )
 })
@@ -273,7 +273,7 @@ test_that("add_resource() can replace an existing resource", {
     add_resource(p, "deployments", df, replace = TRUE)
   )
   p_replaced <- add_resource(p, "deployments", df, replace = TRUE)
-  expect_equal(resources(p), resources(p_replaced))
+  expect_equal(resource_names(p), resource_names(p_replaced))
 })
 
 test_that("add_resource() uses provided schema (list or path) or creates one", {

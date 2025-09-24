@@ -27,14 +27,14 @@ Frictionless supports reading, manipulating and writing resources, but much of i
 
 ### Read
 
-`resources()` lists all resources in a package:
+`resource_names()` lists all resources in a package:
 
 ```{r}
 library(frictionless)
 package <- example_package()
 
 # List the resources
-resources(package)
+resource_names(package)
 ```
 
 `read_resource()` reads data from a tabular resource to a data frame:

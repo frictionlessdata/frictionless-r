@@ -11,8 +11,8 @@ test_that("read_package() returns a valid Data Package reading from path", {
 
   # Package has correct resources
   resource_names <- c("deployments", "observations", "media")
-  expect_identical(resources(p_local), resource_names)
-  expect_identical(resources(p_minimal), resource_names)
+  expect_identical(resource_names(p_local), resource_names)
+  expect_identical(resource_names(p_minimal), resource_names)
 
   # Package has correct "directory", containing root dir of datapackage.json
   expect_identical(
@@ -36,7 +36,7 @@ test_that("read_package() returns a valid Data Package reading from url", {
 
   # Package has correct resources
   resource_names <- c("deployments", "observations", "media")
-  expect_identical(resources(p_remote), resource_names)
+  expect_identical(resource_names(p_remote), resource_names)
 
   # Package has correct "directory", containing root dir of datapackage.json
   expect_identical(

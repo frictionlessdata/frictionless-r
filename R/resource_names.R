@@ -11,8 +11,8 @@
 #' package <- example_package()
 #'
 #' # List the resources
-#' resources(package)
-resources <- function(package) {
+#' resource_names(package)
+resource_names <- function(package) {
   # Check package (and that all resource have a name)
   check_package(package)
 

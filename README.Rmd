@@ -69,7 +69,7 @@ package <- read_package("https://zenodo.org/records/10053702/files/datapackage.j
 package
 
 # List resources
-resources(package)
+resource_names(package)
 
 # Read data from the resource "gps"
 # This will return a single data frame, even though the data are split over 

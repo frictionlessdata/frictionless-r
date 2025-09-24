@@ -71,11 +71,11 @@ str(package, list.len = 3)
 #>  - attr(*, "class")= chr [1:2] "datapackage" "list"
 ```
 
-The most important aspect of a Data Package are its **Data Resources**, which describe and point to the data. You can list all included resources with `resources()`:
+The most important aspect of a Data Package are its **Data Resources**, which describe and point to the data. You can list all included resources with `resource_names()`:
 
 
 ``` r
-resources(package)
+resource_names(package)
 #> [1] "reference-data" "gps"            "acceleration"
 ```
 

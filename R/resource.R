@@ -14,7 +14,7 @@ resource <- function(package, resource_name) {
   check_package(package)
 
   # Check resource
-  resource_names <- resources(package)
+  resource_names <- resource_names(package)
   if (!resource_name %in% resource_names) {
     cli::cli_abort(
       c(
