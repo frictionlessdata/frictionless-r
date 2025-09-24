@@ -59,7 +59,6 @@ read_resource(package, "deployments", col_select = c("latitude", "longitude"))
 }
 \seealso{
 Other read functions: 
-\code{\link{read_package}()},
-\code{\link{resource_names}()}
+\code{\link{read_package}()}
 }
 \concept{read functions}

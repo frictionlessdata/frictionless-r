@@ -2,7 +2,7 @@
 % Please edit documentation in R/resource_names.R
 \name{resource_names}
 \alias{resource_names}
-\title{List Data Resources}
+\title{List Data Resource names}
 \usage{
 resource_names(package)
 }
@@ -24,8 +24,7 @@ package <- example_package()
 resource_names(package)
 }
 \seealso{
-Other read functions: 
-\code{\link{read_package}()},
-\code{\link{read_resource}()}
+Other accessor functions: 
+\code{\link{schema}()}
 }
-\concept{read functions}
+\concept{accessor functions}

@@ -32,4 +32,8 @@ package <- example_package()
 schema <- schema(package, "observations")
 str(schema)
 }
+\seealso{
+Other accessor functions: 
+\code{\link{resource_names}()}
+}
 \concept{accessor functions}
