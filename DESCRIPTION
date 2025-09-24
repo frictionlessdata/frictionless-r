@@ -51,7 +51,8 @@ Suggests:
     rmarkdown,
     stringi,
     testthat (>= 3.0.0),
-    tibble
+    tibble,
+    withr
 VignetteBuilder: knitr
 Config/testthat/edition: 3
 Encoding: UTF-8
