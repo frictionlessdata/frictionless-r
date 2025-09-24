@@ -2,13 +2,13 @@ test_that("check_schema() returns schema invisibly on valid Table Schema", {
   p <- example_package()
 
   # Can't obtain df using read_resource(), because that function uses
-  # check_schema() (in get_schema()) internally, which is what we want to test
+  # check_schema() (in schema()) internally, which is what we want to test
   df <- suppressMessages(
     readr::read_csv(file.path(p$directory, p$resources[[1]]$path))
   )
 
-  # Using get_schema()
-  schema_get <- get_schema(p, "deployments")
+  # Using schema()
+  schema_get <- schema(p, "deployments")
   expect_identical(check_schema(schema_get), schema_get)
   expect_invisible(check_schema(schema_get))
   expect_identical(check_schema(schema_get, df), schema_get)

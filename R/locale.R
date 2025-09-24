@@ -12,7 +12,7 @@ locale <- function(package, resource_name) {
   resource <- resource(package, resource_name)
 
   # Get fields
-  schema <- get_schema(package, resource_name)
+  schema <- schema(package, resource_name)
   fields <- schema$fields
 
   # Set decimal mark

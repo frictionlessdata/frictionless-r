@@ -17,9 +17,9 @@
 #' package <- example_package()
 #'
 #' # Get the Table Schema for the resource "observations"
-#' schema <- get_schema(package, "observations")
+#' schema <- schema(package, "observations")
 #' str(schema)
-get_schema <- function(package, resource_name) {
+schema <- function(package, resource_name) {
   # Get resource
   resource <- resource(package, resource_name)
 
