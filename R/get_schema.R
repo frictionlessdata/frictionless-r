@@ -21,7 +21,7 @@
 #' str(schema)
 get_schema <- function(package, resource_name) {
   # Get resource
-  resource <- get_resource(package, resource_name)
+  resource <- resource(package, resource_name)
 
   # Check resource is tabular-data-resource (expected for resources with schema)
   if (resource$profile %||% "" != "tabular-data-resource") {

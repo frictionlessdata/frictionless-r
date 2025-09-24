@@ -11,7 +11,7 @@
 write_resource <- function(package, resource_name, directory = ".",
                            compress = FALSE) {
   # Get resource, includes check_package()
-  resource <- get_resource(package, resource_name)
+  resource <- resource(package, resource_name)
 
   # Resource contains new data
   if (resource$read_from == "df") {

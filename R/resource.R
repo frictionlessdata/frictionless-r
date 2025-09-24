@@ -9,7 +9,7 @@
 #'   If present, `path` will be updated to contain the full path(s).
 #' @family accessor functions
 #' @noRd
-get_resource <- function(package, resource_name) {
+resource <- function(package, resource_name) {
   # Check package
   check_package(package)
 

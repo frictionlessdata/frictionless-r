@@ -47,7 +47,7 @@
 #' read_resource(package, "deployments", col_select = c("latitude", "longitude"))
 read_resource <- function(package, resource_name, col_select = NULL) {
   # Get resource, includes check_package()
-  resource <- get_resource(package, resource_name)
+  resource <- resource(package, resource_name)
 
   # Read data directly
   if (resource$read_from == "df") {
