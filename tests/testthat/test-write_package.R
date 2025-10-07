@@ -375,7 +375,7 @@ test_that("write_package() writes NULL and NA as null", {
   p <- example_package()
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
 
-  # Set some properties to NULL and NA (p$image is already read as NULL)
+  # Set some properties to NULL and NA (p$spatial is already read as NULL)
   p$null_property <- NULL
   p$na_property <- NA
   p <- add_resource(p, "new", df, na_property = NA)
@@ -387,7 +387,7 @@ test_that("write_package() writes NULL and NA as null", {
   p_reread <- read_package(file.path(dir, "datapackage.json"))
 
   # Properties are written as NULL (use chuck() to force error if missing)
-  expect_null(purrr::chuck(p_reread, "image"))
+  expect_null(purrr::chuck(p_reread, "spatial"))
   expect_null(p_reread$null_property) # Write should remove this property
   expect_null(purrr::chuck(p_reread, "na_property"))
   expect_null(purrr::chuck(p_reread, "resources", 4, "na_property"))

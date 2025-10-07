@@ -128,6 +128,6 @@ test_that("read_package() allows YAML descriptor", {
 test_that("read_package() converts JSON null to NULL", {
   p_path <- system.file("extdata", "v1", "datapackage.json", package = "frictionless")
   p <- read_package(p_path)
-  # { "image": null } is read as NULL (use chuck() to force error if missing)
-  expect_null(purrr::chuck(p, "image"))
+  # { "spatial": null } is read as NULL (use chuck() to force error if missing)
+  expect_null(purrr::chuck(p, "spatial"))
 })
