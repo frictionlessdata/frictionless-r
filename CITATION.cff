@@ -126,6 +126,22 @@ references:
   year: '2025'
   doi: 10.32614/CRAN.package.jsonlite
 - type: software
+  title: lifecycle
+  abstract: 'lifecycle: Manage the Life Cycle of your Package Functions'
+  notes: Imports
+  url: https://lifecycle.r-lib.org/
+  repository: https://CRAN.R-project.org/package=lifecycle
+  authors:
+  - family-names: Henry
+    given-names: Lionel
+    email: lionel@posit.co
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@posit.co
+    orcid: https://orcid.org/0000-0003-4757-117X
+  year: '2025'
+  doi: 10.32614/CRAN.package.lifecycle
+- type: software
   title: purrr
   abstract: 'purrr: Functional Programming Tools'
   notes: Imports
@@ -349,4 +365,29 @@ references:
     email: hadley@rstudio.com
   year: '2025'
   doi: 10.32614/CRAN.package.tibble
+- type: software
+  title: withr
+  abstract: 'withr: Run Code ''With'' Temporarily Modified Global State'
+  notes: Suggests
+  url: https://withr.r-lib.org
+  repository: https://CRAN.R-project.org/package=withr
+  authors:
+  - family-names: Hester
+    given-names: Jim
+  - family-names: Henry
+    given-names: Lionel
+    email: lionel@posit.co
+  - family-names: Müller
+    given-names: Kirill
+    email: krlmlr+r@mailbox.org
+  - family-names: Ushey
+    given-names: Kevin
+    email: kevinushey@gmail.com
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@posit.co
+  - family-names: Chang
+    given-names: Winston
+  year: '2025'
+  doi: 10.32614/CRAN.package.withr
 
