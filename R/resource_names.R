@@ -1,18 +1,18 @@
-#' List Data Resources
+#' List Data Resource names
 #'
 #' Lists the names of the Data Resources included in a Data Package.
 #'
 #' @inheritParams read_resource
 #' @return Character vector with the Data Resource names.
-#' @family read functions
+#' @family accessor functions
 #' @export
 #' @examples
 #' # Load the example Data Package
 #' package <- example_package()
 #'
 #' # List the resources
-#' resources(package)
-resources <- function(package) {
+#' resource_names(package)
+resource_names <- function(package) {
   # Check package (and that all resource have a name)
   check_package(package)
 

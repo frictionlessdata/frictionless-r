@@ -9,12 +9,12 @@
 #'   If present, `path` will be updated to contain the full path(s).
 #' @family accessor functions
 #' @noRd
-get_resource <- function(package, resource_name) {
+resource <- function(package, resource_name) {
   # Check package
   check_package(package)
 
   # Check resource
-  resource_names <- resources(package)
+  resource_names <- resource_names(package)
   if (!resource_name %in% resource_names) {
     cli::cli_abort(
       c(

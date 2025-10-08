@@ -93,7 +93,7 @@ my_package
 
 ### resources
 
-[`resources`](https://specs.frictionlessdata.io/data-package/#resource-information) is required. It is used by `resources()` and many other functions. `check_package()` returns an error if it is missing.
+[`resources`](https://specs.frictionlessdata.io/data-package/#resource-information) is required. It is used by `resource_names()` and many other functions. `check_package()` returns an error if it is missing.
 
 <!-- ### $schema -->
 

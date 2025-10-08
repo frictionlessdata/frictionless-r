@@ -84,7 +84,7 @@ package
 #> Use `unclass()` to print the Data Package as a list.
 
 # List resources
-resources(package)
+resource_names(package)
 #> [1] "reference-data" "gps"            "acceleration"
 
 # Read data from the resource "gps"

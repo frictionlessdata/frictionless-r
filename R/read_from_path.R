@@ -6,11 +6,11 @@
 #' @noRd
 read_from_path <- function(package, resource_name, col_select) {
   # Get resource, includes check_package()
-  resource <- get_resource(package, resource_name)
+  resource <- resource(package, resource_name)
 
   # Get paths, schema and fields
   paths <- resource$path
-  schema <- get_schema(package, resource_name)
+  schema <- schema(package, resource_name)
   fields <- schema$fields
   field_names <- purrr::map_chr(fields, ~ purrr::pluck(.x, "name"))
 

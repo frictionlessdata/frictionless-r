@@ -1,9 +1,9 @@
-test_that("print() returns output invisibly", {
+test_that("print.datapackage() returns output invisibly", {
   expect_output(output <- withVisible(print(example_package())))
   expect_false(output$visible)
 })
 
-test_that("print() informs about the resources and unclass()", {
+test_that("print.datapackage() informs about the resources and unclass()", {
   unclass_message <- "Use `unclass()` to print the Data Package as a list."
 
   # 3 resources (example package)
@@ -49,7 +49,7 @@ test_that("print() informs about the resources and unclass()", {
   )
 })
 
-test_that("print() informs about information in package$id", {
+test_that("print.datapackage() informs about information in package$id", {
   unclass_message <- "Use `unclass()` to print the Data Package as a list."
 
   # package$id is a URL, inform

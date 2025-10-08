@@ -45,10 +45,10 @@ Since a Data Package is a list, you can pass it to functions that work on lists,
 str(package, list.len = 3)
 ```
 
-The most important aspect of a Data Package are its **Data Resources**, which describe and point to the data. You can list all included resources with `resources()`:
+The most important aspect of a Data Package are its **Data Resources**, which describe and point to the data. You can list all included resources with `resource_names()`:
 
 ```{r}
-resources(package)
+resource_names(package)
 ```
 
 This Data Package has 3 resources. Let's read the data from the `gps` resource into a data frame:
@@ -106,12 +106,12 @@ You can chain most frictionless functions together using pipes (`%>%` or `|>`), 
 my_package
 ```
 
-By default, `add_resource()` will create a **Table Schema** for your data frame, describing its field names, field types and (for factors) constraints. You can retrieve the schema of a resource with `get_schema()`. It is a list, which we print here using `str()`:
+By default, `add_resource()` will create a **Table Schema** for your data frame, describing its field names, field types and (for factors) constraints. You can retrieve the schema of a resource with `schema()`. It is a list, which we print here using `str()`:
 
 ```{r}
 iris_schema <-
   my_package %>%
-  get_schema("iris")
+  schema("iris")
 
 str(iris_schema)
 ```

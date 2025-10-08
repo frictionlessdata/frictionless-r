@@ -45,7 +45,7 @@
 #' package <- example_package()
 #'
 #' # List the resources
-#' resources(package)
+#' resource_names(package)
 #'
 #' # Create a data frame
 #' df <- data.frame(
@@ -84,7 +84,7 @@
 #' )
 #'
 #' # List the resources ("positions" and "positions_with_schema" added)
-#' resources(package)
+#' resource_names(package)
 add_resource <- function(package, resource_name, data, schema = NULL,
                          replace = FALSE, delim = ",", ...) {
   # Check package
@@ -111,7 +111,7 @@ add_resource <- function(package, resource_name, data, schema = NULL,
   }
 
   # Check resource does not exist yet for replace = FALSE
-  if (!replace && resource_name %in% resources(package)) {
+  if (!replace && resource_name %in% resource_names(package)) {
     cli::cli_abort(
       c(
         "{.arg package} already contains a resource named
@@ -206,7 +206,7 @@ add_resource <- function(package, resource_name, data, schema = NULL,
     # Add CSV dialect for non-default delimiter or remove it
     resource$dialect <- if (delim != ",") list(delimiter = delim) else NULL
 
-    # Set attribute for get_resource()
+    # Set attribute for resource()
     attr(resource, "path") <- "added"
   }
 

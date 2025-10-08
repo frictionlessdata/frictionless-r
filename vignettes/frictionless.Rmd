@@ -71,11 +71,11 @@ str(package, list.len = 3)
 #>  - attr(*, "class")= chr [1:2] "datapackage" "list"
 ```
 
-The most important aspect of a Data Package are its **Data Resources**, which describe and point to the data. You can list all included resources with `resources()`:
+The most important aspect of a Data Package are its **Data Resources**, which describe and point to the data. You can list all included resources with `resource_names()`:
 
 
 ``` r
-resources(package)
+resource_names(package)
 #> [1] "reference-data" "gps"            "acceleration"
 ```
 
@@ -187,13 +187,13 @@ my_package
 #> Use `unclass()` to print the Data Package as a list.
 ```
 
-By default, `add_resource()` will create a **Table Schema** for your data frame, describing its field names, field types and (for factors) constraints. You can retrieve the schema of a resource with `get_schema()`. It is a list, which we print here using `str()`:
+By default, `add_resource()` will create a **Table Schema** for your data frame, describing its field names, field types and (for factors) constraints. You can retrieve the schema of a resource with `schema()`. It is a list, which we print here using `str()`:
 
 
 ``` r
 iris_schema <-
   my_package %>%
-  get_schema("iris")
+  schema("iris")
 
 str(iris_schema)
 #> List of 1
