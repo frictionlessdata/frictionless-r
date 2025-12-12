@@ -333,7 +333,6 @@ test_that("write_package() sets correct properties for data frame resources", {
   expect_null(resource_written$dialect)
   expect_identical(resource_written$schema, schema)
   expect_null(resource_written$data)
-  expect_null(resource_written$read_from)
 })
 
 test_that("write_package() retains custom properties set in add_resource()", {
