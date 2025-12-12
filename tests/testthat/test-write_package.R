@@ -8,7 +8,7 @@ test_that("write_package() returns output Data Package (invisibly)", {
   p_from_file <- read_package(file.path(dir, "datapackage.json"))
 
   # p_from_file$directory will differ: overwrite to make the same
-  p_from_file$directory <- p_written$directory
+  attr(p_from_file, "directory") <- attr(p_written, "directory")
 
   expect_invisible(suppressMessages(write_package(p, dir)))
   expect_identical(p_written, p_from_file)
@@ -54,8 +54,7 @@ test_that("write_package() writes unaltered datapackage.json as is", {
   suppressMessages(write_package(p, dir))
   json_as_written <- readr::read_lines(file.path(dir, "datapackage.json"))
 
-  # Output json = input json. This also tests if custom property "directory"
-  # is removed and json is printed "pretty"
+  # Output json = input json. This also tests the json is printed "pretty"
   expect_identical(json_as_written, json_original)
 })
 
@@ -124,7 +123,7 @@ test_that("write_package() downloads file(s) for path = local in remote
   p <- example_package()
 
   # Make remote
-  p$directory <- file.path(
+  attr(p, "directory") <- file.path(
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r/",
     "main/inst/extdata/v1"
   )
@@ -187,7 +186,7 @@ test_that("write_package() leaves as is for path = URL in remote package", {
   p <- example_package()
 
   # Make remote
-  p$directory <- file.path(
+  attr(p, "directory") <- file.path(
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r/",
     "main/inst/extdata/v1"
   )
@@ -232,7 +231,7 @@ test_that("write_package() leaves as is for data = json in remote package", {
   p <- example_package()
 
   # Make remote
-  p$directory <- file.path(
+  attr(p, "directory") <- file.path(
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r/",
     "main/inst/extdata/v1"
   )
@@ -268,7 +267,7 @@ test_that("write_package() creates file for data = df in remote package", {
   p <- example_package()
 
   # Make remote
-  p$directory <- file.path(
+  attr(p, "directory") <- file.path(
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r/",
     "main/inst/extdata/v1"
   )

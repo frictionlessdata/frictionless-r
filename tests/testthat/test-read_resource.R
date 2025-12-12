@@ -197,7 +197,7 @@ test_that("read_resource() returns error on invalid resource", {
 
   # Add valid path
   p_invalid$resources[[1]]$path <- "deployments.csv"
-  p_invalid$directory <- dirname(
+  attr(p_invalid, "directory") <- dirname(
     system.file("extdata", "v1", "datapackage.json", package = "frictionless")
   )
 
@@ -311,7 +311,7 @@ test_that("read_resource() can read safe local and remote Table Schema,
   skip_if_offline()
   p <- example_package()
   resource <- read_resource(p, "deployments")
-  p$directory <- "."
+  attr(p, "directory") <- "."
 
   # Use a remote path, otherwise schema and path need to share same directory
   p$resources[[1]]$path <- file.path(
@@ -359,7 +359,7 @@ test_that("read_resource() can read safe local and remote CSV dialect", {
   skip_if_offline()
   p <- example_package()
   resource <- read_resource(p, "deployments")
-  p$directory <- "."
+  attr(p, "directory") <- "."
 
   # Use a remote path, otherwise dialect and path need to share same directory
   p$resources[[1]]$path <- file.path(
@@ -407,7 +407,7 @@ test_that("read_resource() understands CSV dialect", {
 
   # Create package with non-default dialect properties
   p_dialect <- p
-  p_dialect$directory <- "."
+  attr(p_dialect, "directory") <- "."
   p_dialect$resources[[1]]$path <- test_path("data/deployments_dialect.csv")
   p_dialect$resources[[1]]$dialect <- list(
     delimiter = "/",
@@ -436,7 +436,7 @@ test_that("read_resource() understands missing values", {
 
   # Create package with non-default missing values
   p_missing <- p
-  p_missing$directory <- "."
+  attr(p_missing, "directory") <- "."
   p_missing$resources[[1]]$path <-
     test_path("data/deployments_missingvalues.csv")
   p_missing$resources[[1]]$schema$missingValues <-
@@ -450,7 +450,7 @@ test_that("read_resource() understands encoding", {
 
   # Create package with non-default encoding
   p_encoding <- p
-  p_encoding$directory <- "."
+  attr(p_encoding, "directory") <- "."
   p_encoding$resources[[1]]$path <- test_path("data/deployments_encoding.csv")
   p_encoding$resources[[1]]$encoding <- "windows-1252"
   expect_identical(read_resource(p_encoding, "deployments"), resource)
@@ -545,7 +545,7 @@ test_that("read_resource() handles LF and CRLF line terminator characters", {
   resource <- read_resource(p, "deployments") # This file has LF
 
   p_crlf <- p
-  p_crlf$directory <- "."
+  attr(p_crlf, "directory") <- "."
   p_crlf$resources[[1]]$path <-
     test_path("data/deployments_crlf.csv") # File with CRLF
   expect_identical(read_resource(p_crlf, "deployments"), resource)
@@ -559,7 +559,7 @@ test_that("read_resource() can read compressed files", {
   # File created in terminal with:
   # zip deployments.csv.zip deployments.csv
   p_local_zip <- p
-  p_local_zip$directory <- "."
+  attr(p_local_zip, "directory") <- "."
   p_local_zip$resources[[1]]$path <- test_path("data/deployments.csv.zip")
   p_remote_zip <- p
   p_remote_zip$resources[[1]]$path <- file.path(
@@ -570,7 +570,7 @@ test_that("read_resource() can read compressed files", {
   # File created in terminal with:
   # gzip deployments.csv
   p_local_gz <- p
-  p_local_gz$directory <- "."
+  attr(p_local_gz, "directory") <- "."
   p_local_gz$resources[[1]]$path <- test_path("data/deployments.csv.gz")
   p_remote_gz <- p
   p_remote_gz$resources[[1]]$path <- file.path(

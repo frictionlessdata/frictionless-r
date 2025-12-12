@@ -73,7 +73,7 @@ write_package <- function(package, directory, compress = FALSE) {
   return_package <- package # Needs directory to remain valid
 
   # Write datapackage.json
-  package$directory <- NULL
+  attr(package, "directory") <- NULL
   package_json <- jsonlite::toJSON(
     package,
     pretty = TRUE,
