@@ -14,8 +14,7 @@ write_resource <- function(package, resource_name, directory = ".",
   resource <- resource(package, resource_name)
 
   # Resource contains new data
-  data_location <- attr(resource, "data_location")
-  if (data_location == "df") {
+  if (resource$read_from == "df") {
     if (compress) {
       file_name <- paste(resource_name, "csv", "gz", sep = ".")
     } else {
@@ -29,14 +28,15 @@ write_resource <- function(package, resource_name, directory = ".",
     resource$mediatype <- "text/csv"
     resource$encoding <- "utf-8" # Enforced by readr::write_csv()
     resource$dialect <- NULL
+    resource$read_from <- NULL
     resource$data <- NULL
 
   # Resource originally had data property
-  } else if (data_location == "data") {
-    # Do nothing
+  } else if (resource$read_from == "data") {
+    resource$read_from <- NULL
 
   # Resource has local paths (optionally mixed with URLs)
-  } else if (data_location == "path") {
+  } else if (resource$read_from == "path") {
     # Download or copy file to directory, point path to file name (in that dir)
     # Note that existing files will not be overwritten
     out_paths <- vector()
@@ -56,15 +56,14 @@ write_resource <- function(package, resource_name, directory = ".",
       }
       out_paths <- append(out_paths, file_name)
     }
+    resource$read_from <- NULL
     resource$path <- out_paths
 
   # Resource has URL paths (only)
-  } else if (data_location == "url") {
+  } else if (resource$read_from == "url") {
     # Don't touch file, leave URL path as is
+    resource$read_from <- NULL
   }
-
-  # Remove attributes
-  attr(resource, "data_location") <- NULL
 
   return(resource)
 }

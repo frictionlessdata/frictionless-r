@@ -4,8 +4,8 @@
 #' described `resources`.
 #'
 #' @inheritParams read_resource
-#' @return List describing a Data Resource, with new attribute `data_location`
-#'   to indicate how the data are attached.
+#' @return List describing a Data Resource, with new property `read_from` to
+#'   indicate how data should be read.
 #'   If present, `path` will be updated to contain the full path(s).
 #' @family accessor functions
 #' @noRd
@@ -47,12 +47,12 @@ resource <- function(package, resource_name) {
     )
   }
 
-  # Assign data_location attribute (based on path, then df, then data)
+  # Assign read_from property (based on path, then df, then data)
   if (length(resource$path) != 0) {
     if (all(is_url(resource$path))) {
-      data_location <- "url"
+      resource$read_from <- "url"
     } else {
-      data_location <- "path"
+      resource$read_from <- "path"
     }
     # Expand paths to full paths, check if file exists and check path safety,
     # unless those paths were willingly added by user in add_resource()
@@ -62,11 +62,10 @@ resource <- function(package, resource_name) {
       )
     }
   } else if (is.data.frame(resource$data)) {
-    data_location <- "df"
+    resource$read_from <- "df"
   } else if (!is.null(resource$data)) {
-    data_location <- "data"
+    resource$read_from <- "data"
   }
-  attr(resource, "data_location") <- data_location
 
   return(resource)
 }
