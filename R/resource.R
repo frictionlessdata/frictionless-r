@@ -47,7 +47,7 @@ resource <- function(package, resource_name) {
     )
   }
 
-  # Assign data_location attribute (based on path, then df, then data)
+  # Add data_location attribute (based on path, then df, then data)
   if (length(resource$path) != 0) {
     if (all(is_url(resource$path))) {
       data_location <- "url"

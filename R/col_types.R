@@ -16,7 +16,7 @@ cols <- function(schema) {
 
   # Create col_types
   col_types <- purrr::map(fields, field_to_col)
-  # Assign names: list("name1" = <collector_character>, "name2" = ...)
+  # Add names: list("name1" = <collector_character>, "name2" = ...)
   names(col_types) <- field_names
 
   # Replicate structure of readr::col_spec
@@ -44,7 +44,7 @@ field_to_col <- function(field) {
   bare_number <- if (field$bareNumber %||% "" != FALSE) TRUE else FALSE
   format <- field$format %||% "default" # Undefined => default
 
-  # Assign types and formats
+  # Add types and formats
   col_type <- switch(
     type,
     "string" = col_string(enum),
