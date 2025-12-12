@@ -4,7 +4,7 @@ test_that("check_schema() returns schema invisibly on valid Table Schema", {
   # Can't obtain df using read_resource(), because that function uses
   # check_schema() (in schema()) internally, which is what we want to test
   df <- suppressMessages(
-    readr::read_csv(file.path(p$directory, p$resources[[1]]$path))
+    readr::read_csv(file.path(attr(p, "directory"), p$resources[[1]]$path))
   )
 
   # Using schema()

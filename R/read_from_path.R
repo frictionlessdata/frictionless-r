@@ -33,7 +33,11 @@ read_from_path <- function(package, resource_name, col_select) {
   col_types <- cols(schema)
 
   # Get dialect (can be NULL)
-  dialect <- read_descriptor(resource$dialect, package$directory, safe = TRUE)
+  dialect <- read_descriptor(
+    resource$dialect,
+    attr(package, "directory"),
+    safe = TRUE
+  )
   escape_backslash <- if (dialect$escapeChar %||% "not set" == "\\") {
     TRUE
   } else {
