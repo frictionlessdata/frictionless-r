@@ -2,6 +2,7 @@
 
 * `resources()` is soft-deprecated, please use `resource_names()` instead (#282).
 * `get_schema()` is soft-deprecated, please use `schema()` instead (#282).
+* Internal properties (`package$directory` and `resource$read_from`) are now attributes rather than properties. This keeps them clearly separated from public Data Package properties. `read_from` is also renamed to `data_location` (#289).
 
 # frictionless 1.2.1
 
