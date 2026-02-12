@@ -28,7 +28,7 @@
 #' @param delim Single character used to separate the fields in the CSV file(s),
 #'   e.g. `\t` for tab delimited file.
 #'   Will be set as `delimiter` in the resource Table Dialect, so read functions
-#'.  know how to read the file(s).
+#'   know how to read the file(s).
 #' @param ... Additional [metadata properties](
 #'   https://docs.ropensci.org/frictionless/articles/data-resource.html#properties-implementation)
 #'   to add to the resource, e.g. `title = "My title", validated = FALSE`.
@@ -72,9 +72,9 @@
 #'
 #' # Replace the resource "observations" with a file-based resource (2 TSV files)
 #' path_1 <-
-#' system.file("extdata", "v1", "observations_1.tsv", package = "frictionless")
+#'   system.file("extdata", "v1", "observations_1.tsv", package = "frictionless")
 #' path_2 <-
-#' system.file("extdata", "v1", "observations_2.tsv", package = "frictionless")
+#'   system.file("extdata", "v1", "observations_2.tsv", package = "frictionless")
 #' package <- add_resource(
 #'   package,
 #'   resource_name = "observations",
@@ -120,6 +120,8 @@ add_resource <- function(package, resource_name, data, schema = NULL,
       ),
       class = "frictionless_error_resource_already_exists"
     )
+  } else if (replace && !(resource_name %in% resources(package))) {
+    replace <- FALSE
   }
 
   # Check data (data frame or path), content of data frame is checked later
