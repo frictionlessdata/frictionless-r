@@ -579,17 +579,7 @@ test_that("read_resource() can read compressed files", {
   )
 
   expect_identical(read_resource(p_local_zip, "deployments"), resource)
-  # Remote zip not supported, see
-  # https://github.com/tidyverse/readr/issues/1042#issuecomment-545103047
-  expect_error(
-    read_resource(p_remote_zip, "deployments"),
-    regexp = paste(
-      "Reading from remote `zip` compressed files is not supported,",
-      "  download the files locally first.",
-      sep = "\n"
-    ),
-    fixed = TRUE
-  )
+  expect_identical(read_resource(p_remote_zip, "deployments"), resource)
   expect_identical(read_resource(p_local_gz, "deployments"), resource)
   expect_identical(read_resource(p_remote_gz, "deployments"), resource)
 })
