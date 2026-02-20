@@ -239,4 +239,4 @@ package$resources[[2]]$encoding
 
 [`compression`](https://specs.frictionlessdata.io/patterns/#specification-3) (a recipe) is ignored by `read_resource()` and not set by `add_resource()`.
 
-Compression is derived from the provided `path` instead. If the `path` ends in `.gz`, `.bz2`, `.xz`, or `.zip`, the files are automatically decompressed by `read_resource()` (using default `readr::read_delim()` functionality). Only `.gz` files can be read directly from URL `path`s.
+Compression is derived from the provided `path` instead. If the `path` ends in `.gz`, `.bz2`, `.xz`, or `.zip`, the files are automatically decompressed by `read_resource()` (using default `readr::read_delim()` functionality).
