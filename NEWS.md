@@ -3,7 +3,7 @@
 * `resources()` is soft-deprecated, please use `resource_names()` instead (#282).
 * `get_schema()` is soft-deprecated, please use `schema()` instead (#282).
 * `read_resource()` now supports reading from remote zip files, thanks to support in {vroom} (1.3.0) (#291).
-* frictionless now relies on R >= 4.1.0 (because of an indirect {vroom} dependency) (#291).
+* frictionless now relies on R >= 4.1.0 (because of an indirect {vroom} dependency) (#291) and uses base pipes (`|>` rather than `%>%`) (#292).
 
 # frictionless 1.2.1
 
