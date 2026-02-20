@@ -208,7 +208,7 @@ any other type | `any`
 
 ### integer
 
-[`integer`](https://specs.frictionlessdata.io/table-schema/#integer) is interpreted as `double` (to avoid issues with big numbers). Or `factor` when `constraints$enum` is defined.
+[`integer`](https://specs.frictionlessdata.io/table-schema/#integer) is interpreted as `double` (to support big integers, + signs and `bareNumber`). Or `factor` when `constraints$enum` is defined.
 
 - `bareNumber` is supported. If `false`, whitespace and non-numeric characters are ignored.
 

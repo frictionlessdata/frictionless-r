@@ -3,10 +3,12 @@
 * `resources()` is soft-deprecated, please use `resource_names()` instead (#282).
 * `get_schema()` is soft-deprecated, please use `schema()` instead (#282).
 * Internal properties (`package$directory` and `resource$read_from`) are now attributes rather than properties. This keeps them clearly separated from public Data Package properties. `read_from` is also renamed to `data_location` (#289).
+* `read_resource()` now supports reading from remote zip files, thanks to support in {vroom} (1.3.0) (#291).
+* frictionless now relies on R >= 4.1.0 (because of an indirect {vroom} dependency) (#291).
 
 # frictionless 1.2.1
 
-* **frictionless now relies on R version 3.6.0 or higher**. Originally it stated version 3.5.0 or higher, but this was not tested and likely not true (#238).
+* frictionless now relies on R version 3.6.0 or higher. Originally it stated version 3.5.0 or higher, but this was not tested and likely not true (#238).
 * `read_package()` now returns a warning rather than an error when a `datapackage.json` contains no resources. This allows use to create the JSON and then add resources with frictionless (#265).
 * `example_package()` now has a `version` parameter, allowing to load the example Data Package following the Data Package [v1](https://specs.frictionlessdata.io/) or [v2](https://datapackage.org/) specification (#249).
 
@@ -50,9 +52,9 @@
 * `cli::cli_abort()`, `cli::cli_warn()` and `cli::cli_inform()` are used for all errors, warnings, and messages (#163). This has several advantages:
   * Messages use semantic colours for variables, parameters, fields, etc.
   * Messages and warnings can be silenced with a global or local option, see [this blog post](https://ropensci.org/blog/2024/02/06/verbosity-control-packages/).
-  * Each call has an [rlang](https://cran.r-project.org/package=rlang) class, e.g. `frictionless_error_fields_without_name`, making it easier to test for specific errors.
-* [glue](https://cran.r-project.org/package=glue) and [assertthat](https://cran.r-project.org/package=assertthat) are removed as dependencies (#163). The functionality of glue is replaced by cli, while `assertthat::assert()` calls are now `if ()` statements.
-* [rlang](https://cran.r-project.org/package=rlang) is added as dependency (#192). It is already used by other dependencies.
+  * Each call has an `{rlang}` class, e.g. `frictionless_error_fields_without_name`, making it easier to test for specific errors.
+* `{glue}` and `{assertthat}` are removed as dependencies (#163). The functionality of glue is replaced by cli, while `assertthat::assert()` calls are now `if ()` statements.
+* `{rlang}` is added as dependency (#192). It is already used by other dependencies.
 * frictionless now depends on R >= 3.5.0.
 
 ## Other changes
@@ -62,7 +64,7 @@
 
 # frictionless 1.0.3
 
-* Add [stringi](https://cran.r-project.org/package=stringi) to `Suggests`. It was removed as a dependency from [rmarkdown](https://cran.r-project.org/package=rmarkdown) 2.26, resulting in "stringi package required for encoding operations" build errors on CRAN (#176).
+* Add `{stringi}` to `Suggests`. It was removed as a dependency from `{rmarkdown}` 2.26, resulting in "stringi package required for encoding operations" build errors on CRAN (#176).
 
 # frictionless 1.0.2
 
