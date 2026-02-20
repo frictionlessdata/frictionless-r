@@ -119,7 +119,7 @@ disk:
 ``` r
 # Create a Data Package and add the "iris" data frame as a resource
 my_package <-
-  create_package() %>%
+  create_package() |>
   add_resource(resource_name = "iris", data = iris)
 
 my_package
@@ -128,7 +128,7 @@ my_package
 #> Use `unclass()` to print the Data Package as a list.
 
 # Write the Data Package to disk
-my_package %>%
+my_package |>
   write_package("my_directory")
 ```
 
