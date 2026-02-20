@@ -16,10 +16,10 @@ test_that("read_package() returns a valid Data Package reading from path", {
 
   # Package has correct "directory", containing root dir of datapackage.json
   expect_identical(
-    p_local$directory,
+    attr(p_local, "directory"),
     sub("/datapackage.json", "", p_path, fixed = TRUE)
   )
-  expect_identical(p_minimal$directory, "data")
+  expect_identical(attr(p_minimal, "directory"), "data")
 })
 
 test_that("read_package() returns a valid Data Package reading from url", {
@@ -40,7 +40,7 @@ test_that("read_package() returns a valid Data Package reading from url", {
 
   # Package has correct "directory", containing root dir of datapackage.json
   expect_identical(
-    p_remote$directory,
+    attr(p_remote, "directory"),
     sub("/datapackage.json", "", p_url, fixed = TRUE)
   )
 })

@@ -39,7 +39,11 @@ schema <- function(package, resource_name) {
       class = "frictionless_error_resource_without_schema"
     )
   }
-  schema <- read_descriptor(resource$schema, package$directory, safe = TRUE)
+  schema <- read_descriptor(
+    resource$schema,
+    attr(package, "directory"),
+    safe = TRUE
+  )
 
   # Check schema
   check_schema(schema)
