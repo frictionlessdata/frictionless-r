@@ -88,16 +88,13 @@ dplyr::as_tibble(iris)
 Create a Data Package with `create_package()` and add your data frame as a resource with the name `iris`:
 
 ```{r}
-# Load dplyr or magrittr to support %>% pipes
-library(dplyr, warn.conflicts = FALSE) # or library(magrittr)
-
 my_package <-
-  create_package() %>%
+  create_package() |>
   add_resource(resource_name = "iris", data = iris)
 ```
 
 ::: {.callout-info}
-You can chain most frictionless functions together using pipes (`%>%` or `|>`), which improves readability.
+You can chain most frictionless functions together using pipes (`|>`), which improves readability.
 :::
 
 `my_package` now contains one resource:
@@ -110,7 +107,7 @@ By default, `add_resource()` will create a **Table Schema** for your data frame,
 
 ```{r}
 iris_schema <-
-  my_package %>%
+  my_package |>
   schema("iris")
 
 str(iris_schema)
@@ -158,7 +155,7 @@ Let's add `iris` as a resource to your Data Package again, but this time with th
 
 ```{r}
 my_package <-
-  my_package %>%
+  my_package |>
   add_resource(
     resource_name = "iris",
     data = iris,
@@ -178,7 +175,7 @@ path_2 <- system.file("extdata", "v1", "observations_2.tsv", package = "friction
 
 # Add both TSV files as a single resource
 my_package <-
-  my_package %>%
+  my_package |>
   add_resource(
     resource_name = "observations",
     data = c(path_1, path_2),
