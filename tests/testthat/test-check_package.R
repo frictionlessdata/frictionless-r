@@ -60,7 +60,7 @@ test_that("check_package() returns error on missing or incorrect directory", {
   expect_error(
     check_package(list(resources = list())),
     regexp = paste(
-      "`package` is missing a directory property or it is not a character."
+      "`package` is missing a directory attribute or it is not a character."
     ),
     fixed = TRUE
   )
@@ -89,12 +89,14 @@ test_that("check_package() returns error if resources have no name", {
 })
 
 test_that("check_package() returns warning on missing 'datapackage' class", {
+  p_invalid <- list(resources = list())
+  attr(p_invalid, "directory") <- "."
   expect_warning(
-    check_package(list(resources = list(), directory = ".")),
+    check_package(p_invalid),
     class = "frictionless_warning_package_without_class"
   )
   expect_warning(
-    check_package(list(resources = list(), directory = ".")),
+    check_package(p_invalid),
     regexp = "`package` is missing a \"datapackage\" class",
     fixed = TRUE
   )

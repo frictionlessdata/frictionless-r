@@ -44,25 +44,25 @@ check_package <- function(package) {
     )
   }
 
-  # Check package has directory (character)
-  if (!is.character(package$directory)) {
-    cli::cli_abort(
-      c(
-        general_message,
-        "x" = "{.arg package} is missing a {.field directory} property or it is
-               not a character.",
-        "i" = tip_message
-      ),
-      class = "frictionless_error_package_invalid"
-    )
-  }
-
   # Check all resources (if any) have a name
   if (purrr::some(package$resources, ~ is.null(.x$name))) {
     cli::cli_abort(
       "All {.field resources} in {.arg package} must have a {.field name}
        property.",
       class = "frictionless_error_resources_without_name"
+    )
+  }
+
+  # Check package has directory attribute (character)
+  if (!is.character(attr(package, "directory"))) {
+    cli::cli_abort(
+      c(
+        general_message,
+        "x" = "{.arg package} is missing a {.field directory} attribute or it is
+               not a character.",
+        "i" = tip_message
+      ),
+      class = "frictionless_error_package_invalid"
     )
   }
 
