@@ -3,12 +3,12 @@
 #' Initiates a Data Package object, either from scratch or from an existing
 #' list.
 #' This Data Package object is a list with the following characteristics:
-#' - A `datapackage` subclass.
 #' - All properties of the original `descriptor`.
 #' - A `resources` property, set to an empty list if undefined.
-#' - A `directory` property, set to `"."` for the current directory if
+#' - A `directory` attribute, set to `"."` for the current directory if
 #'   undefined.
 #'   It is used as the base path to access resources with [read_resource()].
+#' - A `datapackage` subclass.
 #'
 #' See `vignette("data-package")` to learn how this function implements the
 #' Data Package standard.
@@ -36,9 +36,11 @@ create_package <- function(descriptor = NULL) {
     )
   }
 
-  # Add properties
+  # Add resources property (also creates descriptor if NULL)
   descriptor$resources <- descriptor$resources %||% list()
-  descriptor$directory <- descriptor$directory %||% "." # Current directory
+
+  # Add directory attribute
+  attr(descriptor, "directory") <- attr(descriptor, "directory") %||% "."
 
   # Add datapackage class
   if (!"datapackage" %in% class(descriptor)) {
