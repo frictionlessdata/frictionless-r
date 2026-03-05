@@ -16,7 +16,7 @@
   r$read_from
   ```
   
-  to
+  to:
   
   ```R
   attr(package, "directory")
