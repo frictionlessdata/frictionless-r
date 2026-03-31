@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 [Data Resource](https://specs.frictionlessdata.io/data-resource/) is a simple format to describe a data resource such as an individual table or file, including its name, format, path, etc.
 
-::: {.callout-info}
+::: {.callout-note}
 In this document we use the terms "package" for Data Package, "resource" for Data Resource, "dialect" for Table Dialect, and "schema" for Table Schema.
 :::
 
