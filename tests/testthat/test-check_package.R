@@ -37,35 +37,40 @@ test_that("check_package() returns error if package is not a list", {
 })
 
 test_that("check_package() returns error on missing or incorrect resources", {
+  p_invalid <- create_package()
+  p_invalid$resources <- NULL
   expect_error(
-    check_package(list()),
+    check_package(p_invalid),
     class = "frictionless_error_package_invalid"
   )
+  p_invalid$resources <- "not_a_list"
   expect_error(
-    check_package(list(resources = "not_a_list")),
+    check_package(p_invalid),
     regexp = "`package` is missing a resources property or it is not a list.",
     fixed = TRUE
   )
   expect_error(
-    check_package(list(resources = "not_a_list")),
+    check_package(p_invalid),
     class = "frictionless_error_package_invalid"
   )
 })
 
 test_that("check_package() returns error on missing or incorrect directory", {
+  p_invalid <- create_package()
+  attr(p_invalid, "directory") <- NULL
   expect_error(
-    check_package(list(resources = list())),
+    check_package(p_invalid),
     class = "frictionless_error_package_invalid"
   )
   expect_error(
-    check_package(list(resources = list())),
+    check_package(p_invalid),
     regexp = paste(
       "`package` is missing a directory attribute or it is not a character."
     ),
     fixed = TRUE
   )
   expect_error(
-    check_package(list(resources = list(), directory = 5)),
+    check_package(p_invalid),
     class = "frictionless_error_package_invalid"
   )
 })
@@ -80,19 +85,20 @@ test_that("check_package() returns deprecation warning for package$directory", {
 })
 
 test_that("check_package() returns error if resources have no name", {
-  p <- example_package()
-  p$resources[[2]]$name <- NULL
+  p_invalid <- example_package()
+  p_invalid$resources[[2]]$name <- NULL
   expect_error(
-    check_package(p),
+    check_package(p_invalid),
     class = "frictionless_error_resources_without_name"
   )
   expect_error(
-    check_package(p),
+    check_package(p_invalid),
     regexp = "All resources in `package` must have a name property.",
     fixed = TRUE
   )
 
   # Expect no error on empty resources
+  p <- example_package()
   p$resources <- list()
   expect_no_error(check_package(p))
 })
