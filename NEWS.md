@@ -2,29 +2,27 @@
 
 ## For users
 
-* `read_resource()` now supports reading from remote zip files, thanks to support in {vroom} (1.3.0) (#291).
+* `read_resource()` now supports reading from remote zip files, thanks to support in `{vroom}` (1.3.0) (#291).
 * `resources()` is soft-deprecated, please use `resource_names()` instead (#282).
 * `get_schema()` is soft-deprecated, please use `schema()` instead (#282).
 
 ## Changes for developers
 
-* Internal frictionless properties are now _attributes_, to better separate them from public Data Package properties (#289). If you use these internal properties, then update:
+* Internal frictionless properties `package$directory` and `resource$read_from` are now _attributes_ `attr(package, "directory")` and `attr(resource, "data_location")`. This separates them better from public Data Package and Resource _properties_ (#289). Saved Data Package objects created with previous versions of frictionless will show a deprecation warning (#293). If you use these internal properties in your R package, then update them:
 
   ```R
+  # Before
   package$directory
-  r <- frictionless:::get_resource(package, "resource_name") # Internal function
-  r$read_from
-  ```
+  resource <- frictionless:::get_resource(package, "resource_name") # Internal function
+  resource$read_from
   
-  to:
-  
-  ```R
+  # After
   attr(package, "directory")
-  r <- frictionless:::resource(package, "resource_name") # Renamed!
-  attr(r, "data_location") # Renamed!
+  resource <- frictionless:::resource(package, "resource_name") # Function renamed!
+  attr(resource, "data_location") # Attribute renamed!
   ```
 
-* frictionless now relies on R >= 4.1.0 (because of an indirect {vroom} dependency) (#291) and uses base pipes (`|>` rather than `%>%`) (#292).
+* frictionless now relies on R >= 4.1.0 (because of an indirect `{vroom}` dependency) (#291) and uses base pipes (`|>` rather than `%>%`) (#292).
 
 # frictionless 1.2.1
 
