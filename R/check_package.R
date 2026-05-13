@@ -53,8 +53,17 @@ check_package <- function(package) {
     )
   }
 
-  # Check package has directory attribute (character)
-  if (!is.character(attr(package, "directory"))) {
+  # Check package has directory attribute (or deprecated package$directory)
+  if (is.character(package$directory)) {
+    lifecycle::deprecate_warn(
+      when = "1.3.0",
+      what = I("`package$directory`"),
+      details = cli::format_inline(
+        "This Data Package object was created with an older version of
+           frictionless. Update it with {.fun create_package}."
+      )
+    )
+  } else if (!is.character(attr(package, "directory"))) {
     cli::cli_abort(
       c(
         general_message,

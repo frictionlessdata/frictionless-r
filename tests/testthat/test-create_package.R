@@ -43,6 +43,16 @@ test_that("create_package() sets directory or leaves as is", {
   expect_identical(attr(existing, "directory"), "not_default")
 })
 
+test_that("create_package() updates deprecated package$directory", {
+  p_directory <- example_package()
+  p_directory$directory <- "not_default"
+  attr(p_directory, "directory") <- NULL
+  p_updated <- create_package(p_directory)
+
+  expect_null(p_updated$directory)
+  expect_identical(attr(p_updated, "directory"), "not_default")
+})
+
 test_that("create_package() adds class 'datapackage'", {
   new <- create_package()
   expect_s3_class(new, "datapackage")
