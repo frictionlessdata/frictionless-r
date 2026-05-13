@@ -76,12 +76,12 @@ test_that("check_package() returns error on missing or incorrect directory", {
 })
 
 test_that("check_package() returns deprecation warning for package$directory", {
-  p_directory_prop <- example_package()
-  p_directory_prop$directory <- attr(p_directory_prop, "directory")
-  attr(p_directory_prop, "directory") <- NULL
+  p_directory <- example_package()
+  p_directory$directory <- attr(p_directory, "directory")
+  attr(p_directory, "directory") <- NULL
 
-  lifecycle::expect_deprecated(check_package(p_directory_prop))
-  expect_no_error(suppressWarnings(check_package(p_directory_prop)))
+  lifecycle::expect_deprecated(check_package(p_directory))
+  expect_no_error(suppressWarnings(check_package(p_directory)))
 })
 
 test_that("check_package() returns error if resources have no name", {
