@@ -17,7 +17,7 @@ status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repost
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5815355.svg)](https://doi.org/10.5281/zenodo.5815355)
 <!-- badges: end -->
 
-Frictionless is an R package to read and write Frictionless Data
+frictionless is an R package to read and write Frictionless Data
 Packages. A [Data
 Package](https://specs.frictionlessdata.io/data-package/) is a simple
 container format and standard to describe and package a collection of
@@ -36,7 +36,7 @@ To get started, see:
   implementation](https://docs.ropensci.org/frictionless/articles/index.html):
   how frictionless implements the Data Package standard.
 
-**Frictionless currently implements [Data Package
+**frictionless currently implements [Data Package
 v1](https://specs.frictionlessdata.io/).** Our goal is to support [Data
 Package v2](https://datapackage.org/) as well.
 
