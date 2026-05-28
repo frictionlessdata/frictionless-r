@@ -150,13 +150,11 @@ for extensive validation.
 
 ## Meta
 
-- We welcome
-  [contributions](https://docs.ropensci.org/frictionless/CONTRIBUTING.html)
-  including bug reports.
+- We welcome [contributions](.github/CONTRIBUTING.md) including bug
+  reports.
 - License: MIT
-- Get [citation
-  information](https://docs.ropensci.org/frictionless/authors.html#citation)
-  for frictionless in R doing `citation("frictionless")`.
+- Get citation information for frictionless in R with
+  `citation("frictionless")`.
 - Please note that this project is released with a [Contributor Code of
-  Conduct](https://frictionlessdata.io/work-with-us/code-of-conduct/).
-  By participating in this project you agree to abide by its terms.
+  Conduct](.github/CODE_OF_CONDUCT.md). By participating in this project
+  you agree to abide by its terms.
