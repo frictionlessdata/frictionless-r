@@ -42,22 +42,18 @@ Package v2](https://datapackage.org/) as well.
 
 ## Installation
 
-Install the latest released version from CRAN:
+Install the released version of frictionless from CRAN:
 
 ``` r
 install.packages("frictionless")
 ```
 
-Or the development version from
-[GitHub](https://github.com/frictionlessdata/frictionless-r) or
-[R-universe](https://ropensci.r-universe.dev/frictionless):
+Or install the development version from [GitHub](https://github.com/)
+with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("frictionlessdata/frictionless-r")
-
-# Or rOpenSci R-universe
-install.packages("frictionless", repos = "https://ropensci.r-universe.dev")
+# install.packages("pak")
+pak::pak("frictionlessdata/frictionless-r")
 ```
 
 ## Usage
