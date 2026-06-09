@@ -39,8 +39,12 @@ create_package <- function(descriptor = NULL) {
   # Add resources property (also creates descriptor if NULL)
   descriptor$resources <- descriptor$resources %||% list()
 
-  # Add directory attribute
+  # Add directory attribute (and remove deprecated package$directory)
   attr(descriptor, "directory") <- attr(descriptor, "directory") %||% "."
+  if (is.character(descriptor$directory)) {
+    attr(descriptor, "directory") <- descriptor$directory
+    descriptor$directory <- NULL
+  }
 
   # Add datapackage class
   if (!"datapackage" %in% class(descriptor)) {

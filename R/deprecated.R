@@ -11,9 +11,9 @@
 #' @name deprecated
 get_schema <- function(package, resource_name) {
   lifecycle::deprecate_soft(
-    "1.3.0",
-    "get_schema()",
-    "schema()"
+    when = "1.3.0",
+    what = "get_schema()",
+    with = "schema()"
   )
   schema(package, resource_name)
 }
@@ -27,9 +27,9 @@ get_schema <- function(package, resource_name) {
 #' @name deprecated
 resources <- function(package) {
   lifecycle::deprecate_soft(
-    "1.3.0",
-    "resources()",
-    "resource_names()"
+    when = "1.3.0",
+    what = "resources()",
+    with = "resource_names()"
   )
   resource_names(package)
 }
