@@ -23,17 +23,17 @@ test_that("version() returns version based on $schema", {
 
   # Custom extensions
   p$`$schema` <- "https://spatial.datapackage.org/profiles/1.0/datapackage.json"
-  expect_equal(version(p), "2.x")
+  expect_equal(version(p), ">=2.0")
   p$`$schema` <- "http://rs.tdwg.org/dwc-dp/1.0/dwc-dp-profile.json"
-  expect_equal(version(p), "2.x")
+  expect_equal(version(p), ">=2.0")
 })
 
-test_that("version() returns 2.x for invalid $schema", {
+test_that("version() returns >=2.0 for invalid $schema", {
   p <- create_package()
   p$`$schema` <- list()
-  expect_equal(version(p), "2.x")
+  expect_equal(version(p), ">=2.0")
   p$`$schema` <- 3.0
-  expect_equal(version(p), "2.x")
+  expect_equal(version(p), ">=2.0")
 })
 
 test_that("version() returns correct version for example packages", {
