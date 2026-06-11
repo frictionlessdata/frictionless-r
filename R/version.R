@@ -25,7 +25,7 @@ version <- function(package) {
 
   # Extract version from e.g.
   # "https://datapackage.org/profiles/<version>/datapackage.json"
-  pattern = ".*datapackage\\.org/profiles/((?:[0-9A-Za-z]|\\.|-)+)/.*"
+  pattern = "^https://datapackage\\.org/profiles/((?:[0-9A-Za-z]|\\.|-)+)/.*"
   extracted_version <- sub(
     pattern,
     "\\1",

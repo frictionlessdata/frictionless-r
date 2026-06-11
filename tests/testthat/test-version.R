@@ -22,6 +22,8 @@ test_that("version() returns version based on $schema", {
   expect_equal(version(p), "3.0")
 
   # Custom extensions
+  p$`$schema` <- "https://spatial.datapackage.org/profiles/1.0/datapackage.json"
+  expect_equal(version(p), "2.x")
   p$`$schema` <- "http://rs.tdwg.org/dwc-dp/1.0/dwc-dp-profile.json"
   expect_equal(version(p), "2.x")
 })
