@@ -58,7 +58,7 @@ purrr::map_chr(package$resources[[2]]$schema$fields, "type")
 read_resource(package, "deployments", col_select = c("latitude", "longitude"))
 }
 \seealso{
-Other read functions: 
-\code{\link{read_package}()}
+Other read functions:
+\code{\link[=read_package]{read_package()}}
 }
 \concept{read functions}

@@ -113,7 +113,7 @@ package <- add_resource(
 resource_names(package)
 }
 \seealso{
-Other edit functions: 
-\code{\link{remove_resource}()}
+Other edit functions:
+\code{\link[=remove_resource]{remove_resource()}}
 }
 \concept{edit functions}

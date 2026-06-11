@@ -33,7 +33,7 @@ package$name
 package$created
 }
 \seealso{
-Other read functions: 
-\code{\link{read_resource}()}
+Other read functions:
+\code{\link[=read_resource]{read_resource()}}
 }
 \concept{read functions}

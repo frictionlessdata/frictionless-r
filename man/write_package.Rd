@@ -31,7 +31,7 @@ location of file(s).
 \item Resource \code{path} has only URL(s): resource stays as is.
 \item Resource has inline \code{data} originally: resource stays as is.
 \item Resource has inline \code{data} as result of adding data with \code{\link[=add_resource]{add_resource()}}:
-data are written to a CSV file using \code{\link[readr:write_delim]{readr::write_csv()}}, \code{path} points to
+data are written to a CSV file using \code{\link[readr:write_csv]{readr::write_csv()}}, \code{path} points to
 location of file, \code{data} property is removed.
 Use \code{compress = TRUE} to gzip those CSV files.
 }
