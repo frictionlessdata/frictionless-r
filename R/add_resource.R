@@ -120,8 +120,6 @@ add_resource <- function(package, resource_name, data, schema = NULL,
       ),
       class = "frictionless_error_resource_already_exists"
     )
-  } else if (replace && !(resource_name %in% resources(package))) {
-    replace <- FALSE
   }
 
   # Check data (data frame or path), content of data frame is checked later
@@ -212,12 +210,25 @@ add_resource <- function(package, resource_name, data, schema = NULL,
     attr(resource, "path") <- "added"
   }
 
-  # Add or replace resource (needs to be wrapped in its own list)
-  if (replace) {
-    index <- which(purrr::map(package$resources, "name") == resource_name)
-    package$resources[index] <- list(resource)
-  } else {
+  # Find the index of the index of the name of the resource if it exists, or 0
+  # otherwise
+  index <- purrr::detect_index(
+    package$resources,
+    .f = \(resource) {
+      identical(
+        resource$name,
+        resource_name
+      )
+    }
+  )
+
+  # Add the resource if it's missing
+  if (index == 0L) {
     package$resources <- append(package$resources, list(resource))
+  } else {
+    # Or replace it if not, replace = FALSE on an existing resource should fail
+    # earlier
+    package$resources[[index]] <- resource
   }
 
   return(package)
