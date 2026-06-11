@@ -10,3 +10,5 @@
 ^pkgdown$
 ^README\.Rmd$
 ^CRAN-SUBMISSION$
+^\.positai$
+^\.claude$
