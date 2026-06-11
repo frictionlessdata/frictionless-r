@@ -1,6 +1,32 @@
 # frictionless (development version)
 
-* **frictionless now relies on R version 3.6.0 or higher**. Originally it stated version 3.5.0 or higher, but this was not tested and likely not true (#238).
+## For users
+
+* `read_resource()` now supports reading from remote zip files, thanks to support in `{vroom}` (1.3.0) (#291).
+* `resources()` is soft-deprecated, please use `resource_names()` instead (#282).
+* `get_schema()` is soft-deprecated, please use `schema()` instead (#282).
+
+## Changes for developers
+
+* Internal frictionless properties `package$directory` and `resource$read_from` are now _attributes_ `attr(package, "directory")` and `attr(resource, "data_location")`. This separates them better from public Data Package and Resource _properties_ (#289). Saved Data Package objects created with previous versions of frictionless will show a deprecation warning (#293) and can be updated with `create_package()`. If you use these internal properties in your R package, then change them:
+
+  ```R
+  # Before
+  package$directory
+  resource <- frictionless:::get_resource(package, "resource_name") # Internal function
+  resource$read_from
+  
+  # After
+  attr(package, "directory")
+  resource <- frictionless:::resource(package, "resource_name") # Function renamed
+  attr(resource, "data_location") # Attribute renamed
+  ```
+
+* frictionless now relies on R >= 4.1.0 (because of an indirect `{vroom}` dependency) (#291) and uses base pipes (`|>` rather than `%>%`) (#292).
+
+# frictionless 1.2.1
+
+* frictionless now relies on R version 3.6.0 or higher. Originally it stated version 3.5.0 or higher, but this was not tested and likely not true (#238).
 * `read_package()` now returns a warning rather than an error when a `datapackage.json` contains no resources. This allows use to create the JSON and then add resources with frictionless (#265).
 * `example_package()` now has a `version` parameter, allowing to load the example Data Package following the Data Package [v1](https://specs.frictionlessdata.io/) or [v2](https://datapackage.org/) specification (#249).
 
@@ -13,7 +39,7 @@
 * `write_package()` no longer writes to `"."` by default, since this is not allowed by CRAN policies. The user needs to explicitly define a directory (#205).
 * `null` values in a read `datapackage.json` are now retained by `write_package()`, rather than being changed to empty lists. Properties assigned by the user to `NA` and `NULL` remain being written as `null` and removed respectively (#203).
 * New vignettes `vignette("data-package")`, `vignette("data-resource")`, `vignette("table-dialect")` and `vignette("table-schema")` describe how frictionless implements the Data Package standard. The (verbose) function documentation of `read_resource()` and `create_schema()` has been moved to these vignettes, improving readability and maintenance (#208, #246).
-* The included dataset `example_package` is removed in favour of the function `example_package()`. This function allows to reproducibly provide a local Data Package, without the need for an internet connection. The `observations` resource was also changed from a remote to a local resource and from CSV to TSV. **This change affects the use of `example_package` in older versions of frictionless.** We recommend to update frictionless to the latest version (#114, #253).
+* The included dataset `example_package` is removed in favour of `example_package()`. This function allows to reproducibly provide a local Data Package, without the need for an internet connection. The `observations` resource was also changed from a remote to a local resource and from CSV to TSV. **This change affects the use of `example_package` in older versions of frictionless.** We recommend to update frictionless to the latest version (#114, #253).
 
 ## Changes for developers
 
@@ -28,7 +54,7 @@
 
 ## Changes for users
 
-* New function `print()` prints a human-readable summary of the Data Package, rather than a (long) list (#155).
+* New `print()` prints a human-readable summary of the Data Package, rather than a (long) list (#155).
 * `read_package()` no longer returns a message regarding rights and credit (#121). If `package$id` is a URL (e.g. a DOI) it will be mentioned in `print()`.
 * `add_resource()` accepts additional arguments via `...`. These are added as (custom) properties to the resource and are retained in `write_package()` (#195).
 * `read_resource()` now supports column selection via the `col_select` argument from `readr::read_delim()`. This can vastly improve reading speed (#123). [Tidy selection](https://dplyr.tidyverse.org/reference/dplyr_tidy_select.html) is not supported.
@@ -44,9 +70,9 @@
 * `cli::cli_abort()`, `cli::cli_warn()` and `cli::cli_inform()` are used for all errors, warnings, and messages (#163). This has several advantages:
   * Messages use semantic colours for variables, parameters, fields, etc.
   * Messages and warnings can be silenced with a global or local option, see [this blog post](https://ropensci.org/blog/2024/02/06/verbosity-control-packages/).
-  * Each call has an [rlang](https://cran.r-project.org/package=rlang) class, e.g. `frictionless_error_fields_without_name`, making it easier to test for specific errors.
-* [glue](https://cran.r-project.org/package=glue) and [assertthat](https://cran.r-project.org/package=assertthat) are removed as dependencies (#163). The functionality of glue is replaced by cli, while `assertthat::assert()` calls are now `if ()` statements.
-* [rlang](https://cran.r-project.org/package=rlang) is added as dependency (#192). It is already used by other dependencies.
+  * Each call has an `{rlang}` class, e.g. `frictionless_error_fields_without_name`, making it easier to test for specific errors.
+* `{glue}` and `{assertthat}` are removed as dependencies (#163). The functionality of glue is replaced by cli, while `assertthat::assert()` calls are now `if ()` statements.
+* `{rlang}` is added as dependency (#192). It is already used by other dependencies.
 * frictionless now depends on R >= 3.5.0.
 
 ## Other changes
@@ -56,7 +82,7 @@
 
 # frictionless 1.0.3
 
-* Add [stringi](https://cran.r-project.org/package=stringi) to `Suggests`. It was removed as a dependency from [rmarkdown](https://cran.r-project.org/package=rmarkdown) 2.26, resulting in "stringi package required for encoding operations" build errors on CRAN (#176).
+* Add `{stringi}` to `Suggests`. It was removed as a dependency from `{rmarkdown}` 2.26, resulting in "stringi package required for encoding operations" build errors on CRAN (#176).
 
 # frictionless 1.0.2
 
@@ -79,7 +105,7 @@
 * `add_resource()` now supports adding `schema` via path or URL.
 * `write_package()` now supports added data to be gzip compressed before being written to disk (#98).
 * `read_resource()` will now warn rather than error on unknown encoding (#86).
-* `package` objects no longer have or require the custom attribute `resource_names`, use new function `resources()` instead (#97).
+* `package` objects no longer have or require the custom attribute `resource_names`, use the new `resources()` instead (#97).
 * `package` objects no longer have or require the custom attribute `datapackage`, making it easier to edit them as lists (with e.g. `append()`).
 
 # frictionless 0.10.0

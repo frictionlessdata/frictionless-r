@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 [Data Resource](https://specs.frictionlessdata.io/data-resource/) is a simple format to describe a data resource such as an individual table or file, including its name, format, path, etc.
 
-::: {.callout-info}
+::: {.callout-note}
 In this document we use the terms "package" for Data Package, "resource" for Data Resource, "dialect" for Table Dialect, and "schema" for Table Schema.
 :::
 
@@ -27,14 +27,14 @@ Frictionless supports reading, manipulating and writing resources, but much of i
 
 ### Read
 
-`resources()` lists all resources in a package:
+`resource_names()` lists all resources in a package:
 
 ```{r}
 library(frictionless)
 package <- example_package()
 
 # List the resources
-resources(package)
+resource_names(package)
 ```
 
 `read_resource()` reads data from a tabular resource to a data frame:
@@ -239,4 +239,4 @@ package$resources[[2]]$encoding
 
 [`compression`](https://specs.frictionlessdata.io/patterns/#specification-3) (a recipe) is ignored by `read_resource()` and not set by `add_resource()`.
 
-Compression is derived from the provided `path` instead. If the `path` ends in `.gz`, `.bz2`, `.xz`, or `.zip`, the files are automatically decompressed by `read_resource()` (using default `readr::read_delim()` functionality). Only `.gz` files can be read directly from URL `path`s.
+Compression is derived from the provided `path` instead. If the `path` ends in `.gz`, `.bz2`, `.xz`, or `.zip`, the files are automatically decompressed by `read_resource()` (using default `readr::read_delim()` functionality).

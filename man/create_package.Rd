@@ -18,12 +18,12 @@ Initiates a Data Package object, either from scratch or from an existing
 list.
 This Data Package object is a list with the following characteristics:
 \itemize{
-\item A \code{datapackage} subclass.
 \item All properties of the original \code{descriptor}.
 \item A \code{resources} property, set to an empty list if undefined.
-\item A \code{directory} property, set to \code{"."} for the current directory if
+\item A \code{directory} attribute, set to \code{"."} for the current directory if
 undefined.
 It is used as the base path to access resources with \code{\link[=read_resource]{read_resource()}}.
+\item A \code{datapackage} subclass.
 }
 }
 \details{

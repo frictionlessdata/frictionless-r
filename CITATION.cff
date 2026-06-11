@@ -8,7 +8,7 @@ message: 'To cite package "frictionless" in publications use:'
 type: software
 license: MIT
 title: 'frictionless: Read and Write Frictionless Data Packages'
-version: 1.2.0.9000
+version: 1.2.1.9000
 doi: 10.32614/CRAN.package.frictionless
 abstract: Read and write Frictionless Data Packages. A 'Data Package' (<https://specs.frictionlessdata.io/data-package/>)
   is a simple container format and standard to describe and package a collection of
@@ -38,7 +38,7 @@ authors:
 repository: https://CRAN.R-project.org/package=frictionless
 repository-code: https://github.com/frictionlessdata/frictionless-r
 url: https://docs.ropensci.org/frictionless/
-date-released: '2024-08-27'
+date-released: '2025-05-23'
 contact:
 - family-names: Desmet
   given-names: Peter
@@ -61,8 +61,8 @@ references:
   institution:
     name: R Foundation for Statistical Computing
     address: Vienna, Austria
-  year: '2024'
-  version: '>= 3.6.0'
+  year: '2026'
+  version: '>= 4.1.0'
 - type: software
   title: cli
   abstract: 'cli: Helpers for Developing Command Line Interfaces'
@@ -72,8 +72,8 @@ references:
   authors:
   - family-names: Csárdi
     given-names: Gábor
-    email: csardi.gabor@gmail.com
-  year: '2024'
+    email: gabor@posit.co
+  year: '2026'
   doi: 10.32614/CRAN.package.cli
 - type: software
   title: dplyr
@@ -98,7 +98,7 @@ references:
     given-names: Davis
     email: davis@posit.co
     orcid: https://orcid.org/0000-0003-4777-038X
-  year: '2024'
+  year: '2026'
   doi: 10.32614/CRAN.package.dplyr
 - type: software
   title: httr
@@ -110,7 +110,7 @@ references:
   - family-names: Wickham
     given-names: Hadley
     email: hadley@posit.co
-  year: '2024'
+  year: '2026'
   doi: 10.32614/CRAN.package.httr
 - type: software
   title: jsonlite
@@ -123,8 +123,24 @@ references:
     given-names: Jeroen
     email: jeroenooms@gmail.com
     orcid: https://orcid.org/0000-0002-4035-0289
-  year: '2024'
+  year: '2026'
   doi: 10.32614/CRAN.package.jsonlite
+- type: software
+  title: lifecycle
+  abstract: 'lifecycle: Manage the Life Cycle of your Package Functions'
+  notes: Imports
+  url: https://lifecycle.r-lib.org/
+  repository: https://CRAN.R-project.org/package=lifecycle
+  authors:
+  - family-names: Henry
+    given-names: Lionel
+    email: lionel@posit.co
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@posit.co
+    orcid: https://orcid.org/0000-0003-4757-117X
+  year: '2026'
+  doi: 10.32614/CRAN.package.lifecycle
 - type: software
   title: purrr
   abstract: 'purrr: Functional Programming Tools'
@@ -134,12 +150,12 @@ references:
   authors:
   - family-names: Wickham
     given-names: Hadley
-    email: hadley@rstudio.com
+    email: hadley@posit.co
     orcid: https://orcid.org/0000-0003-4757-117X
   - family-names: Henry
     given-names: Lionel
-    email: lionel@rstudio.com
-  year: '2024'
+    email: lionel@posit.co
+  year: '2026'
   doi: 10.32614/CRAN.package.purrr
 - type: software
   title: readr
@@ -157,7 +173,7 @@ references:
     given-names: Jennifer
     email: jenny@posit.co
     orcid: https://orcid.org/0000-0002-6983-2759
-  year: '2024'
+  year: '2026'
   doi: 10.32614/CRAN.package.readr
   version: '>= 2.1.0'
 - type: software
@@ -173,7 +189,7 @@ references:
   - family-names: Wickham
     given-names: Hadley
     email: hadley@posit.co
-  year: '2024'
+  year: '2026'
   doi: 10.32614/CRAN.package.rlang
 - type: software
   title: utils
@@ -184,42 +200,19 @@ references:
   institution:
     name: R Foundation for Statistical Computing
     address: Vienna, Austria
-  year: '2024'
+  year: '2026'
 - type: software
   title: yaml
   abstract: 'yaml: Methods to Convert R Data to YAML and Back'
   notes: Imports
-  url: https://github.com/vubiostat/r-yaml/
+  url: https://yaml.r-lib.org
   repository: https://CRAN.R-project.org/package=yaml
   authors:
-  - family-names: Garbett
-    given-names: Shawn P
   - family-names: Stephens
     given-names: Jeremy
   - family-names: Simonov
     given-names: Kirill
-  - family-names: Xie
-    given-names: Yihui
-  - family-names: Dong
-    given-names: Zhuoer
-  - family-names: Wickham
-    given-names: Hadley
-  - family-names: Horner
-    given-names: Jeffrey
-  - name: reikoch
-  - family-names: Beasley
-    given-names: Will
-  - family-names: O'Connor
-    given-names: Brendan
-  - family-names: Warnes
-    given-names: Gregory R.
-  - family-names: Quinn
-    given-names: Michael
-  - family-names: Kamvar
-    given-names: Zhian N.
-  - family-names: Gao
-    given-names: Charlie
-  year: '2024'
+  year: '2026'
   doi: 10.32614/CRAN.package.yaml
 - type: software
   title: hms
@@ -232,7 +225,7 @@ references:
     given-names: Kirill
     email: kirill@cynkra.com
     orcid: https://orcid.org/0000-0002-1416-3412
-  year: '2024'
+  year: '2026'
   doi: 10.32614/CRAN.package.hms
 - type: software
   title: knitr
@@ -245,7 +238,7 @@ references:
     given-names: Yihui
     email: xie@yihui.name
     orcid: https://orcid.org/0000-0003-0645-5666
-  year: '2024'
+  year: '2026'
   doi: 10.32614/CRAN.package.knitr
 - type: software
   title: lubridate
@@ -261,7 +254,7 @@ references:
     given-names: Garrett
   - family-names: Wickham
     given-names: Hadley
-  year: '2024'
+  year: '2026'
   doi: 10.32614/CRAN.package.lubridate
 - type: software
   title: rmarkdown
@@ -305,7 +298,7 @@ references:
     given-names: Richard
     email: rich@posit.co
     orcid: https://orcid.org/0000-0003-3925-190X
-  year: '2024'
+  year: '2026'
   doi: 10.32614/CRAN.package.rmarkdown
 - type: software
   title: stringi
@@ -316,14 +309,9 @@ references:
   authors:
   - family-names: Gagolewski
     given-names: Marek
+    email: marek@gagolewski.com
     orcid: https://orcid.org/0000-0003-0637-6028
-  - family-names: Tartanus
-    given-names: Bartek
-  - family-names: Unicode
-    given-names: others;
-  - name: Inc.
-  - name: others
-  year: '2024'
+  year: '2026'
   doi: 10.32614/CRAN.package.stringi
 - type: software
   title: testthat
@@ -335,7 +323,7 @@ references:
   - family-names: Wickham
     given-names: Hadley
     email: hadley@posit.co
-  year: '2024'
+  year: '2026'
   doi: 10.32614/CRAN.package.testthat
   version: '>= 3.0.0'
 - type: software
@@ -352,6 +340,31 @@ references:
   - family-names: Wickham
     given-names: Hadley
     email: hadley@rstudio.com
-  year: '2024'
+  year: '2026'
   doi: 10.32614/CRAN.package.tibble
+- type: software
+  title: withr
+  abstract: 'withr: Run Code ''With'' Temporarily Modified Global State'
+  notes: Suggests
+  url: https://withr.r-lib.org
+  repository: https://CRAN.R-project.org/package=withr
+  authors:
+  - family-names: Hester
+    given-names: Jim
+  - family-names: Henry
+    given-names: Lionel
+    email: lionel@posit.co
+  - family-names: Müller
+    given-names: Kirill
+    email: krlmlr+r@mailbox.org
+  - family-names: Ushey
+    given-names: Kevin
+    email: kevinushey@gmail.com
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@posit.co
+  - family-names: Chang
+    given-names: Winston
+  year: '2026'
+  doi: 10.32614/CRAN.package.withr
 

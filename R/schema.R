@@ -17,11 +17,11 @@
 #' package <- example_package()
 #'
 #' # Get the Table Schema for the resource "observations"
-#' schema <- get_schema(package, "observations")
+#' schema <- schema(package, "observations")
 #' str(schema)
-get_schema <- function(package, resource_name) {
+schema <- function(package, resource_name) {
   # Get resource
-  resource <- get_resource(package, resource_name)
+  resource <- resource(package, resource_name)
 
   # Check resource is tabular-data-resource (expected for resources with schema)
   if (resource$profile %||% "" != "tabular-data-resource") {
@@ -39,7 +39,11 @@ get_schema <- function(package, resource_name) {
       class = "frictionless_error_resource_without_schema"
     )
   }
-  schema <- read_descriptor(resource$schema, package$directory, safe = TRUE)
+  schema <- read_descriptor(
+    resource$schema,
+    attr(package, "directory"),
+    safe = TRUE
+  )
 
   # Check schema
   check_schema(schema)

@@ -11,7 +11,6 @@ knitr::opts_chunk$set(
   fig.path = "man/figures/README-",
   out.width = "100%"
 )
-library(dplyr) # For %>%
 ```
 
 # frictionless
@@ -26,7 +25,7 @@ library(dplyr) # For %>%
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5815355.svg)](https://doi.org/10.5281/zenodo.5815355)
 <!-- badges: end -->
 
-Frictionless is an R package to read and write Frictionless Data Packages. A [Data Package](https://specs.frictionlessdata.io/data-package/) is a simple container format and standard to describe and package a collection of (tabular) data. It is typically used to publish [FAIR](https://www.go-fair.org/fair-principles/) and open datasets.
+frictionless is an R package to read and write Frictionless Data Packages. A [Data Package](https://specs.frictionlessdata.io/data-package/) is a simple container format and standard to describe and package a collection of (tabular) data. It is typically used to publish [FAIR](https://www.go-fair.org/fair-principles/) and open datasets.
 
 To get started, see:
 
@@ -34,24 +33,22 @@ To get started, see:
 - [Function reference](https://docs.ropensci.org/frictionless/reference/index.html): overview of all functions.
 - [Standard implementation](https://docs.ropensci.org/frictionless/articles/index.html): how frictionless implements the Data Package standard.
 
-**Frictionless currently implements [Data Package v1](https://specs.frictionlessdata.io/).** Our goal is to support [Data Package v2](https://datapackage.org/) as well.
+**frictionless currently implements [Data Package v1](https://specs.frictionlessdata.io/).** Our goal is to support [Data Package v2](https://datapackage.org/) as well.
 
 ## Installation
 
-Install the latest released version from CRAN:
+Install the released version of frictionless from CRAN:
 
-```{r, eval = FALSE}
+``` r
 install.packages("frictionless")
 ```
 
-Or the development version from [GitHub](https://github.com/frictionlessdata/frictionless-r) or [R-universe](https://ropensci.r-universe.dev):
+Or install the development version from [GitHub](https://github.com/)
+with:
 
-```{r, eval = FALSE}
-# install.packages("devtools")
-devtools::install_github("frictionlessdata/frictionless-r")
-
-# Or rOpenSci R-universe
-install.packages("frictionless", repos = "https://ropensci.r-universe.dev")
+``` r
+# install.packages("pak")
+pak::pak("frictionlessdata/frictionless-r")
 ```
 
 ## Usage
@@ -69,7 +66,7 @@ package <- read_package("https://zenodo.org/records/10053702/files/datapackage.j
 package
 
 # List resources
-resources(package)
+resource_names(package)
 
 # Read data from the resource "gps"
 # This will return a single data frame, even though the data are split over 
@@ -82,13 +79,13 @@ You can also create your own Data Package, add data and **write** it to disk:
 ```{r write_example}
 # Create a Data Package and add the "iris" data frame as a resource
 my_package <-
-  create_package() %>%
+  create_package() |>
   add_resource(resource_name = "iris", data = iris)
 
 my_package
 
 # Write the Data Package to disk
-my_package %>%
+my_package |>
   write_package("my_directory")
 ```
 
@@ -106,7 +103,7 @@ frictionless on the other hand allows you to quickly read and write Data Package
 
 ## Meta
 
-- We welcome [contributions](https://docs.ropensci.org/frictionless/CONTRIBUTING.html) including bug reports.
+- We welcome [contributions](.github/CONTRIBUTING.md) including bug reports.
 - License: MIT
-- Get [citation information](https://docs.ropensci.org/frictionless/authors.html#citation) for frictionless in R doing `citation("frictionless")`.
-- Please note that this project is released with a [Contributor Code of Conduct](https://frictionlessdata.io/work-with-us/code-of-conduct/). By participating in this project you agree to abide by its terms.
+- Get citation information for frictionless in R with `citation("frictionless")`.
+- Please note that this project is released with a [Contributor Code of Conduct](.github/CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.

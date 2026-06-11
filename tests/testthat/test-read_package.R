@@ -11,15 +11,15 @@ test_that("read_package() returns a valid Data Package reading from path", {
 
   # Package has correct resources
   resource_names <- c("deployments", "observations", "media")
-  expect_identical(resources(p_local), resource_names)
-  expect_identical(resources(p_minimal), resource_names)
+  expect_identical(resource_names(p_local), resource_names)
+  expect_identical(resource_names(p_minimal), resource_names)
 
   # Package has correct "directory", containing root dir of datapackage.json
   expect_identical(
-    p_local$directory,
+    attr(p_local, "directory"),
     sub("/datapackage.json", "", p_path, fixed = TRUE)
   )
-  expect_identical(p_minimal$directory, "data")
+  expect_identical(attr(p_minimal, "directory"), "data")
 })
 
 test_that("read_package() returns a valid Data Package reading from url", {
@@ -36,11 +36,11 @@ test_that("read_package() returns a valid Data Package reading from url", {
 
   # Package has correct resources
   resource_names <- c("deployments", "observations", "media")
-  expect_identical(resources(p_remote), resource_names)
+  expect_identical(resource_names(p_remote), resource_names)
 
   # Package has correct "directory", containing root dir of datapackage.json
   expect_identical(
-    p_remote$directory,
+    attr(p_remote, "directory"),
     sub("/datapackage.json", "", p_url, fixed = TRUE)
   )
 })
@@ -128,6 +128,6 @@ test_that("read_package() allows YAML descriptor", {
 test_that("read_package() converts JSON null to NULL", {
   p_path <- system.file("extdata", "v1", "datapackage.json", package = "frictionless")
   p <- read_package(p_path)
-  # { "image": null } is read as NULL (use chuck() to force error if missing)
-  expect_null(purrr::chuck(p, "image"))
+  # { "spatial": null } is read as NULL (use chuck() to force error if missing)
+  expect_null(purrr::chuck(p, "spatial"))
 })

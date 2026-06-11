@@ -35,10 +35,22 @@ test_that("create_package() sets resources or leaves as is", {
 
 test_that("create_package() sets directory or leaves as is", {
   new <- create_package()
-  expect_identical(new$directory, ".")
+  expect_identical(attr(new, "directory"), ".")
 
-  existing <- create_package(list(directory = "not_default"))
-  expect_identical(existing$directory, "not_default")
+  list_with_directory <- list()
+  attr(list_with_directory, "directory") <- "not_default"
+  existing <- create_package(list_with_directory)
+  expect_identical(attr(existing, "directory"), "not_default")
+})
+
+test_that("create_package() updates deprecated package$directory", {
+  p_directory <- example_package()
+  p_directory$directory <- "not_default"
+  attr(p_directory, "directory") <- NULL
+  p_updated <- create_package(p_directory)
+
+  expect_null(p_updated$directory)
+  expect_identical(attr(p_updated, "directory"), "not_default")
 })
 
 test_that("create_package() adds class 'datapackage'", {

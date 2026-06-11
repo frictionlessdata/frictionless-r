@@ -45,7 +45,7 @@ read_package <- function(file = "datapackage.json") {
   }
 
   # Add directory
-  descriptor$directory <- dirname(file) # Also works for URLs
+  attr(descriptor, "directory") <- dirname(file) # Also works for URLs
 
   # Create package
   create_package(descriptor)

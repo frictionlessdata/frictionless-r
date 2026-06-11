@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 [Data Package](https://specs.frictionlessdata.io/data-package/) is a simple container format to describe a coherent collection of data (a dataset), including its contributors, licenses, etc.
 
-::: {.callout-info}
+::: {.callout-note}
 In this document we use the terms "package" for Data Package, "resource" for Data Resource, "dialect" for Table Dialect, and "schema" for Table Schema.
 :::
 
@@ -78,9 +78,9 @@ Most functions have `package` as their first argument and return package. This a
 ```{r, message = FALSE}
 library(dplyr) # Or library(magrittr)
 my_package <-
-  create_package() %>%
-  add_resource(resource_name = "iris", data = iris) %>%
-  append(c("title" = "my_package"), after = 0) %>%
+  create_package() |>
+  add_resource(resource_name = "iris", data = iris) |>
+  append(c("title" = "my_package"), after = 0) |>
   create_package() # To add the datapackage class again
 my_package
 ```
@@ -93,7 +93,7 @@ my_package
 
 ### resources
 
-[`resources`](https://specs.frictionlessdata.io/data-package/#resource-information) is required. It is used by `resources()` and many other functions. `check_package()` returns an error if it is missing.
+[`resources`](https://specs.frictionlessdata.io/data-package/#resource-information) is required. It is used by `resource_names()` and many other functions. `check_package()` returns an error if it is missing.
 
 <!-- ### $schema -->
 
