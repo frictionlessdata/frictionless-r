@@ -145,7 +145,7 @@ field type | column type
 [`geojson`](#geojson) | `character`
 [`any`](#any) | `character`
 other value | error
-undefined | guessed
+undefined | `character`
 
 `create_schema()` sets `type` as follows:
 
