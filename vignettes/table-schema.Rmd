@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 [Table Schema](https://specs.frictionlessdata.io/table-schema/) is a simple format to describe tabular data, including field names, types, constraints, missing values, foreign keys, etc.
 
-::: {.callout-info}
+::: {.callout-note}
 In this document we use the terms "package" for Data Package, "resource" for Data Resource, "dialect" for Table Dialect, and "schema" for Table Schema.
 :::
 
@@ -27,14 +27,14 @@ Frictionless supports `schema$fields` and `schema$missingValues` to parse data t
 
 ### Read
 
-`get_schema()` extracts the schema from a resource:
+`schema()` extracts the schema from a resource:
 
 ```{r}
 library(frictionless)
 package <- example_package()
 
 # Get the Table Schema for the resource "observations"
-schema <- get_schema(package, "observations")
+schema <- schema(package, "observations")
 str(schema)
 ```
 
@@ -66,7 +66,7 @@ levels(observations$life_stage)
 
 ### Manipulate
 
-A schema is a list which you can manipulate, but frictionless does not provide functions to do that. Use `{purrr}` or base R instead (see `vignette("frictionless")`). You do not have to start a schema from scratch though: use `get_schema()` (see above) or `create_schema()` instead.
+A schema is a list which you can manipulate, but frictionless does not provide functions to do that. Use `{purrr}` or base R instead (see `vignette("frictionless")`). You do not have to start a schema from scratch though: use `schema()` (see above) or `create_schema()` instead.
 
 `create_schema()` creates a schema from a data frame and defines the `name`, `type` (and if a factor `constraints$enum`) for each field:
 
@@ -208,7 +208,7 @@ any other type | `any`
 
 ### integer
 
-[`integer`](https://specs.frictionlessdata.io/table-schema/#integer) is interpreted as `double` (to avoid issues with big numbers). Or `factor` when `constraints$enum` is defined.
+[`integer`](https://specs.frictionlessdata.io/table-schema/#integer) is interpreted as `double` (to support big integers, + signs and `bareNumber`). Or `factor` when `constraints$enum` is defined.
 
 - `bareNumber` is supported. If `false`, whitespace and non-numeric characters are ignored.
 

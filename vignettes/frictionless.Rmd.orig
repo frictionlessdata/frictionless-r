@@ -45,10 +45,10 @@ Since a Data Package is a list, you can pass it to functions that work on lists,
 str(package, list.len = 3)
 ```
 
-The most important aspect of a Data Package are its **Data Resources**, which describe and point to the data. You can list all included resources with `resources()`:
+The most important aspect of a Data Package are its **Data Resources**, which describe and point to the data. You can list all included resources with `resource_names()`:
 
 ```{r}
-resources(package)
+resource_names(package)
 ```
 
 This Data Package has 3 resources. Let's read the data from the `gps` resource into a data frame:
@@ -88,16 +88,13 @@ dplyr::as_tibble(iris)
 Create a Data Package with `create_package()` and add your data frame as a resource with the name `iris`:
 
 ```{r}
-# Load dplyr or magrittr to support %>% pipes
-library(dplyr, warn.conflicts = FALSE) # or library(magrittr)
-
 my_package <-
-  create_package() %>%
+  create_package() |>
   add_resource(resource_name = "iris", data = iris)
 ```
 
-::: {.callout-info}
-You can chain most frictionless functions together using pipes (`%>%` or `|>`), which improves readability.
+::: {.callout-note}
+You can chain most frictionless functions together using pipes (`|>`), which improves readability.
 :::
 
 `my_package` now contains one resource:
@@ -106,12 +103,12 @@ You can chain most frictionless functions together using pipes (`%>%` or `|>`), 
 my_package
 ```
 
-By default, `add_resource()` will create a **Table Schema** for your data frame, describing its field names, field types and (for factors) constraints. You can retrieve the schema of a resource with `get_schema()`. It is a list, which we print here using `str()`:
+By default, `add_resource()` will create a **Table Schema** for your data frame, describing its field names, field types and (for factors) constraints. You can retrieve the schema of a resource with `schema()`. It is a list, which we print here using `str()`:
 
 ```{r}
 iris_schema <-
-  my_package %>%
-  get_schema("iris")
+  my_package |>
+  schema("iris")
 
 str(iris_schema)
 ```
@@ -158,7 +155,7 @@ Let's add `iris` as a resource to your Data Package again, but this time with th
 
 ```{r}
 my_package <-
-  my_package %>%
+  my_package |>
   add_resource(
     resource_name = "iris",
     data = iris,
@@ -178,7 +175,7 @@ path_2 <- system.file("extdata", "v1", "observations_2.tsv", package = "friction
 
 # Add both TSV files as a single resource
 my_package <-
-  my_package %>%
+  my_package |>
   add_resource(
     resource_name = "observations",
     data = c(path_1, path_2),
@@ -197,7 +194,7 @@ my_package <- append(my_package, c(title = "My package"), after = 1)
 my_package <- create_package(my_package)
 ```
 
-::: {.callout-info}
+::: {.callout-note}
 In the steps above you started a Data Package from scratch with `create_package()`, but you can use the same functionality to edit an existing Data Package read with `read_package()`.
 :::
 

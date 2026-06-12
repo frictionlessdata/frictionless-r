@@ -71,7 +71,7 @@ Data Package standard.
 package <- example_package()
 
 # List the resources
-resources(package)
+resource_names(package)
 
 # Create a data frame
 df <- data.frame(
@@ -110,7 +110,7 @@ package <- add_resource(
 )
 
 # List the resources ("positions" and "positions_with_schema" added)
-resources(package)
+resource_names(package)
 }
 \seealso{
 Other edit functions: 

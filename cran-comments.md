@@ -1,22 +1,6 @@
 ## R CMD check results
 
-0 errors | 0 warnings | 1 note
-
-* New maintainer:
-    Peter Desmet <peter.desmet@inbo.be>
-  Old maintainer(s):
-    Peter Desmet <peter.desmet.work@gmail.com>
-  
-  I have updated my email address to be the same for all packages on CRAN.
-
-* CRAN ERROR for version 1.1.0 has been resolved.
-  The example for `get_schema()` failed because of a changed URL.
-  The example no longer requires a remote file and the function fails gracefully
-  if it does.
-
-* CRAN NOTE for the version 1.1.0 has been resolved.
-  `read_resource.Rd` had a missing package anchor for `\link{}`.
-  This has been fixed.
+0 errors | 0 warnings | 0 notes
 
 ## revdepcheck results
 
