@@ -63,9 +63,9 @@ field_to_col <- function(field) {
     "geojson" = readr::col_character(),
     "any" = readr::col_character()
   )
-  # `col_type` will be NULL when type is undefined (NA_character_) or an
-  # unrecognized value (e.g. "datum", but will be blocked by `check_schema()`).
-  # Set those to character.
+  # col_type will be NULL when type is undefined (NA_character_) or an
+  # unrecognized value (e.g. "datum", but will be blocked by check_schema()).
+  # Don't guess, but set to character.
   col_type <- col_type %||% readr::col_character()
   col_type
 }

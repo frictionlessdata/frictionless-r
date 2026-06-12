@@ -742,7 +742,7 @@ test_that("read_resource() handles other types", {
   # Interpret any as character
   expect_type(resource$any, "character")
 
-  # Force undefined types to character as unknown types are blocked by
-  # `check_schema()`
+  # Interpret undefined as character
+  # Note: unknown values are blocked by check_schema()
   expect_type(resource$no_type, "character")
 })
