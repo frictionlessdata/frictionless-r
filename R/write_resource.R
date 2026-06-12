@@ -56,6 +56,9 @@ write_resource <- function(package, resource_name, directory = ".",
       }
       out_paths <- append(out_paths, file_name)
     }
+    if (length(out_paths) > 1) {
+      out_paths <- as.list(out_paths)
+    }
     resource$path <- out_paths
 
   # Resource has URL paths (only)
