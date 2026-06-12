@@ -39,7 +39,7 @@ cols <- function(schema) {
 field_to_col <- function(field) {
   # Get field properties
   type <- field$type %||% NA_character_
-  enum <- field$constraints$enum
+  enum <- unlist(field$constraints$enum)
   group_char <- if (field$groupChar %||% "" != "") TRUE else FALSE
   bare_number <- if (field$bareNumber %||% "" != FALSE) TRUE else FALSE
   format <- field$format %||% "default" # Undefined => default
