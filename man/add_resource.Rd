@@ -39,10 +39,11 @@ If not provided, one will be created using \code{\link[=create_schema]{create_sc
 \item{replace}{If \code{TRUE}, the added resource will replace an existing
 resource with the same name.}
 
-\item{delim}{Single character used to separate the fields in the CSV file(s),
-e.g. \verb{\\t} for tab delimited file.
+\item{delim}{Single character used to separate the fields in the source CSV
+file(s) to be read, e.g. \verb{\\t} for tab delimited file.
 Will be set as \code{delimiter} in the resource Table Dialect, so read functions
-.  know how to read the file(s).}
+.  know how to read the file(s). When writing files with \code{\link[=write_package]{write_package()}}
+files always use a comma as the delimiting character (CSV).}
 
 \item{...}{Additional \href{https://docs.ropensci.org/frictionless/articles/data-resource.html#properties-implementation}{metadata properties}
 to add to the resource, e.g. \verb{title = "My title", validated = FALSE}.
@@ -113,7 +114,7 @@ package <- add_resource(
 resource_names(package)
 }
 \seealso{
-Other edit functions: 
-\code{\link{remove_resource}()}
+Other edit functions:
+\code{\link[=remove_resource]{remove_resource()}}
 }
 \concept{edit functions}
