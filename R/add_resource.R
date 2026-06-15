@@ -25,10 +25,10 @@
 #'   If not provided, one will be created using [create_schema()].
 #' @param replace If `TRUE`, the added resource will replace an existing
 #'   resource with the same name.
-#' @param delim Single character used to separate the fields in the CSV file(s),
+#' @param delim Single character used to separate the fields in the source CSV file(s) to be read,
 #'   e.g. `\t` for tab delimited file.
 #'   Will be set as `delimiter` in the resource Table Dialect, so read functions
-#'.  know how to read the file(s).
+#'.  know how to read the file(s). When writing files with [write_package()] files always use a comma as the delimiting character (CSV).
 #' @param ... Additional [metadata properties](
 #'   https://docs.ropensci.org/frictionless/articles/data-resource.html#properties-implementation)
 #'   to add to the resource, e.g. `title = "My title", validated = FALSE`.
