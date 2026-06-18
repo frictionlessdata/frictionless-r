@@ -14,7 +14,7 @@ test_that("create_schema() returns a valid Table Schema", {
         name = "col_2",
         type = "string",
         constraints = list(
-          enum = c("a", "b", "c")
+          enum = list("a", "b", "c")
         )
       )
     )
