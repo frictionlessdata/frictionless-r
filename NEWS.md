@@ -2,6 +2,7 @@
 
 ## For users
 
+* New `version()` determines what version of the Data Package standard is used by a Data Package (e.g. `"1.0"`, `"2.0"`, `">=2.0"`). This based on the presence and value of the `$schema` property (#299).
 * `read_resource()` now supports reading from remote zip files, thanks to support in `{vroom}` (1.3.0) (#291).
 * `resources()` is soft-deprecated, please use `resource_names()` instead (#282).
 * `get_schema()` is soft-deprecated, please use `schema()` instead (#282).
