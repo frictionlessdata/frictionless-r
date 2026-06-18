@@ -66,7 +66,7 @@ create_schema <- function(data) {
       name = name,
       type = type,
       constraints = list(
-        enum = enum
+        enum = as.list(enum) # Always a list
       )
     )
   })
