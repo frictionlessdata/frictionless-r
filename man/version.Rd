@@ -14,9 +14,11 @@ version(package)
 Data Package version number (e.g. \code{1.0}).
 }
 \description{
-Determines what version of the \href{https://datapackage.org/}{Data Package standard} is used by the Data Package, based on the
-\verb{$schema} property. Version \code{"1.0"} is assumed if \verb{$schema} is missing,
-version \code{">=2.0"} is assumed for custom values (e.g. \href{https://datapackage.org/standard/extensions/}{extensions}).
+Determines what version of the \href{https://datapackage.org/}{Data Package standard} is used by a Data Package, based on the
+\href{https://datapackage.org/standard/data-package/#dollar-schema}{\verb{$schema}}
+property.
+Version \code{"1.0"} is assumed if \verb{$schema} is missing, version \code{">=2.0"} is
+assumed for custom values (e.g. \href{https://datapackage.org/standard/extensions/}{extensions}).
 }
 \examples{
 package <- example_dataset()

@@ -1,9 +1,11 @@
 #' Get Data Package version
 #'
 #' Determines what version of the [Data Package standard](
-#' https://datapackage.org/) is used by the Data Package, based on the
-#' `$schema` property. Version `"1.0"` is assumed if `$schema` is missing,
-#' version `">=2.0"` is assumed for custom values (e.g. [extensions](
+#' https://datapackage.org/) is used by a Data Package, based on the
+#' [`$schema`](https://datapackage.org/standard/data-package/#dollar-schema)
+#' property.
+#' Version `"1.0"` is assumed if `$schema` is missing, version `">=2.0"` is
+#' assumed for custom values (e.g. [extensions](
 #' https://datapackage.org/standard/extensions/)).
 #'
 #' @inheritParams read_resource
