@@ -69,9 +69,18 @@
         ],
         "$schema": "https://datapackage.org/profiles/2.0/tableschema.json",
         "missingValues": [
-          "",
-          "NA",
-          "NaN"
+          {
+            "value": "",
+            "label": "missing"
+          },
+          {
+            "value": "NA",
+            "label": "not applicable"
+          },
+          {
+            "value": "NaN",
+            "label": "not a number"
+          }
         ],
         "primaryKey": [
           "deployment_id"
@@ -159,18 +168,7 @@
         ],
         "$schema": "https://datapackage.org/profiles/2.0/tableschema.json",
         "missingValues": [
-          {
-            "value": "",
-            "label": "missing"
-          },
-          {
-            "value": "NA",
-            "label": "not applicable"
-          },
-          {
-            "value": "NaN",
-            "label": "not a number"
-          }
+          "NA"
         ],
         "primaryKey": [
           "observation_id"
