@@ -57,6 +57,7 @@ write_resource <- function(package, resource_name, directory = ".",
       out_paths <- append(out_paths, file_name)
     }
     if (length(out_paths) > 1) {
+      # String for single file, pretty array for multiple files
       out_paths <- as.list(out_paths)
     }
     resource$path <- out_paths
