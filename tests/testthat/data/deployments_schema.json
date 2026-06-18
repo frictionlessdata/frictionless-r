@@ -39,6 +39,10 @@
       }
     }
   ],
-  "missingValues": ["", "NA", "NaN"],
+  "missingValues": [
+    "",
+    "NA",
+    "NaN"
+  ],
   "primaryKey": "deployment_id"
 }
