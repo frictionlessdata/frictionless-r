@@ -21,7 +21,7 @@ Version \code{"1.0"} is assumed if \verb{$schema} is missing, version \code{">=2
 assumed for custom values (e.g. \href{https://datapackage.org/standard/extensions/}{extensions}).
 }
 \examples{
-package <- example_dataset()
+package <- example_package()
 version(package)
 }
 \concept{version functions}

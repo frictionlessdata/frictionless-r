@@ -13,7 +13,7 @@
 #' @family version functions
 #' @export
 #' @examples
-#' package <- example_dataset()
+#' package <- example_package()
 #' version(package)
 version <- function(package) {
   dollar_schema <- purrr::pluck(package, "$schema")
