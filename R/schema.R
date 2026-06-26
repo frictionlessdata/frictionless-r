@@ -9,7 +9,7 @@
 #' See `vignette("table-schema")` to learn more about Table Schema.
 #'
 #' @inheritParams read_resource
-#' @return List describing a Table Schema.
+#' @returns List describing a Table Schema.
 #' @family accessor functions
 #' @export
 #' @examples

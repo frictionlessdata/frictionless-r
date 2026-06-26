@@ -36,7 +36,7 @@ schema <- create_schema(df)
 str(schema)
 }
 \seealso{
-Other create functions: 
-\code{\link{create_package}()}
+Other create functions:
+\code{\link[=create_package]{create_package()}}
 }
 \concept{create functions}

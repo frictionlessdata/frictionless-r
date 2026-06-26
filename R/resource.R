@@ -4,7 +4,7 @@
 #' described `resources`.
 #'
 #' @inheritParams read_resource
-#' @return List describing a Data Resource, with new attribute `data_location`
+#' @returns List describing a Data Resource, with new attribute `data_location`
 #'   to indicate how the data are attached.
 #'   If present, `path` will be updated to contain the full path(s).
 #' @family accessor functions

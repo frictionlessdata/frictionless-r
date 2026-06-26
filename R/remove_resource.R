@@ -4,7 +4,7 @@
 #' described `resources`.
 #'
 #' @inheritParams read_resource
-#' @return `package` with one fewer resource.
+#' @returns `package` with one fewer resource.
 #' @family edit functions
 #' @export
 #' @examples
