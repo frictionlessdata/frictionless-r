@@ -15,7 +15,7 @@
 #' - `2.0`: specified as a [Data Package v2](https://datapackage.org/).
 #'
 #' @param version Data Package standard version.
-#' @return A Data Package object, see [create_package()].
+#' @returns A Data Package object, see [create_package()].
 #' @family sample data
 #' @export
 #' @examples

@@ -4,7 +4,7 @@
 #' `decimal_mark`, `grouping_mark` and `encoding`.
 #'
 #' @inheritParams read_resource
-#' @return A [readr::locale()] object.
+#' @returns A [readr::locale()] object.
 #' @family parse functions
 #' @noRd
 locale <- function(package, resource_name) {

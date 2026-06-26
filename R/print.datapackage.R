@@ -6,7 +6,7 @@
 #' @param x Data Package object, as returned by [read_package()] or
 #'   [create_package()].
 #' @param ... Further arguments, they are ignored by this function.
-#' @return [print()] with a summary of the Data Package object.
+#' @returns [print()] with a summary of the Data Package object.
 #' @family print functions
 #' @export
 #' @examples

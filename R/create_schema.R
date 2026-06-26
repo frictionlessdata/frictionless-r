@@ -7,7 +7,7 @@
 #' Data Package standard.
 #'
 #' @param data A data frame.
-#' @return List describing a Table Schema.
+#' @returns List describing a Table Schema.
 #' @family create functions
 #' @export
 #' @examples

@@ -3,7 +3,7 @@
 #' Lists the names of the Data Resources included in a Data Package.
 #'
 #' @inheritParams read_resource
-#' @return Character vector with the Data Resource names.
+#' @returns Character vector with the Data Resource names.
 #' @family accessor functions
 #' @export
 #' @examples

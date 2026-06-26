@@ -3,7 +3,7 @@
 #' Get unique vector values sorted by how often they occur
 #'
 #' @param x Vector, e.g. `c("a", "b", "b", "b", "c", "a")`.
-#' @return Vector with unique values sorted by most to least occurring,
+#' @returns Vector with unique values sorted by most to least occurring,
 #'   e.g. `c("b", "a", "c")`.
 #' @family helper functions
 #' @noRd
@@ -27,7 +27,7 @@ unique_sorted <- function(x) {
 #' @param x List or vector.
 #' @param fun Function returning `TRUE` for elements that should be removed.
 #' @param recursive Whether list should be cleaned recursively.
-#' @return Cleaned list.
+#' @returns Cleaned list.
 #' @family helper functions
 #' @noRd
 clean_list <- function(x, fun = is.null, recursive = FALSE) {
@@ -46,7 +46,7 @@ clean_list <- function(x, fun = is.null, recursive = FALSE) {
 #' Check if path is URL
 #'
 #' @param path Path.
-#' @return `TRUE` if `path` is a http(s) or (s)ftp URL, otherwise `FALSE`.
+#' @returns `TRUE` if `path` is a http(s) or (s)ftp URL, otherwise `FALSE`.
 #' @family helper functions
 #' @noRd
 is_url <- function(path) {
@@ -58,7 +58,7 @@ is_url <- function(path) {
 #' Returns descriptor `x` as is, or attempts to read JSON/YAML from path or URL.
 #'
 #' @inheritParams check_path
-#' @return `x` (unchanged) or loaded JSON/YAML at path or URL.
+#' @returns `x` (unchanged) or loaded JSON/YAML at path or URL.
 #' @family helper functions
 #' @noRd
 read_descriptor <- function(x, directory = NULL, safe = FALSE) {
@@ -82,7 +82,7 @@ read_descriptor <- function(x, directory = NULL, safe = FALSE) {
 #' Replicates the base function [...names()] available in R >= 4.0.0.
 #'
 #' @param ... objects, possibly named
-#' @return A character vector of the names of the ... arguments
+#' @returns A character vector of the names of the ... arguments
 #' @noRd
 get_dot_names <- function(...) {
   # Get all the names from ...
