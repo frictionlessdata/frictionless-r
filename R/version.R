@@ -9,7 +9,7 @@
 #' https://datapackage.org/standard/extensions/)).
 #'
 #' @inheritParams read_resource
-#' @return Data Package version number (e.g. `1.0`).
+#' @returns Data Package version number (e.g. `1.0`).
 #' @family version functions
 #' @export
 #' @examples
