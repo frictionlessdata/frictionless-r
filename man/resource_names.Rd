@@ -24,7 +24,7 @@ package <- example_package()
 resource_names(package)
 }
 \seealso{
-Other accessor functions: 
-\code{\link{schema}()}
+Other accessor functions:
+\code{\link[=schema]{schema()}}
 }
 \concept{accessor functions}

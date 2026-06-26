@@ -42,7 +42,7 @@ package
 str(package)
 }
 \seealso{
-Other create functions: 
-\code{\link{create_schema}()}
+Other create functions:
+\code{\link[=create_schema]{create_schema()}}
 }
 \concept{create functions}
