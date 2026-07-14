@@ -4,7 +4,7 @@
 #'
 #' @inheritParams read_resource
 #' @inheritParams write_package
-#' @return Updated list describing a Data Resource, ready to be included in a
+#' @returns Updated list describing a Data Resource, ready to be included in a
 #'   `datapackage.json`.
 #' @family write functions
 #' @noRd
@@ -55,6 +55,10 @@ write_resource <- function(package, resource_name, directory = ".",
         file.copy(path, destination, overwrite = FALSE)
       }
       out_paths <- append(out_paths, file_name)
+    }
+    if (length(out_paths) > 1) {
+      # String for single file, pretty array for multiple files
+      out_paths <- as.list(out_paths)
     }
     resource$path <- out_paths
 

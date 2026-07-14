@@ -19,7 +19,7 @@
 #' @param col_select Character vector of the columns to include in the result,
 #'   in the order provided.
 #'   Selecting columns can improve read speed.
-#' @return A [tibble::tibble()] with the Data Resource's tabular data.
+#' @returns A [tibble::tibble()] with the Data Resource's tabular data.
 #'   If there are parsing problems, a warning will alert you.
 #'   You can retrieve the full details by calling [problems()] on your data
 #'   frame.

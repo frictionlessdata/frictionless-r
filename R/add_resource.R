@@ -25,10 +25,11 @@
 #'   If not provided, one will be created using [create_schema()].
 #' @param replace If `TRUE`, the added resource will replace an existing
 #'   resource with the same name.
-#' @param delim Single character used to separate the fields in the CSV file(s),
-#'   e.g. `\t` for tab delimited file.
+#' @param delim Delimiter for the CSV file(s) referenced in `data` (e.g. `\t`
+#'   for a tab-separated file).
 #'   Will be set as `delimiter` in the resource Table Dialect, so read functions
 #'   know how to read the file(s).
+#'   Ignored if `data` is a data frame.
 #' @param ... Additional [metadata properties](
 #'   https://docs.ropensci.org/frictionless/articles/data-resource.html#properties-implementation)
 #'   to add to the resource, e.g. `title = "My title", validated = FALSE`.
@@ -37,7 +38,7 @@
 #'   The following properties are automatically set and can't be provided with
 #'   `...`: `name`, `data`, `path`, `schema`, `profile`, `format`, `mediatype`,
 #'   `encoding` and `dialect`.
-#' @return `package` with one additional resource.
+#' @returns `package` with one additional resource.
 #' @family edit functions
 #' @export
 #' @examples

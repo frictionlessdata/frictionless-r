@@ -8,7 +8,7 @@
 #' Data Package standard.
 #'
 #' @param file Path or URL to a `datapackage.json` file.
-#' @return A Data Package object, see [create_package()].
+#' @returns A Data Package object, see [create_package()].
 #' @family read functions
 #' @export
 #' @examples

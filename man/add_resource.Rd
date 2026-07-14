@@ -39,10 +39,11 @@ If not provided, one will be created using \code{\link[=create_schema]{create_sc
 \item{replace}{If \code{TRUE}, the added resource will replace an existing
 resource with the same name.}
 
-\item{delim}{Single character used to separate the fields in the CSV file(s),
-e.g. \verb{\\t} for tab delimited file.
+\item{delim}{Delimiter for the CSV file(s) referenced in \code{data} (e.g. \verb{\\t}
+for a tab-separated file).
 Will be set as \code{delimiter} in the resource Table Dialect, so read functions
-.  know how to read the file(s).}
+know how to read the file(s).
+Ignored if \code{data} is a data frame.}
 
 \item{...}{Additional \href{https://docs.ropensci.org/frictionless/articles/data-resource.html#properties-implementation}{metadata properties}
 to add to the resource, e.g. \verb{title = "My title", validated = FALSE}.
@@ -98,9 +99,9 @@ package <- add_resource(
 
 # Replace the resource "observations" with a file-based resource (2 TSV files)
 path_1 <-
-system.file("extdata", "v1", "observations_1.tsv", package = "frictionless")
+  system.file("extdata", "v1", "observations_1.tsv", package = "frictionless")
 path_2 <-
-system.file("extdata", "v1", "observations_2.tsv", package = "frictionless")
+  system.file("extdata", "v1", "observations_2.tsv", package = "frictionless")
 package <- add_resource(
   package,
   resource_name = "observations",
@@ -113,7 +114,7 @@ package <- add_resource(
 resource_names(package)
 }
 \seealso{
-Other edit functions: 
-\code{\link{remove_resource}()}
+Other edit functions:
+\code{\link[=remove_resource]{remove_resource()}}
 }
 \concept{edit functions}

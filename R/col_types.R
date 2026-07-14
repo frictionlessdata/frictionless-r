@@ -3,7 +3,7 @@
 #' Creates a [readr::cols()] for all fields in a Table Schema.
 #'
 #' @inheritParams check_schema
-#' @return A [readr::cols()] object.
+#' @returns A [readr::cols()] object.
 #' @family parse functions
 #' @noRd
 cols <- function(schema) {
@@ -33,13 +33,13 @@ cols <- function(schema) {
 #' Creates a column specification for a specific field in a Table Schema.
 #'
 #' @param field Field in a Table schema.
-#' @return A readr collector.
+#' @returns A readr collector.
 #' @family parse functions
 #' @noRd
 field_to_col <- function(field) {
   # Get field properties
   type <- field$type %||% NA_character_
-  enum <- field$constraints$enum
+  enum <- unlist(field$constraints$enum)
   group_char <- if (field$groupChar %||% "" != "") TRUE else FALSE
   bare_number <- if (field$bareNumber %||% "" != FALSE) TRUE else FALSE
   format <- field$format %||% "default" # Undefined => default
@@ -65,7 +65,7 @@ field_to_col <- function(field) {
   )
   # col_type will be NULL when type is undefined (NA_character_) or an
   # unrecognized value (e.g. "datum", but will be blocked by check_schema()).
-  # Set those to col_guess().
-  col_type <- col_type %||% readr::col_guess()
+  # Don't guess, but set to character.
+  col_type <- col_type %||% readr::col_character()
   col_type
 }

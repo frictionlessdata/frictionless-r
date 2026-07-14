@@ -7,7 +7,7 @@
 #' Data Package standard.
 #'
 #' @param data A data frame.
-#' @return List describing a Table Schema.
+#' @returns List describing a Table Schema.
 #' @family create functions
 #' @export
 #' @examples
@@ -66,7 +66,7 @@ create_schema <- function(data) {
       name = name,
       type = type,
       constraints = list(
-        enum = enum
+        enum = as.list(enum) # Always a list
       )
     )
   })

@@ -1,7 +1,7 @@
 #' Read data from the path of a Data Resource
 #'
 #' @inheritParams read_resource
-#' @return A [tibble::tibble()].
+#' @returns A [tibble::tibble()].
 #' @family read functions
 #' @noRd
 read_from_path <- function(package, resource_name, col_select) {
@@ -65,7 +65,7 @@ read_from_path <- function(package, resource_name, col_select) {
     # col_select needs to be assigned/used above to avoid lazy eval error
     col_select = {{ col_select }},
     locale = locale,
-    na = schema$missingValues %||% "",
+    na = unlist(schema$missingValues) %||% "",
     comment = dialect$commentChar %||% "",
     trim_ws = dialect$skipInitialSpace %||% FALSE,
     # Skip header row when present

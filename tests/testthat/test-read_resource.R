@@ -590,7 +590,7 @@ test_that("read_resource() handles strings", {
   expect_type(resource$str, "character")
 
   # Use factor when enum is present
-  enum <- p$resources[[1]]$schema$fields[[2]]$constraints$enum
+  enum <- unlist(p$resources[[1]]$schema$fields[[2]]$constraints$enum)
   expect_s3_class(resource$str_factor, "factor")
   expect_identical(levels(resource$str_factor), enum)
 })
@@ -742,6 +742,7 @@ test_that("read_resource() handles other types", {
   # Interpret any as character
   expect_type(resource$any, "character")
 
-  # Guess undefined types, unknown types are blocked by check_schema()
-  expect_type(resource$no_type, "logical")
+  # Interpret undefined as character
+  # Note: unknown values are blocked by check_schema()
+  expect_type(resource$no_type, "character")
 })

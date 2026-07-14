@@ -107,7 +107,7 @@ test_that("write_package() copies file(s) for path = local in local package", {
   # Original resource "observations" with URL + local path => both local
   expect_identical(
     p_written$resources[[2]]$path,
-    c("observations_1.tsv", "observations_2.tsv")
+    list("observations_1.tsv", "observations_2.tsv")
   )
   expect_true(file.exists(file.path(dir, "observations_1.tsv")))
   expect_true(file.exists(file.path(dir, "observations_2.tsv")))
@@ -145,7 +145,7 @@ test_that("write_package() downloads file(s) for path = local in remote
   # Original resource "observations" with URL + local path => both local
   expect_identical(
     p_written$resources[[2]]$path,
-    c("observations_1.tsv", "observations_2.tsv")
+    list("observations_1.tsv", "observations_2.tsv")
   )
   expect_true(file.exists(file.path(dir, "observations_1.tsv")))
   expect_true(file.exists(file.path(dir, "observations_2.tsv")))
