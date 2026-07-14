@@ -17,7 +17,7 @@
 #'
 #' @param descriptor List to be made into a Data Package object.
 #'   If undefined, an empty Data Package will be created from scratch.
-#' @return A Data Package object.
+#' @returns A Data Package object.
 #' @family create functions
 #' @export
 #' @examples

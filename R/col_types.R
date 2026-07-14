@@ -3,7 +3,7 @@
 #' Creates a [readr::cols()] for all fields in a Table Schema.
 #'
 #' @inheritParams check_schema
-#' @return A [readr::cols()] object.
+#' @returns A [readr::cols()] object.
 #' @family parse functions
 #' @noRd
 cols <- function(schema) {
@@ -33,7 +33,7 @@ cols <- function(schema) {
 #' Creates a column specification for a specific field in a Table Schema.
 #'
 #' @param field Field in a Table schema.
-#' @return A readr collector.
+#' @returns A readr collector.
 #' @family parse functions
 #' @noRd
 field_to_col <- function(field) {

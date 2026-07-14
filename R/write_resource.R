@@ -4,7 +4,7 @@
 #'
 #' @inheritParams read_resource
 #' @inheritParams write_package
-#' @return Updated list describing a Data Resource, ready to be included in a
+#' @returns Updated list describing a Data Resource, ready to be included in a
 #'   `datapackage.json`.
 #' @family write functions
 #' @noRd
