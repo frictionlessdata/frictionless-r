@@ -11,7 +11,7 @@ version(package)
 \code{\link[=create_package]{create_package()}}.}
 }
 \value{
-Data Package version number (e.g. \code{1.0}).
+Data Package version number (e.g. \code{"1.0"}).
 }
 \description{
 Determines what version of the \href{https://datapackage.org/}{Data Package standard} is used by a Data Package, based on the
