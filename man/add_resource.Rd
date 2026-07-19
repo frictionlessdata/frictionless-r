@@ -36,8 +36,8 @@ and properties.
 Schema for the \code{data}.
 If not provided, one will be created using \code{\link[=create_schema]{create_schema()}}.}
 
-\item{replace}{If \code{TRUE}, the added resource will replace an existing
-resource with the same name.}
+\item{replace}{If \code{TRUE}, allows an existing resource of the same name to be
+replaced.}
 
 \item{delim}{Delimiter for the CSV file(s) referenced in \code{data} (e.g. \verb{\\t}
 for a tab-separated file).

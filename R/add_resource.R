@@ -23,8 +23,8 @@
 #' @param schema Either a list, or path or URL to a JSON file describing a Table
 #'   Schema for the `data`.
 #'   If not provided, one will be created using [create_schema()].
-#' @param replace If `TRUE`, the added resource will replace an existing
-#'   resource with the same name.
+#' @param replace If `TRUE`, allows an existing resource of the same name to be
+#'   replaced.
 #' @param delim Delimiter for the CSV file(s) referenced in `data` (e.g. `\t`
 #'   for a tab-separated file).
 #'   Will be set as `delimiter` in the resource Table Dialect, so read functions
