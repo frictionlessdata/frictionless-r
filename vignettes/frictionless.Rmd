@@ -35,7 +35,7 @@ package <- read_package("https://zenodo.org/records/10053702/files/datapackage.j
 
 ``` r
 package
-#> A Data Package with 3 resources:
+#> A Data Package (version 1.0) with 3 resources:
 #> • reference-data
 #> • gps
 #> • acceleration
@@ -48,7 +48,7 @@ Since a Data Package is a list, you can pass it to functions that work on lists,
 
 ``` r
 str(package, list.len = 3)
-#> List of 4
+#> List of 3
 #>  $ id       : chr "https://doi.org/10.5281/zenodo.10053702"
 #>  $ profile  : chr "tabular-data-package"
 #>  $ resources:List of 3
@@ -59,15 +59,21 @@ str(package, list.len = 3)
 #>   .. .. [list output truncated]
 #>   ..$ :List of 7
 #>   .. ..$ name     : chr "gps"
-#>   .. ..$ path     : chr [1:3] "O_WESTERSCHELDE-gps-2018.csv.gz" "O_WESTERSCHELDE-gps-2019.csv.gz" "O_WESTERSCHELDE-gps-2020.csv.gz"
+#>   .. ..$ path     :List of 3
+#>   .. .. ..$ : chr "O_WESTERSCHELDE-gps-2018.csv.gz"
+#>   .. .. ..$ : chr "O_WESTERSCHELDE-gps-2019.csv.gz"
+#>   .. .. ..$ : chr "O_WESTERSCHELDE-gps-2020.csv.gz"
 #>   .. ..$ profile  : chr "tabular-data-resource"
 #>   .. .. [list output truncated]
 #>   ..$ :List of 7
 #>   .. ..$ name     : chr "acceleration"
-#>   .. ..$ path     : chr [1:3] "O_WESTERSCHELDE-acceleration-2018.csv.gz" "O_WESTERSCHELDE-acceleration-2019.csv.gz" "O_WESTERSCHELDE-acceleration-2020.csv.gz"
+#>   .. ..$ path     :List of 3
+#>   .. .. ..$ : chr "O_WESTERSCHELDE-acceleration-2018.csv.gz"
+#>   .. .. ..$ : chr "O_WESTERSCHELDE-acceleration-2019.csv.gz"
+#>   .. .. ..$ : chr "O_WESTERSCHELDE-acceleration-2020.csv.gz"
 #>   .. ..$ profile  : chr "tabular-data-resource"
 #>   .. .. [list output truncated]
-#>   [list output truncated]
+#>  - attr(*, "directory")= chr "https://zenodo.org/records/10053702/files"
 #>  - attr(*, "class")= chr [1:2] "datapackage" "list"
 ```
 
@@ -118,7 +124,7 @@ local_package <- read_package(
 )
 
 local_package
-#> A Data Package with 3 resources:
+#> A Data Package (version 1.0) with 3 resources:
 #> • deployments
 #> • observations
 #> • media
@@ -179,7 +185,7 @@ You can chain most frictionless functions together using pipes (`|>`), which imp
 
 ``` r
 my_package
-#> A Data Package with 1 resource:
+#> A Data Package (version 1.0) with 1 resource:
 #> • iris
 #> Use `unclass()` to print the Data Package as a list.
 ```
@@ -211,7 +217,10 @@ str(iris_schema)
 #>   .. ..$ name       : chr "Species"
 #>   .. ..$ type       : chr "string"
 #>   .. ..$ constraints:List of 1
-#>   .. .. ..$ enum: chr [1:3] "setosa" "versicolor" "virginica"
+#>   .. .. ..$ enum:List of 3
+#>   .. .. .. ..$ : chr "setosa"
+#>   .. .. .. ..$ : chr "versicolor"
+#>   .. .. .. ..$ : chr "virginica"
 ```
 
 You can also create a schema from a data frame, using `create_schema()`:
@@ -239,7 +248,10 @@ str(iris_schema)
 #>   .. ..$ name       : chr "Species"
 #>   .. ..$ type       : chr "string"
 #>   .. ..$ constraints:List of 1
-#>   .. .. ..$ enum: chr [1:3] "setosa" "versicolor" "virginica"
+#>   .. .. ..$ enum:List of 3
+#>   .. .. .. ..$ : chr "setosa"
+#>   .. .. .. ..$ : chr "versicolor"
+#>   .. .. .. ..$ : chr "virginica"
 ```
 
 Doing so allows you to customize the schema before adding the resource. E.g. let's add a description for `Sepal.Length`:
@@ -298,7 +310,10 @@ str(iris_schema)
 #>   .. ..$ name       : chr "Species"
 #>   .. ..$ type       : chr "string"
 #>   .. ..$ constraints:List of 1
-#>   .. .. ..$ enum: chr [1:3] "setosa" "versicolor" "virginica"
+#>   .. .. ..$ enum:List of 3
+#>   .. .. .. ..$ : chr "setosa"
+#>   .. .. .. ..$ : chr "versicolor"
+#>   .. .. .. ..$ : chr "virginica"
 #>   .. ..$ description: chr "Iris species."
 ```
 
@@ -366,8 +381,7 @@ The directory will contain four files: the descriptor `datapackage.json`, one CS
 
 ``` r
 list.files("my_directory")
-#> [1] "datapackage.json"   "iris.csv"           "observations_1.tsv"
-#> [4] "observations_2.tsv"
+#> [1] "datapackage.json"   "iris.csv"           "observations_1.tsv" "observations_2.tsv"
 ```
 
 
