@@ -2,9 +2,10 @@
 
 ## For users
 
-* New `version()` determines what version of the Data Package standard is used by a Data Package (e.g. `"1.0"`, `"2.0"`, `">=2.0"`). This based on the presence and value of the `$schema` property (#299).
+* New `version()` determines what version of the Data Package standard is used by a Data Package (e.g. `"1.0"`, `"2.0"`, `">=2.0"`). This is based on the presence and value of the `$schema` property (#299).
 * `read_resource()` now supports reading from remote zip files, thanks to support in `{vroom}` (1.3.0) (#291).
-* `write_package()` will now print multiple `resource$path` and `resource$schema$missingValues` on multiple lines (#297).
+* `write_package()` will now print multiple `resource$path` and `resource$schema$missingValues` on multiple lines in the `datapackage.json` (#297).
+* `add_resource()` with `replace = TRUE` will add the resource if there is none to replace, rather than throwing an error (#273).
 * `resources()` is soft-deprecated, please use `resource_names()` instead (#282).
 * `get_schema()` is soft-deprecated, please use `schema()` instead (#282).
 * For fields without a `type`, the data type will no longer be guessed, but set to character (the default for a CSV). This aligns with a clarification in the [specification](https://datapackage.org/overview/changelog/#any-field-type-updated) (#296).
