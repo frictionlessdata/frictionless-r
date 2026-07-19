@@ -211,24 +211,13 @@ add_resource <- function(package, resource_name, data, schema = NULL,
     attr(resource, "path") <- "added"
   }
 
-  # Find the index of the index of the name of the resource if it exists, or 0
-  # otherwise
-  index <- purrr::detect_index(
-    package$resources,
-    .f = \(resource) {
-      identical(
-        resource$name,
-        resource_name
-      )
-    }
-  )
-
-  # Add the resource if it's missing
-  if (index == 0L) {
+  # Add or replace resource
+  index <- which(resource_names(package) == resource_name)
+  if (length(index) == 0) {
+    # Add resource if it does not exist (also for replace = TRUE)
     package$resources <- append(package$resources, list(resource))
   } else {
-    # Or replace it if not, replace = FALSE on an existing resource should fail
-    # earlier
+    # Replace existing resource (not done for replace = FALSE, see higher)
     package$resources[[index]] <- resource
   }
 
