@@ -36,8 +36,8 @@ and properties.
 Schema for the \code{data}.
 If not provided, one will be created using \code{\link[=create_schema]{create_schema()}}.}
 
-\item{replace}{If \code{TRUE}, the added resource will replace an existing
-resource with the same name.}
+\item{replace}{If \code{TRUE}, allows an existing resource of the same name to be
+replaced.}
 
 \item{delim}{Delimiter for the CSV file(s) referenced in \code{data} (e.g. \verb{\\t}
 for a tab-separated file).
@@ -99,9 +99,9 @@ package <- add_resource(
 
 # Replace the resource "observations" with a file-based resource (2 TSV files)
 path_1 <-
-system.file("extdata", "v1", "observations_1.tsv", package = "frictionless")
+  system.file("extdata", "v1", "observations_1.tsv", package = "frictionless")
 path_2 <-
-system.file("extdata", "v1", "observations_2.tsv", package = "frictionless")
+  system.file("extdata", "v1", "observations_2.tsv", package = "frictionless")
 package <- add_resource(
   package,
   resource_name = "observations",

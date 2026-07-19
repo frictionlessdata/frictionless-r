@@ -23,8 +23,8 @@
 #' @param schema Either a list, or path or URL to a JSON file describing a Table
 #'   Schema for the `data`.
 #'   If not provided, one will be created using [create_schema()].
-#' @param replace If `TRUE`, the added resource will replace an existing
-#'   resource with the same name.
+#' @param replace If `TRUE`, allows an existing resource of the same name to be
+#'   replaced.
 #' @param delim Delimiter for the CSV file(s) referenced in `data` (e.g. `\t`
 #'   for a tab-separated file).
 #'   Will be set as `delimiter` in the resource Table Dialect, so read functions
@@ -73,9 +73,9 @@
 #'
 #' # Replace the resource "observations" with a file-based resource (2 TSV files)
 #' path_1 <-
-#' system.file("extdata", "v1", "observations_1.tsv", package = "frictionless")
+#'   system.file("extdata", "v1", "observations_1.tsv", package = "frictionless")
 #' path_2 <-
-#' system.file("extdata", "v1", "observations_2.tsv", package = "frictionless")
+#'   system.file("extdata", "v1", "observations_2.tsv", package = "frictionless")
 #' package <- add_resource(
 #'   package,
 #'   resource_name = "observations",
@@ -211,12 +211,14 @@ add_resource <- function(package, resource_name, data, schema = NULL,
     attr(resource, "path") <- "added"
   }
 
-  # Add or replace resource (needs to be wrapped in its own list)
-  if (replace) {
-    index <- which(purrr::map(package$resources, "name") == resource_name)
-    package$resources[index] <- list(resource)
-  } else {
+  # Add or replace resource
+  index <- which(resource_names(package) == resource_name)
+  if (length(index) == 0) {
+    # Add resource if it does not exist (also for replace = TRUE)
     package$resources <- append(package$resources, list(resource))
+  } else {
+    # Replace existing resource (not done for replace = FALSE, see higher)
+    package$resources[[index]] <- resource
   }
 
   return(package)
