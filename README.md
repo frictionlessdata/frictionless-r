@@ -72,7 +72,7 @@ library(frictionless)
 package <- read_package("https://zenodo.org/records/10053702/files/datapackage.json")
 
 package
-#> A Data Package with 3 resources:
+#> A Data Package (version 1.0) with 3 resources:
 #> • reference-data
 #> • gps
 #> • acceleration
@@ -119,7 +119,7 @@ my_package <-
   add_resource(resource_name = "iris", data = iris)
 
 my_package
-#> A Data Package with 1 resource:
+#> A Data Package (version 1.0) with 1 resource:
 #> • iris
 #> Use `unclass()` to print the Data Package as a list.
 
