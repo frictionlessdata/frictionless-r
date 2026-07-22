@@ -18,13 +18,16 @@
 print.datapackage <- function(x, ...) {
   # All prints should use cat (= cli::cat() helpers)
 
-  # List resources
+  # Intro sentence
+  version <- version(x)
   resource_names <- resource_names(x) # Calls check_package()
   cli::cat_line(
     cli::format_inline(
-      "A Data Package with {length(resource_names)} resource{?s}{?./:/:}"
+      "A Data Package (version {.field {version}}) with {length(resource_names)} resource{?s}{?./:/:}" # nolint
     )
   )
+
+  # List resources
   if (length(resource_names) > 0) {
     cli::cat_bullet(resource_names, bullet = "bullet")
   }

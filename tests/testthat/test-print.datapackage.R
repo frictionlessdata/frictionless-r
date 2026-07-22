@@ -3,15 +3,31 @@ test_that("print.datapackage() returns output invisibly", {
   expect_false(output$visible)
 })
 
-test_that("print.datapackage() informs about the resources and unclass()", {
+test_that("print.datapackage() informs about the version, resources and
+           unclass()", {
   unclass_message <- "Use `unclass()` to print the Data Package as a list."
 
-  # 3 resources (example package)
-  p <- example_package()
+  # Version 1.0 with 3 resources
+  p <- example_package(version = "1.0")
   expect_output(
     print(p),
     regexp = paste(
-      "A Data Package with 3 resources:",
+      "A Data Package (version 1.0) with 3 resources:",
+      "* deployments",
+      "* observations",
+      "* media",
+      unclass_message,
+      sep = "\n"
+    ),
+    fixed = TRUE
+  )
+
+  # Version 2.0 with 3 resources
+  p <- example_package(version = "2.0")
+  expect_output(
+    print(p),
+    regexp = paste(
+      "A Data Package (version 2.0) with 3 resources:",
       "* deployments",
       "* observations",
       "* media",
@@ -28,7 +44,7 @@ test_that("print.datapackage() informs about the resources and unclass()", {
   expect_output(
     print(p1),
     regexp = paste(
-      "A Data Package with 1 resource:",
+      "A Data Package (version 1.0) with 1 resource:",
       "* new",
       unclass_message,
       sep = "\n"
@@ -41,7 +57,7 @@ test_that("print.datapackage() informs about the resources and unclass()", {
   expect_output(
     print(p0),
     regexp = paste(
-      "A Data Package with 0 resources.",
+      "A Data Package (version 1.0) with 0 resources.",
       unclass_message,
       sep = "\n"
     ),
@@ -58,7 +74,7 @@ test_that("print.datapackage() informs about information in package$id", {
   expect_output(
     print(p),
     regexp = paste(
-      "A Data Package with 0 resources.",
+      "A Data Package (version 1.0) with 0 resources.",
       "For more information, see <https://example.com>.",
       unclass_message,
       sep = "\n"
@@ -71,7 +87,7 @@ test_that("print.datapackage() informs about information in package$id", {
   expect_output(
     print(p),
     regexp = paste(
-      "A Data Package with 0 resources.",
+      "A Data Package (version 1.0) with 0 resources.",
       unclass_message,
       sep = "\n"
     ),
