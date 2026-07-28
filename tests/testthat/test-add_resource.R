@@ -454,3 +454,24 @@ test_that("add_resource() sets ... arguments as extra properties", {
   expect_identical(p$resources[[2]]$title, "custom_title")
   expect_identical(p$resources[[2]]$foo, "bar")
 })
+
+test_that("add_resource() adds URL schema as URL", {
+  p <- example_package()
+  deployments <- read_resource(p, "deployments")
+  schema_url <- paste0(
+    "https://raw.githubusercontent.com/frictionlessdata/",
+    "frictionless-r/refs/heads/main/tests/testthat/data/deployments_schema.json"
+  )
+  p_url <- p |>
+    add_resource(
+      resource_name = "deployments",
+      data = deployments,
+      schema = schema_url,
+      replace = TRUE
+    )
+
+  expect_identical(
+    purrr::keep(p_url$resources, ~ .x$name == "deployments")[[1]]$schema,
+    schema_url
+  )
+})
