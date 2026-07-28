@@ -20,23 +20,9 @@ before being written to disk (e.g. \code{deployments.csv.gz}).}
 }
 \description{
 Writes a Data Package and its related Data Resources to disk as a
-\code{datapackage.json} and CSV files.
-The Data Resources are handled as follows:
-\itemize{
-\item For a new resource added with \code{\link[=add_resource]{add_resource()}}, attached \code{data} will be
-written to a CSV file in \code{directory} using \code{\link[readr:write_csv]{readr::write_csv()}}).
-The file will have the same name as the resource, use \code{compress = TRUE} to
-gzip it.
-\item For an existing resource with one or more local files in \code{path}, files will
-be copied to \code{directory} and \code{path} will updated to the new location of the
-file(s).
-If the \code{directory} is the same as the one from which the package was read,
-the resource remains as is and no CSV files will be overwritten.
-\item For an existing resource with only URLs in \code{path}, the resource remains as
-is and no CSV files will be written.
-\item For an existing resource with inline \code{data}, the resource remains as is and
-no CSV files will be written.
-}
+\code{datapackage.json} file.
+For some resources, it also writes the data files.
+See \code{vignette("data-resource")} for details.
 }
 \examples{
 # Load the example Data Package from disk

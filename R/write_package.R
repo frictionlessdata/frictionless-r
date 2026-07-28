@@ -1,21 +1,10 @@
 #' Write a Data Package to disk
 #'
 #' Writes a Data Package and its related Data Resources to disk as a
-#' `datapackage.json` and CSV files.
-#' The Data Resources are handled as follows:
-#' - For a new resource added with [add_resource()], attached `data` will be
-#'   written to a CSV file in `directory` using [readr::write_csv()]).
-#'   The file will have the same name as the resource, use `compress = TRUE` to
-#'   gzip it.
-#' - For an existing resource with one or more local files in `path`, files will
-#'   be copied to `directory` and `path` will updated to the new location of the
-#'   file(s).
-#'   If the `directory` is the same as the one from which the package was read,
-#'   the resource remains as is and no CSV files will be overwritten.
-#' - For an existing resource with only URLs in `path`, the resource remains as
-#'   is and no CSV files will be written.
-#' - For an existing resource with inline `data`, the resource remains as is and
-#'   no CSV files will be written.
+#' `datapackage.json` file.
+#' For some resources, it also writes the data files.
+#' See `vignette("data-resource")` for details.
+#'
 #' @inheritParams read_resource
 #' @param directory Path to local directory to write files to.
 #' @param compress If `TRUE`, data of added resources will be gzip compressed
