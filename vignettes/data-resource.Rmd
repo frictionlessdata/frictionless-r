@@ -23,9 +23,9 @@ In this document we use the terms "package" for Data Package, "resource" for Dat
 
 ## General implementation
 
-Frictionless supports reading, manipulating and writing resources, but much of its functionality is limited to [Tabular Data Resources](https://specs.frictionlessdata.io/tabular-data-resource/).
+Frictionless supports getting, reading, manipulating and writing resources, but much of its functionality is limited to [Tabular Data Resources](https://specs.frictionlessdata.io/tabular-data-resource/).
 
-### Read
+### Access
 
 `resource_names()` lists all resources in a package:
 
@@ -36,6 +36,16 @@ package <- example_package()
 # List the resources
 resource_names(package)
 ```
+
+`resource()` gets a resource from a package by its name. This is mainly useful for developers who want to access the resource, e.g. to implement reading functionality not supported by frictionless. To read tabular data, see the next section.
+
+```{r}
+# Get the "deployments" resource
+resource <- resource(package, "deployments")
+str(resource)
+```
+
+### Read
 
 `read_resource()` reads data from a tabular resource to a data frame:
 
