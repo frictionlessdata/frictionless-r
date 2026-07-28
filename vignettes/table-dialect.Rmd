@@ -23,7 +23,7 @@ In this document we use the terms "package" for Data Package, "resource" for Dat
 
 ## General implementation
 
-Frictionless supports most dialect properties to read [Tabular Data Resources](https://specs.frictionlessdata.io/tabular-data-resource/). Dialect manipulation is limited to setting a `delimiter`. When writing resources, it (mainly) makes uses of default dialect properties, removing the necessity to define them.
+frictionless supports most dialect properties to read [Tabular Data Resources](https://specs.frictionlessdata.io/tabular-data-resource/). Dialect manipulation is limited to setting a `delimiter`. When writing resources, it (mainly) makes uses of default dialect properties, removing the necessity to define them.
 
 ### Read
 
@@ -38,7 +38,7 @@ Frictionless supports most dialect properties to read [Tabular Data Resources](h
 
 ### Manipulate
 
-Frictionless does not support direct manipulation of the dialect. `add_resource()` allows to set one property (`dialect$delimiter`) when data are provided as a file, all other properties are assumed to be the default.
+frictionless does not support direct manipulation of the dialect. `add_resource()` allows to set one property (`dialect$delimiter`) when data are provided as a file, all other properties are assumed to be the default.
 
 ### Write
 

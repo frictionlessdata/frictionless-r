@@ -23,7 +23,7 @@ In this document we use the terms "package" for Data Package, "resource" for Dat
 
 ## General implementation
 
-Frictionless supports getting, reading, manipulating and writing resources, but much of its functionality is limited to [Tabular Data Resources](https://specs.frictionlessdata.io/tabular-data-resource/).
+frictionless supports getting, reading, manipulating and writing resources, but much of its functionality is limited to [Tabular Data Resources](https://specs.frictionlessdata.io/tabular-data-resource/).
 
 ### Access
 
@@ -53,7 +53,7 @@ str(resource)
 read_resource(package, "deployments")
 ```
 
-Frictionless does not support reading data from non-tabular resources.
+frictionless does not support reading data from non-tabular resources.
 
 ### Manipulate
 
