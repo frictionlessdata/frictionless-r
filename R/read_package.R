@@ -44,6 +44,16 @@ read_package <- function(file = "datapackage.json") {
     )
   }
 
+  # Warn if version >= 1.0
+  version <- version(descriptor)
+  if (version != "1.0") {
+    cli::cli_warn(
+      "This Data Package uses a version ({.field {version}}) not supported by
+       frictionless. Expect errors.",
+      class = "frictionless_warning_version_not_supported"
+    )
+  }
+
   # Add directory
   attr(descriptor, "directory") <- dirname(file) # Also works for URLs
 
