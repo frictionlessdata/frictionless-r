@@ -1,9 +1,32 @@
 #' Write a Data Package to disk
 #'
 #' Writes a Data Package and its related Data Resources to disk as a
-#' `datapackage.json` file.
-#' For some resources, it also writes the data as CSV files.
-#' See `vignette("data-resource")` for details.
+#' `datapackage.json`.
+#' Depending how the data are attached to the Data Resource, the function will
+#' also write or copy these to CSV files.
+#'
+#' @section Writing data to CSV files:
+#'
+#' For Data Resources added or replaced with `add_resource()`, with data
+#' attached as:
+#'
+#' - A data frame: data are written to a CSV file in `directory` using
+#'   `readr::write_csv()` and `path` is added.
+#'   The CSV file will have the same name as the resource and can be compressed
+#'   with `compress = TRUE`.
+#' - One or more paths to local CSV file(s): CSV file(s) are copied to
+#'   `directory` and `path` is updated to the new location.
+#' - URL(s) to CSV file(s): no CSV files are written.
+#'
+#' For existing Data Resources that were not manipulated, with data attached as:
+#'
+#' - One or more paths to local CSV file(s): CSV file(s) are copied to
+#'   `directory` and `path` is updated to the new location.
+#'   Existing CSV files of the same name in `directory` are _not overwritten_.
+#'   This allows you to read and write a `datapackage.json` to the same
+#'   directory, without altering the files of resources you did not manipulate.
+#' - URL(s) to CSV file(s): no CSV files are written.
+#' - Inline data: no CSV files are written.
 #'
 #' @inheritParams read_resource
 #' @param directory Path to local directory to write files to.

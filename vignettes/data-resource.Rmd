@@ -73,19 +73,7 @@ You can pipe most functions (see `vignette("data-package")`).
 
 ### Write
 
-`write_package()` writes a package to disk as a `datapackage.json` file. This file includes the metadata of all resources. For some resources, it also writes the data as CSV files.
-
-For resources added or replaced with `add_resource()`, with data attached as:
-
-- A data frame: data are written to a CSV file (with the same name as the resource) to `directory` using `readr::write_csv()`. `path` is added.
-- One or more paths to local CSV file(s): CSV file(s) are copied to `directory` and `path` is updated to the new location.
-- URL(s) to CSV file(s): no CSV files are written.
-
-For existing resources not manipulated with `add_resource()`, with data attached as:
-
-- One or more paths to local CSV file(s): CSV file(s) are copied to `directory` and `path` is updated to the new location. If the location is the same as before (i.e. reading and writing to the same `directory`), the CSV files won't be overwritten (and keep their original modification timestamp).
-- URL(s) to CSV file(s): no CSV files are written.
-- Inline data: no CSV files are written.
+`write_package()` writes a package to disk as a `datapackage.json` file. Depending how the data are attached to the resource, the function will also write or copy these to CSV files. See the function documentation for details.
 
 ## Properties implementation
 
