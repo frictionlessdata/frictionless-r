@@ -12,6 +12,7 @@
 
 ## Changes for developers
 
+* `resource()` is now a public function, allowing to access a resource (list) by its name (#303).
 * Internal frictionless properties `package$directory` and `resource$read_from` are now _attributes_ `attr(package, "directory")` and `attr(resource, "data_location")`. This separates them better from public Data Package and Resource _properties_ (#289). Saved Data Package objects created with previous versions of frictionless will show a deprecation warning (#293) and can be updated with `create_package()`. If you use these internal properties in your R package, then change them:
 
   ```R
