@@ -31,11 +31,11 @@ gzip it.
 be copied to \code{directory} and \code{path} will updated to the new location of the
 file(s).
 If the \code{directory} is the same as the one from which the package was read,
-the resource remains unchanged and no CSV files will be overwritten.
-\item For an existing resource with only URLs in \code{path}, the resource remains
-unchanged and no CSV files will be written.
-\item For an existing resource with inline \code{data}, the resource remains
-unchanged and no CSV files will be written.
+the resource remains as is and no CSV files will be overwritten.
+\item For an existing resource with only URLs in \code{path}, the resource remains as
+is and no CSV files will be written.
+\item For an existing resource with inline \code{data}, the resource remains as is and
+no CSV files will be written.
 }
 }
 \examples{
