@@ -2,7 +2,7 @@
 #'
 #' Writes a Data Package and its related Data Resources to disk as a
 #' `datapackage.json` file.
-#' For some resources, it also writes the data files.
+#' For some resources, it also writes the data as CSV files.
 #' See `vignette("data-resource")` for details.
 #'
 #' @inheritParams read_resource

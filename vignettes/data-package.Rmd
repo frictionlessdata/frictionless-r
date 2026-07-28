@@ -87,7 +87,7 @@ my_package
 
 ### Write
 
-`write_package()` writes a package to disk as a `datapackage.json` file. For some resources, it also writes the data files. See `vignette("data-resource")` for details.
+`write_package()` writes a package to disk as a `datapackage.json` file. For some resources, it also writes the data as CSV files. See `vignette("data-resource")` for details.
 
 ## Properties implementation
 

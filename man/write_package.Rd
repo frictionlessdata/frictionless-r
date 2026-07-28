@@ -21,7 +21,7 @@ before being written to disk (e.g. \code{deployments.csv.gz}).}
 \description{
 Writes a Data Package and its related Data Resources to disk as a
 \code{datapackage.json} file.
-For some resources, it also writes the data files.
+For some resources, it also writes the data as CSV files.
 See \code{vignette("data-resource")} for details.
 }
 \examples{
