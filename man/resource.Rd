@@ -21,6 +21,10 @@ If present, \code{path} will be updated to contain the full path(s).
 Returns a Data Resource from a Data Package, i.e. the content of one of the
 described \code{resources}.
 }
+\examples{
+package <- example_package()
+resource(package, "deployments")
+}
 \seealso{
 Other accessor functions:
 \code{\link[=resource_names]{resource_names()}},

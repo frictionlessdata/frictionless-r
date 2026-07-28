@@ -9,6 +9,9 @@
 #'   If present, `path` will be updated to contain the full path(s).
 #' @family accessor functions
 #' @export
+#' @examples
+#' package <- example_package()
+#' resource(package, "deployments")
 resource <- function(package, resource_name) {
   # Check package
   check_package(package)
