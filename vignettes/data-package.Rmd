@@ -23,7 +23,7 @@ In this document we use the terms "package" for Data Package, "resource" for Dat
 
 ## General implementation
 
-Frictionless supports reading, manipulating and writing packages. Much of its functionality is focused on manipulating resources (see `vignette("data-resource")`).
+frictionless supports reading, manipulating and writing packages. Much of its functionality is focused on manipulating resources (see `vignette("data-resource")`).
 
 ### Read
 
@@ -43,7 +43,7 @@ package
 
 ### Manipulate
 
-A package is a list, with all the properties that were present in the `datapackage.json` file (e.g. `name`, `id`, etc.). Frictionless adds the custom property `"directory"` to support reading data (which is removed when writing to disk) and extends the class with `"datapackage"` to support printing and checking:
+A package is a list, with all the properties that were present in the `datapackage.json` file (e.g. `name`, `id`, etc.). frictionless adds the custom property `"directory"` to support reading data (which is removed when writing to disk) and extends the class with `"datapackage"` to support printing and checking:
 
 ```{r}
 attributes(package)

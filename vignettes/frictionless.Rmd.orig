@@ -78,7 +78,7 @@ Data from the `media` was not stored in a CSV file, but directly in the `data` p
 
 Data Package is a good format to technically describe your data, e.g. if you are planning to deposit it on research repository. It also goes a long way meeting [FAIR principles](https://www.go-fair.org/fair-principles/).
 
-Frictionless assumes your data are stored as a data frame or CSV files. Let's use the built-in dataset `iris` as your data frame:
+frictionless assumes your data are stored as a data frame or CSV files. Let's use the built-in dataset `iris` as your data frame:
 
 ```{r}
 # Show content of the data frame "iris"
@@ -216,7 +216,7 @@ list.files("my_directory")
 unlink("my_directory", recursive = TRUE)
 ```
 
-Frictionless does not provide functionality to deposit your Data Package on a research repository such as [Zenodo](https://zenodo.org), but here are some tips:
+frictionless does not provide functionality to deposit your Data Package on a research repository such as [Zenodo](https://zenodo.org), but here are some tips:
 
 1. Validate your Data Package before depositing. You can do this in Python with the [Frictionless Framework](https://github.com/frictionlessdata/frictionless-py) using `frictionless validate datapackage.json`.
 2. Use `compress = TRUE` in `write_package()` to reduce the size of the deposit. It will zip the individual CSV files, not the entire Data Package. That way, users still have direct access to the `datapackage.json` file. See [this example](https://zenodo.org/records/10053702#files-heading).

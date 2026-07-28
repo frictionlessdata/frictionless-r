@@ -8,7 +8,14 @@
 #'   to indicate how the data are attached.
 #'   If present, `path` will be updated to contain the full path(s).
 #' @family accessor functions
-#' @noRd
+#' @export
+#' @examples
+#' # Load the example Data Package
+#' package <- example_package()
+#'
+#' # Get the resource "deployments"
+#' resource <- resource(package, "deployments")
+#' str(resource)
 resource <- function(package, resource_name) {
   # Check package
   check_package(package)

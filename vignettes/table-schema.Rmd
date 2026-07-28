@@ -23,11 +23,11 @@ In this document we use the terms "package" for Data Package, "resource" for Dat
 
 ## General implementation
 
-Frictionless supports `schema$fields` and `schema$missingValues` to parse data types and missing values when reading [Tabular Data Resources](https://specs.frictionlessdata.io/tabular-data-resource/). Schema manipulation is limited to extracting a schema from a resource, creating one from a data frame, and providing one back to a resource. Schema metadata is including when writing a package.
+frictionless supports `schema$fields` and `schema$missingValues` to parse data types and missing values when reading [Tabular Data Resources](https://specs.frictionlessdata.io/tabular-data-resource/). Schema manipulation is limited to getting a schema from a resource, creating one from a data frame, and providing one back to a resource. Schema metadata is including when writing a package.
 
-### Read
+### Access
 
-`schema()` extracts the schema from a resource:
+`schema()` gets the schema from a resource:
 
 ```{r}
 library(frictionless)
@@ -38,7 +38,9 @@ schema <- schema(package, "observations")
 str(schema)
 ```
 
-`read_resource()` uses `schema$fields` to parse the names and data types of the columns in a tabular data file. For example, the third field in the schema (`timestamp`) is defined as a datetime `type` with a specific `format`:
+### Read
+
+`read_resource()` uses the information in `schema$fields` to parse the names and data types of the columns in a tabular data file. For example, the third field in the schema above (`timestamp`) is defined as a datetime `type` with a specific `format`:
 
 ```{r}
 str(schema$fields[[3]])

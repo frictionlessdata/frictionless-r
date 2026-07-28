@@ -25,6 +25,7 @@ resource_names(package)
 }
 \seealso{
 Other accessor functions:
+\code{\link[=resource]{resource()}},
 \code{\link[=schema]{schema()}}
 }
 \concept{accessor functions}
