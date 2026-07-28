@@ -146,9 +146,12 @@ add_resource <- function(package, resource_name, data, schema = NULL,
   }
 
   # Create schema
+  schema_url <- NULL
   if (is.null(schema)) {
     schema <- create_schema(df)
-  } else if (is.character(schema)) {
+  } else if (is.character(schema) ) {
+    # Add URL schema as URL
+    schema_url <- if (is_url(schema)) schema
     # Path to schema can be unsafe, since schema will be verbosely included
     schema <- read_descriptor(schema, safe = FALSE)
   }
@@ -190,7 +193,7 @@ add_resource <- function(package, resource_name, data, schema = NULL,
       encoding = NULL,
       dialect = NULL,
       ...,
-      schema = schema
+      schema = schema_url %||% schema
     )
   } else {
     resource <- list(
@@ -202,7 +205,7 @@ add_resource <- function(package, resource_name, data, schema = NULL,
       encoding = if (encoding == "ASCII") "UTF-8" else encoding, # UTF-8 = safer
       dialect = NULL,
       ...,
-      schema = schema
+      schema = schema_url %||% schema
     )
     # Add CSV dialect for non-default delimiter or remove it
     resource$dialect <- if (delim != ",") list(delimiter = delim) else NULL
