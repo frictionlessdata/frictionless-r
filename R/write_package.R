@@ -2,18 +2,20 @@
 #'
 #' Writes a Data Package and its related Data Resources to disk as a
 #' `datapackage.json` and CSV files.
-#' Already existing CSV files of the same name will not be overwritten.
-#' The function can also be used to download a Data Package in its entirety.
 #' The Data Resources are handled as follows:
-#' - Resource `path` has at least one local path (e.g. `deployments.csv`):
-#'   CSV files are copied or downloaded to `directory` and `path` points to new
-#'   location of file(s).
-#' - Resource `path` has only URL(s): resource stays as is.
-#' - Resource has inline `data` originally: resource stays as is.
-#' - Resource has inline `data` as result of adding data with [add_resource()]:
-#'   data are written to a CSV file using [readr::write_csv()], `path` points to
-#'   location of file, `data` property is removed.
-#'   Use `compress = TRUE` to gzip those CSV files.
+#' - For a new resource added with [add_resource()], attached `data` will be
+#'   written to a CSV file in `directory` using [readr::write_csv()]).
+#'   The file will have the same name as the resource, use `compress = TRUE` to
+#'   gzip it.
+#' - For an existing resource with one or more local files in `path`, files will
+#'   be copied to `directory` and `path` will updated to the new location of the
+#'   file(s).
+#'   If the `directory` is the same as the one from which the package was read,
+#'   the resource remains as is and no CSV files will be overwritten.
+#' - For an existing resource with only URLs in `path`, the resource remains as
+#'   is and no CSV files will be written.
+#' - For an existing resource with inline `data`, the resource remains as is and
+#'   no CSV files will be written.
 #' @inheritParams read_resource
 #' @param directory Path to local directory to write files to.
 #' @param compress If `TRUE`, data of added resources will be gzip compressed

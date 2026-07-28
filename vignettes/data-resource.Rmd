@@ -73,7 +73,7 @@ You can pipe most functions (see `vignette("data-package")`).
 
 ### Write
 
-`write_package()` writes a package to disk as a `datapackage.json` file. This file includes the metadata of all the resources. `write_package()` also writes resource data to CSV files, unless the referred data are referred to be URL or inline. See the function documentation for details.
+`write_package()` writes a package to disk as a `datapackage.json` file. This file includes the metadata of all the resources. `write_package()` also writes resource data to CSV files, unless the referred data are referred to by URL or inline. See the function documentation for details.
 
 ## Properties implementation
 

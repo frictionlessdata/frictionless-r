@@ -21,19 +21,21 @@ before being written to disk (e.g. \code{deployments.csv.gz}).}
 \description{
 Writes a Data Package and its related Data Resources to disk as a
 \code{datapackage.json} and CSV files.
-Already existing CSV files of the same name will not be overwritten.
-The function can also be used to download a Data Package in its entirety.
 The Data Resources are handled as follows:
 \itemize{
-\item Resource \code{path} has at least one local path (e.g. \code{deployments.csv}):
-CSV files are copied or downloaded to \code{directory} and \code{path} points to new
-location of file(s).
-\item Resource \code{path} has only URL(s): resource stays as is.
-\item Resource has inline \code{data} originally: resource stays as is.
-\item Resource has inline \code{data} as result of adding data with \code{\link[=add_resource]{add_resource()}}:
-data are written to a CSV file using \code{\link[readr:write_csv]{readr::write_csv()}}, \code{path} points to
-location of file, \code{data} property is removed.
-Use \code{compress = TRUE} to gzip those CSV files.
+\item For a new resource added with \code{\link[=add_resource]{add_resource()}}, attached \code{data} will be
+written to a CSV file in \code{directory} using \code{\link[readr:write_csv]{readr::write_csv()}}).
+The file will have the same name as the resource, use \code{compress = TRUE} to
+gzip it.
+\item For an existing resource with one or more local files in \code{path}, files will
+be copied to \code{directory} and \code{path} will updated to the new location of the
+file(s).
+If the \code{directory} is the same as the one from which the package was read,
+the resource remains unchanged and no CSV files will be overwritten.
+\item For an existing resource with only URLs in \code{path}, the resource remains
+unchanged and no CSV files will be written.
+\item For an existing resource with inline \code{data}, the resource remains
+unchanged and no CSV files will be written.
 }
 }
 \examples{
