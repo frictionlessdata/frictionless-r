@@ -12,7 +12,8 @@
 
 ## Changes for developers
 
-* `resource()` is now a public function, allowing to access a resource (list) by its name (#303).
+* frictionless now relies on R >= 4.1.0 (because of an indirect `{vroom}` dependency) (#291) and uses base pipes (`|>` rather than `%>%`) (#292).
+* `resource()` is now a public function, making it possible to access a resource object (i.e. a list) by its name. This is especially useful if you want to implement reading functionality not supported by frictionless (#303).
 * Internal frictionless properties `package$directory` and `resource$read_from` are now _attributes_ `attr(package, "directory")` and `attr(resource, "data_location")`. This separates them better from public Data Package and Resource _properties_ (#289). Saved Data Package objects created with previous versions of frictionless will show a deprecation warning (#293) and can be updated with `create_package()`. If you use these internal properties in your R package, then change them:
 
   ```R
@@ -26,8 +27,6 @@
   resource <- frictionless:::resource(package, "resource_name") # Function renamed
   attr(resource, "data_location") # Attribute renamed
   ```
-
-* frictionless now relies on R >= 4.1.0 (because of an indirect `{vroom}` dependency) (#291) and uses base pipes (`|>` rather than `%>%`) (#292).
 
 ## Bug fixes
 
