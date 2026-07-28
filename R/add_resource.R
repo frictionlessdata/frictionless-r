@@ -150,7 +150,7 @@ add_resource <- function(package, resource_name, data, schema = NULL,
     schema <- create_schema(df)
   } else if (is.character(schema)) {
     # Path to schema can be unsafe, since schema will be verbosely included
-    schema <- frictionless:::read_descriptor(schema, safe = FALSE)
+    schema <- read_descriptor(schema, safe = FALSE)
   }
 
   # Check schema (also checks df)
