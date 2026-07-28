@@ -34,6 +34,7 @@ str(schema)
 }
 \seealso{
 Other accessor functions:
+\code{\link[=resource]{resource()}},
 \code{\link[=resource_names]{resource_names()}}
 }
 \concept{accessor functions}
