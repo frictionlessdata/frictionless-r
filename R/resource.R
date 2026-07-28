@@ -10,8 +10,12 @@
 #' @family accessor functions
 #' @export
 #' @examples
+#' # Load the example Data Package
 #' package <- example_package()
-#' resource(package, "deployments")
+#'
+#' # Get the resource "deployments"
+#' resource <- resource(package, "deployments")
+#' str(resource)
 resource <- function(package, resource_name) {
   # Check package
   check_package(package)

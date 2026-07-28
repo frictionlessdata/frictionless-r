@@ -40,7 +40,7 @@ resource_names(package)
 `resource()` gets a resource from a package by its name. This is mainly useful for developers who want to access the resource, e.g. to implement reading functionality not supported by frictionless. To read tabular data, see the next section.
 
 ```{r}
-# Get the "deployments" resource
+# Get the resource "deployments"
 resource <- resource(package, "deployments")
 str(resource)
 ```

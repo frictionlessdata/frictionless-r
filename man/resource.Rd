@@ -22,8 +22,12 @@ Returns a Data Resource from a Data Package, i.e. the content of one of the
 described \code{resources}.
 }
 \examples{
+# Load the example Data Package
 package <- example_package()
-resource(package, "deployments")
+
+# Get the resource "deployments"
+resource <- resource(package, "deployments")
+str(resource)
 }
 \seealso{
 Other accessor functions:
