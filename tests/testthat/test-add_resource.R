@@ -320,6 +320,17 @@ test_that("add_resource() uses provided schema (list or path) or creates one", {
   expect_identical(schema(p, "new_csv_with_file_schema"), schema_custom)
 })
 
+test_that("add_resource() keeps URL schema as URL", {
+  p <- example_package()
+  deployments <- read_resource(p, "deployments")
+  schema_url <- file.path(
+    "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
+    "main/tests/testthat/data/deployments_schema.json"
+  )
+  p <- add_resource(p, "deployments", deployments, schema_url, replace = TRUE)
+  expect_identical(p$resources[[1]]$schema, schema_url)
+})
+
 test_that("add_resource() can add resource from data frame, readable by
            read_resource()", {
   p <- example_package()
@@ -453,25 +464,4 @@ test_that("add_resource() sets ... arguments as extra properties", {
   p <- add_resource(p, "new_csv", df_csv, title = "custom_title", foo = "bar")
   expect_identical(p$resources[[2]]$title, "custom_title")
   expect_identical(p$resources[[2]]$foo, "bar")
-})
-
-test_that("add_resource() adds URL schema as URL", {
-  p <- example_package()
-  deployments <- read_resource(p, "deployments")
-  schema_url <- paste0(
-    "https://raw.githubusercontent.com/frictionlessdata/",
-    "frictionless-r/refs/heads/main/tests/testthat/data/deployments_schema.json"
-  )
-  p_url <- p |>
-    add_resource(
-      resource_name = "deployments",
-      data = deployments,
-      schema = schema_url,
-      replace = TRUE
-    )
-
-  expect_identical(
-    purrr::keep(p_url$resources, ~ .x$name == "deployments")[[1]]$schema,
-    schema_url
-  )
 })
