@@ -67,7 +67,7 @@ test_that("write_package() does not overwrite existing data files", {
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
     "main/inst/extdata/v1/deployments.csv"
   )
-  dir <- file.path(tempdir(), "package")
+  dir <- "fail" # file.path(tempdir(), "package")
   on.exit(unlink(dir, recursive = TRUE))
   dir.create(dir)
 
@@ -86,8 +86,7 @@ test_that("write_package() does not overwrite existing data files", {
   expect_identical(file.info(files["observations_1"])$size, 0) # Remains same
 })
 
-test_that("write_package() overwrites replaced resource originating from
-          different local path", {
+test_that("write_package() overwrite behaviour is as expected", {
   skip_if_offline()
 
   # Create local data package with resource "df"
@@ -100,19 +99,35 @@ test_that("write_package() overwrites replaced resource originating from
 
   dir <- file.path(tempdir(), "package")
   on.exit(unlink(dir, recursive = TRUE))
-  p_local <- suppressMessages(write_package(p, dir))
+  p_before <- suppressMessages(write_package(p, dir))
+
+  # Read filestamps
+  deployments_before <- file.path(dir, "deployments.csv")
+  before_mtime <- file.info(deployments_before)$mtime
+
+  # Ensure mtime can change if file is rewritten
+  Sys.sleep(1.1)
 
   # Replace resource "df" with different data frame with same name "df.csv"
-  p_replaced_from_path <-
-    add_resource(p_local, "df", test_path("data/df.csv"), replace = TRUE)
-  suppressMessages(write_package(p_replaced_from_path, dir))
+  p_after <-
+    read_package(file.path(dir, "datapackage.json")) |>
+    add_resource("df", test_path("data/df.csv"), replace = TRUE)
+  suppressMessages(write_package(p_after, dir))
+
+  # Read filestamps
+  deployments_after <- file.path(dir, "deployments.csv")
+  after_mtime <- file.info(deployments_after)$mtime
 
   df_overwritten <-
     readr::read_csv(file.path(dir, "df.csv"), show_col_types = FALSE)
+
+  # Test that the df file was overwritten
   expect_identical(
     df_overwritten,
     readr::read_csv(test_path("data/df.csv"), show_col_types = FALSE)
   )
+  # Test that the deployments file was not overwritten (mtime unchanged)
+  expect_identical(before_mtime, after_mtime)
 })
 
 test_that("write_package() copies file(s) for path = local in local package", {
