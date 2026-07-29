@@ -20,22 +20,37 @@ before being written to disk (e.g. \code{deployments.csv.gz}).}
 }
 \description{
 Writes a Data Package and its related Data Resources to disk as a
-\code{datapackage.json} and CSV files.
-Already existing CSV files of the same name will not be overwritten.
-The function can also be used to download a Data Package in its entirety.
-The Data Resources are handled as follows:
+\code{datapackage.json}.
+Depending how the data are attached to the Data Resource, the function will
+also write or copy these to CSV files.
+}
+\section{Writing data to CSV files}{
+
+
+For Data Resources added or replaced with \code{add_resource()}, with data
+attached as:
 \itemize{
-\item Resource \code{path} has at least one local path (e.g. \code{deployments.csv}):
-CSV files are copied or downloaded to \code{directory} and \code{path} points to new
-location of file(s).
-\item Resource \code{path} has only URL(s): resource stays as is.
-\item Resource has inline \code{data} originally: resource stays as is.
-\item Resource has inline \code{data} as result of adding data with \code{\link[=add_resource]{add_resource()}}:
-data are written to a CSV file using \code{\link[readr:write_csv]{readr::write_csv()}}, \code{path} points to
-location of file, \code{data} property is removed.
-Use \code{compress = TRUE} to gzip those CSV files.
+\item A data frame: data are written to a CSV file in \code{directory} using
+\code{readr::write_csv()} and \code{path} is added.
+The CSV file will have the same name as the resource and can be compressed
+with \code{compress = TRUE}.
+\item One or more paths to local CSV file(s): CSV file(s) are copied to
+\code{directory} and \code{path} is updated to the new location.
+\item URL(s) to CSV file(s): no CSV files are written.
+}
+
+For existing Data Resources that were not manipulated, with data attached as:
+\itemize{
+\item One or more paths to local CSV file(s): CSV file(s) are copied to
+\code{directory} and \code{path} is updated to the new location.
+Existing CSV files of the same name in \code{directory} are \emph{not overwritten}.
+This allows you to read and write a \code{datapackage.json} to the same
+directory, without altering the files of resources you did not manipulate.
+\item URL(s) to CSV file(s): no CSV files are written.
+\item Inline data: no CSV files are written.
 }
 }
+
 \examples{
 # Load the example Data Package from disk
 package <- read_package(

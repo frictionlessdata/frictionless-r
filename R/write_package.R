@@ -1,19 +1,33 @@
 #' Write a Data Package to disk
 #'
 #' Writes a Data Package and its related Data Resources to disk as a
-#' `datapackage.json` and CSV files.
-#' Already existing CSV files of the same name will not be overwritten.
-#' The function can also be used to download a Data Package in its entirety.
-#' The Data Resources are handled as follows:
-#' - Resource `path` has at least one local path (e.g. `deployments.csv`):
-#'   CSV files are copied or downloaded to `directory` and `path` points to new
-#'   location of file(s).
-#' - Resource `path` has only URL(s): resource stays as is.
-#' - Resource has inline `data` originally: resource stays as is.
-#' - Resource has inline `data` as result of adding data with [add_resource()]:
-#'   data are written to a CSV file using [readr::write_csv()], `path` points to
-#'   location of file, `data` property is removed.
-#'   Use `compress = TRUE` to gzip those CSV files.
+#' `datapackage.json`.
+#' Depending how the data are attached to the Data Resource, the function will
+#' also write or copy these to CSV files.
+#'
+#' @section Writing data to CSV files:
+#'
+#' For Data Resources added or replaced with `add_resource()`, with data
+#' attached as:
+#'
+#' - A data frame: data are written to a CSV file in `directory` using
+#'   `readr::write_csv()` and `path` is added.
+#'   The CSV file will have the same name as the resource and can be compressed
+#'   with `compress = TRUE`.
+#' - One or more paths to local CSV file(s): CSV file(s) are copied to
+#'   `directory` and `path` is updated to the new location.
+#' - URL(s) to CSV file(s): no CSV files are written.
+#'
+#' For existing Data Resources that were not manipulated, with data attached as:
+#'
+#' - One or more paths to local CSV file(s): CSV file(s) are copied to
+#'   `directory` and `path` is updated to the new location.
+#'   Existing CSV files of the same name in `directory` are _not overwritten_.
+#'   This allows you to read and write a `datapackage.json` to the same
+#'   directory, without altering the files of resources you did not manipulate.
+#' - URL(s) to CSV file(s): no CSV files are written.
+#' - Inline data: no CSV files are written.
+#'
 #' @inheritParams read_resource
 #' @param directory Path to local directory to write files to.
 #' @param compress If `TRUE`, data of added resources will be gzip compressed
