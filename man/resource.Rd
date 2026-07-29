@@ -3,7 +3,7 @@
 \name{resource}
 \alias{resource}
 \alias{resource<-}
-\title{Get or set a Data Resource}
+\title{Get or overwrite a Data Resource}
 \usage{
 resource(package, resource_name)
 
@@ -15,28 +15,30 @@ resource(package, resource_name) <- value
 
 \item{resource_name}{Name of the Data Resource.}
 
-\item{value}{Data Resource to assign.}
+\item{value}{Value to assign.}
 }
 \value{
 List describing a Data Resource.
 
-\code{package} with assigned resource.
+\code{package} with overwritten resource.
 }
 \description{
+Gets or overwrites a Data Resource from/in a Data Package.
+These functions are \strong{designed for internal use in other packages}.
+For public manipulation of resources, use \code{\link[=add_resource]{add_resource()}} and
+\code{\link[=remove_resource]{remove_resource()}}.
+
 \code{resource()} gets a Data Resource from a Data Package by its name.
 The returned value will be a list describing a Data Resource, with a new
 attribute \code{data_location} to indicate how the data are attached.
-If present, \code{path} will be updated to contain the full path(s).
+If present, \code{path} will be updated to the full path(s).
 
-\verb{resource<-} assigns a Data Resource to a Data Package by its name.
-The assigned value is \strong{not validated}, but changes made by \code{resource()}
-will be reverted, i.e. the \code{data_location} attribute will be removed and
-\code{path} will be shortened to its original value (without the prepended
-\code{package$directory}).
-
-Note that these functions are \strong{designed for internal use in other packages}.
-For public manipulation of resources, use \code{\link[=add_resource]{add_resource()}} and
-\code{\link[=remove_resource]{remove_resource()}}.
+\verb{resource<-} overwrites a Data Resource in Data Package with a new value.
+The assigned value will typically be obtained with \code{resource()} and then
+manipulated, so the function will revert internal changes made by
+\code{resource()} (i.e. removing the attribute \code{data_location} and updating paths
+to the original values).
+The assigned value is otherwise \strong{not validated}, so use with care.
 }
 \examples{
 # Load the example Data Package
@@ -46,7 +48,10 @@ package <- example_package()
 resource <- resource(package, "deployments")
 str(resource)
 
-# Set the resource "deployments"
+# Update the resource
+resource$title <- "Camera trap deployments"
+
+# Overwrite the resource
 resource(package, "deployments") <- resource
 }
 \seealso{

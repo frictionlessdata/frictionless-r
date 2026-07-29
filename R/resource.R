@@ -1,20 +1,22 @@
-#' Get or set a Data Resource
+#' Get or overwrite a Data Resource
 #'
 #' @description
+#' Gets or overwrites a Data Resource from/in a Data Package.
+#' These functions are **designed for internal use in other packages**.
+#' For public manipulation of resources, use [add_resource()] and
+#' [remove_resource()].
+#'
 #' `resource()` gets a Data Resource from a Data Package by its name.
 #' The returned value will be a list describing a Data Resource, with a new
 #' attribute `data_location` to indicate how the data are attached.
-#' If present, `path` will be updated to contain the full path(s).
+#' If present, `path` will be updated to the full path(s).
 #'
-#' `resource<-` assigns a Data Resource to a Data Package by its name.
-#' The assigned value is **not validated**, but changes made by `resource()`
-#' will be reverted, i.e. the `data_location` attribute will be removed and
-#' `path` will be shortened to its original value (without the prepended
-#' `package$directory`).
-#'
-#' Note that these functions are **designed for internal use in other packages**.
-#' For public manipulation of resources, use [add_resource()] and
-#' [remove_resource()].
+#' `resource<-` overwrites a Data Resource in Data Package with a new value.
+#' The assigned value will typically be obtained with `resource()` and then
+#' manipulated, so the function will revert internal changes made by
+#' `resource()` (i.e. removing the attribute `data_location` and updating paths
+#' to the original values).
+#' The assigned value is otherwise **not validated**, so use with care.
 #'
 #' @inheritParams read_resource
 #' @returns List describing a Data Resource.
@@ -28,7 +30,10 @@
 #' resource <- resource(package, "deployments")
 #' str(resource)
 #'
-#' # Set the resource "deployments"
+#' # Update the resource
+#' resource$title <- "Camera trap deployments"
+#'
+#' # Overwrite the resource
 #' resource(package, "deployments") <- resource
 resource <- function(package, resource_name) {
   # Check package
@@ -93,8 +98,8 @@ resource <- function(package, resource_name) {
 }
 
 #' @rdname resource
-#' @param value Data Resource to assign.
-#' @return `package` with assigned resource.
+#' @param value Value to assign.
+#' @return `package` with overwritten resource.
 #' @export
 "resource<-" <- function(package, resource_name, value) {
   resource <- value

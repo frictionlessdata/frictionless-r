@@ -45,7 +45,7 @@ resource <- resource(package, "deployments")
 str(resource)
 ```
 
-`resource()<-` assigns a resource to a package:
+`resource()<-` overwrites a resource in a package:
 
 ```{r}
 resource(package, "deployments") <- resource

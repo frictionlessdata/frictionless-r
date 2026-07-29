@@ -21,7 +21,7 @@ test_that("resource()<- returns error when resource not found", {
   )
 })
 
-test_that("resource()<- allows setting to NULL, removing the resource", {
+test_that("resource()<- allows overwriting with NULL, removing the resource", {
   skip_if_offline()
   p <- p_assigned <- example_package()
   resource(p_assigned, "deployments") <- NULL
@@ -31,7 +31,7 @@ test_that("resource()<- allows setting to NULL, removing the resource", {
   )
 })
 
-test_that("resource()<- allows setting a resource with a different name", {
+test_that("resource()<- allows overwriting a resource with a different name", {
   skip_if_offline()
   p <- example_package()
   resource(p, "deployments") <- list(name = "not_deployments")
