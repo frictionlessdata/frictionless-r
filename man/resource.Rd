@@ -29,12 +29,12 @@ attribute \code{data_location} to indicate how the data are attached.
 If present, \code{path} will be updated to contain the full path(s).
 
 \verb{resource<-} assigns a Data Resource to a Data Package by its name.
-If present, the assigned value will be stripped from its \code{data_location}
-attribute and \code{path} shortened to its original value (without the prepended
+The assigned value is \strong{not validated}, but changes made by \code{resource()}
+will be reverted, i.e. the \code{data_location} attribute will be removed and
+\code{path} will be shortened to its original value (without the prepended
 \code{package$directory}).
-The value is otherwise not validated.
 
-Note that these functions are designed for internal use in other packages.
+Note that these functions are \strong{designed for internal use in other packages}.
 For public manipulation of resources, use \code{\link[=add_resource]{add_resource()}} and
 \code{\link[=remove_resource]{remove_resource()}}.
 }

@@ -7,12 +7,12 @@
 #' If present, `path` will be updated to contain the full path(s).
 #'
 #' `resource<-` assigns a Data Resource to a Data Package by its name.
-#' If present, the assigned value will be stripped from its `data_location`
-#' attribute and `path` shortened to its original value (without the prepended
+#' The assigned value is **not validated**, but changes made by `resource()`
+#' will be reverted, i.e. the `data_location` attribute will be removed and
+#' `path` will be shortened to its original value (without the prepended
 #' `package$directory`).
-#' The value is otherwise not validated.
 #'
-#' Note that these functions are designed for internal use in other packages.
+#' Note that these functions are **designed for internal use in other packages**.
 #' For public manipulation of resources, use [add_resource()] and
 #' [remove_resource()].
 #'
