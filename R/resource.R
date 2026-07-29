@@ -121,22 +121,23 @@ resource <- function(package, resource_name) {
     return(package)
   }
 
+  # Revert changes made by resource()
   # Remove directory from path, i.e. reverse check_path()
   directory <- attr(package, "directory")
   data_location <- attr(resource, "data_location") %||% "undefined"
+  path_attr <- attr(resource, "path") %||% "undefined"
   out_paths <- vector()
   if (data_location == "path") {
     for (path in resource$path) {
       stripped_path <- gsub(paste0(directory, "/"), "", path)
       out_paths <- append(out_paths, stripped_path)
     }
-    if (length(out_paths) > 1) {
-      # String for single file, pretty array for multiple files
+    if (length(out_paths) > 1 && path_attr != "added") {
+      # For existing resources with multiple paths, use list
       out_paths <- as.list(out_paths)
     }
     resource$path <- out_paths
   }
-
   # Remove data_location attribute
   attr(resource, "data_location") <- NULL
 
