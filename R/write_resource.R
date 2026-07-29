@@ -52,7 +52,14 @@ write_resource <- function(package, resource_name, directory = ".",
           utils::download.file(path, destination, quiet = TRUE)
         }
       } else {
-        file.copy(path, destination, overwrite = FALSE)
+        # Only replaced resources will be overwritten, not existing files
+        if (isTRUE(attr(resource, "path") == "added") && file.exists(destination)) {
+          file.remove(destination)
+          # file.copy fails silently with overwrite = TRUE
+          file.copy(path, destination)
+        } else {
+          file.copy(path, destination, overwrite = FALSE)
+        }
       }
       out_paths <- append(out_paths, file_name)
     }
