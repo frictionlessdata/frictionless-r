@@ -145,15 +145,13 @@ add_resource <- function(package, resource_name, data, schema = NULL,
     )
   }
 
-  # Create schema
+  # Read schema if path or URL, create schema if undefined (leave as is if list)
   schema_url <- NULL
-  if (is.null(schema)) {
-    schema <- create_schema(df)
-  } else if (is.character(schema) ) {
-    # Add URL schema as URL
-    schema_url <- if (is_url(schema)) schema
-    # Path to schema can be unsafe, since schema will be verbosely included
+  if (is.character(schema)) {
+    schema_url <- if (is_url(schema)) schema # Keep original URL
     schema <- read_descriptor(schema, safe = FALSE)
+  } else if (is.null(schema)) {
+    schema <- create_schema(df)
   }
 
   # Check schema (also checks df)
