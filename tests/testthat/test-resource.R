@@ -1,0 +1,75 @@
+test_that("resource()<- returns a Data Package invisibly", {
+  skip_if_offline()
+  p <- example_package()
+  expect_invisible(resource(p, "deployments") <- list(name = "deployments"))
+})
+
+test_that("resource()<- returns error on invalid Data Package", {
+  p_invalid <- list()
+  expect_error(
+    resource(p_invalid, "assigned") <- list(name = "assigned"),
+    class = "frictionless_error_package_invalid"
+  )
+})
+
+test_that("resource()<- returns error when resource not found", {
+  skip_if_offline()
+  p <- example_package()
+  expect_error(
+    resource(p, "no_such_resource") <- list(name = "assigned"),
+    class = "frictionless_error_resource_not_found"
+  )
+})
+
+test_that("resource()<- allows setting to NULL, removing the resource", {
+  skip_if_offline()
+  p <- p_assigned <- example_package()
+  resource(p_assigned, "deployments") <- NULL
+  expect_identical(
+    p_assigned,
+    remove_resource(p, "deployments")
+  )
+})
+
+test_that("resource()<- allows setting a resource with a different name", {
+  skip_if_offline()
+  p <- example_package()
+  resource(p, "deployments") <- list(name = "not_deployments")
+  expect_identical(
+    resource_names(p),
+    c("not_deployments", "observations", "media")
+  )
+})
+
+test_that("resource()<- reverts changes made by resource()", {
+  skip_if_offline()
+  df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
+  df_csv <- test_path("data/df.csv")
+  df_url <- file.path(
+    "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
+    "main/tests/testthat/data/df.csv"
+  )
+
+  # Create package with mix of existing and new resources
+  p <-
+    example_package() |>
+    add_resource("df", df) |>
+    add_resource("csv", df_csv) |>
+    add_resource("csv_multiple", c(df_csv, df_csv)) |>
+    add_resource("url", df_url) |>
+    add_resource("url_multiple", c(df_url, df_url))
+
+  # Assign each resource with its resource() equivalent
+  p_assigned <- p
+  resource(p_assigned, "deployments") <- resource(p_assigned, "deployments")
+  resource(p_assigned, "observations") <- resource(p_assigned, "observations")
+  resource(p_assigned, "media") <- resource(p_assigned, "media")
+  resource(p_assigned, "df") <- resource(p_assigned, "df")
+  resource(p_assigned, "csv") <- resource(p_assigned, "csv")
+  resource(p_assigned, "csv_multiple") <- resource(p_assigned, "csv_multiple")
+  resource(p_assigned, "url") <- resource(p_assigned, "url")
+  resource(p_assigned, "url_multiple") <- resource(p_assigned, "url_multiple")
+
+  # Expect unchanged package
+  expect_identical(p_assigned, p)
+})
