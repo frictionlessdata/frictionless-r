@@ -49,7 +49,7 @@ read_package <- function(file = "datapackage.json") {
   if (version != "1.0") {
     cli::cli_warn(
       "This Data Package uses a version ({.field {version}}) not supported by
-       frictionless. Expect errors.",
+       this version of {.pkg frictionless}. Expect errors.",
       class = "frictionless_warning_version_not_supported"
     )
   }
