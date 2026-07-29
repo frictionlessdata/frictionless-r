@@ -53,7 +53,7 @@ write_resource <- function(package, resource_name, directory = ".",
         }
       } else {
         # Only replaced resources will be overwritten, not existing files
-        if (isTRUE(attr(resource, "path") == "added") && file.exists(destination)) {
+        if (path != destination && file.exists(destination)) {
           file.remove(destination)
           }
         file.copy(path, destination, overwrite = FALSE)
