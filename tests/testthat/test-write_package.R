@@ -61,45 +61,55 @@ test_that("write_package() writes unaltered datapackage.json as is", {
 test_that("write_package() overwrite behaviour is as expected", {
   skip_if_offline()
 
-  # Create local data package with resource "df"
+  # P0 - Create local data package with resource "df"
   df <- data.frame(
     deployment_id = 1:3,
     ind_names = c("Shakira", "Tony", "Claire")
   )
-  p <- example_package() |>
-    add_resource("df", df)
+  p0 <- create_package() |>
+    add_resource("df", df) |>
+    add_resource("media", test_path("data/media.csv"))
 
-  dir <- file.path(tempdir(), "package")
+  dir <- "bla" # file.path(tempdir(), "package")
   on.exit(unlink(dir, recursive = TRUE))
-  p_before <- suppressMessages(write_package(p, dir))
+  suppressMessages(write_package(p0, dir))
 
   # Read filestamps
-  deployments_before <- file.path(dir, "deployments.csv")
-  before_mtime <- file.info(deployments_before)$mtime
+  p0_media_mtime <- file.info(file.path(dir, "media.csv"))$mtime
+  p0_df_mtime <- file.info(file.path(dir, "df.csv"))$mtime
 
   # Ensure mtime can change if file is rewritten
   Sys.sleep(1.1)
 
-  # Replace resource "df" with different data frame with same name "df.csv"
-  p_after <-
-    read_package(file.path(dir, "datapackage.json")) |>
-    add_resource("df", test_path("data/df.csv"), replace = TRUE)
-  suppressMessages(write_package(p_after, dir))
+  # P1 - Read p0 and write again unchanged, CSV files should not be overwritten
+  p1 <- read_package(file.path(dir, "datapackage.json"))
+  suppressMessages(write_package(p1, dir))
 
-  # Read filestamps
-  deployments_after <- file.path(dir, "deployments.csv")
-  after_mtime <- file.info(deployments_after)$mtime
+  p1_media_mtime <- file.info(file.path(dir, "media.csv"))$mtime
+  p1_df_mtime <- file.info(file.path(dir, "df.csv"))$mtime
 
-  df_overwritten <-
-    readr::read_csv(file.path(dir, "df.csv"), show_col_types = FALSE)
+  expect_identical(p0_media_mtime, p1_media_mtime)
+  expect_identical(p0_df_mtime, p1_df_mtime)
 
-  # Test that the df file was overwritten
+  Sys.sleep(1.1)
+
+  # P2 - Replace resources, 2 different situations
+  p2 <- read_package(file.path(dir, "datapackage.json")) |>
+    add_resource("df", test_path("data/df.csv"), replace = TRUE) |>
+    add_resource("media", file.path(dir, "media.csv"), replace = TRUE)
+  suppressMessages(write_package(p2, dir))
+
+  p2_media_mtime <- file.info(file.path(dir, "media.csv"))$mtime
+  p2_df_mtime <- file.info(file.path(dir, "df.csv"))$mtime
+
+  # Media file is replaced with same file from same path, so not overwritten
+  expect_identical(p0_media_mtime, p2_media_mtime)
+  # Media file is replaced with file from different path, so overwritten
+  expect_failure(expect_identical(p0_df_mtime, p2_df_mtime))
   expect_identical(
-    df_overwritten,
+    readr::read_csv(file.path(dir, "df.csv"), show_col_types = FALSE),
     readr::read_csv(test_path("data/df.csv"), show_col_types = FALSE)
   )
-  # Test that the deployments file was not overwritten (mtime unchanged)
-  expect_identical(before_mtime, after_mtime)
 })
 
 test_that("write_package() copies file(s) for path = local in local package", {
