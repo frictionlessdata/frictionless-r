@@ -21,6 +21,15 @@ test_that("resource()<- returns error when resource not found", {
   )
 })
 
+test_that("resource()<- allows overwriting a resource", {
+  skip_if_offline()
+  p <- example_package()
+  resource <- resource(p, "deployments")
+  resource$title <- "Custom title"
+  resource(p, "deployments") <- resource
+  expect_identical(p$resources[[1]]$title, "Custom title")
+})
+
 test_that("resource()<- allows overwriting with NULL, removing the resource", {
   skip_if_offline()
   p <- p_assigned <- example_package()
