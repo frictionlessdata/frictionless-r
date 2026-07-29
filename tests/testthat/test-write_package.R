@@ -390,3 +390,32 @@ test_that("write_package() writes NULL and NA as null", {
   expect_null(purrr::chuck(p_reread, "na_property"))
   expect_null(purrr::chuck(p_reread, "resources", 4, "na_property"))
 })
+
+test_that("write_package() overwrites replaced resource originating from local
+          path", {
+  skip_if_offline()
+
+  # Create local data package with resource "df"
+  df <- data.frame(
+    deployment_id = 1:3,
+    ind_names = c("Shakira", "Tony", "Claire")
+  )
+  p <- example_package() |>
+    add_resource("df", df)
+
+  dir <- file.path(tempdir(), "package")
+  on.exit(unlink(dir, recursive = TRUE))
+  p_local <- suppressMessages(write_package(p, dir))
+
+  # Replace resource "df" with different data frame with same name "df.csv"
+  p_replaced_from_path <-
+    add_resource(p_local, "df", test_path("data/df.csv"), replace = TRUE)
+  suppressMessages(write_package(p_replaced_from_path, dir))
+
+  df_overwritten <-
+    readr::read_csv(file.path(dir, "df.csv"), show_col_types = FALSE)
+  expect_identical(
+    df_overwritten,
+    readr::read_csv(test_path("data/df.csv"), show_col_types = FALSE)
+  )
+})
