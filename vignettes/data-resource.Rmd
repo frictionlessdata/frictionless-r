@@ -37,13 +37,23 @@ package <- example_package()
 resource_names(package)
 ```
 
-`resource()` gets a resource from a package by its name. This is mainly useful for developers who want to access the resource, e.g. to implement reading functionality not supported by frictionless. To read tabular data, see the next section.
+`resource()` gets a resource from a package by its name:
 
 ```{r}
 # Get the resource "deployments"
 resource <- resource(package, "deployments")
 str(resource)
 ```
+
+`resource()<-` assigns a resource to a package:
+
+```{r}
+resource(package, "deployments") <- resource
+```
+
+::: {.callout-important}
+Note that `resource()` and `resource()<-` are designed for internal use in other packages. For public manipulation of resources, use `add_resource()` and `remove_resource()` (see [Manipulate](#manipulate)).
+:::
 
 ### Read
 

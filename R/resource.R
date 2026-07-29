@@ -1,7 +1,7 @@
 #' Get or set a Data Resource
 #'
 #' @description
-#' `resource()` retrieves a Data Resource from a Data Package by its name.
+#' `resource()` gets a Data Resource from a Data Package by its name.
 #' The returned value will be a list describing a Data Resource, with a new
 #' attribute `data_location` to indicate how the data are attached.
 #' If present, `path` will be updated to contain the full path(s).
@@ -10,9 +10,11 @@
 #' If present, the assigned value will be stripped from its `data_location`
 #' attribute and `path` shortened to its original value (without the prepended
 #' `package$directory`).
-#' Note that this function does not validate the assigned resource and is
-#' **aimed for use in other functions** where the input can be controlled.
-#' For all other cases, use [add_resource()].
+#' The value is otherwise not validated.
+#'
+#' Note that these functions are designed for internal use in other packages.
+#' For public manipulation of resources, use [add_resource()] and
+#' [remove_resource()].
 #'
 #' @inheritParams read_resource
 #' @returns List describing a Data Resource.
