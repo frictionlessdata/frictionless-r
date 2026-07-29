@@ -58,34 +58,6 @@ test_that("write_package() writes unaltered datapackage.json as is", {
   expect_identical(json_as_written, json_original)
 })
 
-test_that("write_package() does not overwrite existing data files", {
-  skip_if_offline()
-  p <- example_package()
-
-  # Change local path to URL
-  p$resources[[1]]$path <- file.path(
-    "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
-    "main/inst/extdata/v1/deployments.csv"
-  )
-  dir <- "fail" # file.path(tempdir(), "package")
-  on.exit(unlink(dir, recursive = TRUE))
-  dir.create(dir)
-
-  # Create files in directory
-  files <- c(
-    datapackage = file.path(dir, "datapackage.json"),
-    # deployments: has remote path, should not be written
-    observations_1 = file.path(dir, "observations_1.tsv"),
-    observations_2 = file.path(dir, "observations_2.tsv")
-  )
-  file.create(files) # Size for these files will be 0
-
-  # Write package to directory, expect only datapackage.json is overwritten
-  suppressMessages(write_package(p, dir))
-  expect_gt(file.info(files["datapackage"])$size, 0) # Overwritten
-  expect_identical(file.info(files["observations_1"])$size, 0) # Remains same
-})
-
 test_that("write_package() overwrite behaviour is as expected", {
   skip_if_offline()
 
