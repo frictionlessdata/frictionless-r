@@ -1,6 +1,6 @@
 #' Get the Table Schema of a Data Resource
 #'
-#' Returns the Table Schema of a Data Resource (in a Data Package), i.e. the
+#' Gets the Table Schema of a Data Resource (in a Data Package), i.e. the
 #' content of its `schema` property, describing the resource's fields, data
 #' types, relationships, and missing values.
 #' The resource must be a [Tabular Data Resource](

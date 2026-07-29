@@ -2,24 +2,39 @@
 % Please edit documentation in R/resource.R
 \name{resource}
 \alias{resource}
-\title{Get a Data Resource}
+\alias{resource<-}
+\title{Get or set a Data Resource}
 \usage{
 resource(package, resource_name)
+
+resource(package, resource_name) <- value
 }
 \arguments{
 \item{package}{Data Package object, as returned by \code{\link[=read_package]{read_package()}} or
 \code{\link[=create_package]{create_package()}}.}
 
 \item{resource_name}{Name of the Data Resource.}
+
+\item{value}{Data Resource to assign.}
 }
 \value{
-List describing a Data Resource, with new attribute \code{data_location}
-to indicate how the data are attached.
-If present, \code{path} will be updated to contain the full path(s).
+List describing a Data Resource.
+
+\code{package} with assigned resource.
 }
 \description{
-Returns a Data Resource from a Data Package, i.e. the content of one of the
-described \code{resources}.
+\code{resource()} retrieves a Data Resource from a Data Package by its name.
+The returned value will be a list describing a Data Resource, with a new
+attribute \code{data_location} to indicate how the data are attached.
+If present, \code{path} will be updated to contain the full path(s).
+
+\verb{resource<-} assigns a Data Resource to a Data Package by its name.
+If present, the assigned value will be stripped from its \code{data_location}
+attribute and \code{path} shortened to its original value (without the prepended
+\code{package$directory}).
+Note that this function does not validate the assigned resource and is
+\strong{aimed for use in other functions} where the input can be controlled.
+For all other cases, use \code{\link[=add_resource]{add_resource()}}.
 }
 \examples{
 # Load the example Data Package
@@ -28,6 +43,9 @@ package <- example_package()
 # Get the resource "deployments"
 resource <- resource(package, "deployments")
 str(resource)
+
+# Set the resource "deployments"
+resource(package, "deployments") <- resource
 }
 \seealso{
 Other accessor functions:

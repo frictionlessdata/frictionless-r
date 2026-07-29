@@ -16,7 +16,7 @@ schema(package, resource_name)
 List describing a Table Schema.
 }
 \description{
-Returns the Table Schema of a Data Resource (in a Data Package), i.e. the
+Gets the Table Schema of a Data Resource (in a Data Package), i.e. the
 content of its \code{schema} property, describing the resource's fields, data
 types, relationships, and missing values.
 The resource must be a \href{https://specs.frictionlessdata.io/tabular-data-resource/}{Tabular Data Resource}.

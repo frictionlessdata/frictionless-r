@@ -1,12 +1,21 @@
-#' Get a Data Resource
+#' Get or set a Data Resource
 #'
-#' Returns a Data Resource from a Data Package, i.e. the content of one of the
-#' described `resources`.
+#' @description
+#' `resource()` retrieves a Data Resource from a Data Package by its name.
+#' The returned value will be a list describing a Data Resource, with a new
+#' attribute `data_location` to indicate how the data are attached.
+#' If present, `path` will be updated to contain the full path(s).
+#'
+#' `resource<-` assigns a Data Resource to a Data Package by its name.
+#' If present, the assigned value will be stripped from its `data_location`
+#' attribute and `path` shortened to its original value (without the prepended
+#' `package$directory`).
+#' Note that this function does not validate the assigned resource and is
+#' **aimed for use in other functions** where the input can be controlled.
+#' For all other cases, use [add_resource()].
 #'
 #' @inheritParams read_resource
-#' @returns List describing a Data Resource, with new attribute `data_location`
-#'   to indicate how the data are attached.
-#'   If present, `path` will be updated to contain the full path(s).
+#' @returns List describing a Data Resource.
 #' @family accessor functions
 #' @export
 #' @examples
@@ -16,11 +25,14 @@
 #' # Get the resource "deployments"
 #' resource <- resource(package, "deployments")
 #' str(resource)
+#'
+#' # Set the resource "deployments"
+#' resource(package, "deployments") <- resource
 resource <- function(package, resource_name) {
   # Check package
   check_package(package)
 
-  # Check resource
+  # Check resource exists
   resource_names <- resource_names(package)
   if (!resource_name %in% resource_names) {
     cli::cli_abort(
@@ -35,7 +47,7 @@ resource <- function(package, resource_name) {
   # Get resource
   resource <- purrr::keep(package$resources, ~ .x$name == resource_name)[[1]]
 
-  # Check path(s) to file(s)
+  # Check that path or data are set
   # https://specs.frictionlessdata.io/data-resource/#data-location
   if (is.null(resource$path) && is.null(resource$data)) {
     cli::cli_abort(
@@ -45,8 +57,8 @@ resource <- function(package, resource_name) {
     )
   }
 
-  # Check that either data or path is set, not both
-  if (all(c("data", "path") %in% names(resource))) {
+  # Check that either path or data is set, not both
+  if (all(c("path", "data") %in% names(resource))) {
     cli::cli_abort(
       "Resource {.val {resource_name}} must have a {.field path} or
        {.field data} property, not both.",
@@ -76,4 +88,57 @@ resource <- function(package, resource_name) {
   attr(resource, "data_location") <- data_location
 
   return(resource)
+}
+
+#' @rdname resource
+#' @param value Data Resource to assign.
+#' @return `package` with assigned resource.
+#' @export
+"resource<-" <- function(package, resource_name, value) {
+  resource <- value
+
+  # Check package
+  check_package(package)
+
+  # Check resource exists
+  resource_names <- resource_names(package)
+  if (!resource_name %in% resource_names) {
+    cli::cli_abort(
+      c(
+        "Can't find resource {.val {resource_name}} in {.arg package}.",
+        "i" = "Available resource{?s}: {.val {resource_names}}."
+      ),
+      class = "frictionless_error_resource_not_found"
+    )
+  }
+  index <- which(resource_names(package) == resource_name)
+
+  # Return early if resource is NULL
+  if (is.null(resource)) {
+    package$resources[[index]] <- resource
+    return(package)
+  }
+
+  # Remove directory from path, i.e. reverse check_path()
+  directory <- attr(package, "directory")
+  data_location <- attr(resource, "data_location") %||% "undefined"
+  out_paths <- vector()
+  if (data_location == "path") {
+    for (path in resource$path) {
+      stripped_path <- gsub(paste0(directory, "/"), "", path)
+      out_paths <- append(out_paths, stripped_path)
+    }
+    if (length(out_paths) > 1) {
+      # String for single file, pretty array for multiple files
+      out_paths <- as.list(out_paths)
+    }
+    resource$path <- out_paths
+  }
+
+  # Remove data_location attribute
+  attr(resource, "data_location") <- NULL
+
+  # Assign resource
+  package$resources[[index]] <- resource
+  return(package)
 }
