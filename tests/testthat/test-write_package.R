@@ -64,18 +64,30 @@ test_that("write_package() overwrites files only if necessary", {
   on.exit(unlink(dir, recursive = TRUE))
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
 
-  # Step 1: create package and write to dir
-  p1 <-
+  # STEP 0: create package and write to dir
+  p0 <-
     create_package() |>
     add_resource("media", test_path("data/media.csv")) |>
     add_resource("df", df)
-  suppressMessages(write_package(p1, dir))
+  suppressMessages(write_package(p0, dir))
+
+  # Get file modification timestamps
+  t0_media_mtime <- file.info(file.path(dir, "media.csv"))$mtime
+  t0_df_mtime <- file.info(file.path(dir, "df.csv"))$mtime
+
+  # STEP 1: wait a bit, and write package to same dir
+  Sys.sleep(1.1)
+  suppressMessages(write_package(p0, dir))
 
   # Get file modification timestamps
   t1_media_mtime <- file.info(file.path(dir, "media.csv"))$mtime
   t1_df_mtime <- file.info(file.path(dir, "df.csv"))$mtime
 
-  # Step 2: wait a bit, read package and write to same dir unchanged
+  # Expect file overwrites, since resources in loaded package might have changed
+  expect_gt(t1_media_mtime, t0_media_mtime)
+  expect_gt(t1_df_mtime, t0_df_mtime)
+
+  # STEP 2: wait a bit, read package and write to same dir unchanged
   Sys.sleep(1.1)
   p2 <- read_package(file.path(dir, "datapackage.json"))
   suppressMessages(write_package(p2, dir))
@@ -84,11 +96,11 @@ test_that("write_package() overwrites files only if necessary", {
   t2_media_mtime <- file.info(file.path(dir, "media.csv"))$mtime
   t2_df_mtime <- file.info(file.path(dir, "df.csv"))$mtime
 
-  # Expect no file overwrites
+  # Expect NO file overwrites, since the read package was unchanged
   expect_identical(t2_media_mtime, t1_media_mtime)
   expect_identical(t2_df_mtime, t1_df_mtime)
 
-  # Step 3: wait a bit, read package, change resources and write to same dir
+  # STEP 3: wait a bit, read package, change resources and write to same dir
   Sys.sleep(1.1)
   p3 <-
     read_package(file.path(dir, "datapackage.json")) |>
@@ -100,7 +112,7 @@ test_that("write_package() overwrites files only if necessary", {
   t3_media_mtime <- file.info(file.path(dir, "media.csv"))$mtime
   t3_df_mtime <- file.info(file.path(dir, "df.csv"))$mtime
 
-  # Expect no file overwrite for media.csv, as it was read from same dir
+  # Expect NO file overwrite for media.csv, as it was read from same dir
   expect_identical(t3_media_mtime, t2_media_mtime)
 
   # Expect file overwrite for df.csv, as it was read from different dir
