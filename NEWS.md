@@ -6,6 +6,7 @@
 * `read_package()` now warns when reading a `datapackage.json` that uses a version of the Data Package standard not supported by frictionless (i.e. anything other than version `"1.0"`) (#309).
 * `read_resource()` now supports reading from remote zip files, thanks to support in `{vroom}` (1.3.0) (#291).
 * `write_package()` now prints multiple `resource$path`, `resource$schema$missingValues` and `field$constraints$enum` on multiple lines in the `datapackage.json` (#297).
+* `write_package()`'s overwrite behavior is as intended and now documented in the function (#313).
 * `add_resource()` with `replace = TRUE` adds the resource if there is none to replace, rather than throwing an error (#273).
 * `add_resource()` now retains the URL to a provided schema, rather than including it verbosely (#305).
 * `resources()` is soft-deprecated, please use `resource_names()` instead (#282).

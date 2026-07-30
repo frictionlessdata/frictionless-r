@@ -1,32 +1,59 @@
 #' Write a Data Package to disk
 #'
 #' Writes a Data Package and its related Data Resources to disk as a
-#' `datapackage.json`.
-#' Depending how the data are attached to the Data Resource, the function will
-#' also write or copy these to CSV files.
+#' `datapackage.json` and CSV files.
 #'
 #' @section Writing data to CSV files:
 #'
-#' For Data Resources added or replaced with `add_resource()`, with data
-#' attached as:
+#' `write_package()` will write data to CSV files depending on how these are
+#' attached to the Data Resource:
 #'
-#' - A data frame: data are written to a CSV file in `directory` using
-#'   `readr::write_csv()` and `path` is added.
-#'   The CSV file will have the same name as the resource and can be compressed
-#'   with `compress = TRUE`.
-#' - One or more paths to local CSV file(s): CSV file(s) are copied to
-#'   `directory` and `path` is updated to the new location.
-#' - URL(s) to CSV file(s): no CSV files are written.
+#' - **Data frame**:
+#'   ```R
+#'   add_resource(package, "media", data = df)
+#'   ```
+#'   Data are written to a CSV file in `directory` using [readr::write_csv()].
+#'   The CSV file will have the same name as the resource, overwriting any
+#'   existing file with the same name.
+#'   Use `compress = TRUE` to gzip the CSV file.
 #'
-#' For existing Data Resources that were not manipulated, with data attached as:
+#' - One or more **paths** to local CSV files in a **different directory**:
+#'   ```R
+#'   add_resource(package, "media", data = "other-directory/media.csv")
+#'   ```
+#'   CSV files are copied to `directory`, overwriting existing files with
+#'   the same name.
 #'
-#' - One or more paths to local CSV file(s): CSV file(s) are copied to
-#'   `directory` and `path` is updated to the new location.
-#'   Existing CSV files of the same name in `directory` are _not overwritten_.
+#' - One or more **paths** to local CSV files in the **same directory**:
+#'   ```R
+#'   add_resource(package, "media", data = "directory/media.csv")
+#'   ```
+#'   CSV files are left as is (no overwrite).
 #'   This allows you to read and write a `datapackage.json` to the same
-#'   directory, without altering the files of resources you did not manipulate.
-#' - URL(s) to CSV file(s): no CSV files are written.
-#' - Inline data: no CSV files are written.
+#'   directory, without altering the CSV files of resources you did not
+#'   manipulate.
+#'
+#' - One or more **URLs** to CSV files:
+#'   ```
+#'   add_resource(package, "media", data = "https://example.org/media.csv")
+#'   ```
+#'   Files are not downloaded.
+#'
+#' - Mix of **URLs and paths** to CSV files:
+#'   ```R
+#'   add_resource(
+#'     package, "media",
+#'     data = c("https://example.org/media.csv", "media.csv")
+#'   )
+#'   ```
+#'   Remote CSV files are downloaded to `directory`, overwriting existing
+#'   files with the same name.
+#'   Local CSV files are handled as described above.
+#'
+#' - **Inline data**: No files are written.
+#'
+#' In all above cases `path` is added or updated to the new file location(s)
+#' when appropriate.
 #'
 #' @inheritParams read_resource
 #' @param directory Path to local directory to write files to.

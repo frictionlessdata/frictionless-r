@@ -58,32 +58,65 @@ test_that("write_package() writes unaltered datapackage.json as is", {
   expect_identical(json_as_written, json_original)
 })
 
-test_that("write_package() does not overwrite existing data files", {
+test_that("write_package() overwrites files only if necessary", {
   skip_if_offline()
-  p <- example_package()
-
-  # Change local path to URL
-  p$resources[[1]]$path <- file.path(
-    "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
-    "main/inst/extdata/v1/deployments.csv"
-  )
-  dir <- file.path(tempdir(), "package")
+  dir <- "output" # file.path(tempdir(), "package") fails on Windows :-/
   on.exit(unlink(dir, recursive = TRUE))
-  dir.create(dir)
+  df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
 
-  # Create files in directory
-  files <- c(
-    datapackage = file.path(dir, "datapackage.json"),
-    # deployments: has remote path, should not be written
-    observations_1 = file.path(dir, "observations_1.tsv"),
-    observations_2 = file.path(dir, "observations_2.tsv")
-  )
-  file.create(files) # Size for these files will be 0
+  # STEP 0: create package and write to dir
+  p0 <-
+    create_package() |>
+    add_resource("media", test_path("data/media.csv")) |>
+    add_resource("df", df)
+  suppressMessages(write_package(p0, dir))
 
-  # Write package to directory, expect only datapackage.json is overwritten
-  suppressMessages(write_package(p, dir))
-  expect_gt(file.info(files["datapackage"])$size, 0) # Overwritten
-  expect_identical(file.info(files["observations_1"])$size, 0) # Remains same
+  # Get file modification timestamps
+  t0_media_mtime <- file.info(file.path(dir, "media.csv"))$mtime
+  t0_df_mtime <- file.info(file.path(dir, "df.csv"))$mtime
+
+  # STEP 1: wait a bit, and write package to same dir
+  Sys.sleep(1.1)
+  suppressMessages(write_package(p0, dir))
+
+  # Get file modification timestamps
+  t1_media_mtime <- file.info(file.path(dir, "media.csv"))$mtime
+  t1_df_mtime <- file.info(file.path(dir, "df.csv"))$mtime
+
+  # Expect file overwrites, since resources in loaded package might have changed
+  expect_gt(t1_media_mtime, t0_media_mtime)
+  expect_gt(t1_df_mtime, t0_df_mtime)
+
+  # STEP 2: wait a bit, read package and write to same dir unchanged
+  Sys.sleep(1.1)
+  p2 <- read_package(file.path(dir, "datapackage.json"))
+  suppressMessages(write_package(p2, dir))
+
+  # Get file modification timestamps
+  t2_media_mtime <- file.info(file.path(dir, "media.csv"))$mtime
+  t2_df_mtime <- file.info(file.path(dir, "df.csv"))$mtime
+
+  # Expect NO file overwrites, since the read package was unchanged
+  expect_identical(t2_media_mtime, t1_media_mtime)
+  expect_identical(t2_df_mtime, t1_df_mtime)
+
+  # STEP 3: wait a bit, read package, change resources and write to same dir
+  Sys.sleep(1.1)
+  p3 <-
+    read_package(file.path(dir, "datapackage.json")) |>
+    add_resource("media", file.path(dir, "media.csv"), replace = TRUE) |>
+    add_resource("df", test_path("data/df.csv"), replace = TRUE)
+  suppressMessages(write_package(p3, dir))
+
+  # Get file modification timestamps
+  t3_media_mtime <- file.info(file.path(dir, "media.csv"))$mtime
+  t3_df_mtime <- file.info(file.path(dir, "df.csv"))$mtime
+
+  # Expect NO file overwrite for media.csv, as it was read from same dir
+  expect_identical(t3_media_mtime, t2_media_mtime)
+
+  # Expect file overwrite for df.csv, as it was read from different dir
+  expect_gt(t3_df_mtime, t2_df_mtime)
 })
 
 test_that("write_package() copies file(s) for path = local in local package", {

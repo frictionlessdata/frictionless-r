@@ -37,12 +37,12 @@ write_resource <- function(package, resource_name, directory = ".",
 
   # Resource has local paths (optionally mixed with URLs)
   } else if (data_location == "path") {
-    # Download or copy file to directory, point path to file name (in that dir)
-    # Note that existing files will not be overwritten
     out_paths <- vector()
     for (path in resource$path) {
       file_name <- basename(path)
       destination <- file.path(directory, file_name)
+
+      # Download file to destination
       if (is_url(path)) {
         if (!file.exists(destination)) {
           cli::cli_inform(
@@ -51,7 +51,12 @@ write_resource <- function(package, resource_name, directory = ".",
           )
           utils::download.file(path, destination, quiet = TRUE)
         }
+
+      # Copy file to destination, but don't overwrite if it was read from there
       } else {
+        if (path != destination && file.exists(destination)) {
+          file.remove(destination)
+        }
         file.copy(path, destination, overwrite = FALSE)
       }
       out_paths <- append(out_paths, file_name)
