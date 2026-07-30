@@ -40,6 +40,9 @@ manipulated, so the function will revert internal changes made by
 to the original values).
 The assigned value is otherwise \strong{not validated}, so use with care.
 }
+\details{
+See \code{vignette("data-resource")} to learn more about Data Resource.
+}
 \examples{
 # Load the example Data Package
 package <- example_package()

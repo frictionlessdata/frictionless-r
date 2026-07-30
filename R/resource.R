@@ -18,6 +18,9 @@
 #' to the original values).
 #' The assigned value is otherwise **not validated**, so use with care.
 #'
+#' @details
+#' See `vignette("data-resource")` to learn more about Data Resource.
+#'
 #' @inheritParams read_resource
 #' @returns List describing a Data Resource.
 #' @family accessor functions
