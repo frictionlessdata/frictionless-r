@@ -59,7 +59,7 @@ manipulate.
 }\if{html}{\out{</div>}}
 
 Files are not downloaded.
-\item Mix of \strong{URLs and paths} to CSV files
+\item Mix of \strong{URLs and paths} to CSV files:
 
 \if{html}{\out{<div class="sourceCode R">}}\preformatted{add_resource(
   package, "media",
