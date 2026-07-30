@@ -20,34 +20,70 @@ before being written to disk (e.g. \code{deployments.csv.gz}).}
 }
 \description{
 Writes a Data Package and its related Data Resources to disk as a
-\code{datapackage.json}.
-Depending how the data are attached to the Data Resource, the function will
-also write or copy these to CSV files.
+\code{datapackage.json} and CSV files.
 }
 \section{Writing data to CSV files}{
 
 
-For Data Resources added or replaced with \code{add_resource()}, with data
-attached as:
-\itemize{
-\item A data frame: data are written to a CSV file in \code{directory} using
-\code{readr::write_csv()} and \code{path} is added.
-The CSV file will have the same name as the resource and can be compressed
-with \code{compress = TRUE}.
-\item One or more paths to local CSV file(s): CSV file(s) are copied to
-\code{directory} and \code{path} is updated to the new location.
-\item URL(s) to CSV file(s): no CSV files are written.
+\code{write_package()} will write data to CSV files depending on how these are
+attached to the Data Resource:
+\subsection{Data frame}{
+
+\if{html}{\out{<div class="sourceCode R">}}\preformatted{add_resource(package, "media", data = df)
+}\if{html}{\out{</div>}}
+
+Data are \strong{written} to a CSV file in \code{directory} using \code{\link[readr:write_csv]{readr::write_csv()}}.
+The CSV file will have the same name as the resource, overwriting any
+existing file with the same name.
+Use \code{compress = TRUE} to gzip the CSV file.
 }
 
-For existing Data Resources that were not manipulated, with data attached as:
-\itemize{
-\item One or more paths to local CSV file(s): CSV file(s) are copied to
-\code{directory} and \code{path} is updated to the new location.
-Existing CSV files of the same name in \code{directory} are \emph{not overwritten}.
-This allows you to read and write a \code{datapackage.json} to the same
-directory, without altering the files of resources you did not manipulate.
-\item URL(s) to CSV file(s): no CSV files are written.
-\item Inline data: no CSV files are written.
+\subsection{One or more paths to local CSV files in a \emph{different directory}}{
+
+\if{html}{\out{<div class="sourceCode R">}}\preformatted{add_resource(package, "media", data = "other-directory/media.csv")
+}\if{html}{\out{</div>}}
+
+CSV files are \strong{copied} to \code{directory}, overwriting existing files with the
+same name.
+}
+
+\subsection{One or more paths to local CSV files in the \emph{same directory}}{
+
+\if{html}{\out{<div class="sourceCode R">}}\preformatted{add_resource(package, "media", data = "directory/media.csv")
+}\if{html}{\out{</div>}}
+
+CSV files are left \strong{as is} (no overwrite).
+This allows you to read and write a \code{datapackage.json} to the same directory,
+without altering the CSV files of resources you did not manipulate.
+}
+
+\subsection{One or more URLs to CSV files}{
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{add_resource(package, "media", data = "https://example.org/media.csv")
+}\if{html}{\out{</div>}}
+
+Files are \strong{not downloaded}.
+}
+
+\subsection{Mix of URLs and paths to CSV files}{
+
+\if{html}{\out{<div class="sourceCode R">}}\preformatted{add_resource(
+  package, "media",
+  data = c("https://example.org/media.csv", "media.csv")
+)
+}\if{html}{\out{</div>}}
+
+Remote CSV files are \strong{downloaded} to \code{directory}, overwriting existing
+files with the same name.
+Local CSV files are handled as described above.
+}
+
+\subsection{Inline data}{
+
+\strong{No files are written}.
+
+In all above cases \code{path} is added or updated to the new file location(s)
+when appropriate.
 }
 }
 
