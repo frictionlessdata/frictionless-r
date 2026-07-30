@@ -58,21 +58,19 @@ test_that("write_package() writes unaltered datapackage.json as is", {
   expect_identical(json_as_written, json_original)
 })
 
-test_that("write_package() overwrite behaviour is as expected", {
+test_that("write_package() overwrites files only if necessary", {
   skip_if_offline()
 
   # P0 - Create local data package with resource "df"
-  df <- data.frame(
-    deployment_id = 1:3,
-    ind_names = c("Shakira", "Tony", "Claire")
-  )
   p0 <- create_package() |>
     add_resource("df", df) |>
     add_resource("media", test_path("data/media.csv"))
 
   dir <- "bla" # file.path(tempdir(), "package")
+  dir <- file.path(tempdir(), "package")
   on.exit(unlink(dir, recursive = TRUE))
   suppressMessages(write_package(p0, dir))
+  df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
 
   # Read filestamps
   p0_media_mtime <- file.info(file.path(dir, "media.csv"))$mtime
@@ -122,7 +120,7 @@ test_that("write_package() copies file(s) for path = local in local package", {
     "main/inst/extdata/v1/observations_1.tsv"
   )
   p <- add_resource(p, "new", test_path("data/df.csv"))
-  dir <- "fail" #file.path(tempdir(), "package")
+  dir <- file.path(tempdir(), "package")
   on.exit(unlink(dir, recursive = TRUE))
   p_written <- suppressMessages(write_package(p, dir))
 
