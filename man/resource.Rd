@@ -2,24 +2,47 @@
 % Please edit documentation in R/resource.R
 \name{resource}
 \alias{resource}
-\title{Get a Data Resource}
+\alias{resource<-}
+\title{Get or overwrite a Data Resource}
 \usage{
 resource(package, resource_name)
+
+resource(package, resource_name) <- value
 }
 \arguments{
 \item{package}{Data Package object, as returned by \code{\link[=read_package]{read_package()}} or
 \code{\link[=create_package]{create_package()}}.}
 
 \item{resource_name}{Name of the Data Resource.}
+
+\item{value}{Value to assign.}
 }
 \value{
-List describing a Data Resource, with new attribute \code{data_location}
-to indicate how the data are attached.
-If present, \code{path} will be updated to contain the full path(s).
+List describing a Data Resource.
+
+\code{package} with overwritten resource.
 }
 \description{
-Returns a Data Resource from a Data Package, i.e. the content of one of the
-described \code{resources}.
+Gets or overwrites a Data Resource from/in a Data Package.
+These functions are \strong{designed for internal use in other packages}.
+For public manipulation of resources, use \code{\link[=add_resource]{add_resource()}} and
+\code{\link[=remove_resource]{remove_resource()}}.
+
+\code{resource()} gets a Data Resource from a Data Package by its name.
+The returned value will be a list describing a Data Resource, with a new
+attribute \code{data_location} to indicate how the data are attached.
+If present, \code{path} will be updated to the full path(s).
+
+\verb{resource<-} overwrites a Data Resource in Data Package with a new value.
+The assigned value will typically be a resource obtained with
+\code{resource()} and then manipulated.
+The assignment function will therefore revert internal changes made by
+\code{resource()} (i.e. removing the attribute \code{data_location} and updating paths
+to the original values).
+The assigned value is otherwise \strong{not validated}, so use with care.
+}
+\details{
+See \code{vignette("data-resource")} to learn more about Data Resource.
 }
 \examples{
 # Load the example Data Package
@@ -28,6 +51,12 @@ package <- example_package()
 # Get the resource "deployments"
 resource <- resource(package, "deployments")
 str(resource)
+
+# Update the resource
+resource$description <- "A table with camera trap deployments."
+
+# Overwrite the resource
+resource(package, "deployments") <- resource
 }
 \seealso{
 Other accessor functions:
