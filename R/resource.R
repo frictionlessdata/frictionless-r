@@ -12,8 +12,9 @@
 #' If present, `path` will be updated to the full path(s).
 #'
 #' `resource<-` overwrites a Data Resource in Data Package with a new value.
-#' The assigned value will typically be obtained with `resource()` and then
-#' manipulated, so the function will revert internal changes made by
+#' The assigned value will typically be a resource obtained with `resource()`
+#' and then manipulated.
+#' The assignment function will therefore revert internal changes made by
 #' `resource()` (i.e. removing the attribute `data_location` and updating paths
 #' to the original values).
 #' The assigned value is otherwise **not validated**, so use with care.
@@ -34,7 +35,7 @@
 #' str(resource)
 #'
 #' # Update the resource
-#' resource$title <- "Camera trap deployments"
+#' resource$description <- "A table with camera trap deployments."
 #'
 #' # Overwrite the resource
 #' resource(package, "deployments") <- resource
