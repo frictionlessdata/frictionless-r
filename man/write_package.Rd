@@ -27,45 +27,39 @@ Writes a Data Package and its related Data Resources to disk as a
 
 \code{write_package()} will write data to CSV files depending on how these are
 attached to the Data Resource:
-\subsection{Data frame}{
+\itemize{
+\item \strong{Data frame}:
 
 \if{html}{\out{<div class="sourceCode R">}}\preformatted{add_resource(package, "media", data = df)
 }\if{html}{\out{</div>}}
 
-Data are \strong{written} to a CSV file in \code{directory} using \code{\link[readr:write_csv]{readr::write_csv()}}.
+Data are written to a CSV file in \code{directory} using \code{\link[readr:write_csv]{readr::write_csv()}}.
 The CSV file will have the same name as the resource, overwriting any
 existing file with the same name.
 Use \code{compress = TRUE} to gzip the CSV file.
-}
-
-\subsection{One or more paths to local CSV files in a \emph{different directory}}{
+\item One or more \strong{paths} to local CSV files in a \strong{different directory}:
 
 \if{html}{\out{<div class="sourceCode R">}}\preformatted{add_resource(package, "media", data = "other-directory/media.csv")
 }\if{html}{\out{</div>}}
 
-CSV files are \strong{copied} to \code{directory}, overwriting existing files with the
-same name.
-}
-
-\subsection{One or more paths to local CSV files in the \emph{same directory}}{
+CSV files are copied to \code{directory}, overwriting existing files with
+the same name.
+\item One or more \strong{paths} to local CSV files in the \strong{same directory}:
 
 \if{html}{\out{<div class="sourceCode R">}}\preformatted{add_resource(package, "media", data = "directory/media.csv")
 }\if{html}{\out{</div>}}
 
-CSV files are left \strong{as is} (no overwrite).
-This allows you to read and write a \code{datapackage.json} to the same directory,
-without altering the CSV files of resources you did not manipulate.
-}
-
-\subsection{One or more URLs to CSV files}{
+CSV files are left as is (no overwrite).
+This allows you to read and write a \code{datapackage.json} to the same
+directory, without altering the CSV files of resources you did not
+manipulate.
+\item One or more \strong{URLs} to CSV files:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{add_resource(package, "media", data = "https://example.org/media.csv")
 }\if{html}{\out{</div>}}
 
-Files are \strong{not downloaded}.
-}
-
-\subsection{Mix of URLs and paths to CSV files}{
+Files are not downloaded.
+\item Mix of \strong{URLs and paths} to CSV files
 
 \if{html}{\out{<div class="sourceCode R">}}\preformatted{add_resource(
   package, "media",
@@ -73,18 +67,14 @@ Files are \strong{not downloaded}.
 )
 }\if{html}{\out{</div>}}
 
-Remote CSV files are \strong{downloaded} to \code{directory}, overwriting existing
+Remote CSV files are downloaded to \code{directory}, overwriting existing
 files with the same name.
 Local CSV files are handled as described above.
+\item \strong{Inline data}: No files are written.
 }
-
-\subsection{Inline data}{
-
-\strong{No files are written}.
 
 In all above cases \code{path} is added or updated to the new file location(s)
 when appropriate.
-}
 }
 
 \examples{
