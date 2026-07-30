@@ -35,10 +35,13 @@
 #' str(resource)
 #'
 #' # Update the resource
-#' resource$description <- "A table with camera trap deployments."
+#' resource$description <- "Table with deployments."
 #'
 #' # Overwrite the resource
 #' resource(package, "deployments") <- resource
+#'
+#' # Updating a resource property can also be done in one step
+#' resource(package, "deployments")$description <- "Table with deployments."
 resource <- function(package, resource_name) {
   # Check package
   check_package(package)
