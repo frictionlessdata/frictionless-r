@@ -60,7 +60,7 @@ test_that("write_package() writes unaltered datapackage.json as is", {
 
 test_that("write_package() overwrites files only if necessary", {
   skip_if_offline()
-  dir <- "output"
+  dir <- "output" # file.path(tempdir(), "package") fails on Windows :-/
   on.exit(unlink(dir, recursive = TRUE))
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
 
