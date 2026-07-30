@@ -4,20 +4,20 @@
 
 * New `version()` determines what version of the Data Package standard is used by a Data Package (e.g. `"1.0"`, `"2.0"`, `">=2.0"`), based on the presence and value of the `$schema` property (#299). This information is also returned by `print()` (#302).
 * `read_package()` now warns when reading a `datapackage.json` that uses a version of the Data Package standard not supported by frictionless (i.e. anything other than version `"1.0"`) (#309).
+* `read_resource()` no longer guesses the type for fields without a `type`, but sets it to character (the default for a CSV). This aligns with a clarification in the [specification](https://datapackage.org/overview/changelog/#any-field-type-updated) (#296).
 * `read_resource()` now supports reading from remote zip files, thanks to support in `{vroom}` (1.3.0) (#291).
-* `write_package()` now prints multiple `resource$path`, `resource$schema$missingValues` and `field$constraints$enum` on multiple lines in the `datapackage.json` (#297).
-* `write_package()`'s overwrite behavior is as intended and now documented in the function (#313).
 * `add_resource()` with `replace = TRUE` adds the resource if there is none to replace, rather than throwing an error (#273).
 * `add_resource()` now retains the URL to a provided schema, rather than including it verbosely (#305).
+* `write_package()`'s overwrite behavior is now as intended and documented in the function (#304, #313).
+* `write_package()` now prints multiple `resource$path`, `resource$schema$missingValues` and `field$constraints$enum` on multiple lines in the `datapackage.json` (#297).
 * `resources()` is soft-deprecated, please use `resource_names()` instead (#282).
 * `get_schema()` is soft-deprecated, please use `schema()` instead (#282).
-* For fields without a `type`, the data type is no longer guessed, but set to character (the default for a CSV). This aligns with a clarification in the [specification](https://datapackage.org/overview/changelog/#any-field-type-updated) (#296).
 
 ## Changes for developers
 
 * frictionless now relies on R >= 4.1.0 (because of an indirect `{vroom}` dependency) (#291) and uses base pipes (`|>` rather than `%>%`) (#292).
 * `resource()` is now a public function, making it possible to get a resource object (i.e. a list) by its name. This is especially useful if you want to implement reading functionality not supported by frictionless (#303).
-* New `resource()<-` allows to overwrite a resource, e.g. with one retrieved with `resource()` (#314).
+* New `resource()<-` allows to overwrite a resource in place (#314).
 * Internal frictionless properties `package$directory` and `resource$read_from` are now _attributes_ `attr(package, "directory")` and `attr(resource, "data_location")`. This separates them better from public Data Package and Resource _properties_ (#289). Saved Data Package objects created with previous versions of frictionless will show a deprecation warning (#293) and can be updated with `create_package()`. If you use these internal properties in your R package, then change them:
 
   ```R
