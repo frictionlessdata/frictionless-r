@@ -39,6 +39,6 @@ test_that("version() returns >=2.0 for invalid $schema", {
 test_that("version() returns correct version for example packages", {
   p_1.0 <- example_package(version = "1.0")
   expect_equal(version(p_1.0), "1.0")
-  p_2.0 <- example_package(version = "2.0")
+  p_2.0 <- suppressWarnings(example_package(version = "2.0"))
   expect_equal(version(p_2.0), "2.0")
 })

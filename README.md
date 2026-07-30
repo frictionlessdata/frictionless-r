@@ -142,9 +142,9 @@ object-oriented design and offers validation.
 frictionless on the other hand allows you to quickly read and write Data
 Packages to and from data frames, getting out of the way for the rest of
 your analysis. It is designed to be lightweight, follows
-[tidyverse](https://www.tidyverse.org/) principles and supports piping.
-Its validation functionality is limited to what is needed for reading
-and writing, see
+[tidyverse](https://tidyverse.org/) principles and supports piping. Its
+validation functionality is limited to what is needed for reading and
+writing, see
 [frictionless-py](https://github.com/frictionlessdata/frictionless-py)
 for extensive validation.
 
