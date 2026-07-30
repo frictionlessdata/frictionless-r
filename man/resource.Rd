@@ -34,8 +34,8 @@ attribute \code{data_location} to indicate how the data are attached.
 If present, \code{path} will be updated to the full path(s).
 
 \verb{resource<-} overwrites a Data Resource in Data Package with a new value.
-The assigned value will typically be a resource obtained with
-\code{resource()} and then manipulated.
+The assigned value will typically be a resource obtained with \code{resource()}
+and then manipulated.
 The assignment function will therefore revert internal changes made by
 \code{resource()} (i.e. removing the attribute \code{data_location} and updating paths
 to the original values).
@@ -53,10 +53,13 @@ resource <- resource(package, "deployments")
 str(resource)
 
 # Update the resource
-resource$description <- "A table with camera trap deployments."
+resource$description <- "Table with deployments."
 
 # Overwrite the resource
 resource(package, "deployments") <- resource
+
+# Updating a resource property can also be done in one step
+resource(package, "deployments")$description <- "Table with deployments."
 }
 \seealso{
 Other accessor functions:

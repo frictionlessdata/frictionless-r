@@ -30,6 +30,13 @@ test_that("resource()<- allows overwriting a resource", {
   expect_identical(p$resources[[1]]$title, "Custom title")
 })
 
+test_that("resource()$property<- allows overwriting a resource property", {
+  skip_if_offline()
+  p <- example_package()
+  resource(p, "deployments")$title <- "Custom title"
+  expect_identical(p$resources[[1]]$title, "Custom title")
+})
+
 test_that("resource()<- allows overwriting with NULL, removing the resource", {
   skip_if_offline()
   p <- p_assigned <- example_package()
