@@ -14,8 +14,8 @@
 #' @param data Data to attach, either a data frame or path(s) to CSV file(s):
 #'   - Data frame: attached to the resource as `data` and written to a CSV file
 #'     when using [write_package()].
-#'   - One or more paths to CSV file(s) as a character (vector): added to the
-#'     resource as `path`.
+#'   - One or more paths or URLs to CSV file(s) as a character (vector): added
+#'     to the resource as `path`.
 #'     The last file will be read with [readr::read_delim()] to create or
 #'     compare with `schema` and to set `format`, `mediatype` and `encoding`.
 #'     The other files are ignored, but are expected to have the same structure
@@ -145,12 +145,13 @@ add_resource <- function(package, resource_name, data, schema = NULL,
     )
   }
 
-  # Create schema
-  if (is.null(schema)) {
-    schema <- create_schema(df)
-  } else if (is.character(schema)) {
-    # Path to schema can be unsafe, since schema will be verbosely included
+  # Read schema if path or URL, create schema if undefined (leave as is if list)
+  schema_url <- NULL
+  if (is.character(schema)) {
+    schema_url <- if (is_url(schema)) schema # Keep original URL
     schema <- read_descriptor(schema, safe = FALSE)
+  } else if (is.null(schema)) {
+    schema <- create_schema(df)
   }
 
   # Check schema (also checks df)
@@ -190,7 +191,7 @@ add_resource <- function(package, resource_name, data, schema = NULL,
       encoding = NULL,
       dialect = NULL,
       ...,
-      schema = schema
+      schema = schema_url %||% schema
     )
   } else {
     resource <- list(
@@ -202,7 +203,7 @@ add_resource <- function(package, resource_name, data, schema = NULL,
       encoding = if (encoding == "ASCII") "UTF-8" else encoding, # UTF-8 = safer
       dialect = NULL,
       ...,
-      schema = schema
+      schema = schema_url %||% schema
     )
     # Add CSV dialect for non-default delimiter or remove it
     resource$dialect <- if (delim != ",") list(delimiter = delim) else NULL

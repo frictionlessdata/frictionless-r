@@ -60,7 +60,7 @@ check_package <- function(package) {
       what = I("`package$directory`"),
       details = cli::format_inline(
         "This Data Package object was created with an older version of
-           frictionless. Update it with {.fun create_package}."
+         {.pkg frictionless}. Update it with {.fun create_package}."
       )
     )
   } else if (!is.character(attr(package, "directory"))) {
