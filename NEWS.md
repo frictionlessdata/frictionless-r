@@ -1,6 +1,6 @@
 # frictionless 1.3.0
 
-## For users
+## Changes for users
 
 * New `version()` determines what version of the Data Package standard is used by a Data Package (e.g. `"1.0"`, `"2.0"`, `">=2.0"`), based on the presence and value of the `$schema` property (#299). This information is also returned by `print()` (#302).
 * `read_package()` now warns when reading a `datapackage.json` that uses a version of the Data Package standard not supported by frictionless (i.e. anything other than version `"1.0"`) (#309).
