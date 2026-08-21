@@ -10,6 +10,8 @@
 #' The returned value will be a list describing a Data Resource, with a new
 #' attribute `data_location` to indicate how the data are attached.
 #' If present, `path` will be updated to the full path(s).
+#' A resource defined in Data Package standard v1, will silently be **upgraded
+#' to v2**.
 #'
 #' `resource<-` overwrites a Data Resource in Data Package with a new value.
 #' The assigned value will typically be a resource obtained with `resource()`
@@ -60,6 +62,9 @@ resource <- function(package, resource_name) {
 
   # Get resource
   resource <- purrr::keep(package$resources, ~ .x$name == resource_name)[[1]]
+
+  # Upgrade resource to v2
+  resource <- upgrade_resource(resource)
 
   # Check that path or data are set
   # https://specs.frictionlessdata.io/data-resource/#data-location

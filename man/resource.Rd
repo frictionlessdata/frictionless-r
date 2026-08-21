@@ -32,6 +32,8 @@ For public manipulation of resources, use \code{\link[=add_resource]{add_resourc
 The returned value will be a list describing a Data Resource, with a new
 attribute \code{data_location} to indicate how the data are attached.
 If present, \code{path} will be updated to the full path(s).
+A resource defined in Data Package standard v1, will silently be \strong{upgraded
+to v2}.
 
 \verb{resource<-} overwrites a Data Resource in Data Package with a new value.
 The assigned value will typically be a resource obtained with \code{resource()}
