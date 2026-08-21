@@ -21,7 +21,7 @@
 #' str(schema)
 schema <- function(package, resource_name) {
   # Get resource
-  resource <- resource(package, resource_name, upgrade = TRUE)
+  resource <- resource(package, resource_name)
 
   # Check resource is tabular (expected for resources with schema)
   if (resource$type %||% "" != "table") {
