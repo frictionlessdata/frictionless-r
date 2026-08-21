@@ -6,7 +6,7 @@
 #' @noRd
 read_from_path <- function(package, resource_name, col_select) {
   # Get resource, includes check_package()
-  resource <- resource(package, resource_name)
+  resource <- resource(package, resource_name, upgrade = TRUE)
 
   # Get paths, schema and fields
   paths <- resource$path

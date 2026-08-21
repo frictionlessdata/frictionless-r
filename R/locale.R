@@ -9,7 +9,7 @@
 #' @noRd
 locale <- function(package, resource_name) {
   # Get resource, includes check_package()
-  resource <- resource(package, resource_name)
+  resource <- resource(package, resource_name, upgrade = TRUE)
 
   # Get fields
   schema <- schema(package, resource_name)
