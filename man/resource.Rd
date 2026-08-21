@@ -5,7 +5,7 @@
 \alias{resource<-}
 \title{Get or overwrite a Data Resource}
 \usage{
-resource(package, resource_name)
+resource(package, resource_name, upgrade = FALSE)
 
 resource(package, resource_name) <- value
 }
@@ -14,6 +14,9 @@ resource(package, resource_name) <- value
 \code{\link[=create_package]{create_package()}}.}
 
 \item{resource_name}{Name of the Data Resource.}
+
+\item{upgrade}{If \code{TRUE}, updates a Data Resource defined in Data Package
+standard v1 to v2.}
 
 \item{value}{Value to assign.}
 }
@@ -32,8 +35,6 @@ For public manipulation of resources, use \code{\link[=add_resource]{add_resourc
 The returned value will be a list describing a Data Resource, with a new
 attribute \code{data_location} to indicate how the data are attached.
 If present, \code{path} will be updated to the full path(s).
-A resource defined in Data Package standard v1, will silently be \strong{upgraded
-to v2}.
 
 \verb{resource<-} overwrites a Data Resource in Data Package with a new value.
 The assigned value will typically be a resource obtained with \code{resource()}
