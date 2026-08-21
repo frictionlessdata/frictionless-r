@@ -2,18 +2,13 @@
 % Please edit documentation in R/version.R
 \name{version}
 \alias{version}
-\title{Get Data Package version}
+\title{Get Data Package standard version}
 \usage{
 version(x)
 }
 \arguments{
-\item{x}{A list describing either a:
-\itemize{
-\item Data Package.
-\item Data Resource.
-\item Table Dialect.
-\item Table Schema.
-}}
+\item{x}{A list describing either a Data Package, Data Resource, Table
+Dialect or Table Schema.}
 }
 \value{
 Data Package standard version number (e.g. \code{"1.0"}).

@@ -1,4 +1,4 @@
-#' Get Data Package version
+#' Get Data Package standard version
 #'
 #' Determines what version of the [Data Package standard](
 #' https://datapackage.org/) is used by a Data Package, Data Resource, Table
@@ -8,11 +8,8 @@
 #' assumed for custom values (e.g. [extensions](
 #' https://datapackage.org/standard/extensions/)).
 #'
-#' @param x A list describing either a:
-#' - Data Package.
-#' - Data Resource.
-#' - Table Dialect.
-#' - Table Schema.
+#' @param x A list describing either a Data Package, Data Resource, Table
+#'   Dialect or Table Schema.
 #' @returns Data Package standard version number (e.g. `"1.0"`).
 #' @family version functions
 #' @export
