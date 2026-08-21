@@ -9,7 +9,7 @@
 upgrade_resource <- function(resource) {
   version <- version(resource)
 
-  # Leave as is if already 2.0 or higher
+  # Leave resource as is if already 2.0 or higher
   if (version != "1.0") {
     return(resource)
   }
@@ -28,7 +28,8 @@ upgrade_resource <- function(resource) {
     resource$type <- "table"
   }
 
-  # Remove profile (ignores custom profiles, which are very rare for resources)
+  # Remove profile (https://specs.frictionlessdata.io/data-resource/#profile)
+  # This may remove URL to custom resource profile, but is seldom-used feature
   resource$profile <- NULL
 
   return(resource)
