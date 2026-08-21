@@ -1,5 +1,8 @@
 # frictionless (development version)
 
+* `resource()` now has an `upgrade` parameter, allowing to upgrade a resource from Data Package standard v1 to v2. This sets `$schema` and removes `resource$profile`. For tabular resources, `"type" = "table` is set. Upgrading is `FALSE` by default, to keep `resource()` and `resource()<-` interchangeable (#343).
+* `read_resource()` and `schema()` now silently upgrade a resource (#343).
+
 # frictionless 1.3.0
 
 ## Changes for users
