@@ -201,7 +201,7 @@ test_that("read_resource() returns error on invalid resource", {
     system.file("extdata", "v1", "datapackage.json", package = "frictionless")
   )
 
-  # Not a tabular-data-resource
+  # Not tabular
   expect_error(
     read_resource(p_invalid, "deployments"),
     class = "frictionless_error_resource_not_tabular"
@@ -209,14 +209,13 @@ test_that("read_resource() returns error on invalid resource", {
   expect_error(
     read_resource(p_invalid, "deployments"),
     regexp = paste(
-      "Resource \"deployments\" must have a profile property with value",
-      "\"tabular-data-resource\"."
+      "Resource \"deployments\" must have a type property with value \"table\"."
     ),
     fixed = TRUE
   )
 
   # No schema
-  p_invalid$resources[[1]]$profile <- "tabular-data-resource"
+  p_invalid$resources[[1]]$type <- "table"
   expect_error(
     read_resource(p_invalid, "deployments"),
     class = "frictionless_error_resource_without_schema"

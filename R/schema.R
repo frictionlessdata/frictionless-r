@@ -21,13 +21,13 @@
 #' str(schema)
 schema <- function(package, resource_name) {
   # Get resource
-  resource <- resource(package, resource_name)
+  resource <- resource(package, resource_name, upgrade = TRUE)
 
-  # Check resource is tabular-data-resource (expected for resources with schema)
-  if (resource$profile %||% "" != "tabular-data-resource") {
+  # Check resource is tabular (expected for resources with schema)
+  if (resource$type %||% "" != "table") {
     cli::cli_abort(
-      "Resource {.val {resource_name}} must have a {.field profile} property
-       with value {.val tabular-data-resource}.",
+      "Resource {.val {resource_name}} must have a {.field type} property
+       with value {.val table}.",
       class = "frictionless_error_resource_not_tabular"
     )
   }
