@@ -23,15 +23,6 @@ schema <- function(package, resource_name) {
   # Get resource
   resource <- resource(package, resource_name)
 
-  # Check resource is tabular (expected for resources with schema)
-  if (resource$type %||% "" != "table") {
-    cli::cli_abort(
-      "Resource {.val {resource_name}} must have a {.field type} property
-       with value {.val table}.",
-      class = "frictionless_error_resource_not_tabular"
-    )
-  }
-
   # Get schema
   if (is.null(resource$schema)) {
     cli::cli_abort(

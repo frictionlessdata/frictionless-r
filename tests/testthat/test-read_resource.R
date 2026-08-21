@@ -201,19 +201,6 @@ test_that("read_resource() returns error on invalid resource", {
     system.file("extdata", "v1", "datapackage.json", package = "frictionless")
   )
 
-  # Not tabular
-  expect_error(
-    read_resource(p_invalid, "deployments"),
-    class = "frictionless_error_resource_not_tabular"
-  )
-  expect_error(
-    read_resource(p_invalid, "deployments"),
-    regexp = paste(
-      "Resource \"deployments\" must have a type property with value \"table\"."
-    ),
-    fixed = TRUE
-  )
-
   # No schema
   p_invalid$resources[[1]]$type <- "table"
   expect_error(
