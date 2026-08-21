@@ -23,7 +23,7 @@ test_that("print.datapackage() informs about the version, resources and
   )
 
   # Version 2.0 with 3 resources
-  p <- suppressWarnings(example_package(version = "2.0"))
+  p <- example_package(version = "2.0")
   expect_output(
     print(p),
     regexp = paste(
