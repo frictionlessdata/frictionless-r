@@ -24,7 +24,7 @@ test_that("version() returns correct version for Data Package", {
   # Custom extensions
   package$`$schema` <- "https://custom.datapackage.org/package-profile.json"
   expect_equal(version(package), ">=2.0")
-  package$`$schema` <- "http://rs.tdwg.org/dwc-dp/1.0/dwc-dp-profile.json"
+  package$`$schema` <- "https://rs.tdwg.org/dwc-dp/1.0/dwc-dp-profile.json"
   expect_equal(version(package), ">=2.0")
 })
 
