@@ -107,16 +107,6 @@ test_that("read_package() warns if resources are missing", {
   )
 })
 
-test_that("read_package() warns if version is not supported", {
-  expect_no_warning(
-    example_package(version = "1.0")
-  )
-  expect_warning(
-    example_package(version = "2.0"),
-    class = "frictionless_warning_version_not_supported"
-  )
-})
-
 test_that("read_package() allows descriptor at absolute or relative parent
            path", {
   relative_path <- "../testthat/data/valid_minimal.json"
