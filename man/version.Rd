@@ -2,26 +2,37 @@
 % Please edit documentation in R/version.R
 \name{version}
 \alias{version}
-\title{Get Data Package version}
+\title{Get Data Package standard version}
 \usage{
-version(package)
+version(x)
 }
 \arguments{
-\item{package}{Data Package object, as returned by \code{\link[=read_package]{read_package()}} or
-\code{\link[=create_package]{create_package()}}.}
+\item{x}{A list describing either a Data Package, Data Resource, Table
+Dialect or Table Schema.}
 }
 \value{
-Data Package version number (e.g. \code{"1.0"}).
+Data Package standard version number (e.g. \code{"1.0"}).
 }
 \description{
-Determines what version of the \href{https://datapackage.org/}{Data Package standard} is used by a Data Package, based on the
-\href{https://datapackage.org/standard/data-package/#dollar-schema}{\verb{$schema}}
-property.
+Determines what version of the \href{https://datapackage.org/}{Data Package standard} is used by a Data Package, Data Resource, Table
+Dialect or Table Schema, based on the \href{https://datapackage.org/standard/data-package/#dollar-schema}{\verb{$schema}} property.
 Version \code{"1.0"} is assumed if \verb{$schema} is missing, version \code{">=2.0"} is
 assumed for custom values (e.g. \href{https://datapackage.org/standard/extensions/}{extensions}).
 }
 \examples{
+# Data Package
 package <- example_package()
 version(package)
+
+# Data Resource
+resource <- resource(package, "observations")
+version(resource)
+
+# Table Dialect
+version(resource$dialect)
+
+# Table Schema
+schema <- schema(package, "observations")
+version(schema)
 }
 \concept{version functions}

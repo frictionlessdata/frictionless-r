@@ -1,5 +1,7 @@
 # frictionless (development version)
 
+* `version()` is now generic and can report what version of the Data Package standard is used by a Data Package (as before), Data Resource, Table Dialect and Table Schema (#341).
+
 # frictionless 1.3.0
 
 ## Changes for users
