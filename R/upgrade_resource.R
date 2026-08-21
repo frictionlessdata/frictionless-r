@@ -14,21 +14,16 @@ upgrade_resource <- function(resource) {
     return(resource)
   }
 
-  # Set $schema: copy URL to custom profile, otherwise define as generic 2.0
-  profile <- resource$profile %||% ""
-  if (is_url(profile)) {
-    purrr::pluck(resource, "$schema") <- profile
-  } else {
-    purrr::pluck(resource, "$schema") <-
-      "https://datapackage.org/profiles/2.0/dataresource.json"
-  }
+  # Set $schema
+  purrr::pluck(resource, "$schema") <-
+    "https://datapackage.org/profiles/2.0/dataresource.json"
 
   # Set type if resource is tabular
   if (profile == "tabular-data-resource") {
     resource$type <- "table"
   }
 
-  # Remove profile
+  # Remove profile (ignores custom profiles, which are very rare for resources)
   resource$profile <- NULL
 
   return(resource)
