@@ -61,7 +61,7 @@ package$resources[[2]]$dialect$delimiter
 
 ### lineTerminator
 
-[`lineTerminator`](https://specs.frictionlessdata.io/csv-dialect/#specification) is ignored by `read_resource()`. It relies on `readr::read_delim()` instead, which interprets line terminator `LF` and `CRLF` automatically and does not support `CR` (used by Classic Mac OS, final release 2001).
+[`lineTerminator`](https://datapackage.org/standard/table-dialect/#lineTerminator) is ignored by `read_resource()`. It relies on `readr::read_delim()` instead, which interprets line terminator `LF` and `CRLF` automatically and does not support `CR` (used by Classic Mac OS, final release 2001).
 
 ### quoteChar
 
