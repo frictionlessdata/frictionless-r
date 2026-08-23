@@ -1,5 +1,6 @@
 # frictionless (development version)
 
+* `version()` is now generic and can report what version of the Data Package standard is used by a Data Package (as before), Data Resource, Table Dialect and Table Schema (#341).
 * `resource()` now has an `upgrade` parameter, allowing a resource to be upgraded from v1 to v2. This sets `$schema` and removes `profile`. Following the [specification](https://datapackage.org/standard/data-resource/#type), `"type" = "table"` is added for `"profile" = "tabular-data-resource"`. `resource()` does not upgrade by default, keeping `resource()` and `resource()<-` interchangeable (#343).
 * `read_resource()` and `schema()` no longer return an error if a resource is not defined as tabular (with `profile" = "tabular-data-resource"`). This aligns with the [specification](https://datapackage.org/standard/data-resource/#type) which relaxes defining `"type" = "table"` in v2. The function still expects a `schema` (#343).
 
