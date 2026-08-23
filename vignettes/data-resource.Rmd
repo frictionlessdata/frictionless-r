@@ -97,6 +97,10 @@ You can pipe most functions (see `vignette("data-package")`).
 
 ## Properties implementation
 
+### $schema
+
+[`$schema`](https://datapackage.org/standard/data-resource/#dollar-schema) indicates what version of the Data Resource standard is used (v1 if undefined). It is ignored by `read_resource()`. `add_resource()` sets `$schema` to `"https://datapackage.org/profiles/2.0/dataresource.json"` (the recommended v2 value).
+
 ### name
 
 [`name`](https://specs.frictionlessdata.io/data-resource/#name) is required. It is used to identify a resource in `read_resource()`, `add_resource()` and `remove_resource()` (always as the second argument):
@@ -164,8 +168,6 @@ package$resources[[4]]$data
 ### profile
 
 [`profile`](https://specs.frictionlessdata.io/data-resource/#profile) (a deprecated v1 property) is ignored by `read_resource()` and not set by `add_resource()`. `upgrade_package()` will convert `"profile" = "tabular-data-resource"` to `"type" = "table"`.
-
-<!-- ### $schema -->
 
 ### schema
 

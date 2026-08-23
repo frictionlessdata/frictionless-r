@@ -36,8 +36,8 @@
 #'   These are not verified against specifications and are ignored by
 #'   [read_resource()].
 #'   The following properties are automatically set and can't be provided with
-#'   `...`: `name`, `data`, `path`, `schema`, `type`, `format`, `mediatype`,
-#'   `encoding` and `dialect`.
+#'   `...`: `$schema`, `name`, `path`, `data`, `type`, `format`, `mediatype`,
+#'   `encoding`, `dialect` and `schema`.
 #' @returns `package` with one additional resource.
 #' @family edit functions
 #' @export
@@ -166,7 +166,8 @@ add_resource <- function(package, resource_name, data, schema = NULL,
   }
   properties <- get_dot_names(...)
   reserved_properties <- c(
-    "name", "path", "type", "format", "mediatype", "encoding", "dialect"
+    "$schema", "name", "path", "type", "format", "mediatype", "encoding",
+    "dialect"
   ) # data and schema are also reserved, but are named arguments
   conflicting_properties <- properties[properties %in% reserved_properties]
   if (length(conflicting_properties) != 0) {
@@ -183,6 +184,7 @@ add_resource <- function(package, resource_name, data, schema = NULL,
   # Create resource, with properties in specific order
   if (is.data.frame(data)) {
     resource <- list(
+      `$schema` = "https://datapackage.org/profiles/2.0/dataresource.json",
       name = resource_name,
       data = df,
       type = "table",
@@ -195,6 +197,7 @@ add_resource <- function(package, resource_name, data, schema = NULL,
     )
   } else {
     resource <- list(
+      `$schema` = "https://datapackage.org/profiles/2.0/dataresource.json",
       name = resource_name,
       path = paths,
       type = "table",
