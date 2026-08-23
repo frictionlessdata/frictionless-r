@@ -136,24 +136,24 @@ test_that("version() returns correct version for example package properties", {
   # Data Package
   expect_identical(version(p_1.0), "1.0")
   # Data Resource
-  expect_identical(version(p_1.0$resources[[1]]), "1.0")
+  expect_identical(version(resource(p_1.0, "deployments")), "1.0")
   # Data Dialect (undefined for deployments)
-  expect_identical(version(p_1.0$resources[[1]]$dialect), "1.0")
+  expect_identical(version(resource(p_1.0, "deployments")$dialect), "1.0")
   # Table Dialect (defined for observations)
-  expect_identical(version(p_1.0$resources[[2]]$dialect), "1.0")
+  expect_identical(version(resource(p_1.0, "observations")$dialect), "1.0")
   # Table Schema
-  expect_identical(version(p_1.0$resources[[1]]$schema), "1.0")
+  expect_identical(version(resource(p_1.0, "deployments")$schema), "1.0")
 
   p_2.0 <- example_package(version = "2.0")
 
   # Data Package
   expect_identical(version(p_2.0), "2.0")
   # Data Resource
-  expect_identical(version(p_2.0$resources[[1]]), "2.0")
+  expect_identical(version(resource(p_2.0, "deployments")), "2.0")
   # Data Dialect (undefined for deployments)
-  expect_identical(version(p_2.0$resources[[1]]$dialect), "1.0")
+  expect_identical(version(resource(p_2.0, "deployments")$dialect), "1.0")
   # Table Dialect (defined for observations)
-  expect_identical(version(p_2.0$resources[[2]]$dialect), "2.0")
+  expect_identical(version(resource(p_2.0, "observations")$dialect), "2.0")
   # Table Schema
-  expect_identical(version(p_2.0$resources[[1]]$schema), "2.0")
+  expect_identical(version(resource(p_2.0, "deployments")$schema), "2.0")
 })
