@@ -1,3 +1,16 @@
+test_that("resource() can upgrade a resource", {
+  skip_if_offline()
+  p <- example_package()
+  expect_identical(
+    version(resource(p, "deployments")),
+    "1.0"
+  )
+  expect_identical(
+    version(resource(p, "deployments", upgrade = TRUE)),
+    "2.0"
+  )
+})
+
 test_that("resource()<- returns a Data Package invisibly", {
   skip_if_offline()
   p <- example_package()
