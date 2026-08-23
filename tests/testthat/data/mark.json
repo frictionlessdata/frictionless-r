@@ -3,7 +3,7 @@
     {
       "name": "mark_default",
       "path": "mark_default.csv",
-      "profile": "tabular-data-resource",
+      "type": "table",
       "schema": {
         "fields": [
           {
@@ -21,7 +21,7 @@
     {
       "name": "mark_decimal",
       "path": "mark_decimal.csv",
-      "profile": "tabular-data-resource",
+      "type": "table",
       "schema": {
         "fields": [
           {
@@ -39,7 +39,7 @@
     {
       "name": "mark_decimal_group",
       "path": "mark_decimal_group.csv",
-      "profile": "tabular-data-resource",
+      "type": "table",
       "schema": {
         "fields": [
           {

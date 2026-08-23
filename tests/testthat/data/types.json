@@ -3,7 +3,7 @@
     {
       "name": "string",
       "path": "type_string.csv",
-      "profile": "tabular-data-resource",
+      "type": "table",
       "schema": {
         "fields": [
           {
@@ -26,7 +26,7 @@
     {
       "name": "number",
       "path": "type_number.csv",
-      "profile": "tabular-data-resource",
+      "type": "table",
       "schema": {
         "fields": [
           {
@@ -80,7 +80,7 @@
     {
       "name": "integer",
       "path": "type_integer.csv",
-      "profile": "tabular-data-resource",
+      "type": "table",
       "schema": {
         "fields": [
           {
@@ -118,7 +118,7 @@
     {
       "name": "boolean",
       "path": "type_boolean.csv",
-      "profile": "tabular-data-resource",
+      "type": "table",
       "schema": {
         "fields": [
           {
@@ -135,7 +135,7 @@
     {
       "name": "date",
       "path": "type_date.csv",
-      "profile": "tabular-data-resource",
+      "type": "table",
       "schema": {
         "fields": [
           {
@@ -178,7 +178,7 @@
     {
       "name": "time",
       "path": "type_time.csv",
-      "profile": "tabular-data-resource",
+      "type": "table",
       "schema": {
         "fields": [
           {
@@ -221,7 +221,7 @@
     {
       "name": "datetime",
       "path": "type_datetime.csv",
-      "profile": "tabular-data-resource",
+      "type": "table",
       "schema": {
         "fields": [
           {
@@ -254,7 +254,7 @@
     {
       "name": "other",
       "path": "type_other.csv",
-      "profile": "tabular-data-resource",
+      "type": "table",
       "schema": {
         "fields": [
           {
