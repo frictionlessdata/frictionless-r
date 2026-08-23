@@ -1,9 +1,9 @@
 # frictionless (development version)
 
 * `version()` is now generic and can report what version of the Data Package standard is used by a Data Package (as before), Data Resource, Table Dialect and Table Schema (#341).
-* `resource()` now has an `upgrade` parameter, allowing a resource to be upgraded from v1 to v2. This sets `$schema` and removes `profile`. Following the [specification](https://datapackage.org/standard/data-resource/#type), `"type" = "table"` is added for `"profile" = "tabular-data-resource"`. `resource()` does not upgrade by default, keeping `resource()` and `resource()<-` interchangeable (#343).
-* `read_resource()` and `schema()` no longer return an error if a resource is not defined as tabular (with `profile" = "tabular-data-resource"`). This aligns with the [specification](https://datapackage.org/standard/data-resource/#type) which relaxes defining `"type" = "table"` in v2. The function still expects a `schema` (#343).
-* `add_resource()` now sets `$schema` to the recommended v2 value and `"type" = "table"` rather than `profile" = "tabular-data-resource"` (#343).
+* `resource()` now has an `upgrade` parameter, allowing a resource to be upgraded from v1 to v2. This sets `$schema` and removes `profile`. Following the [specification](https://datapackage.org/standard/data-resource/#type), `"type": "table"` is added for `"profile": "tabular-data-resource"`. `resource()` does not upgrade by default, keeping `resource()` and `resource()<-` interchangeable (#343).
+* `read_resource()` and `schema()` no longer return an error if a resource is not defined as tabular (with `profile": "tabular-data-resource"`). This aligns with the [specification](https://datapackage.org/standard/data-resource/#type) which relaxes defining `"type": "table"` in v2. The function still expects a `schema` (#343).
+* `add_resource()` now sets `$schema` to the recommended v2 value and `"type": "table"` rather than `profile": "tabular-data-resource"` (#343).
 
 # frictionless 1.3.0
 
@@ -132,7 +132,7 @@
 * `add_resource()` now supports adding CSV file(s) directly as a resource. This skips reading/handling by R and gives users control over `path` (#74).
 * CSV files in a remotely read package (like `example_package`) are now downloaded when writing with `write_package()`, rather than being skipped. This is more consistent with locally read packages. The behaviour for resources with a `path` containing URLs (only) and resources with `data` remains the same (no files are written). The write behaviour is better explained in the documentation (#77).
 * `write_package()` now silently returns the output rather than input `package`.
-* `create_package()` will set `"profile" = "tabular-data-package"` since packages created by frictionless meet those requirements (#81).
+* `create_package()` will set `"profile": "tabular-data-package"` since packages created by frictionless meet those requirements (#81).
 * `create_schema()` interprets empty columns as `string` not `boolean` (#79).
 * `read_package()` can now read from a `datapackage.yaml` file.
 * `read_resource()` now accepts YAML Table Schemas and CSV dialects.
