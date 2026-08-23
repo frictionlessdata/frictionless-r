@@ -1,7 +1,9 @@
+# UPGRADE HELPER FUNCTIONS
+
 #' Upgrade a Data Resource object from v1 to v2
 #'
 #' @param resource List describing a Data Resource, as returned by [resource()].
-#' @returns Upgraded `resource` if v1, as is otherwise.
+#' @returns Upgraded `resource`.
 #' @family upgrade functions
 #' @noRd
 upgrade_resource <- function(resource) {
