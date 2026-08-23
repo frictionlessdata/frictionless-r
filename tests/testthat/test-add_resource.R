@@ -247,7 +247,7 @@ test_that("add_resource() adds resource", {
   p <- add_resource(p, "new_df", df)
   expect_length(p$resources, 4) # Remains a list, now of length 4
   expect_identical(p$resources[[4]][["name"]], "new_df")
-  expect_identical(p$resources[[4]][["profile"]], "tabular-data-resource")
+  expect_identical(p$resources[[4]][["type"]], "table")
   expect_identical(p$resources[[4]][["data"]], df)
   expect_identical(
     resource_names(p),
@@ -258,7 +258,7 @@ test_that("add_resource() adds resource", {
   p <- add_resource(p, "new_csv", df_csv)
   expect_length(p$resources, 5) # Remains a list, now of length 5
   expect_identical(p$resources[[5]][["name"]], "new_csv")
-  expect_identical(p$resources[[5]][["profile"]], "tabular-data-resource")
+  expect_identical(p$resources[[5]][["type"]], "table")
   expect_null(p$resources[[5]][["data"]])
   expect_identical(
     resource_names(p),

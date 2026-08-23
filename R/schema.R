@@ -4,7 +4,7 @@
 #' content of its `schema` property, describing the resource's fields, data
 #' types, relationships, and missing values.
 #' The resource must be a [Tabular Data Resource](
-#' https://specs.frictionlessdata.io/tabular-data-resource/).
+#' https://datapackage.org/standard/data-resource/#tabular).
 #'
 #' See `vignette("table-schema")` to learn more about Table Schema.
 #'

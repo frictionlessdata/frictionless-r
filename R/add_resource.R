@@ -2,7 +2,7 @@
 #'
 #' Adds a Data Resource to a Data Package.
 #' The resource will be a [Tabular Data Resource](
-#' https://specs.frictionlessdata.io/tabular-data-resource/).
+#' https://datapackage.org/standard/data-resource/#tabular).
 #' The resource name can only contain lowercase alphanumeric characters plus
 #' `.`, `-` and `_`.
 #'

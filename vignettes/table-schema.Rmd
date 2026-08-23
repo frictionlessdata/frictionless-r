@@ -23,7 +23,7 @@ In this document we use the terms "package" for Data Package, "resource" for Dat
 
 ## General implementation
 
-frictionless supports `schema$fields` and `schema$missingValues` to parse data types and missing values when reading [Tabular Data Resources](https://specs.frictionlessdata.io/tabular-data-resource/). Schema manipulation is limited to getting a schema from a resource, creating one from a data frame, and providing one back to a resource. Schema metadata is including when writing a package.
+frictionless supports `schema$fields` and `schema$missingValues` to parse data types and missing values when reading [Tabular Data Resources](https://datapackage.org/standard/data-resource/#tabular). Schema manipulation is limited to getting a schema from a resource, creating one from a data frame, and providing one back to a resource. Schema metadata is including when writing a package.
 
 ### Access
 
