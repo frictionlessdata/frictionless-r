@@ -273,7 +273,7 @@ test_that("add_resource() can replace an existing resource", {
     add_resource(p, "deployments", df, replace = TRUE)
   )
   p_replaced <- add_resource(p, "deployments", df, replace = TRUE)
-  expect_equal(resource_names(p), resource_names(p_replaced))
+  expect_identical(resource_names(p), resource_names(p_replaced))
 })
 
 test_that("add_resource() can add a new resource even with replace = TRUE", {
@@ -283,7 +283,7 @@ test_that("add_resource() can add a new resource even with replace = TRUE", {
     add_resource(p, "new_resource", df, replace = TRUE)
   )
   p_replaced <- add_resource(p, "new_resource", df, replace = TRUE)
-  expect_equal(c(resource_names(p), "new_resource"), resource_names(p_replaced))
+  expect_identical(c(resource_names(p), "new_resource"), resource_names(p_replaced))
 })
 
 test_that("add_resource() uses provided schema (list or path) or creates one", {
