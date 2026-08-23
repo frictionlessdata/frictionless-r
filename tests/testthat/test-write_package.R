@@ -358,7 +358,7 @@ test_that("write_package() sets correct properties for data frame resources", {
   # Added resource has correct properties
   expect_identical(resource_written$name, "new")
   expect_identical(resource_written$path, "new.csv")
-  expect_identical(resource_written$profile, "tabular-data-resource")
+  expect_identical(resource_written$type, "table")
   expect_identical(resource_written$format, "csv")
   expect_identical(resource_written$mediatype, "text/csv")
   expect_identical(resource_written$encoding, "utf-8")

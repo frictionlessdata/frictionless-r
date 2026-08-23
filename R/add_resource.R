@@ -36,7 +36,7 @@
 #'   These are not verified against specifications and are ignored by
 #'   [read_resource()].
 #'   The following properties are automatically set and can't be provided with
-#'   `...`: `name`, `data`, `path`, `schema`, `profile`, `format`, `mediatype`,
+#'   `...`: `name`, `data`, `path`, `schema`, `type`, `format`, `mediatype`,
 #'   `encoding` and `dialect`.
 #' @returns `package` with one additional resource.
 #' @family edit functions
@@ -166,7 +166,7 @@ add_resource <- function(package, resource_name, data, schema = NULL,
   }
   properties <- get_dot_names(...)
   reserved_properties <- c(
-    "name", "path", "profile", "format", "mediatype", "encoding", "dialect"
+    "name", "path", "type", "format", "mediatype", "encoding", "dialect"
   ) # data and schema are also reserved, but are named arguments
   conflicting_properties <- properties[properties %in% reserved_properties]
   if (length(conflicting_properties) != 0) {
@@ -185,7 +185,7 @@ add_resource <- function(package, resource_name, data, schema = NULL,
     resource <- list(
       name = resource_name,
       data = df,
-      profile = "tabular-data-resource", # Necessary for read_resource()
+      type = "table",
       format = NULL, # Will be set with write_resource()
       mediatype = NULL,
       encoding = NULL,
@@ -197,7 +197,7 @@ add_resource <- function(package, resource_name, data, schema = NULL,
     resource <- list(
       name = resource_name,
       path = paths,
-      profile = "tabular-data-resource", # Necessary for read_resource()
+      type = "table",
       format = if (delim == "\t") "tsv" else "csv",
       mediatype = if (delim == "\t") "text/tab-separated-values" else "text/csv",
       encoding = if (encoding == "ASCII") "UTF-8" else encoding, # UTF-8 = safer

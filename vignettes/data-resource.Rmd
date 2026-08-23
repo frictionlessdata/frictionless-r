@@ -157,13 +157,15 @@ package$resources[[4]]$data
 
 `write_package()` writes that data frame to a CSV file, adds its path to `path` and removes `data`.
 
-<!-- ### type -->
+### type
 
-<!-- ### $schema -->
+[`type`](https://datapackage.org/standard/data-resource/#type) is ignored by `read_resource()`. `add_resource()` sets `type` to `"table"` to indicate that the resource is [tabular](https://datapackage.org/standard/data-resource/#tabular).
 
 ### profile
 
-[`profile`](https://specs.frictionlessdata.io/data-resource/#profile) is required to have the value `"tabular-data-resource"`. `add_resource()` sets `profile` to that value.
+[`profile`](https://specs.frictionlessdata.io/data-resource/#profile) (a deprecated v1 property) is ignored by `read_resource()` and not set by `add_resource()`. `upgrade_package()` will convert `"profile" = "tabular-data-resource"` to `"type" = "table"`.
+
+<!-- ### $schema -->
 
 ### schema
 
