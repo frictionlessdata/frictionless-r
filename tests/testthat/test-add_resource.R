@@ -28,7 +28,7 @@ test_that("add_resource() allows any string as resource name and trims it", {
   )
   expect_contains(
     resource_names(add_resource(p, "  Nëw  re/source 4 ", df)),
-    "Nëw re/source 4" # Trimmed
+    "Nëw  re/source 4" # Trimmed
   )
 })
 
