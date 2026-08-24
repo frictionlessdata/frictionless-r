@@ -1,9 +1,10 @@
 {
   "resources": [
     {
+      "$schema": "https://datapackage.org/profiles/2.0/dataresource.json",
       "name": "mark_default",
       "path": "mark_default.csv",
-      "profile": "tabular-data-resource",
+      "type": "table",
       "schema": {
         "fields": [
           {
@@ -19,9 +20,10 @@
       }
     },
     {
+      "$schema": "https://datapackage.org/profiles/2.0/dataresource.json",
       "name": "mark_decimal",
       "path": "mark_decimal.csv",
-      "profile": "tabular-data-resource",
+      "type": "table",
       "schema": {
         "fields": [
           {
@@ -37,9 +39,10 @@
       }
     },
     {
+      "$schema": "https://datapackage.org/profiles/2.0/dataresource.json",
       "name": "mark_decimal_group",
       "path": "mark_decimal_group.csv",
-      "profile": "tabular-data-resource",
+      "type": "table",
       "schema": {
         "fields": [
           {

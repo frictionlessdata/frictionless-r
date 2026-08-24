@@ -23,7 +23,7 @@ In this document we use the terms "package" for Data Package, "resource" for Dat
 
 ## General implementation
 
-frictionless supports most dialect properties to read [Tabular Data Resources](https://specs.frictionlessdata.io/tabular-data-resource/). Dialect manipulation is limited to setting a `delimiter`. When writing resources, it (mainly) makes uses of default dialect properties, removing the necessity to define them.
+frictionless supports most dialect properties to read [Tabular Data Resources](https://datapackage.org/standard/data-resource/#tabular). Dialect manipulation is limited to setting a `delimiter`. When writing resources, it (mainly) makes uses of default dialect properties, removing the necessity to define them.
 
 ### Read
 
@@ -61,7 +61,7 @@ package$resources[[2]]$dialect$delimiter
 
 ### lineTerminator
 
-[`lineTerminator`](https://specs.frictionlessdata.io/csv-dialect/#specification) is ignored by `read_resource()`. It relies on `readr::read_delim()` instead, which interprets line terminator `LF` and `CRLF` automatically and does not support `CR` (used by Classic Mac OS, final release 2001).
+[`lineTerminator`](https://datapackage.org/standard/table-dialect/#lineTerminator) is ignored by `read_resource()`. It relies on `readr::read_delim()` instead, which interprets line terminator `LF` and `CRLF` automatically and does not support `CR` (used by Classic Mac OS, final release 2001).
 
 ### quoteChar
 

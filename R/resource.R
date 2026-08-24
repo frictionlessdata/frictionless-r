@@ -23,6 +23,8 @@
 #' See `vignette("data-resource")` to learn more about Data Resource.
 #'
 #' @inheritParams read_resource
+#' @param upgrade If `TRUE`, updates a Data Resource defined in Data Package
+#'   standard v1 to v2.
 #' @returns List describing a Data Resource.
 #' @family accessor functions
 #' @export
@@ -42,7 +44,7 @@
 #'
 #' # Updating a resource property can also be done in one step
 #' resource(package, "deployments")$description <- "Table with deployments."
-resource <- function(package, resource_name) {
+resource <- function(package, resource_name, upgrade = FALSE) {
   # Check package
   check_package(package)
 
@@ -60,6 +62,11 @@ resource <- function(package, resource_name) {
 
   # Get resource
   resource <- purrr::keep(package$resources, ~ .x$name == resource_name)[[1]]
+
+  # Upgrade resource
+  if (upgrade) {
+    resource <- upgrade_resource(resource)
+  }
 
   # Check that path or data are set
   # https://specs.frictionlessdata.io/data-resource/#data-location

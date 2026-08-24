@@ -50,15 +50,15 @@ to add to the resource, e.g. \verb{title = "My title", validated = FALSE}.
 These are not verified against specifications and are ignored by
 \code{\link[=read_resource]{read_resource()}}.
 The following properties are automatically set and can't be provided with
-\code{...}: \code{name}, \code{data}, \code{path}, \code{schema}, \code{profile}, \code{format}, \code{mediatype},
-\code{encoding} and \code{dialect}.}
+\code{...}: \verb{$schema}, \code{name}, \code{path}, \code{data}, \code{type}, \code{format}, \code{mediatype},
+\code{encoding}, \code{dialect} and \code{schema}.}
 }
 \value{
 \code{package} with one additional resource.
 }
 \description{
 Adds a Data Resource to a Data Package.
-The resource will be a \href{https://specs.frictionlessdata.io/tabular-data-resource/}{Tabular Data Resource}.
+The resource will be a \href{https://datapackage.org/standard/data-resource/#tabular}{Tabular Data Resource}.
 The resource name can only contain lowercase alphanumeric characters plus
 \code{.}, \code{-} and \verb{_}.
 }

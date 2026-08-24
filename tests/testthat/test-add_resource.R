@@ -246,8 +246,12 @@ test_that("add_resource() adds resource", {
   # df
   p <- add_resource(p, "new_df", df)
   expect_length(p$resources, 4) # Remains a list, now of length 4
+  expect_identical(
+    p$resources[[4]][["$schema"]],
+    "https://datapackage.org/profiles/2.0/dataresource.json"
+  )
   expect_identical(p$resources[[4]][["name"]], "new_df")
-  expect_identical(p$resources[[4]][["profile"]], "tabular-data-resource")
+  expect_identical(p$resources[[4]][["type"]], "table")
   expect_identical(p$resources[[4]][["data"]], df)
   expect_identical(
     resource_names(p),
@@ -257,8 +261,12 @@ test_that("add_resource() adds resource", {
   # csv
   p <- add_resource(p, "new_csv", df_csv)
   expect_length(p$resources, 5) # Remains a list, now of length 5
+  expect_identical(
+    p$resources[[5]][["$schema"]],
+    "https://datapackage.org/profiles/2.0/dataresource.json"
+  )
   expect_identical(p$resources[[5]][["name"]], "new_csv")
-  expect_identical(p$resources[[5]][["profile"]], "tabular-data-resource")
+  expect_identical(p$resources[[5]][["type"]], "table")
   expect_null(p$resources[[5]][["data"]])
   expect_identical(
     resource_names(p),
@@ -273,7 +281,7 @@ test_that("add_resource() can replace an existing resource", {
     add_resource(p, "deployments", df, replace = TRUE)
   )
   p_replaced <- add_resource(p, "deployments", df, replace = TRUE)
-  expect_equal(resource_names(p), resource_names(p_replaced))
+  expect_identical(resource_names(p), resource_names(p_replaced))
 })
 
 test_that("add_resource() can add a new resource even with replace = TRUE", {
@@ -283,7 +291,7 @@ test_that("add_resource() can add a new resource even with replace = TRUE", {
     add_resource(p, "new_resource", df, replace = TRUE)
   )
   p_replaced <- add_resource(p, "new_resource", df, replace = TRUE)
-  expect_equal(c(resource_names(p), "new_resource"), resource_names(p_replaced))
+  expect_identical(c(resource_names(p), "new_resource"), resource_names(p_replaced))
 })
 
 test_that("add_resource() uses provided schema (list or path) or creates one", {
