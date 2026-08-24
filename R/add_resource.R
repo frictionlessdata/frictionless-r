@@ -3,8 +3,6 @@
 #' Adds a Data Resource to a Data Package.
 #' The resource will be a [Tabular Data Resource](
 #' https://datapackage.org/standard/data-resource/#tabular).
-#' The resource name can only contain lowercase alphanumeric characters plus
-#' `.`, `-` and `_`.
 #'
 #' See `vignette("data-resource")` (and to a lesser extend
 #' `vignette("table-dialect")`) to learn how this function implements the
@@ -91,18 +89,6 @@ add_resource <- function(package, resource_name, data, schema = NULL,
   # Check package
   check_package(package)
 
-  # Check resource name
-  if (!grepl(resource_name, pattern = "^[a-z0-9\\._-]+$")) {
-    cli::cli_abort(
-      c(
-        "{.arg resource_name} must only consist of lowercase alphanumeric
-         characters, {.val .}, {.val -} and {.val _}.",
-        "x" = "{.val {resource_name}} does not meet those criteria."
-      ),
-      class = "frictionless_error_resource_name_invalid"
-    )
-  }
-
   # Check if replace is a logical value
   if (!is.logical(replace)) {
     cli::cli_abort(
@@ -110,6 +96,9 @@ add_resource <- function(package, resource_name, data, schema = NULL,
       class = "frictionless_error_replace_invalid"
     )
   }
+
+  # Trim leading and trailing spaces in resource name
+  resource_name <- trimws(resource_name)
 
   # Check resource does not exist yet for replace = FALSE
   if (!replace && resource_name %in% resource_names(package)) {

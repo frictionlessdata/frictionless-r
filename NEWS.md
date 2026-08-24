@@ -6,7 +6,7 @@ frictionless now uses [version 2](https://datapackage.org/) of the Data Package 
 
 * `read_resource()` and `schema()` no longer require `"profile": "tabular-data-resource"`. Nor do they require the new `"type": "table"` (which is optional in the specification). A `schema` is still expected (#343).
 * **Breaking!** `add_resource()` sets `$schema` and `type`. It no longer sets `profile`. This means that `add_resource()` will always create a v2 resource (#343).
-<!-- * `resource_name` is no longer limited to lowercase alphanumerical characters, but can be any string. -->
+* `add_resource()` now accepts any string as `resource_name`, rather than limiting to lowercase alphanumerical characters. It will trim leading and trailing spaces from the name (#344).
 
 A v2 resource will look like this:
 
