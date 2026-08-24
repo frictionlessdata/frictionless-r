@@ -1,9 +1,30 @@
 # frictionless (development version)
 
+frictionless now uses [version 2](https://datapackage.org/) of the Data Package specification.
+
+## Data Resource changes
+
+* `read_resource()` and `schema()` no longer require `"profile": "tabular-data-resource"`. Nor do they require the new `"type": "table"` (which is optional in the specification). A `schema` is still expected (#343).
+* **Breaking!** `add_resource()` sets `$schema` and `type`. It no longer sets `profile`. This means that `add_resource()` will always create a v2 resource (#343).
+<!-- * `resource_name` is no longer limited to lowercase alphanumerical characters, but can be any string. -->
+
+A v2 resource will look like this:
+
+```json
+{
+  "$schema": "https://datapackage.org/profiles/2.0/dataresource.json", <-- New
+  "name": "deployments", <-- Any string
+  "path": "deployments.csv",
+  "type": "table", <-- New, instead of "profile"
+  ...
+}
+```
+
+<!-- ## Upgrading v1 Data Packages -->
+
+## Other changes
+
 * `version()` is now generic and can report what version of the Data Package standard is used by a Data Package (as before), Data Resource, Table Dialect and Table Schema (#341).
-* `resource()` now has an `upgrade` parameter, allowing a resource to be upgraded from v1 to v2. This sets `$schema` and removes `profile`. Following the [specification](https://datapackage.org/standard/data-resource/#type), `"type": "table"` is added for `"profile": "tabular-data-resource"`. `resource()` does not upgrade by default, keeping `resource()` and `resource()<-` interchangeable (#343).
-* `read_resource()` and `schema()` no longer return an error if a resource is not defined as tabular (with `profile": "tabular-data-resource"`). This aligns with the [specification](https://datapackage.org/standard/data-resource/#type) which relaxes defining `"type": "table"` in v2. The function still expects a `schema` (#343).
-* `add_resource()` now sets `$schema` to the recommended v2 value and `"type": "table"` rather than `profile": "tabular-data-resource"` (#343).
 
 # frictionless 1.3.0
 
