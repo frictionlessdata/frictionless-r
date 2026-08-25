@@ -17,23 +17,17 @@ test_that("resource() returns resource in same version as provided", {
   expect_identical(version(resource(p_v2, "deployments")), "2.0")
 })
 
-  p_v1_assign <- p_v1 <- example_package(version = "1.0")
-  resource(p_v1_assign, "deployments")$name <- "custom name"
-
-  expect_identical(
-    version(resource(p_v1, "deployments")),
-    version(resource(p_v1_assign, "custom name"))
-  )
-
-  p_v2_assign <- p_v2 <- example_package(version = "2.0")
-  resource(p_v2_assign, "deployments")$name <- "custom name"
 test_that("resource()<- returns package and resource in same version as
            provided", {
+  p_v1 <- example_package(version = "1.0")
+  p_v2 <- example_package(version = "2.0")
+  resource(p_v1, "deployments")$name <- "custom_name"
+  resource(p_v2, "deployments")$name <- "custom_name"
 
-  expect_identical(
-    version(resource(p_v2, "deployments")),
-    version(resource(p_v2_assign, "custom name"))
-  )
+  expect_identical(version(p_v1), "1.0")
+  expect_identical(version(resource(p_v1, "custom_name")), "1.0")
+  expect_identical(version(p_v2), "2.0")
+  expect_identical(version(resource(p_v2, "custom_name")), "2.0")
 })
 
 test_that("resource()<- returns a Data Package invisibly", {
