@@ -44,7 +44,7 @@ test_that("create_package() sets directory or leaves as is", {
 })
 
 test_that("create_package() updates deprecated package$directory", {
-  p_directory <- example_package()
+  p_directory <- example_package(version = "2.0")
   p_directory$directory <- "not_default"
   attr(p_directory, "directory") <- NULL
   p_updated <- create_package(p_directory)
