@@ -235,7 +235,7 @@ any other type | `any`
 
 [`datetime`](https://datapackage.org/standard/table-schema/#datetime) is interpreted as `POSIXct`.
 
-- `format` is supported for the values `default` (ISO datetime), `any` (ISO datetime) and the same patterns as for `date` and `time`. The value `%c` is not supported.
+- `format` is supported for the values `default` (ISO datetime, with optional milliseconds and timezone), `any` (ISO datetime) and the same patterns as for `date` and `time`. The value `%c` is not supported.
 
 ### date
 
