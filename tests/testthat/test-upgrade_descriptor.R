@@ -20,6 +20,7 @@ test_that("upgrade_descriptor() sets $schema as first property", {
 
   # Ignore undefined
   p_v1$profile <- NULL
+  expect_identical(upgrade_descriptor(p_v1)$`$schema`, v2_profile)
   expect_identical(upgrade_descriptor(p_v1)[[1]], v2_profile)
 
   # Ignore default value

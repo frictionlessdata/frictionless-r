@@ -20,6 +20,7 @@ test_that("upgrade_resource() sets $schema as first property", {
 
   # Ignore undefined
   resource_v1$profile <- NULL
+  expect_identical(upgrade_resource(resource_v1)$`$schema`, v2_profile)
   expect_identical(upgrade_resource(resource_v1)[[1]], v2_profile)
 
   # Ignore default value
