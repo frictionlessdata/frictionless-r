@@ -1,4 +1,4 @@
-test_that("create_schema() returns a valid Table Schema", {
+test_that("create_schema() returns a valid schema", {
   df <- data.frame(
     "col_1" = c(1, 2),
     "col_2" = factor(c("a", "b"), levels = c("a", "b", "c"))

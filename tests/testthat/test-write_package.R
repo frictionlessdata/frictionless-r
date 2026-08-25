@@ -1,4 +1,4 @@
-test_that("write_package() returns output Data Package (invisibly)", {
+test_that("write_package() returns output package (invisibly)", {
   p <- example_package()
 
   # Note write_package() is expected to create directory without warning
@@ -14,14 +14,14 @@ test_that("write_package() returns output Data Package (invisibly)", {
   expect_identical(p_written, p_from_file)
 })
 
-test_that("write_package() returns error on invalid Data Package", {
+test_that("write_package() returns error on invalid package", {
   expect_error(
     write_package(list()),
     class = "frictionless_error_package_invalid"
   )
 })
 
-test_that("write_package() returns error if Data Package has no resource(s)", {
+test_that("write_package() returns error if package has no resource(s)", {
   p_empty <- create_package()
   dir <- file.path(tempdir(), "package")
   on.exit(unlink(dir, recursive = TRUE))

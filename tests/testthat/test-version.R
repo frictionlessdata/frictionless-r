@@ -1,4 +1,4 @@
-test_that("version() returns correct version for Data Package", {
+test_that("version() returns correct version for package", {
   package <- create_package()
 
   # Undefined $schema
@@ -28,7 +28,7 @@ test_that("version() returns correct version for Data Package", {
   expect_identical(version(package), ">=2.0")
 })
 
-test_that("version() returns correct version for Data Resource", {
+test_that("version() returns correct version for resource", {
   resource <- list(
     name = "custom_resource",
     path = "https://example.com/data.csv"
@@ -59,7 +59,7 @@ test_that("version() returns correct version for Data Resource", {
   expect_identical(version(resource), ">=2.0")
 })
 
-test_that("version() returns correct version for Table Dialect", {
+test_that("version() returns correct version for dialect", {
   # Entire dialect undefined => $schema is undefined => 1.0
   dialect <- NULL
   expect_identical(version(dialect), "1.0")
@@ -92,7 +92,7 @@ test_that("version() returns correct version for Table Dialect", {
   expect_identical(version(dialect), ">=2.0")
 })
 
-test_that("version() returns correct version for Table Schema", {
+test_that("version() returns correct version for schema", {
   schema <- list(
     fields = list()
   )
