@@ -3,6 +3,13 @@ test_that("remove_resource() returns a valid Data Package", {
   expect_no_error(check_package(remove_resource(p, "deployments")))
 })
 
+test_that("remove_resource() returns package in same version as provided", {
+  p_v1 <- example_package(version = "1.0")
+  p_v2 <- example_package(version = "2.0")
+  expect_identical(version(remove_resource(p_v1, "deployments")), "1.0")
+  expect_identical(version(remove_resource(p_v2, "deployments")), "2.0")
+})
+
 test_that("remove_resource() returns error on invalid Data Package", {
   expect_error(
     remove_resource(list(), "deployments"),
