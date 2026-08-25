@@ -1,5 +1,5 @@
 test_that("check_schema() returns schema invisibly on valid Table Schema", {
-  p <- example_package()
+  p <- example_package(version = "2.0")
 
   # Can't obtain df using read_resource(), because that function uses
   # check_schema() (in schema()) internally, which is what we want to test
