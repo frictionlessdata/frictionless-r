@@ -431,16 +431,14 @@ test_that("read_resource() understands missing values", {
 })
 
 test_that("read_resource() understands labelled missing values", {
-  # Use the v2 example package, because it already uses labelled missing values
-  p_v2 <- example_package(version = "2.0")
-  resource <- read_resource(p_v2, "deployments")
+  p <- example_package()
+  resource <- read_resource(p, "deployments")
 
   # Create package with non-default missing values
-  p_v2_missing <- p_v2
-  attr(p_v2_missing, "directory") <- "."
-  purrr::pluck(p_v2_missing, "resources", 1, "path") <-
+  p_missing <- p
+  attr(p_missing, "directory") <- "."
+  purrr::pluck(p_missing, "resources", 1, "path") <-
     test_path("data/deployments_missingvalues.csv")
-  p_v2_missing$resources[[1]]$schema$missingValues <-
     append(
       p_v2_missing$resources[[1]]$schema$missingValues,
       list(list(value = "ignore",
@@ -448,6 +446,7 @@ test_that("read_resource() understands labelled missing values", {
                 label = "This value can be ignored"))
     )
   expect_identical(read_resource(p_v2_missing, "deployments"), resource)
+  p_missing$resources[[1]]$schema$missingValues <-
 })
 
 test_that("read_resource() understands encoding", {
