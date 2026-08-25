@@ -36,7 +36,27 @@ upgrade_descriptor <- function(package) {
   resource$profile <- NULL
 
   # Update contributor roles
-  # TODO
+  contributors <- purrr::pluck(package, "contributor", .default = NULL)
+  ## Only update if there actually are any contributors
+  if(!is.null(contributors)){
+    purrr::pluck(package, "contributors") <-
+      purrr::map(
+        contributors,
+        \(ctb){
+          # Support both role and other values (roles):
+          if ("role" %in% names(ctb)) {
+            purrr::list_modify(
+              ctb,
+              roles = as.list(ctb$role),
+              role = purrr::zap()
+            )
+          } else {
+            # If contributors do not have a role, return them as is.
+            ctb
+          }
+        }
+      )
+  }
 }
 
 #' Upgrade a Data Resource object from v1 to v2
