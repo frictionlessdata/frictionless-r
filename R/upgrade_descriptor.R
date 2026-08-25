@@ -36,27 +36,23 @@ upgrade_descriptor <- function(package) {
   # Remove profile
   package$profile <- NULL
 
-  # Update contributor roles
-  contributors <- purrr::pluck(package, "contributor", .default = NULL)
-  ## Only update if there actually are any contributors
-  if(!is.null(contributors)){
-    purrr::pluck(package, "contributors") <-
-      purrr::map(
-        contributors,
-        \(ctb){
-          # Support both role and other values (roles):
-          if ("role" %in% names(ctb)) {
-            purrr::list_modify(
-              ctb,
-              roles = as.list(ctb$role),
-              role = purrr::zap()
-            )
-          } else {
-            # If contributors do not have a role, return them as is.
-            ctb
-          }
+  # Update contributor "role" = "value" to "roles" = ["value"]
+  contributors <- package$contributors
+  if (!is.null(contributors)) {
+    package$contributors <- purrr::map(
+      contributors,
+      function(contributor) {
+        if ("role" %in% names(contributor)) {
+          purrr::list_modify(
+            contributor,
+            roles = as.list(contributor$role), # Make array
+            role = purrr::zap()
+          )
+        } else {
+          contributor # Return as if contributor does not have role
         }
-      )
+      }
+    )
   }
 
   return(package)

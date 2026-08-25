@@ -46,3 +46,23 @@ test_that("upgrade_descriptor() sets $schema as first property", {
   p_v1$profile <- "unregistered-package"
   expect_identical(upgrade_descriptor(p_v1)[[1]], v2_profile)
 })
+
+test_that("upgrade_descriptor() updates contributor role to roles", {
+  p_v1 <- example_package(version = "1.0")
+
+  # Defined
+  p_v1$contributors <- list(
+    list(title = "First author", role = "author"),
+    list(title = "No role", custom_property = "custom"),
+    list(title = "Jack of all trades", roles = list("a", "b"))
+  )
+  p_upgraded <- upgrade_descriptor(p_v1)
+  expect_identical(p_upgraded$contributors[[1]]$roles, list("author")) # Added
+  expect_null(p_upgraded$contributors[[1]]$role) # Removed
+  expect_null(p_upgraded$contributors[[2]]$roles) # Not added
+  expect_identical(p_upgraded$contributors[[3]]$roles, list("a", "b")) # Kept
+
+  # Undefined
+  p_v1$contributors <- NULL
+  expect_null(upgrade_descriptor(p_v1)$contributors)
+})
