@@ -235,6 +235,17 @@ test_that("add_resource() adds resource", {
   )
 })
 
+test_that("add_resource() adds a v2 resource", {
+  p_v1 <- example_package(version = "1.0")
+  p_v2 <- example_package(version = "2.0")
+  df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
+  p_v1 <- add_resource(p_v1, "new", df)
+  p_v2 <- add_resource(p_v2, "new", df)
+
+  expect_identical(version(resource(p_v1, "new")), "2.0")
+  expect_identical(version(resource(p_v2, "new")), "2.0")
+})
+
 test_that("add_resource() can replace an existing resource", {
   p <- example_package()
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
