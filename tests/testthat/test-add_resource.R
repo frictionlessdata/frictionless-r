@@ -290,6 +290,7 @@ test_that("add_resource() uses provided schema (list or path) or creates one", {
 })
 
 test_that("add_resource() keeps URL schema as URL", {
+  skip_if_offline()
   p <- example_package()
   deployments <- read_resource(p, "deployments")
   schema_url <- file.path(

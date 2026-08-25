@@ -1,6 +1,4 @@
 test_that("resource() can upgrade a resource from v1 to v2", {
-  skip_if_offline()
-
   # Upgrade v1 if asked
   p_v1 <- example_package(version = "1.0")
   expect_identical(version(resource(p_v1, "deployments")), "1.0")
@@ -13,8 +11,6 @@ test_that("resource() can upgrade a resource from v1 to v2", {
 })
 
 test_that("resource() returns resource (in same version) as provided", {
-  skip_if_offline()
-
   p_v1 <- example_package(version = "1.0")
   expect_identical(
     version(resource(p_v1, "deployments")),
@@ -29,8 +25,6 @@ test_that("resource() returns resource (in same version) as provided", {
 })
 
 test_that("resource()<- returns schema (in same version) as provided", {
-  skip_if_offline()
-
   p_v1_assign <- p_v1 <- example_package(version = "1.0")
   resource(p_v1_assign, "deployments")$name <- "custom name"
 
@@ -49,7 +43,6 @@ test_that("resource()<- returns schema (in same version) as provided", {
 })
 
 test_that("resource()<- returns a Data Package invisibly", {
-  skip_if_offline()
   p <- example_package()
   expect_invisible(resource(p, "deployments") <- list(name = "deployments"))
 })
@@ -63,7 +56,6 @@ test_that("resource()<- returns error on invalid Data Package", {
 })
 
 test_that("resource()<- returns error when resource not found", {
-  skip_if_offline()
   p <- example_package()
   expect_error(
     resource(p, "no_such_resource") <- list(name = "assigned"),
@@ -72,7 +64,6 @@ test_that("resource()<- returns error when resource not found", {
 })
 
 test_that("resource()<- allows overwriting a resource", {
-  skip_if_offline()
   p <- example_package()
   resource <- resource(p, "deployments")
   resource$title <- "Custom title"
@@ -81,14 +72,12 @@ test_that("resource()<- allows overwriting a resource", {
 })
 
 test_that("resource()$property<- allows overwriting a resource property", {
-  skip_if_offline()
   p <- example_package()
   resource(p, "deployments")$title <- "Custom title"
   expect_identical(p$resources[[1]]$title, "Custom title")
 })
 
 test_that("resource()<- allows overwriting with NULL, removing the resource", {
-  skip_if_offline()
   p <- p_assigned <- example_package()
   resource(p_assigned, "deployments") <- NULL
   expect_identical(
@@ -98,7 +87,6 @@ test_that("resource()<- allows overwriting with NULL, removing the resource", {
 })
 
 test_that("resource()<- allows overwriting a resource with a different name", {
-  skip_if_offline()
   p <- example_package()
   resource(p, "deployments") <- list(name = "not_deployments")
   expect_identical(
