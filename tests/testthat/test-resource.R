@@ -1,3 +1,17 @@
+test_that("resource() can upgrade a resource from v1 to v2", {
+  skip_if_offline()
+
+  # Upgrade v1 if asked
+  p_v1 <- example_package()
+  expect_identical(version(resource(p_v1, "deployments")), "1.0")
+  expect_identical(version(resource(p_v1, "deployments", upgrade = TRUE)), "2.0")
+
+  # Leave v2 as is
+  p_v2 <- example_package(version = "2.0")
+  expect_identical(version(resource(p_v2, "deployments")), "2.0")
+  expect_identical(version(resource(p_v2, "deployments", upgrade = TRUE)), "2.0")
+})
+
 test_that("resource()<- returns a Data Package invisibly", {
   skip_if_offline()
   p <- example_package()

@@ -23,7 +23,7 @@ In this document we use the terms "package" for Data Package, "resource" for Dat
 
 ## General implementation
 
-frictionless supports getting, reading, manipulating and writing resources, but much of its functionality is limited to [Tabular Data Resources](https://specs.frictionlessdata.io/tabular-data-resource/).
+frictionless supports getting, reading, manipulating and writing resources, but much of its functionality is limited to [Tabular Data Resources](https://datapackage.org/standard/data-resource/#tabular).
 
 ### Access
 
@@ -97,6 +97,10 @@ You can pipe most functions (see `vignette("data-package")`).
 
 ## Properties implementation
 
+### $schema
+
+[`$schema`](https://datapackage.org/standard/data-resource/#dollar-schema) indicates what version of the Data Resource standard is used (v1 if undefined). It is ignored by `read_resource()`. `add_resource()` sets `$schema` to `"https://datapackage.org/profiles/2.0/dataresource.json"` (the recommended v2 value).
+
 ### name
 
 [`name`](https://specs.frictionlessdata.io/data-resource/#name) is required. It is used to identify a resource in `read_resource()`, `add_resource()` and `remove_resource()` (always as the second argument):
@@ -157,13 +161,13 @@ package$resources[[4]]$data
 
 `write_package()` writes that data frame to a CSV file, adds its path to `path` and removes `data`.
 
-<!-- ### type -->
+### type
 
-<!-- ### $schema -->
+[`type`](https://datapackage.org/standard/data-resource/#type) is ignored by `read_resource()`. `add_resource()` sets `type` to `"table"` to indicate that the resource is [tabular](https://datapackage.org/standard/data-resource/#tabular).
 
 ### profile
 
-[`profile`](https://specs.frictionlessdata.io/data-resource/#profile) is required to have the value `"tabular-data-resource"`. `add_resource()` sets `profile` to that value.
+[`profile`](https://specs.frictionlessdata.io/data-resource/#profile) (a deprecated v1 property) is ignored by `read_resource()` and not set by `add_resource()`. `upgrade_package()` will convert `"profile" = "tabular-data-resource"` to `"type" = "table"`.
 
 ### schema
 

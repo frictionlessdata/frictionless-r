@@ -19,7 +19,7 @@ List describing a Table Schema.
 Gets the Table Schema of a Data Resource (in a Data Package), i.e. the
 content of its \code{schema} property, describing the resource's fields, data
 types, relationships, and missing values.
-The resource must be a \href{https://specs.frictionlessdata.io/tabular-data-resource/}{Tabular Data Resource}.
+The resource must be a \href{https://datapackage.org/standard/data-resource/#tabular}{Tabular Data Resource}.
 }
 \details{
 See \code{vignette("table-schema")} to learn more about Table Schema.

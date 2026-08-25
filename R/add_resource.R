@@ -2,9 +2,7 @@
 #'
 #' Adds a Data Resource to a Data Package.
 #' The resource will be a [Tabular Data Resource](
-#' https://specs.frictionlessdata.io/tabular-data-resource/).
-#' The resource name can only contain lowercase alphanumeric characters plus
-#' `.`, `-` and `_`.
+#' https://datapackage.org/standard/data-resource/#tabular).
 #'
 #' See `vignette("data-resource")` (and to a lesser extend
 #' `vignette("table-dialect")`) to learn how this function implements the
@@ -36,8 +34,8 @@
 #'   These are not verified against specifications and are ignored by
 #'   [read_resource()].
 #'   The following properties are automatically set and can't be provided with
-#'   `...`: `name`, `data`, `path`, `schema`, `profile`, `format`, `mediatype`,
-#'   `encoding` and `dialect`.
+#'   `...`: `$schema`, `name`, `path`, `data`, `type`, `format`, `mediatype`,
+#'   `encoding`, `dialect` and `schema`.
 #' @returns `package` with one additional resource.
 #' @family edit functions
 #' @export
@@ -91,18 +89,6 @@ add_resource <- function(package, resource_name, data, schema = NULL,
   # Check package
   check_package(package)
 
-  # Check resource name
-  if (!grepl(resource_name, pattern = "^[a-z0-9\\._-]+$")) {
-    cli::cli_abort(
-      c(
-        "{.arg resource_name} must only consist of lowercase alphanumeric
-         characters, {.val .}, {.val -} and {.val _}.",
-        "x" = "{.val {resource_name}} does not meet those criteria."
-      ),
-      class = "frictionless_error_resource_name_invalid"
-    )
-  }
-
   # Check if replace is a logical value
   if (!is.logical(replace)) {
     cli::cli_abort(
@@ -110,6 +96,9 @@ add_resource <- function(package, resource_name, data, schema = NULL,
       class = "frictionless_error_replace_invalid"
     )
   }
+
+  # Trim leading and trailing spaces in resource name
+  resource_name <- trimws(resource_name)
 
   # Check resource does not exist yet for replace = FALSE
   if (!replace && resource_name %in% resource_names(package)) {
@@ -166,7 +155,8 @@ add_resource <- function(package, resource_name, data, schema = NULL,
   }
   properties <- get_dot_names(...)
   reserved_properties <- c(
-    "name", "path", "profile", "format", "mediatype", "encoding", "dialect"
+    "$schema", "name", "path", "type", "format", "mediatype", "encoding",
+    "dialect"
   ) # data and schema are also reserved, but are named arguments
   conflicting_properties <- properties[properties %in% reserved_properties]
   if (length(conflicting_properties) != 0) {
@@ -183,9 +173,10 @@ add_resource <- function(package, resource_name, data, schema = NULL,
   # Create resource, with properties in specific order
   if (is.data.frame(data)) {
     resource <- list(
+      `$schema` = "https://datapackage.org/profiles/2.0/dataresource.json",
       name = resource_name,
       data = df,
-      profile = "tabular-data-resource", # Necessary for read_resource()
+      type = "table",
       format = NULL, # Will be set with write_resource()
       mediatype = NULL,
       encoding = NULL,
@@ -195,9 +186,10 @@ add_resource <- function(package, resource_name, data, schema = NULL,
     )
   } else {
     resource <- list(
+      `$schema` = "https://datapackage.org/profiles/2.0/dataresource.json",
       name = resource_name,
       path = paths,
-      profile = "tabular-data-resource", # Necessary for read_resource()
+      type = "table",
       format = if (delim == "\t") "tsv" else "csv",
       mediatype = if (delim == "\t") "text/tab-separated-values" else "text/csv",
       encoding = if (encoding == "ASCII") "UTF-8" else encoding, # UTF-8 = safer

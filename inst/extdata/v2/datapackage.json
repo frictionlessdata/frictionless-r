@@ -18,10 +18,10 @@
   },
   "resources": [
     {
+      "$schema": "https://datapackage.org/profiles/2.0/dataresource.json",
       "name": "deployments",
       "path": "deployments.csv",
       "type": "table",
-      "$schema": "https://datapackage.org/profiles/2.0/dataresource.json",
       "title": "Camera trap deployments",
       "format": "csv",
       "mediatype": "text/csv",
@@ -88,13 +88,13 @@
       }
     },
     {
+      "$schema": "https://datapackage.org/profiles/2.0/dataresource.json",
       "name": "observations",
       "path": [
         "observations_1.tsv",
         "observations_2.tsv"
       ],
       "type": "table",
-      "$schema": "https://datapackage.org/profiles/2.0/dataresource.json",
       "title": "Camera trap observations",
       "format": "csv",
       "mediatype": "text/csv",
@@ -189,6 +189,7 @@
       }
     },
     {
+      "$schema": "https://datapackage.org/profiles/2.0/dataresource.json",
       "name": "media",
       "data": [
         {
@@ -214,7 +215,6 @@
         }
       ],
       "type": "table",
-      "$schema": "https://datapackage.org/profiles/2.0/dataresource.json",
       "title": "Camera trap media files",
       "schema": {
         "fields": [

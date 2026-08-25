@@ -201,22 +201,8 @@ test_that("read_resource() returns error on invalid resource", {
     system.file("extdata", "v1", "datapackage.json", package = "frictionless")
   )
 
-  # Not a tabular-data-resource
-  expect_error(
-    read_resource(p_invalid, "deployments"),
-    class = "frictionless_error_resource_not_tabular"
-  )
-  expect_error(
-    read_resource(p_invalid, "deployments"),
-    regexp = paste(
-      "Resource \"deployments\" must have a profile property with value",
-      "\"tabular-data-resource\"."
-    ),
-    fixed = TRUE
-  )
-
   # No schema
-  p_invalid$resources[[1]]$profile <- "tabular-data-resource"
+  p_invalid$resources[[1]]$type <- "table"
   expect_error(
     read_resource(p_invalid, "deployments"),
     class = "frictionless_error_resource_without_schema"
@@ -531,13 +517,14 @@ test_that("read_resource() handles LF and CRLF line terminator characters", {
   # LF    \n    Unix/Mac OS X
   # CR    \r    Max OS before X
   # CRLF  \r\n  Windows
-  # According to spec, only LF and CRLF are allowed by default, otherwise the
-  # dialect$lineTerminator should be used (with default CRLF)
-  # specs.frictionlessdata.io/tabular-data-resource/#csv-file-requirements
   #
   # Line terminator characters can be checked in terminal with:
   # $ file deployments_crlf.csv
   # deployments_crlf.csv: UTF-8 Unicode text, with CRLF line terminators
+  #
+  # Theoretically, dialect$lineTerminator should be defined for anything other
+  # than CRLF, though the v1 spec for Tabular Data Resource also allows LF
+  # specs.frictionlessdata.io/tabular-data-resource/#csv-file-requirements
   #
   # read_delim() however only handles 2 line terminator characters (LF and CRLF)
   # without explicitly indicating them, so dialect$lineTerminator is ignored

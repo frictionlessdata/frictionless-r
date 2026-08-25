@@ -25,7 +25,7 @@ frame.
 \description{
 Reads data from a Data Resource (in a Data Package) into a tibble (a
 Tidyverse data frame).
-The resource must be a \href{https://specs.frictionlessdata.io/tabular-data-resource/}{Tabular Data Resource}.
+The resource must be a \href{https://datapackage.org/standard/data-resource/#tabular}{Tabular Data Resource}.
 The function uses \code{\link[readr:read_delim]{readr::read_delim()}} to read CSV files, passing the
 resource properties \code{path}, CSV dialect, column names, data types, etc.
 Column names are taken from the provided Table Schema (\code{schema}), not from
