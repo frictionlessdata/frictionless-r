@@ -1,5 +1,21 @@
-test_that("write_package() returns output package (invisibly)", {
-  p <- example_package()
+test_that("write_package() returns output package v1 (invisibly)", {
+  p <- example_package(version = "1.0")
+
+  # Note write_package() is expected to create directory without warning
+  dir <- file.path(tempdir(), "package")
+  on.exit(unlink(dir, recursive = TRUE))
+  p_written <- suppressMessages(write_package(p, dir))
+  p_from_file <- read_package(file.path(dir, "datapackage.json"))
+
+  # p_from_file$directory will differ: overwrite to make the same
+  attr(p_from_file, "directory") <- attr(p_written, "directory")
+
+  expect_invisible(suppressMessages(write_package(p, dir)))
+  expect_identical(p_written, p_from_file)
+})
+
+test_that("write_package() returns output package v2 (invisibly)", {
+  p <- example_package(version = "2.0")
 
   # Note write_package() is expected to create directory without warning
   dir <- file.path(tempdir(), "package")
@@ -44,9 +60,23 @@ test_that("write_package() returns error if package has no resource(s)", {
   # Resources without path or data are tested in test-read_resource.R
 })
 
-test_that("write_package() writes unaltered datapackage.json as is", {
+test_that("write_package() writes unaltered datapackage.json v1 as is", {
   p_file <-
     system.file("extdata", "v1", "datapackage.json", package = "frictionless")
+  json_original <- readr::read_lines(p_file) # Will use line endings of system
+  p <- read_package(p_file)
+  dir <- file.path(tempdir(), "package")
+  on.exit(unlink(dir, recursive = TRUE))
+  suppressMessages(write_package(p, dir))
+  json_as_written <- readr::read_lines(file.path(dir, "datapackage.json"))
+
+  # Output json = input json. This also tests the json is printed "pretty"
+  expect_identical(json_as_written, json_original)
+})
+
+test_that("write_package() writes unaltered datapackage.json v2 as is", {
+  p_file <-
+    system.file("extdata", "v2", "datapackage.json", package = "frictionless")
   json_original <- readr::read_lines(p_file) # Will use line endings of system
   p <- read_package(p_file)
   dir <- file.path(tempdir(), "package")
