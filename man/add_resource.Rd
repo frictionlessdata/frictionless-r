@@ -59,8 +59,6 @@ The following properties are automatically set and can't be provided with
 \description{
 Adds a Data Resource to a Data Package.
 The resource will be a \href{https://datapackage.org/standard/data-resource/#tabular}{Tabular Data Resource}.
-The resource name can only contain lowercase alphanumeric characters plus
-\code{.}, \code{-} and \verb{_}.
 }
 \details{
 See \code{vignette("data-resource")} (and to a lesser extend
