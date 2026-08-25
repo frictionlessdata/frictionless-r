@@ -1,16 +1,18 @@
-test_that("create_package() creates a valid data package or returns error", {
-  new <- create_package()
-  expect_no_error(check_package(new))
+test_that("create_package() creates a valid v2 package", {
+  expect_identical(version(create_package()), "2.0")
 
-  existing <- create_package(
+  # Somewhat superfluous, since create_package() already calls check_package()
+  expect_no_error(check_package(create_package()))
+  expect_no_error(check_package(create_package(
     list(resources = list(), directory = "not_default")
-  )
-  expect_no_error(check_package(existing))
+  )))
+})
 
-  expect_error(
-    create_package(list(resources = "not_a_list")),
-    class = "frictionless_error_package_invalid"
-  )
+test_that("check_package() returns package in same version as provided", {
+  p_v1 <- example_package(version = "1.0")
+  p_v2 <- example_package(version = "2.0")
+  expect_identical(version(create_package(p_v1)), "1.0")
+  expect_identical(version(create_package(p_v2)), "2.0")
 })
 
 test_that("create_package() returns error on invalid descriptor", {
@@ -21,6 +23,10 @@ test_that("create_package() returns error on invalid descriptor", {
   expect_error(
     create_package("not_a_list"),
     regexp = "`descriptor` must be a list if provided."
+  )
+  expect_error(
+    create_package(list(resources = "not_a_list")),
+    class = "frictionless_error_package_invalid"
   )
 })
 
@@ -44,7 +50,7 @@ test_that("create_package() sets directory or leaves as is", {
 })
 
 test_that("create_package() updates deprecated package$directory", {
-  p_directory <- example_package(version = "2.0")
+  p_directory <- example_package()
   p_directory$directory <- "not_default"
   attr(p_directory, "directory") <- NULL
   p_updated <- create_package(p_directory)
@@ -59,9 +65,4 @@ test_that("create_package() adds class 'datapackage'", {
 
   existing <- create_package(list())
   expect_s3_class(new, "datapackage")
-})
-
-test_that("create_package() creates a v2 Data Package", {
-  new <- create_package()
-  expect_identical(version(new), "2.0")
 })

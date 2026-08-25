@@ -36,13 +36,13 @@ create_package <- function(descriptor = NULL) {
     )
   }
 
-  # If descriptor is NULL, create V2 descriptor with $schema property
+  # Initiate a v2 package when starting from scratch
   if (is.null(descriptor)) {
     purrr::pluck(descriptor, "$schema") <-
       "https://datapackage.org/profiles/2.0/datapackage.json"
   }
 
-  # Add resources property (also creates descriptor if NULL)
+  # Add resources property
   descriptor$resources <- descriptor$resources %||% list()
 
   # Add directory attribute (and remove deprecated package$directory)
