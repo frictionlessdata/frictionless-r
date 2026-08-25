@@ -22,6 +22,22 @@ test_that("check_schema() returns schema invisibly on valid Table Schema", {
   expect_invisible(check_schema(schema_create, df))
 })
 
+test_that("check_schema() returns schema (in same version) as provided", {
+  s_v1 <-
+    schema(
+      example_package(version = "1.0"),
+      resource_names(example_package(version = "1.0"))[[1]]
+    )
+  s_v2 <-
+    schema(
+      example_package(version = "2.0"),
+      resource_names(example_package(version = "2.0"))[[1]]
+    )
+
+  expect_identical(version(check_schema(s_v1)), version(s_v1))
+  expect_identical(version(check_schema(s_v2)), version(s_v2))
+})
+
 test_that("check_schema() returns error on invalid or empty Table Schema", {
   # Must be a list and have list property "fields"
   expect_error(
