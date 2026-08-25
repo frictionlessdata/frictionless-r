@@ -1,5 +1,5 @@
 test_that("check_schema() returns schema invisibly on valid Table Schema", {
-  p <- example_package(version = "2.0")
+  p <- example_package()
 
   # Can't obtain df using read_resource(), because that function uses
   # check_schema() (in schema()) internally, which is what we want to test
@@ -23,19 +23,14 @@ test_that("check_schema() returns schema invisibly on valid Table Schema", {
 })
 
 test_that("check_schema() returns schema (in same version) as provided", {
-  s_v1 <-
-    schema(
-      example_package(version = "1.0"),
-      resource_names(example_package(version = "1.0"))[[1]]
-    )
-  s_v2 <-
-    schema(
-      example_package(version = "2.0"),
-      resource_names(example_package(version = "2.0"))[[1]]
-    )
+  # This tests these expectations for both schema() and check_schema()
+  schema_v1 <- schema(example_package(version = "1.0"), "deployments")
+  schema_v2 <- schema(example_package(version = "2.0"), "deployments")
 
-  expect_identical(version(check_schema(s_v1)), version(s_v1))
-  expect_identical(version(check_schema(s_v2)), version(s_v2))
+  expect_identical(version(check_schema(schema_v1)), "1.0") # No silent upgrade
+  expect_identical(check_schema(schema_v1), schema_v1)
+  expect_identical(version(check_schema(schema_v2)), "2.0")
+  expect_identical(check_schema(schema_v2), schema_v2)
 })
 
 test_that("check_schema() returns error on invalid or empty Table Schema", {
