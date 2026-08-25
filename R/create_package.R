@@ -36,10 +36,11 @@ create_package <- function(descriptor = NULL) {
     )
   }
 
-  # Initiate a v2 package when starting from scratch
+  # Create a v2 package (when starting from scratch)
   if (is.null(descriptor)) {
-    purrr::pluck(descriptor, "$schema") <-
-      "https://datapackage.org/profiles/2.0/datapackage.json"
+    descriptor <- list(
+      `$schema` = "https://datapackage.org/profiles/2.0/datapackage.json"
+    )
   }
 
   # Add resources property

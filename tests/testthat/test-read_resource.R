@@ -715,18 +715,17 @@ test_that("read_resource() handles times", {
 
 test_that("read_resource() handles datetimes", {
   expected_value <- as.POSIXct("2013-11-23 08:30:00", tz = "UTC")
+  expected_value_ms <- as.POSIXct("2013-11-23 08:30:00.3", tz = "UTC")
   p <- read_package(test_path("data/types.json"))
   resource <- read_resource(p, "datetime")
 
-  expect_identical(resource$dttm_undefined, resource$dttm_default)
   expect_identical(resource$dttm_undefined, expected_value)
   expect_identical(resource$dttm_default, expected_value)
   expect_identical(resource$dttm_any, expected_value)
   expect_identical(resource$dttm_1, expected_value)
-  expect_identical(
-    resource$dttm_2,
-    as.POSIXct("2013-11-23 08:30:00.3", tz = "UTC")
-  )
+  expect_identical(resource$dttm_1_default, expected_value)
+  expect_identical(resource$dttm_2, expected_value_ms)
+  expect_identical(resource$dttm_2_default, expected_value_ms)
 })
 
 test_that("read_resource() handles other types", {
