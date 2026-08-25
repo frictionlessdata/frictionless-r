@@ -76,6 +76,10 @@ create_schema <- function(data) {
     fields = unname(fields) # Creates [] rather than {}
   )
 
+  # Add $schema (V2 change)
+  purrr::pluck(schema, "$schema") <-
+    "https://datapackage.org/profiles/2.0/datapackage.json"
+
   # Remove elements that are NULL or empty list
   schema <- clean_list(
     schema,
