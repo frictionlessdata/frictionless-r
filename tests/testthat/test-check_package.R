@@ -1,6 +1,6 @@
 test_that("check_package() returns package invisibly on valid Data Package", {
   p <- example_package(version = "2.0")
-  expect_invisible(check_package(p2))
+  expect_invisible(check_package(p))
 })
 
 test_that("check_package() returns package (in same version) as provided", {
