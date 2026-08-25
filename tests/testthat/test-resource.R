@@ -28,6 +28,26 @@ test_that("resource() returns resource (in same version) as provided", {
   )
 })
 
+test_that("resource()<- returns schema (in same version) as provided", {
+  skip_if_offline()
+
+  p_v1_assign <- p_v1 <- example_package(version = "1.0")
+  resource(p_v1_assign, "deployments")$name <- "custom name"
+
+  expect_identical(
+    version(resource(p_v1, "deployments")),
+    version(resource(p_v1_assign, "custom name"))
+  )
+
+  p_v2_assign <- p_v2 <- example_package(version = "2.0")
+  resource(p_v2_assign, "deployments")$name <- "custom name"
+
+  expect_identical(
+    version(resource(p_v2, "deployments")),
+    version(resource(p_v2_assign, "custom name"))
+  )
+})
+
 test_that("resource()<- returns a Data Package invisibly", {
   skip_if_offline()
   p <- example_package()
