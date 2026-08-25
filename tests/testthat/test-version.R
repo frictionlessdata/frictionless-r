@@ -131,29 +131,29 @@ test_that("version() returns >=2.0 for invalid $schema", {
 })
 
 test_that("version() returns correct version for example package properties", {
-  p_1.0 <- example_package(version = "1.0")
+  p_v1 <- example_package(version = "1.0")
 
   # Data Package
-  expect_equal(version(p_1.0), "1.0")
+  expect_equal(version(p_v1), "1.0")
   # Data Resource
-  expect_equal(version(p_1.0$resources[[1]]), "1.0")
+  expect_equal(version(p_v1$resources[[1]]), "1.0")
   # Data Dialect (undefined for deployments)
-  expect_equal(version(p_1.0$resources[[1]]$dialect), "1.0")
+  expect_equal(version(p_v1$resources[[1]]$dialect), "1.0")
   # Table Dialect (defined for observations)
-  expect_equal(version(p_1.0$resources[[2]]$dialect), "1.0")
+  expect_equal(version(p_v1$resources[[2]]$dialect), "1.0")
   # Table Schema
-  expect_equal(version(p_1.0$resources[[1]]$schema), "1.0")
+  expect_equal(version(p_v1$resources[[1]]$schema), "1.0")
 
-  p_2.0 <- example_package(version = "2.0")
+  p_v2 <- example_package(version = "2.0")
 
   # Data Package
-  expect_equal(version(p_2.0), "2.0")
+  expect_equal(version(p_v2), "2.0")
   # Data Resource
-  expect_equal(version(p_2.0$resources[[1]]), "2.0")
+  expect_equal(version(p_v2$resources[[1]]), "2.0")
   # Data Dialect (undefined for deployments)
-  expect_equal(version(p_2.0$resources[[1]]$dialect), "1.0")
+  expect_equal(version(p_v2$resources[[1]]$dialect), "1.0")
   # Table Dialect (defined for observations)
-  expect_equal(version(p_2.0$resources[[2]]$dialect), "2.0")
+  expect_equal(version(p_v2$resources[[2]]$dialect), "2.0")
   # Table Schema
-  expect_equal(version(p_2.0$resources[[1]]$schema), "2.0")
+  expect_equal(version(p_v2$resources[[1]]$schema), "2.0")
 })

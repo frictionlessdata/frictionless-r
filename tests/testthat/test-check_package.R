@@ -4,10 +4,10 @@ test_that("check_package() returns package invisibly on valid Data Package", {
 })
 
 test_that("check_package() returns package (in same version) as provided", {
-  p_1 <- example_package(version = "1.0")
-  p_2 <- example_package(version = "2.0")
-  expect_identical(check_package(p_1), p_1)
-  expect_identical(check_package(p_2), p_2)
+  p_v1 <- example_package(version = "1.0")
+  p_v2 <- example_package(version = "2.0")
+  expect_identical(check_package(p_v1), p_v1)
+  expect_identical(check_package(p_v2), p_v2)
 })
 
 test_that("check_package() returns error on invalid Data Package", {
