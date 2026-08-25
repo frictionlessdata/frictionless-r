@@ -1,3 +1,11 @@
+test_that("upgrade_descriptor() keeps resource attributes", {
+  resource_v1 <- resource(example_package(version = "1.0"), "deployments")
+  expect_identical(
+    attributes(upgrade_resource(resource_v1)),
+    attributes(resource_v1)
+  )
+})
+
 test_that("upgrade_resource() upgrades a v1 resource to v2", {
   resource_v1 <- resource(example_package(version = "1.0"), "deployments")
   expect_identical(version(upgrade_resource(resource_v1)), "2.0")
