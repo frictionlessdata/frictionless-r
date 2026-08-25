@@ -289,7 +289,9 @@ test_that("adds_resource() sets resource$schema", {
   )
 
   # Replace resource
-  deployments <- here::here("inst", "extdata" , "v2", "deployments.csv")
+  deployments <- system.file(
+    "extdata", "v2", "deployments.csv", package = "frictionless"
+  )
   expect_null(resource(p, "deployments")$`$schema`)
 
   p_replaced <- add_resource(p, "deployments", deployments, replace = TRUE)
