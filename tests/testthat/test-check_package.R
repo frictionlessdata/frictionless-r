@@ -1,4 +1,4 @@
-test_that("check_package() returns package invisibly on valid Data Package", {
+test_that("check_package() returns package invisibly on valid package", {
   p <- example_package()
   expect_invisible(check_package(p))
 })
@@ -10,7 +10,7 @@ test_that("check_package() returns package in same version as provided", {
   expect_identical(version(check_package(p_v2)), "2.0")
 })
 
-test_that("check_package() returns error on invalid Data Package", {
+test_that("check_package() returns error on invalid package", {
   expect_error(
     check_package("not_valid"),
     class = "frictionless_error_package_invalid"

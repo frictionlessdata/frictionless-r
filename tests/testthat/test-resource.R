@@ -30,12 +30,12 @@ test_that("resource()<- returns package and resource in same version as
   expect_identical(version(resource(p_v2, "custom_name")), "2.0")
 })
 
-test_that("resource()<- returns a Data Package invisibly", {
+test_that("resource()<- returns a package invisibly", {
   p <- example_package()
   expect_invisible(resource(p, "deployments") <- list(name = "deployments"))
 })
 
-test_that("resource()<- returns error on invalid Data Package", {
+test_that("resource()<- returns error on invalid package", {
   p_invalid <- list()
   expect_error(
     resource(p_invalid, "assigned") <- list(name = "assigned"),
