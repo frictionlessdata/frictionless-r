@@ -703,9 +703,14 @@ test_that("read_resource() handles datetimes", {
   expect_identical(resource$dttm_default, expected_value)
   expect_identical(resource$dttm_any, expected_value)
   expect_identical(resource$dttm_1, expected_value)
+  expect_identical(resource$dttm_1_default, resource$dttm_default)
   expect_identical(
     resource$dttm_2,
     as.POSIXct("2013-11-23 08:30:00.3", tz = "UTC")
+  )
+  expect_identical(
+    resource$dttm_2,
+    resource$dttm_2_default
   )
 })
 
