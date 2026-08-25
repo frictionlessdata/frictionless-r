@@ -111,7 +111,7 @@ test_that("read_resource() returns error on column selection not in schema", {
   )
 })
 
-test_that("read_resource() returns error on invalid Data Package", {
+test_that("read_resource() returns error on invalid package", {
   expect_error(
     read_resource(list(), "deployments"),
     class = "frictionless_error_package_invalid"
@@ -292,8 +292,8 @@ test_that("read_resource() can read remote files", {
   expect_identical(read_resource(p_remote_resource, "deployments"), resource)
 })
 
-test_that("read_resource() can read safe local and remote Table Schema,
-           including YAML", {
+test_that("read_resource() can read safe local and remote schema, including
+           YAML", {
   skip_if_offline()
   p <- example_package()
   resource <- read_resource(p, "deployments")
