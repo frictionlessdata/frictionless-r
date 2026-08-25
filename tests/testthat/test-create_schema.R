@@ -17,7 +17,8 @@ test_that("create_schema() returns a valid Table Schema", {
           enum = list("a", "b", "c")
         )
       )
-    )
+    ),
+    `$schema` = "https://datapackage.org/profiles/2.0/datapackage.json"
   )
   expect_identical(create_schema(df), expected_schema)
   expect_no_error(check_schema(create_schema(df)))
