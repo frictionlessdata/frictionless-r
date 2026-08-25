@@ -1,5 +1,5 @@
 test_that("remove_resource() returns a valid Data Package", {
-  p <- example_package()
+  p <- example_package(version = "2.0")
   expect_no_error(check_package(remove_resource(p, "deployments")))
 })
 
