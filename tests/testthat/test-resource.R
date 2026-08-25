@@ -10,7 +10,7 @@ test_that("resource() can upgrade a resource from v1 to v2", {
   expect_identical(version(resource(p_v2, "deployments", upgrade = TRUE)), "2.0")
 })
 
-test_that("resource() returns resource (in same version) as provided", {
+test_that("resource() returns resource in same version as provided", {
   p_v1 <- example_package(version = "1.0")
   expect_identical(
     version(resource(p_v1, "deployments")),
@@ -24,7 +24,6 @@ test_that("resource() returns resource (in same version) as provided", {
   )
 })
 
-test_that("resource()<- returns schema (in same version) as provided", {
   p_v1_assign <- p_v1 <- example_package(version = "1.0")
   resource(p_v1_assign, "deployments")$name <- "custom name"
 
@@ -35,6 +34,8 @@ test_that("resource()<- returns schema (in same version) as provided", {
 
   p_v2_assign <- p_v2 <- example_package(version = "2.0")
   resource(p_v2_assign, "deployments")$name <- "custom name"
+test_that("resource()<- returns package and resource in same version as
+           provided", {
 
   expect_identical(
     version(resource(p_v2, "deployments")),

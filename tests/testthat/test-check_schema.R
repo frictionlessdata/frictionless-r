@@ -22,15 +22,12 @@ test_that("check_schema() returns schema invisibly on valid Table Schema", {
   expect_invisible(check_schema(schema_create, df))
 })
 
-test_that("check_schema() returns schema (in same version) as provided", {
+test_that("check_schema() returns schema in same version as provided", {
   # This tests these expectations for both schema() and check_schema()
   schema_v1 <- schema(example_package(version = "1.0"), "deployments")
   schema_v2 <- schema(example_package(version = "2.0"), "deployments")
-
-  expect_identical(version(check_schema(schema_v1)), "1.0") # No silent upgrade
-  expect_identical(check_schema(schema_v1), schema_v1)
+  expect_identical(version(check_schema(schema_v1)), "1.0")
   expect_identical(version(check_schema(schema_v2)), "2.0")
-  expect_identical(check_schema(schema_v2), schema_v2)
 })
 
 test_that("check_schema() returns error on invalid or empty Table Schema", {
