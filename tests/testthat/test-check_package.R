@@ -76,7 +76,7 @@ test_that("check_package() returns error on missing or incorrect directory", {
 })
 
 test_that("check_package() returns deprecation warning for package$directory", {
-  p_directory <- example_package()
+  p_directory <- example_package(version = "2.0")
   p_directory$directory <- attr(p_directory, "directory")
   attr(p_directory, "directory") <- NULL
 
@@ -85,7 +85,7 @@ test_that("check_package() returns deprecation warning for package$directory", {
 })
 
 test_that("check_package() returns error if resources have no name", {
-  p_invalid <- example_package()
+  p_invalid <- example_package(version = "2.0")
   p_invalid$resources[[2]]$name <- NULL
   expect_error(
     check_package(p_invalid),
@@ -98,7 +98,7 @@ test_that("check_package() returns error if resources have no name", {
   )
 
   # Expect no error on empty resources
-  p <- example_package()
+  p <- example_package(version = "2.0")
   p$resources <- list()
   expect_no_error(check_package(p))
 })
