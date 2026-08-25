@@ -1,7 +1,10 @@
 test_that("check_package() returns package invisibly on valid Data Package", {
-  p <- example_package(version = "2.0")
-  expect_identical(check_package(p), p)
-  expect_invisible(check_package(p))
+  p1 <- example_package(version = "1.0")
+  expect_identical(check_package(p1), p1)
+  expect_invisible(check_package(p1))
+  p2 <- example_package(version = "2.0")
+  expect_identical(check_package(p2), p2)
+  expect_invisible(check_package(p2))
 })
 
 test_that("check_package() returns error on invalid Data Package", {
@@ -76,31 +79,54 @@ test_that("check_package() returns error on missing or incorrect directory", {
 })
 
 test_that("check_package() returns deprecation warning for package$directory", {
-  p_directory <- example_package(version = "2.0")
-  p_directory$directory <- attr(p_directory, "directory")
-  attr(p_directory, "directory") <- NULL
+  p1_directory <- example_package(version = "1.0")
+  p1_directory$directory <- attr(p1_directory, "directory")
+  attr(p1_directory, "directory") <- NULL
 
-  lifecycle::expect_deprecated(check_package(p_directory))
-  expect_no_error(suppressWarnings(check_package(p_directory)))
+  lifecycle::expect_deprecated(check_package(p1_directory))
+  expect_no_error(suppressWarnings(check_package(p1_directory)))
+
+  p2_directory <- example_package(version = "2.0")
+  p2_directory$directory <- attr(p2_directory, "directory")
+  attr(p2_directory, "directory") <- NULL
+
+  lifecycle::expect_deprecated(check_package(p2_directory))
+  expect_no_error(suppressWarnings(check_package(p2_directory)))
 })
 
 test_that("check_package() returns error if resources have no name", {
-  p_invalid <- example_package(version = "2.0")
-  p_invalid$resources[[2]]$name <- NULL
+  p1_invalid <- example_package(version = "1.0")
+  p1_invalid$resources[[2]]$name <- NULL
   expect_error(
-    check_package(p_invalid),
+    check_package(p1_invalid),
     class = "frictionless_error_resources_without_name"
   )
   expect_error(
-    check_package(p_invalid),
+    check_package(p1_invalid),
+    regexp = "All resources in `package` must have a name property.",
+    fixed = TRUE
+  )
+
+  p2_invalid <- example_package(version = "2.0")
+  p2_invalid$resources[[2]]$name <- NULL
+  expect_error(
+    check_package(p2_invalid),
+    class = "frictionless_error_resources_without_name"
+  )
+  expect_error(
+    check_package(p2_invalid),
     regexp = "All resources in `package` must have a name property.",
     fixed = TRUE
   )
 
   # Expect no error on empty resources
-  p <- example_package(version = "2.0")
-  p$resources <- list()
-  expect_no_error(check_package(p))
+  p1 <- example_package(version = "1.0")
+  p1$resources <- list()
+  expect_no_error(check_package(p1))
+
+  p2 <- example_package(version = "2.0")
+  p2$resources <- list()
+  expect_no_error(check_package(p2))
 })
 
 test_that("check_package() returns warning on missing 'datapackage' class", {
