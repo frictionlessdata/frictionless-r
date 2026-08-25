@@ -439,9 +439,12 @@ test_that("read_resource() understands labelled missing values", {
   purrr::pluck(p_missing, "resources", 1, "path") <-
     test_path("data/deployments_missingvalues.csv")
   p_missing$resources[[1]]$schema$missingValues <- list(
-    list(value = "ignore", label = "Can be ignored"),
-    list(value = "wrong", label = "1") # Label should not set 1 in data to NA
+    list(value = "One", label = "1"), # label should not set data value 1 to NA
+    list(label = "Ignore this", value = "ignore"), # value/label switched
+    list(value = "NA"), # value without label
+    list(label = "4.65100") # ignore label without value (spec invalid)
   )
+  # Should translate to c("One", "ignore", "NA"), "ignore" occurs in data
   expect_identical(read_resource(p_missing, "deployments"), resource)
 })
 
