@@ -1,4 +1,4 @@
-test_that("add_resource() returns a valid Data Package", {
+test_that("add_resource() returns a valid package", {
   p <- example_package()
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   df_csv <- test_path("data/df.csv")
@@ -11,7 +11,7 @@ test_that("add_resource() returns a valid Data Package", {
   ))
 })
 
-test_that("add_resource() returns error on invalid Data Package", {
+test_that("add_resource() returns error on package", {
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   expect_error(
     add_resource(list(), "new", df),
@@ -290,6 +290,7 @@ test_that("add_resource() uses provided schema (list or path) or creates one", {
 })
 
 test_that("add_resource() keeps URL schema as URL", {
+  skip_if_offline()
   p <- example_package()
   deployments <- read_resource(p, "deployments")
   schema_url <- file.path(

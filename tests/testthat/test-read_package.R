@@ -1,4 +1,4 @@
-test_that("read_package() returns a valid Data Package reading from path", {
+test_that("read_package() returns a valid package reading from path", {
   # Load example package and a valid minimal one
   p_path <- system.file("extdata", "v1", "datapackage.json", package = "frictionless")
   minimal_path <- test_path("data/valid_minimal.json")
@@ -22,7 +22,7 @@ test_that("read_package() returns a valid Data Package reading from path", {
   expect_identical(attr(p_minimal, "directory"), "data")
 })
 
-test_that("read_package() returns a valid Data Package reading from url", {
+test_that("read_package() returns a valid package reading from url", {
   skip_if_offline()
   # Load example package remotely
   p_url <- file.path(
