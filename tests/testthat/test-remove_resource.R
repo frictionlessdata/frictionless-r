@@ -41,15 +41,9 @@ test_that("remove_resource() removes resource", {
   expect_identical(p_removed$resources[[1]][["name"]], "observations")
 })
 
-test_that("remove_resource() returns package (in same version) as provided", {
-  expect_identical(
-    version(remove_resource(p_1, resource_names(p_1)[[1]])),
-    version(p_1)
-  )
-  expect_identical(
-    version(remove_resource(p_2, resource_names(p_2)[[1]])),
-    version(p_2)
-  )
+test_that("remove_resource() returns package in same version as provided", {
   p_v1 <- example_package(version = "1.0")
   p_v2 <- example_package(version = "2.0")
+  expect_identical(version(remove_resource(p_1, "deployments")), "1.0")
+  expect_identical(version(remove_resource(p_2, "deployments")), "2.0")
 })
