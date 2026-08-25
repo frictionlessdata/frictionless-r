@@ -425,8 +425,7 @@ test_that("read_resource() understands missing values", {
   attr(p_missing, "directory") <- "."
   p_missing$resources[[1]]$path <-
     test_path("data/deployments_missingvalues.csv")
-  p_missing$resources[[1]]$schema$missingValues <-
-    append(p_missing$resources[[1]]$schema$missingValues, "ignore")
+  p_missing$resources[[1]]$schema$missingValues <- list("ignore", "wrong")
   expect_identical(read_resource(p_missing, "deployments"), resource)
 })
 
@@ -439,14 +438,10 @@ test_that("read_resource() understands labelled missing values", {
   attr(p_missing, "directory") <- "."
   purrr::pluck(p_missing, "resources", 1, "path") <-
     test_path("data/deployments_missingvalues.csv")
-    append(
-      p_v2_missing$resources[[1]]$schema$missingValues,
-      list(list(value = "ignore",
-                # The label is optional, but not used parsed anyway.
-                label = "This value can be ignored"))
-    )
-  expect_identical(read_resource(p_v2_missing, "deployments"), resource)
-  p_missing$resources[[1]]$schema$missingValues <-
+  p_missing$resources[[1]]$schema$missingValues <- list(
+    list(value = "ignore", label = "Can be ignored")
+  )
+  expect_identical(read_resource(p_missing, "deployments"), resource)
 })
 
 test_that("read_resource() understands encoding", {
