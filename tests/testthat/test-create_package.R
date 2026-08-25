@@ -60,3 +60,8 @@ test_that("create_package() adds class 'datapackage'", {
   existing <- create_package(list())
   expect_s3_class(new, "datapackage")
 })
+
+test_that("create_package() creates a v2 Data Package", {
+  new <- create_package()
+  expect_identical(version(new), "2.0")
+})
