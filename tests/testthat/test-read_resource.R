@@ -433,13 +433,14 @@ test_that("read_resource() understands labelled missing values", {
   p <- example_package()
   resource <- read_resource(p, "deployments")
 
-  # Create package with non-default missing values
+  # Create package with non-default labelled missing values
   p_missing <- p
   attr(p_missing, "directory") <- "."
   purrr::pluck(p_missing, "resources", 1, "path") <-
     test_path("data/deployments_missingvalues.csv")
   p_missing$resources[[1]]$schema$missingValues <- list(
-    list(value = "ignore", label = "Can be ignored")
+    list(value = "ignore", label = "Can be ignored"),
+    list(value = "wrong", label = "1") # Label should not set 1 in data to NA
   )
   expect_identical(read_resource(p_missing, "deployments"), resource)
 })
