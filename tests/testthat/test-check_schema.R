@@ -1,4 +1,4 @@
-test_that("check_schema() returns schema invisibly on valid Table Schema", {
+test_that("check_schema() returns schema invisibly on valid schema", {
   p <- example_package()
 
   # Can't obtain df using read_resource(), because that function uses
@@ -22,7 +22,15 @@ test_that("check_schema() returns schema invisibly on valid Table Schema", {
   expect_invisible(check_schema(schema_create, df))
 })
 
-test_that("check_schema() returns error on invalid or empty Table Schema", {
+test_that("check_schema() returns schema in same version as provided", {
+  # This tests these expectations for both schema() and check_schema()
+  schema_v1 <- schema(example_package(version = "1.0"), "deployments")
+  schema_v2 <- schema(example_package(version = "2.0"), "deployments")
+  expect_identical(version(check_schema(schema_v1)), "1.0")
+  expect_identical(version(check_schema(schema_v2)), "2.0")
+})
+
+test_that("check_schema() returns error on invalid or empty schema", {
   # Must be a list and have list property "fields"
   expect_error(
     check_schema("not_a_list"),
@@ -39,8 +47,7 @@ test_that("check_schema() returns error on invalid or empty Table Schema", {
   )
 })
 
-test_that("check_schema() returns error when Table Schema fields don't have
-           names", {
+test_that("check_schema() returns error when schema fields don't have names", {
   # One missing name
   invalid_schema <- list(fields = list(
     list(name = "col_1", type = "number"),
@@ -77,8 +84,7 @@ test_that("check_schema() returns error when Table Schema fields don't have
   )
 })
 
-test_that("check_schema() returns error when Table Schema fields have invalid
-           types", {
+test_that("check_schema() returns error when schema fields have invalid types", {
   # One invalid types
   invalid_schema <- list(fields = list(
     list(name = "col_1", type = "number"),
@@ -114,7 +120,7 @@ test_that("check_schema() returns error when Table Schema fields have invalid
   )
 })
 
-test_that("check_schema() allows Table Schema fields to not (all) have type", {
+test_that("check_schema() allows schema fields to not (all) have type", {
   schema <- list(fields = list(
     list(name = "col_1"),
     list(name = "col_2")

@@ -1,9 +1,10 @@
-test_that("create_schema() returns a valid Table Schema", {
+test_that("create_schema() returns a valid v2 schema", {
   df <- data.frame(
     "col_1" = c(1, 2),
     "col_2" = factor(c("a", "b"), levels = c("a", "b", "c"))
   )
   expected_schema <- list(
+    `$schema` = "https://datapackage.org/profiles/2.0/tableschema.json",
     fields = list(
       list(
         name = "col_1",
@@ -19,6 +20,7 @@ test_that("create_schema() returns a valid Table Schema", {
       )
     )
   )
+  expect_identical(version(create_schema(df)), "2.0")
   expect_identical(create_schema(df), expected_schema)
   expect_no_error(check_schema(create_schema(df)))
 })

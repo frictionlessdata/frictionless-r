@@ -111,7 +111,7 @@ test_that("read_resource() returns error on column selection not in schema", {
   )
 })
 
-test_that("read_resource() returns error on invalid Data Package", {
+test_that("read_resource() returns error on invalid package", {
   expect_error(
     read_resource(list(), "deployments"),
     class = "frictionless_error_package_invalid"
@@ -292,8 +292,8 @@ test_that("read_resource() can read remote files", {
   expect_identical(read_resource(p_remote_resource, "deployments"), resource)
 })
 
-test_that("read_resource() can read safe local and remote Table Schema,
-           including YAML", {
+test_that("read_resource() can read safe local and remote schema, including
+           YAML", {
   skip_if_offline()
   p <- example_package()
   resource <- read_resource(p, "deployments")
@@ -695,18 +695,17 @@ test_that("read_resource() handles times", {
 
 test_that("read_resource() handles datetimes", {
   expected_value <- as.POSIXct("2013-11-23 08:30:00", tz = "UTC")
+  expected_value_ms <- as.POSIXct("2013-11-23 08:30:00.3", tz = "UTC")
   p <- read_package(test_path("data/types.json"))
   resource <- read_resource(p, "datetime")
 
-  expect_identical(resource$dttm_undefined, resource$dttm_default)
   expect_identical(resource$dttm_undefined, expected_value)
   expect_identical(resource$dttm_default, expected_value)
   expect_identical(resource$dttm_any, expected_value)
   expect_identical(resource$dttm_1, expected_value)
-  expect_identical(
-    resource$dttm_2,
-    as.POSIXct("2013-11-23 08:30:00.3", tz = "UTC")
-  )
+  expect_identical(resource$dttm_1_default, expected_value)
+  expect_identical(resource$dttm_2, expected_value_ms)
+  expect_identical(resource$dttm_2_default, expected_value_ms)
 })
 
 test_that("read_resource() handles other types", {

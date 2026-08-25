@@ -5,7 +5,7 @@
 \alias{resource<-}
 \title{Get or overwrite a Data Resource}
 \usage{
-resource(package, resource_name, upgrade = FALSE)
+resource(package, resource_name)
 
 resource(package, resource_name) <- value
 }
@@ -14,9 +14,6 @@ resource(package, resource_name) <- value
 \code{\link[=create_package]{create_package()}}.}
 
 \item{resource_name}{Name of the Data Resource.}
-
-\item{upgrade}{If \code{TRUE}, updates a Data Resource defined in Data Package
-standard v1 to v2.}
 
 \item{value}{Value to assign.}
 }

@@ -8,9 +8,9 @@ test_that("print.datapackage() informs about the version, resources and
   unclass_message <- "Use `unclass()` to print the Data Package as a list."
 
   # Version 1.0 with 3 resources
-  p <- example_package(version = "1.0")
+  p_v1 <- example_package(version = "1.0")
   expect_output(
-    print(p),
+    print(p_v1),
     regexp = paste(
       "A Data Package (version 1.0) with 3 resources:",
       "* deployments",
@@ -23,9 +23,9 @@ test_that("print.datapackage() informs about the version, resources and
   )
 
   # Version 2.0 with 3 resources
-  p <- example_package(version = "2.0")
+  p_v2 <- example_package(version = "2.0")
   expect_output(
-    print(p),
+    print(p_v2),
     regexp = paste(
       "A Data Package (version 2.0) with 3 resources:",
       "* deployments",
@@ -44,7 +44,7 @@ test_that("print.datapackage() informs about the version, resources and
   expect_output(
     print(p1),
     regexp = paste(
-      "A Data Package (version 1.0) with 1 resource:",
+      "A Data Package (version 2.0) with 1 resource:",
       "* new",
       unclass_message,
       sep = "\n"
@@ -57,7 +57,7 @@ test_that("print.datapackage() informs about the version, resources and
   expect_output(
     print(p0),
     regexp = paste(
-      "A Data Package (version 1.0) with 0 resources.",
+      "A Data Package (version 2.0) with 0 resources.",
       unclass_message,
       sep = "\n"
     ),
@@ -74,7 +74,7 @@ test_that("print.datapackage() informs about information in package$id", {
   expect_output(
     print(p),
     regexp = paste(
-      "A Data Package (version 1.0) with 0 resources.",
+      "A Data Package (version 2.0) with 0 resources.",
       "For more information, see <https://example.com>.",
       unclass_message,
       sep = "\n"
@@ -87,7 +87,7 @@ test_that("print.datapackage() informs about information in package$id", {
   expect_output(
     print(p),
     regexp = paste(
-      "A Data Package (version 1.0) with 0 resources.",
+      "A Data Package (version 2.0) with 0 resources.",
       unclass_message,
       sep = "\n"
     ),
