@@ -251,9 +251,19 @@
             "format": "%Y-%m-%dT%H:%M:%SZ"
           },
           {
+            "name": "dttm_1_default",
+            "type": "datetime",
+            "format": "default"
+          },
+          {
             "name": "dttm_2",
             "type": "datetime",
             "format": "%Y-%m-%dT%H:%M:%S.%f%z"
+          },
+          {
+            "name": "dttm_2_default",
+            "type": "datetime",
+            "format": "default"
           }
         ]
       }
