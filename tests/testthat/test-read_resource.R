@@ -1,3 +1,4 @@
+# Return ----
 test_that("read_resource() returns a tibble", {
   p <- example_package()
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
@@ -8,64 +9,7 @@ test_that("read_resource() returns a tibble", {
   expect_s3_class(read_resource(p, "new"), "tbl")         # via df
 })
 
-test_that("read_resource() allows column selection", {
-  p <- example_package()
-
-  # Single column
-  expect_named(
-    read_resource(p, "deployments", col_select = "start"),
-    "start"
-  )
-  expect_identical(
-    read_resource(p, "deployments", col_select = "start"),
-    dplyr::select(
-      read_resource(p, "deployments"),
-      "start"
-    ),
-    ignore_attr = "spec" # read_delim() returns vroom::spec(), select() does not
-  )
-
-  # Multiple columns
-  expect_named(
-    read_resource(p, "deployments", col_select = c("deployment_id", "start")),
-    c("deployment_id", "start")
-  )
-  expect_identical(
-    read_resource(p, "deployments", col_select = c("deployment_id", "start")),
-    dplyr::select(
-      read_resource(p, "deployments"),
-      "deployment_id",
-      "start"
-    ),
-    ignore_attr = "spec"
-  )
-
-  # Different order
-  expect_named(
-    read_resource(
-      p,
-      "deployments",
-      col_select = c("start", "deployment_id", "comments")
-    ),
-    c("start", "deployment_id", "comments"),
-    ignore.order = FALSE
-  )
-  expect_identical(
-    read_resource(
-      p,
-      "deployments",
-      col_select = c("start", "deployment_id", "comments")
-    ),
-    dplyr::select(
-      read_resource(p, "deployments"),
-      "start",
-      "deployment_id",
-      "comments"
-    ),
-    ignore_attr = "spec"
-  )
-})
-
+# Error handling ----
 test_that("read_resource() returns error on column selection not in schema", {
   p <- example_package()
 
@@ -246,6 +190,66 @@ test_that("read_resource() returns error on invalid resource", {
   )
 })
 
+# Functionality ----
+test_that("read_resource() allows column selection", {
+  p <- example_package()
+
+  # Single column
+  expect_named(
+    read_resource(p, "deployments", col_select = "start"),
+    "start"
+  )
+  expect_identical(
+    read_resource(p, "deployments", col_select = "start"),
+    dplyr::select(
+      read_resource(p, "deployments"),
+      "start"
+    ),
+    ignore_attr = "spec" # read_delim() returns vroom::spec(), select() does not
+  )
+
+  # Multiple columns
+  expect_named(
+    read_resource(p, "deployments", col_select = c("deployment_id", "start")),
+    c("deployment_id", "start")
+  )
+  expect_identical(
+    read_resource(p, "deployments", col_select = c("deployment_id", "start")),
+    dplyr::select(
+      read_resource(p, "deployments"),
+      "deployment_id",
+      "start"
+    ),
+    ignore_attr = "spec"
+  )
+
+  # Different order
+  expect_named(
+    read_resource(
+      p,
+      "deployments",
+      col_select = c("start", "deployment_id", "comments")
+    ),
+    c("start", "deployment_id", "comments"),
+    ignore.order = FALSE
+  )
+  expect_identical(
+    read_resource(
+      p,
+      "deployments",
+      col_select = c("start", "deployment_id", "comments")
+    ),
+    dplyr::select(
+      read_resource(p, "deployments"),
+      "start",
+      "deployment_id",
+      "comments"
+    ),
+    ignore_attr = "spec"
+  )
+})
+
+## Data source ----
 test_that("read_resource() can read newly added data (ignoring schema)", {
   p <- example_package()
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
@@ -387,6 +391,7 @@ test_that("read_resource() can read safe local and remote CSV dialect", {
   expect_identical(read_resource(p_yaml_dialect, "deployments"), resource)
 })
 
+## Resource/schema properties ----
 test_that("read_resource() understands CSV dialect", {
   p <- example_package()
   resource <- read_resource(p, "deployments")
@@ -571,6 +576,7 @@ test_that("read_resource() can read compressed files", {
   expect_identical(read_resource(p_remote_gz, "deployments"), resource)
 })
 
+## Field types ----
 test_that("read_resource() handles strings", {
   p <- read_package(test_path("data/types.json"))
   resource <- read_resource(p, "string")
@@ -732,3 +738,5 @@ test_that("read_resource() handles other types", {
   # Note: unknown values are blocked by check_schema()
   expect_type(resource$no_type, "character")
 })
+
+# Version support ----

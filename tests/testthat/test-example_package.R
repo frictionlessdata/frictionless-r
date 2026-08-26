@@ -1,3 +1,4 @@
+# Functionality ----
 test_that("example_package() allows version selection (default 1.0)", {
   p_v1 <- read_package(
     system.file("extdata", "v1", "datapackage.json", package = "frictionless")

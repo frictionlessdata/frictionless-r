@@ -1,3 +1,4 @@
+# Return ----
 test_that("create_schema() returns a valid v2 schema", {
   df <- data.frame(
     "col_1" = c(1, 2),
@@ -25,6 +26,7 @@ test_that("create_schema() returns a valid v2 schema", {
   expect_no_error(check_schema(create_schema(df)))
 })
 
+# Error handling ----
 test_that("create_schema() returns error on invalid or empty data frame", {
   expect_error(
     create_schema("not_a_df"),
@@ -36,6 +38,7 @@ test_that("create_schema() returns error on invalid or empty data frame", {
   )
 })
 
+# Functionality ----
 test_that("create_schema() accepts data frames and tibbles", {
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   tibble <- dplyr::tibble("col_1" = c(1, 2), "col_2" = c("a", "b"))
