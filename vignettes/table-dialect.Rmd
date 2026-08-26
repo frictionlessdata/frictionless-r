@@ -46,6 +46,22 @@ frictionless does not support direct manipulation of the dialect. `add_resource(
 
 ## Properties implementation
 
+### $schema
+
+### header
+
+[`header`](https://specs.frictionlessdata.io/csv-dialect/#specification) is used by `read_resource()` and defaults to `true`. It is passed as `trim_ws = 1` (or `0`) in `readr::read_delim()`.
+
+<!-- ### headerRows -->
+
+<!-- ### headerJoin -->
+
+<!-- ## commentRows -->
+
+### commentChar
+
+[`commentChar`](https://specs.frictionlessdata.io/csv-dialect/#specification) is used by `read_resource()` and defaults to undefined. It is passed to `comment` in `readr::read_delim()`.
+
 ### delimiter
 
 [`delimiter`](https://specs.frictionlessdata.io/csv-dialect/#specification) is used by `read_resource()` and defaults to `","`. It is passed to `delim` in `readr::read_delim()`. `add_resource()` does not set `delimiter`, unless provided in `delim` and different from the default `","`:
@@ -87,13 +103,6 @@ package$resources[[2]]$dialect$delimiter
 
 [`skipInitialSpace`](https://specs.frictionlessdata.io/csv-dialect/#specification) is used by `read_resource()` and defaults to `false`. It is passed to `trim_ws` in `readr::read_delim()`.
 
-### header
-
-[`header`](https://specs.frictionlessdata.io/csv-dialect/#specification) is used by `read_resource()` and defaults to `true`. It is passed as `trim_ws = 1` (or `0`) in `readr::read_delim()`.
-
-### commentChar
-
-[`commentChar`](https://specs.frictionlessdata.io/csv-dialect/#specification) is used by `read_resource()` and defaults to undefined. It is passed to `comment` in `readr::read_delim()`.
 
 ### caseSensitiveHeader
 
