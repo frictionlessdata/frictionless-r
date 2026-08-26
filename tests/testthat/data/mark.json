@@ -61,6 +61,69 @@
           }
         ]
       }
+    },
+    {
+      "$schema": "https://datapackage.org/profiles/2.0/dataresource.json",
+      "name": "mark_invalid_group_as_decimal",
+      "path": "mark_invalid_group_as_decimal.csv",
+      "type": "table",
+      "schema": {
+        "fields": [
+          {
+            "name": "num",
+            "type": "number",
+            "decimalChar": ",",
+            "groupChar": "."
+          },
+          {
+            "name": "int_invalid",
+            "type": "integer",
+            "groupChar": ","
+          }
+        ]
+      }
+    },
+    {
+      "$schema": "https://datapackage.org/profiles/2.0/dataresource.json",
+      "name": "mark_integer_group",
+      "path": "mark_integer_group.csv",
+      "type": "table",
+      "schema": {
+        "fields": [
+          {
+            "name": "int",
+            "type": "integer",
+            "groupChar": ","
+          },
+          {
+            "name": "int_undefined",
+            "type": "integer"
+          },
+          {
+            "name": "int_undefined_group",
+            "type": "integer"
+          }
+        ]
+      }
+    },
+    {
+      "$schema": "https://datapackage.org/profiles/2.0/dataresource.json",
+      "name": "mark_integer_invalid_group_as_default_decimal",
+      "path": "mark_integer_invalid_group_as_default_decimal.csv",
+      "type": "table",
+      "schema": {
+        "fields": [
+          {
+            "name": "int",
+            "type": "integer",
+            "groupChar": "."
+          },
+          {
+            "name": "int_undefined",
+            "type": "integer"
+          }
+        ]
+      }
     }
   ]
 }

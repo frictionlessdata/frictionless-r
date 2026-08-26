@@ -499,7 +499,7 @@ test_that("read_resource() handles decimalChar/groupChar properties", {
   suppressWarnings(expect_warning(
     read_resource(p, "mark_decimal_group"),
     regexp = paste(
-      "Some fields define a non-default groupChar.",
+      "Some fields define a groupChar.",
       "Parsing all number fields with \".\" as grouping mark."
     ),
     fixed = TRUE
@@ -510,6 +510,42 @@ test_that("read_resource() handles decimalChar/groupChar properties", {
   expect_identical(resource$num_undefined, expected_value) # 3000000,30
   # Field without groupChar is not parsed with non-default groupChar
   expect_identical(resource$num_undefined_group, NA_real_) # 3.000.000,30
+
+  # Similar tests when reading integers only (only groupChar is relevant)
+  expected_value_int <- 3000000
+  resource <- suppressWarnings(read_resource(p, "mark_integer_group"))
+  expect_identical(resource$int, expected_value_int) # 3000000
+  expect_identical(resource$int_undefined, expected_value_int) # 3000000
+
+  # Non-default groupChar
+  # Results in 2 warnings: groupchar, parsing failure last field
+  suppressWarnings(expect_warning(
+    read_resource(p, "mark_integer_group"),
+    class = "frictionless_warning_fields_groupchar_different"
+  ))
+  suppressWarnings(expect_warning(
+    read_resource(p, "mark_integer_group"),
+    regexp = paste(
+      "Some fields define a non-default groupChar.",
+      "Parsing all number fields with \".\" as grouping mark."
+    ),
+    fixed = TRUE
+  ))
+
+  # integer only: groupChar must be different than default decimal mark (`.`)
+  expect_error(
+    suppressWarnings(
+      read_resource(p, "mark_integer_invalid_group_as_default_decimal")
+    ),
+    class = "frictionless_error_fields_decimalchar_groupchar_same_default"
+  )
+
+  # numbers or mixed numbers/integers:
+  # groupChar must be different than decimalChar (non-default `,`)
+  expect_error(
+    suppressWarnings(read_resource(p, "mark_invalid_group_as_decimal")),
+    class = "frictionless_error_fields_decimalchar_groupchar_same"
+  )
 })
 
 test_that("read_resource() handles LF and CRLF line terminator characters", {
