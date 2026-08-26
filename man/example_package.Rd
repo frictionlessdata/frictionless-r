@@ -4,7 +4,7 @@
 \alias{example_package}
 \title{Read the example Data Package}
 \usage{
-example_package(version = "1.0")
+example_package(version = "2.0")
 }
 \arguments{
 \item{version}{Data Package standard version.}
@@ -32,10 +32,10 @@ The example Data Package is available in two versions:
 }
 }
 \examples{
-# Version 1
+# Version 2
 example_package()
 
-# Version 2
-example_package(version = "2.0")
+# Version 1
+example_package(version = "1.0")
 }
 \concept{sample data}

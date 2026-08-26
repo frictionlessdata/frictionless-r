@@ -19,12 +19,12 @@
 #' @family sample data
 #' @export
 #' @examples
-#' # Version 1
+#' # Version 2
 #' example_package()
 #'
-#' # Version 2
-#' example_package(version = "2.0")
-example_package <- function(version = "1.0") {
+#' # Version 1
+#' example_package(version = "1.0")
+example_package <- function(version = "2.0") {
   version_dir <- switch(
     version %||% "1.0",
     "2.0" = "v2",
