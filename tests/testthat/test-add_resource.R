@@ -11,6 +11,14 @@ test_that("add_resource() returns a valid package", {
   ))
 })
 
+test_that("add_resource() returns package in same version as provided", {
+  p_v1 <- example_package(version = "1.0")
+  p_v2 <- example_package(version = "2.0")
+  df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
+  expect_identical(version(add_resource(p_v1, "new", df)), "1.0")
+  expect_identical(version(add_resource(p_v2, "new", df)), "2.0")
+})
+
 test_that("add_resource() returns error on package", {
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   expect_error(
@@ -244,17 +252,6 @@ test_that("add_resource() adds a v2 resource", {
 
   expect_identical(version(resource(p_v1, "new")), "2.0")
   expect_identical(version(resource(p_v2, "new")), "2.0")
-})
-
-test_that("adds_resource() returns package in same version as provided", {
-  p_v1 <- example_package(version = "1.0")
-  p_v2 <- example_package(version = "2.0")
-  df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
-  p_v1 <- add_resource(p_v1, "new", df)
-  p_v2 <- add_resource(p_v2, "new", df)
-
-  expect_identical(version(create_package(p_v1)), "1.0")
-  expect_identical(version(create_package(p_v2)), "2.0")
 })
 
 test_that("add_resource() can replace an existing resource", {
