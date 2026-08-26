@@ -93,15 +93,15 @@ my_package
 
 ### $schema
 
-[`$schema`](https://datapackage.org/standard/data-package/#dollar-schema) indicates what version of the Data Package standard is used (v1 if undefined). It is ignored by `read_package()`. `create_package()` sets `$schema` to `"https://datapackage.org/profiles/2.0/datapackage.json"` (the recommended v2 value).
+[`$schema`](https://datapackage.org/standard/data-package/#dollar-schema) indicates what version of the Data Package standard is used (v1 if undefined). It is ignored by `read_package()`. `create_package()` sets `$schema` to `"https://datapackage.org/profiles/2.0/datapackage.json"` (the recommended v2 value). `upgrade_package()` does the same, except for certain `profile` values.
+
+### profile
+
+[`profile`](https://specs.frictionlessdata.io/data-package/#profile) (a deprecated v1 property) is ignored by `read_package()` and not set by `create_package()`. `upgrade_package()` removes `profile`, but retains its value in `$schema` if it is a URL to a custom profile.
 
 ### resources
 
 [`resources`](https://datapackage.org/standard/data-package/#resources) is required. It is used by `resource_names()` and many other functions. `check_package()` returns an error if it is missing.
-
-### profile
-
-[`profile`](https://specs.frictionlessdata.io/data-package/#profile) (a deprecated v1 property) is ignored by `read_package()` and not set by `create_package()`. `upgrade_package()` will remove `profile`, but retain its value in `$schema` if it is a URL to a custom profile.
 
 ### name
 
@@ -143,7 +143,7 @@ package
 
 ### created
 
-[`created`](https://specs.frictionlessdata.io/data-package/#created) is ignored by `read_package()` and not set by `create_package()`.
+[`created`](https://datapackage.org/standard/data-package/#created) is ignored by `read_package()` and not set by `create_package()`.
 
 ### keywords
 
@@ -151,7 +151,7 @@ package
 
 ### contributors
 
-[`contributors`](https://datapackage.org/standard/data-package/#contributors) is ignored by `read_package()` and not set by `create_package()`. `upgrade_package()` will convert `"role": "value"` to `"roles": ["value"]`.
+[`contributors`](https://datapackage.org/standard/data-package/#contributors) is ignored by `read_package()` and not set by `create_package()`. `upgrade_package()` converts `"role": "value"` to `"roles": ["value"]` for all contributors.
 
 ### sources
 
