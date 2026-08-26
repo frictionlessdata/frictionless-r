@@ -28,7 +28,7 @@ append.default <- function(x, values, after = length(x)) {
 #'
 #' @param x Data Package object, as returned by [read_package()] or
 #'   [create_package()].
-#' @inheritParams base::append values after
+#' @inheritParams append
 #' @returns A Data Package object with the elements of `values` appended after
 #'   the specified element of `x`.
 #'
@@ -39,4 +39,5 @@ append.default <- function(x, values, after = length(x)) {
 #' p_app <- append(p, list("$schema" = "just added"), after = 0)
 #' p_app
 #' attributes(p_app)
-append.datapackage <- function(...) {append_with_attrs(...)}
+append.datapackage <- function(x, values, after = length(x)) {
+  append_with_attrs(x, values, after = after)}
