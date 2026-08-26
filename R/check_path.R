@@ -40,6 +40,18 @@ check_path <- function(path, directory = NULL, safe = FALSE) {
       )
     }
 
+    # Check hidden path
+    if (safe && grepl("(^|/)\\.[^/]+/", path)) {
+      cli::cli_abort(
+        c(
+          "{.arg path} must be a safe path.",
+          "x" = "{.path {path}} with hidden folders starting from a dot
+                {.val .hidden} is unsafe."
+        ),
+        class = "frictionless_error_path_unsafe_hidden"
+      )
+    }
+
     # Prepend with directory (which can be a URL)
     if (!is_url(path) && !is.null(directory)) {
       path <- file.path(directory, path)
