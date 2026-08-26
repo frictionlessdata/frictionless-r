@@ -62,10 +62,19 @@ test_that("upgrade_descriptor() updates contributor role to roles", {
     list(title = "Jack of all trades", roles = list("a", "b"))
   )
   p_upgraded <- upgrade_descriptor(p_v1)
-  expect_identical(p_upgraded$contributors$`$schema`$roles, list("author")) # Added
-  expect_null(p_upgraded$contributors$`$schema`$role) # Removed
-  expect_null(p_upgraded$contributors[[2]]$roles) # Not added
-  expect_identical(p_upgraded$contributors[[3]]$roles, list("a", "b")) # Kept
+  # Check that contributors has not been removed, the next tests assume this
+  expect_in("contributors", names(p_upgraded))
+  ## Has roles been added?
+  expect_identical(
+    purrr::chuck(p_upgraded, "contributors", 1L, "roles"),
+    list("author")
+  )
+  ## Has role been removed?
+  expect_false("role" %in% names(purrr::chuck(p_upgraded, "contributors", 1L)))
+  ## Has roles not been added where there was no role before?
+  expect_false("roles" %in% names(purrr::chuck(p_upgraded, "contributors", 2L)))
+  ## Have both values for roles been kept? Has an existing roles leaf been kept?
+  expect_identical(p_upgraded$contributors[[3]]$roles, list("a", "b"))
 
   # Undefined
   p_v1$contributors <- NULL
