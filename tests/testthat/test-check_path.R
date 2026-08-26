@@ -61,6 +61,19 @@ test_that("check_path() returns error on relative parent path when safe =
   )
 })
 
+test_that("check_path() returns error on path containing hidden folder when safe
+           = TRUE", {
+  expect_error(
+    check_path(".hidden/df.csv", directory = "data", safe = TRUE),
+    class = "frictionless_error_path_unsafe_hidden"
+  )
+  expect_error(
+    check_path("data/.hidden/df.csv", safe = TRUE),
+    class = "frictionless_error_path_unsafe_hidden"
+  )
+  expect_no_error(check_path("data/.hidden_file", safe = TRUE)) # Not a dir
+})
+
 test_that("check_path() returns error when local file cannot be found", {
   expect_error(
     check_path("no_such_file.csv"),

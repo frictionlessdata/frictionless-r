@@ -110,9 +110,8 @@ test_that("read_package() warns if resources are missing", {
   )
 })
 
-# Functionality ----
-test_that("read_package() allows descriptor at absolute or relative parent
-           path", {
+test_that("read_package() allows descriptor at absolute, relative parent or
+  hidden path", {
   relative_path <- "../testthat/data/valid_minimal.json"
   expect_no_error(
     check_package(read_package(relative_path))
@@ -120,6 +119,10 @@ test_that("read_package() allows descriptor at absolute or relative parent
   absolute_path <- normalizePath("data/valid_minimal.json")
   expect_no_error(
     check_package(read_package(absolute_path))
+  )
+  hidden_path <- test_path("data/.hidden/valid_minimal.json")
+  expect_no_error(
+    check_package(read_package(hidden_path))
   )
 })
 

@@ -7,6 +7,7 @@ frictionless now uses [version 2](https://datapackage.org/) of the Data Package 
 - **Breaking change!** Manipulation functions `create_package()`, `add_resource()`, `create_schema()` will create a v2 package, resource and schema respectively. Note that this can lead to mixed versions (e.g. a v1 package with a v2 resource).
 - `upgrade_package()` can be used to upgrade a package, its resources and verbose schemas from v1 to v2.
 - `example_package()` now uses `version = "2.0"` as default (#360, #361).
+- `read_resource()` now forbids reading files from a path containing a hidden directory (starting with `.`) (#359).
 
 ## Data Resource changes
 
