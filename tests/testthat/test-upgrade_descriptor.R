@@ -16,7 +16,7 @@ test_that("upgrade_descriptor() leaves a v2 package as is", {
 test_that("upgrade_descriptor() removes profile", {
   p_v1 <- example_package(version = "1.0")
   p_v1$profile <- "data-package"
-  expect_null(upgrade_descriptor(p_v1)$profile)
+  expect_false("profile" %in% names(upgrade_descriptor(p_v1)))
 })
 
 test_that("upgrade_descriptor() sets $schema", {
