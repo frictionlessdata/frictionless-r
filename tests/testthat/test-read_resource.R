@@ -526,7 +526,7 @@ test_that("read_resource() handles decimalChar/groupChar properties", {
   suppressWarnings(expect_warning(
     read_resource(p, "mark_integer_group"),
     regexp = paste(
-      "Some fields define a non-default groupChar.",
+      "Some fields define a groupChar.",
       "Parsing all number fields with \".\" as grouping mark."
     ),
     fixed = TRUE
