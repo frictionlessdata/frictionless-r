@@ -23,7 +23,7 @@ test_that("upgrade_resource() removes profile", {
   expect_null(upgrade_resource(resource_v1)$profile)
 })
 
-test_that("upgrade_resource() sets $schema", {
+test_that("upgrade_resource() sets $schema to default v2 value", {
   resource_v1 <- resource(example_package(version = "1.0"), "deployments")
   v2_profile <- "https://datapackage.org/profiles/2.0/dataresource.json"
 
