@@ -32,7 +32,7 @@ The example Data Package is available in two versions:
 }
 }
 \examples{
-# Version 2
+# Version 2 (default)
 example_package()
 
 # Version 1
