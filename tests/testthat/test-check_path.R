@@ -69,6 +69,7 @@ test_that("check_path() returns error on path containing hidden folder when safe
     check_path("data/.hidden/df.csv", safe = TRUE),
     class = "frictionless_error_path_unsafe_hidden"
   )
+  expect_no_error(check_path("data/.hidden_file", safe = TRUE)) # Not a dir
 })
 
 test_that("check_path() returns error when local file cannot be found", {
