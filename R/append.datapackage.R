@@ -31,13 +31,15 @@ append.default <- function(x, values, after = length(x)) {
 #' attributes(p_app)
 append.datapackage <- function(x, values, after = length(x)){
   attrs <- attributes(x)
+    # Names will be the wrong length when appending
+  attrs[["names"]] <- NULL
   p_app <- base::append(unclass(x), values, after = after)
 
   attributes(p_app) <- purrr::list_modify(
     # Start from the newly appended attributes
     attributes(p_app),
     # Add our existing attributes: directory and class
-    val = !!!attrs[c("directory", "class")]
+    val = !!!attrs
   )
   p_app
 }
