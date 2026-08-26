@@ -1,6 +1,13 @@
 #' Append values to an object
 #'
 #' An S3 generic version of [base::append()]; see [append.datapackage()].
+#'
+#' @param x the vector the values are to be appended to.
+#' @param values to be included in the modified vector.
+#' @param after a subscript, after which the values are to be appended.
+#'
+#' @returns A vector containing the values in `x` with the elements of `values`
+#'   appended after the specified element of `x`.
 #' @export
 append <- function(x, values, after = length(x)) {
   # This function needs to be exported or base::append() will stop working when
