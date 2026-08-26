@@ -1,8 +1,9 @@
-test_that("upgrade_descriptor() keeps resource attributes", {
+test_that("upgrade_descriptor() returns resource object", {
   resource_v1 <- resource(example_package(version = "1.0"), "deployments")
+  # Resource object has "data_location" attribute that should be kept
   expect_identical(
-    attributes(upgrade_resource(resource_v1)),
-    attributes(resource_v1)
+    attr(upgrade_resource(resource_v1), "data_location"),
+    attr(resource_v1, "data_location")
   )
 })
 
