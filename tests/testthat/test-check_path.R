@@ -1,3 +1,4 @@
+# Return ----
 test_that("check_path() returns path prepended with directory", {
   skip_if_offline()
   expect_identical(
@@ -19,6 +20,7 @@ test_that("check_path() returns path prepended with directory", {
   expect_identical(check_path(url, directory = "data"), url)
 })
 
+# Error handling ----
 test_that("check_path() returns error on absolute path when safe = TRUE", {
   expect_error(
     check_path("/dir/file.txt", safe = TRUE),
