@@ -8,8 +8,8 @@
 #'
 #' @param path Path or URL to a file.
 #' @param directory Directory to prepend to path.
-#' @param safe Require `path` to be safe, i.e. no absolute or relative parent
-#'   paths, or hidden paths.
+#' @param safe Require `path` to be safe, i.e. no absolute, relative parent or
+#'   hidden directory paths.
 #' @returns Absolute path or URL or an error.
 #' @family check functions
 #' @noRd
@@ -40,13 +40,13 @@ check_path <- function(path, directory = NULL, safe = FALSE) {
       )
     }
 
-    # Check hidden path
+    # Check hidden directory path (containing ".any_name/")
     if (safe && grepl("(^|/)\\.[^/]+/", path)) {
       cli::cli_abort(
         c(
           "{.arg path} must be a safe path.",
-          "x" = "{.path {path}} with hidden folders starting from a dot
-                {.val .hidden} is unsafe."
+          "x" = "{.path {path}} contains a hidden folder (starting with
+                 {.val .}) which is unsafe."
         ),
         class = "frictionless_error_path_unsafe_hidden"
       )

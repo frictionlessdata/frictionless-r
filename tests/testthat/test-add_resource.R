@@ -309,9 +309,9 @@ test_that("add_resource() can add resource from data frame, readable by
   expect_identical(read_resource(p, "new"), dplyr::as_tibble(df))
 })
 
-test_that("add_resource() can add resource from local, relative, absolute,
-           hidden, remote or compressed CSV file, readable by read_resource()",
-          {
+test_that("add_resource() can add resource from local, relative parent,
+           absolute, hidden, remote or compressed CSV file, readable by
+           read_resource()", {
   skip_if_offline()
   p <- example_package()
   schema <- schema(p, "deployments")

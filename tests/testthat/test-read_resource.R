@@ -195,14 +195,14 @@ test_that("read_resource() returns error on invalid resource", {
     class = "frictionless_error_path_unsafe_relative"
   )
 
-  # Path is hidden path
-  p_invalid$resources[[1]]$path <- ".hidden/deployments.csv"
   expect_error(
     read_resource(p_invalid, "deployments"),
     class = "frictionless_error_path_unsafe_hidden"
   )
 
   p_invalid$resources[[1]]$path <- "inst/.hidden/deployments.csv"
+  # Path is hidden directory path
+  p_invalid$resources[[1]]$path <- ".hidden/deployments.csv" # Does not exist
   expect_error(
     read_resource(p_invalid, "deployments"),
     class = "frictionless_error_path_unsafe_hidden"

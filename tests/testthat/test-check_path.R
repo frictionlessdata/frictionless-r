@@ -59,8 +59,8 @@ test_that("check_path() returns error on relative parent path when safe =
   )
 })
 
-test_that("check_path() returns error when path starts with dot(.) when safe =
-          true", {
+test_that("check_path() returns error on path containing hidden folder when safe
+           = TRUE", {
   expect_error(
     check_path(".hidden/df.csv", directory = "data", safe = TRUE),
     class = "frictionless_error_path_unsafe_hidden"
