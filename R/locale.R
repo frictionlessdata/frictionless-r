@@ -37,8 +37,8 @@ locale <- function(package, resource_name) {
   } else {
     grouping_mark <- g_chars[1]
     cli::cli_warn(
-       fields with {.val {g_chars[1]}} as grouping mark.",
       "Some fields define a {.field groupChar}. Parsing all number
+       and integer fields with {.val {g_chars[1]}} as grouping mark.",
       class = "frictionless_warning_fields_groupchar_different"
     )
   }
