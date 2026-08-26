@@ -310,7 +310,8 @@ test_that("add_resource() can add resource from data frame, readable by
 })
 
 test_that("add_resource() can add resource from local, relative, absolute,
-           remote or compressed CSV file, readable by read_resource()", {
+           hidden, remote or compressed CSV file, readable by read_resource()",
+          {
   skip_if_offline()
   p <- example_package()
   schema <- schema(p, "deployments")
@@ -335,19 +336,25 @@ test_that("add_resource() can add resource from local, relative, absolute,
   expect_identical(p$resources[[6]]$path, absolute_path)
   expect_s3_class(read_resource(p, "absolute"), "tbl")
 
+  # Hidden (doesn't throw unsafe error)
+  hidden_path <- test_path("data/.hidden/df.csv")
+  p <- add_resource(p, "hidden", hidden_path)
+  expect_identical(p$resources[[7]]$path, hidden_path)
+  expect_s3_class(read_resource(p, "hidden"), "tbl")
+
   # Remote
   remote_path <- file.path(
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
     "main/inst/extdata/v1/deployments.csv"
   )
   p <- add_resource(p, "remote", remote_path, schema)
-  expect_identical(p$resources[[7]]$path, remote_path)
+  expect_identical(p$resources[[8]]$path, remote_path)
   expect_s3_class(read_resource(p, "remote"), "tbl")
 
   # Compressed
   compressed_file <- test_path("data/deployments.csv.gz")
   p <- add_resource(p, "compressed", compressed_file, schema)
-  expect_identical(p$resources[[8]]$path, compressed_file)
+  expect_identical(p$resources[[9]]$path, compressed_file)
   expect_s3_class(read_resource(p, "compressed"), "tbl")
 })
 
