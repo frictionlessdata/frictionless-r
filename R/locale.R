@@ -24,7 +24,7 @@ locale <- function(package, resource_name) {
     decimal_mark <- d_chars[1]
     cli::cli_warn(
       "Some fields define a non-default {.field decimalChar}. Parsing all number
-       fields with {.val {d_chars[1]}} as decimal mark.",
+      fields with {.val {d_chars[1]}} as decimal mark.",
       class = "frictionless_warning_fields_decimalchar_different"
     )
   }
