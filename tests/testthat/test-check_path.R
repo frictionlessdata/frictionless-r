@@ -59,6 +59,18 @@ test_that("check_path() returns error on relative parent path when safe =
   )
 })
 
+test_that("check_path() returns error when path starts with dot(.) when safe =
+          true", {
+  expect_error(
+    check_path(".hidden/df.csv", directory = "data", safe = TRUE),
+    class = "frictionless_error_path_unsafe_hidden"
+  )
+  expect_error(
+    check_path("data/.hidden/df.csv", safe = TRUE),
+    class = "frictionless_error_path_unsafe_hidden"
+  )
+})
+
 test_that("check_path() returns error when local file cannot be found", {
   expect_error(
     check_path("no_such_file.csv"),
@@ -81,5 +93,17 @@ test_that("check_path() returns error when remote file cannot be found", {
     check_path("https://example.com/no_such_file.csv"),
     regexp = "Can't find file at <https://example.com/no_such_file.csv>.",
     fixed = TRUE
+  )
+})
+
+test_that("check_path() returns error when path starts with dot(.) when safe =
+          true", {
+  expect_error(
+    check_path(".hidden/df.csv", directory = "data", safe = TRUE),
+    class = "frictionless_error_path_unsafe_hidden"
+  )
+  expect_error(
+    check_path("data/.hidden/df.csv", safe = TRUE),
+    class = "frictionless_error_path_unsafe_hidden"
   )
 })
