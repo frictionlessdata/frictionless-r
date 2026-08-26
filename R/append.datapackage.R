@@ -1,3 +1,6 @@
+#' Append values to an object
+#'
+#' An S3 generic version of [base::append()]; see [append.datapackage()].
 #' @export
 append <- function(x, values, after = length(x)) {
   # This function needs to be exported or base::append() will stop working when
