@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-[Data Resource](https://specs.frictionlessdata.io/data-resource/) is a simple format to describe a data resource such as an individual table or file, including its name, format, path, etc.
+[Data Resource](https://datapackage.org/standard/data-resource/) is a simple format to describe a data resource such as an individual table or file, including its name, format, path, etc.
 
 ::: {.callout-note}
 In this document we use the terms "package" for Data Package, "resource" for Data Resource, "dialect" for Table Dialect, and "schema" for Table Schema.
@@ -83,7 +83,7 @@ remove_resource(package, "deployments")
 add_resource(package, "iris", data = iris)
 
 # Replace a resource with one where data is stored in a tabular file
-path <- system.file("extdata", "v1", "deployments.csv", package = "frictionless")
+path <- system.file("extdata", "v2", "deployments.csv", package = "frictionless")
 add_resource(package, "deployments", data = path, replace = TRUE)
 ```
 
@@ -99,11 +99,15 @@ You can pipe most functions (see `vignette("data-package")`).
 
 ### $schema
 
-[`$schema`](https://datapackage.org/standard/data-resource/#dollar-schema) indicates what version of the Data Resource standard is used (v1 if undefined). It is ignored by `read_resource()`. `add_resource()` sets `$schema` to `"https://datapackage.org/profiles/2.0/dataresource.json"` (the recommended v2 value).
+[`$schema`](https://datapackage.org/standard/data-resource/#dollar-schema) indicates what version of the Data Resource standard is used (v1 if undefined). It is ignored by `read_resource()`. `add_resource()` sets `$schema` to `"https://datapackage.org/profiles/2.0/dataresource.json"` (the recommended v2 value). `upgrade_package()` does the same for all resources of a package.
+
+### profile
+
+[`profile`](https://specs.frictionlessdata.io/data-resource/#profile) (a deprecated v1 property) is ignored by `read_resource()` and not set by `add_resource()`. `upgrade_package()` removes `profile`, but converts `"profile" = "tabular-data-resource"` to `"type" = "table"`.
 
 ### name
 
-[`name`](https://specs.frictionlessdata.io/data-resource/#name) is required. It is used to identify a resource in `read_resource()`, `add_resource()` and `remove_resource()` (always as the second argument):
+[`name`](https://datapackage.org/standard/data-resource/#name) is required. It is used to identify a resource in `read_resource()`, `add_resource()` and `remove_resource()` (always as the second argument):
 
 ```{r}
 deployments <- read_resource(package, resource_name = "deployments")
@@ -117,9 +121,9 @@ add_resource(package, resource_name = "iris", data = iris)
 
 ### path
 
-[`path`](https://specs.frictionlessdata.io/data-resource/#data-location) or `data` (see further) is required. Providing both is not allowed.
+[`path`](https://datapackage.org/standard/data-resource/#path-or-data) or `data` (see further) is required. Providing both is not allowed.
 
-`path` is for data in files (e.g. a CSV file). It can be a local path or URL. Supported protocols are `http`, `https`, `ftp`, `sftp` and `sftp`. Absolute paths (`/`) or relative parent paths (`../`) are not allowed to avoid security vulnerabilities.
+`path` is for data in files (e.g. a CSV file). It can be a local path or URL. Supported protocols are `http`, `https`, `ftp`, `sftp` and `sftp`. Absolute paths (`/`), relative parent paths (`../`) and paths containing hidden directories (starting with `.`) are not allowed to avoid security vulnerabilities.
 
 When multiple paths are provided (`"path": ["myfile1.csv", "myfile2.csv"]`), the files are expected to have the same structure. `read_resource()` merges these into a single data frame in the order the paths are provided (using `dplyr::bind_rows()`):
 
@@ -133,7 +137,7 @@ read_resource(package, "observations")
 `add_resource()` sets `path` to the path(s) provided in `data`:
 
 ```{r}
-path <- system.file("extdata", "v1", "deployments.csv", package = "frictionless")
+path <- system.file("extdata", "v2", "deployments.csv", package = "frictionless")
 add_resource(package, "deployments", data = path, replace = TRUE)
 ```
 
@@ -165,21 +169,17 @@ package$resources[[4]]$data
 
 [`type`](https://datapackage.org/standard/data-resource/#type) is ignored by `read_resource()`. `add_resource()` sets `type` to `"table"` to indicate that the resource is [tabular](https://datapackage.org/standard/data-resource/#tabular).
 
-### profile
-
-[`profile`](https://specs.frictionlessdata.io/data-resource/#profile) (a deprecated v1 property) is ignored by `read_resource()` and not set by `add_resource()`. `upgrade_package()` will convert `"profile" = "tabular-data-resource"` to `"type" = "table"`.
-
 ### schema
 
-[`schema`](https://specs.frictionlessdata.io/data-resource/#resource-schemas) is required. It is used by `read_resource()` to parse data types and missing values. It can either be a JSON object or a path or URL referencing a JSON object. See `vignette("table-schema")` for details.
+[`schema`](https://datapackage.org/standard/data-resource/#schema) is required. It is used by `read_resource()` to parse data types and missing values. It can either be a JSON object or a path or URL referencing a JSON object. See `vignette("table-schema")` for details.
 
 ### dialect
 
-[`dialect`](https://specs.frictionlessdata.io/tabular-data-resource/#csv-dialect) is used by `read_resource()` to parse a tabular data file. It can either be a JSON object or a path or URL referencing a JSON object. See `vignette("table-dialect")` for details.
+[`dialect`](https://datapackage.org/standard/data-resource/#dialect) is used by `read_resource()` to parse a tabular data file. It can either be a JSON object or a path or URL referencing a JSON object. See `vignette("table-dialect")` for details.
 
 ### title
 
-[`title`](https://specs.frictionlessdata.io/data-resource/#optional-properties) is ignored by `read_resource()` and not set by `add_resource()`, unless provided:
+[`title`](https://datapackage.org/standard/data-resource/#title) is ignored by `read_resource()` and not set by `add_resource()`, unless provided:
 
 ```{r}
 add_resource(
@@ -193,11 +193,11 @@ add_resource(
 
 ### description
 
-[`description`](https://specs.frictionlessdata.io/data-resource/#optional-properties) is ignored by `read_resource()` and not set by `add_resource()` unless provided (cf. `title`).
+[`description`](https://datapackage.org/standard/data-resource/#description) is ignored by `read_resource()` and not set by `add_resource()` unless provided (cf. `title`).
 
 ### format
 
-[`format`](https://specs.frictionlessdata.io/data-resource/#optional-properties) is ignored by `read_resource()`. `add_resource()` sets `format` when data are provided as a file, based on the provided `delim`:
+[`format`](https://datapackage.org/standard/data-resource/#format) is ignored by `read_resource()`. `add_resource()` sets `format` when data are provided as a file, based on the provided `delim`:
 
 delim | format
 --- | ---
@@ -206,7 +206,7 @@ delim | format
 any other value | `"csv"`
 
 ```{r}
-path <- system.file("extdata", "v1", "observations_1.tsv", package = "frictionless")
+path <- system.file("extdata", "v2", "observations_1.tsv", package = "frictionless")
 package <- add_resource(package, "observations", data = path, delim = "\t", replace = TRUE)
 package$resources[[2]]$format
 ```
@@ -215,7 +215,7 @@ package$resources[[2]]$format
 
 ### mediatype
 
-[`mediatype`](https://specs.frictionlessdata.io/data-resource/#optional-properties) is ignored by `read_resource()`. `add_resource()` sets `mediatype` when data are provided as a file, based on the provided `delim`:
+[`mediatype`](https://datapackage.org/standard/data-resource/#mediatype) is ignored by `read_resource()`. `add_resource()` sets `mediatype` when data are provided as a file, based on the provided `delim`:
 
 delim | mediatype
 --- | ---
@@ -224,7 +224,7 @@ delim | mediatype
 any other value | `"text/csv"`
 
 ```{r}
-path <- system.file("extdata", "v1", "observations_1.tsv", package = "frictionless")
+path <- system.file("extdata", "v2", "observations_1.tsv", package = "frictionless")
 package <- add_resource(package, "observations", data = path, delim = "\t", replace = TRUE)
 package$resources[[2]]$mediatype
 ```
@@ -233,34 +233,34 @@ package$resources[[2]]$mediatype
 
 ### encoding
 
-[`encoding`](https://specs.frictionlessdata.io/data-resource/#optional-properties) (e.g. `"windows-1252"`) is used by `read_resource()` to parse the file. It defaults to UTF-8 if no `encoding` is provided or if it cannot be recognized. The returned data frame is always UTF-8.
+[`encoding`](https://datapackage.org/standard/data-resource/#encoding) (e.g. `"windows-1252"`) is used by `read_resource()` to parse the file. It defaults to UTF-8 if no `encoding` is provided or if it cannot be recognized. The returned data frame is always UTF-8.
 
 `add_resource()` guesses the `encoding` (using `readr::guess_encoding()`) when data are provided as file. It leaves the `encoding` undefined when data are provided as a data frame. `write_package()` sets it to `"utf-8"` when writing to disk.
 
 ```{r}
-path <- system.file("extdata", "v1", "deployments.csv", package = "frictionless")
+path <- system.file("extdata", "v2", "deployments.csv", package = "frictionless")
 package <- add_resource(package, "deployments", data = path, delim = ",", replace = TRUE)
 package$resources[[2]]$encoding
 ```
 
 ### bytes
 
-[`bytes`](https://specs.frictionlessdata.io/data-resource/#optional-properties) is ignored by `read_resource()` and not set by `add_resource()` unless provided (cf. `title`).
+[`bytes`](https://datapackage.org/standard/data-resource/#bytes) is ignored by `read_resource()` and not set by `add_resource()` unless provided (cf. `title`).
 
 ### hash
 
-[`hash`](https://specs.frictionlessdata.io/data-resource/#optional-properties) is ignored by `read_resource()` and not set by `add_resource()` unless provided (cf. `title`).
+[`hash`](https://datapackage.org/standard/data-resource/#hash) is ignored by `read_resource()` and not set by `add_resource()` unless provided (cf. `title`).
 
 ### sources
 
-[`sources`](https://specs.frictionlessdata.io/data-resource/#optional-properties) is ignored by `read_resource()` and not set by `add_resource()` unless provided (cf. `title`).
+[`sources`](https://datapackage.org/standard/data-resource/#sources) is ignored by `read_resource()` and not set by `add_resource()` unless provided (cf. `title`).
 
 ### licenses
 
-[`licenses`](https://specs.frictionlessdata.io/data-resource/#optional-properties) is ignored by `read_resource()` and not set by `add_resource()` unless provided (cf. `title`).
+[`licenses`](https://datapackage.org/standard/data-resource/#licenses) is ignored by `read_resource()` and not set by `add_resource()` unless provided (cf. `title`).
 
 ### compression
 
-[`compression`](https://specs.frictionlessdata.io/patterns/#specification-3) (a recipe) is ignored by `read_resource()` and not set by `add_resource()`.
+[`compression`](https://datapackage.org/recipes/compression-of-resources/) (a recipe) is ignored by `read_resource()` and not set by `add_resource()`.
 
 Compression is derived from the provided `path` instead. If the `path` ends in `.gz`, `.bz2`, `.xz`, or `.zip`, the files are automatically decompressed by `read_resource()` (using default `readr::read_delim()` functionality).
