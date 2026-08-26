@@ -39,17 +39,4 @@ append.default <- function(x, values, after = length(x)) {
 #' p_app <- append(p, list("$schema" = "just added"), after = 0)
 #' p_app
 #' attributes(p_app)
-append.datapackage <- function(x, values, after = length(x)){
-  attrs <- attributes(x)
-    # Names will be the wrong length when appending
-  attrs[["names"]] <- NULL
-  p_app <- base::append(unclass(x), values, after = after)
-
-  attributes(p_app) <- purrr::list_modify(
-    # Start from the newly appended attributes
-    attributes(p_app),
-    # Add our existing attributes: directory and class
-    val = !!!attrs
-  )
-  p_app
-}
+append.datapackage <- function(...) {append_with_attrs(...)}
