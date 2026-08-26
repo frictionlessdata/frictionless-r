@@ -129,7 +129,7 @@ When multiple paths are provided (`"path": ["myfile1.csv", "myfile2.csv"]`), the
 
 ```{r}
 # The "observations" resource has multiple files in path
-package$resources[[2]]$path
+resource(package, "observations")$path
 # These are combined into a single data frame when reading
 read_resource(package, "observations")
 ```
@@ -151,7 +151,7 @@ Support for inline `data` is currently limited, e.g. JSON object and string are 
 
 ```{r}
 # The "media" resource has inline data
-str(package$resources[[3]]$data)
+str(resource(package, "media")$data)
 read_resource(package, "media")
 ```
 
@@ -160,7 +160,7 @@ read_resource(package, "media")
 ```{r}
 df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
 package <- add_resource(package, "df", df)
-package$resources[[4]]$data
+resource(package, "df")$data
 ```
 
 `write_package()` writes that data frame to a CSV file, adds its path to `path` and removes `data`.
@@ -182,13 +182,14 @@ package$resources[[4]]$data
 [`title`](https://datapackage.org/standard/data-resource/#title) is ignored by `read_resource()` and not set by `add_resource()`, unless provided:
 
 ```{r}
-add_resource(
+package <- add_resource(
   package,
   "iris",
   iris,
   title = "Edgar Anderson's Iris Data",
   replace = TRUE
 )
+resource(package, "iris")$title
 ```
 
 ### description
@@ -208,7 +209,7 @@ any other value | `"csv"`
 ```{r}
 path <- system.file("extdata", "v2", "observations_1.tsv", package = "frictionless")
 package <- add_resource(package, "observations", data = path, delim = "\t", replace = TRUE)
-package$resources[[2]]$format
+resource(package, "observations")$format
 ```
 
 `add_resource()` leaves `format` undefined when data are provided as a data frame. `write_package()` sets it to `"csv"` when writing to disk.
@@ -226,7 +227,7 @@ any other value | `"text/csv"`
 ```{r}
 path <- system.file("extdata", "v2", "observations_1.tsv", package = "frictionless")
 package <- add_resource(package, "observations", data = path, delim = "\t", replace = TRUE)
-package$resources[[2]]$mediatype
+resource(package, "observations")$mediatype
 ```
 
 `add_resource()` leaves `mediatype` undefined when data are provided as a data frame. `write_package()` sets it to `"text/csv"` when writing to disk.
@@ -240,7 +241,7 @@ package$resources[[2]]$mediatype
 ```{r}
 path <- system.file("extdata", "v2", "deployments.csv", package = "frictionless")
 package <- add_resource(package, "deployments", data = path, delim = ",", replace = TRUE)
-package$resources[[2]]$encoding
+resource(package, "observations")$encoding
 ```
 
 ### bytes
