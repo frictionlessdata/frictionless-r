@@ -90,3 +90,28 @@ get_dot_names <- function(...) {
   # Return the names that are not an empty string (no name set)
   return(dot_names[dot_names != ""])
 }
+
+#' Append an object, but retain attributes
+#'
+#' Appends values to an object, preserving its attributes. `names` are removed
+#' because they are length dependent.
+#' @inheritParams base::append x values after
+#'
+#' @returns An object with the elements of `values` appended after the specified
+#'   element of `x`.
+#'
+#' @noRd
+append_with_attrs <- function(x, values, after = length(x)){
+  attrs <- attributes(x)
+  # Names will be the wrong length when appending
+  attrs[["names"]] <- NULL
+  p_app <- base::append(unclass(x), values, after = after)
+
+  attributes(p_app) <- purrr::list_modify(
+    # Start from the newly appended attributes
+    attributes(p_app),
+    # Add our existing attributes: directory and class
+    val = !!!attrs
+  )
+  p_app
+}

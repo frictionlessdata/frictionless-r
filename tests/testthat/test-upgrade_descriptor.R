@@ -1,10 +1,8 @@
-# Return ----
 test_that("upgrade_descriptor() returns a valid package", {
   p_v1 <- example_package(version = "1.0")
   expect_no_error(check_package(upgrade_descriptor(p_v1)))
 })
 
-# Functionality ----
 test_that("upgrade_descriptor() upgrades a v1 package to v2", {
   p_v1 <- example_package(version = "1.0")
   expect_identical(version(upgrade_descriptor(p_v1)), "2.0")
@@ -53,6 +51,12 @@ test_that("upgrade_descriptor() sets $schema to default v2 value or custom
   # Ignore unregistered value
   p_v1$profile <- "unregistered-package"
   expect_identical(upgrade_descriptor(p_v1)$`$schema`, v2_profile)
+})
+
+test_that("upgrade_descriptor() sets $schema to the first position", {
+  p_v1 <- example_package(version = "1.0")
+  p_upgraded <- upgrade_descriptor(p_v1)
+  expect_identical(names(p_upgraded)[[1]], "$schema")
 })
 
 test_that("upgrade_descriptor() updates contributor role to roles", {

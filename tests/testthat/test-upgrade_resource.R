@@ -1,4 +1,3 @@
-# Return ----
 test_that("upgrade_descriptor() returns resource object", {
   resource_v1 <- resource(example_package(version = "1.0"), "deployments")
   # Resource object has "data_location" attribute that should be kept
@@ -8,7 +7,6 @@ test_that("upgrade_descriptor() returns resource object", {
   )
 })
 
-# Functionality ----
 test_that("upgrade_resource() upgrades a v1 resource to v2", {
   resource_v1 <- resource(example_package(version = "1.0"), "deployments")
   expect_identical(version(upgrade_resource(resource_v1)), "2.0")
@@ -48,6 +46,12 @@ test_that("upgrade_resource() sets $schema to default v2 value", {
   # Ignore unregistered value
   resource_v1$profile <- "unregistered-resource"
   expect_identical(upgrade_resource(resource_v1)$`$schema`, v2_profile)
+})
+
+test_that("upgrade_resource() sets $schema to the first position", {
+  resource_v1 <- resource(example_package(version = "1.0"), "deployments")
+  resource_upgraded <- upgrade_resource(resource_v1)
+  expect_identical(names(resource_upgraded)[[1]], "$schema")
 })
 
 test_that("upgrade_resource() sets type for tabular resources", {
