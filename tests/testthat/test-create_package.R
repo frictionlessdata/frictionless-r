@@ -37,7 +37,8 @@ test_that("create_package() sets $schema if created from scratch", {
     "https://datapackage.org/profiles/2.0/datapackage.json"
   )
 
-  existing <- example_package(version = "1.0")
+  custom_resources <- list(list("name" = "custom_name"))
+  existing <- create_package(list(resources = custom_resources))
   expect_null(existing$`$schema`)
 })
 
