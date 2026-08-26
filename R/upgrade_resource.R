@@ -12,12 +12,9 @@ upgrade_resource <- function(resource) {
     return(resource)
   }
 
-  # Set $schema as first property
-  resource <- append(
-    resource,
-    list("$schema" = "https://datapackage.org/profiles/2.0/dataresource.json"),
-    after = 0
-  )
+  # Set $schema
+  purrr::pluck(resource, "$schema") <-
+    "https://datapackage.org/profiles/2.0/dataresource.json"
 
   # Set type to table if resource is tabular, see
   # https://datapackage.org/standard/data-resource/#type

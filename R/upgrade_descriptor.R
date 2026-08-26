@@ -14,12 +14,9 @@ upgrade_descriptor <- function(package) {
     return(package)
   }
 
-  # Set $schema as first property
-  package <- append(
-    package,
-    list("$schema" = "https://datapackage.org/profiles/2.0/datapackage.json"),
-    after = 0
-  )
+  # Set $schema
+  purrr::pluck(package, "$schema") <-
+    "https://datapackage.org/profiles/2.0/datapackage.json"
 
   # Set $schema to profile if URL (to custom profile)
   profile <- package$profile %||% "undefined"

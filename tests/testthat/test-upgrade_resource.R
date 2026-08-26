@@ -22,30 +22,29 @@ test_that("upgrade_resource() removes profile", {
   expect_null(upgrade_resource(resource_v1)$profile)
 })
 
-test_that("upgrade_resource() sets $schema as first property", {
+test_that("upgrade_resource() sets $schema", {
   resource_v1 <- resource(example_package(version = "1.0"), "deployments")
   v2_profile <- "https://datapackage.org/profiles/2.0/dataresource.json"
 
   # Ignore undefined
   resource_v1$profile <- NULL
   expect_identical(upgrade_resource(resource_v1)$`$schema`, v2_profile)
-  expect_identical(upgrade_resource(resource_v1)[[1]], v2_profile)
 
   # Ignore default value
   resource_v1$profile <- "data-resource"
-  expect_identical(upgrade_resource(resource_v1)[[1]], v2_profile)
+  expect_identical(upgrade_resource(resource_v1)$`$schema`, v2_profile)
 
   # Ignore tabular-data-resource (retained in type: table)
   resource_v1$profile <- "tabular-data-resource"
-  expect_identical(upgrade_resource(resource_v1)[[1]], v2_profile)
+  expect_identical(upgrade_resource(resource_v1)$`$schema`, v2_profile)
 
   # Ignore URL to custom profile (hardly used)
   resource_v1$profile <- "http://example.com/my-profiles-json-schema.json"
-  expect_identical(upgrade_resource(resource_v1)[[1]], v2_profile)
+  expect_identical(upgrade_resource(resource_v1)$`$schema`, v2_profile)
 
   # Ignore unregistered value
   resource_v1$profile <- "unregistered-resource"
-  expect_identical(upgrade_resource(resource_v1)[[1]], v2_profile)
+  expect_identical(upgrade_resource(resource_v1)$`$schema`, v2_profile)
 })
 
 test_that("upgrade_resource() sets type for tabular resources", {
