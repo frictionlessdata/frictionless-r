@@ -1,3 +1,4 @@
+# Return ----
 test_that("read_package() returns a valid package reading from path", {
   # Load example package and a valid minimal one
   p_path <- system.file("extdata", "v1", "datapackage.json", package = "frictionless")
@@ -45,6 +46,7 @@ test_that("read_package() returns a valid package reading from url", {
   )
 })
 
+# Error handling ----
 test_that("read_package() returns error on missing or invalid file", {
   skip_if_offline()
   # Incorrect type
@@ -80,6 +82,7 @@ test_that("read_package() returns error on missing or invalid file", {
   )
 })
 
+# Warnings ----
 test_that("read_package() warns if resources are missing", {
   # No resources property
   expect_warning(
@@ -135,3 +138,5 @@ test_that("read_package() converts JSON null to NULL", {
   # { "spatial": null } is read as NULL (use chuck() to force error if missing)
   expect_null(purrr::chuck(p, "spatial"))
 })
+
+# Version support ----

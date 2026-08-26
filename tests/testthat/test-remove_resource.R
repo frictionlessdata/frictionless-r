@@ -1,15 +1,10 @@
+# Return ----
 test_that("remove_resource() returns a valid package", {
   p <- example_package()
   expect_no_error(check_package(remove_resource(p, "deployments")))
 })
 
-test_that("remove_resource() returns package in same version as provided", {
-  p_v1 <- example_package(version = "1.0")
-  p_v2 <- example_package(version = "2.0")
-  expect_identical(version(remove_resource(p_v1, "deployments")), "1.0")
-  expect_identical(version(remove_resource(p_v2, "deployments")), "2.0")
-})
-
+# Error handling ----
 test_that("remove_resource() returns error on invalid package", {
   expect_error(
     remove_resource(list(), "deployments"),
@@ -37,6 +32,7 @@ test_that("remove_resource() returns error when resource not found", {
   )
 })
 
+# Functionality ----
 test_that("remove_resource() removes resource", {
   p <- example_package()
 
@@ -46,4 +42,12 @@ test_that("remove_resource() removes resource", {
   # Resource removed
   expect_length(p_removed$resources, 2) # Remains a list, now of length 2
   expect_identical(p_removed$resources[[1]][["name"]], "observations")
+})
+
+# Version support ----
+test_that("remove_resource() returns package in same version as provided", {
+  p_v1 <- example_package(version = "1.0")
+  p_v2 <- example_package(version = "2.0")
+  expect_identical(version(remove_resource(p_v1, "deployments")), "1.0")
+  expect_identical(version(remove_resource(p_v2, "deployments")), "2.0")
 })

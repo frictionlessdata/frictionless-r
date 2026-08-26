@@ -1,3 +1,4 @@
+# Return ----
 test_that("add_resource() returns a valid package", {
   p <- example_package()
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
@@ -11,24 +12,12 @@ test_that("add_resource() returns a valid package", {
   ))
 })
 
+# Error handling ----
 test_that("add_resource() returns error on package", {
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   expect_error(
     add_resource(list(), "new", df),
     class = "frictionless_error_package_invalid"
-  )
-})
-
-test_that("add_resource() allows any string as resource name and trims it", {
-  p <- example_package()
-  df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
-
-   expect_no_error(
-    add_resource(p, "  Nëw  re/source 4 ", df)
-  )
-  expect_contains(
-    resource_names(add_resource(p, "  Nëw  re/source 4 ", df)),
-    "Nëw  re/source 4" # Trimmed
   )
 })
 
@@ -199,7 +188,8 @@ test_that("add_resource() returns error if ... arguments are reserved", {
   )
 })
 
-test_that("add_resource() adds resource", {
+# Functionality ----
+test_that("add_resource() adds a v2 resource", {
   p <- example_package()
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   df_csv <- test_path("data/df.csv")
@@ -232,6 +222,19 @@ test_that("add_resource() adds resource", {
   expect_identical(
     resource_names(p),
     c("deployments", "observations", "media", "new_df", "new_csv")
+  )
+})
+
+test_that("add_resource() allows any string as resource name and trims it", {
+  p <- example_package()
+  df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
+
+  expect_no_error(
+    add_resource(p, "  Nëw  re/source 4 ", df)
+  )
+  expect_contains(
+    resource_names(add_resource(p, "  Nëw  re/source 4 ", df)),
+    "Nëw  re/source 4" # Trimmed
   )
 })
 
@@ -441,4 +444,25 @@ test_that("add_resource() sets ... arguments as extra properties", {
   p <- add_resource(p, "new_csv", df_csv, title = "custom_title", foo = "bar")
   expect_identical(p$resources[[2]]$title, "custom_title")
   expect_identical(p$resources[[2]]$foo, "bar")
+})
+
+# Version support ----
+test_that("add_resource() returns package in same version as provided", {
+  p_v1 <- example_package(version = "1.0")
+  p_v2 <- example_package(version = "2.0")
+  df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
+  expect_identical(version(add_resource(p_v1, "new", df)), "1.0")
+  expect_identical(version(add_resource(p_v2, "new", df)), "2.0")
+})
+
+test_that("add_resource() always creates a v2 resource", {
+  p_v1 <- example_package(version = "1.0")
+  p_v2 <- example_package(version = "2.0")
+  df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
+  p_v1 <- add_resource(p_v1, "new", df)
+  p_v2 <- add_resource(p_v2, "new", df)
+  expect_identical(version(resource(p_v1, "new")), "2.0")
+  expect_identical(version(resource(p_v2, "new")), "2.0")
+
+  # See further for setting $schema
 })

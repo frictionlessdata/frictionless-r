@@ -1,3 +1,4 @@
+# Return ----
 test_that("write_package() returns output package v1 (invisibly)", {
   p_v1 <- example_package(version = "1.0")
 
@@ -30,6 +31,7 @@ test_that("write_package() returns output package v2 (invisibly)", {
   expect_identical(p_written, p_from_file)
 })
 
+# Error handling ----
 test_that("write_package() returns error on invalid package", {
   expect_error(
     write_package(list()),
@@ -60,6 +62,8 @@ test_that("write_package() returns error if package has no resource(s)", {
   # Resources without path or data are tested in test-read_resource.R
 })
 
+# Functionality ----
+## Input = Output ----
 test_that("write_package() writes unaltered v1 datapackage.json as is", {
   p_v1_file <-
     system.file("extdata", "v1", "datapackage.json", package = "frictionless")
@@ -88,6 +92,7 @@ test_that("write_package() writes unaltered v2 datapackage.json as is", {
   expect_identical(json_as_written, json_original)
 })
 
+## Writing data to CSV files ----
 test_that("write_package() overwrites files only if necessary", {
   skip_if_offline()
   dir <- "output" # file.path(tempdir(), "package") fails on Windows :-/
@@ -375,44 +380,6 @@ test_that("write_package() shows message when downloading file", {
   )
 })
 
-test_that("write_package() sets correct properties for data frame resources", {
-  p <- example_package()
-  df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
-  schema <- create_schema(df)
-  p <- add_resource(p, "new", df)
-  dir <- file.path(tempdir(), "package")
-  on.exit(unlink(dir, recursive = TRUE))
-  p_written <- suppressMessages(write_package(p, dir))
-  resource_written <- p_written$resources[[4]]
-
-  # Added resource has correct properties
-  expect_identical(resource_written$name, "new")
-  expect_identical(resource_written$path, "new.csv")
-  expect_identical(resource_written$type, "table")
-  expect_identical(resource_written$format, "csv")
-  expect_identical(resource_written$mediatype, "text/csv")
-  expect_identical(resource_written$encoding, "utf-8")
-  expect_null(resource_written$dialect)
-  expect_identical(resource_written$schema, schema)
-  expect_null(resource_written$data)
-})
-
-test_that("write_package() retains custom properties set in add_resource()", {
-  p <- create_package()
-  df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
-  p <- add_resource(p, "new_df", df, title = "custom_title", foo = "bar")
-  df_csv <- test_path("data/df.csv")
-  p <- add_resource(p, "new_csv", df_csv, title = "custom_title", foo = "bar")
-  dir <- file.path(tempdir(), "package")
-  on.exit(unlink(dir, recursive = TRUE))
-  p_written <- suppressMessages(write_package(p, dir))
-
-  expect_identical(p_written$resources[[1]]$title, "custom_title")
-  expect_identical(p_written$resources[[1]]$foo, "bar")
-  expect_identical(p_written$resources[[2]]$title, "custom_title")
-  expect_identical(p_written$resources[[2]]$foo, "bar")
-})
-
 test_that("write_package() will gzip file for compress = TRUE", {
   p <- example_package()
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
@@ -452,4 +419,43 @@ test_that("write_package() writes NULL and NA as null", {
   expect_null(p_reread$null_property) # Write should remove this property
   expect_null(purrr::chuck(p_reread, "na_property"))
   expect_null(purrr::chuck(p_reread, "resources", 4, "na_property"))
+})
+
+## Resource properties ----
+test_that("write_package() sets correct properties for data frame resources", {
+  p <- example_package()
+  df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
+  schema <- create_schema(df)
+  p <- add_resource(p, "new", df)
+  dir <- file.path(tempdir(), "package")
+  on.exit(unlink(dir, recursive = TRUE))
+  p_written <- suppressMessages(write_package(p, dir))
+  resource_written <- p_written$resources[[4]]
+
+  # Added resource has correct properties
+  expect_identical(resource_written$name, "new")
+  expect_identical(resource_written$path, "new.csv")
+  expect_identical(resource_written$type, "table")
+  expect_identical(resource_written$format, "csv")
+  expect_identical(resource_written$mediatype, "text/csv")
+  expect_identical(resource_written$encoding, "utf-8")
+  expect_null(resource_written$dialect)
+  expect_identical(resource_written$schema, schema)
+  expect_null(resource_written$data)
+})
+
+test_that("write_package() retains custom properties set in add_resource()", {
+  p <- create_package()
+  df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
+  p <- add_resource(p, "new_df", df, title = "custom_title", foo = "bar")
+  df_csv <- test_path("data/df.csv")
+  p <- add_resource(p, "new_csv", df_csv, title = "custom_title", foo = "bar")
+  dir <- file.path(tempdir(), "package")
+  on.exit(unlink(dir, recursive = TRUE))
+  p_written <- suppressMessages(write_package(p, dir))
+
+  expect_identical(p_written$resources[[1]]$title, "custom_title")
+  expect_identical(p_written$resources[[1]]$foo, "bar")
+  expect_identical(p_written$resources[[2]]$title, "custom_title")
+  expect_identical(p_written$resources[[2]]$foo, "bar")
 })
