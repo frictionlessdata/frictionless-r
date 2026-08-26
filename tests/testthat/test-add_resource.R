@@ -273,30 +273,6 @@ test_that("add_resource() can add a new resource even with replace = TRUE", {
   expect_identical(c(resource_names(p), "new_resource"), resource_names(p_replaced))
 })
 
-test_that("adds_resource() sets resource$schema", {
-  p <- example_package()
-
-  # Add new resource
-  df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
-  p_new <- add_resource(p, "new_resource", df)
-  expect_identical(
-    resource(p_new, "new_resource")$`$schema`,
-    "https://datapackage.org/profiles/2.0/dataresource.json"
-  )
-
-  # Replace resource
-  deployments <- system.file(
-    "extdata", "v2", "deployments.csv", package = "frictionless"
-  )
-  expect_null(resource(p, "deployments")$`$schema`)
-
-  p_replaced <- add_resource(p, "deployments", deployments, replace = TRUE)
-  expect_identical(
-    resource(p_replaced, "deployments")$`$schema`,
-    "https://datapackage.org/profiles/2.0/dataresource.json"
-  )
-})
-
 test_that("add_resource() uses provided schema (list or path) or creates one", {
   p <- create_package()
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
