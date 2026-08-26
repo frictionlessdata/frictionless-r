@@ -16,10 +16,11 @@ test_that("upgrade_descriptor() leaves a v2 package as is", {
 test_that("upgrade_descriptor() removes profile", {
   p_v1 <- example_package(version = "1.0")
   p_v1$profile <- "data-package"
-  expect_false("profile" %in% names(upgrade_descriptor(p_v1)))
+  expect_null(upgrade_descriptor(p_v1)$profile)
 })
 
-test_that("upgrade_descriptor() sets $schema", {
+test_that("upgrade_descriptor() sets $schema to default v2 value or custom
+           profile URL", {
   p_v1 <- example_package(version = "1.0")
   v2_profile <- "https://datapackage.org/profiles/2.0/datapackage.json"
 
@@ -62,12 +63,10 @@ test_that("upgrade_descriptor() updates contributor role to roles", {
     list(title = "Jack of all trades", roles = list("a", "b"))
   )
   p_upgraded <- upgrade_descriptor(p_v1)
-  ## Has role been removed?
-  expect_false("role" %in% names(purrr::chuck(p_upgraded, "contributors", 1L)))
-  ## Has roles not been added where there was no role before?
-  expect_false("roles" %in% names(purrr::chuck(p_upgraded, "contributors", 2L)))
-  expect_identical(p_upgraded$contributors[[1]]$roles, list("author")) # Added
-  expect_identical(p_upgraded$contributors[[3]]$roles, list("a", "b")) # Kept
+  expect_identical(p_upgraded$contributors[[1]][["roles"]], list("author")) # Added
+  expect_null(p_upgraded$contributors[[1]][["role"]]) # Removed
+  expect_null(p_upgraded$contributors[[2]][["roles"]]) # Not added
+  expect_identical(p_upgraded$contributors[[3]][["roles"]], list("a", "b")) # Kept
 
   # Undefined
   p_v1$contributors <- NULL
