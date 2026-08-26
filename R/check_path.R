@@ -9,7 +9,7 @@
 #' @param path Path or URL to a file.
 #' @param directory Directory to prepend to path.
 #' @param safe Require `path` to be safe, i.e. no absolute or relative parent
-#'   paths.
+#'   paths, or hidden paths.
 #' @returns Absolute path or URL or an error.
 #' @family check functions
 #' @noRd
