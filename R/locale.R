@@ -43,6 +43,29 @@ locale <- function(package, resource_name) {
     )
   }
 
+  # Decimal mark and grouping mark must be different
+  if (decimal_mark == grouping_mark) {
+    # Error message slightly different if decimal_mark is default (".") or not
+    if (decimal_mark == ".") {
+      cli::cli_abort(c(
+        "Grouping mark must be different than decimal mark.",
+        "i" = "Some fields define a {.field groupChar} ({.val {grouping_mark}})
+        that is the same as {.field decimalChar} ({.val {decimal_mark}},
+        <the default>)."
+        ),
+      class = "frictionless_error_fields_decimalchar_groupchar_same_default"
+      )
+    } else {
+      cli::cli_abort(c(
+        "Grouping mark must be different than decimal mark.",
+        "i" = "Some fields define a {.field groupChar} ({.val {grouping_mark}})
+        that is the same as {.field decimalChar} ({.val {decimal_mark}})."
+        ),
+      class = "frictionless_error_fields_decimalchar_groupchar_same"
+      )
+    }
+  }
+
   # Set encoding
   encoding <- resource$encoding %||% "UTF-8" # Set default to UTF-8
   if (!tolower(encoding) %in% tolower(iconvlist())) {
