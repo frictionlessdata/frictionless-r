@@ -1,5 +1,3 @@
-# UPGRADE HELPER FUNCTIONS
-
 #' Upgrade a Data Resource object from v1 to v2
 #'
 #' @param resource List describing a Data Resource, as returned by [resource()].
@@ -28,8 +26,7 @@ upgrade_resource <- function(resource) {
     resource$type <- "table"
   }
 
-  # Remove profile (https://specs.frictionlessdata.io/data-resource/#profile)
-  # This may remove URL to custom resource profile, but is seldom-used feature
+  # Remove profile, including URL to custom *resource* profile, but hardly used
   resource$profile <- NULL
 
   return(resource)

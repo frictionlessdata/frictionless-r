@@ -1,7 +1,7 @@
 test_that("create_package() creates a valid v2 package", {
   expect_identical(version(create_package()), "2.0")
 
-  # Somewhat superfluous, since create_package() already calls check_package()
+  # Wrapping in check_package() bit superfluous, since create_package() calls it
   expect_no_error(check_package(create_package()))
   expect_no_error(check_package(create_package(
     list(resources = list(), directory = "not_default")
@@ -28,6 +28,18 @@ test_that("create_package() returns error on invalid descriptor", {
     create_package(list(resources = "not_a_list")),
     class = "frictionless_error_package_invalid"
   )
+})
+
+test_that("create_package() sets $schema if created from scratch", {
+  new <- create_package()
+  expect_identical(
+    new$`$schema`,
+    "https://datapackage.org/profiles/2.0/datapackage.json"
+  )
+
+  custom_resources <- list(list("name" = "custom_name"))
+  existing <- create_package(list(resources = custom_resources))
+  expect_null(existing$`$schema`)
 })
 
 test_that("create_package() sets resources or leaves as is", {
