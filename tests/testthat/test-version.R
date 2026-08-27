@@ -24,7 +24,7 @@ test_that("version() returns correct version for package", {
   expect_identical(version(package), "3.0")
 
   # Custom extensions
-  package$`$schema` <- "https://custom.datapackage.org/package-profile.json"
+  package$`$schema` <- "https://custom.datapackage.org/1.0/package-profile.json"
   expect_identical(version(package), ">=2.0")
   package$`$schema` <- "https://rs.tdwg.org/dwc-dp/1.0/dwc-dp-profile.json"
   expect_identical(version(package), ">=2.0")
@@ -58,7 +58,7 @@ test_that("version() returns correct version for resource", {
   expect_identical(version(resource), "3.0")
 
   # Custom extensions
-  resource$`$schema` <- "https://custom.datapackage.org/resource-profile.json"
+  resource$`$schema` <- "https://custom.datapackage.org/1.0/resource-profile.json"
   expect_identical(version(resource), ">=2.0")
 })
 
@@ -92,7 +92,7 @@ test_that("version() returns correct version for dialect", {
   expect_identical(version(dialect), "3.0")
 
   # Custom extensions
-  dialect$`$schema` <- "https://custom.datapackage.org/dialect-profile.json"
+  dialect$`$schema` <- "https://custom.datapackage.org/1.0/dialect-profile.json"
   expect_identical(version(dialect), ">=2.0")
 })
 
@@ -123,7 +123,7 @@ test_that("version() returns correct version for schema", {
   expect_identical(version(schema), "3.0")
 
   # Custom extensions
-  schema$`$schema` <- "https://custom.datapackage.org/schema-profile.json"
+  schema$`$schema` <- "https://custom.datapackage.org/1.0/schema-profile.json"
   expect_identical(version(schema), ">=2.0")
 })
 
