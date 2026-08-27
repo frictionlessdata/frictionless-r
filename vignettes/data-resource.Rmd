@@ -103,7 +103,7 @@ You can pipe most functions (see `vignette("data-package")`).
 
 ### profile
 
-[`profile`](https://specs.frictionlessdata.io/data-resource/#profile) (a deprecated v1 property) is ignored by `read_resource()` and not set by `add_resource()`. `upgrade_package()` removes `profile`, but converts `"profile" = "tabular-data-resource"` to `"type" = "table"`.
+[`profile`](https://specs.frictionlessdata.io/data-resource/#profile) (a deprecated v1 property) is ignored by `read_resource()` and not set by `add_resource()`. `upgrade_package()` removes `profile`  (unless `$schema` is already set), but converts `"profile" = "tabular-data-resource"` to `"type" = "table"`.
 
 ### name
 

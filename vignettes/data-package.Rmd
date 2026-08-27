@@ -97,7 +97,7 @@ my_package
 
 ### profile
 
-[`profile`](https://specs.frictionlessdata.io/data-package/#profile) (a deprecated v1 property) is ignored by `read_package()` and not set by `create_package()`. `upgrade_package()` removes `profile`, but retains its value in `$schema` if it is a URL to a custom profile.
+[`profile`](https://specs.frictionlessdata.io/data-package/#profile) (a deprecated v1 property) is ignored by `read_package()` and not set by `create_package()`. `upgrade_package()` removes `profile` (unless `$schema` is already set), but retains its value in `$schema` if it is a URL to a custom profile.
 
 ### resources
 
