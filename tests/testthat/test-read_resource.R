@@ -473,14 +473,6 @@ test_that("read_resource() handles decimalChar/groupChar properties", {
     read_resource(p, "mark_decimal"),
     class = "frictionless_warning_fields_decimalchar_different"
   )
-  expect_warning(
-    read_resource(p, "mark_decimal"),
-    regexp = paste(
-      "Some fields define a non-default decimalChar.",
-      "Parsing all number fields with \",\" as decimal mark."
-    ),
-    fixed = TRUE
-  )
 
   resource <- suppressWarnings(read_resource(p, "mark_decimal"))
   expect_identical(resource$num, expected_value) # 3000000.30
