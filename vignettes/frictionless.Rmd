@@ -12,7 +12,7 @@ vignette: >
 
 ## What is a Data Package?
 
-A [Data Package](https://specs.frictionlessdata.io/data-package/) is a simple container format to describe and package a collection of (tabular) data. It is typically used to publish FAIR and open datasets. In this tutorial we will show you how to read, create, edit and write Data Packages with the **frictionless**.
+A [Data Package](https://datapackage.org/) is a simple container format to describe and package a collection of (tabular) data. It is typically used to publish FAIR and open datasets. In this tutorial we will show you how to read, create, edit and write Data Packages with the **frictionless**.
 
 ## Read a Data Package
 
@@ -351,7 +351,7 @@ my_package <-
   )
 ```
 
-Your Data Package now contains 2 resources, but you can add metadata properties as well (see the [Data Package documentation](https://specs.frictionlessdata.io/data-package/#metadata) for an overview). Since it is a list, you can use `append()` to insert properties at the desired place. Let's add `name` as first and `title` as second property:
+Your Data Package now contains 2 resources, but you can add metadata properties as well (see the [Data Package documentation](https://datapackage.org/standard/data-package/#properties) for an overview). Since it is a list, you can use `append()` to insert properties at the desired place. Let's add `name` as first and `title` as second property:
 
 
 ``` r
