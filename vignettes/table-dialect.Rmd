@@ -56,20 +56,15 @@ frictionless does not support direct manipulation of the dialect. `add_resource(
 
 ### headerRows
 
-
-[`headerRows`](https://datapackage.org/standard/table-dialect/#headerRows) is ignored by `read_resource()`.
+[`headerRows`](https://datapackage.org/standard/table-dialect/#headerRows) is **not supported** by `read_resource()`.
 
 ### headerJoin
 
-<!-- Not spec compliant -->
-
-[`headerJoin`](https://datapackage.org/standard/table-dialect/#headerJoin) is ignored by `read_resource()`.
+[`headerJoin`](https://datapackage.org/standard/table-dialect/#headerJoin) is **not supported** by `read_resource()`.
 
 ### commentRows
 
-<!-- Not spec compliant -->
-
-[`commentRows`](https://datapackage.org/standard/table-dialect/#headerJoin) is ignored by `read_resource()`.
+[`commentRows`](https://datapackage.org/standard/table-dialect/#commentRows) is **not supported** by `read_resource()`.
 
 ### commentChar
 
@@ -90,7 +85,7 @@ resource(package, "observations")$dialect$delimiter
 
 ### lineTerminator
 
-[`lineTerminator`](https://datapackage.org/standard/table-dialect/#lineTerminator) is ignored by `read_resource()`. It relies on `readr::read_delim()` instead, which interprets line terminator `LF` and `CRLF` automatically and does not support `CR` (used by Classic Mac OS, final release 2001).
+[`lineTerminator`](https://datapackage.org/standard/table-dialect/#lineTerminator) is **not supported** by `read_resource()`. It relies on `readr::read_delim()` instead, which interprets line terminator `LF` and `CRLF` automatically and does not support `CR` (used by Classic Mac OS, final release 2001).
 
 ### quoteChar
 
@@ -102,7 +97,7 @@ resource(package, "observations")$dialect$delimiter
 
 ### escapeChar
 
-[`escapeChar`](https://datapackage.org/standard/table-dialect/#escapeChar) is ignored by `read_resource()` unless it is `"\\"`. It is passed as `escape_backslash = TRUE` and `escape_double = FALSE` in `readr::read_delim()`.
+[`escapeChar`](https://datapackage.org/standard/table-dialect/#escapeChar) is **not supported** by `read_resource()` unless it is `"\\"`. It is passed as `escape_backslash = TRUE` and `escape_double = FALSE` in `readr::read_delim()`.
 
 ::: {.callout-warning}
 `escapeChar` and `doubleQuote` are mutually exclusive, so you cannot escape with `\"` and `""` in the same file.
@@ -110,7 +105,7 @@ resource(package, "observations")$dialect$delimiter
 
 ### nullSequence
 
-[`nullSequence`](https://datapackage.org/standard/table-dialect/#nullSequence) is ignored by `read_resource()`. Provide as `missingValues` in the schema instead (see `vignette("table-schema")`).
+[`nullSequence`](https://datapackage.org/standard/table-dialect/#nullSequence) is **not supported** by `read_resource()`. Provide as `missingValues` in the schema instead (see `vignette("table-schema")`).
 
 ### skipInitialSpace
 
