@@ -50,7 +50,7 @@ frictionless does not support direct manipulation of the dialect. `add_resource(
 
 ### header
 
-[`header`](https://specs.frictionlessdata.io/csv-dialect/#specification) is used by `read_resource()` and defaults to `true`. It is passed as `trim_ws = 1` (or `0`) in `readr::read_delim()`.
+[`header`](https://specs.frictionlessdata.io/csv-dialect/#specification) is used by `read_resource()` and defaults to `true`. It is passed as `skip = 1` (or `0` for `false`) in `readr::read_delim()`, ignoring the header. Field names in `schema` are used instead.
 
 <!-- ### headerRows -->
 
