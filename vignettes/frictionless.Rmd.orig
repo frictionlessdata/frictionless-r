@@ -58,18 +58,16 @@ gps <- read_resource(package, "gps")
 gps
 ```
 
-The data frame contains all GPS records, even though the actual data were split over [multiple CSV zipped files](https://zenodo.org/records/10053702#files-heading). `read_resource()` assigned the column names and types based on the Table Schema that was defined for that resource, not the headers of the CSV file.
+The data frame contains all GPS records, even though the actual data were split over [multiple zipped CSV files](https://zenodo.org/records/10053702#files-heading). `read_resource()` assigned the column names and types based on the Table Schema that was defined for that resource, not the headers of the CSV file.
 
 You can also read data from a local (e.g. downloaded) Data Package. In fact, there is one included in frictionless, let's read that one from disk:
 
 ```{r}
-local_package <- read_package(
-  system.file("extdata", "v1", "datapackage.json", package = "frictionless")
-)
+example_package <- example_package()
 
-local_package
+example_package
 
-read_resource(local_package, "media")
+read_resource(example_package, "media")
 ```
 
 Data from the `media` was not stored in a CSV file, but directly in the `data` property of that resource in `datapackage.json`. `read_resource()` will automatically detect where to read data from.
@@ -170,8 +168,8 @@ If you already have your data stored as CSV or TSV files and you want to include
 
 ```{r}
 # Two TSV files with the same structure
-path_1 <- system.file("extdata", "v1", "observations_1.tsv", package = "frictionless")
-path_2 <- system.file("extdata", "v1", "observations_2.tsv", package = "frictionless")
+path_1 <- system.file("extdata", "v2", "observations_1.tsv", package = "frictionless")
+path_2 <- system.file("extdata", "v2", "observations_2.tsv", package = "frictionless")
 
 # Add both TSV files as a single resource
 my_package <-
@@ -206,7 +204,7 @@ Now that you have created your Data Package, you can write it to a directory of 
 write_package(my_package, "my_directory")
 ```
 
-The directory will contain four files: the descriptor `datapackage.json`, one CSV file containing the data for the resource `iris` and two TSV files containing the data for the resource `observations`.
+The directory will now contain four files: the descriptor `datapackage.json`, one CSV file containing the data for the resource `iris` and two TSV files containing the data for the resource `observations`.
 
 ```{r}
 list.files("my_directory")
