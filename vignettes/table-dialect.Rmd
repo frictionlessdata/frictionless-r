@@ -23,7 +23,7 @@ In this document we use the terms "package" for Data Package, "resource" for Dat
 
 ## General implementation
 
-frictionless supports most dialect properties designed for [delimited formats](https://datapackage.org/standard/table-dialect/#delimited) to read [Tabular Data Resources](https://datapackage.org/standard/data-resource/#tabular). Dialect manipulation is limited to setting a `delimiter`. When writing resources, it (mainly) makes uses of default dialect properties, removing the necessity to define them.
+frictionless supports most dialect properties to read [Tabular Data Resources](https://datapackage.org/standard/data-resource/#tabular), but only those designed for [delimited formats](https://datapackage.org/standard/table-dialect/#delimited) (not structured, spreadsheet, database formats). Dialect manipulation is limited to setting a `delimiter`. When writing resources, it (mainly) makes uses of default dialect properties, removing the necessity to define them.
 
 ### Read
 
@@ -54,11 +54,22 @@ frictionless does not support direct manipulation of the dialect. `add_resource(
 
 [`header`](https://datapackage.org/standard/table-dialect/#header) is used by `read_resource()` and defaults to `true`. It is passed as `skip = 1` (or `0` for `false`) in `readr::read_delim()`, ignoring the header. Field names in `schema` are used instead.
 
-<!-- ### headerRows -->
+### headerRows
 
-<!-- ### headerJoin -->
 
-<!-- ## commentRows -->
+[`headerRows`](https://datapackage.org/standard/table-dialect/#headerRows) is ignored by `read_resource()`.
+
+### headerJoin
+
+<!-- Not spec compliant -->
+
+[`headerJoin`](https://datapackage.org/standard/table-dialect/#headerJoin) is ignored by `read_resource()`.
+
+### commentRows
+
+<!-- Not spec compliant -->
+
+[`commentRows`](https://datapackage.org/standard/table-dialect/#headerJoin) is ignored by `read_resource()`.
 
 ### commentChar
 

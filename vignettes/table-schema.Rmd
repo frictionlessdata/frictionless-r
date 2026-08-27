@@ -218,8 +218,8 @@ any other type | `any`
 
 [`boolean`](https://specs.frictionlessdata.io/table-schema/#boolean) is interpreted as `logical`.
 
-- `trueValues` that are not defaults are not supported.
-- `falseValues` that are not defaults are not supported.
+- Non-default `trueValues` are not supported.
+- Non-default `falseValues` are not supported.
 
 ### object
 
