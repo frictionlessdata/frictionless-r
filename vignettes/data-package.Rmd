@@ -139,7 +139,7 @@ package
 
 ### version
 
-[`version`](https://datapackage.org/standard/data-package/#created) is ignored by `read_package()` and not set by `create_package()`.
+[`version`](https://datapackage.org/standard/data-package/#version) is ignored by `read_package()` and not set by `create_package()`.
 
 ### created
 
