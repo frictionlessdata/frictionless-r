@@ -103,7 +103,7 @@ You can pipe most functions (see `vignette("data-package")`).
 
 ### profile
 
-[`profile`](https://specs.frictionlessdata.io/data-resource/#profile) (a deprecated v1 property) is ignored by `read_resource()` and not set by `add_resource()`. `upgrade_package()` removes `profile`  (unless `$schema` is already set), but converts `"profile" = "tabular-data-resource"` to `"type" = "table"`.
+[`profile`](https://specs.frictionlessdata.io/data-resource/#profile) (a deprecated v1 property) is ignored by `read_resource()` and not set by `add_resource()`. `upgrade_package()` removes `profile`  (unless `$schema` is already set), but converts `"profile" = "tabular-data-resource"` to `"type" = "table"` (for [backwards compatibility](https://datapackage.org/standard/data-resource/#type)).
 
 ### name
 
@@ -144,7 +144,7 @@ add_resource(package, "deployments", data = path, replace = TRUE)
 ### data
 
 ::: {.callout-warning}
-Support for inline `data` is currently limited, e.g. JSON object and string are not supported and `schema`, `mediatype` and `format` are ignored.
+Support for inline `data` is currently limited, e.g. JSON object and string are **not supported** and `schema`, `mediatype` and `format` are ignored.
 :::
 
 `data` is for inline data (included in the `datapackage.json`). `read_resource()` attempts to read `data` if it is provided as a JSON array:
