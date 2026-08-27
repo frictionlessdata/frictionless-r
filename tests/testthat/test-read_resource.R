@@ -479,7 +479,8 @@ test_that("read_resource() handles decimalChar/groupChar properties", {
   expect_identical(resource$num_undefined, expected_value) # 3000000.30
 
   # Non-default decimalChar and groupChar
-  # Results in 3 warnings: decimalchar, groupchar, parsing failure last field
+  # Results in 3 warnings: decimalchar, groupchar ane a vroom parsing failure
+  # last field
   suppressWarnings(expect_warning(
     read_resource(p, "mark_decimal_group"),
     class = "frictionless_warning_fields_decimalchar_different"
@@ -491,11 +492,12 @@ test_that("read_resource() handles decimalChar/groupChar properties", {
   suppressWarnings(expect_warning(
     read_resource(p, "mark_decimal_group"),
     regexp = paste(
-      "Some fields define a groupChar.",
-      "Parsing all number fields with \".\" as grouping mark."
-    ),
+      "One or more parsing issues, call `problems()` on your data frame for",
+      "details, e.g.:\n  dat <- vroom(...)\n  problems(dat)"
+      ),
     fixed = TRUE
   ))
+
   resource <- suppressWarnings(read_resource(p, "mark_decimal_group"))
   expect_identical(resource$num, expected_value) # 3.000.000,30
   # Field without decimalChar is still parsed with non-default decimalChar
@@ -510,7 +512,7 @@ test_that("read_resource() handles decimalChar/groupChar properties", {
   expect_identical(resource$int_undefined, expected_value_int) # 3000000
 
   # Non-default groupChar
-  # Results in 2 warnings: groupchar, parsing failure last field
+  # Results in 2 warnings: groupchar and vroom parsing failure last field
   suppressWarnings(expect_warning(
     read_resource(p, "mark_integer_group"),
     class = "frictionless_warning_fields_groupchar_different"
@@ -518,8 +520,8 @@ test_that("read_resource() handles decimalChar/groupChar properties", {
   suppressWarnings(expect_warning(
     read_resource(p, "mark_integer_group"),
     regexp = paste(
-      "Some fields define a groupChar.",
-      "Parsing all number fields with \".\" as grouping mark."
+      "One or more parsing issues, call `problems()` on your data frame for",
+      "details, e.g.:\n  dat <- vroom(...)\n  problems(dat)"
     ),
     fixed = TRUE
   ))
