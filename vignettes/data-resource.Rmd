@@ -76,7 +76,7 @@ remove_resource(package, "deployments")
 # package <- remove_resource(package, "deployments")
 ```
 
-`add_resource()` adds or replaces a tabular resource. The provided data must be a data frame or a tabular data file (e.g. CSV):
+`add_resource()` adds or replaces a tabular resource. **It will always create a resource following the [v2 specification](https://datapackage.org/standard/data-resource/).** The provided data must be a data frame or a tabular data file (e.g. CSV):
 
 ```{r}
 # Add a resource with data from a data frame
@@ -99,7 +99,7 @@ You can pipe most functions (see `vignette("data-package")`).
 
 ### $schema
 
-[`$schema`](https://datapackage.org/standard/data-resource/#dollar-schema) indicates what version of the Data Resource standard is used (v1 if undefined). It is used by `read_resource()` to determine the version and **silently upgrade the resource from v1 to v2** before trying to read it. `add_resource()` sets `$schema` to `"https://datapackage.org/profiles/2.0/dataresource.json"` (the recommended v2 value). `upgrade_package()` does the same for all resources of a package.
+[`$schema`](https://datapackage.org/standard/data-resource/#dollar-schema) indicates what version of the Data Resource standard is used (v1 if undefined). It is used by `read_resource()` to determine the version and **silently upgrade the resource from v1 to v2** before trying to read it. `add_resource()` sets `$schema` to `"https://datapackage.org/profiles/2.0/dataresource.json"` (the recommended v2 value) and thus creates a v2 resource. `upgrade_package()` does the same for all resources of a package.
 
 ### profile
 

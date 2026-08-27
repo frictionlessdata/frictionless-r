@@ -70,7 +70,7 @@ levels(observations$life_stage)
 
 A schema is a list which you can manipulate, but frictionless does not provide functions to do that. Use `{purrr}` or base R instead (see `vignette("frictionless")`). You do not have to start a schema from scratch though: use `schema()` (see above) or `create_schema()` instead.
 
-`create_schema()` creates a schema from a data frame and defines the `name`, `type` (and if a factor `constraints$enum`) for each field:
+`create_schema()` creates a schema from a data frame. **It will always create a schema following the [v2 specification](https://datapackage.org/standard/table-schema/).** It defines the `name`, `type` (and if a factor `constraints$enum`) for each field:
 
 ```{r}
 # Create a schema from the built-in dataset "iris"
@@ -94,6 +94,10 @@ package <- add_resource(
 `write_package()` writes a package to disk as a `datapackage.json` file. This file includes the metadata of all the resources, including the schema. To directly write a schema to disk, use `jsonlite::write_json()`.
 
 ## Schema properties implementation
+
+### $schema
+
+[`$schema`](https://datapackage.org/standard/table-schema/#dollar-schema) indicates what version of the Table Schema standard is used (v1 if undefined). It is used by `read_resource()` to determine the version and **silently upgrade the schema from v1 to v2** before trying to read it. `create_scheme()` sets `$schema` to `"https://datapackage.org/profiles/2.0/tableschema.json"` (the recommended v2 value) and thus creates a v2 schema. `upgrade_package()` does the same for all resources of a package.
 
 ### fields
 
