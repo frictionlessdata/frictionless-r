@@ -93,9 +93,9 @@ get_dot_names <- function(...) {
 
 #' Append an object, but retain attributes
 #'
-#' Appends values to an object, preserving its attributes. This is an extension 
+#' Appends values to an object, preserving its attributes. This is an extension
 #' of [base::append].
-#' 
+#'
 #' @inheritParams base::append x values after
 #'
 #' @returns An object with the elements of `values` appended after the specified
