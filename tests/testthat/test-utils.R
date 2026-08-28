@@ -128,6 +128,14 @@ test_that("append_with_attributes() returns identical class", {
 
 })
 
-test_that("append_with_attributes() does not return names", {
+test_that("append_with_attributes() preserves names", {
+  # Create test object
+  lst <- head(letters, -1L)
+  # Give it some names
+  lst <- purrr::set_names(lst, toupper(lst))
 
+  expect_named(
+    append_with_attributes(lst, purrr::set_names("z", nm = "Z")),
+    toupper(letters)
+  )
 })
