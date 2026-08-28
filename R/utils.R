@@ -43,6 +43,16 @@ clean_list <- function(x, fun = is.null, recursive = FALSE) {
   "[<-"(x, vapply(x, fun, logical(1L)), NULL)
 }
 
+#' Convert character to list
+#'
+#' @param x Value, e.g `"a"`.
+#' @returns List containing value (`list("a")`) if character, otherwise value.
+#' @family helper functions
+#' @noRd
+character_to_list <- function(x) {
+  if (is.character(x)) as.list(x) else x
+}
+
 #' Check if path is URL
 #'
 #' @param path Path.

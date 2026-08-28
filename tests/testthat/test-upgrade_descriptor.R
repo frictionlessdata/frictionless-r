@@ -30,19 +30,19 @@ test_that("upgrade_descriptor() sets $schema to default v2 value or custom
   p_v1 <- example_package(version = "1.0")
   v2_profile <- "https://datapackage.org/profiles/2.0/datapackage.json"
 
-  # Ignore undefined
+  # Ignore undefined profile
   p_v1$profile <- NULL
   expect_identical(upgrade_descriptor(p_v1)$`$schema`, v2_profile)
 
-  # Ignore default value
+  # Ignore default value profile
   p_v1$profile <- "data-package"
   expect_identical(upgrade_descriptor(p_v1)$`$schema`, v2_profile)
 
-  # Ignore tabular-data-package (deprecated)
+  # Ignore tabular-data-package profile (deprecated)
   p_v1$profile <- "tabular-data-package"
   expect_identical(upgrade_descriptor(p_v1)$`$schema`, v2_profile)
 
-  # Keep fiscal-data-package (but set to URL)
+  # Keep fiscal-data-package profile (but set to URL)
   p_v1$profile <- "fiscal-data-package"
   expect_identical(
     upgrade_descriptor(p_v1)$`$schema`,
@@ -54,7 +54,7 @@ test_that("upgrade_descriptor() sets $schema to default v2 value or custom
   p_v1$profile <- custom_profile_url
   expect_identical(upgrade_descriptor(p_v1)$`$schema`, custom_profile_url)
 
-  # Ignore unregistered value
+  # Ignore unregistered value in profile
   p_v1$profile <- "unregistered-package"
   expect_identical(upgrade_descriptor(p_v1)$`$schema`, v2_profile)
 })
@@ -64,13 +64,14 @@ test_that("upgrade_descriptor() updates contributor role to roles", {
 
   # Defined
   p_v1$contributors <- list(
-    list(title = "First author", role = "author"),
-    list(title = "No role", custom_property = "custom"),
+    list(title = "First author", role = "author", custom = "custom"),
+    list(title = "No role", custom = "custom"),
     list(title = "Jack of all trades", roles = list("a", "b"))
   )
   p_upgraded <- upgrade_descriptor(p_v1)
   expect_identical(p_upgraded$contributors[[1]][["roles"]], list("author")) # Added
   expect_null(p_upgraded$contributors[[1]][["role"]]) # Removed
+  expect_identical(p_upgraded$contributors[[1]][["custom"]], "custom") # Kept
   expect_null(p_upgraded$contributors[[2]][["roles"]]) # Not added
   expect_identical(p_upgraded$contributors[[3]][["roles"]], list("a", "b")) # Kept
 

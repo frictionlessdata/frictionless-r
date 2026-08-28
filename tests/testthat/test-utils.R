@@ -48,6 +48,15 @@ test_that("clean_list() removes elements from list that match condition", {
   )
 })
 
+# character_to_list() ----
+test_that("character_to_list() converts character to list", {
+  expect_identical(character_to_list("a"), list("a")) # Update
+  expect_identical(character_to_list(c("a", "b")), list("a", "b")) # Update
+  expect_identical(character_to_list(list("a", "b")), list("a", "b")) # Keep
+  expect_identical(character_to_list(1), 1) # Keep
+  expect_null(character_to_list(NULL)) # Keep
+})
+
 # is_url() ----
 test_that("is_url() tests whether path is URL", {
   expect_true(is_url("http://example.com"))

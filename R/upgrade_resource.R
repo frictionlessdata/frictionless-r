@@ -16,7 +16,7 @@ upgrade_resource <- function(resource) {
   purrr::pluck(resource, "$schema") <-
     "https://datapackage.org/profiles/2.0/dataresource.json"
 
-  # Set type to table if resource is tabular, see
+  # Set type to table if resource is tabular
   # https://datapackage.org/standard/data-resource/#type
   profile <- resource$profile %||% "undefined"
   if (profile %in% c(
