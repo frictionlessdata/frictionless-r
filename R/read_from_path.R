@@ -51,11 +51,13 @@ read_from_path <- function(package, resource_name, col_select) {
   }
   skip <- if (dialect$header %||% TRUE) 1 else 0
 
-  # If missingValues has more than 2 levels, assume it is following the standard
-  # and convert to a flat vector.
-  if(purrr::pluck_depth(schema$missingValues) >= 3){
-    schema$missingValues <- purrr::map(schema$missingValues, "value")
+  # Get missingValues (can be labelled values, simple list or NULL)
+  missing_values <- if (purrr::pluck_depth(schema$missingValues) >= 3) {
+    purrr::map(schema$missingValues, "value")
+  } else {
+    schema$missingValues
   }
+  missing_values <- unlist(missing_values)
 
   # Read data (one or more paths) with read_delim (returns tibble)
   readr::read_delim(
@@ -71,7 +73,7 @@ read_from_path <- function(package, resource_name, col_select) {
     # col_select needs to be assigned/used above to avoid lazy eval error
     col_select = {{ col_select }},
     locale = locale,
-    na = unlist(schema$missingValues) %||% "",
+    na = missing_values %||% "",
     comment = dialect$commentChar %||% "",
     trim_ws = dialect$skipInitialSpace %||% FALSE,
     # Skip header row when present
