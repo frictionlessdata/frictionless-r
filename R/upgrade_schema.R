@@ -16,7 +16,7 @@ upgrade_schema <- function(schema, resource_name) {
     return(schema)
   }
 
-  # Add $schema
+  # Set $schema
   purrr::pluck(schema, "$schema") <-
     "https://datapackage.org/profiles/2.0/tableschema.json"
 
@@ -25,6 +25,8 @@ upgrade_schema <- function(schema, resource_name) {
   if (!is.null(primaryKey)) {
     schema$primaryKey <- list(primaryKey) # Wrap in list to ensure array
   }
+  # https://datapackage.org/overview/changelog/#schemaprimarykey-updated
+  # https://datapackage.org/overview/changelog/#schemaforeignkeys-updated
 
   # Update foreignKeys
   foreignKeys <- purrr::pluck(schema, "foreignKeys")

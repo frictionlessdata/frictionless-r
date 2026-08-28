@@ -19,6 +19,7 @@ upgrade_descriptor <- function(package) {
     "https://datapackage.org/profiles/2.0/datapackage.json"
 
   # Set $schema to profile if URL (to custom profile)
+  # https://datapackage.org/standard/data-package/#dollar-schema
   profile <- package$profile %||% "undefined"
   if (is_url(profile)) {
     purrr::pluck(package, "$schema") <- profile
@@ -34,6 +35,7 @@ upgrade_descriptor <- function(package) {
   package$profile <- NULL
 
   # Update contributor "role" = "value" to "roles" = ["value"]
+  # https://datapackage.org/overview/changelog/#packagecontributors-updated
   contributors <- package$contributors
   if (!is.null(contributors)) {
     package$contributors <- purrr::map(
@@ -46,7 +48,7 @@ upgrade_descriptor <- function(package) {
             role = purrr::zap()
           )
         } else {
-          contributor # Return as if contributor does not have role
+          contributor
         }
       }
     )
