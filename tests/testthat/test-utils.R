@@ -190,3 +190,30 @@ test_that("append_with_attributes() can append a Data Package resource", {
     custom_property
   )
 })
+
+test_that("append_with_attributes() can append a Data Package", {
+  # Retain data_location and path
+  package <- example_package()
+
+  # Add a new property
+  custom_property <- list("custom_property" = "custom property value")
+  appended_package <-
+    append_with_attributes(package, custom_property)
+
+  # Test class
+  expect_s3_class(
+    appended_package,
+    "datapackage"
+  )
+
+  # Test attributes
+  expect_named(
+    appended_package,
+    c(names(package), "custom_property")
+  )
+
+  expect_identical(
+    attributes(appended_package)$directory,
+    attributes(package)$directory
+  )
+})
