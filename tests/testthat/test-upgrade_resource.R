@@ -19,10 +19,14 @@ test_that("upgrade_resource() leaves a v2 resource as is", {
   expect_identical(upgrade_resource(resource_v2), resource_v2)
 })
 
-test_that("upgrade_resource() removes profile", {
+test_that("upgrade_resource() removes profile, unless $schema is set", {
   resource_v1 <- resource(example_package(version = "1.0"), "deployments")
   resource_v1$profile <- "data-resource"
   expect_null(upgrade_resource(resource_v1)$profile)
+
+  resource_v2 <- resource(example_package(version = "2.0"), "deployments")
+  resource_v2$profile <- "data-resource"
+  expect_identical(upgrade_descriptor(resource_v2)$profile, "data-resource") # Kept
 })
 
 test_that("upgrade_resource() sets $schema to default v2 value", {

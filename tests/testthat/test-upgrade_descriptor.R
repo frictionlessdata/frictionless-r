@@ -15,10 +15,14 @@ test_that("upgrade_descriptor() leaves a v2 package as is", {
   expect_identical(upgrade_descriptor(p_v2), p_v2)
 })
 
-test_that("upgrade_descriptor() removes profile", {
+test_that("upgrade_descriptor() removes profile, unless $schema is set", {
   p_v1 <- example_package(version = "1.0")
   p_v1$profile <- "data-package"
   expect_null(upgrade_descriptor(p_v1)$profile)
+
+  p_v2 <- example_package(version = "2.0")
+  p_v2$profile <- "data-package"
+  expect_identical(upgrade_descriptor(p_v2)$profile, "data-package") # Kept
 })
 
 test_that("upgrade_descriptor() sets $schema to default v2 value or custom

@@ -1,19 +1,20 @@
 # frictionless (development version)
 
-frictionless now uses [version 2](https://datapackage.org/) of the Data Package specification.
+frictionless now supports datasets specified in [v1](https://specs.frictionlessdata.io/) and [v2](https://datapackage.org/) of the Data Package standard. When creating a package, resource or schema, it uses the v2 specification.
 
-- All functions now support a v2 package, resource, dialect or schema, but might not support all v2 features.
-- All functions will return a package, resource and schema in the same version as provided.
-- **Breaking change!** Manipulation functions `create_package()`, `add_resource()`, `create_schema()` will create a v2 package, resource and schema respectively. Note that this can lead to mixed versions (e.g. a v1 package with a v2 resource).
-- `upgrade_package()` can be used to upgrade a package, its resources and verbose schemas from v1 to v2.
-- `example_package()` now uses `version = "2.0"` as default (#360, #361).
-- `read_resource()` now forbids reading files from a path containing a hidden directory (starting with `.`) (#359).
+- All functions return a package, resource and schema in the same version as provided.
+- All functions support a v2 package, resource, dialect or schema, but might not support all v2 features.
+- **Breaking change!** `create_package()`, `add_resource()`, `create_schema()` create a v2 package, resource and schema respectively. Note that this can lead to mixed versions (e.g. a v1 package with a v2 resource).
+- **Breaking change!** `example_package()` now uses `version = "2.0"` as default (#360, #361).
+- `upgrade_package()` can be used to upgrade a package, its resources and verbose schemas from v1 to v2 (which gets rid of mixed versions).
+- All documentation now points to the v2 of the Data Package standard.
 
 ## Data Resource changes
 
 * `read_resource()` and `schema()` no longer require `"profile": "tabular-data-resource"`. Nor do they require the new `"type": "table"` (which is optional in the specification). A `schema` is still expected (#343).
-* **Breaking change!** `add_resource()` sets `$schema` and `type`. It no longer sets `profile`. This means that `add_resource()` will always create a v2 resource (#343).
-* `add_resource()` now accepts any string as `resource_name`, rather than limiting to lowercase alphanumerical characters. It will trim leading and trailing spaces from the name (#344).
+- `read_resource()` now forbids reading files from a path containing a hidden directory (starting with `.`) (#359).
+* **Breaking change!** `add_resource()` sets `$schema` and `type`. It no longer sets `profile`. This means that `add_resource()` always creates a v2 resource (#343).
+* `add_resource()` now accepts any string as `resource_name`, rather than limiting to lowercase alphanumerical characters. It trims leading and trailing spaces from the name (#344).
 
 A v2 resource will look like this:
 

@@ -460,8 +460,10 @@ test_that("add_resource() always creates a v2 resource", {
   p_v2 <- example_package(version = "2.0")
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   p_v1 <- add_resource(p_v1, "new", df)
+  p_v1_replaced <- add_resource(p_v1, "deployments", df, replace = TRUE)
   p_v2 <- add_resource(p_v2, "new", df)
   expect_identical(version(resource(p_v1, "new")), "2.0")
+  expect_identical(version(resource(p_v1_replaced, "deployments")), "2.0")
   expect_identical(version(resource(p_v2, "new")), "2.0")
 
   # See further for setting $schema
