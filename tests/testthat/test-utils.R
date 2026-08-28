@@ -135,9 +135,28 @@ test_that("append_with_attributes() can prepend a list", {
     )
 })
 
-test_that("append_with_attributes() returns identical attributes", {})
+test_that("append_with_attributes() returns identical attributes", {
+  obj <- "a"
+  attributes(obj) <- list(species = "letter")
 
-test_that("append_with_attributes() returns identical class", {})
+  expect_identical(
+    append_with_attributes(obj, "b"),
+    attributes(obj)
+  )
+})
+
+test_that("append_with_attributes() returns identical class", {
+  obj <- pi
+  # single
+  class(obj) <- list("constant")
+  expect_s3_class(obj, "constant")
+  # multiple
+  class(obj) <- list(class(obj), "numeric")
+  expect_s3_class(
+    obj,
+    c("constant", "numeric")
+  )
+})
 
 test_that("append_with_attributes() preserves names", {
   # Create test object
