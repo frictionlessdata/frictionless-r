@@ -1,8 +1,10 @@
+# Return ----
 test_that("upgrade_descriptor() returns a valid package", {
   p_v1 <- example_package(version = "1.0")
   expect_no_error(check_package(upgrade_descriptor(p_v1)))
 })
 
+# Functionality ----
 test_that("upgrade_descriptor() upgrades a v1 package to v2", {
   p_v1 <- example_package(version = "1.0")
   expect_identical(version(upgrade_descriptor(p_v1)), "2.0")

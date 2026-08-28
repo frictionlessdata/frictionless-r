@@ -1,3 +1,4 @@
+# Return ----
 test_that("upgrade_descriptor() returns resource object", {
   resource_v1 <- resource(example_package(version = "1.0"), "deployments")
   # Resource object has "data_location" attribute that should be kept
@@ -7,6 +8,7 @@ test_that("upgrade_descriptor() returns resource object", {
   )
 })
 
+# Functionality ----
 test_that("upgrade_resource() upgrades a v1 resource to v2", {
   resource_v1 <- resource(example_package(version = "1.0"), "deployments")
   expect_identical(version(upgrade_resource(resource_v1)), "2.0")

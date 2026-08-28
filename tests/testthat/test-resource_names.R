@@ -1,3 +1,4 @@
+# Return ----
 test_that("resource_names() returns a character vector of resource names", {
   p <- example_package()
   expect_identical(resource_names(p), c("deployments", "observations", "media"))
@@ -12,6 +13,7 @@ test_that("resource_names() returns a character vector of resource names", {
   expect_identical(resource_names(p), character(0))
 })
 
+# Error handling ----
 test_that("resource_names() returns error if resources have no name", {
   p <- example_package()
   p$resources[[2]]$name <- NULL
@@ -22,3 +24,6 @@ test_that("resource_names() returns error if resources have no name", {
 
   # For more tests see test-check_package.R
 })
+
+# Version support ----
+

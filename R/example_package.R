@@ -19,17 +19,17 @@
 #' @family sample data
 #' @export
 #' @examples
-#' # Version 1
+#' # Version 2 (default)
 #' example_package()
 #'
-#' # Version 2
-#' example_package(version = "2.0")
-example_package <- function(version = "1.0") {
+#' # Version 1
+#' example_package(version = "1.0")
+example_package <- function(version = "2.0") {
   version_dir <- switch(
-    version %||% "1.0",
+    version %||% "2.0", # Undefined
     "2.0" = "v2",
     "1.0" = "v1",
-    "v1" # Default v1 for any other value
+    "v2" # Default v2 for any other value
   )
   path <- system.file(
     "extdata", version_dir, "datapackage.json", package = "frictionless"
