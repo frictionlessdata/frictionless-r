@@ -93,7 +93,11 @@ my_package
 
 ### $schema
 
-[`$schema`](https://datapackage.org/standard/data-package/#dollar-schema) indicates what version of the Data Package standard is used (v1 if undefined). It is ignored by `read_package()`. `create_package()` sets `$schema` to `"https://datapackage.org/profiles/2.0/datapackage.json"` (the recommended v2 value) and thus creates a v2 package. `upgrade_package()` does the same, except for certain `profile` values.
+[`$schema`](https://datapackage.org/standard/data-package/#dollar-schema) indicates what `version()` of the Data Package standard is used (v1 if undefined).
+
+- `read_package()` ignores it, since all package properties supported by frictionless are the same in v1 and v2.
+- `create_package()` sets `$schema` to the recommended v2 value (`"https://datapackage.org/profiles/2.0/datapackage.json"`) and thus creates a v2 package.
+- `upgrade_package()` sets `$schema` to the recommended v2 value, except for certain `profile` values.
 
 ### profile
 

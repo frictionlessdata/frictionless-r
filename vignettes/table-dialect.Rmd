@@ -48,7 +48,11 @@ frictionless does not support direct manipulation of the dialect. `add_resource(
 
 ### $schema
 
-[`$schema`](https://datapackage.org/standard/table-dialect/#dollar-schema) indicates what version of the Table Dialect standard is used (v1 if undefined). It is ignored by `read_resource()`, since all dialect properties supported by frictionless are the same in v1 and v2. `add_resource()` does not define a dialect (except for a non-default `delimiter`) and does set not `$schema` and thus creates a v1 dialect. `upgrade_package()` leaves dialect as is for all resources.
+[`$schema`](https://datapackage.org/standard/table-dialect/#dollar-schema) indicates what `version()` of the Table Dialect standard is used (v1 if undefined).
+
+- `read_resource()` ignores it, since all dialect properties supported by frictionless are the same in v1 and v2.
+- `add_resource()` does _not_ set `$schema` to the recommended v2 value (`"https://datapackage.org/profiles/2.0/tabledialect.json"`), because it typically does not define a dialect and therefore `$schema`. It thus creates (default to) a v1 dialect.
+- `upgrade_package()` leaves dialect as is for all resources.
 
 ### header
 
