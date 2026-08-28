@@ -18,15 +18,13 @@ upgrade_schema <- function(schema, resource_name) {
   purrr::pluck(schema, "$schema") <-
     "https://datapackage.org/profiles/2.0/tableschema.json"
 
-  # Update primaryKey
-  primaryKey <- purrr::pluck(schema, "primaryKey")
-  if (!is.null(primaryKey)) {
-    schema$primaryKey <- list(primaryKey) # Wrap in list to ensure array
-  }
+  # Update primaryKey to array
   # https://datapackage.org/overview/changelog/#schemaprimarykey-updated
+  schema$primaryKey <- character_to_list(schema$primaryKey)
+
+  # Update foreignKeys, fields to to array, reference.resource can be NULL
   # https://datapackage.org/overview/changelog/#schemaforeignkeys-updated
 
-  # Update foreignKeys
   foreignKeys <- purrr::pluck(schema, "foreignKeys")
   if (!is.null(foreignKeys)) {
     schema$foreignKeys <- purrr::map(foreignKeys, function(key) {
