@@ -22,25 +22,26 @@ upgrade_schema <- function(schema, resource_name) {
   # https://datapackage.org/overview/changelog/#schemaprimarykey-updated
   schema$primaryKey <- character_to_list(schema$primaryKey)
 
-  # Update foreignKeys, fields to to array, reference.resource can be NULL
+  # Update foreignKeys fields to array and remove self-referential resource
   # https://datapackage.org/overview/changelog/#schemaforeignkeys-updated
-
-  foreignKeys <- purrr::pluck(schema, "foreignKeys")
-  if (!is.null(foreignKeys)) {
-    schema$foreignKeys <- purrr::map(foreignKeys, function(key) {
-      foreignKeys <- list(
-        fields = list(key$fields), # Wrap in list to ensure array
-        reference = list(
-          resource = key$reference$resource,
-          fields = list(key$reference$fields) # Wrap in list to ensure array
-        )
-      )
-      # Remove foreignKeys.reference[x].resource if equal to resource name
-      if (key$reference$resource == resource_name) {
-        foreignKeys$reference$resource <- NULL
+  schema$foreignKeys <- purrr::modify_if(
+    schema$foreignKeys,
+    is.list,
+    function(x) {
+      if (!is.null(purrr::pluck(x, "fields"))) {
+        x$fields <- character_to_list(x$fields)
       }
-      return(foreignKeys)
-    })
-  }
+      if (!is.null(purrr::pluck(x, "reference", "fields"))) {
+        x$reference$fields <- character_to_list(x$reference$fields)
+      }
+      if (!is.null(purrr::pluck(x, "reference", "resource"))) {
+        if (x$reference$resource == resource_name) {
+          x$reference$resource <- NULL
+        }
+      }
+      x
+    }
+  )
+
   return(schema)
 }
