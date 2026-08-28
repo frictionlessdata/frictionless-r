@@ -35,10 +35,10 @@ To get started, see:
   implementation](https://docs.ropensci.org/frictionless/articles/index.html):
   how frictionless implements the Data Package standard.
 
-frictionless supports datasets specified in
+frictionless supports Data Packages using the
 [v1](https://specs.frictionlessdata.io/) and
-[v2](https://datapackage.org/) of the Data Package standard. When
-creating a package, resource or schema, it uses the v2 specification.
+[v2](https://datapackage.org/) specification. When creating a package,
+resource or schema, it uses the v2 specification.
 
 ## Installation
 
