@@ -102,17 +102,17 @@ get_dot_names <- function(...) {
 #'   element of `x`.
 #'
 #' @noRd
-append_with_attributes <- function(x, values, after = length(x)){
+append_with_attributes <- function(x, values, after = length(x)) {
   attrs <- attributes(x)
   # Names will be the wrong length when appending, attributes() handles this.
   attrs[["names"]] <- NULL
+
+  # Append the object
   p_app <- base::append(unclass(x), values, after = after)
 
-  attributes(p_app) <- purrr::list_modify(
-    # Start from the newly appended attributes
-    attributes(p_app) %||% list(),
-    # Add our existing attributes: directory and class
-    val = !!!attrs
-  )
+  # Put attributes back into the appended object
+  for (attribute_name in names(attrs)) {
+    attr(p_app, attribute_name) <- attrs[[attribute_name]]
+  }
   p_app
 }
