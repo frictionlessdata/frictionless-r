@@ -441,6 +441,13 @@ test_that("read_resource() understands missing values", {
   expect_identical(read_resource(p_missing, "deployments"), resource)
 })
 
+test_that("read_resource() understands undefined missing values", {
+  p <- example_package()
+  resource <- read_resource(p, "deployments") # Only contains default "" in data
+  p$resources[[1]]$schema$missingValues <- NULL
+  expect_identical(read_resource(p, "deployments"), resource)
+})
+
 test_that("read_resource() understands labelled missing values", {
   p <- example_package()
   resource <- read_resource(p, "deployments")
@@ -454,7 +461,7 @@ test_that("read_resource() understands labelled missing values", {
     list(value = "One", label = "1"), # label should not set data value 1 to NA
     list(label = "Ignore this", value = "ignore"), # value/label switched
     list(value = "NA"), # value without label
-    list(label = "4.65100") # ignore label without value (spec invalid)
+    list(label = "4.65100") # Ignore label without value (spec invalid)
   )
   # Should translate to c("One", "ignore", "NA"), "ignore" occurs in data
   expect_identical(read_resource(p_missing, "deployments"), resource)
