@@ -81,7 +81,24 @@ test_that("get_dot_names() does not return empty strings for unnamed args passed
 
 # append_with_attributes() ----
 test_that("append_with_attributes() can append a list", {
+  lst <- list(
+    title = "Star Trek: Enterprise",
+    road = "It's a long road",
+    goal = "Getting from there to here"
+  )
 
+  expect_identical(
+    append_with_attributes(lst, c(frequency = "It's been a long time...")),
+    append(lst, c(frequency = "It's been a long time..."))
+  )
+
+  expect_identical(
+    tail(
+      append_with_attributes(lst, list(crew = list(captain = "Archer"))),
+      1L
+    ),
+    list(crew = list(captain = "Archer"))
+  )
 })
 
 test_that("append_with_attributes() can prepend a list", {
