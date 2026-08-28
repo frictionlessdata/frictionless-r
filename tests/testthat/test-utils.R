@@ -1,3 +1,4 @@
+# unique_sorted() ----
 test_that("unique_sorted() returns unique values sorted by descending count", {
   x <- c("a", "b", "b", "b", "c", "a")
   expect_identical(unique_sorted(x), c("b", "a", "c"))
@@ -9,6 +10,7 @@ test_that("unique_sorted() returns unique values sorted by descending count", {
   expect_identical(unique_sorted(x_part_na), "a")
 })
 
+# clean_list() ----
 test_that("clean_list() removes elements from list that match condition", {
   x <- list(
     a = list(list(x = "value", y = NULL, z = list(v = NULL))),
@@ -46,6 +48,7 @@ test_that("clean_list() removes elements from list that match condition", {
   )
 })
 
+# is_url() ----
 test_that("is_url() tests whether path is URL", {
   expect_true(is_url("http://example.com"))
   expect_true(is_url("https://example.com"))
@@ -59,6 +62,7 @@ test_that("is_url() tests whether path is URL", {
   expect_true(is_url("ftps://example.com")) # Not a correct protocol
 })
 
+# get_dot_names() ----
 test_that("get_dot_names() returns the names passed via ...", {
   test_fn <- function(...) {
     get_dot_names(...)

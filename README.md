@@ -119,7 +119,7 @@ my_package <-
   add_resource(resource_name = "iris", data = iris)
 
 my_package
-#> A Data Package (version 1.0) with 1 resource:
+#> A Data Package (version 2.0) with 1 resource:
 #> • iris
 #> Use `unclass()` to print the Data Package as a list.
 
