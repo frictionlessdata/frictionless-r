@@ -756,9 +756,10 @@ test_that("read_resource() handles other types", {
   expect_s3_class(resource$yearmonth, "Date")
   expect_identical(resource$yearmonth[1], as.Date("2001-03-01"))
 
-  # Interpret object, array, duration, geopoint, geojson as character
+  # Interpret object, array, list, duration, geopoint, geojson as character
   expect_type(resource$object, "character")
   expect_type(resource$array, "character")
+  expect_type(resource$list, "character")
   expect_type(resource$duration, "character")
   expect_type(resource$geopoint, "character")
   expect_type(resource$geojson, "character")
