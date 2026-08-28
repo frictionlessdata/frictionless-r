@@ -49,7 +49,7 @@ A package is a list, with all the properties that were present in the `datapacka
 attributes(package)
 ```
 
-`create_package()` creates a package from scratch or from an existing package. **It will always create a package following the [v2 specification](https://datapackage.org/standard/data-package/).** It adds the required properties, attribute and class if those are missing:
+`create_package()` creates a package from scratch or from an existing package. **It always creates a package following the [v2 specification](https://datapackage.org/standard/data-package/).** It adds the required properties, attribute and class if those are missing:
 
 ```{r}
 # From scratch

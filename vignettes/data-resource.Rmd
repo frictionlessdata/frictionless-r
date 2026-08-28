@@ -76,7 +76,7 @@ remove_resource(package, "deployments")
 # package <- remove_resource(package, "deployments")
 ```
 
-`add_resource()` adds or replaces a tabular resource. **It will always create a resource following the [v2 specification](https://datapackage.org/standard/data-resource/).** The provided data must be a data frame or a tabular data file (e.g. CSV):
+`add_resource()` adds or replaces a tabular resource. **It always creates a resource following the [v2 specification](https://datapackage.org/standard/data-resource/).** The provided data must be a data frame or a tabular data file (e.g. CSV):
 
 ```{r}
 # Add a resource with data from a data frame

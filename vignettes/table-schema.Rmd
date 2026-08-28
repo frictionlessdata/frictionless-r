@@ -70,7 +70,7 @@ levels(observations$life_stage)
 
 A schema is a list which you can manipulate, but frictionless does not provide functions to do that. Use `{purrr}` or base R instead (see `vignette("frictionless")`). You do not have to start a schema from scratch though: use `schema()` (see above) or `create_schema()` instead.
 
-`create_schema()` creates a schema from a data frame. **It will always create a schema following the [v2 specification](https://datapackage.org/standard/table-schema/).** It defines the `name`, `type` (and if a factor `constraints$enum`) for each field:
+`create_schema()` creates a schema from a data frame. **It always creates a schema following the [v2 specification](https://datapackage.org/standard/table-schema/).** It defines the `name`, `type` (and if a factor `constraints$enum`) for each field:
 
 ```{r}
 # Create a schema from the built-in dataset "iris"
