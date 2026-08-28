@@ -140,7 +140,7 @@ test_that("append_with_attributes() returns identical attributes", {
   attributes(obj) <- list(species = "letter")
 
   expect_identical(
-    append_with_attributes(obj, "b"),
+    attributes(append_with_attributes(obj, "b")),
     attributes(obj)
   )
 })
