@@ -1,13 +1,11 @@
-#' Upgrade a Table Schema of a Data Resource from v1 to v2
+#' Upgrade a Table Schema object from v1 to v2
 #'
 #' @param schema List describing a Table Schema, as returned by [schema()].
-#' @param resource_name Name of the Data Resource.
+#' @param resource_name Name of the Data Resource, needed for updating
+#'   `foreignKeys`.
 #' @returns Upgraded `schema`.
 #' @family upgrade functions
 #' @noRd
-#' @examples
-#' schema <- schema(example_package(version = "1.0"), "observations")
-#' upgrade_schema(schema)
 upgrade_schema <- function(schema, resource_name) {
   version <- version(schema)
 
