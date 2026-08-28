@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-[Table Dialect](https://specs.frictionlessdata.io/csv-dialect/) (previously called CSV dialect) is a simple format to describe the dialect of a tabular data file, including its delimiter, header rows, escape characters, etc.
+[Table Dialect](https://datapackage.org/standard/table-dialect/) is a simple format to describe the dialect of a tabular data file, including its delimiter, header rows, escape characters, etc.
 
 ::: {.callout-note}
 In this document we use the terms "package" for Data Package, "resource" for Data Resource, "dialect" for Table Dialect, and "schema" for Table Schema.
@@ -23,7 +23,7 @@ In this document we use the terms "package" for Data Package, "resource" for Dat
 
 ## General implementation
 
-frictionless supports most dialect properties to read [Tabular Data Resources](https://datapackage.org/standard/data-resource/#tabular). Dialect manipulation is limited to setting a `delimiter`. When writing resources, it (mainly) makes uses of default dialect properties, removing the necessity to define them.
+frictionless supports most dialect properties to read [Tabular Data Resources](https://datapackage.org/standard/data-resource/#tabular), but only those designed for [delimited formats](https://datapackage.org/standard/table-dialect/#delimited) (not structured, spreadsheet, database formats). Dialect manipulation is limited to setting a `delimiter`. When writing resources, it (mainly) makes use of default dialect properties, removing the necessity to define them.
 
 ### Read
 
@@ -38,7 +38,7 @@ frictionless supports most dialect properties to read [Tabular Data Resources](h
 
 ### Manipulate
 
-frictionless does not support direct manipulation of the dialect. `add_resource()` allows to set one property (`dialect$delimiter`) when data are provided as a file, all other properties are assumed to be the default.
+frictionless does not support direct manipulation of the dialect. `add_resource()` allows to set one property (`delimiter`) when data are provided as a file, all other properties are assumed to be the default.
 
 ### Write
 
@@ -46,34 +46,62 @@ frictionless does not support direct manipulation of the dialect. `add_resource(
 
 ## Properties implementation
 
+### $schema
+
+[`$schema`](https://datapackage.org/standard/table-dialect/#dollar-schema) indicates what `version()` of the Table Dialect standard is used (v1 if undefined).
+
+- `read_resource()` ignores it, since all dialect properties supported by frictionless are the same in v1 and v2.
+- `add_resource()` does _not_ set `$schema` to the recommended v2 value (`"https://datapackage.org/profiles/2.0/tabledialect.json"`), because it typically does not define a dialect and therefore `$schema`. It thus creates (default to) a v1 dialect.
+- `upgrade_package()` leaves dialect as is for all resources.
+
+### header
+
+[`header`](https://datapackage.org/standard/table-dialect/#header) is used by `read_resource()` and defaults to `true`. It is passed as `skip = 1` (or `0` for `false`) in `readr::read_delim()`, ignoring the header. Field names in `schema` are used instead.
+
+### headerRows
+
+[`headerRows`](https://datapackage.org/standard/table-dialect/#headerRows) is **not supported** by `read_resource()`.
+
+### headerJoin
+
+[`headerJoin`](https://datapackage.org/standard/table-dialect/#headerJoin) is **not supported** by `read_resource()`.
+
+### commentRows
+
+[`commentRows`](https://datapackage.org/standard/table-dialect/#commentRows) is **not supported** by `read_resource()`.
+
+### commentChar
+
+[`commentChar`](https://datapackage.org/standard/table-dialect/#commentChar) is used by `read_resource()` and defaults to undefined. It is passed to `comment` in `readr::read_delim()`.
+
 ### delimiter
 
-[`delimiter`](https://specs.frictionlessdata.io/csv-dialect/#specification) is used by `read_resource()` and defaults to `","`. It is passed to `delim` in `readr::read_delim()`. `add_resource()` does not set `delimiter`, unless provided in `delim` and different from the default `","`:
+[`delimiter`](https://datapackage.org/standard/table-dialect/#delimiter) is used by `read_resource()` and defaults to `","`. It is passed to `delim` in `readr::read_delim()`. `add_resource()` does not set `delimiter`, unless provided in `delim` and different from the default `","`:
 
 ```{r}
 library(frictionless)
 package <- example_package()
 
-path <- system.file("extdata", "v1", "observations_1.tsv", package = "frictionless")
+path <- system.file("extdata", "v2", "observations_1.tsv", package = "frictionless")
 package <- add_resource(package, "observations", data = path, delim = "\t", replace = TRUE)
-package$resources[[2]]$dialect$delimiter
+resource(package, "observations")$dialect$delimiter
 ```
 
 ### lineTerminator
 
-[`lineTerminator`](https://datapackage.org/standard/table-dialect/#lineTerminator) is ignored by `read_resource()`. It relies on `readr::read_delim()` instead, which interprets line terminator `LF` and `CRLF` automatically and does not support `CR` (used by Classic Mac OS, final release 2001).
+[`lineTerminator`](https://datapackage.org/standard/table-dialect/#lineTerminator) is **not supported** by `read_resource()`. It relies on `readr::read_delim()` instead, which interprets line terminator `LF` and `CRLF` automatically and does not support `CR` (used by Classic Mac OS, final release 2001).
 
 ### quoteChar
 
-[`quoteChar`](https://specs.frictionlessdata.io/csv-dialect/#specification) is used by `read_resource()` and defaults to `"`. It is passed to `quote` in `readr::read_delim()`.
+[`quoteChar`](https://datapackage.org/standard/table-dialect/#quoteChar) is used by `read_resource()` and defaults to `"`. It is passed to `quote` in `readr::read_delim()`.
 
 ### doubleQuote
 
-[`doubleQuote`](https://specs.frictionlessdata.io/csv-dialect/#specification) is used by `read_resource()` and defaults to `true`, but can be overruled by `escapeChar`. It is passed to `escape_double` in `readr::read_delim()`.
+[`doubleQuote`](https://datapackage.org/standard/table-dialect/#doubleQuote) is used by `read_resource()` and defaults to `true`, but can be overruled by `escapeChar`. It is passed to `escape_double` in `readr::read_delim()`.
 
 ### escapeChar
 
-[`escapeChar`](https://specs.frictionlessdata.io/csv-dialect/#specification) is ignored by `read_resource()` unless it is `"\\"`. It is passed as `escape_backslash = TRUE` and `escape_double = FALSE` in `readr::read_delim()`.
+[`escapeChar`](https://datapackage.org/standard/table-dialect/#escapeChar) is **not supported** by `read_resource()` unless it is `"\\"`. It is passed as `escape_backslash = TRUE` and `escape_double = FALSE` in `readr::read_delim()`.
 
 ::: {.callout-warning}
 `escapeChar` and `doubleQuote` are mutually exclusive, so you cannot escape with `\"` and `""` in the same file.
@@ -81,24 +109,8 @@ package$resources[[2]]$dialect$delimiter
 
 ### nullSequence
 
-[`nullSequence`](https://specs.frictionlessdata.io/csv-dialect/#specification) is ignored by `read_resource()`. Provide as `missingValues` in the schema instead (see `vignette("table-schema")`).
+[`nullSequence`](https://datapackage.org/standard/table-dialect/#nullSequence) is **not supported** by `read_resource()`. Provide as `missingValues` in the schema instead (see `vignette("table-schema")`).
 
 ### skipInitialSpace
 
-[`skipInitialSpace`](https://specs.frictionlessdata.io/csv-dialect/#specification) is used by `read_resource()` and defaults to `false`. It is passed to `trim_ws` in `readr::read_delim()`.
-
-### header
-
-[`header`](https://specs.frictionlessdata.io/csv-dialect/#specification) is used by `read_resource()` and defaults to `true`. It is passed as `trim_ws = 1` (or `0`) in `readr::read_delim()`.
-
-### commentChar
-
-[`commentChar`](https://specs.frictionlessdata.io/csv-dialect/#specification) is used by `read_resource()` and defaults to undefined. It is passed to `comment` in `readr::read_delim()`.
-
-### caseSensitiveHeader
-
-[`caseSensitiveHeader`](https://specs.frictionlessdata.io/csv-dialect/#specification) is ignored by `read_resource()`.
-
-### csvddfVersion
-
-[`csvddfVersion`](https://specs.frictionlessdata.io/csv-dialect/#specification) is ignored by `read_resource()`.
+[`skipInitialSpace`](https://datapackage.org/standard/table-dialect/#skipInitialSpace) is used by `read_resource()` and defaults to `false`. It is passed to `trim_ws` in `readr::read_delim()`.

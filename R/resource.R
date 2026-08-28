@@ -62,7 +62,7 @@ resource <- function(package, resource_name) {
   resource <- purrr::keep(package$resources, ~ .x$name == resource_name)[[1]]
 
   # Check that path or data are set
-  # https://specs.frictionlessdata.io/data-resource/#data-location
+  # https://datapackage.org/standard/data-resource/#path-or-data
   if (is.null(resource$path) && is.null(resource$data)) {
     cli::cli_abort(
       "Resource {.val {resource_name}} must have a {.field path} or

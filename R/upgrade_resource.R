@@ -19,7 +19,7 @@ upgrade_resource <- function(resource) {
     after = 0
   )
 
-  # Set type to table if resource is tabular, see
+  # Set type to table if resource is tabular
   # https://datapackage.org/standard/data-resource/#type
   profile <- resource$profile %||% "undefined"
   if (profile %in% c(

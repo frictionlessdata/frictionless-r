@@ -10,9 +10,10 @@
 #' 3. `media`: inline data stored in `data`.
 #'
 #' The example Data Package is available in two versions:
-#' - `1.0`: specified as a [Data Package v1](
-#'   https://specs.frictionlessdata.io/).
-#' - `2.0`: specified as a [Data Package v2](https://datapackage.org/).
+#' - `1.0`: specified in [v1](https://specs.frictionlessdata.io/) of the Data
+#'   Package standard.
+#' - `2.0`: specified in [v2](https://datapackage.org/) of the Data Package
+#'   standard.
 #'
 #' @param version Data Package standard version.
 #' @returns A Data Package object, see [create_package()].
