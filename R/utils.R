@@ -110,7 +110,7 @@ append_with_attributes <- function(x, values, after = length(x)){
 
   attributes(p_app) <- purrr::list_modify(
     # Start from the newly appended attributes
-    attributes(p_app),
+    attributes(p_app) %||% list(),
     # Add our existing attributes: directory and class
     val = !!!attrs
   )
