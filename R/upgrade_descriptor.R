@@ -36,23 +36,15 @@ upgrade_descriptor <- function(package) {
 
   # Update contributor "role" = "value" to "roles" = ["value"]
   # https://datapackage.org/overview/changelog/#packagecontributors-updated
-  contributors <- package$contributors
-  if (!is.null(contributors)) {
-    package$contributors <- purrr::map(
-      contributors,
-      function(contributor) {
-        if ("role" %in% names(contributor)) {
-          purrr::list_modify(
-            contributor,
-            roles = as.list(contributor$role), # Make array
-            role = purrr::zap()
-          )
-        } else {
-          contributor
-        }
-      }
+  package$contributors <- purrr::modify_if(
+    package$contributors,
+    function(x) "role" %in% names(x),
+    function(x) purrr::list_modify(
+      x,
+      roles = character_to_list(x$role),
+      role = purrr::zap()
     )
-  }
+  )
 
   return(package)
 }
