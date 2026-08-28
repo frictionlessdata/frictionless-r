@@ -51,6 +51,12 @@ read_from_path <- function(package, resource_name, col_select) {
   }
   skip <- if (dialect$header %||% TRUE) 1 else 0
 
+  # If missingValues has more than 2 levels, assume it is following the standard
+  # and convert to a flat vector.
+  if(purrr::pluck_depth(schema$missingValues) >= 3){
+    schema$missingValues <- purrr::map(schema$missingValues, "value")
+  }
+
   # Read data (one or more paths) with read_delim (returns tibble)
   readr::read_delim(
     file = paths,
