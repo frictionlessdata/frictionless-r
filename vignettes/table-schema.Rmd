@@ -240,8 +240,8 @@ any other type | `any`
 
 [`boolean`](https://datapackage.org/standard/table-schema/#boolean) is interpreted as `logical`.
 
-- `trueValues` that are non-default are **not supported**.
-- `falseValues` that are non-default are **not supported**.
+- `trueValues` is **not supported**, except for the default values (`"true"`, `"True"`, `"TRUE"`, `"1"`).
+- `falseValues` is **not supported**, except for the default values (`"false"`, `"False"`, `"FALSE"`, `"0"`).
 
 ### object
 
