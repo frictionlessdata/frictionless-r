@@ -39,9 +39,9 @@ version <- function(x) {
   }
 
   # Extract version from e.g.
-  # "https://datapackage.org/profiles/1.0/datapackage.json" or
+  # "https://datapackage.org/profiles/1.0/datapackhttps://github.com/frictionlessdata/frictionless-r/pull/366age.json" or
   # "https://datapackage.org/profiles/2.0/tableschema.json"
-  pattern = "^https://datapackage\\.org/profiles/((?:[0-9A-Za-z]|\\.|-)+)/.*"
+  pattern <- "^https://datapackage\\.org/profiles/((?:[0-9A-Za-z]|\\.|-)+)/.*"
   extracted_version <- sub(
     pattern,
     "\\1",
