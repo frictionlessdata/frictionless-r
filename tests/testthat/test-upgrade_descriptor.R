@@ -60,13 +60,14 @@ test_that("upgrade_descriptor() updates contributor role to roles", {
 
   # Defined
   p_v1$contributors <- list(
-    list(title = "First author", role = "author"),
-    list(title = "No role", custom_property = "custom"),
+    list(title = "First author", role = "author", custom = "custom"),
+    list(title = "No role", custom = "custom"),
     list(title = "Jack of all trades", roles = list("a", "b"))
   )
   p_upgraded <- upgrade_descriptor(p_v1)
   expect_identical(p_upgraded$contributors[[1]][["roles"]], list("author")) # Added
   expect_null(p_upgraded$contributors[[1]][["role"]]) # Removed
+  expect_identical(p_upgraded$contributors[[1]][["custom"]], "custom") # Kept
   expect_null(p_upgraded$contributors[[2]][["roles"]]) # Not added
   expect_identical(p_upgraded$contributors[[3]][["roles"]], list("a", "b")) # Kept
 
