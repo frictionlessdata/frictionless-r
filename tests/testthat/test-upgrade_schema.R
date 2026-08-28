@@ -23,6 +23,14 @@ test_that("upgrade_schema() sets $schema to default v2 value", {
     )
 })
 
+test_that("upgrade_schema() sets $schema as first property", {
+  schema_v1 <- schema(example_package(version = "1.0"), "deployments")
+  expect_identical(
+    names(upgrade_schema(resource_v1, "deployments"))[[1]],
+    "$schema"
+  )
+})
+
 test_that("upgrade_schema() updates primaryKey", {
   schema_v1 <- schema(example_package(version = "1.0"), "deployments")
 
