@@ -1,3 +1,10 @@
+# Return ----
+test_that("upgrade_schema() returns a valid schema", {
+  schema_v1 <- schema(example_package(version = "1.0"), "deployments")
+  expect_no_error(check_schema(upgrade_schema(schema_v1, "deployments")))
+})
+
+# Functionality ----
 test_that("upgrade_schema() upgrades a v1 schema to v2", {
   schema_v1 <- schema(example_package(version = "1.0"), "deployments")
   expect_identical(version(upgrade_schema(schema_v1)), "2.0")
