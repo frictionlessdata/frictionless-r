@@ -78,3 +78,24 @@ test_that("get_dot_names() does not return empty strings for unnamed args passed
   expect_identical(test_fn(a = "1", "2", b = "3", c = "4"), c("a", "b", "c"))
   expect_length(test_fn(a = "1", "2", b = "3", c = "4"), 3)
 })
+
+# append_with_attributes() ----
+test_that("append_with_attributes() can append a list", {
+
+})
+
+test_that("append_with_attributes() can prepend a list", {
+
+})
+
+test_that("append_with_attributes() returns identical attributes", {
+
+})
+
+test_that("append_with_attributes() returns identical class", {
+
+})
+
+test_that("append_with_attributes() does not return names", {
+
+})
