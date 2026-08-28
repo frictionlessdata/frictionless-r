@@ -93,8 +93,9 @@ get_dot_names <- function(...) {
 
 #' Append an object, but retain attributes
 #'
-#' Appends values to an object, preserving its attributes. `names` are removed
-#' because they are length dependent.
+#' Appends values to an object, preserving its attributes. This is an extension 
+#' of [base::append].
+#' 
 #' @inheritParams base::append x values after
 #'
 #' @returns An object with the elements of `values` appended after the specified
@@ -103,7 +104,7 @@ get_dot_names <- function(...) {
 #' @noRd
 append_with_attributes <- function(x, values, after = length(x)){
   attrs <- attributes(x)
-  # Names will be the wrong length when appending
+  # Names will be the wrong length when appending, attributes() handles this.
   attrs[["names"]] <- NULL
   p_app <- base::append(unclass(x), values, after = after)
 
