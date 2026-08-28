@@ -101,7 +101,7 @@ get_dot_names <- function(...) {
 #'   element of `x`.
 #'
 #' @noRd
-append_with_attrs <- function(x, values, after = length(x)){
+append_with_attributes <- function(x, values, after = length(x)){
   attrs <- attributes(x)
   # Names will be the wrong length when appending
   attrs[["names"]] <- NULL

@@ -13,7 +13,7 @@ upgrade_resource <- function(resource) {
   }
 
   # Set $schema as first property
-  resource <- append_with_attrs(
+  resource <- append_with_attributes(
     resource,
     list("$schema" = "https://datapackage.org/profiles/2.0/dataresource.json"),
     after = 0
