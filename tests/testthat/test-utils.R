@@ -168,3 +168,25 @@ test_that("append_with_attributes() preserves names", {
     toupper(letters)
   )
 })
+
+test_that("append_with_attributes() can append a Data Package resource", {
+  # Retain data_location and path
+  deployments <- example_package() |>
+    resource("deployments")
+
+  # Add a new property
+  custom_property <- list("custom_property" = "custom property value")
+  appended_resource <-
+    append_with_attributes(deployments, custom_property)
+
+  # Test attributes
+  expect_contains(
+    attributes(appended_resource),
+    list(data_location = "path")
+  )
+  # Test if new property was appended
+  expect_identical(
+    tail(appended_resource, 1L),
+    custom_property
+  )
+})
