@@ -112,27 +112,26 @@ test_that("append_with_attributes() can handle appending nested lists", {
 
 test_that("append_with_attributes() can prepend a list", {
   lst <- list(list(
-    place = "park",
+    place = "Ordovician Park",
     observatons = "plants"
   ))
   lst_to_append <- list(list(
-    place = "Jurrasic World",
+    place = "Jurrasic Park",
     observations = "dinosaurs"
   ))
 
-  new_place <-
-    expect_identical(
-      append_with_attributes(
-        lst,
-        lst_to_append,
-        after = 0L
-      ),
-      append(
-        lst,
-        lst_to_append,
-        after = 0L
-      )
+  expect_identical(
+    append_with_attributes(
+      lst,
+      lst_to_append,
+      after = 0L
+    ),
+    append(
+      lst,
+      lst_to_append,
+      after = 0L
     )
+  )
 })
 
 test_that("append_with_attributes() returns identical attributes", {
