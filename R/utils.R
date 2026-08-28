@@ -101,28 +101,27 @@ get_dot_names <- function(...) {
   return(dot_names[dot_names != ""])
 }
 
-#' Append an object, but retain attributes
+#' Vector merging while retaining attributes
 #'
-#' Appends values to an object, preserving its attributes. This is an extension
-#' of [base::append].
+#' Expends [base::append] but retains attributes.
 #'
-#' @inheritParams base::append x values after
-#'
-#' @returns An object with the elements of `values` appended after the specified
-#'   element of `x`.
-#'
+#' @inheritParams base::append
+#' @returns A vector containing the values in `x` with the elements of `values`
+#'   appended after the specified element of `x`, while retaining the attributes
+#'   of `x`
 #' @noRd
 append_with_attributes <- function(x, values, after = length(x)) {
-  attrs <- attributes(x)
-  # Names will be the wrong length when appending, attributes() handles this.
-  attrs[["names"]] <- NULL
+  # Keep original attributes, except names, which length will change with append
+  original_attributes <- attributes(x)
+  original_attributes[["names"]] <- NULL
 
-  # Append the object
-  p_app <- base::append(unclass(x), values, after = after)
+  # Append values (recreates names)
+  x <- base::append(unclass(x), values, after = after)
 
-  # Put attributes back into the appended object
-  for (attribute_name in names(attrs)) {
-    attr(p_app, attribute_name) <- attrs[[attribute_name]]
+  # Put original attributes back
+  for (attribute_name in names(original_attributes)) {
+    attr(x, attribute_name) <- original_attributes[[attribute_name]]
   }
-  p_app
+
+  return(x)
 }
