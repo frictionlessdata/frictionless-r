@@ -101,6 +101,15 @@ test_that("append_with_attributes() can append a list", {
   )
 })
 
+test_that("append_with_attributes() can handle appending nested lists", {
+  lst <- list(a = pi)
+  lst_to_append <- list(forms = list("square", "hexagon"))
+  expect_identical(
+    append_with_attributes(lst, lst_to_append),
+    append(lst, lst_to_append)
+  )
+})
+
 test_that("append_with_attributes() can prepend a list", {
   attractions <- list(list(
     place = "park",
