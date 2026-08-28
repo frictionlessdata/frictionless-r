@@ -7,6 +7,7 @@ frictionless now supports datasets specified in [v1](https://specs.frictionlessd
 - **Breaking change!** `create_package()`, `add_resource()`, `create_schema()` will create a v2 package, resource and schema respectively. Note that this can lead to mixed versions (e.g. a v1 package with a v2 resource).
 - **Breaking change!** `example_package()` now uses `version = "2.0"` as default (#360, #361).
 - `upgrade_package()` can be used to upgrade a package, its resources and verbose schemas from v1 to v2 (which gets rid of mixed versions).
+- All documentation now points to the v2 of the Data Package standard
 
 ## Data Resource changes
 
