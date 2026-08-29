@@ -1,3 +1,4 @@
+# Return ----
 test_that("add_resource() returns a valid package", {
   p <- example_package()
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
@@ -11,24 +12,12 @@ test_that("add_resource() returns a valid package", {
   ))
 })
 
+# Error handling ----
 test_that("add_resource() returns error on package", {
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   expect_error(
     add_resource(list(), "new", df),
     class = "frictionless_error_package_invalid"
-  )
-})
-
-test_that("add_resource() allows any string as resource name and trims it", {
-  p <- example_package()
-  df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
-
-   expect_no_error(
-    add_resource(p, "  Nëw  re/source 4 ", df)
-  )
-  expect_contains(
-    resource_names(add_resource(p, "  Nëw  re/source 4 ", df)),
-    "Nëw  re/source 4" # Trimmed
   )
 })
 
@@ -199,7 +188,8 @@ test_that("add_resource() returns error if ... arguments are reserved", {
   )
 })
 
-test_that("add_resource() adds resource", {
+# Functionality ----
+test_that("add_resource() adds a v2 resource", {
   p <- example_package()
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   df_csv <- test_path("data/df.csv")
@@ -232,6 +222,19 @@ test_that("add_resource() adds resource", {
   expect_identical(
     resource_names(p),
     c("deployments", "observations", "media", "new_df", "new_csv")
+  )
+})
+
+test_that("add_resource() allows any string as resource name and trims it", {
+  p <- example_package()
+  df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
+
+  expect_no_error(
+    add_resource(p, "  Nëw  re/source 4 ", df)
+  )
+  expect_contains(
+    resource_names(add_resource(p, "  Nëw  re/source 4 ", df)),
+    "Nëw  re/source 4" # Trimmed
   )
 })
 
@@ -309,8 +312,9 @@ test_that("add_resource() can add resource from data frame, readable by
   expect_identical(read_resource(p, "new"), dplyr::as_tibble(df))
 })
 
-test_that("add_resource() can add resource from local, relative, absolute,
-           remote or compressed CSV file, readable by read_resource()", {
+test_that("add_resource() can add resource from local, relative parent,
+           absolute, hidden, remote or compressed CSV file, readable by
+           read_resource()", {
   skip_if_offline()
   p <- example_package()
   schema <- schema(p, "deployments")
@@ -335,19 +339,25 @@ test_that("add_resource() can add resource from local, relative, absolute,
   expect_identical(p$resources[[6]]$path, absolute_path)
   expect_s3_class(read_resource(p, "absolute"), "tbl")
 
+  # Hidden (doesn't throw unsafe error)
+  hidden_path <- test_path("data/.hidden/df.csv")
+  p <- add_resource(p, "hidden", hidden_path)
+  expect_identical(p$resources[[7]]$path, hidden_path)
+  expect_s3_class(read_resource(p, "hidden"), "tbl")
+
   # Remote
   remote_path <- file.path(
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
     "main/inst/extdata/v1/deployments.csv"
   )
   p <- add_resource(p, "remote", remote_path, schema)
-  expect_identical(p$resources[[7]]$path, remote_path)
+  expect_identical(p$resources[[8]]$path, remote_path)
   expect_s3_class(read_resource(p, "remote"), "tbl")
 
   # Compressed
   compressed_file <- test_path("data/deployments.csv.gz")
   p <- add_resource(p, "compressed", compressed_file, schema)
-  expect_identical(p$resources[[8]]$path, compressed_file)
+  expect_identical(p$resources[[9]]$path, compressed_file)
   expect_s3_class(read_resource(p, "compressed"), "tbl")
 })
 
@@ -434,4 +444,27 @@ test_that("add_resource() sets ... arguments as extra properties", {
   p <- add_resource(p, "new_csv", df_csv, title = "custom_title", foo = "bar")
   expect_identical(p$resources[[2]]$title, "custom_title")
   expect_identical(p$resources[[2]]$foo, "bar")
+})
+
+# Version support ----
+test_that("add_resource() returns package in same version as provided", {
+  p_v1 <- example_package(version = "1.0")
+  p_v2 <- example_package(version = "2.0")
+  df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
+  expect_identical(version(add_resource(p_v1, "new", df)), "1.0")
+  expect_identical(version(add_resource(p_v2, "new", df)), "2.0")
+})
+
+test_that("add_resource() always creates a v2 resource", {
+  p_v1 <- example_package(version = "1.0")
+  p_v2 <- example_package(version = "2.0")
+  df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
+  p_v1 <- add_resource(p_v1, "new", df)
+  p_v1_replaced <- add_resource(p_v1, "deployments", df, replace = TRUE)
+  p_v2 <- add_resource(p_v2, "new", df)
+  expect_identical(version(resource(p_v1, "new")), "2.0")
+  expect_identical(version(resource(p_v1_replaced, "deployments")), "2.0")
+  expect_identical(version(resource(p_v2, "new")), "2.0")
+
+  # See further for setting $schema
 })

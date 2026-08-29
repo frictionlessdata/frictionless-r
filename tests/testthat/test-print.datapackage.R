@@ -1,8 +1,10 @@
+# Return ----
 test_that("print.datapackage() returns output invisibly", {
   expect_output(output <- withVisible(print(example_package())))
   expect_false(output$visible)
 })
 
+# Functionality ----
 test_that("print.datapackage() informs about the version, resources and
            unclass()", {
   unclass_message <- "Use `unclass()` to print the Data Package as a list."

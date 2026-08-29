@@ -292,6 +292,10 @@
             "type": "array"
           },
           {
+            "name": "list",
+            "type": "list"
+          },
+          {
             "name": "duration",
             "type": "duration"
           },

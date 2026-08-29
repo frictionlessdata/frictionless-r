@@ -1,5 +1,3 @@
-# UPGRADE HELPER FUNCTIONS
-
 #' Upgrade a Data Resource object from v1 to v2
 #'
 #' @param resource List describing a Data Resource, as returned by [resource()].
@@ -14,11 +12,14 @@ upgrade_resource <- function(resource) {
     return(resource)
   }
 
-  # Set $schema
-  purrr::pluck(resource, "$schema") <-
-    "https://datapackage.org/profiles/2.0/dataresource.json"
+  # Set $schema as first property
+  resource <- append_with_attributes(
+    resource,
+    list("$schema" = "https://datapackage.org/profiles/2.0/dataresource.json"),
+    after = 0
+  )
 
-  # Set type to table if resource is tabular, see
+  # Set type to table if resource is tabular
   # https://datapackage.org/standard/data-resource/#type
   profile <- resource$profile %||% "undefined"
   if (profile %in% c(
@@ -28,8 +29,7 @@ upgrade_resource <- function(resource) {
     resource$type <- "table"
   }
 
-  # Remove profile (https://specs.frictionlessdata.io/data-resource/#profile)
-  # This may remove URL to custom resource profile, but is seldom-used feature
+  # Remove profile, including URL to custom *resource* profile, but hardly used
   resource$profile <- NULL
 
   return(resource)

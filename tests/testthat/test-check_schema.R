@@ -1,3 +1,4 @@
+# Return ----
 test_that("check_schema() returns schema invisibly on valid schema", {
   p <- example_package()
 
@@ -22,14 +23,7 @@ test_that("check_schema() returns schema invisibly on valid schema", {
   expect_invisible(check_schema(schema_create, df))
 })
 
-test_that("check_schema() returns schema in same version as provided", {
-  # This tests these expectations for both schema() and check_schema()
-  schema_v1 <- schema(example_package(version = "1.0"), "deployments")
-  schema_v2 <- schema(example_package(version = "2.0"), "deployments")
-  expect_identical(version(check_schema(schema_v1)), "1.0")
-  expect_identical(version(check_schema(schema_v2)), "2.0")
-})
-
+# Error handling ----
 test_that("check_schema() returns error on invalid or empty schema", {
   # Must be a list and have list property "fields"
   expect_error(
@@ -120,19 +114,6 @@ test_that("check_schema() returns error when schema fields have invalid types", 
   )
 })
 
-test_that("check_schema() allows schema fields to not (all) have type", {
-  schema <- list(fields = list(
-    list(name = "col_1"),
-    list(name = "col_2")
-  ))
-  expect_no_error(check_schema(schema))
-  schema <- list(fields = list(
-    list(name = "col_1", type = "string"),
-    list(name = "col_2")
-  ))
-  expect_no_error(check_schema(schema))
-})
-
 test_that("check_schema() returns error on invalid or empty data frame", {
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   schema <- create_schema(df)
@@ -203,4 +184,27 @@ test_that("check_schema() returns error on mismatching schema and data frame", {
     regexp = "Field names: \"col_1\", \"col_2\", and \"col_3\".",
     fixed = TRUE
   )
+})
+
+# Functionality ----
+test_that("check_schema() allows schema fields to not (all) have type", {
+  schema <- list(fields = list(
+    list(name = "col_1"),
+    list(name = "col_2")
+  ))
+  expect_no_error(check_schema(schema))
+  schema <- list(fields = list(
+    list(name = "col_1", type = "string"),
+    list(name = "col_2")
+  ))
+  expect_no_error(check_schema(schema))
+})
+
+# Version support ----
+test_that("check_schema() returns schema in same version as provided", {
+  # This tests these expectations for both schema() and check_schema()
+  schema_v1 <- schema(example_package(version = "1.0"), "deployments")
+  schema_v2 <- schema(example_package(version = "2.0"), "deployments")
+  expect_identical(version(check_schema(schema_v1)), "1.0")
+  expect_identical(version(check_schema(schema_v2)), "2.0")
 })

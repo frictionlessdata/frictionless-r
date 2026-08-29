@@ -1,3 +1,4 @@
+# Return ----
 test_that("check_path() returns path prepended with directory", {
   skip_if_offline()
   expect_identical(
@@ -19,6 +20,7 @@ test_that("check_path() returns path prepended with directory", {
   expect_identical(check_path(url, directory = "data"), url)
 })
 
+# Error handling ----
 test_that("check_path() returns error on absolute path when safe = TRUE", {
   expect_error(
     check_path("/dir/file.txt", safe = TRUE),
@@ -57,6 +59,19 @@ test_that("check_path() returns error on relative parent path when safe =
     ),
     fixed = TRUE
   )
+})
+
+test_that("check_path() returns error on path containing hidden folder when safe
+           = TRUE", {
+  expect_error(
+    check_path(".hidden/df.csv", directory = "data", safe = TRUE),
+    class = "frictionless_error_path_unsafe_hidden"
+  )
+  expect_error(
+    check_path("data/.hidden/df.csv", safe = TRUE),
+    class = "frictionless_error_path_unsafe_hidden"
+  )
+  expect_no_error(check_path("data/.hidden_file", safe = TRUE)) # Not a dir
 })
 
 test_that("check_path() returns error when local file cannot be found", {

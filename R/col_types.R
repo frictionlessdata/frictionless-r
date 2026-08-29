@@ -53,6 +53,7 @@ field_to_col <- function(field) {
     "boolean" = readr::col_logical(),
     "object" = readr::col_character(),
     "array" = readr::col_character(),
+    "list" = readr::col_character(),
     "date" = col_date(format),
     "time" = col_time(format),
     "datetime" = col_datetime(format),
