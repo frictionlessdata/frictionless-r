@@ -24,7 +24,7 @@ locale <- function(package, resource_name) {
     decimal_mark <- d_chars[1]
     cli::cli_warn(
       "Some fields define a non-default {.field decimalChar}. Parsing all number
-      fields with {.val {d_chars[1]}} as decimal mark.",
+       fields with {.val {decimal_mark}} as decimal mark.",
       class = "frictionless_warning_fields_decimalchar_different"
     )
   }
@@ -37,33 +37,26 @@ locale <- function(package, resource_name) {
   } else {
     grouping_mark <- g_chars[1]
     cli::cli_warn(
-      "Some fields define a {.field groupChar}. Parsing all number
-       and integer fields with {.val {g_chars[1]}} as grouping mark.",
+      "Some fields define a {.field groupChar}. Parsing all number and integer
+       fields with {.val {grouping_mark}} as grouping mark.",
       class = "frictionless_warning_fields_groupchar_different"
     )
   }
 
   # Decimal mark and grouping mark must be different
+  # Catch before readr error: decimal_mark and grouping_mark must be different
   if (decimal_mark == grouping_mark) {
-    # Error message slightly different if decimal_mark is default (".") or not
-    if (decimal_mark == ".") {
-      cli::cli_abort(c(
-        "Grouping mark must be different than decimal mark.",
-        "i" = "Some fields define a {.field groupChar} ({.val {grouping_mark}})
-        that is the same as {.field decimalChar} ({.val {decimal_mark}},
-        <the default>)."
-        ),
-      class = "frictionless_error_fields_decimalchar_groupchar_same_default"
-      )
-    } else {
-      cli::cli_abort(c(
-        "Grouping mark must be different than decimal mark.",
-        "i" = "Some fields define a {.field groupChar} ({.val {grouping_mark}})
-        that is the same as {.field decimalChar} ({.val {decimal_mark}})."
+    default_message <- if (decimal_mark == ".") "default" else "defined"
+    cli::cli_abort(
+      c(
+        "x" = "Decimal mark and grouping mark must be different.",
+        "i" = "Some fields define a {.field groupChar}. Parsing all number and
+               integer fields with {.val {grouping_mark}} as grouping mark fails
+               because it is the same as the {default_message} decimal mark
+               ({.val {decimal_mark}})."
         ),
       class = "frictionless_error_fields_decimalchar_groupchar_same"
-      )
-    }
+    )
   }
 
   # Set encoding
