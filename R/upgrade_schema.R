@@ -14,9 +14,12 @@ upgrade_schema <- function(schema, resource_name) {
     return(schema)
   }
 
-  # Set $schema
-  purrr::pluck(schema, "$schema") <-
-    "https://datapackage.org/profiles/2.0/tableschema.json"
+  # Set $schema as first property
+  schema <- append_with_attributes(
+    schema,
+    list("$schema" = "https://datapackage.org/profiles/2.0/tableschema.json"),
+    after = 0
+  )
 
   # Update primaryKey to array
   # https://datapackage.org/overview/changelog/#schemaprimarykey-updated

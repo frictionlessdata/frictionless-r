@@ -59,6 +59,11 @@ test_that("upgrade_descriptor() sets $schema to default v2 value or custom
   expect_identical(upgrade_descriptor(p_v1)$`$schema`, v2_profile)
 })
 
+test_that("upgrade_resource() sets $schema as first property", {
+  p_v1 <- example_package(version = "1.0")
+  expect_identical(names(upgrade_descriptor(p_v1))[[1]], "$schema")
+})
+
 test_that("upgrade_descriptor() updates contributor role to roles", {
   p_v1 <- example_package(version = "1.0")
 

@@ -54,6 +54,11 @@ test_that("upgrade_resource() sets $schema to default v2 value", {
   expect_identical(upgrade_resource(resource_v1)$`$schema`, v2_profile)
 })
 
+test_that("upgrade_resource() sets $schema as first property", {
+  resource_v1 <- resource(example_package(version = "1.0"), "deployments")
+  expect_identical(names(upgrade_resource(resource_v1))[[1]], "$schema")
+})
+
 test_that("upgrade_resource() sets type for tabular resources", {
   resource_v1 <- resource(example_package(version = "1.0"), "deployments")
 

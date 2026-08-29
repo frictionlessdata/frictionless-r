@@ -23,6 +23,14 @@ test_that("upgrade_schema() sets $schema to default v2 value", {
     )
 })
 
+test_that("upgrade_schema() sets $schema as first property", {
+  schema_v1 <- schema(example_package(version = "1.0"), "deployments")
+  expect_identical(
+    names(upgrade_schema(schema_v1, "deployments"))[[1]],
+    "$schema"
+  )
+})
+
 test_that("upgrade_schema() updates primaryKey", {
   schema_v1 <- schema(example_package(version = "1.0"), "deployments")
 
@@ -33,11 +41,11 @@ test_that("upgrade_schema() updates primaryKey", {
     list("deployment_id")
   )
 
-  # Leave undefined
+  # Undefined
   schema_v1$primaryKey <- NULL
   expect_null(upgrade_schema(schema_v1, "deployments")$primaryKey)
 
-  # Leave list
+  # List
   schema_v1$primaryKey <- list("deployment_id", "other_id")
   expect_identical(
     upgrade_schema(schema_v1, "deployments")$primaryKey,
@@ -55,11 +63,11 @@ test_that("upgrade_schema() updates foreignKeys", {
     schema(example_package(version = "2.0"), "media")$foreignKeys,
   )
 
-  # Leave undefined
+  # Undefined
   schema_v1$foreignKeys <- NULL
   expect_null(upgrade_schema(schema_v1, "media")$foreignKeys)
 
-  # Extensive example
+  # Custom properties + self-referential resource
   provided_keys <- list(
     fields = "not_in_list", # Ignore
     list(
