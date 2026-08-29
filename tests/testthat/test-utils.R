@@ -89,140 +89,77 @@ test_that("get_dot_names() does not return empty strings for unnamed args passed
 })
 
 # append_with_attributes() ----
-test_that("append_with_attributes() can append a list", {
-  lst <- list(
-    title = "Star Trek: Enterprise",
-    road = "It's a long road",
-    goal = "Getting from there to here"
-  )
-
+test_that("append_with_attributes() supports base::append() functionality", {
+  list_1 <- list(a = 1, b = 2)
+  list_2 <- list(c = 3, d = 4)
+  list_nested <- list(c = list(d = 3))
   expect_identical(
-    append_with_attributes(lst, c(frequency = "It's been a long time...")),
-    append(lst, c(frequency = "It's been a long time..."))
+    append_with_attributes(1:5, 0:1, after = 3),
+    append(1:5, 0:1, after = 3)
   )
-
   expect_identical(
-    tail(
-      append_with_attributes(lst, list(crew = list(captain = "Archer"))),
-      1L
-    ),
-    list(crew = list(captain = "Archer"))
+    append_with_attributes(list_1, list_2, after = 0),
+    append(list_1, list_2, after = 0)
+  )
+  expect_identical(
+    append_with_attributes(list_1, list_nested),
+    append(list_1, list_nested)
   )
 })
 
-test_that("append_with_attributes() can handle appending nested lists", {
-  lst <- list(a = pi)
-  lst_to_append <- list(forms = list("square", "hexagon"))
-  expect_identical(
-    append_with_attributes(lst, lst_to_append),
-    append(lst, lst_to_append)
-  )
-})
-
-test_that("append_with_attributes() can prepend a list", {
-  lst <- list(list(
-    place = "Ordovician Park",
-    observatons = "plants"
-  ))
-  lst_to_append <- list(list(
-    place = "Jurrasic Park",
-    observations = "dinosaurs"
-  ))
+test_that("append_with_attributes() preserves attributes and classes", {
+  object <- head(letters, -1L) # a, b, ... y
+  # Add custom attributes
+  attr(object, "title") <- "Letters"
+  attr(object, "description") <- "Lowercase letters in alphabetical order"
+  # Add custom class
+  class(object) <- c("letters")
+  class(object) <- c("series", class(object))
 
   expect_identical(
-    append_with_attributes(
-      lst,
-      lst_to_append,
-      after = 0L
-    ),
-    append(
-      lst,
-      lst_to_append,
-      after = 0L
-    )
+    attributes(append_with_attributes(object, "z")),
+    attributes(object)
   )
-})
-
-test_that("append_with_attributes() returns identical attributes", {
-  obj <- "a"
-  attributes(obj) <- list(species = "letter")
-
-  expect_identical(
-    attributes(append_with_attributes(obj, "b")),
-    attributes(obj)
-  )
-})
-
-test_that("append_with_attributes() returns identical class", {
-  obj <- pi
-  # single
-  class(obj) <- list("constant")
-  expect_s3_class(obj, "constant")
-  # multiple
-  class(obj) <- list(class(obj), "numeric")
   expect_s3_class(
-    obj,
-    c("constant", "numeric")
+    append_with_attributes(object, "z"),
+    c("series", "letters")
   )
 })
 
 test_that("append_with_attributes() preserves names", {
-  # Create test object
-  lst <- head(letters, -1L)
-  # Give it some names
-  lst <- purrr::set_names(lst, toupper(lst))
-
+  object <- head(letters, -1L) # a, b, ... y
+  # Add names
+  object <- purrr::set_names(object, toupper(object))
   expect_named(
-    append_with_attributes(lst, purrr::set_names("z", nm = "Z")),
+    append_with_attributes(object, c("Z" = "z")),
     toupper(letters)
   )
 })
 
-test_that("append_with_attributes() can append a Data Package resource", {
-  # Retain data_location and path
-  deployments <- example_package() |>
-    resource("deployments")
-
-  # Add a new property
-  custom_property <- list("custom_property" = "custom property value")
-  appended_resource <-
-    append_with_attributes(deployments, custom_property)
-
-  # Test attributes
-  expect_contains(
-    attributes(appended_resource),
-    list(data_location = "path")
+test_that("append_with_attributes() can return a valid package", {
+  p <- create_package()
+  p_appended <- append_with_attributes(
+    p,
+    list(custom_property = "custom_value"),
+    0
   )
-  # Test if new property was appended
-  expect_identical(
-    tail(appended_resource, 1L),
-    custom_property
-  )
+  expect_no_error(check_package(p_appended))
+  expect_identical(p_appended[[1]], "custom_value")
 })
 
-test_that("append_with_attributes() can append a Data Package", {
-  # Retain data_location and path
-  package <- example_package()
-
-  # Add a new property
-  custom_property <- list("custom_property" = "custom property value")
-  appended_package <-
-    append_with_attributes(package, custom_property)
-
-  # Test class
-  expect_s3_class(
-    appended_package,
-    "datapackage"
+test_that("append_with_attributes() can return a valid resource", {
+  resource <- resource(example_package(), "deployments")
+  resource_appended <- append_with_attributes(
+    resource,
+    list(first = "custom_value"),
+    0
   )
-
-  # Test attributes
-  expect_named(
-    appended_package,
-    c(names(package), "custom_property")
-  )
-
+  # Resource attributes are kept
   expect_identical(
-    attributes(appended_package)$directory,
-    attributes(package)$directory
+    attr(resource_appended, "data_location"),
+    attr(resource, "data_location")
   )
+  expect_identical(resource_appended[[1]], "custom_value")
 })
+
+

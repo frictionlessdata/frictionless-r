@@ -101,14 +101,14 @@ get_dot_names <- function(...) {
   return(dot_names[dot_names != ""])
 }
 
-#' Vector merging while retaining attributes
+#' Vector merging while preserving attributes
 #'
-#' Expends [base::append] but retains attributes.
+#' Expends [base::append] but preserving attributes.
 #'
 #' @inheritParams base::append
 #' @returns A vector containing the values in `x` with the elements of `values`
-#'   appended after the specified element of `x`, while retaining the attributes
-#'   of `x`
+#'   appended after the specified element of `x`, while preservering the
+#'   attributes of `x`.
 #' @noRd
 append_with_attributes <- function(x, values, after = length(x)) {
   # Keep original attributes, except names, which length will change with append
