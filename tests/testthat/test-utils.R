@@ -144,14 +144,14 @@ test_that("append_with_attributes() can return a valid package", {
     0
   )
   expect_no_error(check_package(p_appended))
-  expect_identical(p_appended[[1]], "custom_value")
+  expect_identical(names(p_appended)[[1]], "custom_property")
 })
 
 test_that("append_with_attributes() can return a valid resource", {
   resource <- resource(example_package(), "deployments")
   resource_appended <- append_with_attributes(
     resource,
-    list(first = "custom_value"),
+    list(custom_property = "custom_value"),
     0
   )
   # Resource attributes are kept
@@ -159,7 +159,7 @@ test_that("append_with_attributes() can return a valid resource", {
     attr(resource_appended, "data_location"),
     attr(resource, "data_location")
   )
-  expect_identical(resource_appended[[1]], "custom_value")
+  expect_identical(names(resource_appended)[[1]], "custom_property")
 })
 
 
