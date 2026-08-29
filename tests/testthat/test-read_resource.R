@@ -479,7 +479,7 @@ test_that("read_resource() handles decimalChar/groupChar properties", {
   expect_identical(resource$num_undefined, expected_value) # 3000000.30
 
   # Non-default decimalChar and groupChar
-  # Results in 3 warnings: decimalchar, groupchar ane a vroom parsing failure
+  # Results in 3 warnings: decimalchar, groupchar and a vroom parsing failure
   # last field
   suppressWarnings(expect_warning(
     read_resource(p, "mark_decimal_group"),
@@ -531,14 +531,14 @@ test_that("read_resource() handles decimalChar/groupChar properties", {
     suppressWarnings(
       read_resource(p, "mark_integer_invalid_group_as_default_decimal")
     ),
-    class = "frictionless_error_fields_decimalchar_groupchar_same_default"
+    class = "frictionless_error_decimal_grouping_mark_identical"
   )
 
   # numbers or mixed numbers/integers:
   # groupChar must be different than decimalChar (non-default `,`)
   expect_error(
     suppressWarnings(read_resource(p, "mark_invalid_group_as_decimal")),
-    class = "frictionless_error_fields_decimalchar_groupchar_same"
+    class = "frictionless_error_decimal_grouping_mark_identical"
   )
 })
 

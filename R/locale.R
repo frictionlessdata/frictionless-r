@@ -49,9 +49,9 @@ locale <- function(package, resource_name) {
   default_message <- if (decimal_mark == ".") "default " else ""
   if (decimal_mark == grouping_mark) {
     cli::cli_abort(
-      class = "frictionless_error_fields_decimalchar_groupchar_same"
       "Decimal mark ({default_message}{.val {decimal_mark}}) and grouping mark
        ({.val {grouping_mark}}) must be different.",
+      class = "frictionless_error_decimal_grouping_mark_identical"
     )
   }
 
