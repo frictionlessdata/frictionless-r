@@ -1,7 +1,7 @@
 #' Check a path or URL
 #'
 #' Check if a [path or URL](
-#' https://specs.frictionlessdata.io/data-resource/#url-or-path) is valid (and
+#' https://datapackage.org/standard/data-resource/#path-or-data) is valid (and
 #' optionally safe) and prepend with directory to create an absolute path or
 #' URL.
 #' Returns error when no file can be found.

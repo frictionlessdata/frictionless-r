@@ -437,8 +437,33 @@ test_that("read_resource() understands missing values", {
   attr(p_missing, "directory") <- "."
   p_missing$resources[[1]]$path <-
     test_path("data/deployments_missingvalues.csv")
-  p_missing$resources[[1]]$schema$missingValues <-
-    append(p_missing$resources[[1]]$schema$missingValues, "ignore")
+  p_missing$resources[[1]]$schema$missingValues <- list("ignore", "wrong")
+  expect_identical(read_resource(p_missing, "deployments"), resource)
+})
+
+test_that("read_resource() understands undefined missing values", {
+  p <- example_package()
+  resource <- read_resource(p, "deployments") # Only contains default "" in data
+  p$resources[[1]]$schema$missingValues <- NULL
+  expect_identical(read_resource(p, "deployments"), resource)
+})
+
+test_that("read_resource() understands labelled missing values", {
+  p <- example_package()
+  resource <- read_resource(p, "deployments")
+
+  # Create package with non-default labelled missing values
+  p_missing <- p
+  attr(p_missing, "directory") <- "."
+  purrr::pluck(p_missing, "resources", 1, "path") <-
+    test_path("data/deployments_missingvalues.csv")
+  p_missing$resources[[1]]$schema$missingValues <- list(
+    list(value = "One", label = "1"), # label should not set data value 1 to NA
+    list(label = "Ignore this", value = "ignore"), # value/label switched
+    list(value = "NA"), # value without label
+    list(label = "4.65100") # Ignore label without value (spec invalid)
+  )
+  # Should translate to c("One", "ignore", "NA"), "ignore" occurs in data
   expect_identical(read_resource(p_missing, "deployments"), resource)
 })
 
@@ -731,9 +756,10 @@ test_that("read_resource() handles other types", {
   expect_s3_class(resource$yearmonth, "Date")
   expect_identical(resource$yearmonth[1], as.Date("2001-03-01"))
 
-  # Interpret object, array, duration, geopoint, geojson as character
+  # Interpret object, array, list, duration, geopoint, geojson as character
   expect_type(resource$object, "character")
   expect_type(resource$array, "character")
+  expect_type(resource$list, "character")
   expect_type(resource$duration, "character")
   expect_type(resource$geopoint, "character")
   expect_type(resource$geojson, "character")

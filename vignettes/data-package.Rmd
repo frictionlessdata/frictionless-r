@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-[Data Package](https://specs.frictionlessdata.io/data-package/) is a simple container format to describe a coherent collection of data (a dataset), including its contributors, licenses, etc.
+[Data Package](https://datapackage.org/standard/data-package/) is a simple container format to describe a coherent collection of data (a dataset), including its contributors, licenses, etc.
 
 ::: {.callout-note}
 In this document we use the terms "package" for Data Package, "resource" for Data Resource, "dialect" for Table Dialect, and "schema" for Table Schema.
@@ -31,7 +31,7 @@ frictionless supports reading, manipulating and writing packages. Much of its fu
 
 ```{r}
 library(frictionless)
-file <- system.file("extdata", "v1", "datapackage.json", package = "frictionless")
+file <- system.file("extdata", "v2", "datapackage.json", package = "frictionless")
 package <- read_package(file)
 ```
 
@@ -43,13 +43,13 @@ package
 
 ### Manipulate
 
-A package is a list, with all the properties that were present in the `datapackage.json` file (e.g. `name`, `id`, etc.). frictionless adds the custom property `"directory"` to support reading data (which is removed when writing to disk) and extends the class with `"datapackage"` to support printing and checking:
+A package is a list, with all the properties that were present in the `datapackage.json` file (e.g. `name`, `id`, etc.). frictionless adds the custom attribute `"directory"` to support reading data (which is removed when writing to disk) and extends the class with `"datapackage"` to support printing and checking:
 
 ```{r}
 attributes(package)
 ```
 
-`create_package()` creates a package from scratch or from an existing package. It adds the required properties and class if those are missing:
+`create_package()` creates a package from scratch or from an existing package. **It always creates a package following the [v2 specification](https://datapackage.org/standard/data-package/).** It adds the required properties, attribute and class if those are missing:
 
 ```{r}
 # From scratch
@@ -91,23 +91,29 @@ my_package
 
 ## Properties implementation
 
-### resources
+### $schema
 
-[`resources`](https://specs.frictionlessdata.io/data-package/#resource-information) is required. It is used by `resource_names()` and many other functions. `check_package()` returns an error if it is missing.
+[`$schema`](https://datapackage.org/standard/data-package/#dollar-schema) indicates what `version()` of the Data Package standard is used (v1 if undefined).
 
-<!-- ### $schema -->
+- `read_package()` ignores it, since all package properties supported by frictionless are the same in v1 and v2.
+- `create_package()` sets `$schema` to the recommended v2 value (`"https://datapackage.org/profiles/2.0/datapackage.json"`) and thus creates a v2 package.
+- `upgrade_package()` sets `$schema` to the recommended v2 value, except for certain `profile` values.
 
 ### profile
 
-[`profile`](https://specs.frictionlessdata.io/data-package/#profile) is ignored by `read_package()` and not set (to e.g. `"tabular-data-package"`) by `create_package()`.
+[`profile`](https://specs.frictionlessdata.io/data-package/#profile) (a deprecated v1 property) is ignored by `read_package()` and not set by `create_package()`. `upgrade_package()` removes `profile` (unless `$schema` is already set), but retains its value in `$schema` if it is a URL to a custom profile (for [backwards compatibility](https://datapackage.org/standard/data-package/#dollar-schema)).
+
+### resources
+
+[`resources`](https://datapackage.org/standard/data-package/#resources) is required. It is used by `resource_names()` and many other functions. `check_package()` returns an error if it is missing.
 
 ### name
 
-[`name`](https://specs.frictionlessdata.io/data-package/#name) is ignored by `read_package()` and not set by `create_package()`.
+[`name`](https://datapackage.org/standard/data-package/#name) is ignored by `read_package()` and not set by `create_package()`.
 
 ### id
 
-[`id`](https://specs.frictionlessdata.io/data-package/#id) is ignored by `read_package()` and not set by `create_package()`. `print.datapackage()` adds an extra sentence when `id` is a URL (like a DOI):
+[`id`](https://datapackage.org/standard/data-package/#id) is ignored by `read_package()` and not set by `create_package()`. `print.datapackage()` adds an extra sentence when `id` is a URL (like a DOI):
 
 ```{r}
 package <- example_package()
@@ -117,40 +123,40 @@ package
 
 ### licenses
 
-[`licenses`](https://specs.frictionlessdata.io/data-package/#licenses) is ignored by `read_package()` and not set by `create_package()`.
+[`licenses`](https://datapackage.org/standard/data-package/#licenses) is ignored by `read_package()` and not set by `create_package()`.
 
 ### title
 
-[`title`](https://specs.frictionlessdata.io/data-package/#title) is ignored by `read_package()` and not set by `create_package()`.
+[`title`](https://datapackage.org/standard/data-package/#title) is ignored by `read_package()` and not set by `create_package()`.
 
 ### description
 
-[`description`](https://specs.frictionlessdata.io/data-package/#description) is ignored by `read_package()` and not set by `create_package()`.
+[`description`](https://datapackage.org/standard/data-package/#description) is ignored by `read_package()` and not set by `create_package()`.
 
 ### homepage
 
-[`homepage`](https://specs.frictionlessdata.io/data-package/#homepage) is ignored by `read_package()` and not set by `create_package()`.
+[`homepage`](https://datapackage.org/standard/data-package/#homepage) is ignored by `read_package()` and not set by `create_package()`.
 
 ### image
 
-[`image`](https://specs.frictionlessdata.io/data-package/#image) is ignored by `read_package()` and not set by `create_package()`.
+[`image`](https://datapackage.org/standard/data-package/#image) is ignored by `read_package()` and not set by `create_package()`.
 
 ### version
 
-[`version`](https://specs.frictionlessdata.io/data-package/#version) is ignored by `read_package()` and not set by `create_package()`.
+[`version`](https://datapackage.org/standard/data-package/#version) is ignored by `read_package()` and not set by `create_package()`.
 
 ### created
 
-[`created`](https://specs.frictionlessdata.io/data-package/#created) is ignored by `read_package()` and not set by `create_package()`.
+[`created`](https://datapackage.org/standard/data-package/#created) is ignored by `read_package()` and not set by `create_package()`.
 
 ### keywords
 
-[`keywords`](https://specs.frictionlessdata.io/data-package/#keywords) is ignored by `read_package()` and not set by `create_package()`.
+[`keywords`](https://datapackage.org/standard/data-package/#keywords) is ignored by `read_package()` and not set by `create_package()`.
 
 ### contributors
 
-[`contributors`](https://specs.frictionlessdata.io/data-package/#contributors) is ignored by `read_package()` and not set by `create_package()`.
+[`contributors`](https://datapackage.org/standard/data-package/#contributors) is ignored by `read_package()` and not set by `create_package()`. `upgrade_package()` converts `"role": "value"` to `"roles": ["value"]` for all contributors (for [backwards compatibility](https://datapackage.org/overview/changelog/#packagecontributors-updated)).
 
 ### sources
 
-[`sources`](https://specs.frictionlessdata.io/data-package/#sources) is ignored by `read_package()` and not set by `create_package()`.
+[`sources`](https://datapackage.org/standard/data-package/#sources) is ignored by `read_package()` and not set by `create_package()`.

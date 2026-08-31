@@ -10,7 +10,7 @@ license: MIT
 title: 'frictionless: Read and Write Frictionless Data Packages'
 version: 1.3.0
 doi: 10.32614/CRAN.package.frictionless
-abstract: Read and write Frictionless Data Packages. A 'Data Package' (<https://specs.frictionlessdata.io/data-package/>)
+abstract: Read and write Frictionless Data Packages. A 'Data Package' (<https://datapackage.org/>)
   is a simple container format and standard to describe and package a collection of
   (tabular) data. It is typically used to publish FAIR (<https://www.go-fair.org/fair-principles/>)
   and open datasets.
