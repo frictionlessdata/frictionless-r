@@ -140,3 +140,13 @@ test_that("read_package() converts JSON null to NULL", {
 })
 
 # Version support ----
+test_that("read_package() returns package in same version as in descriptor", {
+  descriptor_v1 <- system.file(
+    "extdata", "v1", "datapackage.json", package = "frictionless"
+  )
+  descriptor_v2 <- system.file(
+    "extdata", "v2", "datapackage.json", package = "frictionless"
+  )
+  expect_identical(version(read_package(descriptor_v1)), "1.0")
+  expect_identical(version(read_package(descriptor_v2)), "2.0")
+})
