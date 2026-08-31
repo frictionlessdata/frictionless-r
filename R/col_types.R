@@ -49,7 +49,7 @@ field_to_col <- function(field) {
     type,
     "string" = col_string(enum),
     "number" = col_number(enum, group_char, bare_number),
-    "integer" = col_integer(enum, bare_number),
+    "integer" = col_integer(enum, group_char, bare_number),
     "boolean" = readr::col_logical(),
     "object" = readr::col_character(),
     "array" = readr::col_character(),
