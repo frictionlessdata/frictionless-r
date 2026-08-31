@@ -56,7 +56,7 @@
             "type": "number"
           },
           {
-            "name": "num_undefined_group",
+            "name": "num_undefined_group_invalid",
             "type": "number"
           }
         ]
@@ -64,63 +64,58 @@
     },
     {
       "$schema": "https://datapackage.org/profiles/2.0/dataresource.json",
-      "name": "mark_invalid_group_as_decimal",
-      "path": "mark_invalid_group_as_decimal.csv",
+      "name": "mark_int_group",
+      "path": "mark_int_group.csv",
       "type": "table",
       "schema": {
         "fields": [
+          {
+            "name": "int",
+            "type": "integer",
+            "groupChar": ","
+          },
+          {
+            "name": "int_undefined",
+            "type": "integer"
+          },
+          {
+            "name": "int_undefined_group_invalid",
+            "type": "integer"
+          }
+        ]
+      }
+    },
+    {
+      "$schema": "https://datapackage.org/profiles/2.0/dataresource.json",
+      "name": "mark_int_group_invalid",
+      "path": "mark_int_group_invalid.csv",
+      "type": "table",
+      "schema": {
+        "fields": [
+          {
+            "name": "int",
+            "type": "integer",
+            "groupChar": "."
+          }
+        ]
+      }
+    },
+    {
+      "$schema": "https://datapackage.org/profiles/2.0/dataresource.json",
+      "name": "mark_int_group_num_decimal",
+      "path": "mark_int_group_num_decimal.csv",
+      "type": "table",
+      "schema": {
+        "fields": [
+          {
+            "name": "int",
+            "type": "integer",
+            "groupChar": "."
+          },
           {
             "name": "num",
             "type": "number",
-            "decimalChar": ",",
-            "groupChar": "."
-          },
-          {
-            "name": "int_invalid",
-            "type": "integer",
-            "groupChar": ","
-          }
-        ]
-      }
-    },
-    {
-      "$schema": "https://datapackage.org/profiles/2.0/dataresource.json",
-      "name": "mark_integer_group",
-      "path": "mark_integer_group.csv",
-      "type": "table",
-      "schema": {
-        "fields": [
-          {
-            "name": "int",
-            "type": "integer",
-            "groupChar": ","
-          },
-          {
-            "name": "int_undefined",
-            "type": "integer"
-          },
-          {
-            "name": "int_undefined_group",
-            "type": "integer"
-          }
-        ]
-      }
-    },
-    {
-      "$schema": "https://datapackage.org/profiles/2.0/dataresource.json",
-      "name": "mark_integer_invalid_group_as_default_decimal",
-      "path": "mark_integer_invalid_group_as_default_decimal.csv",
-      "type": "table",
-      "schema": {
-        "fields": [
-          {
-            "name": "int",
-            "type": "integer",
-            "groupChar": "."
-          },
-          {
-            "name": "int_undefined",
-            "type": "integer"
+            "decimalChar": ","
           }
         ]
       }

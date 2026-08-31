@@ -498,25 +498,25 @@ test_that("read_resource() understands encoding", {
 
 test_that("read_resource() handles decimalChar/groupChar properties", {
   expected_num_value <- 3000000.3
+  expected_int_value <- 3000000
   p <- read_package(test_path("data/mark.json"))
 
-  # Numbers with default decimalChar ("."), groupChar (undefined)
+  # Numbers with default decimalChar ("."), undefined groupChar
   resource <- read_resource(p, "mark_num_default")
   expect_identical(resource$num, expected_num_value) # 3000000.30
   expect_identical(resource$num_undefined, expected_num_value) # 3000000.30
 
-  # Numbers with non-default decimalChar (","), default groupChar (undefined)
+  # Numbers with non-default decimalChar (","), undefined groupChar
   expect_warning(
     read_resource(p, "mark_num_decimal"),
     class = "frictionless_warning_fields_decimalchar_different"
   )
-  resource <- suppressWarnings(read_resource(p, "mark_decimal"))
+  resource <- suppressWarnings(read_resource(p, "mark_num_decimal"))
   expect_identical(resource$num, expected_num_value) # 3000000.30
   expect_identical(resource$num_undefined, expected_num_value) # 3000000.30
 
   # Numbers with non-default decimalChar (",") and groupChar (".")
-  # Results in 3 warnings: decimalchar, groupchar and a vroom parsing failure
-  # last field
+  # Results in 3 warnings: 2 non-defaults and vroom parsing error on 3rd field
   suppressWarnings(expect_warning(
     read_resource(p, "mark_num_decimal_group"),
     class = "frictionless_warning_fields_decimalchar_different"
@@ -538,43 +538,36 @@ test_that("read_resource() handles decimalChar/groupChar properties", {
   # Field without decimalChar is still parsed with non-default decimalChar
   expect_identical(resource$num_undefined, expected_num_value) # 3000000,30
   # Field without groupChar is not parsed with non-default groupChar
-  expect_identical(resource$num_undefined_group, NA_real_) # 3.000.000,30
+  expect_identical(resource$num_undefined_group_invalid, NA_real_) # 3.000.000,30
 
-  # Similar tests when reading integers only (only groupChar is relevant)
-  expected_value_int <- 3000000
-  resource <- suppressWarnings(read_resource(p, "mark_integer_group"))
-  expect_identical(resource$int, expected_value_int) # 3000000
-  expect_identical(resource$int_undefined, expected_value_int) # 3000000
+  # Integers with groupChar (",")
+  expect_warning(
+    read_resource(p, "mark_int_group"),
+    class = "frictionless_warning_fields_groupchar_different"
+  )
+  resource <- suppressWarnings(read_resource(p, "mark_int_group"))
+  expect_identical(resource$int, expected_int_value) # 3,000,000
+  expect_identical(resource$int_undefined, expected_int_value) # 3000000
 
-  # Non-default groupChar
-  # Results in 2 warnings: groupchar and vroom parsing failure last field
+  # Integers with groupChar (".") same as undefined default decimalChar (".")
+  # First warning frictionless_warning_fields_groupchar_different, then error
+  expect_error(
+    suppressWarnings(read_resource(p, "mark_int_group_invalid")),
+    class = "frictionless_error_decimal_grouping_mark_identical"
+  )
+
+  # Integers with groupChar ("."), numbers with non-default decimalChar (",")
   suppressWarnings(expect_warning(
-    read_resource(p, "mark_integer_group"),
+    read_resource(p, "mark_int_group_num_decimal"),
+    class = "frictionless_warning_fields_decimalchar_different"
+  ))
+  suppressWarnings(expect_warning(
+    read_resource(p, "mark_int_group_num_decimal"),
     class = "frictionless_warning_fields_groupchar_different"
   ))
-  suppressWarnings(expect_warning(
-    read_resource(p, "mark_integer_group"),
-    regexp = paste(
-      "One or more parsing issues, call `problems()` on your data frame for",
-      "details, e.g.:\n  dat <- vroom(...)\n  problems(dat)"
-    ),
-    fixed = TRUE
-  ))
-
-  # integer only: groupChar must be different than default decimal mark (`.`)
-  expect_error(
-    suppressWarnings(
-      read_resource(p, "mark_integer_invalid_group_as_default_decimal")
-    ),
-    class = "frictionless_error_decimal_grouping_mark_identical"
-  )
-
-  # numbers or mixed numbers/integers:
-  # groupChar must be different than decimalChar (non-default `,`)
-  expect_error(
-    suppressWarnings(read_resource(p, "mark_invalid_group_as_decimal")),
-    class = "frictionless_error_decimal_grouping_mark_identical"
-  )
+  resource <- suppressWarnings(read_resource(p, "mark_int_group_num_decimal"))
+  expect_identical(resource$int, expected_int_value) # 3.000.000
+  expect_identical(resource$num, expected_num_value) # 3000000,30
 })
 
 test_that("read_resource() handles LF and CRLF line terminator characters", {
