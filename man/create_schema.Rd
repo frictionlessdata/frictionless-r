@@ -2,7 +2,7 @@
 % Please edit documentation in R/create_schema.R
 \name{create_schema}
 \alias{create_schema}
-\title{Create a Table Schema for a data frame}
+\title{Create a Table Schema from a data frame}
 \usage{
 create_schema(data)
 }
