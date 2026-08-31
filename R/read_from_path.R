@@ -14,6 +14,9 @@ read_from_path <- function(package, resource_name, col_select) {
   fields <- schema$fields
   field_names <- purrr::map_chr(fields, ~ purrr::pluck(.x, "name"))
 
+  # Note: silent upgrade_resource() and upgrade_schema() are not needed, since
+  # frictionless does not rely on v1 properties deprecated in v2.
+
   # Check all selected columns appear in schema
   if (!all(col_select %in% field_names)) {
     col_select_missing <- col_select[!col_select %in% field_names]
