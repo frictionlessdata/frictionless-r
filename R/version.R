@@ -1,16 +1,18 @@
-#' Get Data Package standard version
+#' Get the specification version number
 #'
-#' Determines what version of the [Data Package standard](
-#' https://datapackage.org/) is used by a Data Package, Data Resource, Table
-#' Dialect or Table Schema, based on the [`$schema`](
+#' @description
+#' Determines what version of the Data Package, Data Resource, Table Dialect or
+#' Table Schema standard is used, based on the [`$schema`](
 #' https://datapackage.org/standard/data-package/#dollar-schema) property.
-#' Version `"1.0"` is assumed if `$schema` is missing, version `">=2.0"` is
-#' assumed for custom values (e.g. [extensions](
-#' https://datapackage.org/standard/extensions/)).
+#' - `"1.0"`: [v1](https://specs.frictionlessdata.io/) specification.
+#'   Assumed if `$schema` is missing.
+#' - `"2.0`: [v2](https://datapackage.org/) specification.
+#' - `">=2.0"`: assumed if `$schema` is defined by deviating from the default
+#'   (e.g. an [extension](https://datapackage.org/standard/extensions/)).
 #'
 #' @param x A list describing either a Data Package, Data Resource, Table
 #'   Dialect or Table Schema.
-#' @returns Data Package standard version number (e.g. `"1.0"`).
+#' @returns Data Package standard version number.
 #' @family version functions
 #' @export
 #' @examples
