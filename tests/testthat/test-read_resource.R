@@ -509,7 +509,7 @@ test_that("read_resource() handles decimalChar/groupChar properties", {
   # Numbers with non-default decimalChar (","), undefined groupChar
   expect_warning(
     read_resource(p, "mark_num_decimal"),
-    class = "frictionless_warning_fields_decimalchar_different"
+    class = "frictionless_warning_fields_decimalchar_defined"
   )
   resource <- suppressWarnings(read_resource(p, "mark_num_decimal"))
   expect_identical(resource$num, expected_num_value) # 3000000.30
@@ -519,11 +519,11 @@ test_that("read_resource() handles decimalChar/groupChar properties", {
   # Results in 3 warnings: 2 non-defaults and vroom parsing error on 3rd field
   suppressWarnings(expect_warning(
     read_resource(p, "mark_num_decimal_group"),
-    class = "frictionless_warning_fields_decimalchar_different"
+    class = "frictionless_warning_fields_decimalchar_defined"
   ))
   suppressWarnings(expect_warning(
     read_resource(p, "mark_num_decimal_group"),
-    class = "frictionless_warning_fields_groupchar_different"
+    class = "frictionless_warning_fields_groupchar_defined"
   ))
   suppressWarnings(expect_warning(
     read_resource(p, "mark_num_decimal_group"),
@@ -543,14 +543,14 @@ test_that("read_resource() handles decimalChar/groupChar properties", {
   # Integers with groupChar (",")
   expect_warning(
     read_resource(p, "mark_int_group"),
-    class = "frictionless_warning_fields_groupchar_different"
+    class = "frictionless_warning_fields_groupchar_defined"
   )
   resource <- suppressWarnings(read_resource(p, "mark_int_group"))
   expect_identical(resource$int, expected_int_value) # 3,000,000
   expect_identical(resource$int_undefined, expected_int_value) # 3000000
 
   # Integers with groupChar (".") same as undefined default decimalChar (".")
-  # First warning frictionless_warning_fields_groupchar_different, then error
+  # First warning frictionless_warning_fields_groupchar_defined, then error
   expect_error(
     suppressWarnings(read_resource(p, "mark_int_group_invalid")),
     class = "frictionless_error_decimal_grouping_mark_identical"
@@ -559,11 +559,11 @@ test_that("read_resource() handles decimalChar/groupChar properties", {
   # Integers with groupChar ("."), numbers with non-default decimalChar (",")
   suppressWarnings(expect_warning(
     read_resource(p, "mark_int_group_num_decimal"),
-    class = "frictionless_warning_fields_decimalchar_different"
+    class = "frictionless_warning_fields_decimalchar_defined"
   ))
   suppressWarnings(expect_warning(
     read_resource(p, "mark_int_group_num_decimal"),
-    class = "frictionless_warning_fields_groupchar_different"
+    class = "frictionless_warning_fields_groupchar_defined"
   ))
   resource <- suppressWarnings(read_resource(p, "mark_int_group_num_decimal"))
   expect_identical(resource$int, expected_int_value) # 3.000.000

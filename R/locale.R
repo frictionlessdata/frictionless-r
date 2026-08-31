@@ -25,7 +25,7 @@ locale <- function(package, resource_name) {
     cli::cli_warn(
       "Some fields define a non-default {.field decimalChar}. Parsing all number
        fields with {.val {decimal_mark}} as decimal mark.",
-      class = "frictionless_warning_fields_decimalchar_different"
+      class = "frictionless_warning_fields_decimalchar_defined"
     )
   }
 
@@ -39,7 +39,7 @@ locale <- function(package, resource_name) {
     cli::cli_warn(
       "Some fields define a {.field groupChar}. Parsing all number and integer
        fields with {.val {grouping_mark}} as grouping mark.",
-      class = "frictionless_warning_fields_groupchar_different"
+      class = "frictionless_warning_fields_groupchar_defined"
     )
   }
 
