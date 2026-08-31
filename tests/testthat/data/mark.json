@@ -2,8 +2,8 @@
   "resources": [
     {
       "$schema": "https://datapackage.org/profiles/2.0/dataresource.json",
-      "name": "mark_default",
-      "path": "mark_default.csv",
+      "name": "mark_num_default",
+      "path": "mark_num_default.csv",
       "type": "table",
       "schema": {
         "fields": [
@@ -21,8 +21,8 @@
     },
     {
       "$schema": "https://datapackage.org/profiles/2.0/dataresource.json",
-      "name": "mark_decimal",
-      "path": "mark_decimal.csv",
+      "name": "mark_num_decimal",
+      "path": "mark_num_decimal.csv",
       "type": "table",
       "schema": {
         "fields": [
@@ -40,8 +40,8 @@
     },
     {
       "$schema": "https://datapackage.org/profiles/2.0/dataresource.json",
-      "name": "mark_decimal_group",
-      "path": "mark_decimal_group.csv",
+      "name": "mark_num_decimal_group",
+      "path": "mark_num_decimal_group.csv",
       "type": "table",
       "schema": {
         "fields": [

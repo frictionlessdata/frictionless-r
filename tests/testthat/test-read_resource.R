@@ -497,48 +497,46 @@ test_that("read_resource() understands encoding", {
 })
 
 test_that("read_resource() handles decimalChar/groupChar properties", {
-  expected_value <- 3000000.3
+  expected_num_value <- 3000000.3
   p <- read_package(test_path("data/mark.json"))
 
-  # Default decimalChar/groupChar
-  resource <- read_resource(p, "mark_default")
-  expect_identical(resource$num, expected_value) # 3000000.30
-  expect_identical(resource$num_undefined, expected_value) # 3000000.30
+  # Numbers with default decimalChar ("."), groupChar (undefined)
+  resource <- read_resource(p, "mark_num_default")
+  expect_identical(resource$num, expected_num_value) # 3000000.30
+  expect_identical(resource$num_undefined, expected_num_value) # 3000000.30
 
-  # Non-default decimalChar, default groupChar (which should not conflict)
+  # Numbers with non-default decimalChar (","), default groupChar (undefined)
   expect_warning(
-    read_resource(p, "mark_decimal"),
+    read_resource(p, "mark_num_decimal"),
     class = "frictionless_warning_fields_decimalchar_different"
   )
-
   resource <- suppressWarnings(read_resource(p, "mark_decimal"))
-  expect_identical(resource$num, expected_value) # 3000000.30
-  expect_identical(resource$num_undefined, expected_value) # 3000000.30
+  expect_identical(resource$num, expected_num_value) # 3000000.30
+  expect_identical(resource$num_undefined, expected_num_value) # 3000000.30
 
-  # Non-default decimalChar and groupChar
+  # Numbers with non-default decimalChar (",") and groupChar (".")
   # Results in 3 warnings: decimalchar, groupchar and a vroom parsing failure
   # last field
   suppressWarnings(expect_warning(
-    read_resource(p, "mark_decimal_group"),
+    read_resource(p, "mark_num_decimal_group"),
     class = "frictionless_warning_fields_decimalchar_different"
   ))
   suppressWarnings(expect_warning(
-    read_resource(p, "mark_decimal_group"),
+    read_resource(p, "mark_num_decimal_group"),
     class = "frictionless_warning_fields_groupchar_different"
   ))
   suppressWarnings(expect_warning(
-    read_resource(p, "mark_decimal_group"),
+    read_resource(p, "mark_num_decimal_group"),
     regexp = paste(
       "One or more parsing issues, call `problems()` on your data frame for",
       "details, e.g.:\n  dat <- vroom(...)\n  problems(dat)"
       ),
     fixed = TRUE
   ))
-
-  resource <- suppressWarnings(read_resource(p, "mark_decimal_group"))
-  expect_identical(resource$num, expected_value) # 3.000.000,30
+  resource <- suppressWarnings(read_resource(p, "mark_num_decimal_group"))
+  expect_identical(resource$num, expected_num_value) # 3.000.000,30
   # Field without decimalChar is still parsed with non-default decimalChar
-  expect_identical(resource$num_undefined, expected_value) # 3000000,30
+  expect_identical(resource$num_undefined, expected_num_value) # 3000000,30
   # Field without groupChar is not parsed with non-default groupChar
   expect_identical(resource$num_undefined_group, NA_real_) # 3.000.000,30
 
