@@ -24,8 +24,8 @@ locale <- function(package, resource_name) {
     decimal_mark <- d_chars[1]
     cli::cli_warn(
       "Some fields define a non-default {.field decimalChar}. Parsing all number
-       fields with {.val {d_chars[1]}} as decimal mark.",
-      class = "frictionless_warning_fields_decimalchar_different"
+       fields with {.val {decimal_mark}} as decimal mark.",
+      class = "frictionless_warning_fields_decimalchar_defined"
     )
   }
 
@@ -37,9 +37,20 @@ locale <- function(package, resource_name) {
   } else {
     grouping_mark <- g_chars[1]
     cli::cli_warn(
-      "Some fields define a non-default {.field groupChar}. Parsing all number
-       fields with {.val {g_chars[1]}} as grouping mark.",
-      class = "frictionless_warning_fields_groupchar_different"
+      "Some fields define a {.field groupChar}. Parsing all number and integer
+       fields with {.val {grouping_mark}} as grouping mark.",
+      class = "frictionless_warning_fields_groupchar_defined"
+    )
+  }
+
+  # Catch before readr error "decimal_mark and grouping_mark must be different"
+  # Above messages are shown too, so no extra context is needed.
+  default_message <- if (decimal_mark == ".") "default " else ""
+  if (decimal_mark == grouping_mark) {
+    cli::cli_abort(
+      "Decimal mark ({default_message}{.val {decimal_mark}}) and grouping mark
+       ({.val {grouping_mark}}) must be different.",
+      class = "frictionless_error_decimal_grouping_mark_identical"
     )
   }
 

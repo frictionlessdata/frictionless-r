@@ -2,32 +2,25 @@
 
 frictionless now supports Data Packages using the [v2](https://datapackage.org/) specification, while maintaining support for those using [v1](https://specs.frictionlessdata.io/). When creating a package, resource or schema, it uses the v2 specification.
 
-- **Breaking change!** `create_package()`, `add_resource()` and `create_schema()` create a v2 package, resource and schema respectively. Note that this can lead to mixed versions (e.g. a v1 package with a v2 resource).
-- **Breaking change!** `example_package()` now uses v2 as default (#360, #361).
-- `upgrade_package()` can be used to upgrade a package, its resources and verbose schemas from v1 to v2 (harmonizing mixed versions).
-- All documentation now points to the v2 specification.
 * frictionless no longer relies on v1 properties deprecated in v2, meaning all functions support both versions. They always return a package, resource and schema in the same version as provided.
+* `create_package()`, `add_resource()` and `create_schema()` create a v2 package, resource and schema respectively. **This can be a breaking change for some workflows!** Also note that this can lead to mixed versions (e.g. a v1 package with a v2 resource).
+* `upgrade_package()` can be used to upgrade a package, its resources and verbose schemas from v1 to v2 (harmonizing mixed versions) (#357, #343, #363).
 
-## Data Resource changes
+## Changes for v2
 
-* `read_resource()` and `schema()` no longer require `"profile": "tabular-data-resource"`. Nor do they require the new `"type": "table"` (which is optional in the specification). A `schema` is still expected (#343).
-- `read_resource()` now forbids reading files from a path containing a hidden directory (starting with `.`) (#359).
-* **Breaking change!** `add_resource()` sets `$schema` and `type`. It no longer sets `profile`. This means that `add_resource()` always creates a v2 resource (#343).
-* `add_resource()` now accepts any string as `resource_name`, rather than limiting to lowercase alphanumerical characters. It trims leading and trailing spaces from the name (#344).
-
-A v2 resource will look like this:
-
-```json
-{
-  "$schema": "https://datapackage.org/profiles/2.0/dataresource.json", <-- New
-  "name": "deployments", <-- Any string
-  "path": "deployments.csv",
-  "type": "table", <-- New, instead of "profile"
-  ...
-}
-```
-
-<!-- ## Upgrading v1 Data Packages -->
+* `read_resource()` and `schema()` no longer require `"profile": "tabular-data-resource"` (nor `"type": "table"`), which was the main blocker for reading resources defined in the v2 specification. They still expects a `schema` (#343).
+* `read_resource()` forbids reading files from a path containing a [hidden directory](https://datapackage.org/overview/changelog/#resourcepath-updated) (#359).
+* `read_resource()` supports [labelled missing values](https://datapackage.org/overview/changelog/#schemamissingvalues-updated) (#354).
+* `read_resource()` supports integer [`groupChar`](https://datapackage.org/overview/changelog/#integer-field-type-updated) (#364).
+* `read_resource()` supports the new [`list`](https://datapackage.org/overview/changelog/#list-field-type-new) field type. It interprets this as character (#368).
+* `read_resource()` supports datetimes with [optional milliseconds](https://datapackage.org/overview/changelog/#datetime-field-type-updated) when `"format": "default"` (#347).
+* `create_package()` now **creates a v2 package** by setting [`$schema`](https://datapackage.org/overview/changelog/#packageschema-new) to the recommended v2 value (`"https://datapackage.org/profiles/2.0/datapackage.json"`) (#349).
+* `create_schema()` now **creates a v2 schema** by setting [`$schema`](https://datapackage.org/overview/changelog/#schemaschema-new) to the recommended v2 value (`"https://datapackage.org/profiles/2.0/tableschema.json"`) (#351).
+* `add_resource()` now **creates a v2 resource** by setting [`$schema`](https://datapackage.org/overview/changelog/#resourceschema-new) to the recommended v2 value (`"https://datapackage.org/profiles/2.0/dataresource.json"`) and [`type`](https://datapackage.org/overview/changelog/#resourcetype-new) to `"table"`. It no longer sets `profile`. If not provided by the user, it will also create a v2 schema. Since it typically does not define a dialect, it will **default to a v1 dialect** (#343, #356).
+* `add_resource()` now allows [any string](https://datapackage.org/overview/changelog/#resourcename-updated) as `resource_name`. It trims leading and trailing spaces from the name (#344).
+* `read_package()` can read `datapackage.json` defined in the v1 and v2 specification (#336).
+* `example_package()` now uses the v2 specification as default (#360, #361).
+* All documentation now references the v2 specification and has been updated to describe `{frictionless}`' support for v2 properties. Notably, [`fieldsMatch`](https://datapackage.org/overview/changelog/#schemafieldsmatch-new) is not yet supported (#367).
 
 ## Other changes
 
