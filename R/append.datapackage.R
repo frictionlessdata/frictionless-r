@@ -40,4 +40,4 @@ append.default <- function(x, values, after = length(x)) {
 #' p_app
 #' attributes(p_app)
 append.datapackage <- function(x, values, after = length(x)) {
-  append_with_attrs(x, values, after = after)}
+  append_with_attributes(x, values, after = after)}
