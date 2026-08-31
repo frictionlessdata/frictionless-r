@@ -20,7 +20,7 @@ frictionless now supports Data Packages using the [v2](https://datapackage.org/)
 * `add_resource()` now allows [any string](https://datapackage.org/overview/changelog/#resourcename-updated) as `resource_name`. It trims leading and trailing spaces from the name (#344).
 * `read_package()` can read `datapackage.json` defined in the v1 and v2 specification (#336).
 * `example_package()` now uses the v2 specification as default (#360, #361).
-* All documentation now references the v2 specification and has been updated to describe `{frictionless}`' support for v2 properties. Notably, [`fieldsMatch`](https://datapackage.org/overview/changelog/#schemafieldsmatch-new) is not yet supported (#367).
+* All documentation now references the v2 specification and has been updated to describe `{frictionless}`' support for v2 properties. Notably, [`schema.fieldsMatch`](https://datapackage.org/overview/changelog/#schemafieldsmatch-new) and [`field.categories`](https://datapackage.org/overview/changelog/#fieldcategories-new) are not yet supported (#367).
 
 ## Other changes
 

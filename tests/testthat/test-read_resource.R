@@ -794,3 +794,16 @@ test_that("read_resource() handles other types", {
 })
 
 # Version support ----
+test_that("read_resource() returns same result for example package v1 and v2", {
+  # This also tests v1/v2 package/resource support
+  p_v1 <- example_package(version = "1.0")
+  p_v2 <- example_package(version = "2.0")
+  expect_identical(
+    read_resource(p_v1, "deployments"),
+    read_resource(p_v2, "deployments")
+  )
+  expect_identical(
+    read_resource(p_v1, "observations"),
+    read_resource(p_v2, "observations")
+  )
+})
