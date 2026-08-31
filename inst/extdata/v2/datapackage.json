@@ -155,7 +155,14 @@
             ],
             "categoriesOrdered": false,
             "constraints": {
-              "required": false
+              "required": false,
+              "enum": [
+                "adult",
+                "subadult",
+                "juvenile",
+                "offspring",
+                "unknown"
+              ]
             }
           },
           {

@@ -1,10 +1,8 @@
 # frictionless (development version)
 
-## Data Package v2 support
-
 frictionless now supports Data Packages using the [v2](https://datapackage.org/) specification, while maintaining support for those using [v1](https://specs.frictionlessdata.io/). When creating a package, resource or schema, it uses the v2 specification.
 
-* All functions return a package, resource and schema in the same version as provided.
+* frictionless no longer relies on v1 properties deprecated in v2, meaning all functions support both versions. They always return a package, resource and schema in the same version as provided.
 * `create_package()`, `add_resource()` and `create_schema()` create a v2 package, resource and schema respectively. **This can be a breaking change for some workflows!** Also note that this can lead to mixed versions (e.g. a v1 package with a v2 resource).
 * `upgrade_package()` can be used to upgrade a package, its resources and verbose schemas from v1 to v2 (harmonizing mixed versions) (#357, #343, #363).
 
@@ -22,7 +20,7 @@ frictionless now supports Data Packages using the [v2](https://datapackage.org/)
 * `add_resource()` now allows [any string](https://datapackage.org/overview/changelog/#resourcename-updated) as `resource_name`. It trims leading and trailing spaces from the name (#344).
 * `read_package()` can read `datapackage.json` defined in the v1 and v2 specification (#336).
 * `example_package()` now uses the v2 specification as default (#360, #361).
-* All documentation now references the v2 specification (#367).
+* All documentation now references the v2 specification and has been updated to describe `{frictionless}`' support for v2 properties. Notably, [`schema.fieldsMatch`](https://datapackage.org/overview/changelog/#schemafieldsmatch-new) and [`field.categories`](https://datapackage.org/overview/changelog/#fieldcategories-new) are not yet supported (#367).
 
 ## Other changes
 

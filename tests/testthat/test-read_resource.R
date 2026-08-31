@@ -149,7 +149,7 @@ test_that("read_resource() returns error on invalid resource", {
   # Add valid path
   p_invalid$resources[[1]]$path <- "deployments.csv"
   attr(p_invalid, "directory") <- dirname(
-    system.file("extdata", "v1", "datapackage.json", package = "frictionless")
+    system.file("extdata", "v2", "datapackage.json", package = "frictionless")
   )
 
   # No schema
@@ -285,7 +285,7 @@ test_that("read_resource() can read local files", {
   expected_df <- read_resource(p, "deployments")
 
   p_local <- read_package(
-    system.file("extdata", "v1", "datapackage.json", package = "frictionless")
+    system.file("extdata", "v2", "datapackage.json", package = "frictionless")
   )
   expect_identical(read_resource(p_local, "deployments"), expected_df)
 })
@@ -298,7 +298,7 @@ test_that("read_resource() can read remote files", {
   p_remote_resource <- p
   p_remote_resource$resources[[1]]$path <- file.path(
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
-    "main/inst/extdata/v1/deployments.csv"
+    "main/inst/extdata/v2/deployments.csv"
   )
   expect_identical(read_resource(p_remote_resource, "deployments"), expected_df)
 })
@@ -313,7 +313,7 @@ test_that("read_resource() can read safe local and remote schema, including
   # Use a remote path, otherwise schema and path need to share same directory
   p$resources[[1]]$path <- file.path(
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
-    "main/inst/extdata/v1/deployments.csv"
+    "main/inst/extdata/v2/deployments.csv"
   )
 
   # Schema is absolute path
@@ -361,7 +361,7 @@ test_that("read_resource() can read safe local and remote CSV dialect", {
   # Use a remote path, otherwise dialect and path need to share same directory
   p$resources[[1]]$path <- file.path(
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
-    "main/inst/extdata/v1/deployments.csv"
+    "main/inst/extdata/v2/deployments.csv"
   )
 
   # Dialect is absolute path
@@ -794,3 +794,16 @@ test_that("read_resource() handles other types", {
 })
 
 # Version support ----
+test_that("read_resource() returns same result for example package v1 and v2", {
+  # This also tests v1/v2 package/resource support
+  p_v1 <- example_package(version = "1.0")
+  p_v2 <- example_package(version = "2.0")
+  expect_identical(
+    read_resource(p_v1, "deployments"),
+    read_resource(p_v2, "deployments")
+  )
+  expect_identical(
+    read_resource(p_v1, "observations"),
+    read_resource(p_v2, "observations")
+  )
+})
