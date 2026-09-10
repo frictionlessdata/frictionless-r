@@ -33,6 +33,26 @@
 #'   `"type" = "table"` (see [backwards compatibility](
 #'   https://datapackage.org/standard/data-resource/#type)).
 #'
+#' ### Table Dialect
+#'
+#' `upgrade_package()` leaves the dialect as is for all resources.
+#'
+#' ### Table Schema
+#'
+#' `upgrade_package()` upgrades any [v1](
+#' https://specs.frictionlessdata.io/table-schema/) schema to [v2](
+#' https://datapackage.org/standard/table-schema/) as follows:
+#'
+#' - Adds `$schema` as first property and sets it to the recommended v2 value
+#'   (`"https://datapackage.org/profiles/2.0/tableschema.json"`).
+#' - Converts `primaryKey` single values to an array (see [backwards
+#'   compatibility](
+#'   https://datapackage.org/overview/changelog/#schemaprimarykey-updated)).
+#' - Converts `foreignKeys` single values in `fields` to an array and removes
+#'   `reference$resource` if it is self-referential (see [backwards
+#'   compatibility](
+#'   https://datapackage.org/overview/changelog/#schemaprimarykey-updated)).
+#'
 #' @inheritParams read_resource
 #' @returns Upgraded `package`.
 #' @family versioning functions

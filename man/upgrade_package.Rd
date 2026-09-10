@@ -44,6 +44,24 @@ custom profile (see \href{https://datapackage.org/standard/data-package/#dollar-
 }
 }
 
+\subsection{Table Dialect}{
+
+\code{upgrade_package()} leaves the dialect as is for all resources.
+}
+
+\subsection{Table Schema}{
+
+\code{upgrade_package()} upgrades any \href{https://specs.frictionlessdata.io/table-schema/}{v1} schema to \href{https://datapackage.org/standard/table-schema/}{v2} as follows:
+\itemize{
+\item Adds \verb{$schema} as first property and sets it to the recommended v2 value
+(\code{"https://datapackage.org/profiles/2.0/tableschema.json"}).
+\item Converts \code{primaryKey} single values to an array (see \href{https://datapackage.org/overview/changelog/#schemaprimarykey-updated}{backwards compatibility}).
+\item Converts \code{foreignKeys} single values in \code{fields} to an array and removes
+\code{reference$resource} if it is self-referential (see \href{https://datapackage.org/overview/changelog/#schemaprimarykey-updated}{backwards compatibility}).
+}
+}
+}
+
 \examples{
 # Load the v1 example Data Package
 (package <- example_package(version = "1.0"))
