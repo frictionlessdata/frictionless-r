@@ -19,10 +19,10 @@
 #' @family sample data
 #' @export
 #' @examples
-#' # Version 2 (default)
+#' # Load the v2 example Data Package (default)
 #' example_package()
 #'
-#' # Version 1
+#' # Load the v1 example Data Package
 #' example_package(version = "1.0")
 example_package <- function(version = "2.0") {
   version_dir <- switch(

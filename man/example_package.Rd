@@ -33,10 +33,10 @@ specification.
 }
 }
 \examples{
-# Version 2 (default)
+# Load the v2 example Data Package (default)
 example_package()
 
-# Version 1
+# Load the v1 example Data Package
 example_package(version = "1.0")
 }
 \concept{sample data}
