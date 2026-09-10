@@ -10,26 +10,26 @@
 #' 3. `media`: inline data stored in `data`.
 #'
 #' The example Data Package is available in two versions:
-#' - `1.0`: specified as a [Data Package v1](
-#'   https://specs.frictionlessdata.io/).
-#' - `2.0`: specified as a [Data Package v2](https://datapackage.org/).
+#' - `1.0`: specified in the [v1](https://specs.frictionlessdata.io/)
+#'   specification.
+#' - `2.0`: specified in the [v2](https://datapackage.org/) specification.
 #'
-#' @param version Data Package standard version.
+#' @param version Data Package standard version number.
 #' @returns A Data Package object, see [create_package()].
 #' @family sample data
 #' @export
 #' @examples
-#' # Version 1
+#' # Version 2 (default)
 #' example_package()
 #'
-#' # Version 2
-#' example_package(version = "2.0")
-example_package <- function(version = "1.0") {
+#' # Version 1
+#' example_package(version = "1.0")
+example_package <- function(version = "2.0") {
   version_dir <- switch(
-    version %||% "1.0",
+    version %||% "2.0", # Undefined
     "2.0" = "v2",
     "1.0" = "v1",
-    "v1" # Default v1 for any other value
+    "v2" # Default v2 for any other value
   )
   path <- system.file(
     "extdata", version_dir, "datapackage.json", package = "frictionless"

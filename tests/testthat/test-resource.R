@@ -1,10 +1,11 @@
-test_that("resource()<- returns a Data Package invisibly", {
-  skip_if_offline()
+# Return ----
+test_that("resource()<- returns a package invisibly", {
   p <- example_package()
   expect_invisible(resource(p, "deployments") <- list(name = "deployments"))
 })
 
-test_that("resource()<- returns error on invalid Data Package", {
+# Error handling ----
+test_that("resource()<- returns error on invalid package", {
   p_invalid <- list()
   expect_error(
     resource(p_invalid, "assigned") <- list(name = "assigned"),
@@ -13,7 +14,6 @@ test_that("resource()<- returns error on invalid Data Package", {
 })
 
 test_that("resource()<- returns error when resource not found", {
-  skip_if_offline()
   p <- example_package()
   expect_error(
     resource(p, "no_such_resource") <- list(name = "assigned"),
@@ -21,8 +21,8 @@ test_that("resource()<- returns error when resource not found", {
   )
 })
 
+# Functionality ----
 test_that("resource()<- allows overwriting a resource", {
-  skip_if_offline()
   p <- example_package()
   resource <- resource(p, "deployments")
   resource$title <- "Custom title"
@@ -31,14 +31,12 @@ test_that("resource()<- allows overwriting a resource", {
 })
 
 test_that("resource()$property<- allows overwriting a resource property", {
-  skip_if_offline()
   p <- example_package()
   resource(p, "deployments")$title <- "Custom title"
   expect_identical(p$resources[[1]]$title, "Custom title")
 })
 
 test_that("resource()<- allows overwriting with NULL, removing the resource", {
-  skip_if_offline()
   p <- p_assigned <- example_package()
   resource(p_assigned, "deployments") <- NULL
   expect_identical(
@@ -48,7 +46,6 @@ test_that("resource()<- allows overwriting with NULL, removing the resource", {
 })
 
 test_that("resource()<- allows overwriting a resource with a different name", {
-  skip_if_offline()
   p <- example_package()
   resource(p, "deployments") <- list(name = "not_deployments")
   expect_identical(
@@ -88,4 +85,24 @@ test_that("resource()<- reverts changes made by resource()", {
 
   # Expect unchanged package
   expect_identical(p_assigned, p)
+})
+
+# Version support ----
+test_that("resource() returns resource in same version as provided", {
+  p_v1 <- example_package(version = "1.0")
+  p_v2 <- example_package(version = "2.0")
+  expect_identical(version(resource(p_v1, "deployments")), "1.0")
+  expect_identical(version(resource(p_v2, "deployments")), "2.0")
+})
+
+test_that("resource()<- returns package and resource in same version as
+           provided", {
+  p_v1 <- example_package(version = "1.0")
+  p_v2 <- example_package(version = "2.0")
+  resource(p_v1, "deployments")$name <- "custom_name"
+  resource(p_v2, "deployments")$name <- "custom_name"
+  expect_identical(version(p_v1), "1.0")
+  expect_identical(version(resource(p_v1, "custom_name")), "1.0")
+  expect_identical(version(p_v2), "2.0")
+  expect_identical(version(resource(p_v2, "custom_name")), "2.0")
 })

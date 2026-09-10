@@ -36,7 +36,14 @@ create_package <- function(descriptor = NULL) {
     )
   }
 
-  # Add resources property (also creates descriptor if NULL)
+  # Create a v2 package (when starting from scratch)
+  if (is.null(descriptor)) {
+    descriptor <- list(
+      `$schema` = "https://datapackage.org/profiles/2.0/datapackage.json"
+    )
+  }
+
+  # Add resources property
   descriptor$resources <- descriptor$resources %||% list()
 
   # Add directory attribute (and remove deprecated package$directory)

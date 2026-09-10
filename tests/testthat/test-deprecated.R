@@ -1,3 +1,4 @@
+# get_schema() ----
 test_that("get_schema() shows deprecation warning", {
   p <- example_package()
   lifecycle::expect_deprecated(get_schema(p, "deployments"))
@@ -12,6 +13,7 @@ test_that("get_schema() forwards to schema()", {
   )
 })
 
+# resources() ----
 test_that("resources() shows deprecation warning", {
   p <- example_package()
   lifecycle::expect_deprecated(resources(p))

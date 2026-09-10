@@ -4,7 +4,7 @@
 #' content of its `schema` property, describing the resource's fields, data
 #' types, relationships, and missing values.
 #' The resource must be a [Tabular Data Resource](
-#' https://specs.frictionlessdata.io/tabular-data-resource/).
+#' https://datapackage.org/standard/data-resource/#tabular).
 #'
 #' See `vignette("table-schema")` to learn more about Table Schema.
 #'
@@ -22,15 +22,6 @@
 schema <- function(package, resource_name) {
   # Get resource
   resource <- resource(package, resource_name)
-
-  # Check resource is tabular-data-resource (expected for resources with schema)
-  if (resource$profile %||% "" != "tabular-data-resource") {
-    cli::cli_abort(
-      "Resource {.val {resource_name}} must have a {.field profile} property
-       with value {.val tabular-data-resource}.",
-      class = "frictionless_error_resource_not_tabular"
-    )
-  }
 
   # Get schema
   if (is.null(resource$schema)) {

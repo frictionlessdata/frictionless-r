@@ -2,26 +2,42 @@
 % Please edit documentation in R/version.R
 \name{version}
 \alias{version}
-\title{Get Data Package version}
+\title{Get the specification version number}
 \usage{
-version(package)
+version(x)
 }
 \arguments{
-\item{package}{Data Package object, as returned by \code{\link[=read_package]{read_package()}} or
-\code{\link[=create_package]{create_package()}}.}
+\item{x}{A list describing either a Data Package, Data Resource, Table
+Dialect or Table Schema.}
 }
 \value{
-Data Package version number (e.g. \code{"1.0"}).
+Data Package standard version number.
 }
 \description{
-Determines what version of the \href{https://datapackage.org/}{Data Package standard} is used by a Data Package, based on the
-\href{https://datapackage.org/standard/data-package/#dollar-schema}{\verb{$schema}}
-property.
-Version \code{"1.0"} is assumed if \verb{$schema} is missing, version \code{">=2.0"} is
-assumed for custom values (e.g. \href{https://datapackage.org/standard/extensions/}{extensions}).
+Determines what version of the Data Package, Data Resource, Table Dialect or
+Table Schema standard is used, based on the \href{https://datapackage.org/standard/data-package/#dollar-schema}{\verb{$schema}} property.
+\itemize{
+\item \code{"1.0"}: \href{https://specs.frictionlessdata.io/}{v1} specification.
+Assumed if \verb{$schema} is missing.
+\item \verb{"2.0}: \href{https://datapackage.org/}{v2} specification.
+\item \code{">=2.0"}: assumed if \verb{$schema} is defined by deviating from the default
+(e.g. an \href{https://datapackage.org/standard/extensions/}{extension}).
+}
 }
 \examples{
+# Data Package
 package <- example_package()
 version(package)
+
+# Data Resource
+resource <- resource(package, "observations")
+version(resource)
+
+# Table Dialect
+version(resource$dialect)
+
+# Table Schema
+schema <- schema(package, "observations")
+version(schema)
 }
 \concept{version functions}

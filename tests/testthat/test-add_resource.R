@@ -1,4 +1,5 @@
-test_that("add_resource() returns a valid Data Package", {
+# Return ----
+test_that("add_resource() returns a valid package", {
   p <- example_package()
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   df_csv <- test_path("data/df.csv")
@@ -11,64 +12,13 @@ test_that("add_resource() returns a valid Data Package", {
   ))
 })
 
-test_that("add_resource() returns error on invalid Data Package", {
+# Error handling ----
+test_that("add_resource() returns error on package", {
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   expect_error(
     add_resource(list(), "new", df),
     class = "frictionless_error_package_invalid"
   )
-})
-
-test_that("add_resource() returns error when resource name contains invalid
-           characters", {
-  p <- example_package()
-  df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
-
-  # Invalid names
-  expect_error(
-    add_resource(p, "New", df),
-    class = "frictionless_error_resource_name_invalid"
-  )
-  expect_error(
-    add_resource(p, "New", df),
-    regexp = paste(
-      "`resource_name` must only consist of lowercase alphanumeric characters,",
-      "\".\", \"-\" and \"_\"."
-    ),
-    fixed = TRUE
-  )
-  expect_error(
-    add_resource(p, "New", df),
-    regexp = "\"New\" does not meet those criteria.",
-    fixed = TRUE
-  )
-  expect_error(
-    add_resource(p, "nëw", df),
-    class = "frictionless_error_resource_name_invalid"
-  )
-  expect_error(
-    add_resource(p, " new", df),
-    class = "frictionless_error_resource_name_invalid"
-  )
-  expect_error(
-    add_resource(p, "new ", df),
-    class = "frictionless_error_resource_name_invalid"
-  )
-  expect_error(
-    add_resource(p, "n ew", df),
-    class = "frictionless_error_resource_name_invalid"
-  )
-  expect_error(
-    add_resource(p, "n/ew", df),
-    class = "frictionless_error_resource_name_invalid"
-  )
-
-  # Valid names
-  expect_no_error(check_package(add_resource(p, "n.ew", df)))
-  expect_no_error(check_package(add_resource(p, "n-ew", df)))
-  expect_no_error(check_package(add_resource(p, "n_ew", df)))
-  expect_no_error(check_package(add_resource(p, "n3w", df)))
-  expect_no_error(check_package(add_resource(p, "n.3-w_10", df)))
 })
 
 test_that("add_resource() returns error when replace is not a logical value", {
@@ -238,7 +188,8 @@ test_that("add_resource() returns error if ... arguments are reserved", {
   )
 })
 
-test_that("add_resource() adds resource", {
+# Functionality ----
+test_that("add_resource() adds a v2 resource", {
   p <- example_package()
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   df_csv <- test_path("data/df.csv")
@@ -246,8 +197,12 @@ test_that("add_resource() adds resource", {
   # df
   p <- add_resource(p, "new_df", df)
   expect_length(p$resources, 4) # Remains a list, now of length 4
+  expect_identical(
+    p$resources[[4]][["$schema"]],
+    "https://datapackage.org/profiles/2.0/dataresource.json"
+  )
   expect_identical(p$resources[[4]][["name"]], "new_df")
-  expect_identical(p$resources[[4]][["profile"]], "tabular-data-resource")
+  expect_identical(p$resources[[4]][["type"]], "table")
   expect_identical(p$resources[[4]][["data"]], df)
   expect_identical(
     resource_names(p),
@@ -257,12 +212,29 @@ test_that("add_resource() adds resource", {
   # csv
   p <- add_resource(p, "new_csv", df_csv)
   expect_length(p$resources, 5) # Remains a list, now of length 5
+  expect_identical(
+    p$resources[[5]][["$schema"]],
+    "https://datapackage.org/profiles/2.0/dataresource.json"
+  )
   expect_identical(p$resources[[5]][["name"]], "new_csv")
-  expect_identical(p$resources[[5]][["profile"]], "tabular-data-resource")
+  expect_identical(p$resources[[5]][["type"]], "table")
   expect_null(p$resources[[5]][["data"]])
   expect_identical(
     resource_names(p),
     c("deployments", "observations", "media", "new_df", "new_csv")
+  )
+})
+
+test_that("add_resource() allows any string as resource name and trims it", {
+  p <- example_package()
+  df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
+
+  expect_no_error(
+    add_resource(p, "  Nëw  re/source 4 ", df)
+  )
+  expect_contains(
+    resource_names(add_resource(p, "  Nëw  re/source 4 ", df)),
+    "Nëw  re/source 4" # Trimmed
   )
 })
 
@@ -273,7 +245,7 @@ test_that("add_resource() can replace an existing resource", {
     add_resource(p, "deployments", df, replace = TRUE)
   )
   p_replaced <- add_resource(p, "deployments", df, replace = TRUE)
-  expect_equal(resource_names(p), resource_names(p_replaced))
+  expect_identical(resource_names(p), resource_names(p_replaced))
 })
 
 test_that("add_resource() can add a new resource even with replace = TRUE", {
@@ -283,7 +255,7 @@ test_that("add_resource() can add a new resource even with replace = TRUE", {
     add_resource(p, "new_resource", df, replace = TRUE)
   )
   p_replaced <- add_resource(p, "new_resource", df, replace = TRUE)
-  expect_equal(c(resource_names(p), "new_resource"), resource_names(p_replaced))
+  expect_identical(c(resource_names(p), "new_resource"), resource_names(p_replaced))
 })
 
 test_that("add_resource() uses provided schema (list or path) or creates one", {
@@ -291,10 +263,13 @@ test_that("add_resource() uses provided schema (list or path) or creates one", {
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   df_csv <- test_path("data/df.csv")
   schema <- create_schema(df)
-  schema_custom <- list(fields = list(
-    list(name = "col_1", type = "number", title = "Column 1"),
-    list(name = "col_2", type = "string", title = "Column 2")
-  ))
+  schema_custom <- list(
+    `$schema` = "https://datapackage.org/profiles/2.0/tableschema.json",
+    fields = list(
+      list(name = "col_1", type = "number", title = "Column 1"),
+      list(name = "col_2", type = "string", title = "Column 2")
+    )
+  )
   schema_file <- test_path("data/schema_custom.json")
 
   # df
@@ -321,6 +296,7 @@ test_that("add_resource() uses provided schema (list or path) or creates one", {
 })
 
 test_that("add_resource() keeps URL schema as URL", {
+  skip_if_offline()
   p <- example_package()
   deployments <- read_resource(p, "deployments")
   schema_url <- file.path(
@@ -339,8 +315,9 @@ test_that("add_resource() can add resource from data frame, readable by
   expect_identical(read_resource(p, "new"), dplyr::as_tibble(df))
 })
 
-test_that("add_resource() can add resource from local, relative, absolute,
-           remote or compressed CSV file, readable by read_resource()", {
+test_that("add_resource() can add resource from local, relative parent,
+           absolute, hidden, remote or compressed CSV file, readable by
+           read_resource()", {
   skip_if_offline()
   p <- example_package()
   schema <- schema(p, "deployments")
@@ -359,25 +336,31 @@ test_that("add_resource() can add resource from local, relative, absolute,
 
   # Absolute (doesn't throw unsafe error)
   absolute_path <- system.file(
-    "extdata", "v1", "deployments.csv", package = "frictionless" # Will start with /
+    "extdata", "v2", "deployments.csv", package = "frictionless" # Will start with /
   )
   p <- add_resource(p, "absolute", absolute_path, schema)
   expect_identical(p$resources[[6]]$path, absolute_path)
   expect_s3_class(read_resource(p, "absolute"), "tbl")
 
+  # Hidden (doesn't throw unsafe error)
+  hidden_path <- test_path("data/.hidden/df.csv")
+  p <- add_resource(p, "hidden", hidden_path)
+  expect_identical(p$resources[[7]]$path, hidden_path)
+  expect_s3_class(read_resource(p, "hidden"), "tbl")
+
   # Remote
   remote_path <- file.path(
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
-    "main/inst/extdata/v1/deployments.csv"
+    "main/inst/extdata/v2/deployments.csv"
   )
   p <- add_resource(p, "remote", remote_path, schema)
-  expect_identical(p$resources[[7]]$path, remote_path)
+  expect_identical(p$resources[[8]]$path, remote_path)
   expect_s3_class(read_resource(p, "remote"), "tbl")
 
   # Compressed
   compressed_file <- test_path("data/deployments.csv.gz")
   p <- add_resource(p, "compressed", compressed_file, schema)
-  expect_identical(p$resources[[8]]$path, compressed_file)
+  expect_identical(p$resources[[9]]$path, compressed_file)
   expect_s3_class(read_resource(p, "compressed"), "tbl")
 })
 
@@ -398,7 +381,7 @@ test_that("add_resource() can add resource from CSV file with other delimiter,
 
 test_that("add_resource() sets correct properties for CSV resources", {
   p <- create_package()
-  path <- system.file("extdata", "v1", "deployments.csv", package = "frictionless")
+  path <- system.file("extdata", "v2", "deployments.csv", package = "frictionless")
 
   # Encoding UTF-8 (0.8), ISO-8859-1 (0.59), ISO-8859-2 (0.26)
   p <- add_resource(p, "deployments", path)
@@ -464,4 +447,27 @@ test_that("add_resource() sets ... arguments as extra properties", {
   p <- add_resource(p, "new_csv", df_csv, title = "custom_title", foo = "bar")
   expect_identical(p$resources[[2]]$title, "custom_title")
   expect_identical(p$resources[[2]]$foo, "bar")
+})
+
+# Version support ----
+test_that("add_resource() returns package in same version as provided", {
+  p_v1 <- example_package(version = "1.0")
+  p_v2 <- example_package(version = "2.0")
+  df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
+  expect_identical(version(add_resource(p_v1, "new", df)), "1.0")
+  expect_identical(version(add_resource(p_v2, "new", df)), "2.0")
+})
+
+test_that("add_resource() always creates a v2 resource", {
+  p_v1 <- example_package(version = "1.0")
+  p_v2 <- example_package(version = "2.0")
+  df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
+  p_v1 <- add_resource(p_v1, "new", df)
+  p_v1_replaced <- add_resource(p_v1, "deployments", df, replace = TRUE)
+  p_v2 <- add_resource(p_v2, "new", df)
+  expect_identical(version(resource(p_v1, "new")), "2.0")
+  expect_identical(version(resource(p_v1_replaced, "deployments")), "2.0")
+  expect_identical(version(resource(p_v2, "new")), "2.0")
+
+  # See further for setting $schema
 })

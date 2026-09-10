@@ -39,9 +39,9 @@ check_schema <- function(schema, data = NULL) {
   # Check fields have valid types (a mix of valid types and undefined is ok)
   field_types <- purrr::map_chr(fields, ~ .x$type %||% NA_character_)
   valid_types <- c(
-    "string", "number", "integer", "boolean", "object", "array", "date", "time",
-    "datetime", "year", "yearmonth", "duration", "geopoint", "geojson", "any",
-    NA_character_
+    "string", "number", "integer", "boolean", "object", "array", "list", "date",
+    "time", "datetime", "year", "yearmonth", "duration", "geopoint", "geojson",
+    "any", NA_character_
   )
   invalid_types <- setdiff(field_types, valid_types)
   if (length(invalid_types) > 0) {

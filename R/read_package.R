@@ -1,7 +1,7 @@
 #' Read a Data Package descriptor file (`datapackage.json`)
 #'
 #' Reads information from a `datapackage.json` file, i.e. the [descriptor](
-#' https://specs.frictionlessdata.io/data-package/#descriptor) file that
+#' https://datapackage.org/standard/data-package/#descriptor) file that
 #' describes the Data Package metadata and its Data Resources.
 #'
 #' See `vignette("data-package")` to learn how this function implements the
@@ -41,16 +41,6 @@ read_package <- function(file = "datapackage.json") {
         "i" = "Use {.fun add_resource} to add resources."
       ),
       class = "frictionless_warning_file_without_resources"
-    )
-  }
-
-  # Warn if version >= 1.0
-  version <- version(descriptor)
-  if (version != "1.0") {
-    cli::cli_warn(
-      "This Data Package uses a version ({.field {version}}) not supported by
-       this version of {.pkg frictionless}. Expect errors.",
-      class = "frictionless_warning_version_not_supported"
     )
   }
 

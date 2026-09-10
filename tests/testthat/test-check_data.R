@@ -1,3 +1,4 @@
+# Return ----
 test_that("check_data() returns data invisibly on valid, non-empty data
            frame", {
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
@@ -5,6 +6,7 @@ test_that("check_data() returns data invisibly on valid, non-empty data
   expect_invisible(check_data(df))
 })
 
+# Error handling ----
 test_that("check_data() returns error on invalid or empty data frame", {
   expect_error(
     check_data("not_a_df"),

@@ -14,6 +14,9 @@ read_from_path <- function(package, resource_name, col_select) {
   fields <- schema$fields
   field_names <- purrr::map_chr(fields, ~ purrr::pluck(.x, "name"))
 
+  # Note: silent upgrade_resource() and upgrade_schema() are not needed, since
+  # frictionless does not rely on v1 properties deprecated in v2.
+
   # Check all selected columns appear in schema
   if (!all(col_select %in% field_names)) {
     col_select_missing <- col_select[!col_select %in% field_names]
@@ -51,6 +54,14 @@ read_from_path <- function(package, resource_name, col_select) {
   }
   skip <- if (dialect$header %||% TRUE) 1 else 0
 
+  # Get missingValues (can be labelled values, simple list or NULL)
+  missing_values <- if (purrr::pluck_depth(schema$missingValues) >= 3) {
+    purrr::map(schema$missingValues, "value")
+  } else {
+    schema$missingValues
+  }
+  missing_values <- unlist(missing_values)
+
   # Read data (one or more paths) with read_delim (returns tibble)
   readr::read_delim(
     file = paths,
@@ -65,7 +76,7 @@ read_from_path <- function(package, resource_name, col_select) {
     # col_select needs to be assigned/used above to avoid lazy eval error
     col_select = {{ col_select }},
     locale = locale,
-    na = unlist(schema$missingValues) %||% "",
+    na = missing_values %||% "",
     comment = dialect$commentChar %||% "",
     trim_ws = dialect$skipInitialSpace %||% FALSE,
     # Skip header row when present

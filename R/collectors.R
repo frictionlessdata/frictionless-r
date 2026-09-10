@@ -38,9 +38,11 @@ col_number <- function(enum, group_char, bare_number) {
 #' @returns A readr collector.
 #' @family parse functions
 #' @noRd
-col_integer <- function(enum, bare_number) {
+col_integer <- function(enum, group_char, bare_number) {
   if (length(enum) > 0) {
     readr::col_factor(levels = as.character(enum))
+  } else if (group_char) {
+    readr::col_number() # Supports grouping_mark
   } else if (bare_number) {
     readr::col_double() # Not col_integer() to avoid big integers issues
   } else {

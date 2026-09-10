@@ -1,22 +1,37 @@
-#' Get Data Package version
+#' Get the specification version number
 #'
-#' Determines what version of the [Data Package standard](
-#' https://datapackage.org/) is used by a Data Package, based on the
-#' [`$schema`](https://datapackage.org/standard/data-package/#dollar-schema)
-#' property.
-#' Version `"1.0"` is assumed if `$schema` is missing, version `">=2.0"` is
-#' assumed for custom values (e.g. [extensions](
-#' https://datapackage.org/standard/extensions/)).
+#' @description
+#' Determines what version of the Data Package, Data Resource, Table Dialect or
+#' Table Schema standard is used, based on the [`$schema`](
+#' https://datapackage.org/standard/data-package/#dollar-schema) property.
+#' - `"1.0"`: [v1](https://specs.frictionlessdata.io/) specification.
+#'   Assumed if `$schema` is missing.
+#' - `"2.0`: [v2](https://datapackage.org/) specification.
+#' - `">=2.0"`: assumed if `$schema` is defined by deviating from the default
+#'   (e.g. an [extension](https://datapackage.org/standard/extensions/)).
 #'
-#' @inheritParams read_resource
-#' @returns Data Package version number (e.g. `"1.0"`).
+#' @param x A list describing either a Data Package, Data Resource, Table
+#'   Dialect or Table Schema.
+#' @returns Data Package standard version number.
 #' @family version functions
 #' @export
 #' @examples
+#' # Data Package
 #' package <- example_package()
 #' version(package)
-version <- function(package) {
-  dollar_schema <- purrr::pluck(package, "$schema")
+#'
+#' # Data Resource
+#' resource <- resource(package, "observations")
+#' version(resource)
+#'
+#' # Table Dialect
+#' version(resource$dialect)
+#'
+#' # Table Schema
+#' schema <- schema(package, "observations")
+#' version(schema)
+version <- function(x) {
+  dollar_schema <- purrr::pluck(x, "$schema")
 
   if (is.null(dollar_schema)) {
     return("1.0") # Assume 1.0 if $schema is undefined
@@ -26,8 +41,9 @@ version <- function(package) {
   }
 
   # Extract version from e.g.
-  # "https://datapackage.org/profiles/<version>/datapackage.json"
-  pattern = "^https://datapackage\\.org/profiles/((?:[0-9A-Za-z]|\\.|-)+)/.*"
+  # "https://datapackage.org/profiles/1.0/datapackage.json" or
+  # "https://datapackage.org/profiles/2.0/tableschema.json"
+  pattern <- "^https://datapackage\\.org/profiles/((?:[0-9A-Za-z]|\\.|-)+)/.*"
   extracted_version <- sub(
     pattern,
     "\\1",

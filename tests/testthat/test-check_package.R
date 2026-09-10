@@ -1,10 +1,11 @@
-test_that("check_package() returns package invisibly on valid Data Package", {
+# Return ----
+test_that("check_package() returns package invisibly on valid package", {
   p <- example_package()
-  expect_identical(check_package(p), p)
   expect_invisible(check_package(p))
 })
 
-test_that("check_package() returns error on invalid Data Package", {
+# Error handling ----
+test_that("check_package() returns error on invalid package", {
   expect_error(
     check_package("not_valid"),
     class = "frictionless_error_package_invalid"
@@ -75,15 +76,6 @@ test_that("check_package() returns error on missing or incorrect directory", {
   )
 })
 
-test_that("check_package() returns deprecation warning for package$directory", {
-  p_directory <- example_package()
-  p_directory$directory <- attr(p_directory, "directory")
-  attr(p_directory, "directory") <- NULL
-
-  lifecycle::expect_deprecated(check_package(p_directory))
-  expect_no_error(suppressWarnings(check_package(p_directory)))
-})
-
 test_that("check_package() returns error if resources have no name", {
   p_invalid <- example_package()
   p_invalid$resources[[2]]$name <- NULL
@@ -103,6 +95,16 @@ test_that("check_package() returns error if resources have no name", {
   expect_no_error(check_package(p))
 })
 
+# Warnings ----
+test_that("check_package() returns deprecation warning for package$directory", {
+  p_directory <- example_package()
+  p_directory$directory <- attr(p_directory, "directory")
+  attr(p_directory, "directory") <- NULL
+
+  lifecycle::expect_deprecated(check_package(p_directory))
+  expect_no_error(suppressWarnings(check_package(p_directory)))
+})
+
 test_that("check_package() returns warning on missing 'datapackage' class", {
   p_invalid <- list(resources = list())
   attr(p_invalid, "directory") <- "."
@@ -115,4 +117,12 @@ test_that("check_package() returns warning on missing 'datapackage' class", {
     regexp = "`package` is missing a \"datapackage\" class",
     fixed = TRUE
   )
+})
+
+# Version support ----
+test_that("check_package() returns package in same version as provided", {
+  p_v1 <- example_package(version = "1.0")
+  p_v2 <- example_package(version = "2.0")
+  expect_identical(version(check_package(p_v1)), "1.0")
+  expect_identical(version(check_package(p_v2)), "2.0")
 })

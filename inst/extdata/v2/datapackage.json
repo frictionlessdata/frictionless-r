@@ -18,15 +18,16 @@
   },
   "resources": [
     {
+      "$schema": "https://datapackage.org/profiles/2.0/dataresource.json",
       "name": "deployments",
       "path": "deployments.csv",
       "type": "table",
-      "$schema": "https://datapackage.org/profiles/2.0/dataresource.json",
       "title": "Camera trap deployments",
       "format": "csv",
       "mediatype": "text/csv",
       "encoding": "utf-8",
       "schema": {
+        "$schema": "https://datapackage.org/profiles/2.0/tableschema.json",
         "fields": [
           {
             "name": "deployment_id",
@@ -67,7 +68,6 @@
             }
           }
         ],
-        "$schema": "https://datapackage.org/profiles/2.0/tableschema.json",
         "missingValues": [
           {
             "value": "",
@@ -88,13 +88,13 @@
       }
     },
     {
+      "$schema": "https://datapackage.org/profiles/2.0/dataresource.json",
       "name": "observations",
       "path": [
         "observations_1.tsv",
         "observations_2.tsv"
       ],
       "type": "table",
-      "$schema": "https://datapackage.org/profiles/2.0/dataresource.json",
       "title": "Camera trap observations",
       "format": "csv",
       "mediatype": "text/csv",
@@ -104,6 +104,7 @@
         "delimiter": "\t"
       },
       "schema": {
+        "$schema": "https://datapackage.org/profiles/2.0/tableschema.json",
         "fields": [
           {
             "name": "observation_id",
@@ -155,7 +156,14 @@
             ],
             "categoriesOrdered": false,
             "constraints": {
-              "required": false
+              "required": false,
+              "enum": [
+                "adult",
+                "subadult",
+                "juvenile",
+                "offspring",
+                "unknown"
+              ]
             }
           },
           {
@@ -166,7 +174,6 @@
             }
           }
         ],
-        "$schema": "https://datapackage.org/profiles/2.0/tableschema.json",
         "missingValues": [
           "NA"
         ],
@@ -189,6 +196,7 @@
       }
     },
     {
+      "$schema": "https://datapackage.org/profiles/2.0/dataresource.json",
       "name": "media",
       "data": [
         {
@@ -214,9 +222,9 @@
         }
       ],
       "type": "table",
-      "$schema": "https://datapackage.org/profiles/2.0/dataresource.json",
       "title": "Camera trap media files",
       "schema": {
+        "$schema": "https://datapackage.org/profiles/2.0/tableschema.json",
         "fields": [
           {
             "name": "media_id",
@@ -240,7 +248,6 @@
             "type": "string"
           }
         ],
-        "$schema": "https://datapackage.org/profiles/2.0/tableschema.json",
         "primaryKey": [
           "media_id"
         ],

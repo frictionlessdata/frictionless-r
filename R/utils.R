@@ -43,6 +43,16 @@ clean_list <- function(x, fun = is.null, recursive = FALSE) {
   "[<-"(x, vapply(x, fun, logical(1L)), NULL)
 }
 
+#' Convert character to list
+#'
+#' @param x Value, e.g `"a"`.
+#' @returns List containing value (`list("a")`) if character, otherwise value.
+#' @family helper functions
+#' @noRd
+character_to_list <- function(x) {
+  if (is.character(x)) as.list(x) else x
+}
+
 #' Check if path is URL
 #'
 #' @param path Path.
@@ -89,4 +99,29 @@ get_dot_names <- function(...) {
   dot_names <- names(list(...))
   # Return the names that are not an empty string (no name set)
   return(dot_names[dot_names != ""])
+}
+
+#' Vector merging while preserving attributes
+#'
+#' Wrapper for [base::append] that preserves attributes.
+#'
+#' @inheritParams base::append
+#' @returns A vector containing the values in `x` with the elements of `values`
+#'   appended after the specified element of `x`, while preserving the
+#'   attributes of `x`.
+#' @noRd
+append_with_attributes <- function(x, values, after = length(x)) {
+  # Keep original attributes, except names, which length will change with append
+  original_attributes <- attributes(x)
+  original_attributes[["names"]] <- NULL
+
+  # Append values (recreates names)
+  x <- base::append(unclass(x), values, after = after)
+
+  # Put original attributes back
+  for (attribute_name in names(original_attributes)) {
+    attr(x, attribute_name) <- original_attributes[[attribute_name]]
+  }
+
+  return(x)
 }

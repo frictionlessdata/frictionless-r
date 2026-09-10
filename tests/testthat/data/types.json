@@ -1,10 +1,12 @@
 {
   "resources": [
     {
+      "$schema": "https://datapackage.org/profiles/2.0/dataresource.json",
       "name": "string",
       "path": "type_string.csv",
-      "profile": "tabular-data-resource",
+      "type": "table",
       "schema": {
+        "$schema": "https://datapackage.org/profiles/2.0/tableschema.json",
         "fields": [
           {
             "name": "str",
@@ -24,10 +26,12 @@
       }
     },
     {
+      "$schema": "https://datapackage.org/profiles/2.0/dataresource.json",
       "name": "number",
       "path": "type_number.csv",
-      "profile": "tabular-data-resource",
+      "type": "table",
       "schema": {
+        "$schema": "https://datapackage.org/profiles/2.0/tableschema.json",
         "fields": [
           {
             "name": "num",
@@ -78,10 +82,12 @@
       }
     },
     {
+      "$schema": "https://datapackage.org/profiles/2.0/dataresource.json",
       "name": "integer",
       "path": "type_integer.csv",
-      "profile": "tabular-data-resource",
+      "type": "table",
       "schema": {
+        "$schema": "https://datapackage.org/profiles/2.0/tableschema.json",
         "fields": [
           {
             "name": "int",
@@ -116,10 +122,12 @@
       }
     },
     {
+      "$schema": "https://datapackage.org/profiles/2.0/dataresource.json",
       "name": "boolean",
       "path": "type_boolean.csv",
-      "profile": "tabular-data-resource",
+      "type": "table",
       "schema": {
+        "$schema": "https://datapackage.org/profiles/2.0/tableschema.json",
         "fields": [
           {
             "name": "bool_true",
@@ -133,10 +141,12 @@
       }
     },
     {
+      "$schema": "https://datapackage.org/profiles/2.0/dataresource.json",
       "name": "date",
       "path": "type_date.csv",
-      "profile": "tabular-data-resource",
+      "type": "table",
       "schema": {
+        "$schema": "https://datapackage.org/profiles/2.0/tableschema.json",
         "fields": [
           {
             "name": "dt_undefined",
@@ -176,10 +186,12 @@
       }
     },
     {
+      "$schema": "https://datapackage.org/profiles/2.0/dataresource.json",
       "name": "time",
       "path": "type_time.csv",
-      "profile": "tabular-data-resource",
+      "type": "table",
       "schema": {
+        "$schema": "https://datapackage.org/profiles/2.0/tableschema.json",
         "fields": [
           {
             "name": "tm_undefined",
@@ -219,10 +231,12 @@
       }
     },
     {
+      "$schema": "https://datapackage.org/profiles/2.0/dataresource.json",
       "name": "datetime",
       "path": "type_datetime.csv",
-      "profile": "tabular-data-resource",
+      "type": "table",
       "schema": {
+        "$schema": "https://datapackage.org/profiles/2.0/tableschema.json",
         "fields": [
           {
             "name": "dttm_undefined",
@@ -244,18 +258,30 @@
             "format": "%Y-%m-%dT%H:%M:%SZ"
           },
           {
+            "name": "dttm_1_default",
+            "type": "datetime",
+            "format": "default"
+          },
+          {
             "name": "dttm_2",
             "type": "datetime",
             "format": "%Y-%m-%dT%H:%M:%S.%f%z"
+          },
+          {
+            "name": "dttm_2_default",
+            "type": "datetime",
+            "format": "default"
           }
         ]
       }
     },
     {
+      "$schema": "https://datapackage.org/profiles/2.0/dataresource.json",
       "name": "other",
       "path": "type_other.csv",
-      "profile": "tabular-data-resource",
+      "type": "table",
       "schema": {
+        "$schema": "https://datapackage.org/profiles/2.0/tableschema.json",
         "fields": [
           {
             "name": "year",
@@ -272,6 +298,10 @@
           {
             "name": "array",
             "type": "array"
+          },
+          {
+            "name": "list",
+            "type": "list"
           },
           {
             "name": "duration",

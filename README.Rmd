@@ -25,7 +25,7 @@ knitr::opts_chunk$set(
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5815355.svg)](https://doi.org/10.5281/zenodo.5815355)
 <!-- badges: end -->
 
-frictionless is an R package to read and write Frictionless Data Packages. A [Data Package](https://specs.frictionlessdata.io/data-package/) is a simple container format and standard to describe and package a collection of (tabular) data. It is typically used to publish [FAIR](https://www.go-fair.org/fair-principles/) and open datasets.
+frictionless is an R package to read and write Frictionless Data Packages. A [Data Package](https://datapackage.org/) is a simple container format and standard to describe and package a collection of (tabular) data. It is typically used to publish [FAIR](https://www.go-fair.org/fair-principles/) and open datasets.
 
 To get started, see:
 
@@ -33,7 +33,7 @@ To get started, see:
 - [Function reference](https://docs.ropensci.org/frictionless/reference/index.html): overview of all functions.
 - [Standard implementation](https://docs.ropensci.org/frictionless/articles/index.html): how frictionless implements the Data Package standard.
 
-**frictionless currently implements [Data Package v1](https://specs.frictionlessdata.io/).** Our goal is to support [Data Package v2](https://datapackage.org/) as well.
+frictionless supports Data Packages using the [v1](https://specs.frictionlessdata.io/) and [v2](https://datapackage.org/) specification. When creating a package, resource or schema, it uses the v2 specification.
 
 ## Installation
 

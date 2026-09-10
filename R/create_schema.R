@@ -1,4 +1,4 @@
-#' Create a Table Schema for a data frame
+#' Create a Table Schema from a data frame
 #'
 #' Creates a Table Schema for a data frame, listing all column names and types
 #' as field names and (converted) types.
@@ -71,8 +71,9 @@ create_schema <- function(data) {
     )
   })
 
-  # Create schema
+  # Create a v2 schema
   schema <- list(
+    `$schema` = "https://datapackage.org/profiles/2.0/tableschema.json",
     fields = unname(fields) # Creates [] rather than {}
   )
 

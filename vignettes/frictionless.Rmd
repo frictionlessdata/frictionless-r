@@ -12,7 +12,7 @@ vignette: >
 
 ## What is a Data Package?
 
-A [Data Package](https://specs.frictionlessdata.io/data-package/) is a simple container format to describe and package a collection of (tabular) data. It is typically used to publish FAIR and open datasets. In this tutorial we will show you how to read, create, edit and write Data Packages with the **frictionless**.
+A [Data Package](https://datapackage.org/) is a simple container format to describe and package a collection of (tabular) data. It is typically used to publish FAIR and open datasets. In this tutorial we will show you how to read, create, edit and write Data Packages with the **frictionless**.
 
 ## Read a Data Package
 
@@ -104,39 +104,54 @@ gps
 #>  8 14256075769 TRUE    2018-05-25 16:45:55            4.25           51.3
 #>  9 14256075770 TRUE    2018-05-25 16:50:49            4.25           51.3
 #> 10 14256075771 TRUE    2018-05-25 16:55:36            4.25           51.3
+#>    `bar:barometric-pressure` `external-temperature` `gps:dop`
+#>                        <dbl>                  <dbl>     <dbl>
+#>  1                        NA                   32.5       2  
+#>  2                        NA                   32.8       2.1
+#>  3                        NA                   34.1       2.1
+#>  4                        NA                   34.5       2.2
+#>  5                        NA                   34.1       2.2
+#>  6                        NA                   32.5       2.2
+#>  7                        NA                   32.1       2.2
+#>  8                        NA                   33.3       2.1
+#>  9                        NA                   32.6       2.1
+#> 10                        NA                   31.7       2  
 #> # ℹ 73,037 more rows
-#> # ℹ 16 more variables: `bar:barometric-pressure` <dbl>,
-#> #   `external-temperature` <dbl>, `gps:dop` <dbl>, `gps:satellite-count` <dbl>,
-#> #   `gps-time-to-fix` <dbl>, `ground-speed` <dbl>, heading <dbl>,
-#> #   `height-above-msl` <dbl>, `location-error-numerical` <dbl>,
-#> #   `manually-marked-outlier` <lgl>, `vertical-error-numerical` <dbl>,
-#> #   `sensor-type` <chr>, `individual-taxon-canonical-name` <chr>, …
+#> # ℹ 13 more variables: `gps:satellite-count` <dbl>, `gps-time-to-fix` <dbl>,
+#> #   `ground-speed` <dbl>, heading <dbl>, `height-above-msl` <dbl>,
+#> #   `location-error-numerical` <dbl>, `manually-marked-outlier` <lgl>,
+#> #   `vertical-error-numerical` <dbl>, `sensor-type` <chr>,
+#> #   `individual-taxon-canonical-name` <chr>, `tag-local-identifier` <chr>,
+#> #   `individual-local-identifier` <chr>, `study-name` <chr>
 ```
 
-The data frame contains all GPS records, even though the actual data were split over [multiple CSV zipped files](https://zenodo.org/records/10053702#files-heading). `read_resource()` assigned the column names and types based on the Table Schema that was defined for that resource, not the headers of the CSV file.
+The data frame contains all GPS records, even though the actual data were split over [multiple zipped CSV files](https://zenodo.org/records/10053702#files-heading). `read_resource()` assigned the column names and types based on the Table Schema that was defined for that resource, not the headers of the CSV file.
 
 You can also read data from a local (e.g. downloaded) Data Package. In fact, there is one included in frictionless, let's read that one from disk:
 
 
 ``` r
-local_package <- read_package(
-  system.file("extdata", "v1", "datapackage.json", package = "frictionless")
-)
+example_package <- example_package()
 
-local_package
-#> A Data Package (version 1.0) with 3 resources:
+example_package
+#> A Data Package (version 2.0) with 3 resources:
 #> • deployments
 #> • observations
 #> • media
 #> Use `unclass()` to print the Data Package as a list.
 
-read_resource(local_package, "media")
+read_resource(example_package, "media")
 #> # A tibble: 3 × 5
-#>   media_id                      deployment_id observation_id timestamp file_path
-#>   <chr>                         <chr>         <chr>          <chr>     <chr>    
-#> 1 aed5fa71-3ed4-4284-a6ba-3550… 1             1-1            2020-09-… https://…
-#> 2 da81a501-8236-4cbd-aa95-4bc4… 1             1-1            2020-09-… https://…
-#> 3 0ba57608-3cf1-49d6-a5a2-fe68… 1             1-1            2020-09-… https://…
+#>   media_id                             deployment_id observation_id
+#>   <chr>                                <chr>         <chr>         
+#> 1 aed5fa71-3ed4-4284-a6ba-3550d1a4de8d 1             1-1           
+#> 2 da81a501-8236-4cbd-aa95-4bc4b10a05df 1             1-1           
+#> 3 0ba57608-3cf1-49d6-a5a2-fe680851024d 1             1-1           
+#>   timestamp                 file_path                                    
+#>   <chr>                     <chr>                                        
+#> 1 2020-09-28 02:14:59+02:00 https://multimedia.agouti.eu/assets/aed5fa71…
+#> 2 2020-09-28 02:15:00+02:00 https://multimedia.agouti.eu/assets/da81a501…
+#> 3 2020-09-28 02:15:01+02:00 https://multimedia.agouti.eu/assets/0ba57608…
 ```
 
 Data from the `media` was not stored in a CSV file, but directly in the `data` property of that resource in `datapackage.json`. `read_resource()` will automatically detect where to read data from.
@@ -185,7 +200,7 @@ You can chain most frictionless functions together using pipes (`|>`), which imp
 
 ``` r
 my_package
-#> A Data Package (version 1.0) with 1 resource:
+#> A Data Package (version 2.0) with 1 resource:
 #> • iris
 #> Use `unclass()` to print the Data Package as a list.
 ```
@@ -199,8 +214,9 @@ iris_schema <-
   schema("iris")
 
 str(iris_schema)
-#> List of 1
-#>  $ fields:List of 5
+#> List of 2
+#>  $ $schema: chr "https://datapackage.org/profiles/2.0/tableschema.json"
+#>  $ fields :List of 5
 #>   ..$ :List of 2
 #>   .. ..$ name: chr "Sepal.Length"
 #>   .. ..$ type: chr "number"
@@ -230,8 +246,9 @@ You can also create a schema from a data frame, using `create_schema()`:
 iris_schema <- create_schema(iris)
 
 str(iris_schema)
-#> List of 1
-#>  $ fields:List of 5
+#> List of 2
+#>  $ $schema: chr "https://datapackage.org/profiles/2.0/tableschema.json"
+#>  $ fields :List of 5
 #>   ..$ :List of 2
 #>   .. ..$ name: chr "Sepal.Length"
 #>   .. ..$ type: chr "number"
@@ -288,8 +305,9 @@ iris_schema$fields <- purrr::imap(
 )
 
 str(iris_schema)
-#> List of 1
-#>  $ fields:List of 5
+#> List of 2
+#>  $ $schema: chr "https://datapackage.org/profiles/2.0/tableschema.json"
+#>  $ fields :List of 5
 #>   ..$ :List of 3
 #>   .. ..$ name       : chr "Sepal.Length"
 #>   .. ..$ type       : chr "number"
@@ -338,8 +356,8 @@ If you already have your data stored as CSV or TSV files and you want to include
 
 ``` r
 # Two TSV files with the same structure
-path_1 <- system.file("extdata", "v1", "observations_1.tsv", package = "frictionless")
-path_2 <- system.file("extdata", "v1", "observations_2.tsv", package = "frictionless")
+path_1 <- system.file("extdata", "v2", "observations_1.tsv", package = "frictionless")
+path_2 <- system.file("extdata", "v2", "observations_2.tsv", package = "frictionless")
 
 # Add both TSV files as a single resource
 my_package <-
@@ -351,7 +369,7 @@ my_package <-
   )
 ```
 
-Your Data Package now contains 2 resources, but you can add metadata properties as well (see the [Data Package documentation](https://specs.frictionlessdata.io/data-package/#metadata) for an overview). Since it is a list, you can use `append()` to insert properties at the desired place. Let's add `name` as first and `title` as second property:
+Your Data Package now contains 2 resources, but you can add metadata properties as well (see the [Data Package documentation](https://datapackage.org/standard/data-package/#properties) for an overview). Since it is a list, you can use `append()` to insert properties at the desired place. Let's add `name` as first and `title` as second property:
 
 
 ``` r
@@ -376,12 +394,13 @@ Now that you have created your Data Package, you can write it to a directory of 
 write_package(my_package, "my_directory")
 ```
 
-The directory will contain four files: the descriptor `datapackage.json`, one CSV file containing the data for the resource `iris` and two TSV files containing the data for the resource `observations`.
+The directory will now contain four files: the descriptor `datapackage.json`, one CSV file containing the data for the resource `iris` and two TSV files containing the data for the resource `observations`.
 
 
 ``` r
 list.files("my_directory")
-#> [1] "datapackage.json"   "iris.csv"           "observations_1.tsv" "observations_2.tsv"
+#> [1] "datapackage.json"   "iris.csv"           "observations_1.tsv"
+#> [4] "observations_2.tsv"
 ```
 
 

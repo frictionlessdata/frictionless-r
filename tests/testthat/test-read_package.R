@@ -1,6 +1,7 @@
-test_that("read_package() returns a valid Data Package reading from path", {
+# Return ----
+test_that("read_package() returns a valid package reading from path", {
   # Load example package and a valid minimal one
-  p_path <- system.file("extdata", "v1", "datapackage.json", package = "frictionless")
+  p_path <- system.file("extdata", "v2", "datapackage.json", package = "frictionless")
   minimal_path <- test_path("data/valid_minimal.json")
   p_local <- read_package(p_path)
   p_minimal <- read_package(minimal_path)
@@ -22,12 +23,12 @@ test_that("read_package() returns a valid Data Package reading from path", {
   expect_identical(attr(p_minimal, "directory"), "data")
 })
 
-test_that("read_package() returns a valid Data Package reading from url", {
+test_that("read_package() returns a valid package reading from url", {
   skip_if_offline()
   # Load example package remotely
   p_url <- file.path(
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r/",
-    "main/inst/extdata/v1/datapackage.json"
+    "main/inst/extdata/v2/datapackage.json"
   )
   p_remote <- read_package(p_url)
 
@@ -45,6 +46,7 @@ test_that("read_package() returns a valid Data Package reading from url", {
   )
 })
 
+# Error handling ----
 test_that("read_package() returns error on missing or invalid file", {
   skip_if_offline()
   # Incorrect type
@@ -67,7 +69,7 @@ test_that("read_package() returns error on missing or invalid file", {
   # Not a json file
   expect_error(
     read_package(
-      system.file("extdata", "v1", "deployments.csv", package = "frictionless")
+      system.file("extdata", "v2", "deployments.csv", package = "frictionless")
     ),
     regexp = "lexical error: invalid char in json text.",
     fixed = FALSE
@@ -80,6 +82,7 @@ test_that("read_package() returns error on missing or invalid file", {
   )
 })
 
+# Warnings ----
 test_that("read_package() warns if resources are missing", {
   # No resources property
   expect_warning(
@@ -107,18 +110,8 @@ test_that("read_package() warns if resources are missing", {
   )
 })
 
-test_that("read_package() warns if version is not supported", {
-  expect_no_warning(
-    example_package(version = "1.0")
-  )
-  expect_warning(
-    example_package(version = "2.0"),
-    class = "frictionless_warning_version_not_supported"
-  )
-})
-
-test_that("read_package() allows descriptor at absolute or relative parent
-           path", {
+test_that("read_package() allows descriptor at absolute, relative parent or
+  hidden path", {
   relative_path <- "../testthat/data/valid_minimal.json"
   expect_no_error(
     check_package(read_package(relative_path))
@@ -126,6 +119,10 @@ test_that("read_package() allows descriptor at absolute or relative parent
   absolute_path <- normalizePath("data/valid_minimal.json")
   expect_no_error(
     check_package(read_package(absolute_path))
+  )
+  hidden_path <- test_path("data/.hidden/valid_minimal.json")
+  expect_no_error(
+    check_package(read_package(hidden_path))
   )
 })
 
@@ -136,8 +133,18 @@ test_that("read_package() allows YAML descriptor", {
 })
 
 test_that("read_package() converts JSON null to NULL", {
-  p_path <- system.file("extdata", "v1", "datapackage.json", package = "frictionless")
+  p_path <- system.file("extdata", "v2", "datapackage.json", package = "frictionless")
   p <- read_package(p_path)
   # { "spatial": null } is read as NULL (use chuck() to force error if missing)
   expect_null(purrr::chuck(p, "spatial"))
+})
+
+# Version support ----
+test_that("read_package() returns package in same version as in descriptor", {
+  descriptor_v1 <-
+    system.file("extdata", "v1", "datapackage.json", package = "frictionless")
+  descriptor_v2 <-
+    system.file("extdata", "v2", "datapackage.json", package = "frictionless")
+  expect_identical(version(read_package(descriptor_v1)), "1.0")
+  expect_identical(version(read_package(descriptor_v2)), "2.0")
 })

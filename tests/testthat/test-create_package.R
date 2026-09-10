@@ -1,18 +1,15 @@
-test_that("create_package() creates a valid data package or returns error", {
-  new <- create_package()
-  expect_no_error(check_package(new))
+# Return ----
+test_that("create_package() creates a valid v2 package", {
+  expect_identical(version(create_package()), "2.0")
 
-  existing <- create_package(
+  # Wrapping in check_package() bit superfluous, since create_package() calls it
+  expect_no_error(check_package(create_package()))
+  expect_no_error(check_package(create_package(
     list(resources = list(), directory = "not_default")
-  )
-  expect_no_error(check_package(existing))
-
-  expect_error(
-    create_package(list(resources = "not_a_list")),
-    class = "frictionless_error_package_invalid"
-  )
+  )))
 })
 
+# Error handling ----
 test_that("create_package() returns error on invalid descriptor", {
   expect_error(
     create_package("not_a_list"),
@@ -22,6 +19,23 @@ test_that("create_package() returns error on invalid descriptor", {
     create_package("not_a_list"),
     regexp = "`descriptor` must be a list if provided."
   )
+  expect_error(
+    create_package(list(resources = "not_a_list")),
+    class = "frictionless_error_package_invalid"
+  )
+})
+
+# Functionality ----
+test_that("create_package() sets $schema if created from scratch", {
+  new <- create_package()
+  expect_identical(
+    new$`$schema`,
+    "https://datapackage.org/profiles/2.0/datapackage.json"
+  )
+
+  custom_resources <- list(list("name" = "custom_name"))
+  existing <- create_package(list(resources = custom_resources))
+  expect_null(existing$`$schema`)
 })
 
 test_that("create_package() sets resources or leaves as is", {
@@ -59,4 +73,12 @@ test_that("create_package() adds class 'datapackage'", {
 
   existing <- create_package(list())
   expect_s3_class(new, "datapackage")
+})
+
+# Version support ----
+test_that("check_package() returns package in same version as provided", {
+  p_v1 <- example_package(version = "1.0")
+  p_v2 <- example_package(version = "2.0")
+  expect_identical(version(create_package(p_v1)), "1.0")
+  expect_identical(version(create_package(p_v2)), "2.0")
 })

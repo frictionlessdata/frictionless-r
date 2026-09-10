@@ -1,3 +1,4 @@
+# Return ----
 test_that("resource_names() returns a character vector of resource names", {
   p <- example_package()
   expect_identical(resource_names(p), c("deployments", "observations", "media"))
@@ -12,6 +13,7 @@ test_that("resource_names() returns a character vector of resource names", {
   expect_identical(resource_names(p), character(0))
 })
 
+# Error handling ----
 test_that("resource_names() returns error if resources have no name", {
   p <- example_package()
   p$resources[[2]]$name <- NULL
@@ -21,4 +23,12 @@ test_that("resource_names() returns error if resources have no name", {
   )
 
   # For more tests see test-check_package.R
+})
+
+# Version support ----
+test_that("read_resource() returns same result for example package v1 and v2", {
+  # This also tests v1/v2 package support
+  p_v1 <- example_package(version = "1.0")
+  p_v2 <- example_package(version = "2.0")
+  expect_identical(resource_names(p_v1), resource_names(p_v2))
 })

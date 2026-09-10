@@ -3,7 +3,7 @@
 #' Reads data from a Data Resource (in a Data Package) into a tibble (a
 #' Tidyverse data frame).
 #' The resource must be a [Tabular Data Resource](
-#' https://specs.frictionlessdata.io/tabular-data-resource/).
+#' https://datapackage.org/standard/data-resource/#tabular).
 #' The function uses [readr::read_delim()] to read CSV files, passing the
 #' resource properties `path`, CSV dialect, column names, data types, etc.
 #' Column names are taken from the provided Table Schema (`schema`), not from
