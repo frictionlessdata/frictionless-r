@@ -19,8 +19,8 @@ before being written to disk (e.g. \code{deployments.csv.gz}).}
 \code{package} invisibly, as written to file.
 }
 \description{
-Writes a Data Package and its related Data Resources to disk as a
-\code{datapackage.json} and CSV files.
+Writes a Data Package and its Data Resources to disk as a \code{datapackage.json}
+and CSV files.
 }
 \section{Writing data to CSV files}{
 

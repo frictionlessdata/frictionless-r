@@ -1,7 +1,7 @@
 #' Write a Data Package to disk
 #'
-#' Writes a Data Package and its related Data Resources to disk as a
-#' `datapackage.json` and CSV files.
+#' Writes a Data Package and its Data Resources to disk as a `datapackage.json`
+#' and CSV files.
 #'
 #' @section Writing data to CSV files:
 #'

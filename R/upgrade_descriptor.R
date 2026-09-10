@@ -1,6 +1,6 @@
 #' Upgrade a package object from v1 to v2
 #'
-#' Upgrades the descriptor, not the associated resources, etc.
+#' Upgrades the descriptor, not its resources, etc.
 #'
 #' @inheritParams read_resource
 #' @returns Upgraded `package`.

@@ -93,7 +93,7 @@ You can pipe most functions (see `vignette("data-package")`).
 
 ### Write
 
-`write_package()` writes a package and its related resources to disk as a `datapackage.json` and CSV files. See the function documentation for details.
+`write_package()` writes a package and its resources to disk as a `datapackage.json` and CSV files. See the function documentation for details.
 
 ## Properties implementation
 

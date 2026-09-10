@@ -2,7 +2,7 @@
 % Please edit documentation in R/upgrade_package.R
 \name{upgrade_package}
 \alias{upgrade_package}
-\title{Upgrade a Data Package from v1 to v2}
+\title{Upgrade a Data Package to v2}
 \usage{
 upgrade_package(package)
 }
@@ -14,7 +14,8 @@ upgrade_package(package)
 Upgraded \code{package}.
 }
 \description{
-...
+Upgrades a Data Package, its Data Resources and Table Schemas to the
+\href{https://datapackage.org/}{v2} specification.
 }
 \examples{
 # Load the v1 example Data Package

@@ -1,6 +1,7 @@
-#' Upgrade a Data Package from v1 to v2
+#' Upgrade a Data Package to v2
 #'
-#' ...
+#' Upgrades a Data Package, its Data Resources and Table Schemas to the
+#' [v2](https://datapackage.org/) specification.
 #'
 #' @inheritParams read_resource
 #' @returns Upgraded `package`.
