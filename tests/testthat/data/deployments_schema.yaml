@@ -1,3 +1,4 @@
+$schema: https://datapackage.org/profiles/2.0/tableschema.json
 fields:
 - name: deployment_id
   type: string
@@ -27,3 +28,11 @@ missingValues:
 - NA
 - NaN
 primaryKey: deployment_id
+  - value: ""
+    label: missing
+  - value: NA
+    label: not applicable
+  - value: NaN
+    label: not a number
+primaryKey:
+  - deployment_id

@@ -6,6 +6,7 @@
       "path": "type_string.csv",
       "type": "table",
       "schema": {
+        "$schema": "https://datapackage.org/profiles/2.0/tableschema.json",
         "fields": [
           {
             "name": "str",
@@ -30,6 +31,7 @@
       "path": "type_number.csv",
       "type": "table",
       "schema": {
+        "$schema": "https://datapackage.org/profiles/2.0/tableschema.json",
         "fields": [
           {
             "name": "num",
@@ -85,6 +87,7 @@
       "path": "type_integer.csv",
       "type": "table",
       "schema": {
+        "$schema": "https://datapackage.org/profiles/2.0/tableschema.json",
         "fields": [
           {
             "name": "int",
@@ -124,6 +127,7 @@
       "path": "type_boolean.csv",
       "type": "table",
       "schema": {
+        "$schema": "https://datapackage.org/profiles/2.0/tableschema.json",
         "fields": [
           {
             "name": "bool_true",
@@ -142,6 +146,7 @@
       "path": "type_date.csv",
       "type": "table",
       "schema": {
+        "$schema": "https://datapackage.org/profiles/2.0/tableschema.json",
         "fields": [
           {
             "name": "dt_undefined",
@@ -186,6 +191,7 @@
       "path": "type_time.csv",
       "type": "table",
       "schema": {
+        "$schema": "https://datapackage.org/profiles/2.0/tableschema.json",
         "fields": [
           {
             "name": "tm_undefined",
@@ -230,6 +236,7 @@
       "path": "type_datetime.csv",
       "type": "table",
       "schema": {
+        "$schema": "https://datapackage.org/profiles/2.0/tableschema.json",
         "fields": [
           {
             "name": "dttm_undefined",
@@ -274,6 +281,7 @@
       "path": "type_other.csv",
       "type": "table",
       "schema": {
+        "$schema": "https://datapackage.org/profiles/2.0/tableschema.json",
         "fields": [
           {
             "name": "year",
