@@ -3,6 +3,24 @@
 #' Upgrades a Data Package, its Data Resources and Table Schemas to the
 #' [v2](https://datapackage.org/) specification.
 #'
+#' @section Upgrade details:
+#'
+#' ### Data Package
+#'
+#' `upgrade_package()` upgrades a [v1](
+#' https://specs.frictionlessdata.io/data-package/) descriptor to [v2](
+#' https://datapackage.org/standard/data-package/) as follows:
+#'
+#' - Adds `$schema` as first property and sets it to the recommended v2 value
+#'   (`"https://datapackage.org/profiles/2.0/datapackage.json"`), except for
+#'   certain `profile` values.
+#' - Removes `profile`, but retains its value in `$schema` if it is a URL to a
+#'   custom profile (see [backwards compatibility](
+#'   https://datapackage.org/standard/data-package/#dollar-schema)).
+#' - Converts `contributors` `"role": "value"` to `"roles": ["value"]` (see
+#'   [backwards compatibility](
+#'   https://datapackage.org/overview/changelog/#packagecontributors-updated)).
+#'
 #' @inheritParams read_resource
 #' @returns Upgraded `package`.
 #' @family versioning functions

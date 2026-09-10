@@ -17,6 +17,22 @@ Upgraded \code{package}.
 Upgrades a Data Package, its Data Resources and Table Schemas to the
 \href{https://datapackage.org/}{v2} specification.
 }
+\section{Upgrade details}{
+
+\subsection{Data Package}{
+
+\code{upgrade_package()} upgrades a \href{https://specs.frictionlessdata.io/data-package/}{v1} descriptor to \href{https://datapackage.org/standard/data-package/}{v2} as follows:
+\itemize{
+\item Adds \verb{$schema} as first property and sets it to the recommended v2 value
+(\code{"https://datapackage.org/profiles/2.0/datapackage.json"}), except for
+certain \code{profile} values.
+\item Removes \code{profile}, but retains its value in \verb{$schema} if it is a URL to a
+custom profile (see \href{https://datapackage.org/standard/data-package/#dollar-schema}{backwards compatibility}).
+\item Converts \code{contributors} \code{"role": "value"} to \verb{"roles": ["value"]} (see
+\href{https://datapackage.org/overview/changelog/#packagecontributors-updated}{backwards compatibility}).
+}
+}
+
 \examples{
 # Load the v1 example Data Package
 (package <- example_package(version = "1.0"))
