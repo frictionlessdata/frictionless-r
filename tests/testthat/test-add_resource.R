@@ -263,10 +263,13 @@ test_that("add_resource() uses provided schema (list or path) or creates one", {
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   df_csv <- test_path("data/df.csv")
   schema <- create_schema(df)
-  schema_custom <- list(fields = list(
-    list(name = "col_1", type = "number", title = "Column 1"),
-    list(name = "col_2", type = "string", title = "Column 2")
-  ))
+  schema_custom <- list(
+    `$schema` = "https://datapackage.org/profiles/2.0/tableschema.json",
+    fields = list(
+      list(name = "col_1", type = "number", title = "Column 1"),
+      list(name = "col_2", type = "string", title = "Column 2")
+    )
+  )
   schema_file <- test_path("data/schema_custom.json")
 
   # df

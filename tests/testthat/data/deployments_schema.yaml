@@ -1,29 +1,34 @@
+$schema: https://datapackage.org/profiles/2.0/tableschema.json
 fields:
-- name: deployment_id
-  type: string
-  constraints:
-    required: true
-    unique: true
-- name: longitude
-  type: number
-  constraints:
-    required: true
-    minimum: -180
-    maximum: 180
-- name: latitude
-  constraints:
-    required: true
-- name: start
-  type: date
-  format: "%x"
-  constraints:
-    required: true
-- name: comments
-  type: string
-  constraints:
-    required: false
+  - name: deployment_id
+    type: string
+    constraints:
+      required: true
+      unique: true
+  - name: longitude
+    type: number
+    constraints:
+      required: true
+      minimum: -180
+      maximum: 180
+  - name: latitude
+    constraints:
+      required: true
+  - name: start
+    type: date
+    format: "%x"
+    constraints:
+      required: true
+  - name: comments
+    type: string
+    constraints:
+      required: false
 missingValues:
-- ''
-- NA
-- NaN
-primaryKey: deployment_id
+  - value: ""
+    label: missing
+  - value: NA
+    label: not applicable
+  - value: NaN
+    label: not a number
+primaryKey:
+  - deployment_id
