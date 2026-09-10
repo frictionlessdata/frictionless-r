@@ -33,6 +33,17 @@ custom profile (see \href{https://datapackage.org/standard/data-package/#dollar-
 }
 }
 
+\subsection{Data Resource}{
+
+\code{upgrade_package()} upgrades any \href{https://specs.frictionlessdata.io/data-resource/}{v1} resource to \href{https://datapackage.org/standard/data-resource/}{v2} as follows:
+\itemize{
+\item Adds \verb{$schema} as first property and sets it to the recommended v2 value
+(\code{"https://datapackage.org/profiles/2.0/dataresource.json"}).
+\item Removes \code{profile}, but converts \code{"profile" = "tabular-data-resource"} to
+\code{"type" = "table"} (see \href{https://datapackage.org/standard/data-resource/#type}{backwards compatibility}).
+}
+}
+
 \examples{
 # Load the v1 example Data Package
 (package <- example_package(version = "1.0"))

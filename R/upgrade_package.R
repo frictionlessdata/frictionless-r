@@ -21,6 +21,18 @@
 #'   [backwards compatibility](
 #'   https://datapackage.org/overview/changelog/#packagecontributors-updated)).
 #'
+#' ### Data Resource
+#'
+#' `upgrade_package()` upgrades any [v1](
+#' https://specs.frictionlessdata.io/data-resource/) resource to [v2](
+#' https://datapackage.org/standard/data-resource/) as follows:
+#'
+#' - Adds `$schema` as first property and sets it to the recommended v2 value
+#'   (`"https://datapackage.org/profiles/2.0/dataresource.json"`).
+#' - Removes `profile`, but converts `"profile" = "tabular-data-resource"` to
+#'   `"type" = "table"` (see [backwards compatibility](
+#'   https://datapackage.org/standard/data-resource/#type)).
+#'
 #' @inheritParams read_resource
 #' @returns Upgraded `package`.
 #' @family versioning functions
