@@ -28,7 +28,7 @@ test_that("upgrade_package() does not upgrade non-verbose schemas", {
   # Schema is local path
   p_v1_local_schema <- p_v1
   p_v1_local_schema$resources[[1]]$schema <-
-    test_path("data/deployments_schema.json")
+    test_path("data/deployments_schema_v1.json")
   expect_identical(
     version(schema(upgrade_package(p_v1_local_schema), "deployments")),
     "1.0"
@@ -38,7 +38,7 @@ test_that("upgrade_package() does not upgrade non-verbose schemas", {
   p_v1_remote_schema <- p_v1
   p_v1_remote_schema$resources[[1]]$schema <- file.path(
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
-    "main/tests/testthat/data/deployments_schema.json"
+    "main/tests/testthat/data/deployments_schema_v1.json"
   )
   expect_identical(
     version(schema(upgrade_package(p_v1_remote_schema), "deployments")),
