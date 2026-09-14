@@ -263,10 +263,13 @@ test_that("add_resource() uses provided schema (list or path) or creates one", {
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   df_csv <- test_path("data/df.csv")
   schema <- create_schema(df)
-  schema_custom <- list(fields = list(
-    list(name = "col_1", type = "number", title = "Column 1"),
-    list(name = "col_2", type = "string", title = "Column 2")
-  ))
+  schema_custom <- list(
+    `$schema` = "https://datapackage.org/profiles/2.0/tableschema.json",
+    fields = list(
+      list(name = "col_1", type = "number", title = "Column 1"),
+      list(name = "col_2", type = "string", title = "Column 2")
+    )
+  )
   schema_file <- test_path("data/schema_custom.json")
 
   # df
@@ -333,7 +336,7 @@ test_that("add_resource() can add resource from local, relative parent,
 
   # Absolute (doesn't throw unsafe error)
   absolute_path <- system.file(
-    "extdata", "v1", "deployments.csv", package = "frictionless" # Will start with /
+    "extdata", "v2", "deployments.csv", package = "frictionless" # Will start with /
   )
   p <- add_resource(p, "absolute", absolute_path, schema)
   expect_identical(p$resources[[6]]$path, absolute_path)
@@ -348,7 +351,7 @@ test_that("add_resource() can add resource from local, relative parent,
   # Remote
   remote_path <- file.path(
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
-    "main/inst/extdata/v1/deployments.csv"
+    "main/inst/extdata/v2/deployments.csv"
   )
   p <- add_resource(p, "remote", remote_path, schema)
   expect_identical(p$resources[[8]]$path, remote_path)
@@ -378,7 +381,7 @@ test_that("add_resource() can add resource from CSV file with other delimiter,
 
 test_that("add_resource() sets correct properties for CSV resources", {
   p <- create_package()
-  path <- system.file("extdata", "v1", "deployments.csv", package = "frictionless")
+  path <- system.file("extdata", "v2", "deployments.csv", package = "frictionless")
 
   # Encoding UTF-8 (0.8), ISO-8859-1 (0.59), ISO-8859-2 (0.26)
   p <- add_resource(p, "deployments", path)

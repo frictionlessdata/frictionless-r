@@ -5,7 +5,9 @@ navbar:
   bg: dark
 articles:
 - title: Standard implementation
-  desc: These articles describe how frictionless implements the Data Package standard.
+  desc: >
+    These articles describe how frictionless implements the Data Package
+    standard.
   navbar: ~
   contents:
   - data-package
@@ -14,22 +16,36 @@ articles:
   - table-schema
 reference:
 - title: Read a Data Package
-  desc: Read a `datapackage.json` file and its associated Data Resources from path or URL.
+  desc: >
+    Read a `datapackage.json` file and its Data Resources from path or URL.
   contents:
   - has_concept("read functions")
 - title: Create and edit a Data Package
-  desc: Create and edit a Data Package, its associated Data Resources and Table Schemas.
+  desc: >
+    Create and edit a Data Package, its Data Resources and Table Schemas.
   contents:
   - has_concept("create functions")
   - has_concept("edit functions")
 - title: Write a Data Package
-  desc: Write a Data Package and its associated Data Resources to disk.
+  desc: >
+    Write a Data Package and its Data Resources to disk.
   contents:
   - has_concept("write functions")
-- title: Miscellaneous
+- title: Versioning
+  desc: >
+    Determine what version of the Data Package standard is used
+    ([v1](https://specs.frictionlessdata.io/) or [v2](https://datapackage.org/))
+    and/or upgrade. frictionless uses the v2 specification when creating a
+    package, resource or schema.
+  contents:
+  - has_concept("versioning functions")
+- title: Developing with frictionless
+  desc: >
+    Access, set and check Data Package properties.
   contents:
   - has_concept("accessor functions")
-  - has_concept("print functions")
   - has_concept("check functions")
-  - has_concept("version functions")
+- title: Miscellaneous
+  contents:
+  - has_concept("print functions")
   - has_concept("sample data")

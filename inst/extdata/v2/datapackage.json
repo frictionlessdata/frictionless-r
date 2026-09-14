@@ -27,6 +27,7 @@
       "mediatype": "text/csv",
       "encoding": "utf-8",
       "schema": {
+        "$schema": "https://datapackage.org/profiles/2.0/tableschema.json",
         "fields": [
           {
             "name": "deployment_id",
@@ -67,7 +68,6 @@
             }
           }
         ],
-        "$schema": "https://datapackage.org/profiles/2.0/tableschema.json",
         "missingValues": [
           {
             "value": "",
@@ -104,6 +104,7 @@
         "delimiter": "\t"
       },
       "schema": {
+        "$schema": "https://datapackage.org/profiles/2.0/tableschema.json",
         "fields": [
           {
             "name": "observation_id",
@@ -155,7 +156,14 @@
             ],
             "categoriesOrdered": false,
             "constraints": {
-              "required": false
+              "required": false,
+              "enum": [
+                "adult",
+                "subadult",
+                "juvenile",
+                "offspring",
+                "unknown"
+              ]
             }
           },
           {
@@ -166,7 +174,6 @@
             }
           }
         ],
-        "$schema": "https://datapackage.org/profiles/2.0/tableschema.json",
         "missingValues": [
           "NA"
         ],
@@ -217,6 +224,7 @@
       "type": "table",
       "title": "Camera trap media files",
       "schema": {
+        "$schema": "https://datapackage.org/profiles/2.0/tableschema.json",
         "fields": [
           {
             "name": "media_id",
@@ -240,7 +248,6 @@
             "type": "string"
           }
         ],
-        "$schema": "https://datapackage.org/profiles/2.0/tableschema.json",
         "primaryKey": [
           "media_id"
         ],

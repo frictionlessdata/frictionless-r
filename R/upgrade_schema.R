@@ -22,11 +22,9 @@ upgrade_schema <- function(schema, resource_name) {
   )
 
   # Update primaryKey to array
-  # https://datapackage.org/overview/changelog/#schemaprimarykey-updated
   schema$primaryKey <- character_to_list(schema$primaryKey)
 
   # Update foreignKeys fields to array and remove self-referential resource
-  # https://datapackage.org/overview/changelog/#schemaforeignkeys-updated
   schema$foreignKeys <- purrr::modify_if(
     schema$foreignKeys,
     is.list,

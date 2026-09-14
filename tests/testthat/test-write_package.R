@@ -1,33 +1,15 @@
 # Return ----
-test_that("write_package() returns output package v1 (invisibly)", {
-  p_v1 <- example_package(version = "1.0")
-
+test_that("write_package() returns output package invisibly", {
+  p <- example_package()
   # Note write_package() is expected to create directory without warning
   dir <- file.path(tempdir(), "package")
   on.exit(unlink(dir, recursive = TRUE))
-  p_written <- suppressMessages(write_package(p_v1, dir))
+  p_written <- suppressMessages(write_package(p, dir))
   p_from_file <- read_package(file.path(dir, "datapackage.json"))
-
   # p_from_file$directory will differ: overwrite to make the same
   attr(p_from_file, "directory") <- attr(p_written, "directory")
 
-  expect_invisible(suppressMessages(write_package(p_v1, dir)))
-  expect_identical(p_written, p_from_file)
-})
-
-test_that("write_package() returns output package v2 (invisibly)", {
-  p_v2 <- example_package(version = "2.0")
-
-  # Note write_package() is expected to create directory without warning
-  dir <- file.path(tempdir(), "package")
-  on.exit(unlink(dir, recursive = TRUE))
-  p_written <- suppressMessages(write_package(p_v2, dir))
-  p_from_file <- read_package(file.path(dir, "datapackage.json"))
-
-  # p_from_file$directory will differ: overwrite to make the same
-  attr(p_from_file, "directory") <- attr(p_written, "directory")
-
-  expect_invisible(suppressMessages(write_package(p_v2, dir)))
+  expect_invisible(suppressMessages(write_package(p, dir)))
   expect_identical(p_written, p_from_file)
 })
 
@@ -63,35 +45,6 @@ test_that("write_package() returns error if package has no resource(s)", {
 })
 
 # Functionality ----
-## Input = Output ----
-test_that("write_package() writes unaltered v1 datapackage.json as is", {
-  p_v1_file <-
-    system.file("extdata", "v1", "datapackage.json", package = "frictionless")
-  json_original <- readr::read_lines(p_v1_file) # Will use line endings of system
-  p_v1 <- read_package(p_v1_file)
-  dir <- file.path(tempdir(), "package")
-  on.exit(unlink(dir, recursive = TRUE))
-  suppressMessages(write_package(p_v1, dir))
-  json_as_written <- readr::read_lines(file.path(dir, "datapackage.json"))
-
-  # Output json = input json. This also tests the json is printed "pretty"
-  expect_identical(json_as_written, json_original)
-})
-
-test_that("write_package() writes unaltered v2 datapackage.json as is", {
-  p_v2_file <-
-    system.file("extdata", "v2", "datapackage.json", package = "frictionless")
-  json_original <- readr::read_lines(p_v2_file) # Will use line endings of system
-  p_v2 <- read_package(p_v2_file)
-  dir <- file.path(tempdir(), "package")
-  on.exit(unlink(dir, recursive = TRUE))
-  suppressMessages(write_package(p_v2, dir))
-  json_as_written <- readr::read_lines(file.path(dir, "datapackage.json"))
-
-  # Output json = input json. This also tests the json is printed "pretty"
-  expect_identical(json_as_written, json_original)
-})
-
 ## Writing data to CSV files ----
 test_that("write_package() overwrites files only if necessary", {
   skip_if_offline()
@@ -161,7 +114,7 @@ test_that("write_package() copies file(s) for path = local in local package", {
   # Change one local path to URL
   p$resources[[2]]$path[[1]] <- file.path(
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
-    "main/inst/extdata/v1/observations_1.tsv"
+    "main/inst/extdata/v2/observations_1.tsv"
   )
   p <- add_resource(p, "new", test_path("data/df.csv"))
   dir <- file.path(tempdir(), "package")
@@ -193,13 +146,13 @@ test_that("write_package() downloads file(s) for path = local in remote
   # Make remote
   attr(p, "directory") <- file.path(
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r/",
-    "main/inst/extdata/v1"
+    "main/inst/extdata/v2"
   )
 
   # Change one local path to URL
   p$resources[[2]]$path[[1]] <- file.path(
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
-    "main/inst/extdata/v1/observations_1.tsv"
+    "main/inst/extdata/v2/observations_1.tsv"
   )
   p <- add_resource(p, "new", test_path("data/df.csv"))
   dir <- file.path(tempdir(), "package")
@@ -230,7 +183,7 @@ test_that("write_package() leaves as is for path = URL in local package", {
   # Change local path to URL
   p$resources[[1]]$path <- file.path(
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
-    "main/inst/extdata/v1/deployments.csv"
+    "main/inst/extdata/v2/deployments.csv"
   )
   p <- add_resource(p, "new", file.path(
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
@@ -256,13 +209,13 @@ test_that("write_package() leaves as is for path = URL in remote package", {
   # Make remote
   attr(p, "directory") <- file.path(
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r/",
-    "main/inst/extdata/v1"
+    "main/inst/extdata/v2"
   )
 
   # Change local path to URL
   p$resources[[1]]$path <- file.path(
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
-    "main/inst/extdata/v1/deployments.csv"
+    "main/inst/extdata/v2/deployments.csv"
   )
   p <- add_resource(p, "new", file.path(
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
@@ -301,7 +254,7 @@ test_that("write_package() leaves as is for data = json in remote package", {
   # Make remote
   attr(p, "directory") <- file.path(
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r/",
-    "main/inst/extdata/v1"
+    "main/inst/extdata/v2"
   )
   dir <- file.path(tempdir(), "package")
   on.exit(unlink(dir, recursive = TRUE))
@@ -337,7 +290,7 @@ test_that("write_package() creates file for data = df in remote package", {
   # Make remote
   attr(p, "directory") <- file.path(
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r/",
-    "main/inst/extdata/v1"
+    "main/inst/extdata/v2"
   )
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
   p <- add_resource(p, "new", df)
@@ -360,7 +313,7 @@ test_that("write_package() shows message when downloading file", {
   # Change one local path to URL
   p$resources[[2]]$path[[1]] <- file.path(
     "https://raw.githubusercontent.com/frictionlessdata/frictionless-r",
-    "main/inst/extdata/v1/observations_1.tsv"
+    "main/inst/extdata/v2/observations_1.tsv"
   )
   dir <- file.path(tempdir(), "package")
   dir_1 <- file.path(dir, "1")
@@ -374,7 +327,7 @@ test_that("write_package() shows message when downloading file", {
     write_package(p, dir_2),
     regexp = paste0(
       "Downloading file from 'https://raw.githubusercontent.com/",
-      "frictionlessdata/frictionless-r/main/inst/extdata/v1/observations_1.tsv'"
+      "frictionlessdata/frictionless-r/main/inst/extdata/v2/observations_1.tsv'"
     ),
     fixed = TRUE
   )
@@ -458,4 +411,49 @@ test_that("write_package() retains custom properties set in add_resource()", {
   expect_identical(p_written$resources[[1]]$foo, "bar")
   expect_identical(p_written$resources[[2]]$title, "custom_title")
   expect_identical(p_written$resources[[2]]$foo, "bar")
+})
+
+# Version support ----
+test_that("write_package() returns package and resources in same version as
+           provided", {
+  p_v1 <- example_package(version = "1.0")
+  p_v2 <- example_package(version = "2.0")
+  dir <- file.path(tempdir(), "package")
+  on.exit(unlink(dir, recursive = TRUE))
+  p_v1_written <- suppressMessages(write_package(p_v1, file.path(dir, "v1")))
+  p_v2_written <- suppressMessages(write_package(p_v2, file.path(dir, "v2")))
+  expect_identical(version(p_v1_written), "1.0")
+  expect_identical(version(resource(p_v1_written, "deployments")), "1.0")
+  expect_identical(version(resource(p_v1_written, "observations")), "1.0")
+  expect_identical(version(p_v2_written), "2.0")
+  expect_identical(version(resource(p_v2_written, "deployments")), "2.0")
+  expect_identical(version(resource(p_v2_written, "observations")), "2.0")
+})
+
+test_that("write_package() writes unaltered v1 datapackage.json as is", {
+  descriptor_v1 <-
+    system.file("extdata", "v1", "datapackage.json", package = "frictionless")
+  json_original <- readr::read_lines(descriptor_v1) # Will use line endings of system
+  p_v1 <- read_package(descriptor_v1)
+  dir <- file.path(tempdir(), "package")
+  on.exit(unlink(dir, recursive = TRUE))
+  suppressMessages(write_package(p_v1, dir))
+  json_as_written <- readr::read_lines(file.path(dir, "datapackage.json"))
+
+  # Output json = input json. This also tests the json is printed "pretty"
+  expect_identical(json_as_written, json_original)
+})
+
+test_that("write_package() writes unaltered v2 datapackage.json as is", {
+  descriptor_v2 <-
+    system.file("extdata", "v2", "datapackage.json", package = "frictionless")
+  json_original <- readr::read_lines(descriptor_v2) # Will use line endings of system
+  p_v2 <- read_package(descriptor_v2)
+  dir <- file.path(tempdir(), "package")
+  on.exit(unlink(dir, recursive = TRUE))
+  suppressMessages(write_package(p_v2, dir))
+  json_as_written <- readr::read_lines(file.path(dir, "datapackage.json"))
+
+  # Output json = input json. This also tests the json is printed "pretty"
+  expect_identical(json_as_written, json_original)
 })
