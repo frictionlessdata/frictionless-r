@@ -39,7 +39,7 @@
 #'
 #' ### Table Schema
 #'
-#' `upgrade_package()` upgrades any [v1](
+#' `upgrade_package()` upgrades any verbose [v1](
 #' https://specs.frictionlessdata.io/table-schema/) schema to [v2](
 #' https://datapackage.org/standard/table-schema/) as follows:
 #'
@@ -50,6 +50,8 @@
 #' - Converts `foreignKeys` single values in `fields` to an array and removes
 #'   `reference$resource` if it is self-referential (see [changelog](
 #'   https://datapackage.org/overview/changelog/#schemaforeignkeys-updated)).
+#'
+#' Schemas referenced by path or URL are left as is.
 #'
 #' @inheritParams read_resource
 #' @returns Upgraded `package`.

@@ -51,7 +51,7 @@ custom profile (see \href{https://datapackage.org/standard/data-package/#dollar-
 
 \subsection{Table Schema}{
 
-\code{upgrade_package()} upgrades any \href{https://specs.frictionlessdata.io/table-schema/}{v1} schema to \href{https://datapackage.org/standard/table-schema/}{v2} as follows:
+\code{upgrade_package()} upgrades any verbose \href{https://specs.frictionlessdata.io/table-schema/}{v1} schema to \href{https://datapackage.org/standard/table-schema/}{v2} as follows:
 \itemize{
 \item Adds \verb{$schema} as first property and sets it to the recommended v2 value
 (\code{"https://datapackage.org/profiles/2.0/tableschema.json"}).
@@ -59,6 +59,8 @@ custom profile (see \href{https://datapackage.org/standard/data-package/#dollar-
 \item Converts \code{foreignKeys} single values in \code{fields} to an array and removes
 \code{reference$resource} if it is self-referential (see \href{https://datapackage.org/overview/changelog/#schemaforeignkeys-updated}{changelog}).
 }
+
+Schemas referenced by path or URL are left as is.
 }
 }
 
