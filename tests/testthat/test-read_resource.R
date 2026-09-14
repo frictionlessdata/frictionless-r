@@ -743,22 +743,29 @@ test_that("read_resource() handles interlaced types", {
 
   # Interpret fct missing reasons
   expect_s3_class(interlacer::na_channel(resource$na_fct), "factor")
-  expect_true(resource$na_fct[[3]] == interlacer::na("OMITTED"))
+  expect_equal(as.character(interlacer::na_channel(resource$na_fct)[[3]]), "OMITTED")
 
   # Interpret int missing reasons
-  expect_type(interlacer::na_channel(resource$na_fct), "integer")
-  expect_true(resource$na_int[[3]] == interlacer::na(-99))
+  expect_type(interlacer::na_channel(resource$na_int), "integer")
+  expect_equal(interlacer::na_channel(resource$na_int)[[3]], -99L)
 
   # Interpret cfct missing reasons
   expect_s3_class(interlacer::na_channel(resource$na_cfct), "interlacer_cfactor")
-  expect_true(resource$na_cfct[[3]] == interlacer::na("OMITTED"))
+  expect_equal(as.character(interlacer::na_channel(resource$na_cfct)[[3]]), "OMITTED")
+  expect_equal(interlacer::as.codes(interlacer::na_channel(resource$na_cfct))[[3]], -99)
+
+  # Interpret object-form missing values without labels like plain strings
+  expect_type(interlacer::na_channel(resource$na_obj_int), "integer")
+  expect_equal(interlacer::na_channel(resource$na_obj_int)[[3]], -99L)
+  expect_s3_class(interlacer::na_channel(resource$na_obj_fct), "factor")
+  expect_equal(as.character(interlacer::na_channel(resource$na_obj_fct)[[4]]), "REFUSED")
 
   # Interpret none missing reasons
   expect_s3_class(resource$na_none, NA)
 
   # Interpret default missing reasons
   expect_s3_class(interlacer::na_channel(resource$na_default), "factor")
-  expect_true(resource$na_default[[3]] == interlacer::na("OMITTED"))
+  expect_equal(as.character(interlacer::na_channel(resource$na_default)[[3]]), "OMITTED")
 
   # Interpret cfct_chr
   expect_s3_class(resource$cfct_chr, "interlacer_cfactor")

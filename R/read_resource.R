@@ -468,18 +468,18 @@ missing_values_to_na_col <- function(missing_values, .name) {
 
       values <- purrr::map_chr(missing_values, \(v) v$value)
 
-      if (is_numeric_coercible(values)) {
-        values <- as.numeric(values)
-      }
-
       labels <- purrr::map_chr(
         seq_along(missing_values),
         \(i) missing_values[[i]]$label %||% missing_values[[i]]$value
       )
 
       if (all(values == labels)) {
-        readr::col_factor(levels = values)
+        # No distinct labels: same as a plain list of strings
+        missing_values_to_na_col(values, .name = .name)
       } else {
+        if (is_numeric_coercible(values)) {
+          values <- as.numeric(values)
+        }
         inject(interlacer::na_col_cfactor(!!!set_names(values, labels)))
       }
     }

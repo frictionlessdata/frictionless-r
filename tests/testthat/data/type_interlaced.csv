@@ -1,6 +1,6 @@
-na_fct,na_int,na_cfct,na_none,na_default,cfct_chr,cfct_int
-1.1,1.1,1.1,1,1,a,10
-2.2,2.2,2.2,2,2,b,20
-OMITTED,-99,-99,3,OMITTED,a,10
-REFUSED,-98,-98,3,3,b,20
-5.5,5.5,5.5,4,4,a,10
+na_fct,na_int,na_cfct,na_none,na_default,cfct_chr,cfct_int,na_obj_int,na_obj_fct
+1.1,1.1,1.1,1,1,a,10,1.1,1.1
+2.2,2.2,2.2,2,2,b,20,2.2,2.2
+OMITTED,-99,-99,3,OMITTED,a,10,-99,OMITTED
+REFUSED,-98,-98,3,3,b,20,-98,REFUSED
+5.5,5.5,5.5,4,4,a,10,5.5,5.5

@@ -329,6 +329,16 @@
               { "value": 20, "label": "BANANA" }
             ],
             "missingValues": []
+          },
+          {
+            "name": "na_obj_int",
+            "type": "number",
+            "missingValues": [{ "value": "-99" }, { "value": "-98" }]
+          },
+          {
+            "name": "na_obj_fct",
+            "type": "number",
+            "missingValues": [{ "value": "OMITTED" }, { "value": "REFUSED" }]
           }
         ]
       }
