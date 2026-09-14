@@ -13,7 +13,7 @@
 #' @param x A list describing either a Data Package, Data Resource, Table
 #'   Dialect or Table Schema.
 #' @returns Data Package standard version number.
-#' @family version functions
+#' @family versioning functions
 #' @export
 #' @examples
 #' # Data Package

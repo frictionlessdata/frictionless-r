@@ -117,7 +117,7 @@ package <- add_resource(
 
 ### primaryKey
 
-[`primaryKey`](https://datapackage.org/standard/table-schema/#primaryKey) is ignored by `read_resource()` and not set by `create_schema()`. `upgrade_package()` will convert single values to an array (for [backwards compatibility](https://datapackage.org/overview/changelog/#schemaprimarykey-updated)).
+[`primaryKey`](https://datapackage.org/standard/table-schema/#primaryKey) is ignored by `read_resource()` and not set by `create_schema()`. `upgrade_package()` converts single values to an array (see [changelog](https://datapackage.org/overview/changelog/#schemaprimarykey-updated)).
 
 ### uniqueKeys
 
@@ -125,7 +125,7 @@ package <- add_resource(
 
 ### foreignKeys
 
-[`foreignKeys`](https://datapackage.org/standard/table-schema/#foreignKeys) is ignored by `read_resource()` and not set by `create_schema()`. `upgrade_package()` will convert single values in `fields` to an array and remove `reference.resource` if it is self-referential (for [backwards compatibility](https://datapackage.org/overview/changelog/#schemaprimarykey-updated)).
+[`foreignKeys`](https://datapackage.org/standard/table-schema/#foreignKeys) is ignored by `read_resource()` and not set by `create_schema()`. `upgrade_package()` converts single values in `fields` to an array and removes `reference$resource` if it is self-referential (see [changelog](https://datapackage.org/overview/changelog/#schemaforeignkeys-updated)).
 
 ## Field properties implementation
 

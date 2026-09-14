@@ -93,7 +93,7 @@ You can pipe most functions (see `vignette("data-package")`).
 
 ### Write
 
-`write_package()` writes a package and its related resources to disk as a `datapackage.json` and CSV files. See the function documentation for details.
+`write_package()` writes a package and its resources to disk as a `datapackage.json` and CSV files. See the function documentation for details.
 
 ## Properties implementation
 
@@ -107,7 +107,7 @@ You can pipe most functions (see `vignette("data-package")`).
 
 ### profile
 
-[`profile`](https://specs.frictionlessdata.io/data-resource/#profile) (a deprecated v1 property) is ignored by `read_resource()` and not set by `add_resource()`. `upgrade_package()` removes `profile`  (unless `$schema` is already set), but converts `"profile" = "tabular-data-resource"` to `"type" = "table"` (for [backwards compatibility](https://datapackage.org/standard/data-resource/#type)).
+[`profile`](https://specs.frictionlessdata.io/data-resource/#profile) (a deprecated v1 property) is ignored by `read_resource()` and not set by `add_resource()`. `upgrade_package()` removes `profile` (unless `$schema` is already set), but converts `"profile" = "tabular-data-resource"` to `"type" = "table"` (see [backwards compatibility](https://datapackage.org/standard/data-resource/#type)).
 
 ### name
 

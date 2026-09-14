@@ -87,7 +87,7 @@ my_package
 
 ### Write
 
-`write_package()` writes a package and its related resources to disk as a `datapackage.json` and CSV files. See the function documentation for details.
+`write_package()` writes a package and its resources to disk as a `datapackage.json` and CSV files. See the function documentation for details.
 
 ## Properties implementation
 
@@ -101,7 +101,7 @@ my_package
 
 ### profile
 
-[`profile`](https://specs.frictionlessdata.io/data-package/#profile) (a deprecated v1 property) is ignored by `read_package()` and not set by `create_package()`. `upgrade_package()` removes `profile` (unless `$schema` is already set), but retains its value in `$schema` if it is a URL to a custom profile (for [backwards compatibility](https://datapackage.org/standard/data-package/#dollar-schema)).
+[`profile`](https://specs.frictionlessdata.io/data-package/#profile) (a deprecated v1 property) is ignored by `read_package()` and not set by `create_package()`. `upgrade_package()` removes `profile` (unless `$schema` is already set), but retains its value in `$schema` if it is a URL to a custom profile (see [backwards compatibility](https://datapackage.org/standard/data-package/#dollar-schema)).
 
 ### resources
 
@@ -155,7 +155,7 @@ package
 
 ### contributors
 
-[`contributors`](https://datapackage.org/standard/data-package/#contributors) is ignored by `read_package()` and not set by `create_package()`. `upgrade_package()` converts `"role": "value"` to `"roles": ["value"]` for all contributors (for [backwards compatibility](https://datapackage.org/overview/changelog/#packagecontributors-updated)).
+[`contributors`](https://datapackage.org/standard/data-package/#contributors) is ignored by `read_package()` and not set by `create_package()`. `upgrade_package()` converts `"role": "value"` to `"roles": ["value"]` for all contributors (see [changelog](https://datapackage.org/overview/changelog/#packagecontributors-updated)).
 
 ### sources
 

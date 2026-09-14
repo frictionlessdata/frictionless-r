@@ -1,6 +1,6 @@
 #' Upgrade a package object from v1 to v2
 #'
-#' Upgrades the descriptor, not the associated resources, etc.
+#' Upgrades the descriptor, not its resources, etc.
 #'
 #' @inheritParams read_resource
 #' @returns Upgraded `package`.
@@ -22,7 +22,6 @@ upgrade_descriptor <- function(package) {
   )
 
   # Set $schema to profile if URL (to custom profile)
-  # https://datapackage.org/standard/data-package/#dollar-schema
   profile <- package$profile %||% "undefined"
   if (is_url(profile)) {
     purrr::pluck(package, "$schema") <- profile
@@ -38,7 +37,6 @@ upgrade_descriptor <- function(package) {
   package$profile <- NULL
 
   # Update contributor "role" = "value" to "roles" = ["value"]
-  # https://datapackage.org/overview/changelog/#packagecontributors-updated
   package$contributors <- purrr::modify_if(
     package$contributors,
     function(x) "role" %in% names(x),

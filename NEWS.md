@@ -4,7 +4,7 @@ frictionless now supports Data Packages using the [v2](https://datapackage.org/)
 
 * frictionless no longer relies on v1 properties deprecated in v2, meaning all functions support both versions. They always return a package, resource and schema in the same version as provided.
 * `create_package()`, `add_resource()` and `create_schema()` create a v2 package, resource and schema respectively. **This can be a breaking change for some workflows!** Also note that this can lead to mixed versions (e.g. a v1 package with a v2 resource).
-* `upgrade_package()` can be used to upgrade a package, its resources and verbose schemas from v1 to v2 (harmonizing mixed versions) (#357, #343, #363).
+* `upgrade_package()` can be used to upgrade a package, its resources and verbose schemas from v1 to v2 (harmonizing mixed versions) (#376, #357, #343, #363).
 
 ## Changes for v2
 

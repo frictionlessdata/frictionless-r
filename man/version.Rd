@@ -40,4 +40,8 @@ version(resource$dialect)
 schema <- schema(package, "observations")
 version(schema)
 }
-\concept{version functions}
+\seealso{
+Other versioning functions:
+\code{\link[=upgrade_package]{upgrade_package()}}
+}
+\concept{versioning functions}
