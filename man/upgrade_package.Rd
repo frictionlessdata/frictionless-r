@@ -29,7 +29,7 @@ certain \code{profile} values.
 \item Removes \code{profile}, but retains its value in \verb{$schema} if it is a URL to a
 custom profile (see \href{https://datapackage.org/standard/data-package/#dollar-schema}{backwards compatibility}).
 \item Converts \code{contributors} \code{"role": "value"} to \verb{"roles": ["value"]} (see
-\href{https://datapackage.org/overview/changelog/#packagecontributors-updated}{backwards compatibility}).
+\href{https://datapackage.org/overview/changelog/#packagecontributors-updated}{changelog}).
 }
 }
 
@@ -55,9 +55,9 @@ custom profile (see \href{https://datapackage.org/standard/data-package/#dollar-
 \itemize{
 \item Adds \verb{$schema} as first property and sets it to the recommended v2 value
 (\code{"https://datapackage.org/profiles/2.0/tableschema.json"}).
-\item Converts \code{primaryKey} single values to an array (see \href{https://datapackage.org/overview/changelog/#schemaprimarykey-updated}{backwards compatibility}).
+\item Converts \code{primaryKey} single values to an array (see \href{https://datapackage.org/overview/changelog/#schemaprimarykey-updated}{changelog}).
 \item Converts \code{foreignKeys} single values in \code{fields} to an array and removes
-\code{reference$resource} if it is self-referential (see \href{https://datapackage.org/overview/changelog/#schemaprimarykey-updated}{backwards compatibility}).
+\code{reference$resource} if it is self-referential (see \href{https://datapackage.org/overview/changelog/#schemaforeignkeys-updated}{changelog}).
 }
 }
 }

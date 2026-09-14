@@ -18,7 +18,7 @@
 #'   custom profile (see [backwards compatibility](
 #'   https://datapackage.org/standard/data-package/#dollar-schema)).
 #' - Converts `contributors` `"role": "value"` to `"roles": ["value"]` (see
-#'   [backwards compatibility](
+#'   [changelog](
 #'   https://datapackage.org/overview/changelog/#packagecontributors-updated)).
 #'
 #' ### Data Resource
@@ -45,13 +45,11 @@
 #'
 #' - Adds `$schema` as first property and sets it to the recommended v2 value
 #'   (`"https://datapackage.org/profiles/2.0/tableschema.json"`).
-#' - Converts `primaryKey` single values to an array (see [backwards
-#'   compatibility](
+#' - Converts `primaryKey` single values to an array (see [changelog](
 #'   https://datapackage.org/overview/changelog/#schemaprimarykey-updated)).
 #' - Converts `foreignKeys` single values in `fields` to an array and removes
-#'   `reference$resource` if it is self-referential (see [backwards
-#'   compatibility](
-#'   https://datapackage.org/overview/changelog/#schemaprimarykey-updated)).
+#'   `reference$resource` if it is self-referential (see [changelog](
+#'   https://datapackage.org/overview/changelog/#schemaforeignkeys-updated)).
 #'
 #' @inheritParams read_resource
 #' @returns Upgraded `package`.
