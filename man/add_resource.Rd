@@ -113,6 +113,7 @@ resource_names(package)
 }
 \seealso{
 Other edit functions:
+\code{\link[=add_properties]{add_properties()}},
 \code{\link[=remove_resource]{remove_resource()}}
 }
 \concept{edit functions}
