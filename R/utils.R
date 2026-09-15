@@ -87,24 +87,24 @@ read_descriptor <- function(x, directory = NULL, safe = FALSE) {
   }
 }
 
-#' Check if arguments passed to ellipsis are named
+#' Check if arguments passed to dots are named
 #'
-#' @param ... Arguments passed to ellipsis.
-#' @returns Argument names or error.
+#' @param ... Arguments passed to dots.
+#' @returns List with named dots arguments or error.
 #' @noRd
 check_dots <- function(...) {
-  dots_list <- rlang::list2(...)
-  dots_names <- names(dots_list[names(dots_list) != ""])
+  dots <- rlang::list2(...)
+  named_dots <- dots[names(dots) != ""]
 
   # Check all ... arguments are named
-  if (length(dots_list) != length(dots_names)) {
+  if (length(dots) != length(named_dots)) {
     cli::cli_abort(
       "All arguments in {.arg ...} must be named.",
       class = "frictionless_error_dots_argument_unnamed"
     )
   }
 
-  return(dots_names)
+  return(named_dots)
 }
 
 #' Vector merging while preserving attributes
