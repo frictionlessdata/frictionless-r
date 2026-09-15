@@ -147,13 +147,7 @@ add_resource <- function(package, resource_name, data, schema = NULL,
   check_schema(schema, df)
 
   # Check ellipsis
-  if (length(list(...)) != length(get_dot_names(...))) {
-    cli::cli_abort(
-      "All arguments in {.arg ...} must be named.",
-      class = "frictionless_error_argument_unnamed"
-    )
-  }
-  properties <- get_dot_names(...)
+  properties <- check_dots(...)
   reserved_properties <- c(
     "$schema", "name", "path", "type", "format", "mediatype", "encoding",
     "dialect"

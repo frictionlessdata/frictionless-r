@@ -87,18 +87,24 @@ read_descriptor <- function(x, directory = NULL, safe = FALSE) {
   }
 }
 
-#' Get names of arguments passed to ellipsis
+#' Check if arguments passed to ellipsis are named
 #'
-#' Replicates the base function [...names()] available in R >= 4.0.0.
-#'
-#' @param ... objects, possibly named
-#' @returns A character vector of the names of the ... arguments
+#' @param ... Arguments passed to ellipsis.
+#' @returns Argument names or error.
 #' @noRd
-get_dot_names <- function(...) {
-  # Get all the names from ...
-  dot_names <- names(list(...))
-  # Return the names that are not an empty string (no name set)
-  return(dot_names[dot_names != ""])
+check_dots <- function(...) {
+  dots_list <- rlang::list2(...)
+  dots_names <- names(dots_list[names(dots_list) != ""])
+
+  # Check all ... arguments are named
+  if (length(dots_list) != length(dots_names)) {
+    cli::cli_abort(
+      "All arguments in {.arg ...} must be named.",
+      class = "frictionless_error_dots_argument_unnamed"
+    )
+  }
+
+  return(dots_names)
 }
 
 #' Vector merging while preserving attributes

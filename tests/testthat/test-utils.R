@@ -71,21 +71,30 @@ test_that("is_url() tests whether path is URL", {
   expect_true(is_url("ftps://example.com")) # Not a correct protocol
 })
 
-# get_dot_names() ----
-test_that("get_dot_names() returns the names passed via ...", {
-  test_fn <- function(...) {
-    get_dot_names(...)
+# check_dots() ----
+test_that("check_dots() returns the names passed via ...", {
+  test_fn <- function(a, ...) {
+    check_dots(...)
   }
-  expect_identical(test_fn(a = "1", b = "2"), c("a", "b"))
+  expect_identical(
+    test_fn(a = 1, b = 2, c = 3, ), # 1 trailing comma allowed by rlang::list2()
+    c("b", "c") # "a" is a defined argument not part of ...
+  )
 })
 
-test_that("get_dot_names() does not return empty strings for unnamed args passed
-           to ellipsis", {
-  test_fn <- function(...) {
-    get_dot_names(...)
+test_that("check_dots() returns error if ... contains unnamed arguments", {
+  test_fn <- function(a, ...) {
+    check_dots(...)
   }
-  expect_identical(test_fn(a = "1", "2", b = "3", c = "4"), c("a", "b", "c"))
-  expect_length(test_fn(a = "1", "2", b = "3", c = "4"), 3)
+  expect_error(
+    test_fn(a = 1, b = 2, 3),
+    class = "frictionless_error_dots_argument_unnamed"
+  )
+  expect_error(
+    test_fn(a = 1, b = 2, 3),
+    "All arguments in `...` must be named.",
+    fixed = TRUE
+  )
 })
 
 # append_with_attributes() ----
