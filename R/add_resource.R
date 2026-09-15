@@ -176,7 +176,6 @@ add_resource <- function(package, resource_name, data, schema = NULL,
       mediatype = NULL,
       encoding = NULL,
       dialect = NULL,
-      ...,
       schema = schema_url %||% schema
     )
   } else {
@@ -189,7 +188,6 @@ add_resource <- function(package, resource_name, data, schema = NULL,
       mediatype = if (delim == "\t") "text/tab-separated-values" else "text/csv",
       encoding = if (encoding == "ASCII") "UTF-8" else encoding, # UTF-8 = safer
       dialect = NULL,
-      ...,
       schema = schema_url %||% schema
     )
     # Add CSV dialect for non-default delimiter or remove it
@@ -198,6 +196,13 @@ add_resource <- function(package, resource_name, data, schema = NULL,
     # Set attribute for resource()
     attr(resource, "path") <- "added"
   }
+
+  # Add custom properties
+  resource <- add_properties(
+    resource,
+    !!!properties,
+    after = length(resource) - 1 # Before schema
+  )
 
   # Add or replace resource
   index <- which(resource_names(package) == resource_name)
