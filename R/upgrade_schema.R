@@ -15,9 +15,9 @@ upgrade_schema <- function(schema, resource_name) {
   }
 
   # Set $schema as first property
-  schema <- append_with_attributes(
+  schema <- add_properties(
     schema,
-    list("$schema" = "https://datapackage.org/profiles/2.0/tableschema.json"),
+    `$schema` = "https://datapackage.org/profiles/2.0/tableschema.json",
     after = 0
   )
 
