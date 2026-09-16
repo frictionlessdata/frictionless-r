@@ -87,7 +87,6 @@ str(my_package)
 Most functions have `package` as their first argument and as output. This allows you to **pipe the functions**:
 
 ```{r, message = FALSE}
-library(dplyr) # Or library(magrittr)
 my_package <-
   create_package() |>
   add_properties(
