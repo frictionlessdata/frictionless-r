@@ -74,7 +74,7 @@ test_that("is_url() tests whether path is URL", {
 # check_dots() ----
 test_that("check_dots() returns named arguments passed to ... as a list", {
   test_fn <- function(a, ...) {
-    frictionless:::check_dots(...)
+    check_dots(...)
   }
   expect_identical(
     test_fn(a = 1, b = 2, c = 3, ), # 1 trailing comma allowed by rlang::list2()
