@@ -2,9 +2,9 @@
 
 #' Get unique vector values sorted by how often they occur
 #'
-#' @param x Vector, e.g. `c("a", "b", "b", "b", "c", "a")`.
-#' @returns Vector with unique values sorted by most to least occurring,
-#'   e.g. `c("b", "a", "c")`.
+#' @param x Vector (e.g. `c("a", "b", "b", "b", "c", "a")`).
+#' @returns Vector with unique values sorted by most to least occurring
+#'   (e.g. `c("b", "a", "c")`).
 #' @family helper functions
 #' @noRd
 unique_sorted <- function(x) {
@@ -18,8 +18,8 @@ unique_sorted <- function(x) {
 
 #' Clean list
 #'
-#' Removes all elements from a list that meet a criterion function, e.g.
-#' [is.null()] for empty elements.
+#' Removes all elements from a list that meet a criterion function (e.g.
+#' [is.null()] for empty elements).
 #' Removal can be recursive to guarantee elements are removed at any level.
 #' Function is copied and adapted from `rlist::list.clean()` (MIT licensed), to
 #' avoid requiring full `rlist` dependency.
