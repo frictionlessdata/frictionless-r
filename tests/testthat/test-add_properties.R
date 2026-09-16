@@ -89,5 +89,6 @@ test_that("add_properties() can return a valid schema", {
     custom_property = "custom_value",
     after = 0
   )
+  expect_no_error(check_schema(schema_appended))
   expect_identical(names(schema_appended)[[1]], "custom_property")
 })
