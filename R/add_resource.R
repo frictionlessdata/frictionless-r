@@ -29,9 +29,9 @@
 #'   know how to read the file(s).
 #'   Ignored if `data` is a data frame.
 #' @param ... Additional [metadata properties](
-#'   https://docs.ropensci.org/frictionless/articles/data-resource.html#properties-implementation)
-#'   to add to the resource, e.g. `title = "My title", validated = FALSE`.
-#'   These are not verified against specifications and are ignored by
+#'   https://datapackage.org/standard/data-resource/#properties) to add to the
+#'   resource.
+#'   Note that added properties are not validated and ignored by
 #'   [read_resource()].
 #'   The following properties are automatically set and can't be provided with
 #'   `...`: `$schema`, `name`, `path`, `data`, `type`, `format`, `mediatype`,
