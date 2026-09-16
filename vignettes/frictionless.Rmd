@@ -369,16 +369,16 @@ my_package <-
   )
 ```
 
-Your Data Package now contains 2 resources, but you can add metadata properties as well (see the [Data Package documentation](https://datapackage.org/standard/data-package/#properties) for an overview). Since it is a list, you can use `append()` to insert properties at the desired place. Let's add `name` as first and `title` as second property:
+Your Data Package now contains 2 resources, but you can add metadata properties as well (see the [Data Package specification](https://datapackage.org/standard/data-package/#properties) for an overview). Let's add `name` as first and `title` as second property:
 
 
 ``` r
-my_package <- append(my_package, c(name = "my_package"), after = 0)
-my_package <- append(my_package, c(title = "My package"), after = 1)
-
-# Warning: append() drops the custom datapackage class.
-# It can be added again by running my_package through create_package()
-my_package <- create_package(my_package)
+my_package <- add_properties(
+  my_package,
+  name = "my_package",
+  title = "My package",
+  after = 0 # Add as the first and second property
+)
 ```
 
 ::: {.callout-note}
