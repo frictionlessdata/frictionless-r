@@ -1,12 +1,23 @@
 #' Add properties
 #'
-#' Adds provided arguments as elements to a list.
-#' Unlike [append()] the original attributes and classes are retained.
-#' Can be used to add (custom) properties to a Data Package, Data Resource,
-#' Table Dialect or Table Schema.
+#' Adds or inserts provided arguments as elements to a list.
+#' Attributes and classes of the original list are retained.
 #'
 #' @details
-#' You can also use [add_resource()] to add properties to a Data Resource.
+#' `add_properties()` can be used to add (custom) metadata properties to a Data
+#' Package, Data Resource, Table Dialect or Table Schema.
+#' Note that added properties are not validated.
+#' See the vignettes for an overview of all standard metadata properties.
+#'
+#' `add_properties()` has some advantages over:
+#'
+#' - [append()]: removes attributes and classes, invalidating a Data Package
+#'   object.
+#' - Direct assignment (`package$title <- "My package"`): no control over the
+#'   position of the added element.
+#'
+#' `add_resource()` also supports adding metadata properties to a Data Resource,
+#' and checks for reserved properties.
 #'
 #' @param x A list or vector.
 #' @param ... Elements to add, as named arguments.
@@ -22,12 +33,13 @@
 #'
 #' # Add properties to a Data Package
 #' package <- create_package()
-#' (package <- add_properties(
+#' package <- add_properties(
 #'   package,
 #'   title = "Example package",
-#'   keywords = c("example", "camera trap data"),
-#'   after = 1 # After first property
-#' ))
+#'   keywords = c("camera traps", "frictionlessdata"),
+#'   after = 1 # Add after the first property
+#' )
+#' package
 #'
 #' str(package)
 add_properties <- function(x, ..., after = length(x)) {
