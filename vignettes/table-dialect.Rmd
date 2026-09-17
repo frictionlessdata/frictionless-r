@@ -38,7 +38,11 @@ frictionless supports most dialect properties to read [Tabular Data Resources](h
 
 ### Manipulate
 
-frictionless does not support direct manipulation of the dialect. `add_resource()` allows to set one property (`delimiter`) when data are provided as a file, all other properties are assumed to be the default.
+A dialect is a list you can manipulate, but that is typically not necessary.
+
+`add_resource()` sets one property (`delimiter`) when data are provided as a CSV file with non-default delimiter, all other properties are assumed to be the default.
+
+`add_properties()` can be used to add (custom) metadata properties to a dialect.
 
 ### Write
 

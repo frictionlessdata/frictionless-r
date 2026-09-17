@@ -2,6 +2,7 @@
 
 S3method(print,datapackage)
 export("resource<-")
+export(add_properties)
 export(add_resource)
 export(check_package)
 export(create_package)

@@ -24,6 +24,7 @@ frictionless now supports Data Packages using the [v2](https://datapackage.org/)
 
 ## Other changes
 
+* New `add_properties()` allows to add properties to a Data Package, Data Resource, Table Dialect or Table Schema (#382).
 * `version()` is now generic and can report what version of the Data Package standard is used by a Data Package (as before), Data Resource, Table Dialect and Table Schema (#341).
 
 # frictionless 1.3.0

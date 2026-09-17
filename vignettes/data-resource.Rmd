@@ -37,7 +37,7 @@ package <- example_package()
 resource_names(package)
 ```
 
-`resource()` gets a resource from a package by its name:
+`resource()` gets a resource from a package by its name. The returned object is a list you can [manipulate](#manipulate):
 
 ```{r}
 # Get the resource "deployments"
@@ -52,7 +52,7 @@ resource(package, "deployments") <- resource
 ```
 
 ::: {.callout-important}
-Note that `resource()` and `resource()<-` are designed for internal use in other packages. For public manipulation of resources, use `add_resource()` and `remove_resource()` (see [Manipulate](#manipulate)).
+Note that `resource()` and `resource()<-` are designed for internal use in other packages. For public manipulation of resources, use `add_resource()` and `remove_resource()`.
 :::
 
 ### Read
@@ -67,15 +67,6 @@ frictionless does not support reading data from non-tabular resources.
 
 ### Manipulate
 
-`remove_resource()` removes a resource (of any type):
-
-```{r}
-remove_resource(package, "deployments")
-
-# This and many other functions return "package", which you can update with
-# package <- remove_resource(package, "deployments")
-```
-
 `add_resource()` adds or replaces a tabular resource. **It always creates a resource following the [v2 specification](https://datapackage.org/standard/data-resource/).** The provided data must be a data frame or a tabular data file (e.g. CSV):
 
 ```{r}
@@ -85,6 +76,31 @@ add_resource(package, "iris", data = iris)
 # Replace a resource with one where data is stored in a tabular file
 path <- system.file("extdata", "v2", "deployments.csv", package = "frictionless")
 add_resource(package, "deployments", data = path, replace = TRUE)
+```
+
+`remove_resource()` removes a resource (of any type):
+
+```{r}
+remove_resource(package, "deployments")
+
+# This and many other functions return "package", which you can update with
+# package <- remove_resource(package, "deployments")
+```
+
+`add_properties()` can be used to add (custom) metadata properties to a resource. This can also be done with `add_resource()`, except for properties automatically set by that function.
+
+```{r}
+resource <- add_properties(
+  resource,
+  licenses = list(
+    name = "CC0-1.0"
+  ),
+  after = 0 # Add as the first property
+)
+str(resource)
+
+# Overwrite the resource in the package with the updated one
+resource(package, "deployments") <- resource
 ```
 
 ::: {.callout-info}

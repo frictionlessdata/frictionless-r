@@ -13,9 +13,9 @@ upgrade_resource <- function(resource) {
   }
 
   # Set $schema as first property
-  resource <- append_with_attributes(
+  resource <- add_properties(
     resource,
-    list("$schema" = "https://datapackage.org/profiles/2.0/dataresource.json"),
+    `$schema` = "https://datapackage.org/profiles/2.0/dataresource.json",
     after = 0
   )
 

@@ -145,12 +145,7 @@ test_that("add_resource() returns error if ... arguments are unnamed", {
   schema <- create_schema(df)
   expect_error(
     add_resource(p, "new", df, schema, replace = FALSE, delim = ",", "unnamed"),
-    class = "frictionless_error_argument_unnamed"
-  )
-  expect_error(
-    add_resource(p, "new", df, schema, replace = FALSE, delim = ",", "unnamed"),
-    "All arguments in `...` must be named.",
-    fixed = TRUE
+    class = "frictionless_error_dots_argument_unnamed"
   )
 })
 

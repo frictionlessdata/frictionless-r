@@ -29,9 +29,9 @@
 #'   know how to read the file(s).
 #'   Ignored if `data` is a data frame.
 #' @param ... Additional [metadata properties](
-#'   https://docs.ropensci.org/frictionless/articles/data-resource.html#properties-implementation)
-#'   to add to the resource, e.g. `title = "My title", validated = FALSE`.
-#'   These are not verified against specifications and are ignored by
+#'   https://datapackage.org/standard/data-resource/#properties) to add to the
+#'   resource.
+#'   Note that added properties are not validated and ignored by
 #'   [read_resource()].
 #'   The following properties are automatically set and can't be provided with
 #'   `...`: `$schema`, `name`, `path`, `data`, `type`, `format`, `mediatype`,
@@ -146,25 +146,20 @@ add_resource <- function(package, resource_name, data, schema = NULL,
   # Check schema (also checks df)
   check_schema(schema, df)
 
-  # Check ellipsis
-  if (length(list(...)) != length(get_dot_names(...))) {
-    cli::cli_abort(
-      "All arguments in {.arg ...} must be named.",
-      class = "frictionless_error_argument_unnamed"
-    )
-  }
-  properties <- get_dot_names(...)
-  reserved_properties <- c(
+  # Check dots
+  properties <- check_dots(...)
+  property_names <- names(properties)
+  reserved_names <- c(
     "$schema", "name", "path", "type", "format", "mediatype", "encoding",
     "dialect"
   ) # data and schema are also reserved, but are named arguments
-  conflicting_properties <- properties[properties %in% reserved_properties]
-  if (length(conflicting_properties) != 0) {
+  conflicting_names <- property_names[property_names %in% reserved_names]
+  if (length(conflicting_names) != 0) {
     cli::cli_abort(
       c(
-        "{.arg {conflicting_properties}} must be removed as argument{?s}.",
-        "i" = "{.field {conflicting_properties}} {?is/are} automatically added
-               as resource propert{?y/ies}."
+        "{.arg {conflicting_names}} must be removed as argument{?s}.",
+        "i" = "{.field {conflicting_names}} {?is/are} automatically added as
+               resource propert{?y/ies}."
       ),
       class = "frictionless_error_resource_properties_reserved"
     )
@@ -181,7 +176,6 @@ add_resource <- function(package, resource_name, data, schema = NULL,
       mediatype = NULL,
       encoding = NULL,
       dialect = NULL,
-      ...,
       schema = schema_url %||% schema
     )
   } else {
@@ -194,7 +188,6 @@ add_resource <- function(package, resource_name, data, schema = NULL,
       mediatype = if (delim == "\t") "text/tab-separated-values" else "text/csv",
       encoding = if (encoding == "ASCII") "UTF-8" else encoding, # UTF-8 = safer
       dialect = NULL,
-      ...,
       schema = schema_url %||% schema
     )
     # Add CSV dialect for non-default delimiter or remove it
@@ -203,6 +196,13 @@ add_resource <- function(package, resource_name, data, schema = NULL,
     # Set attribute for resource()
     attr(resource, "path") <- "added"
   }
+
+  # Add custom properties
+  resource <- add_properties(
+    resource,
+    !!!properties,
+    after = length(resource) - 1 # Before schema
+  )
 
   # Add or replace resource
   index <- which(resource_names(package) == resource_name)

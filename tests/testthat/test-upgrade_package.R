@@ -49,7 +49,7 @@ test_that("upgrade_package() does not upgrade non-verbose schemas", {
 test_that("upgrade_package() harmonizes mixed versions", {
   p_v1 <- example_package(version = "1.0")
   # Upgrade package, but not its resources
-  p_mixed <- frictionless:::upgrade_descriptor(p_v1)
+  p_mixed <- upgrade_descriptor(p_v1)
   # Add v2 schema to v1 resource
   deployments <- read_resource(p_mixed, "deployments")
   p_mixed$resources[[1]]$schema <- create_schema(deployments)

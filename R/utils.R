@@ -2,9 +2,9 @@
 
 #' Get unique vector values sorted by how often they occur
 #'
-#' @param x Vector, e.g. `c("a", "b", "b", "b", "c", "a")`.
-#' @returns Vector with unique values sorted by most to least occurring,
-#'   e.g. `c("b", "a", "c")`.
+#' @param x Vector (e.g. `c("a", "b", "b", "b", "c", "a")`).
+#' @returns Vector with unique values sorted by most to least occurring
+#'   (e.g. `c("b", "a", "c")`).
 #' @family helper functions
 #' @noRd
 unique_sorted <- function(x) {
@@ -18,8 +18,8 @@ unique_sorted <- function(x) {
 
 #' Clean list
 #'
-#' Removes all elements from a list that meet a criterion function, e.g.
-#' [is.null()] for empty elements.
+#' Removes all elements from a list that meet a criterion function (e.g.
+#' [is.null()] for empty elements).
 #' Removal can be recursive to guarantee elements are removed at any level.
 #' Function is copied and adapted from `rlist::list.clean()` (MIT licensed), to
 #' avoid requiring full `rlist` dependency.
@@ -87,41 +87,22 @@ read_descriptor <- function(x, directory = NULL, safe = FALSE) {
   }
 }
 
-#' Get names of arguments passed to ellipsis
+#' Check if arguments passed to dots are named
 #'
-#' Replicates the base function [...names()] available in R >= 4.0.0.
-#'
-#' @param ... objects, possibly named
-#' @returns A character vector of the names of the ... arguments
+#' @param ... Arguments passed to dots.
+#' @returns List with named dots arguments or error.
 #' @noRd
-get_dot_names <- function(...) {
-  # Get all the names from ...
-  dot_names <- names(list(...))
-  # Return the names that are not an empty string (no name set)
-  return(dot_names[dot_names != ""])
-}
+check_dots <- function(...) {
+  dots <- rlang::list2(...)
+  named_dots <- dots[names(dots) != ""]
 
-#' Vector merging while preserving attributes
-#'
-#' Wrapper for [base::append] that preserves attributes.
-#'
-#' @inheritParams base::append
-#' @returns A vector containing the values in `x` with the elements of `values`
-#'   appended after the specified element of `x`, while preserving the
-#'   attributes of `x`.
-#' @noRd
-append_with_attributes <- function(x, values, after = length(x)) {
-  # Keep original attributes, except names, which length will change with append
-  original_attributes <- attributes(x)
-  original_attributes[["names"]] <- NULL
-
-  # Append values (recreates names)
-  x <- base::append(unclass(x), values, after = after)
-
-  # Put original attributes back
-  for (attribute_name in names(original_attributes)) {
-    attr(x, attribute_name) <- original_attributes[[attribute_name]]
+  # Check all ... arguments are named
+  if (length(dots) != length(named_dots)) {
+    cli::cli_abort(
+      "All arguments in {.arg ...} must be named.",
+      class = "frictionless_error_dots_argument_unnamed"
+    )
   }
 
-  return(x)
+  return(named_dots)
 }

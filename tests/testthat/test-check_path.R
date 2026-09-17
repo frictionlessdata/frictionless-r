@@ -27,12 +27,12 @@ test_that("check_path() returns error on absolute path when safe = TRUE", {
     class = "frictionless_error_path_unsafe_absolute"
   )
   expect_error(
-    frictionless:::check_path("/dir/file.txt", safe = TRUE),
+    check_path("/dir/file.txt", safe = TRUE),
     regexp = "`path` must be a safe path.",
     fixed = TRUE
   )
   expect_error(
-    frictionless:::check_path("/dir/file.txt", safe = TRUE),
+    check_path("/dir/file.txt", safe = TRUE),
     regexp = paste(
       "'/dir/file.txt' is an absolute path starting with \"/\" which is unsafe."
     ),

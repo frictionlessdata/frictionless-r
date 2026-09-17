@@ -7,8 +7,8 @@
 version(x)
 }
 \arguments{
-\item{x}{A list describing either a Data Package, Data Resource, Table
-Dialect or Table Schema.}
+\item{x}{A list describing a Data Package, Data Resource, Table Dialect or
+Table Schema.}
 }
 \value{
 Data Package standard version number.

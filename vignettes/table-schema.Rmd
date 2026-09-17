@@ -27,7 +27,7 @@ frictionless supports `schema$fields` and `schema$missingValues` to parse data t
 
 ### Access
 
-`schema()` gets the schema from a resource:
+`schema()` gets the schema from a resource. The returned object is a list you can [manipulate](#manipulate):
 
 ```{r}
 library(frictionless)
@@ -68,14 +68,22 @@ levels(observations$life_stage)
 
 ### Manipulate
 
-A schema is a list which you can manipulate, but frictionless does not provide functions to do that. Use `{purrr}` or base R instead (see `vignette("frictionless")`). You do not have to start a schema from scratch though: use `schema()` (see above) or `create_schema()` instead.
-
 `create_schema()` creates a schema from a data frame. **It always creates a schema following the [v2 specification](https://datapackage.org/standard/table-schema/).** It defines the `name`, `type` (and if a factor `constraints$enum`) for each field:
 
 ```{r}
 # Create a schema from the built-in dataset "iris"
 iris_schema <- create_schema(iris)
 str(iris_schema)
+```
+
+`add_properties()` can be used to add (custom) metadata properties to a schema:
+
+```{r}
+iris_schema <- add_properties(
+  iris_schema,
+  title = "Table schema for iris",
+  after = 1 # Add after the first property
+)
 ```
 
 `add_resource()` allows to include the schema with a resource. If no schema is provided, one is created with `create_schema()`:
@@ -88,6 +96,10 @@ package <- add_resource(
   schema = iris_schema
 )
 ```
+
+::: {.callout-info}
+For more advanced schema manipulation (e.g. setting a definition for all fields), use `{purrr}` instead (see `vignette("frictionless")` for an example).
+:::
 
 ### Write
 

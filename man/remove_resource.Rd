@@ -34,6 +34,7 @@ resource_names(package)
 }
 \seealso{
 Other edit functions:
+\code{\link[=add_properties]{add_properties()}},
 \code{\link[=add_resource]{add_resource()}}
 }
 \concept{edit functions}

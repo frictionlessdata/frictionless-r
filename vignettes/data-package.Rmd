@@ -67,21 +67,34 @@ invalid_package$resources <- NULL
 check_package(invalid_package)
 ```
 
-You can manipulate the package list, but frictionless does not provide functions to do that. Use `{purrr}` or base R instead (see `vignette("frictionless")`).
-
 ::: {.callout-warning}
-Some functions (e.g. `unclass()` or `append()`) remove the custom class, creating an invalid package. You can fix this by calling `create_package()` on your package.
+Some base functions (e.g. `unclass()` or `append()`) remove the custom class, creating an invalid package. You can fix this by calling `create_package()` on your package.
 :::
 
-Most functions have `package` as their first argument and return package. This allows you to **pipe the functions**:
+`add_properties()` can be used to add (custom) metadata properties to a package:
+
+```{r}
+my_package <- create_package()
+my_package <- add_properties(
+  my_package,
+  title = "My package",
+  keywords = c("minimal", "frictionlessdata"),
+  after = 1 # Add after the first property
+)
+str(my_package)
+```
+
+Most functions have `package` as their first argument and as output. This allows you to **pipe the functions**:
 
 ```{r, message = FALSE}
-library(dplyr) # Or library(magrittr)
 my_package <-
   create_package() |>
-  add_resource(resource_name = "iris", data = iris) |>
-  append(c("title" = "my_package"), after = 0) |>
-  create_package() # To add the datapackage class again
+  add_properties(
+    title = "My package",
+    keywords = c("minimal", "frictionlessdata"),
+    after = 0
+  ) |>
+  add_resource(resource_name = "iris", data = iris)
 my_package
 ```
 

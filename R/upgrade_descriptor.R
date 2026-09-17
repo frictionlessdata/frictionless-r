@@ -15,9 +15,9 @@ upgrade_descriptor <- function(package) {
   }
 
   # Set $schema as first property
-  package <- append_with_attributes(
+  package <- add_properties(
     package,
-    list("$schema" = "https://datapackage.org/profiles/2.0/datapackage.json"),
+    `$schema` = "https://datapackage.org/profiles/2.0/datapackage.json",
     after = 0
   )
 
