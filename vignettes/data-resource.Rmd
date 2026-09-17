@@ -87,7 +87,7 @@ remove_resource(package, "deployments")
 # package <- remove_resource(package, "deployments")
 ```
 
-`add_properties()` can be used to add (custom) metadata properties to a resource. This can also be done with `add_resource()`, which checks for reserved properties.
+`add_properties()` can be used to add (custom) metadata properties to a resource. This can also be done with `add_resource()`, except for properties automatically set by that function.
 
 ```{r}
 resource <- add_properties(

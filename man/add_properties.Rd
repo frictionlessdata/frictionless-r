@@ -36,7 +36,7 @@ position of the added element.
 }
 
 \code{add_resource()} also supports adding metadata properties to a Data Resource,
-and checks for reserved properties.
+except those automatically set by that function.
 }
 \examples{
 # Add property to a generic list

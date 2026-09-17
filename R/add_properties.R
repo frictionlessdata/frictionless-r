@@ -17,7 +17,7 @@
 #'   position of the added element.
 #'
 #' `add_resource()` also supports adding metadata properties to a Data Resource,
-#' and checks for reserved properties.
+#' except those automatically set by that function.
 #'
 #' @param x A list or vector.
 #' @param ... Elements to add, as named arguments.
