@@ -10,7 +10,7 @@
 #' @keywords internal
 #' @name deprecated
 get_schema <- function(package, resource_name) {
-  lifecycle::deprecate_soft(
+  lifecycle::deprecate_warn(
     when = "1.3.0",
     what = "get_schema()",
     with = "schema()"
@@ -26,7 +26,7 @@ get_schema <- function(package, resource_name) {
 #' @keywords internal
 #' @name deprecated
 resources <- function(package) {
-  lifecycle::deprecate_soft(
+  lifecycle::deprecate_warn(
     when = "1.3.0",
     what = "resources()",
     with = "resource_names()"
