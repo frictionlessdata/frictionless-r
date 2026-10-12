@@ -17,6 +17,8 @@ Authors@R: c(
            comment = c(ROR = "00j54wy13")),
     person("Research Foundation - Flanders", role = "fnd",
            comment = "https://lifewatch.be"),
+    person("NLnet foundation", role = "fnd",
+           comment = "https://nlnet.nl/project/Frictionless-Libs/"),
     person("Beatriz", "Milz", , "milz.bea@gmail.com", role = "rev",
            comment = c(ORCID = "0000-0002-3064-4486")),
     person("João", "Martins", , "joao.martins@gmx.net", role = "rev",
