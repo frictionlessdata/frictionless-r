@@ -46,7 +46,7 @@ test_that("write_package() returns error if package has no resource(s)", {
 ## Writing data to CSV files ----
 test_that("write_package() overwrites files only if necessary", {
   skip_if_offline()
-  dir <- withr::local_tempdir()
+  dir <- withr::local_tempdir(tmpdir = ".") # Default tmpdir fails on Windows :-/
   df <- data.frame("col_1" = c(1, 2), "col_2" = c("a", "b"))
 
   # STEP 0: create package and write to dir
