@@ -111,7 +111,7 @@ test_that("read_package() warns if resources are missing", {
 })
 
 test_that("read_package() allows descriptor at absolute, relative parent or
-  hidden path", {
+           hidden path", {
   relative_path <- "../testthat/data/valid_minimal.json"
   expect_no_error(
     check_package(read_package(relative_path))
@@ -120,7 +120,9 @@ test_that("read_package() allows descriptor at absolute, relative parent or
   expect_no_error(
     check_package(read_package(absolute_path))
   )
-  hidden_path <- test_path("data/.hidden/valid_minimal.json")
+  hidden_dir <- withr::local_tempdir(tmpdir = ".hidden")
+  hidden_path <- file.path(hidden_dir, "valid_minimal.json")
+  file.copy(test_path("data/valid_minimal.json"), hidden_path)
   expect_no_error(
     check_package(read_package(hidden_path))
   )
