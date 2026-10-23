@@ -63,15 +63,19 @@ test_that("check_path() returns error on relative parent path when safe =
 
 test_that("check_path() returns error on path containing hidden folder when safe
            = TRUE", {
+  hidden_dir <- withr::local_tempdir(tmpdir = ".hidden")
+  file_in_hidden_dir <- withr::local_tempfile(
+    tmpdir = hidden_dir, lines = "content"
+  )
+  hidden_file <- withr::local_tempfile(
+    pattern = ".hidden_file", tmpdir = ".", lines = "content"
+  )
+
   expect_error(
-    check_path(".hidden/df.csv", directory = "data", safe = TRUE),
+    frictionless:::check_path(file_in_hidden_dir, safe = TRUE),
     class = "frictionless_error_path_unsafe_hidden"
   )
-  expect_error(
-    check_path("data/.hidden/df.csv", safe = TRUE),
-    class = "frictionless_error_path_unsafe_hidden"
-  )
-  expect_no_error(check_path("data/.hidden_file", safe = TRUE)) # Not a dir
+  expect_no_error(frictionless:::check_path(hidden_file, safe = TRUE)) # Not a dir
 })
 
 test_that("check_path() returns error when local file cannot be found", {
