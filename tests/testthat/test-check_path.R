@@ -72,10 +72,10 @@ test_that("check_path() returns error on path containing hidden folder when safe
   )
 
   expect_error(
-    frictionless:::check_path(file_in_hidden_dir, safe = TRUE),
+    check_path(file_in_hidden_dir, safe = TRUE),
     class = "frictionless_error_path_unsafe_hidden"
   )
-  expect_no_error(frictionless:::check_path(hidden_file, safe = TRUE)) # Not a dir
+  expect_no_error(check_path(hidden_file, safe = TRUE)) # Not a dir
 })
 
 test_that("check_path() returns error when local file cannot be found", {
