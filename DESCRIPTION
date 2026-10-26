@@ -37,6 +37,7 @@ Depends:
 Imports:
     cli,
     dplyr,
+    fs,
     httr,
     jsonlite,
     lifecycle,

@@ -21,7 +21,7 @@ write_resource <- function(package, resource_name, directory = ".",
     } else {
       file_name <- paste(resource_name, "csv", sep = ".")
     }
-    readr::write_csv(resource$data, file.path(directory, file_name), na = "")
+    readr::write_csv(resource$data, fs::path(directory, file_name), na = "")
 
     # Set properties
     resource <- append(resource, c(path = file_name), after = 1) # After "name"
@@ -39,12 +39,12 @@ write_resource <- function(package, resource_name, directory = ".",
   } else if (data_location == "path") {
     out_paths <- vector()
     for (path in resource$path) {
-      file_name <- basename(path)
-      destination <- file.path(directory, file_name)
+      file_name <- fs::path_file(path)
+      destination <- fs::path(directory, file_name)
 
       # Download file to destination
       if (is_url(path)) {
-        if (!file.exists(destination)) {
+        if (!fs::file_exists(destination)) {
           cli::cli_inform(
             "Downloading file from {.path {path}}.",
             class = "frictionless_message_file_downloading"
@@ -54,10 +54,11 @@ write_resource <- function(package, resource_name, directory = ".",
 
       # Copy file to destination, but don't overwrite if it was read from there
       } else {
-        if (path != destination && file.exists(destination)) {
-          file.remove(destination)
+        if (fs::path_norm(path) != fs::path_norm(destination) &&
+            fs::file_exists(destination)) {
+          fs::file_delete(destination)
         }
-        file.copy(path, destination, overwrite = FALSE)
+        fs::file_copy(path, destination, overwrite = FALSE)
       }
       out_paths <- append(out_paths, file_name)
     }

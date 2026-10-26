@@ -97,8 +97,8 @@ write_package <- function(package, directory, compress = FALSE) {
   }
 
   # Create directory if it doesn't exists yet
-  if (!dir.exists(directory)) {
-    dir.create(directory, recursive = TRUE)
+  if (!fs::dir_exists(directory)) {
+    fs::dir_create(directory, recurse = TRUE)
   }
 
   # Write resources to disk + update paths
@@ -122,7 +122,7 @@ write_package <- function(package, directory, compress = FALSE) {
     na = "null",
     auto_unbox = TRUE
   )
-  write(package_json, file.path(directory, "datapackage.json"))
+  write(package_json, fs::path(directory, "datapackage.json"))
 
   # Return (updated) package invisibly
   invisible(return_package)

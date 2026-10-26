@@ -141,7 +141,11 @@ resource <- function(package, resource_name) {
   out_paths <- vector()
   if (data_location == "path") {
     for (path in resource$path) {
-      stripped_path <- gsub(paste0(directory, "/"), "", path)
+      if (is.null(directory) || !fs::is_absolute_path(path)) {
+        stripped_path <- fs::path_file(path)
+      } else {
+        stripped_path <- fs::path_rel(path, start = directory)
+      }
       out_paths <- append(out_paths, stripped_path)
     }
     if (length(out_paths) > 1 && path_attr != "added") {
