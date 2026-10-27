@@ -338,7 +338,9 @@ test_that("add_resource() can add resource from local, relative parent,
   expect_s3_class(read_resource(p, "absolute"), "tbl")
 
   # Hidden (doesn't throw unsafe error)
-  hidden_path <- test_path("data/.hidden/df.csv")
+  hidden_dir <- withr::local_tempdir(tmpdir = ".hidden")
+  hidden_path <- file.path(hidden_dir, "df.csv")
+  file.copy(test_path("data/df.csv"), hidden_path)
   p <- add_resource(p, "hidden", hidden_path)
   expect_identical(p$resources[[7]]$path, hidden_path)
   expect_s3_class(read_resource(p, "hidden"), "tbl")
