@@ -22,7 +22,7 @@
 
 These issues are not related to this package and might be temporary.
 - <https://ror.org/00j54wy13> is a valid URL, ror.org is likely throttling automated requests.
-- <https://www.go-fair.org/fair-principles/> is a valid URL, with an unstable status code. I have contacted the website maintainers.
+- <https://www.go-fair.org/fair-principles/> is a valid URL, with an unstable status code (200 and 301). I have contacted the website maintainers.
 
 ## revdepcheck results
 
