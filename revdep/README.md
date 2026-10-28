@@ -10,7 +10,7 @@
 |collate  |en_US.UTF-8                                                                                        |
 |ctype    |en_US.UTF-8                                                                                        |
 |tz       |Europe/Brussels                                                                                    |
-|date     |2026-10-27                                                                                         |
+|date     |2026-10-28                                                                                         |
 |rstudio  |2026.08.1+195 Yellow Yarrow (desktop)                                                              |
 |pandoc   |3.8.3 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/aarch64/ (via rmarkdown) |
 |quarto   |1.9.38 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/quarto                        |
@@ -19,7 +19,7 @@
 
 |package      |old   |new   |Δ  |
 |:------------|:-----|:-----|:--|
-|frictionless |1.3.0 |2.0.0 |*  |
+|frictionless |1.3.0 |2.0.1 |*  |
 
 # Revdeps
 
