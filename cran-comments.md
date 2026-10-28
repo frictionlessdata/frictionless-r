@@ -1,3 +1,10 @@
+## Resubmission
+
+This is a resubmission. In this version I have:
+
+* Changed the URL with the unstable status (200 and 301) to a stable one <https://www.gofair.foundation/fair-principles>.
+* Not changed the URL <https://ror.org/00j54wy13>. It is valid and likely due to ror.org throttling automated requests.
+
 ## R CMD check results
 
 0 errors | 0 warnings | 2 notes

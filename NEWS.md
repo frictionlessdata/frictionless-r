@@ -1,6 +1,8 @@
-# frictionless 2.0.0
+# frictionless 2.0.1
 
-# frictionless 3.0.0
+* Fix CRAN note on moved FAIR principles URL.
+
+# frictionless 2.0.0
 
 frictionless now supports Data Packages using the [v2](https://datapackage.org/) specification, while maintaining support for those using [v1](https://specs.frictionlessdata.io/). When creating a package, resource or schema, it uses the v2 specification.
 
