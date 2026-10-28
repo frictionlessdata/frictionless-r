@@ -158,7 +158,7 @@ Data from the `media` was not stored in a CSV file, but directly in the `data` p
 
 ## Create and edit a Data Package
 
-Data Package is a good format to technically describe your data, e.g. if you are planning to deposit it on research repository. It also goes a long way meeting [FAIR principles](https://www.go-fair.org/fair-principles/).
+Data Package is a good format to technically describe your data, e.g. if you are planning to deposit it on research repository. It also goes a long way meeting [FAIR principles](https://www.gofair.foundation/fair-principles).
 
 frictionless assumes your data are stored as a data frame or CSV files. Let's use the built-in dataset `iris` as your data frame:
 
