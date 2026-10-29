@@ -1,3 +1,5 @@
+# frictionless (development version)
+
 # frictionless 2.0.1
 
 * Fix CRAN note on moved FAIR principles URL.
